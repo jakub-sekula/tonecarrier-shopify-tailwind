@@ -1,0 +1,20 @@
+<div class='tw-w-full tw-flex tw-flex-col tw-gap-6 tw-mb-5 tw-bg-sky-50 tw-p-6 tw-rounded-md '>
+  <label for='confirmation' class='tw-text-sky-800 tw-text-2xl tw-gap-6 tw-flex'>
+    <div class='tw-size-10 tw-grid tw-shrink-0 tw-place-items-center tw-bg-sky-200 tw-text-sky-600 tw-rounded-md tw-self-start tw-aspect-square'>
+      <i data-lucide='file-down' class='tw-size-6'></i>
+    </div>
+    <p>
+      Please enter your initials below to acknowledge that you are buying <strong>digital files only</strong> and that
+      you have access to a 3D printer to make this item yourself.<br>
+      By purchasing this product you accept that no physical goods will be shipped and no refunds will be issued.
+    </p>
+  </label>
+  <input
+    required
+    class='tw-text-5xl tw-px-2 tw-py-1 tw-shrink-0 tw-border tw-rounded-md'
+    id='confirmation'
+    type='text'
+    name='properties[Confirmation]'
+    form='{{ product_form_id }}'
+  >
+</div>
