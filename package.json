@@ -5,6 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "shopify theme dev -s seklerek.myshopify.com",
+    "pull": "shopify theme pull -d",
+    "watch": "tailwindcss -i ./assets/app-tailwind.css -o ./assets/app.css --watch",
+    "build": "tailwindcss -i ./assets/app-tailwind.css -o ./assets/app.css",
     "prepare": "husky install"
   },
   "repository": {
