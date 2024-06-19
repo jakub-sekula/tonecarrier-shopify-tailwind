@@ -82,6 +82,8 @@
 
           {%- for block in section.blocks -%}
             {%- case block.type -%}
+              {%- when 'tags' -%}
+                {%- render 'tags', tags: product.tags -%}
               {%- when '@app' -%}
                 {% render block %}
               {%- when 'text' -%}
@@ -759,6 +761,7 @@
     {
       "type": "@app"
     },
+    { "type": "tags", "name": "Tags" },
     {
       "type": "text",
       "name": "t:sections.main-product.blocks.text.name",
