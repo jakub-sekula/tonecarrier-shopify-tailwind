@@ -76,13 +76,15 @@
             endif
           -%}
 
-          <button
-            type='button'
-            onclick='ajaxAddToCart({productId: {{product.id}}, id: {{product.selected_or_first_available_variant.id}}, quantity: 1})'
-            class='product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}'
-          >
-            sranie
-          </button>
+          {% comment %}
+            <button
+              type='button'
+              onclick='ajaxAddToCart({productId: {{product.id}}, id: {{product.selected_or_first_available_variant.id}}, quantity: 1})'
+              class='product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}'
+            >
+              sranie
+            </button>
+          {% endcomment %}
           <button
             id='ProductSubmitButton-{{ section_id }}'
             type='submit'
@@ -189,6 +191,49 @@
 
       console.log({{product.selected_or_first_available_variant.id}});
       }
+    </script>
+    <script>
+      async function checkQuantityInCart(){
+        const variantId = {{product.selected_or_first_available_variant.id}}
+        const cartContents = await fetch(window.Shopify.routes.root + "cart.js").then(res=>res.json()).then(json => json.items)
+        const alreadyInCart = cartContents.some(item => item.variant_id = variantId)
+
+        const form = document.querySelector("product-form")
+        const submitButton = form.querySelector("button[type='submit']")
+        const confirmationInput = document.querySelector("input#confirmation")
+
+        function updateSubmitButtonState() {
+        const val = confirmationInput.value;
+        const text = submitButton.innerText;
+
+        console.log(text);
+        if (!val && !['Already in cart'].includes(submitButton.innerText)) {
+          submitButton.disabled = true;
+          submitButton.querySelector('span').innerText = 'Please type initials to confirm';
+        } else {
+          submitButton.disabled = false;
+          submitButton.querySelector('span').innerText = '{{ 'products.product.add_to_cart' | t }}'
+        }
+      }
+
+        if(alreadyInCart){
+          submitButton.disabled= true;
+          submitButton.querySelector('span').innerText = "Already in cart"
+          if(confirmationInput) {
+            confirmationInput.disabled = true
+            confirmationInput.value = ""
+          }
+        } else {
+          if(confirmationInput) {
+            confirmationInput.disabled = false
+            updateSubmitButtonState();
+            confirmationInput.addEventListener('input', updateSubmitButtonState);
+          }
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", ()=>{checkQuantityInCart()
+      const subscriber = subscribe(PUB_SUB_EVENTS.cartUpdate, (event) => {console.log(event); checkQuantityInCart()})})
     </script>
   {%- endif -%}
 </div>

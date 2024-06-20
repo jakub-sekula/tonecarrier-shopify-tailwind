@@ -1,17 +1,19 @@
-<div class='tw-w-full tw-flex tw-flex-col tw-gap-6 tw-mb-5 tw-bg-sky-50 tw-p-6 tw-rounded-md '>
-  <label for='confirmation' class='tw-text-sky-800 tw-text-2xl tw-gap-6 tw-flex'>
-    <div class='tw-size-10 tw-grid tw-shrink-0 tw-place-items-center tw-bg-sky-200 tw-text-sky-600 tw-rounded-md tw-self-start tw-aspect-square'>
-      <i data-lucide='file-down' class='tw-size-6'></i>
-    </div>
+<div class='tw-w-full tw-flex tw-flex-col tw-gap-6 tw-mb-5 tw-bg-orange-50 tw-p-6'>
+  <label for='confirmation' class='tw-text-orange-800 tw-text-2xl tw-gap-6 tw-flex tw-flex-col'>
+    {% comment %}
+      <div class='tw-size-16 tw-grid tw-shrink-0 tw-place-items-center tw-bg-sky-200 tw-text-sky-600 tw-rounded-md tw-self-start tw-aspect-square'>
+        <i data-lucide='file-down' class='tw-size-8'></i>
+      </div>
+    {% endcomment %}
     <p>
       Please enter your initials below to acknowledge that you are buying <strong>digital files only</strong> and that
-      you have access to a 3D printer to make this item yourself.<br>
-      By purchasing this product you accept that no physical goods will be shipped and no refunds will be issued.
+      you have access to a 3D printer to make this item yourself.
     </p>
+    <p>By purchasing this product you accept that no physical goods will be shipped and no refunds will be issued.</p>
   </label>
   <input
     required
-    class='tw-text-5xl tw-px-2 tw-py-1 tw-shrink-0 tw-border tw-rounded-md'
+    class='tw-text-3xl tw-px-3 tw-py-2 tw-shrink-0 tw-border tw-bg-white'
     id='confirmation'
     type='text'
     name='properties[Confirmation]'
