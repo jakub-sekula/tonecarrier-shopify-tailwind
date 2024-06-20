@@ -20,3 +20,37 @@
     form='{{ product_form_id }}'
   >
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('product-form');
+    const confirmationInput = document.querySelector('#confirmation');
+
+    if (confirmationInput && form) {
+      const submitButton = form.submitButton;
+
+      function updateSubmitButtonState() {
+        const val = confirmationInput.value;
+        const text = submitButton.innerText;
+
+        console.log(text);
+        if (!val && !['Already in cart'].includes(submitButton.innerText)) {
+          submitButton.disabled = true;
+          submitButton.querySelector('span').innerText = 'Please type initials to confirm';
+        } else {
+          submitButton.disabled = false;
+          submitButton.querySelector('span').innerText = '{{ 'products.product.add_to_cart' | t }}'
+        }
+      }
+
+      // Initial check
+
+      // Event listener for input changes
+      // updateSubmitButtonState();
+      // confirmationInput.addEventListener('input', updateSubmitButtonState);
+      const subscriber = subscribe(PUB_SUB_EVENTS.cartUpdate, (event) => {console.log(event); updateSubmitButtonState()})
+
+    } else {
+      console.error('Confirmation input or form not found');
+    }
+  });
+</script>
