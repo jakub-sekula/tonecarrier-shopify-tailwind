@@ -607,14 +607,6 @@ video {
   --tw-backdrop-sepia: ;
 }
 
-.tw-relative {
-  position: relative;
-}
-
-.tw-top-20 {
-  top: 5rem;
-}
-
 .tw-mb-5 {
   margin-bottom: 1.25rem;
 }
@@ -631,14 +623,14 @@ video {
   aspect-ratio: 1 / 1;
 }
 
-.tw-size-10 {
-  width: 2.5rem;
-  height: 2.5rem;
+.tw-size-16 {
+  width: 4rem;
+  height: 4rem;
 }
 
-.tw-size-6 {
-  width: 1.5rem;
-  height: 1.5rem;
+.tw-size-8 {
+  width: 2rem;
+  height: 2rem;
 }
 
 .tw-w-full {
@@ -653,8 +645,16 @@ video {
   flex-direction: column;
 }
 
+.tw-flex-wrap {
+  flex-wrap: wrap;
+}
+
 .tw-place-items-center {
   place-items: center;
+}
+
+.tw-gap-4 {
+  gap: 1rem;
 }
 
 .tw-gap-6 {
@@ -673,28 +673,43 @@ video {
   border-width: 1px;
 }
 
+.tw-border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
+.tw-bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+.tw-bg-orange-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 247 237 / var(--tw-bg-opacity));
+}
+
 .tw-bg-sky-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(186 230 253 / var(--tw-bg-opacity));
 }
 
-.tw-bg-sky-50 {
+.tw-bg-white {
   --tw-bg-opacity: 1;
-  background-color: rgb(240 249 255 / var(--tw-bg-opacity));
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
 .tw-p-6 {
   padding: 1.5rem;
 }
 
-.tw-px-2 {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+.tw-px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
-.tw-py-1 {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
+.tw-py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .tw-text-2xl {
@@ -702,9 +717,27 @@ video {
   line-height: 2rem;
 }
 
-.tw-text-5xl {
-  font-size: 3rem;
-  line-height: 1;
+.tw-text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.tw-text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.tw-font-medium {
+  font-weight: 500;
+}
+
+.tw-uppercase {
+  text-transform: uppercase;
+}
+
+.tw-text-orange-800 {
+  --tw-text-opacity: 1;
+  color: rgb(154 52 18 / var(--tw-text-opacity));
 }
 
 .tw-text-sky-600 {
@@ -712,7 +745,7 @@ video {
   color: rgb(2 132 199 / var(--tw-text-opacity));
 }
 
-.tw-text-sky-800 {
+.tw-text-white {
   --tw-text-opacity: 1;
-  color: rgb(7 89 133 / var(--tw-text-opacity));
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
