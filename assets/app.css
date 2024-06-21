@@ -615,6 +615,10 @@ video {
   margin-left: auto;
 }
 
+.tw-block {
+  display: block;
+}
+
 .tw-flex {
   display: flex;
 }
@@ -759,6 +763,16 @@ video {
 .\!tw-bg-red-400 {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(248 113 113 / var(--tw-bg-opacity)) !important;
+}
+
+.tw-object-contain {
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
+.tw-object-cover {
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 .tw-p-6 {

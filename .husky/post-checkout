@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-git update-index --skip-worktree assets/app.css
+git update-index #--skip-worktree assets/app.css
