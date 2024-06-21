@@ -93,32 +93,48 @@
     %}
   {%- elsif picker_type == 'button' -%}
     <input
-      type="radio"
-      id="{{ input_id }}"
-      name="{{ option.name }}"
-      value="{{ value | escape }}"
-      form="{{ product_form_id }}"
+      type='radio'
+      id='{{ input_id }}'
+      name='{{ option.name }}'
+      value='{{ value | escape }}'
+      form='{{ product_form_id }}'
       {% if option.selected_value == value %}
         checked
       {% endif %}
       {% if option_disabled %}
-        class="disabled"
+        class='disabled'
       {% endif %}
     >
-    <label for="{{ input_id }}">
-      {{ value -}}
+    <label
+      for='{{ input_id }}'
+      class='{%- if product.metafields.product.option_images.length > 0 -%} tw-w-full md:tw-w-auto {%-endif -%}'
+    >
+      {%- assign option_handle = value | split: '?' | last | strip -%}
+      {%- for obj in product.metafields.product.option_images.value -%}
+        {%- if obj.name == option_handle -%}
+          <img
+            src='{{ obj.image | image_url: width: 200 }}'
+            width='full'
+            height='full'
+            class='tw-w-full tw-aspect-[3/2] block'
+          >
+        {%- endif -%}
+      {%- endfor -%}
+
+      {{ value | split: '?' | first | strip }}
       {{ label_unavailable }}
     </label>
+
   {%- elsif picker_type == 'dropdown' or picker_type == 'swatch_dropdown' -%}
     <option
-      value="{{ value | escape }}"
+      value='{{ value | escape }}'
       {% if option.selected_value == value %}
-        selected="selected"
+        selected='selected'
       {% endif %}
       {% if swatch_value and picker_type == 'swatch_dropdown' %}
-        data-option-swatch-value="{{ swatch_value }}"
+        data-option-swatch-value='{{ swatch_value }}'
         {% if swatch_focal_point %}
-          data-option-swatch-focal-point="{{ swatch_focal_point }}"
+          data-option-swatch-focal-point='{{ swatch_focal_point }}'
         {% endif %}
       {% endif %}
     >
