@@ -255,14 +255,14 @@
         "row_ALLKCF"
       ],
       "settings": {
-        "image_height": "small",
+        "image_height": "medium",
         "desktop_image_width": "medium",
         "heading_size": "h1",
         "text_style": "body",
         "button_style": "secondary",
         "desktop_content_position": "middle",
         "desktop_content_alignment": "left",
-        "image_layout": "alternate-left",
+        "image_layout": "alternate-right",
         "section_color_scheme": "",
         "row_color_scheme": "",
         "mobile_content_alignment": "left",
