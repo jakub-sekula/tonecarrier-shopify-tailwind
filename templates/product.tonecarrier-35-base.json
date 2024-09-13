@@ -98,22 +98,107 @@
         "padding_bottom": 12
       }
     },
-    "related-products": {
-      "type": "related-products",
+    "multicolumn_9b7LEt": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_W93MmC": {
+          "type": "column",
+          "settings": {
+            "title": "72 mm wide film window",
+            "text": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_VFATxW": {
+          "type": "column",
+          "settings": {
+            "title": "Large ergonomic knobs",
+            "text": "<p>Easily advance and precisely adjust film position. <\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_7hTEfA": {
+          "type": "column",
+          "settings": {
+            "title": "Exposes sprocket holes",
+            "text": "<p>Scan nearly the full image area (note: border text is <strong>not<\/strong> visible)<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_7A7EQf": {
+          "type": "column",
+          "settings": {
+            "title": "Interchangeable frame masks",
+            "text": "<p>Block stray light for the best scan quality<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_ULFUex": {
+          "type": "column",
+          "settings": {
+            "title": "Dual S-curve design",
+            "text": "<p>The film channel geometry uses tension to keep the film flat and straight<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_jRL4nm": {
+          "type": "column",
+          "settings": {
+            "title": "Scratch free",
+            "text": "<p>Only film contact is along the edge, far away from the image area. <\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_GYawKz": {
+          "type": "column",
+          "settings": {
+            "title": "Safe for film",
+            "text": "<p>Soft rollers securely grip the negative without damaging it<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_GwidhB": {
+          "type": "column",
+          "settings": {
+            "title": "Modular and extensible",
+            "text": "<p>Side and top accessory slots to enhance the scanning workflow<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_W93MmC",
+        "column_VFATxW",
+        "column_7hTEfA",
+        "column_7A7EQf",
+        "column_ULFUex",
+        "column_jRL4nm",
+        "column_GYawKz",
+        "column_GwidhB"
+      ],
       "settings": {
-        "heading": "You may also like",
-        "heading_size": "h2",
-        "products_to_show": 4,
+        "title": "Key features",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "image_ratio": "square",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "2",
+        "column_alignment": "left",
+        "background_style": "none",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "scheme-4",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
         "padding_top": 36,
-        "padding_bottom": 28
+        "padding_bottom": 36
       }
     },
     "featured_collection_8gye8p": {
@@ -143,11 +228,31 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
     }
   },
   "order": [
     "main",
-    "related-products",
-    "featured_collection_8gye8p"
+    "multicolumn_9b7LEt",
+    "featured_collection_8gye8p",
+    "related-products"
   ]
 }
