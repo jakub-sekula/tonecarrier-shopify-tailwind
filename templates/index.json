@@ -15,7 +15,7 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "<strong>Professional tools for digital camera film scanning.<\/strong>",
+            "heading": "<strong>High quality, professional tools for digital camera film scanning.<\/strong>",
             "heading_size": "h1"
           }
         },
@@ -44,7 +44,7 @@
         "button"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/DSCF0412-Edit.jpg",
+        "image": "shopify:\/\/shop_images\/DSCF0422-Edit.jpg",
         "image_overlay_opacity": 40,
         "image_height": "small",
         "desktop_content_position": "middle-center",
