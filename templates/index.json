@@ -15,24 +15,24 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "<strong>High quality, professional tools for digital camera film scanning.<\/strong>",
+            "heading": "<strong>We make robust, professional tools for DSLR and mirrorless film scanning.<\/strong>",
             "heading_size": "h1"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "Digitize your negatives and slides the easy way, without compromising on quality.",
+            "text": "The toneCarrier system lets you digitize any roll film format using a digital camera and a macro lens. Discover the modern way to scan your analog memories.",
             "text_style": "body"
           }
         },
         "button": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Ready to use tools",
+            "button_label_1": "Buy ready to use",
             "button_link_1": "shopify:\/\/collections\/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "DIY 3D printing files",
+            "button_style_secondary_1": false,
+            "button_label_2": "3D print your own",
             "button_link_2": "shopify:\/\/collections\/3d-print-files",
             "button_style_secondary_2": true
           }
@@ -45,7 +45,7 @@
       ],
       "settings": {
         "image": "shopify:\/\/shop_images\/DSCF0422-Edit.jpg",
-        "image_overlay_opacity": 40,
+        "image_overlay_opacity": 70,
         "image_height": "small",
         "desktop_content_position": "middle-center",
         "show_text_box": false,
