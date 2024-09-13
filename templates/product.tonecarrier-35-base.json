@@ -217,6 +217,7 @@
         "row_YzEjkA": {
           "type": "row",
           "settings": {
+            "image": "shopify:\/\/shop_images\/image.jpg",
             "caption": "ERGONOMIC DESIGN",
             "heading": "Gentle film path entrance",
             "text": "<p>Large fillets and shallow lead-in angles make it easy to load film into the carrier.<\/p>",
@@ -227,6 +228,7 @@
         "row_7RVtAc": {
           "type": "row",
           "settings": {
+            "image": "shopify:\/\/shop_images\/DSCF0681-Edit.jpg",
             "caption": "Ergonomic design",
             "heading": "Front-loaded frame masks",
             "text": "<p>Swap or remove masks without disrupting your flow. A large pull tab makes it easy to grip.<\/p>",
@@ -237,6 +239,7 @@
         "row_ALLKCF": {
           "type": "row",
           "settings": {
+            "image": "shopify:\/\/shop_images\/image_4c23ade4-f18a-496d-aedf-1865a076f95a.png",
             "caption": "Ergonomic design",
             "heading": "Stable rubber feet",
             "text": "<p>Prevent movement of the holder and keep it perfectly flat on the table surface.<\/p>",
@@ -252,7 +255,7 @@
         "row_ALLKCF"
       ],
       "settings": {
-        "image_height": "medium",
+        "image_height": "small",
         "desktop_image_width": "medium",
         "heading_size": "h1",
         "text_style": "body",
