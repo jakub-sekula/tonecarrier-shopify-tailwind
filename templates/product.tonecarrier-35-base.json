@@ -4,7 +4,9 @@
       "type": "sample-scan",
       "settings": {
         "title": "Title",
-        "sample_scan_image": "shopify:\/\/shop_images\/image.jpg",
+        "sample_scan_1": "shopify:\/\/shop_images\/DSCF0210.jpg",
+        "sample_scan_2": "shopify:\/\/shop_images\/DSCF0312.jpg",
+        "sample_scan_3": "shopify:\/\/shop_images\/DSCF0509.jpg",
         "description": "",
         "padding_top": 100,
         "padding_bottom": 36
