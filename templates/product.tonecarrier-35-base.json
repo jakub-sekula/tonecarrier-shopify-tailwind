@@ -1,14 +1,24 @@
-/*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
 {
   "sections": {
+    "sample_scan_MgcCXN": {
+      "type": "sample-scan",
+      "settings": {
+        "title": "Title",
+        "sample_scan_image": "shopify:\/\/shop_images\/image.jpg",
+        "description": "",
+        "padding_top": 100,
+        "padding_bottom": 36
+      }
+    },
+    "sample_scan_kx8nhf": {
+      "type": "sample-scan",
+      "settings": {
+        "title": "gowno",
+        "description": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -447,6 +457,8 @@
     }
   },
   "order": [
+    "sample_scan_MgcCXN",
+    "sample_scan_kx8nhf",
     "main",
     "multicolumn_9b7LEt",
     "multirow_rN3dhQ",
