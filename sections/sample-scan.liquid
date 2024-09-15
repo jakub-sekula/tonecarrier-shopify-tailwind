@@ -1,6 +1,4 @@
 {{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-<script src="https://unpkg.com/lucide@latest"></script>
 
 {% assign block_count = 0 %}
 {% for block in section.blocks %}
@@ -195,23 +193,6 @@
     }
   }
   });
-</script>
-
-<script>
-  import { createIcons, icons } from 'lucide';
-
-  // Caution, this will import all the icons and bundle them.
-  createIcons({ icons });
-
-  // Recommended way, to include only the icons you need.
-  import { createIcons, ChevronLeft, ChevronRight } from 'lucide';
-
-  document.addEventListener("DOMContentLoaded", ()=>createIcons({
-  icons: {
-    ChevronLeft,
-    ChevronRight
-  }
-  }));
 </script>
 
 <script>
