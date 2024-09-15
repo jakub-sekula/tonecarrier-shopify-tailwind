@@ -235,6 +235,7 @@
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
             "raw_download_url": ""
           }
         },
@@ -246,6 +247,7 @@
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
             "raw_download_url": ""
           }
         },
@@ -257,6 +259,19 @@
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Colorplus 200",
+            "raw_download_url": ""
+          }
+        },
+        "image_tm4y3y": {
+          "type": "Image",
+          "settings": {
+            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0514.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Lomography Color Negative 800",
             "raw_download_url": ""
           }
         }
@@ -264,7 +279,8 @@
       "block_order": [
         "image_jiPpg4",
         "image_TbQebX",
-        "image_Kx6XCj"
+        "image_Kx6XCj",
+        "image_tm4y3y"
       ],
       "settings": {
         "content_alignment": "center",

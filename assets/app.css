@@ -745,6 +745,10 @@ video {
   aspect-ratio: auto;
 }
 
+.tw-aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
 .tw-size-16 {
   width: 4rem;
   height: 4rem;

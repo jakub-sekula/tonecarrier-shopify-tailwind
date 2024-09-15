@@ -34,49 +34,58 @@
 
 
 <div style="padding-left: 0; padding-right: 0" class="isolate tw-overflow-hidden section-{{ section.id }}-padding">
-  <div style="max-height: {{section.settings.content_height}}px" class="tw-h-full tw-aspect-[3/2] tw-mx-auto tw-relative ">
+  <div style="max-height: {{section.settings.content_height}}px" class="tw-h-full tw-aspect-video tw-mx-auto tw-relative ">
     <swiper-container
       id="main-swiper"
       init="false"
-      class="tw-w-full tw-aspect-[3/2]">
-      {% for block in section.blocks %}
-        <swiper-slide>
-          <div class="scan-zoom-container tw-overflow-hidden tw-w-full tw-h-full tw-relative">
-            {% unless block.settings.camera == null and block.settings.lens == null and block.settings.light_source == null and block.settings.converted_with == null %}
-              <div class="tw-opacity-100 hover:tw-opacity-0 tw-transition-opacity tw-duration-300 tw-z-10 tw-hidden tw-text-white md:tw-flex tw-flex-col tw-gap-2 tw-absolute tw-left-4 tw-top-4 tw-bg-black/40 tw-backdrop-blur-md tw-p-6">
-                {% if block.settings.camera != null %}
-                  <div class="tw-flex tw-flex-col tw-gap-1">
-                    <span class="tw-uppercase tw-text-xs tw-font-bold">Camera</span>
-                    <span>{{ block.settings.camera }}</span>
-                  </div>
-                {% endif %}
-                {% if block.settings.lens != null %}
-                  <div class="tw-flex tw-flex-col tw-gap-1">
-                    <span class="tw-uppercase tw-text-xs tw-font-bold">Lens</span>
-                    <span>{{ block.settings.lens }}</span>
-                  </div>
-                {% endif %}
-                {% if block.settings.light_source != null %}
-                  <div class="tw-flex tw-flex-col tw-gap-1">
-                    <span class="tw-uppercase tw-text-xs tw-font-bold">Light source</span>
-                    <span>{{ block.settings.light_source }}</span>
-                  </div>
-                {% endif %}
-                {% if block.settings.converted_with != null %}
-                  <div class="tw-flex tw-flex-col tw-gap-1">
-                    <span class="tw-uppercase tw-text-xs tw-font-bold">Converted with</span>
-                    <span>{{ block.settings.converted_with }}</span>
-                  </div>
-                {% endif %}
+      class="tw-w-full tw-h-full">
+      {% for i in (1..4) %}
 
-              </div>
-            {% endunless %}
-            <img
-              srcset="{{ block.settings.sample_scan_image | image_url: width: 800 }} 1x, {{ block.settings.sample_scan_image | image_url: width: 3840 }} 4x"
-              sizes="100px"
-              class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-          </div>
-        </swiper-slide>
+        {% for block in section.blocks %}
+          <swiper-slide>
+            <div class="scan-zoom-container tw-overflow-hidden tw-w-full tw-h-full tw-relative">
+              {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
+                <div class="tw-opacity-100 hover:tw-opacity-0 tw-transition-opacity tw-duration-300 tw-z-10 tw-hidden tw-text-white md:tw-flex tw-flex-col tw-gap-2 tw-absolute tw-left-4 tw-top-4 tw-bg-black/40 tw-backdrop-blur-md tw-p-6">
+                  {% if block.settings.camera != blank %}
+                    <div class="tw-flex tw-flex-col tw-gap-1">
+                      <span class="tw-uppercase tw-text-xs tw-font-bold">Camera</span>
+                      <span>{{ block.settings.camera }}</span>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.lens != blank %}
+                    <div class="tw-flex tw-flex-col tw-gap-1">
+                      <span class="tw-uppercase tw-text-xs tw-font-bold">Lens</span>
+                      <span>{{ block.settings.lens }}</span>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.light_source != blank %}
+                    <div class="tw-flex tw-flex-col tw-gap-1">
+                      <span class="tw-uppercase tw-text-xs tw-font-bold">Light source</span>
+                      <span>{{ block.settings.light_source }}</span>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.converted_with != blank %}
+                    <div class="tw-flex tw-flex-col tw-gap-1">
+                      <span class="tw-uppercase tw-text-xs tw-font-bold">Converted with</span>
+                      <span>{{ block.settings.converted_with }}</span>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.film_stock != blank %}
+                    <div class="tw-flex tw-flex-col tw-gap-1">
+                      <span class="tw-uppercase tw-text-xs tw-font-bold">Film stock</span>
+                      <span>{{ block.settings.film_stock }}</span>
+                    </div>
+                  {% endif %}
+
+                </div>
+              {% endunless %}
+              <img
+                srcset="{{ block.settings.sample_scan_image | image_url: width: 800 }} 1x, {{ block.settings.sample_scan_image | image_url: width: 3840 }} 4x"
+                sizes="100px"
+                class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
+            </div>
+          </swiper-slide>
+        {%- endfor -%}
       {%- endfor -%}
     </swiper-container>
     <button
@@ -198,12 +207,19 @@
 
 <script>
   const swiper = document.querySelector("#main-swiper")
-  const nextButton = document.querySelector("#next-slide")
-  const prevButton = document.querySelector("#prev-slide")
-
   const swiperParams = {
     slidesPerView: 1,
-    spaceBetween:128,
+    spaceBetween: 128,
+    loop:true,
+    navigation: {
+        nextEl: "#next-slide",
+        prevEl: "#prev-slide",
+      },
+      keyboard: {
+    enabled: true,
+    onlyInViewport: true,
+    lazyPreloadPrevNext: 5,
+  },
     injectStyles: [
       `
       .swiper {
@@ -216,9 +232,6 @@
   Object.assign(swiper, swiperParams);
   document.addEventListener("DOMContentLoaded", ()=> {
     swiper.initialize();
-    nextButton.addEventListener("click", ()=>swiper.swiper.slideNext());
-    prevButton.addEventListener("click", ()=>swiper.swiper.slidePrev())
-
   })
 </script>
 
@@ -287,7 +300,7 @@
       {
         "type": "Image",
         "name": "image",
-        "limit": 3,
+        "limit": 5,
         "settings": [
           {
             "type": "image_picker",
@@ -318,6 +331,11 @@
             "type": "text",
             "id": "converted_with",
             "label": "Converted with"
+          },
+          {
+            "type": "text",
+            "id": "film_stock",
+            "label": "Film stock"
           },
           {
             "type": "url",
