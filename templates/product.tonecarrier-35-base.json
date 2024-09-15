@@ -192,10 +192,10 @@
         "padding_bottom": 36
       }
     },
-    "sample_scan_MgcCXN": {
-      "type": "sample-scan",
+    "rich_text_BiRhaN": {
+      "type": "rich-text",
       "blocks": {
-        "caption_c3PgXk": {
+        "caption_DAcUxL": {
           "type": "caption",
           "settings": {
             "caption": "Samples shot on fujifilm x-t5 and helios 44-2 lens",
@@ -203,50 +203,81 @@
             "text_size": "medium"
           }
         },
-        "heading_K398PJ": {
+        "heading_q6izEg": {
           "type": "heading",
           "settings": {
             "heading": "Quality, hassle-free scans",
-            "heading_size": "h0"
+            "heading_size": "h1"
           }
         },
-        "text_ghCKnK": {
+        "text_JJ4AVA": {
           "type": "text",
           "settings": {
             "text": "<p>Tip: Click any image to zoom in<\/p>"
           }
-        },
-        "images_qe6wRA": {
-          "type": "images",
+        }
+      },
+      "block_order": [
+        "caption_DAcUxL",
+        "heading_q6izEg",
+        "text_JJ4AVA"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 0
+      }
+    },
+    "sample_scan_MgcCXN": {
+      "type": "sample-scan",
+      "blocks": {
+        "image_jiPpg4": {
+          "type": "Image",
           "settings": {
-            "sample_scan_1": "shopify:\/\/shop_images\/DSCF0312.jpg",
-            "sample_scan_2": "shopify:\/\/shop_images\/DSCF0509.jpg",
-            "sample_scan_3": "shopify:\/\/shop_images\/DSCF0210.jpg"
+            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0210.jpg",
+            "camera": "Fujifilm X-T5s",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "raw_download_url": ""
           }
         },
-        "button_7zU69F": {
-          "type": "button",
+        "image_TbQebX": {
+          "type": "Image",
           "settings": {
-            "button_label": "Download sample pack (50 MB)",
-            "button_link": "",
-            "button_style_secondary": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0509.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "raw_download_url": ""
+          }
+        },
+        "image_Kx6XCj": {
+          "type": "Image",
+          "settings": {
+            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0312.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "raw_download_url": ""
           }
         }
       },
       "block_order": [
-        "caption_c3PgXk",
-        "heading_K398PJ",
-        "text_ghCKnK",
-        "images_qe6wRA",
-        "button_7zU69F"
+        "image_jiPpg4",
+        "image_TbQebX",
+        "image_Kx6XCj"
       ],
       "settings": {
         "content_alignment": "center",
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "content_height": 500
       }
     },
     "multirow_rN3dhQ": {
@@ -497,6 +528,7 @@
   "order": [
     "main",
     "multicolumn_9b7LEt",
+    "rich_text_BiRhaN",
     "sample_scan_MgcCXN",
     "multirow_rN3dhQ",
     "image_with_text_RptGqT",
