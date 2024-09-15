@@ -1,26 +1,5 @@
 {
   "sections": {
-    "sample_scan_MgcCXN": {
-      "type": "sample-scan",
-      "settings": {
-        "title": "Title",
-        "sample_scan_1": "shopify:\/\/shop_images\/DSCF0210.jpg",
-        "sample_scan_2": "shopify:\/\/shop_images\/DSCF0312.jpg",
-        "sample_scan_3": "shopify:\/\/shop_images\/DSCF0509.jpg",
-        "description": "",
-        "padding_top": 100,
-        "padding_bottom": 36
-      }
-    },
-    "sample_scan_kx8nhf": {
-      "type": "sample-scan",
-      "settings": {
-        "title": "gowno",
-        "description": "",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -209,6 +188,63 @@
         "color_scheme": "scheme-4",
         "columns_mobile": "1",
         "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "sample_scan_MgcCXN": {
+      "type": "sample-scan",
+      "blocks": {
+        "caption_c3PgXk": {
+          "type": "caption",
+          "settings": {
+            "caption": "Samples shot on fujifilm x-t5 and helios 44-2 lens",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_K398PJ": {
+          "type": "heading",
+          "settings": {
+            "heading": "Quality, hassle-free scans",
+            "heading_size": "h0"
+          }
+        },
+        "text_ghCKnK": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Tip: Click any image to zoom in<\/p>"
+          }
+        },
+        "images_qe6wRA": {
+          "type": "images",
+          "settings": {
+            "sample_scan_1": "shopify:\/\/shop_images\/DSCF0312.jpg",
+            "sample_scan_2": "shopify:\/\/shop_images\/DSCF0509.jpg",
+            "sample_scan_3": "shopify:\/\/shop_images\/DSCF0210.jpg"
+          }
+        },
+        "button_7zU69F": {
+          "type": "button",
+          "settings": {
+            "button_label": "Download sample pack (50 MB)",
+            "button_link": "",
+            "button_style_secondary": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "caption_c3PgXk",
+        "heading_K398PJ",
+        "text_ghCKnK",
+        "images_qe6wRA",
+        "button_7zU69F"
+      ],
+      "settings": {
+        "content_alignment": "center",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -459,10 +495,9 @@
     }
   },
   "order": [
-    "sample_scan_MgcCXN",
-    "sample_scan_kx8nhf",
     "main",
     "multicolumn_9b7LEt",
+    "sample_scan_MgcCXN",
     "multirow_rN3dhQ",
     "image_with_text_RptGqT",
     "collapsible_content_HLXaFc",
