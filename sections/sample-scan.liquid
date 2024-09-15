@@ -206,12 +206,12 @@
   // Recommended way, to include only the icons you need.
   import { createIcons, ChevronLeft, ChevronRight } from 'lucide';
 
-  createIcons({
+  document.addEventListener("DOMContentLoaded", ()=>createIcons({
   icons: {
     ChevronLeft,
     ChevronRight
   }
-  });
+  }));
 </script>
 
 <script>
@@ -232,9 +232,12 @@
   };
 
   Object.assign(swiper, swiperParams);
-  swiper.initialize();
-  nextButton.addEventListener("click", ()=>swiper.swiper.slideNext());
-  prevButton.addEventListener("click", ()=>swiper.swiper.slidePrev())
+  document.addEventListener("DOMContentLoaded", ()=> {
+    swiper.initialize();
+    nextButton.addEventListener("click", ()=>swiper.swiper.slideNext());
+    prevButton.addEventListener("click", ()=>swiper.swiper.slidePrev())
+
+  })
 </script>
 
 
