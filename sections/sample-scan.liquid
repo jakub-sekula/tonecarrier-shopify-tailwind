@@ -1,5 +1,11 @@
 {{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 
+{% assign block_count = 0 %}
+{% for block in section.blocks %}
+  {% assign block_count = forloop.index %}
+{% endfor %}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -7,282 +13,228 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  .swiper {
+    overflow: visible
+  }
+
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
+    .scan-zoom-container > img {
+      max-width: 100%;
+      cursor: zoom-in
+    }
+
+    .scan-zoom-container > img.zoomed-in {
+      cursor: zoom-out
+    }
   }
 {%- endstyle -%}
 
-{%- liquid
-  assign image1 = section.settings.sample_scan_1
-  assign image2 = section.settings.sample_scan_2
-  assign image3 = section.settings.sample_scan_3
--%}
 
-<div class="isolate{% unless section.settings.full_width %} page-width{% endunless %} section-{{ section.id }}-padding">
-  <div class="rich-text__blocks tw-w-full tw-mx-auto {{ section.settings.content_alignment }}">
-    {%- for block in section.blocks -%}
-      {%- case block.type -%}
-        {%- when 'heading' -%}
-          <h2
-            class="rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {{ block.shopify_attributes }}
-            {% if settings.animations_reveal_on_scroll %}
-            data-cascade
-            style="--animation-order: {{ forloop.index }};"
-            {% endif %}>
-            {{ block.settings.heading }}
-          </h2>
-        {%- when 'caption' -%}
-          <p
-            class="rich-text__caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {{ block.shopify_attributes }}
-            {% if settings.animations_reveal_on_scroll %}
-            data-cascade
-            style="--animation-order: {{ forloop.index }};"
-            {% endif %}>
-            {{ block.settings.caption | escape }}
-          </p>
-        {%- when 'text' -%}
-          <div
-            class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {{ block.shopify_attributes }}
-            {% if settings.animations_reveal_on_scroll %}
-            data-cascade
-            style="--animation-order: {{ forloop.index }};"
-            {% endif %}>
-            {{ block.settings.text }}
-          </div>
-        {%- when 'button' -%}
-          <div
-            class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {{ block.shopify_attributes }}
-            {% if settings.animations_reveal_on_scroll %}
-            data-cascade
-            style="--animation-order: {{ forloop.index }};"
-            {% endif %}>
-            {%- if block.settings.button_label != blank -%}
-              <a
-                {% if block.settings.button_link == blank %}
-                role="link"
-                aria-disabled="true"
-                {% else %}
-                href="{{ block.settings.button_link }}"
+<div style="padding-left: 0; padding-right: 0" class="isolate{% unless section.settings.full_width %} page-width{% endunless %} section-{{ section.id }}-padding">
+  <div style="max-height: {{section.settings.content_height}}px" class="tw-h-full tw-aspect-[3/2] tw-mx-auto tw-relative ">
+    <swiper-container
+      id="main-swiper"
+      init="false"
+      class="tw-w-full tw-aspect-[3/2]">
+      {% for block in section.blocks %}
+        <swiper-slide>
+          <div class="scan-zoom-container tw-overflow-hidden tw-w-full tw-h-full tw-relative">
+            {% unless block.settings.camera == null and block.settings.lens == null and block.settings.light_source == null and block.settings.converted_with == null %}
+              <div class="tw-z-10 tw-hidden tw-text-white md:tw-flex tw-flex-col tw-gap-2 tw-absolute tw-left-4 tw-top-4 tw-bg-black/40 tw-backdrop-blur-md tw-p-6">
+                {% if block.settings.camera != null %}
+                  <div class="tw-flex tw-flex-col tw-gap-1">
+                    <span class="tw-uppercase tw-text-xs tw-font-bold">Camera</span>
+                    <span>{{ block.settings.camera }}</span>
+                  </div>
                 {% endif %}
-                class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}">
-                {{- block.settings.button_label | escape -}}
-              </a>
-            {%- endif -%}
-            {%- if block.settings.button_label_2 != blank -%}
-              <a
-                {% if block.settings.button_link_2 == blank %}
-                role="link"
-                aria-disabled="true"
-                {% else %}
-                href="{{ block.settings.button_link_2 }}"
+                {% if block.settings.lens != null %}
+                  <div class="tw-flex tw-flex-col tw-gap-1">
+                    <span class="tw-uppercase tw-text-xs tw-font-bold">Lens</span>
+                    <span>{{ block.settings.lens }}</span>
+                  </div>
                 {% endif %}
-                class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}">
-                {{- block.settings.button_label_2 | escape -}}
-              </a>
-            {%- endif -%}
+                {% if block.settings.light_source != null %}
+                  <div class="tw-flex tw-flex-col tw-gap-1">
+                    <span class="tw-uppercase tw-text-xs tw-font-bold">Light source</span>
+                    <span>{{ block.settings.light_source }}</span>
+                  </div>
+                {% endif %}
+                {% if block.settings.converted_with != null %}
+                  <div class="tw-flex tw-flex-col tw-gap-1">
+                    <span class="tw-uppercase tw-text-xs tw-font-bold">Converted with</span>
+                    <span>{{ block.settings.converted_with }}</span>
+                  </div>
+                {% endif %}
+
+              </div>
+            {% endunless %}
+            <img
+              srcset="{{ block.settings.sample_scan_image | image_url: width: 800 }} 1x, {{ block.settings.sample_scan_image | image_url: width: 3840 }} 4x"
+              sizes="100px"
+              class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
           </div>
-        {%- when 'images' - %}
-          <div class="tw-w-full tw-max-w-[960px] tw-grid tw-grid-cols-12 tw-gap-8">
-            <swiper-container
-              id="thumbs-swiper"
-              direction="vertical"
-              space-between="32"
-              slides-per-view="3"
-              free-mode="true"
-              watch-slides-progress="true"
-              class="tw-col-span-2 {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-              css-mode="true">
-              {%- if block.settings.sample_scan_1 != null -%}
-                <swiper-slide>
-                  <img srcset="{{ block.settings.sample_scan_1 | image_url: width: 400 }} 1x" class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-                </swiper-slide>
-              {%- endif -%}
-              {%- if block.settings.sample_scan_2 != null -%}
-                <swiper-slide>
-                  <img srcset="{{ block.settings.sample_scan_2  | image_url: width: 400 }} 1x" class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-                </swiper-slide>
-              {%- endif -%}
-              {%- if block.settings.sample_scan_3 != null -%}
-                <swiper-slide>
-                  <img srcset="{{ block.settings.sample_scan_3 | image_url: width: 400 }} 1x" class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-                </swiper-slide>
-              {%- endif -%}
-            </swiper-container>
-            <swiper-container
-              id="main-swiper"
-              thumbs-swiper="#thumbs-swiper"
-              class="tw-rounded tw-overflow-hidden tw-col-span-10 tw-aspect-[3/2]"
-              direction="vertical"
-              css-mode="true">
-              {%- if block.settings.sample_scan_1 != null -%}
-                <swiper-slide class="h-64">
-                  <div class="scan-zoom-container tw-overflow-hidden tw-w-full tw-aspect-[3/2] {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-                    <img
-                      srcset="{{ block.settings.sample_scan_1 | image_url: width: 800 }} 1x, {{ block.settings.sample_scan_1 | image_url: width: 3840 }} 4x"
-                      sizes="100px"
-                      class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-                  </div>
-                </swiper-slide>
-              {%- endif -%}
-              {%- if block.settings.sample_scan_2 != null -%}
-                <swiper-slide class="h-64" lazy="true">
-                  <div class="scan-zoom-container tw-overflow-hidden tw-w-full tw-aspect-[3/2] {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-                    <img
-                      srcset="{{ block.settings.sample_scan_2 | image_url: width: 800 }} 1x, {{ block.settings.sample_scan_2 | image_url: width: 3840 }} 4x"
-                      sizes="100px"
-                      loading="lazy"
-                      class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-                  </div>
-                </swiper-slide>
-              {%- endif -%}
-              {%- if block.settings.sample_scan_3 != null -%}
-                <swiper-slide class="h-64" lazy="true">
-                  <div class="scan-zoom-container tw-overflow-hidden tw-w-full tw-aspect-[3/2] {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-                    <img
-                      srcset="{{ block.settings.sample_scan_3 | image_url: width: 800 }} 1x, {{ block.settings.sample_scan_3 | image_url: width: 3840 }} 4x"
-                      sizes="100px"
-                      loading="lazy"
-                      class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-                  </div>
-                </swiper-slide>
-              {%- endif -%}
-            </swiper-container>
-          </div>
-      {%- endcase -%}
-    {%- endfor -%}
+        </swiper-slide>
+      {%- endfor -%}
+    </swiper-container>
+    <button
+      id="prev-slide"
+      class="tw-hidden md:tw-grid tw-place-items-center tw-absolute tw-top-1/2 -tw-left-8 -tw-translate-x-full tw-size-16 tw-bg-neutral-200 tw-rounded-full"
+      aria-label="previous">
+      <i data-lucide="chevron-left" class="tw-size-8"></i>
+    </button>
+    <button
+      id="next-slide"
+      class="tw-hidden md:tw-grid tw-place-items-center tw-absolute tw-top-1/2 -tw-right-8 tw-translate-x-full tw-size-16 tw-bg-neutral-200 tw-rounded-full"
+      aria-label="next">
+      <i data-lucide="chevron-right" class="tw-size-8"></i>
+    </button>
   </div>
-
-
 </div>
 
-<style>
-  .scan-zoom-container > img {
-    max-width: 100%;
-    cursor: zoom-in
-  }
-
-  .scan-zoom-container > img.zoomed-in {
-    cursor: zoom-out
-  }
-
-  #thumbs-swiper swiper-slide {
-    opacity: 0.4;
-    border-radius: 0.25rem;
-    overflow: hidden;
-  }
-
-  #thumbs-swiper .swiper-slide-thumb-active {
-    opacity: 1;
-  }
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 
 <script>
   const containers = document.querySelectorAll(".scan-zoom-container");
 
   containers.forEach((container) => {
-    const img = container.querySelector("img");
+  const img = container.querySelector("img");
 
-    let isZooming = false;
-    let scale = 1;
-    let targetScale = 1;
-    let x = 0, y = 0;
-    let startTime;
-    let duration = 150; // Transition duration in milliseconds (adjustable)
-    let animationFrameId;
-    let isZoomedIn = false; // Track whether the image is zoomed in or not
+  let isZooming = false;
+  let scale = 1;
+  let targetScale = 1;
+  let x = 0, y = 0;
+  let startTime;
+  let duration = 300; // Transition duration in milliseconds (adjustable)
+  let animationFrameId;
+  let isZoomedIn = false; // Track whether the image is zoomed in or not
 
-    // Default sizes for the image (small image when not zoomed)
-    const defaultSizes = "100px";
+  // Default sizes for the image (small image when not zoomed)
+  const defaultSizes = "100px";
 
-    // High-res sizes (large image when zoomed)
-    const highResSizes = "3840px";
+  // High-res sizes (large image when zoomed)
+  const highResSizes = "3840px";
 
-    // Set the default sizes initially
-    img.sizes = defaultSizes;
+  // Set the default sizes initially
+  img.sizes = defaultSizes;
 
-    // Cubic bezier function for (.17, .67, .83, .67)
-    function cubicBezier(t, p0, p1, p2, p3) {
-      const u = 1 - t;
-      return (3 * u * u * t * p1) + (3 * u * t * t * p2) + (t * t * t * p3);
+  // Cubic bezier function for (.17, .67, .83, .67)
+  function cubicBezier(t, p0, p1, p2, p3) {
+    const u = 1 - t;
+    return (3 * u * u * t * p1) + (3 * u * t * t * p2) + (t * t * t * p3);
+  }
+
+  // Function to apply cubic-bezier(.17, .67, .83, .67) easing
+  function applyCubicBezierEaseOut(t) {
+    return cubicBezier(t, 0.17, 0.67, 0.83, 0.67);
+  }
+
+  // Click event to toggle zoom
+  container.addEventListener("click", (e) => {
+    if (isZoomedIn) {
+      // If already zoomed in, click to unzoom
+      targetScale = 1;
+      img.sizes = defaultSizes; // Switch back to low-res
+      img.classList.remove("zoomed-in");
+      isZoomedIn = false;
+    } else {
+      // Zoom in on first click
+      const rect = container.getBoundingClientRect();
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+      targetScale = 2.5; // Zoom scale factor
+      img.sizes = highResSizes; // Use high-res image
+      img.classList.add("zoomed-in");
+      isZoomedIn = true;
     }
 
-    // Function to apply cubic-bezier(.17, .67, .83, .67) easing
-    function applyCubicBezierEaseOut(t) {
-      return cubicBezier(t, 0.17, 0.67, 0.83, 0.67);
-    }
-
-    // Click event to toggle zoom
-    container.addEventListener("click", (e) => {
-      if (isZoomedIn) {
-        // If already zoomed in, click to unzoom
-        targetScale = 1;
-        img.sizes = defaultSizes; // Switch back to low-res
-        img.classList.remove("zoomed-in");
-        isZoomedIn = false;
-      } else {
-        // Zoom in on first click
-        const rect = container.getBoundingClientRect();
-        x = e.clientX - rect.left;
-        y = e.clientY - rect.top;
-        targetScale = 2.5; // Zoom scale factor
-        img.sizes = highResSizes; // Use high-res image
-        img.classList.add("zoomed-in");
-        isZoomedIn = true;
-      }
-
-      if (!isZooming) {
-        isZooming = true;
-        startTime = null;
-        requestAnimationFrame(animateZoom);
-      }
-    });
-
-    // Mouse move event to track cursor when zoomed in
-    container.addEventListener("mousemove", (e) => {
-      if (isZoomedIn) {
-        const rect = container.getBoundingClientRect();
-        x = e.clientX - rect.left;
-        y = e.clientY - rect.top;
-
-        // Update the transform origin while zoomed
-        img.style.transformOrigin = `${x}px ${y}px`;
-      }
-    });
-
-    function animateZoom(timestamp) {
-      if (!startTime) startTime = timestamp;
-
-      // Calculate the progress of the animation based on the target duration
-      const elapsed = timestamp - startTime;
-      let progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
-
-      // Apply cubic bezier easing to the progress
-      let easedProgress = applyCubicBezierEaseOut(progress);
-
-      // Calculate new scale based on easing
-      scale = scale + (targetScale - scale) * easedProgress;
-
-      img.style.transform = `scale(${scale})`;
-
-      // Continue animation if the progress is less than 1 (i.e., the animation hasn't completed)
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(animateZoom);
-      } else {
-        scale = targetScale; // Ensure final scale matches target
-        img.style.transform = `scale(${scale})`;
-        isZooming = false;
-      }
+    if (!isZooming) {
+      isZooming = true;
+      startTime = null;
+      requestAnimationFrame(animateZoom);
     }
   });
+
+  // Mouse move event to track cursor when zoomed in
+  container.addEventListener("mousemove", (e) => {
+    if (isZoomedIn) {
+      const rect = container.getBoundingClientRect();
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+
+      // Update the transform origin while zoomed
+      img.style.transformOrigin = `${x}px ${y}px`;
+    }
+  });
+
+  function animateZoom(timestamp) {
+    if (!startTime) startTime = timestamp;
+
+    // Calculate the progress of the animation based on the target duration
+    const elapsed = timestamp - startTime;
+    let progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
+
+    // Apply cubic bezier easing to the progress
+    let easedProgress = applyCubicBezierEaseOut(progress);
+
+    // Calculate new scale based on easing
+    scale = scale + (targetScale - scale) * easedProgress;
+
+    img.style.transform = `scale(${scale})`;
+
+    // Continue animation if the progress is less than 1 (i.e., the animation hasn't completed)
+    if (progress < 1) {
+      animationFrameId = requestAnimationFrame(animateZoom);
+    } else {
+      scale = targetScale; // Ensure final scale matches target
+      img.style.transform = `scale(${scale})`;
+      isZooming = false;
+    }
+  }
+  });
+</script>
+
+<script>
+  import { createIcons, icons } from 'lucide';
+
+  // Caution, this will import all the icons and bundle them.
+  createIcons({ icons });
+
+  // Recommended way, to include only the icons you need.
+  import { createIcons, ChevronLeft, ChevronRight } from 'lucide';
+
+  createIcons({
+  icons: {
+    ChevronLeft,
+    ChevronRight
+  }
+  });
+</script>
+
+<script>
+  const swiper = document.querySelector("#main-swiper")
+  const nextButton = document.querySelector("#next-slide")
+  const prevButton = document.querySelector("#prev-slide")
+
+  const swiperParams = {
+    slidesPerView: 1,
+    spaceBetween:128,
+    injectStyles: [
+      `
+      .swiper {
+       overflow: visible;
+      }
+      `,
+    ],
+  };
+
+  Object.assign(swiper, swiperParams);
+  swiper.initialize();
+  nextButton.addEventListener("click", ()=>swiper.swiper.slideNext());
+  prevButton.addEventListener("click", ()=>swiper.swiper.slidePrev())
 </script>
 
 
@@ -334,169 +286,58 @@
         "unit": "px",
         "label": "t:sections.all.padding.padding_bottom",
         "default": 36
+      },
+      {
+        "type": "range",
+        "id": "content_height",
+        "min": 0,
+        "max": 1000,
+        "step": 50,
+        "unit": "px",
+        "label": "Content height",
+        "default": 400
       }
     ],
     "blocks": [
       {
-        "type": "images",
-        "name": "images",
-        "limit": 1,
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "sample_scan_1",
-            "label": "Sample scan 1"
-          },
-          {
-            "type": "image_picker",
-            "id": "sample_scan_2",
-            "label": "Sample scan 2"
-          },
-          {
-            "type": "image_picker",
-            "id": "sample_scan_3",
-            "label": "Sample scan 3"
-          }
-        ]
-      },
-      {
-        "type": "heading",
-        "name": "t:sections.rich-text.blocks.heading.name",
+        "type": "Image",
+        "name": "image",
         "limit": 3,
         "settings": [
           {
-            "type": "inline_richtext",
-            "id": "heading",
-            "default": "Talk about your brand",
-            "label": "t:sections.rich-text.blocks.heading.settings.heading.label"
+            "type": "image_picker",
+            "id": "sample_scan_image",
+            "label": "Sample scan image"
           },
           {
-            "type": "select",
-            "id": "heading_size",
-            "options": [
-              {
-                "value": "h2",
-                "label": "t:sections.all.heading_size.options__1.label"
-              },
-              {
-                "value": "h1",
-                "label": "t:sections.all.heading_size.options__2.label"
-              },
-              {
-                "value": "h0",
-                "label": "t:sections.all.heading_size.options__3.label"
-              },
-              {
-                "value": "hxl",
-                "label": "t:sections.all.heading_size.options__4.label"
-              }
-            ],
-            "default": "h1",
-            "label": "t:sections.all.heading_size.label"
-          }
-        ]
-      },
-      {
-        "type": "caption",
-        "name": "t:sections.rich-text.blocks.caption.name",
-        "limit": 3,
-        "settings": [
+            "type": "image_picker",
+            "id": "sample_scan_negative",
+            "label": "Sample scan negative"
+          },
           {
             "type": "text",
-            "id": "caption",
-            "default": "Add a tagline",
-            "label": "t:sections.rich-text.blocks.caption.settings.text.label"
+            "id": "camera",
+            "label": "Camera"
           },
-          {
-            "type": "select",
-            "id": "text_style",
-            "options": [
-              {
-                "value": "subtitle",
-                "label": "t:sections.rich-text.blocks.caption.settings.text_style.options__1.label"
-              },
-              {
-                "value": "caption-with-letter-spacing",
-                "label": "t:sections.rich-text.blocks.caption.settings.text_style.options__2.label"
-              }
-            ],
-            "default": "caption-with-letter-spacing",
-            "label": "t:sections.rich-text.blocks.caption.settings.text_style.label"
-          },
-          {
-            "type": "select",
-            "id": "text_size",
-            "options": [
-              {
-                "value": "small",
-                "label": "t:sections.rich-text.blocks.caption.settings.caption_size.options__1.label"
-              },
-              {
-                "value": "medium",
-                "label": "t:sections.rich-text.blocks.caption.settings.caption_size.options__2.label"
-              },
-              {
-                "value": "large",
-                "label": "t:sections.rich-text.blocks.caption.settings.caption_size.options__3.label"
-              }
-            ],
-            "default": "medium",
-            "label": "t:sections.rich-text.blocks.caption.settings.caption_size.label"
-          }
-        ]
-      },
-      {
-        "type": "text",
-        "name": "t:sections.rich-text.blocks.text.name",
-        "limit": 3,
-        "settings": [
-          {
-            "type": "richtext",
-            "id": "text",
-            "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-            "label": "t:sections.rich-text.blocks.text.settings.text.label"
-          }
-        ]
-      },
-      {
-        "type": "button",
-        "name": "t:sections.rich-text.blocks.buttons.name",
-        "limit": 2,
-        "settings": [
           {
             "type": "text",
-            "id": "button_label",
-            "default": "Button label",
-            "label": "t:sections.rich-text.blocks.buttons.settings.button_label_1.label",
-            "info": "t:sections.rich-text.blocks.buttons.settings.button_label_1.info"
+            "id": "lens",
+            "label": "Lens"
+          },
+          {
+            "type": "text",
+            "id": "light_source",
+            "label": "Light source"
+          },
+          {
+            "type": "text",
+            "id": "converted_with",
+            "label": "Converted with"
           },
           {
             "type": "url",
-            "id": "button_link",
-            "label": "t:sections.rich-text.blocks.buttons.settings.button_link_1.label"
-          },
-          {
-            "type": "checkbox",
-            "id": "button_style_secondary",
-            "default": false,
-            "label": "t:sections.rich-text.blocks.buttons.settings.button_style_secondary_1.label"
-          },
-          {
-            "type": "text",
-            "id": "button_label_2",
-            "label": "t:sections.rich-text.blocks.buttons.settings.button_label_2.label",
-            "info": "t:sections.rich-text.blocks.buttons.settings.button_label_2.info"
-          },
-          {
-            "type": "url",
-            "id": "button_link_2",
-            "label": "t:sections.rich-text.blocks.buttons.settings.button_link_2.label"
-          },
-          {
-            "type": "checkbox",
-            "id": "button_style_secondary_2",
-            "default": false,
-            "label": "t:sections.rich-text.blocks.buttons.settings.button_style_secondary_2.label"
+            "id": "raw_download_url",
+            "label": "Raw download URL"
           }
         ]
       }
