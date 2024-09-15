@@ -33,7 +33,7 @@
 {%- endstyle -%}
 
 
-<div style="padding-left: 0; padding-right: 0" class="isolate{% unless section.settings.full_width %} page-width{% endunless %} section-{{ section.id }}-padding">
+<div style="padding-left: 0; padding-right: 0" class="isolate tw-overflow-hidden section-{{ section.id }}-padding">
   <div style="max-height: {{section.settings.content_height}}px" class="tw-h-full tw-aspect-[3/2] tw-mx-auto tw-relative ">
     <swiper-container
       id="main-swiper"
@@ -43,7 +43,7 @@
         <swiper-slide>
           <div class="scan-zoom-container tw-overflow-hidden tw-w-full tw-h-full tw-relative">
             {% unless block.settings.camera == null and block.settings.lens == null and block.settings.light_source == null and block.settings.converted_with == null %}
-              <div class="tw-z-10 tw-hidden tw-text-white md:tw-flex tw-flex-col tw-gap-2 tw-absolute tw-left-4 tw-top-4 tw-bg-black/40 tw-backdrop-blur-md tw-p-6">
+              <div class="tw-opacity-100 hover:tw-opacity-0 tw-transition-opacity tw-duration-300 tw-z-10 tw-hidden tw-text-white md:tw-flex tw-flex-col tw-gap-2 tw-absolute tw-left-4 tw-top-4 tw-bg-black/40 tw-backdrop-blur-md tw-p-6">
                 {% if block.settings.camera != null %}
                   <div class="tw-flex tw-flex-col tw-gap-1">
                     <span class="tw-uppercase tw-text-xs tw-font-bold">Camera</span>

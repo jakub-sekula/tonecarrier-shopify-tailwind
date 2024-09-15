@@ -1186,6 +1186,14 @@ video {
   transition-duration: 150ms;
 }
 
+.tw-duration-300 {
+  transition-duration: 300ms;
+}
+
+.hover\:tw-opacity-0:hover {
+  opacity: 0;
+}
+
 .tw-group:hover .group-hover\:tw-opacity-100 {
   opacity: 1;
 }

@@ -198,7 +198,7 @@
         "caption_DAcUxL": {
           "type": "caption",
           "settings": {
-            "caption": "Samples shot on fujifilm x-t5 and helios 44-2 lens",
+            "caption": "Sample scan gallery",
             "text_style": "caption-with-letter-spacing",
             "text_size": "medium"
           }
@@ -209,18 +209,11 @@
             "heading": "Quality, hassle-free scans",
             "heading_size": "h1"
           }
-        },
-        "text_JJ4AVA": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Tip: Click any image to zoom in<\/p>"
-          }
         }
       },
       "block_order": [
         "caption_DAcUxL",
-        "heading_q6izEg",
-        "text_JJ4AVA"
+        "heading_q6izEg"
       ],
       "settings": {
         "desktop_content_position": "center",
@@ -238,7 +231,7 @@
           "type": "Image",
           "settings": {
             "sample_scan_image": "shopify:\/\/shop_images\/DSCF0210.jpg",
-            "camera": "Fujifilm X-T5s",
+            "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
