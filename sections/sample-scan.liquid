@@ -33,14 +33,13 @@
 {%- endstyle -%}
 
 
-<div style="padding-left: 0; padding-right: 0" class="isolate tw-overflow-hidden section-{{ section.id }}-padding">
+<section style="padding-left: 0; padding-right: 0" class="isolate tw-overflow-hidden section-{{ section.id }}-padding">
   <div style="max-height: {{section.settings.content_height}}px" class="tw-h-full tw-aspect-video tw-mx-auto tw-relative ">
     <swiper-container
       id="main-swiper"
       init="false"
       class="tw-w-full tw-h-full">
       {% for i in (1..4) %}
-
         {% for block in section.blocks %}
           <swiper-slide>
             <div class="scan-zoom-container tw-overflow-hidden tw-w-full tw-h-full tw-relative">
@@ -101,7 +100,7 @@
       <i data-lucide="chevron-right" class="tw-size-8"></i>
     </button>
   </div>
-</div>
+</section>
 
 
 <script>
@@ -347,7 +346,7 @@
     ],
     "presets": [
       {
-        "name": "Sample scan",
+        "name": "Sample scans",
         "settings": {}
       }
     ]

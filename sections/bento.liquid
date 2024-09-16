@@ -1,0 +1,256 @@
+{%- style -%}
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }} {
+    background-color: {{ section.settings.background_color }}
+  }
+
+  /* Default: Flex layout */
+  .bento-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .bento-tile {
+    background: rgb(var(--color-background)) linear-gradient(rgba(var(--color-foreground),0.04),rgba(var(--color-foreground),0.04));
+    padding: 20px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    text-align: left;
+    min-height: {{ section.settings.row_height }}px;
+    position: relative
+  }
+
+  /* Desktop View: Grid layout for screens wider than 960px */
+  @media (min-width: 960px) {
+    .bento-grid {
+      display: grid;
+      grid-template-rows: repeat({{ section.settings.rows }}, {{ section.settings.row_height }}px);
+      grid-template-columns: repeat({{ section.settings.columns }}, 1fr);
+      gap: 10px;
+    }
+
+    .bento-tile {
+      width: auto;
+      height: auto;
+      border-radius: 10px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="isolate section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }}">
+  <div class="{% unless section.settings.full_width %} page-width{% endunless %}">
+    {%- unless section.settings.title == blank -%}
+      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin multicolumn__title">
+        <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
+      </div>
+    {%- endunless -%}
+    <ul class="bento-grid">
+      {% for block in section.blocks %}
+        <li
+          {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+          {% endif %}
+          class="bento-tile {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          style="grid-column: span {{ block.settings.width }} / span {{ block.settings.width }};
+                      grid-row: span {{ block.settings.height }} / span {{ block.settings.height }};
+                      grid-column-start: {{ block.settings.start_column }};
+                      grid-row-start: {{ block.settings.start_row }};
+                     
+                      {% if settings.animations_reveal_on_scroll %}
+ --animation-order: {{ forloop.index }};
+         {% endif %}"
+          {{ block.shopify_attributes }}>
+          <h3 class="tw-z-10 {{ section.settings.heading_size }}">{{ block.settings.title }}</h3>
+          <div style="z-index: 10; font-size: {{section.settings.caption_size}}px">{{ block.settings.description }}</div>
+          {% unless block.settings.image == blank %}
+            <div style="display: block!important" class="tw-bg-gradient-to-b tw-from-black tw-h-1/5 tw-w-full tw-absolute tw-z-[5] tw-left-0 tw-top-0"></div>
+            {{ block.settings.image | image_url: width: 600 | image_tag: widths: '300, 600', class: "tw-z-1 tw-inset-0 tw-absolute tw-object-cover tw-w-full tw-h-full" }}{% endunless %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Bento grid",
+    "class": "section",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "inline_richtext",
+        "id": "title",
+        "default": "Bento grid",
+        "label": "Section title"
+      },
+      {
+        "type": "range",
+        "id": "columns",
+        "label": "Number of columns",
+        "min": 1,
+        "max": 12,
+        "step": 1,
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "rows",
+        "label": "Number of rows",
+        "min": 1,
+        "max": 12,
+        "step": 1,
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "row_height",
+        "label": "Row height",
+        "min": 100,
+        "max": 600,
+        "step": 10,
+        "unit": "px",
+        "default": 450
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
+      {
+        "type": "select",
+        "id": "heading_size",
+        "options": [
+          {
+            "value": "h2",
+            "label": "t:sections.all.heading_size.options__1.label"
+          },
+          {
+            "value": "h1",
+            "label": "t:sections.all.heading_size.options__2.label"
+          },
+          {
+            "value": "h0",
+            "label": "t:sections.all.heading_size.options__3.label"
+          },
+          {
+            "value": "hxl",
+            "label": "t:sections.all.heading_size.options__4.label"
+          }
+        ],
+        "default": "h1",
+        "label": "t:sections.all.heading_size.label"
+      },
+      {
+        "type": "range",
+        "id": "caption_size",
+        "min": 2,
+        "max": 64,
+        "step": 2,
+        "unit": "px",
+        "label": "Caption text size",
+        "default": 16
+      }
+    ],
+    "blocks": [
+      {
+        "type": "Tile",
+        "name": "Tile",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Tile title",
+            "placeholder": "Tile title",
+            "default": "Tile title"
+          },
+          {
+            "type": "richtext",
+            "id": "description",
+            "label": "Tile description",
+            "default": "<p>Tile description</p>"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "range",
+            "id": "height",
+            "label": "Tile height (grid rows)",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "default": 1
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "label": "Tile width (grid columns)",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "default": 6
+          },
+          {
+            "type": "range",
+            "id": "start_column",
+            "label": "Start column",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "default": 1
+          },
+          {
+            "type": "range",
+            "id": "start_row",
+            "label": "Start row",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "default": 1
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Bento grid",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

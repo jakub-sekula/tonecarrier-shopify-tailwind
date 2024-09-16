@@ -615,6 +615,10 @@ video {
   position: relative;
 }
 
+.tw-inset-0 {
+  inset: 0px;
+}
+
 .tw-bottom-0 {
   bottom: 0px;
 }
@@ -673,6 +677,10 @@ video {
 
 .tw-z-10 {
   z-index: 10;
+}
+
+.tw-z-\[5\] {
+  z-index: 5;
 }
 
 .tw-col-span-10 {
@@ -782,6 +790,14 @@ video {
 
 .tw-h-\[400px\] {
   height: 400px;
+}
+
+.tw-h-1\/5 {
+  height: 20%;
+}
+
+.tw-h-1 {
+  height: 0.25rem;
 }
 
 .tw-max-h-\[600px\] {
@@ -1030,6 +1046,10 @@ video {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
 }
 
+.tw-bg-gradient-to-b {
+  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+}
+
 .tw-from-black\/50 {
   --tw-gradient-from: rgb(0 0 0 / 0.5) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
@@ -1127,6 +1147,10 @@ video {
 
 .tw-font-bold {
   font-weight: 700;
+}
+
+.tw-font-light {
+  font-weight: 300;
 }
 
 .tw-uppercase {

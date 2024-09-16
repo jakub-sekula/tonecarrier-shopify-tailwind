@@ -1,92 +1,118 @@
 {
   "sections": {
-    "main": {
-      "type": "main-product",
+    "bento_bQfpWa": {
+      "type": "bento",
       "blocks": {
-        "vendor": {
-          "type": "text",
+        "tile_bXxXKL": {
+          "type": "Tile",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
+            "title": "72 mm wide film window",
+            "description": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)<\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0312.jpg",
+            "height": 2,
+            "width": 6,
+            "start_column": 1,
+            "start_row": 1
           }
         },
-        "title": {
-          "type": "title",
+        "tile_3GPDez": {
+          "type": "Tile",
           "settings": {
+            "title": "Large ergonomic knobs",
+            "description": "<p>Easily advance and precisely adjust film position. <\/p>",
+            "height": 1,
+            "width": 6,
+            "start_column": 7,
+            "start_row": 1
           }
         },
-        "caption": {
-          "type": "text",
+        "tile_mcaT8F": {
+          "type": "Tile",
           "settings": {
-            "text": "{{ product.metafields.descriptors.subtitle.value }}",
-            "text_style": "subtitle"
+            "title": "Exposes sprocket holes",
+            "description": "<p>Scan nearly the full image area (note: border text is <strong>not<\/strong> visible)<\/p>",
+            "height": 1,
+            "width": 6,
+            "start_column": 7,
+            "start_row": 2
           }
         },
-        "price": {
-          "type": "price",
+        "tile_FM3LRx": {
+          "type": "Tile",
           "settings": {
+            "title": "Scratch proof",
+            "description": "<p>Only film contact is along the edge, far away from the image area. <\/p>",
+            "height": 1,
+            "width": 3,
+            "start_column": 1,
+            "start_row": 3
           }
         },
-        "variant_picker": {
-          "type": "variant_picker",
+        "tile_9LgFNP": {
+          "type": "Tile",
           "settings": {
-            "picker_type": "dropdown",
-            "swatch_shape": "circle"
+            "title": "Dual S-Curve design",
+            "description": "<p>The film channel geometry uses tension to keep the film flat and straight<\/p>",
+            "height": 1,
+            "width": 6,
+            "start_column": 4,
+            "start_row": 3
           }
         },
-        "buy_buttons": {
-          "type": "buy_buttons",
+        "tile_wxG86T": {
+          "type": "Tile",
           "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
+            "title": "Film safe",
+            "description": "<p>Soft rollers securely grip the negative without damaging it<\/p>",
+            "height": 1,
+            "width": 3,
+            "start_column": 10,
+            "start_row": 3
           }
         },
-        "description": {
-          "type": "description",
+        "tile_3Rdz4H": {
+          "type": "Tile",
           "settings": {
+            "title": "Interchangeable frame masks",
+            "description": "<p>Block stray light for the best scan quality<\/p>",
+            "height": 1,
+            "width": 6,
+            "start_column": 1,
+            "start_row": 4
           }
         },
-        "collapsible-row-0": {
-          "type": "collapsible_tab",
+        "tile_gerTnQ": {
+          "type": "Tile",
           "settings": {
-            "heading": "What's in the box?",
-            "icon": "box",
-            "content": "<p>1x Fully assembled toneCarrier 35 mm negative holder (Mark II)<br\/>1x Frame mask of your choice (35 mm, X-Pan, half-frame)<\/p>",
-            "page": ""
-          }
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
+            "title": "Modular and extensible",
+            "description": "<p>Side and top accessory slots to enhance the scanning workflow<\/p>",
+            "height": 1,
+            "width": 6,
+            "start_column": 7,
+            "start_row": 4
           }
         }
       },
       "block_order": [
-        "vendor",
-        "title",
-        "caption",
-        "price",
-        "variant_picker",
-        "buy_buttons",
-        "description",
-        "collapsible-row-0",
-        "share"
+        "tile_bXxXKL",
+        "tile_3GPDez",
+        "tile_mcaT8F",
+        "tile_FM3LRx",
+        "tile_9LgFNP",
+        "tile_wxG86T",
+        "tile_3Rdz4H",
+        "tile_gerTnQ"
       ],
       "settings": {
-        "enable_sticky_info": true,
-        "color_scheme": "",
-        "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "stacked",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "mobile_thumbnails": "hide",
-        "hide_variants": true,
-        "enable_video_looping": false,
+        "title": "Key features",
+        "columns": 12,
+        "rows": 4,
+        "row_height": 300,
         "padding_top": 36,
-        "padding_bottom": 100
+        "padding_bottom": 36,
+        "color_scheme": "scheme-4",
+        "heading_size": "h2",
+        "caption_size": 14
       }
     },
     "multicolumn_9b7LEt": {
@@ -192,36 +218,93 @@
         "padding_bottom": 36
       }
     },
-    "rich_text_BiRhaN": {
-      "type": "rich-text",
+    "main": {
+      "type": "main-product",
       "blocks": {
-        "caption_DAcUxL": {
-          "type": "caption",
+        "vendor": {
+          "type": "text",
           "settings": {
-            "caption": "Sample scan gallery",
-            "text_style": "caption-with-letter-spacing",
-            "text_size": "medium"
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
           }
         },
-        "heading_q6izEg": {
-          "type": "heading",
+        "title": {
+          "type": "title",
           "settings": {
-            "heading": "Quality, hassle-free scans",
-            "heading_size": "h1"
+          }
+        },
+        "caption": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text_style": "subtitle"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "dropdown",
+            "swatch_shape": "circle"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+          }
+        },
+        "collapsible-row-0": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "What's in the box?",
+            "icon": "box",
+            "content": "<p>1x Fully assembled toneCarrier 35 mm negative holder (Mark II)<br\/>1x Frame mask of your choice (35 mm, X-Pan, half-frame)<\/p>",
+            "page": ""
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
           }
         }
       },
       "block_order": [
-        "caption_DAcUxL",
-        "heading_q6izEg"
+        "vendor",
+        "title",
+        "caption",
+        "price",
+        "variant_picker",
+        "buy_buttons",
+        "description",
+        "collapsible-row-0",
+        "share"
       ],
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
+        "enable_sticky_info": true,
         "color_scheme": "",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 0
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "stacked",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "mobile_thumbnails": "hide",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 100
       }
     },
     "sample_scan_MgcCXN": {
@@ -287,6 +370,38 @@
         "padding_top": 36,
         "padding_bottom": 36,
         "content_height": 500
+      }
+    },
+    "rich_text_BiRhaN": {
+      "type": "rich-text",
+      "blocks": {
+        "caption_DAcUxL": {
+          "type": "caption",
+          "settings": {
+            "caption": "Sample scan gallery",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_q6izEg": {
+          "type": "heading",
+          "settings": {
+            "heading": "Quality, hassle-free scans",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "caption_DAcUxL",
+        "heading_q6izEg"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 0
       }
     },
     "multirow_rN3dhQ": {
@@ -535,10 +650,11 @@
     }
   },
   "order": [
-    "main",
+    "bento_bQfpWa",
     "multicolumn_9b7LEt",
-    "rich_text_BiRhaN",
+    "main",
     "sample_scan_MgcCXN",
+    "rich_text_BiRhaN",
     "multirow_rN3dhQ",
     "image_with_text_RptGqT",
     "collapsible_content_HLXaFc",
