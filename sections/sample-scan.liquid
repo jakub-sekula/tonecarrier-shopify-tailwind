@@ -29,76 +29,206 @@
     .scan-zoom-container > img.zoomed-in {
       cursor: zoom-out
     }
+
+    .sample-height {
+      max-height: {{ section.settings.content_height }}px
+    }
   }
 {%- endstyle -%}
 
 
-<section style="padding-left: 0; padding-right: 0" class="isolate tw-overflow-hidden section-{{ section.id }}-padding">
-  <div style="max-height: {{section.settings.content_height}}px" class="tw-h-full tw-aspect-video tw-mx-auto tw-relative ">
+<section style="padding-left: 0; padding-right: 0" class="isolate tw-overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
+  <div style="padding-bottom: {{section.settings.padding_bottom}}px" class="tw-mx-auto  rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
+    <div class="rich-text__blocks {{ section.settings.content_alignment }}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'heading' -%}
+            <h2
+              class="rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {{ block.shopify_attributes }}
+              {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+              {% endif %}>
+              {{ block.settings.heading }}
+            </h2>
+          {%- when 'caption' -%}
+            <p
+              class="rich-text__caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {{ block.shopify_attributes }}
+              {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+              {% endif %}>
+              {{ block.settings.caption | escape }}
+            </p>
+          {%- when 'text' -%}
+            <div
+              class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {{ block.shopify_attributes }}
+              {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+              {% endif %}>
+              {{ block.settings.text }}
+            </div>
+          {%- when 'button' -%}
+            <div
+              class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {{ block.shopify_attributes }}
+              {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+              {% endif %}>
+              {%- if block.settings.button_label != blank -%}
+                <a
+                  {% if block.settings.button_link == blank %}
+                  role="link"
+                  aria-disabled="true"
+                  {% else %}
+                  href="{{ block.settings.button_link }}"
+                  {% endif %}
+                  class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}">
+                  {{- block.settings.button_label | escape -}}
+                </a>
+              {%- endif -%}
+              {%- if block.settings.button_label_2 != blank -%}
+                <a
+                  {% if block.settings.button_link_2 == blank %}
+                  role="link"
+                  aria-disabled="true"
+                  {% else %}
+                  href="{{ block.settings.button_link_2 }}"
+                  {% endif %}
+                  class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}">
+                  {{- block.settings.button_label_2 | escape -}}
+                </a>
+              {%- endif -%}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="tw-h-full tw-aspect-video tw-mx-auto tw-relative sample-height">
+    <div class="tw-w-full tw-gap-6 tw-px-6 tw-justify-center md:tw-hidden tw-flex tw-mb-6">
+      <button
+        id="prev-slide"
+        class="tw-grid tw-place-items-center tw-size-16 tw-bg-neutral-200 tw-text-black tw-rounded-full"
+        aria-label="previous">
+        {{ 'lucide-chevron-left.svg' | inline_asset_content }}
+      </button>
+      <button
+        id="next-slide"
+        class="tw-grid tw-place-items-center tw-size-16 tw-bg-neutral-200 tw-text-black tw-rounded-full"
+        aria-label="next">
+        {{ 'lucide-chevron-right.svg' | inline_asset_content }}
+      </button>
+    </div>
     <swiper-container
       id="main-swiper"
       init="false"
-      class="tw-w-full tw-h-full">
+      class="tw-w-full md:tw-h-full">
       {% for i in (1..4) %}
         {% for block in section.blocks %}
-          <swiper-slide>
-            <div class="scan-zoom-container tw-overflow-hidden tw-w-full tw-h-full tw-relative">
-              {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
-                <div class="tw-opacity-100 hover:tw-opacity-0 tw-transition-opacity tw-duration-300 tw-z-10 tw-hidden tw-text-white md:tw-flex tw-flex-col tw-gap-2 tw-absolute tw-left-4 tw-top-4 tw-bg-black/40 tw-backdrop-blur-md tw-p-6">
-                  {% if block.settings.camera != blank %}
-                    <div class="tw-flex tw-flex-col tw-gap-1">
-                      <span class="tw-uppercase tw-text-xs tw-font-bold">Camera</span>
-                      <span>{{ block.settings.camera }}</span>
-                    </div>
-                  {% endif %}
-                  {% if block.settings.lens != blank %}
-                    <div class="tw-flex tw-flex-col tw-gap-1">
-                      <span class="tw-uppercase tw-text-xs tw-font-bold">Lens</span>
-                      <span>{{ block.settings.lens }}</span>
-                    </div>
-                  {% endif %}
-                  {% if block.settings.light_source != blank %}
-                    <div class="tw-flex tw-flex-col tw-gap-1">
-                      <span class="tw-uppercase tw-text-xs tw-font-bold">Light source</span>
-                      <span>{{ block.settings.light_source }}</span>
-                    </div>
-                  {% endif %}
-                  {% if block.settings.converted_with != blank %}
-                    <div class="tw-flex tw-flex-col tw-gap-1">
-                      <span class="tw-uppercase tw-text-xs tw-font-bold">Converted with</span>
-                      <span>{{ block.settings.converted_with }}</span>
-                    </div>
-                  {% endif %}
-                  {% if block.settings.film_stock != blank %}
-                    <div class="tw-flex tw-flex-col tw-gap-1">
-                      <span class="tw-uppercase tw-text-xs tw-font-bold">Film stock</span>
-                      <span>{{ block.settings.film_stock }}</span>
-                    </div>
-                  {% endif %}
+          {% if block.type == "Image" %}
+            <swiper-slide>
+              <div class="scan-zoom-container tw-overflow-hidden tw-w-full tw-h-full tw-relative">
+                {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
+                  <div class="tw-opacity-100 hover:tw-opacity-0 tw-transition-opacity tw-duration-300 tw-z-10 tw-hidden tw-text-white md:tw-flex tw-flex-col tw-gap-2 tw-absolute tw-left-4 tw-top-4 tw-bg-black/40 tw-backdrop-blur-md tw-p-6">
+                    {% if block.settings.camera != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Camera</span>
+                        <span>{{ block.settings.camera }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.lens != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Lens</span>
+                        <span>{{ block.settings.lens }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.light_source != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Light source</span>
+                        <span>{{ block.settings.light_source }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.converted_with != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Converted with</span>
+                        <span>{{ block.settings.converted_with }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.film_stock != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Film stock</span>
+                        <span>{{ block.settings.film_stock }}</span>
+                      </div>
+                    {% endif %}
 
-                </div>
-              {% endunless %}
-              <img
-                srcset="{{ block.settings.sample_scan_image | image_url: width: 800 }} 1x, {{ block.settings.sample_scan_image | image_url: width: 3840 }} 4x"
-                sizes="100px"
-                class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-            </div>
-          </swiper-slide>
+                  </div>
+                {% endunless %}
+                <img
+                  srcset="{{ block.settings.sample_scan_image | image_url: width: 800 }} 1x, {{ block.settings.sample_scan_image | image_url: width: 3840 }} 4x"
+                  sizes="100px"
+                  class="tw-origin-center tw-object-cover tw-w-full tw-h-full" />
+              </div>
+              <div class="md:tw-hidden tw-p-6 tw-pb-0">
+                {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
+                  <div class="tw-z-10 tw-grid tw-grid-cols-2 tw-gap-x-2 tw-gap-y-4">
+                    {% if block.settings.camera != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Camera</span>
+                        <span>{{ block.settings.camera }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.lens != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Lens</span>
+                        <span>{{ block.settings.lens }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.light_source != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Light source</span>
+                        <span>{{ block.settings.light_source }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.converted_with != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Converted with</span>
+                        <span>{{ block.settings.converted_with }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.film_stock != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Film stock</span>
+                        <span>{{ block.settings.film_stock }}</span>
+                      </div>
+                    {% endif %}
+
+                  </div>
+                {% endunless %}
+              </div>
+            </swiper-slide>
+          {%- endif -%}
+
         {%- endfor -%}
       {%- endfor -%}
     </swiper-container>
     <button
       id="prev-slide"
-      class="tw-hidden md:tw-grid tw-place-items-center tw-absolute tw-top-1/2 -tw-left-8 -tw-translate-x-full tw-size-16 tw-bg-neutral-200 tw-rounded-full"
+      class="tw-hidden md:tw-grid tw-place-items-center tw-absolute tw-top-1/2 -tw-left-8 -tw-translate-x-full tw-size-16 tw-bg-neutral-200 tw-text-black tw-rounded-full"
       aria-label="previous">
-      <i data-lucide="chevron-left" class="tw-size-8"></i>
+      {{ 'lucide-chevron-left.svg' | inline_asset_content }}
     </button>
     <button
       id="next-slide"
-      class="tw-hidden md:tw-grid tw-place-items-center tw-absolute tw-top-1/2 -tw-right-8 tw-translate-x-full tw-size-16 tw-bg-neutral-200 tw-rounded-full"
+      class="tw-hidden md:tw-grid tw-place-items-center tw-absolute tw-top-1/2 -tw-right-8 tw-translate-x-full tw-size-16 tw-bg-neutral-200 tw-text-black tw-rounded-full"
       aria-label="next">
-      <i data-lucide="chevron-right" class="tw-size-8"></i>
+      {{ 'lucide-chevron-right.svg' | inline_asset_content }}
     </button>
+
   </div>
 </section>
 
@@ -114,7 +244,7 @@
     let targetScale = 1;
     let x = 0, y = 0;
     let startTime;
-    let duration = 300; // Transition duration in milliseconds (adjustable)
+    let duration = 500; // Transition duration in milliseconds (adjustable)
     let animationFrameId;
     let isZoomedIn = false; // Track whether the image is zoomed in or not
 
@@ -138,15 +268,24 @@
       return cubicBezier(t, 0.17, 0.67, 0.83, 0.67);
     }
 
-    // Function to update transform origin based on mouse position
-    function updateTransformOrigin(e) {
-      const rect = container.getBoundingClientRect();
-      x = e.clientX - rect.left;
-      y = e.clientY - rect.top;
+  // Function to update transform origin based on mouse or touch position
+  function updateTransformOrigin(e) {
+  const rect = container.getBoundingClientRect();
 
-      // Update the transform origin continuously
-      img.style.transformOrigin = `${x}px ${y}px`;
-    }
+  // Check if the event is a touch event
+  if (e.touches) {
+    // Use touch positions for mobile
+    x = e.touches[0].X - rect.left;
+    y = e.touches[0].Y - rect.top;
+  } else {
+    // Use mouse positions for desktop
+    x = e.clientX - rect.left;
+    y = e.clientY - rect.top;
+  }
+
+  // Update the transform origin based on calculated x, y
+  img.style.transformOrigin = `${x}px ${y}px`;
+  }
 
     // Mouse move event to track cursor when hovering over the container
     container.addEventListener("mousemove", (e) => {
@@ -265,6 +404,17 @@
         "label": "t:sections.rich-text.settings.content_alignment.label"
       },
       {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
+      {
         "type": "range",
         "id": "padding_top",
         "min": 0,
@@ -340,6 +490,147 @@
             "type": "url",
             "id": "raw_download_url",
             "label": "Raw download URL"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "name": "t:sections.rich-text.blocks.heading.name",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "inline_richtext",
+            "id": "heading",
+            "default": "Talk about your brand",
+            "label": "t:sections.rich-text.blocks.heading.settings.heading.label"
+          },
+          {
+            "type": "select",
+            "id": "heading_size",
+            "options": [
+              {
+                "value": "h2",
+                "label": "t:sections.all.heading_size.options__1.label"
+              },
+              {
+                "value": "h1",
+                "label": "t:sections.all.heading_size.options__2.label"
+              },
+              {
+                "value": "h0",
+                "label": "t:sections.all.heading_size.options__3.label"
+              },
+              {
+                "value": "hxl",
+                "label": "t:sections.all.heading_size.options__4.label"
+              }
+            ],
+            "default": "h1",
+            "label": "t:sections.all.heading_size.label"
+          }
+        ]
+      },
+      {
+        "type": "caption",
+        "name": "t:sections.rich-text.blocks.caption.name",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "text",
+            "id": "caption",
+            "default": "Add a tagline",
+            "label": "t:sections.rich-text.blocks.caption.settings.text.label"
+          },
+          {
+            "type": "select",
+            "id": "text_style",
+            "options": [
+              {
+                "value": "subtitle",
+                "label": "t:sections.rich-text.blocks.caption.settings.text_style.options__1.label"
+              },
+              {
+                "value": "caption-with-letter-spacing",
+                "label": "t:sections.rich-text.blocks.caption.settings.text_style.options__2.label"
+              }
+            ],
+            "default": "caption-with-letter-spacing",
+            "label": "t:sections.rich-text.blocks.caption.settings.text_style.label"
+          },
+          {
+            "type": "select",
+            "id": "text_size",
+            "options": [
+              {
+                "value": "small",
+                "label": "t:sections.rich-text.blocks.caption.settings.caption_size.options__1.label"
+              },
+              {
+                "value": "medium",
+                "label": "t:sections.rich-text.blocks.caption.settings.caption_size.options__2.label"
+              },
+              {
+                "value": "large",
+                "label": "t:sections.rich-text.blocks.caption.settings.caption_size.options__3.label"
+              }
+            ],
+            "default": "medium",
+            "label": "t:sections.rich-text.blocks.caption.settings.caption_size.label"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "name": "t:sections.rich-text.blocks.text.name",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+            "label": "t:sections.rich-text.blocks.text.settings.text.label"
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "name": "t:sections.rich-text.blocks.buttons.name",
+        "limit": 2,
+        "settings": [
+          {
+            "type": "text",
+            "id": "button_label",
+            "default": "Button label",
+            "label": "t:sections.rich-text.blocks.buttons.settings.button_label_1.label",
+            "info": "t:sections.rich-text.blocks.buttons.settings.button_label_1.info"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "t:sections.rich-text.blocks.buttons.settings.button_link_1.label"
+          },
+          {
+            "type": "checkbox",
+            "id": "button_style_secondary",
+            "default": false,
+            "label": "t:sections.rich-text.blocks.buttons.settings.button_style_secondary_1.label"
+          },
+          {
+            "type": "text",
+            "id": "button_label_2",
+            "label": "t:sections.rich-text.blocks.buttons.settings.button_label_2.label",
+            "info": "t:sections.rich-text.blocks.buttons.settings.button_label_2.info"
+          },
+          {
+            "type": "url",
+            "id": "button_link_2",
+            "label": "t:sections.rich-text.blocks.buttons.settings.button_link_2.label"
+          },
+          {
+            "type": "checkbox",
+            "id": "button_style_secondary_2",
+            "default": false,
+            "label": "t:sections.rich-text.blocks.buttons.settings.button_style_secondary_2.label"
           }
         ]
       }

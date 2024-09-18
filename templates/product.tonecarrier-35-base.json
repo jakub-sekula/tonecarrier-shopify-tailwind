@@ -8,9 +8,10 @@
           "settings": {
             "title": "72 mm wide film window",
             "description": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)<\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0312.jpg",
-            "height": 2,
-            "width": 6,
+            "image": "shopify:\/\/shop_images\/DSCF0553-Edit.jpg",
+            "extended_description": "",
+            "height": 1,
+            "width": 12,
             "start_column": 1,
             "start_row": 1
           }
@@ -20,17 +21,21 @@
           "settings": {
             "title": "Large ergonomic knobs",
             "description": "<p>Easily advance and precisely adjust film position. <\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0777.jpg",
+            "extended_description": "",
             "height": 1,
             "width": 6,
-            "start_column": 7,
-            "start_row": 1
+            "start_column": 1,
+            "start_row": 2
           }
         },
         "tile_mcaT8F": {
           "type": "Tile",
           "settings": {
             "title": "Exposes sprocket holes",
-            "description": "<p>Scan nearly the full image area (note: border text is <strong>not<\/strong> visible)<\/p>",
+            "description": "<p>Scan nearly the full image area (note: border text is <strong>not<\/strong> visible) <\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
+            "extended_description": "",
             "height": 1,
             "width": 6,
             "start_column": 7,
@@ -42,6 +47,8 @@
           "settings": {
             "title": "Scratch proof",
             "description": "<p>Only film contact is along the edge, far away from the image area. <\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0764-Edit.jpg",
+            "extended_description": "",
             "height": 1,
             "width": 3,
             "start_column": 1,
@@ -53,6 +60,7 @@
           "settings": {
             "title": "Dual S-Curve design",
             "description": "<p>The film channel geometry uses tension to keep the film flat and straight<\/p>",
+            "extended_description": "",
             "height": 1,
             "width": 6,
             "start_column": 4,
@@ -64,6 +72,7 @@
           "settings": {
             "title": "Film safe",
             "description": "<p>Soft rollers securely grip the negative without damaging it<\/p>",
+            "extended_description": "",
             "height": 1,
             "width": 3,
             "start_column": 10,
@@ -75,6 +84,8 @@
           "settings": {
             "title": "Interchangeable frame masks",
             "description": "<p>Block stray light for the best scan quality<\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0681-Edit_Large_dfaf5657-ba92-4dc7-a7e5-768faf15d307.jpg",
+            "extended_description": "",
             "height": 1,
             "width": 6,
             "start_column": 1,
@@ -86,6 +97,8 @@
           "settings": {
             "title": "Modular and extensible",
             "description": "<p>Side and top accessory slots to enhance the scanning workflow<\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0483-Edit.jpg",
+            "extended_description": "",
             "height": 1,
             "width": 6,
             "start_column": 7,
@@ -107,7 +120,7 @@
         "title": "Key features",
         "columns": 12,
         "rows": 4,
-        "row_height": 300,
+        "row_height": 430,
         "padding_top": 36,
         "padding_bottom": 36,
         "color_scheme": "scheme-4",
@@ -115,107 +128,95 @@
         "caption_size": 14
       }
     },
-    "multicolumn_9b7LEt": {
-      "type": "multicolumn",
+    "sample_scan_MgcCXN": {
+      "type": "sample-scan",
       "blocks": {
-        "column_W93MmC": {
-          "type": "column",
+        "caption_QbEeLW": {
+          "type": "caption",
           "settings": {
-            "title": "72 mm wide film window",
-            "text": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)<\/p>",
-            "link_label": "",
-            "link": ""
+            "caption": "Sample scans",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
           }
         },
-        "column_VFATxW": {
-          "type": "column",
+        "heading_qtaYNL": {
+          "type": "heading",
           "settings": {
-            "title": "Large ergonomic knobs",
-            "text": "<p>Easily advance and precisely adjust film position. <\/p>",
-            "link_label": "",
-            "link": ""
+            "heading": "Capture every detail",
+            "heading_size": "h1"
           }
         },
-        "column_7hTEfA": {
-          "type": "column",
+        "text_yywqAL": {
+          "type": "text",
           "settings": {
-            "title": "Exposes sprocket holes",
-            "text": "<p>Scan nearly the full image area (note: border text is <strong>not<\/strong> visible)<\/p>",
-            "link_label": "",
-            "link": ""
+            "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours. Click or tap on any image in the gallery below to zoom in and view the film grain.<\/p>"
           }
         },
-        "column_7A7EQf": {
-          "type": "column",
+        "image_jiPpg4": {
+          "type": "Image",
           "settings": {
-            "title": "Interchangeable frame masks",
-            "text": "<p>Block stray light for the best scan quality<\/p>",
-            "link_label": "",
-            "link": ""
+            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0210.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "raw_download_url": ""
           }
         },
-        "column_ULFUex": {
-          "type": "column",
+        "image_TbQebX": {
+          "type": "Image",
           "settings": {
-            "title": "Dual S-curve design",
-            "text": "<p>The film channel geometry uses tension to keep the film flat and straight<\/p>",
-            "link_label": "",
-            "link": ""
+            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0509.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "raw_download_url": ""
           }
         },
-        "column_jRL4nm": {
-          "type": "column",
+        "image_Kx6XCj": {
+          "type": "Image",
           "settings": {
-            "title": "Scratch free",
-            "text": "<p>Only film contact is along the edge, far away from the image area. <\/p>",
-            "link_label": "",
-            "link": ""
+            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0312.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Colorplus 200",
+            "raw_download_url": ""
           }
         },
-        "column_GYawKz": {
-          "type": "column",
+        "image_tm4y3y": {
+          "type": "Image",
           "settings": {
-            "title": "Safe for film",
-            "text": "<p>Soft rollers securely grip the negative without damaging it<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_GwidhB": {
-          "type": "column",
-          "settings": {
-            "title": "Modular and extensible",
-            "text": "<p>Side and top accessory slots to enhance the scanning workflow<\/p>",
-            "link_label": "",
-            "link": ""
+            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0514.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Lomography Color Negative 800",
+            "raw_download_url": ""
           }
         }
       },
       "block_order": [
-        "column_W93MmC",
-        "column_VFATxW",
-        "column_7hTEfA",
-        "column_7A7EQf",
-        "column_ULFUex",
-        "column_jRL4nm",
-        "column_GYawKz",
-        "column_GwidhB"
+        "caption_QbEeLW",
+        "heading_qtaYNL",
+        "text_yywqAL",
+        "image_jiPpg4",
+        "image_TbQebX",
+        "image_Kx6XCj",
+        "image_tm4y3y"
       ],
       "settings": {
-        "title": "Key features",
-        "heading_size": "h1",
-        "image_width": "full",
-        "image_ratio": "adapt",
-        "columns_desktop": 4,
-        "column_alignment": "left",
-        "background_style": "primary",
-        "button_label": "",
-        "button_link": "",
-        "color_scheme": "scheme-4",
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
+        "content_alignment": "center",
+        "background_color": "",
+        "color_scheme": "scheme-2",
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "content_height": 500
       }
     },
     "main": {
@@ -305,71 +306,6 @@
         "enable_video_looping": false,
         "padding_top": 36,
         "padding_bottom": 100
-      }
-    },
-    "sample_scan_MgcCXN": {
-      "type": "sample-scan",
-      "blocks": {
-        "image_jiPpg4": {
-          "type": "Image",
-          "settings": {
-            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0210.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "raw_download_url": ""
-          }
-        },
-        "image_TbQebX": {
-          "type": "Image",
-          "settings": {
-            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0509.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "raw_download_url": ""
-          }
-        },
-        "image_Kx6XCj": {
-          "type": "Image",
-          "settings": {
-            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0312.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Colorplus 200",
-            "raw_download_url": ""
-          }
-        },
-        "image_tm4y3y": {
-          "type": "Image",
-          "settings": {
-            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0514.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Lomography Color Negative 800",
-            "raw_download_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "image_jiPpg4",
-        "image_TbQebX",
-        "image_Kx6XCj",
-        "image_tm4y3y"
-      ],
-      "settings": {
-        "content_alignment": "center",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "content_height": 500
       }
     },
     "rich_text_BiRhaN": {
@@ -651,9 +587,8 @@
   },
   "order": [
     "bento_bQfpWa",
-    "multicolumn_9b7LEt",
-    "main",
     "sample_scan_MgcCXN",
+    "main",
     "rich_text_BiRhaN",
     "multirow_rN3dhQ",
     "image_with_text_RptGqT",
