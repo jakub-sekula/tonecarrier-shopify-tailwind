@@ -1,0 +1,29 @@
+  <input type="checkbox" id="{{ id }}" class="hidden" />
+  <label for="{{ id }}"
+    class="tw-bg-black tw-relative tw-flex tw-items-center tw-gap-2 tw-p-4 tw-px-6 tw-max-w-fit tw-transition-all tw-duration-200 tw-cursor-pointer tw-text-white active:tw-translate-y-[2px] {{ className | default: '' }}"
+    style="font-size: {{ size }};">
+    <div
+      style="display: block !important"
+      class="tw-absolute tw-inset-0 tw--z-10 tw-bg-gradient-to-b tw-transition-all tw-duration-300"
+    ></div>
+    <span>{{ text }}</span>
+  </label>
+
+  <script>
+    // Get the checkbox and label element
+    const checkbox{{ id }} = document.getElementById('{{ id }}');
+    const label{{ id }} = document.querySelector('label[for="{{ id }}"]');
+  
+    // Toggle classes on change
+    checkbox{{ id }}.addEventListener('change', (e) => {
+      const isChecked = e.target.checked;
+  
+      // Toggle each class individually
+      label{{ id }}.classList.toggle('tw-translate-y-[2px]', isChecked);
+      label{{ id }}.classList.toggle('tw-text-amber-100', isChecked);
+      label{{ id }}.classList.toggle('tw-from-orange-400', isChecked);
+      label{{ id }}.classList.toggle('tw-to-orange-500', isChecked);
+      label{{ id }}.classList.toggle('tw-shadow-orange-glow-dark', isChecked);
+    });
+  </script>
+  

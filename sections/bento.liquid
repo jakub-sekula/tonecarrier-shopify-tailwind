@@ -43,12 +43,16 @@
       gap: 10px;
     }
 
-    .bento-tile {
-      width: auto;
-      height: auto;
-      grid-column span 6 / span 6;
-      grid-row: span 1 / span 1;
-    }
+    {% for block in section.blocks %}
+      {% if block.type == 'Tile' %}
+        .bento-tile-{{ block.id }} {
+          grid-column: span {{ block.settings.width }}/ span {{ block.settings.width }};
+          grid-row: span {{ block.settings.height }}/ span {{ block.settings.height }};
+          grid-column-start: {{ block.settings.start_column }};
+          grid-row-start: {{ block.settings.start_row }};
+        }
+      {% endif %}
+    {% endfor %}
   }
 {%- endstyle -%}
 
@@ -65,12 +69,7 @@
       {% for block in section.blocks %}
         {% if block.type == 'Tile' %}
           <li
-            class="bento-tile tw-group {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            style="grid-column: span {{ block.settings.width }} / span {{ block.settings.width }};
-                   grid-row: span {{ block.settings.height }} / span {{ block.settings.height }};
-                   grid-column-start: {{ block.settings.start_column }};
-                   grid-row-start: {{ block.settings.start_row }};
-                   --animation-order: {{ forloop.index }}"
+            class="bento-tile bento-tile-{{ block.id }} tw-group {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             {% if settings.animations_reveal_on_scroll %}
             data-cascade
             {% endif %}
@@ -81,7 +80,7 @@
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasExample"
                 aria-controls="offcanvasExample"
-                class="tw-absolute tw-bottom-6 tw-right-6 tw-w-16 tw-h-16 tw-rounded-full tw-bg-neutral-800 tw-z-10 tw-grid tw-place-items-center tw-hover-bg-neutral-700 active:tw-bg-neutral-900 active-">
+                class="tw-absolute tw-bottom-6 tw-right-6 tw-w-16 tw-h-16 tw-rounded-full tw-bg-neutral-800 tw-z-10 tw-grid tw-place-items-center tw-hover-bg-neutral-700 active:tw-bg-neutral-900">
                 {{ 'lucide-plus.svg' | inline_asset_content }}
               </button>
             {% endif %}
@@ -89,7 +88,8 @@
             <div style="z-index: 10; font-size: {{section.settings.caption_size}}px">{{ block.settings.description }}</div>
             {% unless block.settings.image == blank %}
               <div style="display: block!important" class="tw-bg-gradient-to-b tw-from-black tw-h-1/2 tw-w-full tw-absolute tw-z-[5] tw-left-0 tw-top-0"></div>
-              {{ block.settings.image | image_url: width: 1200 | image_tag: widths: '300, 600, 900, 1200, 1600', class: "tw-z-1 tw-inset-0 tw-absolute tw-object-cover tw-w-full tw-h-full group-hover:tw-scale-105 tw-duration-500 tw-transition-all" }}{% endunless %}
+              {{ block.settings.image | image_url: width: 1200 | image_tag: widths: '300, 600, 900, 1200, 1600', class: "tw-z-1 tw-inset-0 tw-absolute tw-object-cover tw-w-full tw-h-full group-hover:tw-scale-105 tw-duration-500 tw-transition-all" }}
+            {% endunless %}
           </li>
 
           {% if block.settings.extended_description != blank %}
@@ -113,7 +113,6 @@
               </div>
             </div>
           {% endif %}
-
         {% endif %}
       {% endfor %}
     </ul>

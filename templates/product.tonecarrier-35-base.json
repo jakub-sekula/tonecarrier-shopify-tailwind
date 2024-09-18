@@ -153,9 +153,10 @@
           }
         },
         "image_jiPpg4": {
-          "type": "Image",
+          "type": "scan_image",
           "settings": {
-            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0210.jpg",
+            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0210.jpg",
+            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0210-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -165,9 +166,10 @@
           }
         },
         "image_TbQebX": {
-          "type": "Image",
+          "type": "scan_image",
           "settings": {
-            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0509.jpg",
+            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0509.jpg",
+            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0509-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -177,9 +179,10 @@
           }
         },
         "image_Kx6XCj": {
-          "type": "Image",
+          "type": "scan_image",
           "settings": {
-            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0312.jpg",
+            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0312.jpg",
+            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0312-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -189,9 +192,10 @@
           }
         },
         "image_tm4y3y": {
-          "type": "Image",
+          "type": "scan_image",
           "settings": {
-            "sample_scan_image": "shopify:\/\/shop_images\/DSCF0514.jpg",
+            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0514.jpg",
+            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0514-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -213,10 +217,11 @@
       "settings": {
         "content_alignment": "center",
         "background_color": "",
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
+        "color_scheme_dark": "",
         "padding_top": 36,
         "padding_bottom": 36,
-        "content_height": 500
+        "content_height": 700
       }
     },
     "main": {
@@ -264,21 +269,6 @@
           "type": "description",
           "settings": {
           }
-        },
-        "collapsible-row-0": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "What's in the box?",
-            "icon": "box",
-            "content": "<p>1x Fully assembled toneCarrier 35 mm negative holder (Mark II)<br\/>1x Frame mask of your choice (35 mm, X-Pan, half-frame)<\/p>",
-            "page": ""
-          }
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
         }
       },
       "block_order": [
@@ -288,9 +278,7 @@
         "price",
         "variant_picker",
         "buy_buttons",
-        "description",
-        "collapsible-row-0",
-        "share"
+        "description"
       ],
       "settings": {
         "enable_sticky_info": true,
