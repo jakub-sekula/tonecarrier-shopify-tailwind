@@ -1,114 +1,5 @@
 {
   "sections": {
-    "tc_product_image_cards_EAhQeJ": {
-      "type": "tc-product-image-cards",
-      "blocks": {
-        "heading_Mkyytr": {
-          "type": "heading",
-          "settings": {
-            "heading": "Optional accessories",
-            "heading_size": "h1"
-          }
-        },
-        "card_8Ln7Cq": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-auto-spooling-tray",
-            "title": "",
-            "description": ""
-          }
-        },
-        "card_KAVBFq": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-chimney-light-hood",
-            "title": "",
-            "description": ""
-          }
-        },
-        "card_4PLAat": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-easyloader-tray",
-            "title": "",
-            "description": ""
-          }
-        },
-        "card_4tXmyB": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-slide-adapter",
-            "title": "",
-            "description": ""
-          }
-        },
-        "card_3hhmLR": {
-          "type": "card",
-          "settings": {
-            "product": "dust-brush-tonecarrier-35-mm",
-            "title": "",
-            "description": ""
-          }
-        }
-      },
-      "block_order": [
-        "heading_Mkyytr",
-        "card_8Ln7Cq",
-        "card_KAVBFq",
-        "card_4PLAat",
-        "card_4tXmyB",
-        "card_3hhmLR"
-      ],
-      "settings": {
-        "content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "cards_per_row": 3
-      }
-    },
-    "tc_product_image_cards_y89fiL": {
-      "type": "tc-product-image-cards",
-      "blocks": {
-        "heading_pbcyCV": {
-          "type": "heading",
-          "settings": {
-            "heading": "What's in the box",
-            "heading_size": "h1"
-          }
-        },
-        "card_TVhPiM": {
-          "type": "card",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/DSCF0483-Edit.jpg",
-            "product": "",
-            "title": "toneCarrier 35 mm",
-            "description": ""
-          }
-        },
-        "card_rNwAgE": {
-          "type": "card",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/DSCF0666-Edit.png",
-            "product": "",
-            "title": "Frame mask",
-            "description": ""
-          }
-        }
-      },
-      "block_order": [
-        "heading_pbcyCV",
-        "card_TVhPiM",
-        "card_rNwAgE"
-      ],
-      "settings": {
-        "content_alignment": "center",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "cards_per_row": 4
-      }
-    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -146,8 +37,8 @@
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
           }
         },
         "description": {
@@ -413,60 +304,196 @@
         "content_height": 700
       }
     },
+    "tc_product_image_cards_y89fiL": {
+      "type": "tc-product-image-cards",
+      "blocks": {
+        "heading_pbcyCV": {
+          "type": "heading",
+          "settings": {
+            "heading": "What's in the box",
+            "heading_size": "h1"
+          }
+        },
+        "card_TVhPiM": {
+          "type": "card",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/DSCF0483-Edit.jpg",
+            "product": "",
+            "title": "toneCarrier 35 mm",
+            "description": ""
+          }
+        },
+        "card_rNwAgE": {
+          "type": "card",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/DSCF0666-Edit.png",
+            "product": "",
+            "title": "Frame mask",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_pbcyCV",
+        "card_TVhPiM",
+        "card_rNwAgE"
+      ],
+      "settings": {
+        "content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "cards_per_row": 4
+      }
+    },
+    "tc_product_image_cards_EAhQeJ": {
+      "type": "tc-product-image-cards",
+      "blocks": {
+        "heading_Mkyytr": {
+          "type": "heading",
+          "settings": {
+            "heading": "Optional accessories",
+            "heading_size": "h1"
+          }
+        },
+        "card_8Ln7Cq": {
+          "type": "card",
+          "settings": {
+            "product": "tonecarrier-35-mm-auto-spooling-tray",
+            "title": "",
+            "description": ""
+          }
+        },
+        "card_KAVBFq": {
+          "type": "card",
+          "settings": {
+            "product": "tonecarrier-35-mm-chimney-light-hood",
+            "title": "",
+            "description": ""
+          }
+        },
+        "card_4PLAat": {
+          "type": "card",
+          "settings": {
+            "product": "tonecarrier-35-mm-easyloader-tray",
+            "title": "",
+            "description": ""
+          }
+        },
+        "card_4tXmyB": {
+          "type": "card",
+          "settings": {
+            "product": "tonecarrier-35-mm-slide-adapter",
+            "title": "",
+            "description": ""
+          }
+        },
+        "card_3hhmLR": {
+          "type": "card",
+          "settings": {
+            "product": "dust-brush-tonecarrier-35-mm",
+            "title": "",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_Mkyytr",
+        "card_8Ln7Cq",
+        "card_KAVBFq",
+        "card_4PLAat",
+        "card_4tXmyB",
+        "card_3hhmLR"
+      ],
+      "settings": {
+        "content_alignment": "center",
+        "color_scheme": "scheme-3",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "cards_per_row": 3
+      }
+    },
     "collapsible_content_HLXaFc": {
       "type": "collapsible-content",
       "blocks": {
         "collapsible_row_qnJVxh": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "row_content": "",
+            "heading": "How is this different from other film carriers?",
+            "icon": "none",
+            "row_content": "<p>The toneCarrier uses a unique push-pull mechanism for transporting film, meaning you can scan even short strips of four 35 mm frames. It also features a film-safe path which ensures zero emulsion contact with any part of the holder at any point.<\/p>",
             "page": ""
           }
         },
         "collapsible_row_agYcaa": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "row_content": "",
+            "heading": "What is the shortest strip I can scan?",
+            "icon": "none",
+            "row_content": "<p>The shortest strip scannable with the toneCarrier is 4 standard 35 mm frames long.<\/p>",
             "page": ""
           }
         },
         "collapsible_row_6caC7g": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "row_content": "",
+            "heading": "Will this scratch my film?",
+            "icon": "none",
+            "row_content": "<p>Not at all! The film channel and accessories are designed with film safety in mind and your images will never touch any part of the holder as they travel through it. The only part of the film that is in contact with the mechanism are sprocket holes and the edges.<\/p>",
             "page": ""
           }
         },
         "collapsible_row_AUHamw": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "row_content": "",
+            "heading": "What is the maximum frame size I can scan?",
+            "icon": "none",
+            "row_content": "<p>The 35 mm version supports up to X-Pan sized negatives, while the 120 version can scan up to 6x9 frames.<\/p>",
             "page": ""
           }
         },
         "collapsible_row_ft6RBk": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "row_content": "",
+            "heading": "What film formats are supported?",
+            "icon": "none",
+            "row_content": "<p>Currently we offer holders and accessories for 35 mm, 110, and 120 film.<\/p>",
             "page": ""
           }
         },
         "collapsible_row_mefHLy": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "row_content": "",
+            "heading": "What countries do you ship to?",
+            "icon": "none",
+            "row_content": "<p>We can ship to most countries of the world using the Royal Mail International service.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_8jeKYx": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Is the quality of camera scans better than a flatbed scanner?",
+            "icon": "none",
+            "row_content": "<p>Yes! Scanning film with a digital camera with a proper macro lens allows you to extract much more resolution from a negative than is possible with the typical flatbed scanner. You will also be able to enjoy much greater dynamic range and quicker scanning times.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_tQNDQU": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What else do I need to start camera scanning?",
+            "icon": "none",
+            "row_content": "<p>You will need a DSLR or mirrorless camera, a tripod, and a macro lens. If you plan to scan a lot, a copy stand is also a worthwhile investment as it will allow you to keep the entire scanning setup more self-contained and always ready to go.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_p3FPam": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What light source should I use with this?",
+            "icon": "none",
+            "row_content": "<p>Any light source that has a high Color Reproduction Index (CRI) will work well for scanning. If you are just beginning, even your smartphone will do just fine! When you are ready to upgrade, we recommend lights such as the Cinestill CS-Lite or Kaiser Plano light table.<\/p>",
             "page": ""
           }
         }
@@ -477,7 +504,10 @@
         "collapsible_row_6caC7g",
         "collapsible_row_AUHamw",
         "collapsible_row_ft6RBk",
-        "collapsible_row_mefHLy"
+        "collapsible_row_mefHLy",
+        "collapsible_row_8jeKYx",
+        "collapsible_row_tQNDQU",
+        "collapsible_row_p3FPam"
       ],
       "settings": {
         "caption": "",
@@ -515,11 +545,11 @@
     }
   },
   "order": [
-    "tc_product_image_cards_EAhQeJ",
-    "tc_product_image_cards_y89fiL",
     "main",
     "bento_bQfpWa",
     "sample_scan_MgcCXN",
+    "tc_product_image_cards_y89fiL",
+    "tc_product_image_cards_EAhQeJ",
     "collapsible_content_HLXaFc",
     "related-products"
   ]

@@ -150,7 +150,13 @@
       {% for block in section.blocks %}
         {% if block.type == 'card' %}
           <swiper-slide>
-            <div class="card-{{ section.id }}" {{ block.shopify_attributes }}>
+            <div
+              class="card-{{ section.id }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {% if settings.animations_reveal_on_scroll %}
+                data-cascade
+                style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              {{ block.shopify_attributes }}>
               <div class="card-image-container-{{ section.id }}">
                 <img
                   srcset="{{ block.settings.image | image_url: width: 150 }} 1x, {{ block.settings.image | image_url: width: 300 }} 2x"
