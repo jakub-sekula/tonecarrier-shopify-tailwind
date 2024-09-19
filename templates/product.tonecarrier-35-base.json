@@ -9,6 +9,119 @@
 */
 {
   "sections": {
+    "tc_product_image_cards_EAhQeJ": {
+      "type": "tc-product-image-cards",
+      "blocks": {
+        "heading_Mkyytr": {
+          "type": "heading",
+          "settings": {
+            "heading": "Optional accessories",
+            "heading_size": "h1"
+          }
+        },
+        "card_8Ln7Cq": {
+          "type": "card",
+          "settings": {
+            "image_primary": "shopify:\/\/shop_images\/Catch_tray-1-isolated.png",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": true,
+            "image_primary_offset_y_flip": false,
+            "image_secondary": "shopify:\/\/shop_images\/Catch_tray-1.png",
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false,
+            "product": "tonecarrier-35-mm-auto-spooling-tray",
+            "title": "Catch Tray",
+            "description": ""
+          }
+        },
+        "card_KAVBFq": {
+          "type": "card",
+          "settings": {
+            "image_primary": "shopify:\/\/shop_images\/1-isolated_140969d8-85e8-4288-879a-8386f27d1e24.png",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary": "shopify:\/\/shop_images\/1.png",
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false,
+            "product": "tonecarrier-35-mm-chimney-light-hood",
+            "title": "Chimney (Light Hood)",
+            "description": ""
+          }
+        },
+        "card_4PLAat": {
+          "type": "card",
+          "settings": {
+            "image_primary": "shopify:\/\/shop_images\/1-isolated.png",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary": "shopify:\/\/shop_images\/1.jpg",
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false,
+            "product": "tonecarrier-35-mm-easyloader-tray",
+            "title": "Easyloader Tray",
+            "description": ""
+          }
+        },
+        "card_4tXmyB": {
+          "type": "card",
+          "settings": {
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false,
+            "product": "tonecarrier-35-mm-slide-adapter",
+            "title": "Slide Adapter",
+            "description": ""
+          }
+        },
+        "card_3hhmLR": {
+          "type": "card",
+          "settings": {
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false,
+            "product": "dust-brush-tonecarrier-35-mm",
+            "title": "Dust Brush",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_Mkyytr",
+        "card_8Ln7Cq",
+        "card_KAVBFq",
+        "card_4PLAat",
+        "card_4tXmyB",
+        "card_3hhmLR"
+      ],
+      "settings": {
+        "content_alignment": "center",
+        "color_scheme": "scheme-3",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "cards_per_row": 3
+      }
+    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -321,7 +434,7 @@
         "color_scheme": "scheme-1",
         "color_scheme_dark": "",
         "padding_top": 36,
-        "padding_bottom": 36,
+        "padding_bottom": 0,
         "content_height": 700
       }
     },
@@ -338,7 +451,16 @@
         "card_TVhPiM": {
           "type": "card",
           "settings": {
-            "image": "shopify:\/\/shop_images\/DSCF0483-Edit.jpg",
+            "image_primary": "shopify:\/\/shop_images\/DSCF0483-Edit.jpg",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary": "shopify:\/\/shop_images\/DSCF0483-Edit.jpg",
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false,
             "product": "",
             "title": "toneCarrier 35 mm",
             "description": ""
@@ -347,7 +469,16 @@
         "card_rNwAgE": {
           "type": "card",
           "settings": {
-            "image": "shopify:\/\/shop_images\/DSCF0666-Edit.png",
+            "image_primary": "shopify:\/\/shop_images\/DSCF0666-Edit.png",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary": "shopify:\/\/shop_images\/DSCF0666-Edit.png",
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false,
             "product": "",
             "title": "Frame mask",
             "description": ""
@@ -365,73 +496,6 @@
         "padding_top": 36,
         "padding_bottom": 36,
         "cards_per_row": 4
-      }
-    },
-    "tc_product_image_cards_EAhQeJ": {
-      "type": "tc-product-image-cards",
-      "blocks": {
-        "heading_Mkyytr": {
-          "type": "heading",
-          "settings": {
-            "heading": "Optional accessories",
-            "heading_size": "h1"
-          }
-        },
-        "card_8Ln7Cq": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-auto-spooling-tray",
-            "title": "",
-            "description": ""
-          }
-        },
-        "card_KAVBFq": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-chimney-light-hood",
-            "title": "",
-            "description": ""
-          }
-        },
-        "card_4PLAat": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-easyloader-tray",
-            "title": "",
-            "description": ""
-          }
-        },
-        "card_4tXmyB": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-slide-adapter",
-            "title": "",
-            "description": ""
-          }
-        },
-        "card_3hhmLR": {
-          "type": "card",
-          "settings": {
-            "product": "dust-brush-tonecarrier-35-mm",
-            "title": "",
-            "description": ""
-          }
-        }
-      },
-      "block_order": [
-        "heading_Mkyytr",
-        "card_8Ln7Cq",
-        "card_KAVBFq",
-        "card_4PLAat",
-        "card_4tXmyB",
-        "card_3hhmLR"
-      ],
-      "settings": {
-        "content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "cards_per_row": 3
       }
     },
     "collapsible_content_HLXaFc": {
@@ -598,11 +662,11 @@
     }
   },
   "order": [
+    "tc_product_image_cards_EAhQeJ",
     "main",
     "bento_bQfpWa",
     "sample_scan_MgcCXN",
     "tc_product_image_cards_y89fiL",
-    "tc_product_image_cards_EAhQeJ",
     "collapsible_content_HLXaFc",
     "related-products",
     "1726763356fae865c5",

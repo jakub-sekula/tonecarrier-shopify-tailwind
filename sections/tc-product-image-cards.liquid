@@ -25,23 +25,30 @@
     border-radius: 10px;
   }
 
-  .card-image-{{ section.id }} {
+  .card-image-primary-{{ section.id }}
+  , .card-image-secondary-{{ section.id }} {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: absolute
   }
 
   .card-image-container-{{ section.id }} {
     width: 100%;
     height: 100%;
     aspect-ratio: 1;
-    overflow: hidden
+    overflow: hidden;
+    position: relative;
+    background: radial-gradient(rgba(255, 255, 255, 0.1), transparent 60%);
   }
 
-  .card-image-container-{{ section.id }}
-  img {
-    opacity: 0.2
-  }
+
+  /*
+   .card-image-container-{{ section.id }}
+   img {
+   opacity: 0.2
+   }
+*/
 
   .card-info-container-{{ section.id }} {
     display: flex;
@@ -151,18 +158,26 @@
         {% if block.type == 'card' %}
           <swiper-slide>
             <div
-              class="card-{{ section.id }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              class="card-{{ section.id }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %} tw-group tw-cursor-grab"
               {% if settings.animations_reveal_on_scroll %}
-                data-cascade
-                style="--animation-order: {{ forloop.index }};"
-                {% endif %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+              {% endif %}
               {{ block.shopify_attributes }}>
-              <div class="card-image-container-{{ section.id }}">
+              <a href="{{ shop.url }}{{ block.settings.product.url }}" class="card-image-container-{{ section.id }} tw-cursor-grab">
                 <img
-                  srcset="{{ block.settings.image | image_url: width: 150 }} 1x, {{ block.settings.image | image_url: width: 300 }} 2x"
-                  sizes="150px, 300px"
-                  class="card-image-{{section.id}} hover:tw-scale-110 tw-transition-all tw-duration-300 tw-ease-in-out tw-select-none" />
-              </div>
+                  style="transform: ({% if block.settings.image_primary_offset_x_flip %}-{% endif %}{{block.settings.image_primary_offset_x}}%;  {% if block.settings.image_primary_offset_y_flip %}-{% endif %}{{block.settings.image_primary_offset_y}}%)"
+                  srcset="{{ block.settings.image_primary | image_url: width: 350 }} 1x, {{ block.settings.image_primary | image_url: width: 700 }} 2x"
+                  sizes="300px, 600px"
+                  class="card-image-primary-{{section.id}} md:group-hover:tw-scale-110 tw-transition-all tw-duration-300 tw-ease-in-out tw-select-none" />
+                {% unless block.settings.image_secondary == blank %}
+                  <img
+                    style="transform: ({% if block.settings.image_secondary_offset_x_flip %}-{% endif %}{{block.settings.image_secondary_offset_x}}%;  {% if block.settings.image_primary_offset_y_flip %}-{% endif %}{{block.settings.image_primary_offset_y}}%)"
+                    srcset="{{ block.settings.image_secondary | image_url: width: 350 }} 1x, {{ block.settings.image_secondary | image_url: width: 700 }} 2x"
+                    sizes="300px, 600px"
+                    class="card-image-secondary-{{section.id}} md:group-hover:tw-opacity-100 tw-opacity-0 md:group-hover:tw-scale-110 tw-transition-all tw-duration-300 tw-ease-in-out tw-select-none" />
+                {% endunless %}
+              </a>
               <div class="card-info-container-{{ section.id }}">
                 <h4 class="h3">
                   {% if block.settings.title == blank %}
@@ -223,12 +238,6 @@
                             {{ 'products.product.sold_out' | t }}
                           {%- endif -%}
                         </span>
-                        <span class="sold-out-message hidden">
-                          {{ 'products.product.sold_out' | t }}
-                        </span>
-                        {%- if horizontal_quick_add -%}
-                          <span class="icon-wrap">{% render 'icon-plus' %}</span>
-                        {%- endif -%}
                         {%- render 'loading-spinner' -%}
                       </button>
                     {%- endform -%}
@@ -249,7 +258,7 @@
 <script>
   
   document.addEventListener("DOMContentLoaded", ()=> {
-    const swiper = document.querySelector("#swiper-{{section.id}}")
+  const swiper = document.querySelector("#swiper-{{section.id}}")
   const swiperParams = {
     slidesPerView: 1,
     spaceBetween: 16,
@@ -282,7 +291,8 @@
   };
 
   Object.assign(swiper, swiperParams);
-    swiper.initialize();
+  swiper.initialize();
+
   })
 </script>
 
@@ -359,8 +369,73 @@
         "settings": [
           {
             "type": "image_picker",
-            "id": "image",
-            "label": "Image"
+            "id": "image_primary",
+            "label": "Image (primary)"
+          },
+          {
+            "type": "range",
+            "id": "image_primary_offset_x",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "X offset",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "image_primary_offset_y",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Y offset",
+            "default": 0
+          },
+          {
+            "type": "checkbox",
+            "id": "image_primary_offset_x_flip",
+            "label": "X offset flip",
+            "default": false
+          },
+          {
+            "type": "checkbox",
+            "id": "image_primary_offset_y_flip",
+            "label": "Y offset flip",
+            "default": false
+          },
+          {
+            "type": "image_picker",
+            "id": "image_secondary",
+            "label": "Image (secondary)"
+          },
+          {
+            "type": "range",
+            "id": "image_secondary_offset_x",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "X offset",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "image_secondary_offset_y",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Y offset",
+            "default": 0
+          },
+          {
+            "type": "checkbox",
+            "id": "image_secondary_offset_x_flip",
+            "label": "X offset flip",
+            "default": false
+          },
+          {
+            "type": "checkbox",
+            "id": "image_secondary_offset_y_flip",
+            "label": "Y offset flip",
+            "default": false
           },
           {
             "type": "product",
