@@ -1,0 +1,170 @@
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+  
+    .product-header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1;
+      transform: translateY(-100%);
+      opacity: 0;
+      overflow: hidden;
+      transition: 0.3s ease-out;
+    }
+  
+    .product-header.active {
+    transform: translateY(0%);
+      opacity: 1;
+    }
+  
+    .product-bar {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+  
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      },
+    }
+  {%- endstyle -%}
+  
+  <section style="padding-left: 0; padding-right: 0" class="tw-hidden md:tw-block product-header product-bar-container color-{{ section.settings.color_scheme }}">
+    <div class="page-width product-bar section-{{ section.id }}-padding">
+      {%- if product.featured_media != blank -%}
+        <img
+          class="tw-size-16 tw-aspect-square tw-rounde-lg"
+          src="{{ product.featured_media | image_url: width: 150 }}"
+          alt="{{ product.featured_media.alt }}">
+      {%- endif -%}
+      <h3 class="tw-mr-auto">{{ product.title }}</h3>
+      <p>{{ product.price | money }}</p>
+      {% assign product_form_id = section.id %}
+      <product-form data-section-id="{{ section.id }}"></product-form>
+                    {%- form 'product'
+                      , product
+                      , id: product_form_id
+                      , class: 'form'
+                      , novalidate: 'novalidate'
+                      , data-type: 'add-to-cart-form'
+                    -%}
+                      <input
+                        type="hidden"
+                        name="id"
+                        value="{{ product.selected_or_first_available_variant.id }}"
+                        class="product-variant-id"
+                        {% if block.settings.product.selected_or_first_available_variant.available == false %}
+                        disabled
+                        {% endif %}>
+                      <button
+                        id="{{ product_form_id }}-submit"
+                        type="submit"
+                        name="add"
+                        class="quick-add__submit button button--full-width"
+                        aria-haspopup="dialog"
+                        aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ product.id }}"
+                        aria-live="polite"
+                        data-sold-out-message="true"
+                        {% if product.selected_or_first_available_variant.available == false %}
+                        disabled
+                        {% endif %}>
+                        <span>
+                          {%- if product.selected_or_first_available_variant.available -%}
+                            {{ 'products.product.add_to_cart' | t }}
+                          {%- else -%}
+                            {{ 'products.product.sold_out' | t }}
+                          {%- endif -%}
+                        </span>
+                        {%- render 'loading-spinner' -%}
+                      </button>
+                    {%- endform -%}
+                  </product-form>
+  </div>
+</section>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Get the product header section
+    const productHeader = document.querySelector('.product-header');
+    
+    // Define the section to trigger the visibility of the product header
+    const triggerSection = document.querySelector('#{{section.settings.scroll_trigger_tag}}'); // Adjust this to your specific trigger section
+    
+    
+    // Set an event listener for scrolling
+    window.addEventListener('scroll', function () {
+        // Get the position of the trigger section relative to the viewport
+        const triggerPosition = triggerSection.getBoundingClientRect().top;
+        
+        // Check if the trigger section has been scrolled into view
+        if (triggerPosition <= 0) {
+            // Add the active class to make the product header visible
+            const header = document.querySelector('.section-header');
+            const headerHeight = header.getBoundingClientRect().height; // Calculate the header height once
+            productHeader.classList.add('active');
+        
+        // Adjust the position of the product header to account for the header height
+        productHeader.style.transform = `translateY(${headerHeight}px)`;
+      } else {
+        // Remove the active class and reset the position
+        productHeader.classList.remove('active');
+        productHeader.style.transform = 'translateY(0)';
+      }
+    });
+  });
+</script>
+
+
+
+{% schema %}
+  {
+    "name": "Product header/footer",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "scroll_trigger_tag",
+        "label": "Scroll trigger tag",
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product header/footer",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

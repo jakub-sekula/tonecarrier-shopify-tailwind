@@ -46,7 +46,7 @@
     {% for block in section.blocks %}
       {% if block.type == 'Tile' %}
         .bento-tile-{{ block.id }} {
-          grid-column: span {{ block.settings.width }}/ span {{ block.settings.width }};
+          grid-column: span {{ block.settings.width }} / span {{ block.settings.width }};
           grid-row: span {{ block.settings.height }}/ span {{ block.settings.height }};
           grid-column-start: {{ block.settings.start_column }};
           grid-row-start: {{ block.settings.start_row }};
@@ -56,7 +56,11 @@
   }
 {%- endstyle -%}
 
-<section class="isolate section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }}">
+<section
+  {% if section.settings.anchor != blank %}
+  id="{{section.settings.anchor}}"
+  {% endif %}
+  class="isolate section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }}">
   <div class="{% unless section.settings.full_width %} page-width{% endunless %}">
     <div style="padding-bottom: {{section.settings.padding_bottom}}px" class="tw-mx-auto  rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
       <div class="rich-text__blocks {{ section.settings.content_alignment }}">
@@ -296,6 +300,11 @@
         "unit": "px",
         "label": "Caption text size",
         "default": 16
+      },
+      {
+        "type": "text",
+        "id": "anchor",
+        "label": "Anchor"
       }
     ],
     "blocks": [

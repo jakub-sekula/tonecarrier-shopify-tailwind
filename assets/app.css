@@ -755,6 +755,10 @@ video {
   margin-bottom: 0.75rem;
 }
 
+.tw-mr-auto {
+  margin-right: auto;
+}
+
 .tw-block {
   display: block;
 }
@@ -808,6 +812,11 @@ video {
 .tw-size-8 {
   width: 2rem;
   height: 2rem;
+}
+
+.tw-size-24 {
+  width: 6rem;
+  height: 6rem;
 }
 
 .tw-h-1 {
@@ -1422,6 +1431,10 @@ video {
 }
 
 @media (min-width: 750px) {
+  .md\:tw-block {
+    display: block;
+  }
+
   .md\:tw-flex {
     display: flex;
   }
