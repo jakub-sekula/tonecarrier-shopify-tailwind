@@ -15,7 +15,8 @@
     overflow: visible
   }
 
-  .swiper-slide-next .scan-info-block, .swiper-slide-prev .scan-info-block {
+  .swiper-slide-next .scan-info-block,
+  .swiper-slide-prev .scan-info-block {
     display: none
   }
 
@@ -184,9 +185,9 @@
             </div>
             <div class="click-zoom-container negative hidden tw-overflow-hidden tw-w-full tw-h-full">
               <img
-              srcset="{{ block.settings.sample_scan_negative | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_negative | image_url: width: 3840 }} 4x"
-              sizes="1400px, 3840px"
-              class="negative-{{block.id}}  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
+                srcset="{{ block.settings.sample_scan_negative | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_negative | image_url: width: 3840 }} 4x"
+                sizes="1400px, 3840px"
+                class="negative-{{block.id}}  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
             </div>
             <div class="md:tw-hidden tw-p-6 tw-pb-0">
               {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
@@ -248,7 +249,8 @@
 
 
 <script>
-  const swiper = document.querySelector("#main-swiper")
+  document.addEventListener("DOMContentLoaded", ()=> {
+    const swiper = document.querySelector("#main-swiper")
   const swiperParams = {
     slidesPerView: 1,
     spaceBetween: 128,
@@ -274,7 +276,6 @@
   };
 
   Object.assign(swiper, swiperParams);
-  document.addEventListener("DOMContentLoaded", ()=> {
     swiper.initialize();
   })
 </script>

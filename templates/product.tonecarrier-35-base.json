@@ -1,5 +1,114 @@
 {
   "sections": {
+    "tc_product_image_cards_EAhQeJ": {
+      "type": "tc-product-image-cards",
+      "blocks": {
+        "heading_Mkyytr": {
+          "type": "heading",
+          "settings": {
+            "heading": "Optional accessories",
+            "heading_size": "h1"
+          }
+        },
+        "card_8Ln7Cq": {
+          "type": "card",
+          "settings": {
+            "product": "tonecarrier-35-mm-auto-spooling-tray",
+            "title": "",
+            "description": ""
+          }
+        },
+        "card_KAVBFq": {
+          "type": "card",
+          "settings": {
+            "product": "tonecarrier-35-mm-chimney-light-hood",
+            "title": "",
+            "description": ""
+          }
+        },
+        "card_4PLAat": {
+          "type": "card",
+          "settings": {
+            "product": "tonecarrier-35-mm-easyloader-tray",
+            "title": "",
+            "description": ""
+          }
+        },
+        "card_4tXmyB": {
+          "type": "card",
+          "settings": {
+            "product": "tonecarrier-35-mm-slide-adapter",
+            "title": "",
+            "description": ""
+          }
+        },
+        "card_3hhmLR": {
+          "type": "card",
+          "settings": {
+            "product": "dust-brush-tonecarrier-35-mm",
+            "title": "",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_Mkyytr",
+        "card_8Ln7Cq",
+        "card_KAVBFq",
+        "card_4PLAat",
+        "card_4tXmyB",
+        "card_3hhmLR"
+      ],
+      "settings": {
+        "content_alignment": "center",
+        "color_scheme": "scheme-3",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "cards_per_row": 3
+      }
+    },
+    "tc_product_image_cards_y89fiL": {
+      "type": "tc-product-image-cards",
+      "blocks": {
+        "heading_pbcyCV": {
+          "type": "heading",
+          "settings": {
+            "heading": "What's in the box",
+            "heading_size": "h1"
+          }
+        },
+        "card_TVhPiM": {
+          "type": "card",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/DSCF0483-Edit.jpg",
+            "product": "",
+            "title": "toneCarrier 35 mm",
+            "description": ""
+          }
+        },
+        "card_rNwAgE": {
+          "type": "card",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/DSCF0666-Edit.png",
+            "product": "",
+            "title": "Frame mask",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_pbcyCV",
+        "card_TVhPiM",
+        "card_rNwAgE"
+      ],
+      "settings": {
+        "content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "cards_per_row": 4
+      }
+    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -75,6 +184,13 @@
     "bento_bQfpWa": {
       "type": "bento",
       "blocks": {
+        "heading_KFcat6": {
+          "type": "heading",
+          "settings": {
+            "heading": "Key features",
+            "heading_size": "h1"
+          }
+        },
         "tile_bXxXKL": {
           "type": "Tile",
           "settings": {
@@ -179,6 +295,7 @@
         }
       },
       "block_order": [
+        "heading_KFcat6",
         "tile_bXxXKL",
         "tile_3GPDez",
         "tile_mcaT8F",
@@ -189,7 +306,7 @@
         "tile_gerTnQ"
       ],
       "settings": {
-        "title": "Key features",
+        "content_alignment": "center",
         "columns": 12,
         "rows": 4,
         "row_height": 430,
@@ -296,53 +413,6 @@
         "content_height": 700
       }
     },
-    "image_with_text_RptGqT": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_xnJJ3z": {
-          "type": "heading",
-          "settings": {
-            "heading": "What's in the box",
-            "heading_size": "h1"
-          }
-        },
-        "text_bRmR3x": {
-          "type": "text",
-          "settings": {
-            "text": "<p>1x Fully assembled toneCarrier 35 mm negative holder (Mark II)<\/p><p><br\/>1x Frame mask of your choice (35 mm, X-Pan, half-frame)<\/p>",
-            "text_style": "body"
-          }
-        },
-        "button_NVKDPL": {
-          "type": "button",
-          "settings": {
-            "button_label": "",
-            "button_link": "",
-            "button_style_secondary": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_xnJJ3z",
-        "text_bRmR3x",
-        "button_NVKDPL"
-      ],
-      "settings": {
-        "image": "shopify:\/\/shop_images\/DSCF0666-Edit.png",
-        "height": "adapt",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "desktop_content_position": "top",
-        "desktop_content_alignment": "left",
-        "content_layout": "no-overlap",
-        "section_color_scheme": "",
-        "color_scheme": "",
-        "image_behavior": "none",
-        "mobile_content_alignment": "left",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "collapsible_content_HLXaFc": {
       "type": "collapsible-content",
       "blocks": {
@@ -445,10 +515,11 @@
     }
   },
   "order": [
+    "tc_product_image_cards_EAhQeJ",
+    "tc_product_image_cards_y89fiL",
     "main",
     "bento_bQfpWa",
     "sample_scan_MgcCXN",
-    "image_with_text_RptGqT",
     "collapsible_content_HLXaFc",
     "related-products"
   ]

@@ -202,9 +202,6 @@
 
         const cartContents = await fetch(window.Shopify.routes.root + "cart.js").then(res=>res.json()).then(json => json.items)
         const alreadyInCart = cartContents.some(item => item.variant_id === variantId && item.product_id === productId)
-        console.log(cartContents)
-        console.log(variantId)
-        console.log(alreadyInCart)
 
         const form = document.querySelector("product-form")
         const submitButton = form.querySelector("button[type='submit']")
