@@ -22,7 +22,7 @@
     height: 100%;
     background: rgb(var(--color-background)) linear-gradient(rgba(var(--color-foreground),0.04),rgba(var(--color-foreground),0.04));
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 1.5rem;
   }
 
   .card-image-primary-{{ section.id }}
@@ -142,7 +142,11 @@
     </div>
   </div>
 
-  <div class="page-width">
+  <div class="page-width !tw-pr-24 md:!tw-pr-0 tw-relative">
+    <div id="right-mask-{{section.id}}" class="tw-absolute tw-top-0 tw-right-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }}" style="-webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
+  mask-image: linear-gradient(to left, black 0%, transparent 100%);"></div>
+  <div id="left-mask-{{section.id}}" class="tw-absolute hidden tw-top-0 tw-left-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }}" style="-webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
+  mask-image: linear-gradient(to right, black 0%, transparent 100%);"></div>
     <swiper-container
       id="swiper-{{section.id}}"
       init="false"
@@ -256,6 +260,7 @@
   const swiperParams = {
     slidesPerView: 1,
     spaceBetween: 16,
+    observer:true,
     // centeredSlides: true,
     // cssMode:  true,
       keyboard: {
@@ -285,9 +290,29 @@
   };
 
   Object.assign(swiper, swiperParams);
+
   swiper.initialize();
 
   })
+</script>
+
+<script>
+  const swiperEl = document.querySelector('swiper-container');
+  const leftMask = document.querySelector('#left-mask-{{section.id}}')
+
+  swiperEl.addEventListener('swiperprogress', (event) => {
+    const [swiper, progress] = event.detail;
+    if(progress != 0){
+leftMask.classList.remove("hidden")
+    } else {
+leftMask.classList.add("hidden")
+        
+    }
+  });
+
+  swiperEl.addEventListener('swiperslidechange', (event) => {
+    console.log('slide changed');
+  });
 </script>
 
 

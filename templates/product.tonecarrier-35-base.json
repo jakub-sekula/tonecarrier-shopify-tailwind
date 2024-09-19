@@ -345,6 +345,24 @@
             "heading_size": "h1"
           }
         },
+        "card_4PLAat": {
+          "type": "card",
+          "settings": {
+            "image_primary": "shopify:\/\/shop_images\/1-isolated.png",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary": "shopify:\/\/shop_images\/1.jpg",
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false,
+            "product": "tonecarrier-35-mm-easyloader-tray",
+            "title": "Easyloader Tray",
+            "description": ""
+          }
+        },
         "card_8Ln7Cq": {
           "type": "card",
           "settings": {
@@ -381,21 +399,37 @@
             "description": ""
           }
         },
-        "card_4PLAat": {
+        "card_c6jEVE": {
           "type": "card",
           "settings": {
-            "image_primary": "shopify:\/\/shop_images\/1-isolated.png",
+            "image_primary": "shopify:\/\/shop_images\/CS-Lite-isolated-1.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
             "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify:\/\/shop_images\/1.jpg",
+            "image_secondary": "shopify:\/\/shop_images\/CS-Lite-1.png",
             "image_secondary_offset_x": 0,
             "image_secondary_offset_y": 0,
             "image_secondary_offset_x_flip": false,
             "image_secondary_offset_y_flip": false,
-            "product": "tonecarrier-35-mm-easyloader-tray",
-            "title": "Easyloader Tray",
+            "product": "cs-lite-adapter-plate",
+            "title": "CS-Lite Adapter",
+            "description": ""
+          }
+        },
+        "card_UXYfEp": {
+          "type": "card",
+          "settings": {
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false,
+            "product": "universal-light-adapter",
+            "title": "Universal Adapter",
             "description": ""
           }
         },
@@ -434,9 +468,11 @@
       },
       "block_order": [
         "heading_Mkyytr",
+        "card_4PLAat",
         "card_8Ln7Cq",
         "card_KAVBFq",
-        "card_4PLAat",
+        "card_c6jEVE",
+        "card_UXYfEp",
         "card_4tXmyB",
         "card_3hhmLR"
       ],
