@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.tc-fade-to-bottom {
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  }
+
+
+.tc-fade-to-top {
+    -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
+    mask-image: linear-gradient(to top, black 0%, transparent 100%);
+  }
+
+
+.tc-fade-to-left {
+    -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
+    mask-image: linear-gradient(to left, black 0%, transparent 100%);
+  }
+
+
+.tc-fade-to-right {
+    -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, transparent 100%);
+  }
+

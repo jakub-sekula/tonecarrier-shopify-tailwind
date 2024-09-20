@@ -1,14 +1,5 @@
 {
   "sections": {
-    "tc_sticky_product_bar_P8zecQ": {
-      "type": "tc-sticky-product-bar",
-      "settings": {
-        "scroll_trigger_tag": "bento",
-        "color_scheme": "scheme-3",
-        "padding_top": 16,
-        "padding_bottom": 16
-      }
-    },
     "main": {
       "type": "digital-product",
       "blocks": {
@@ -36,11 +27,6 @@
           "settings": {
           }
         },
-        "description": {
-          "type": "description",
-          "settings": {
-          }
-        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -54,24 +40,23 @@
         "title",
         "caption",
         "price",
-        "description",
         "buy_buttons"
       ],
       "settings": {
         "enable_sticky_info": true,
         "show_initials_field": true,
         "color_scheme": "",
-        "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "stacked",
+        "media_size": "medium",
+        "constrain_to_viewport": false,
+        "media_fit": "cover",
+        "gallery_layout": "thumbnail_slider",
         "media_position": "left",
-        "image_zoom": "lightbox",
+        "image_zoom": "hover",
         "mobile_thumbnails": "hide",
         "hide_variants": true,
         "enable_video_looping": false,
         "padding_top": 36,
-        "padding_bottom": 12
+        "padding_bottom": 100
       }
     },
     "bento_bQfpWa": {
@@ -235,6 +220,102 @@
         "anchor": "bento"
       }
     },
+    "bento_eVw3LP": {
+      "type": "bento",
+      "blocks": {
+        "caption_TKHqhF": {
+          "type": "caption",
+          "settings": {
+            "caption": "Uncompromising design",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_3TKYRc": {
+          "type": "heading",
+          "settings": {
+            "heading": "Optimized for 3D printing",
+            "heading_size": "h1"
+          }
+        },
+        "tile_6BYkpX": {
+          "type": "Tile",
+          "settings": {
+            "title": "Designed for filament printers",
+            "description": "<p>Easy to print and robust parts, most require no supports. Uses simple, standard materials like PLA and PETG.<\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF2613.png",
+            "extended_description": "",
+            "height": 1,
+            "width": 6,
+            "start_column": 1,
+            "start_row": 1
+          }
+        },
+        "tile_jiR7PW": {
+          "type": "Tile",
+          "settings": {
+            "title": "Works with small build plates",
+            "description": "<p>The toneCarrier 35 mm can be printed even on small printers with a 180x180 mm build plate (A1 mini, Prusa Mini etc.)<\/p>",
+            "image": "shopify:\/\/shop_images\/Build_volume_256mm_180mm_26d17d37-95d7-4ed5-adc2-69b465524a1d.png",
+            "extended_description": "",
+            "height": 1,
+            "width": 6,
+            "start_column": 7,
+            "start_row": 1
+          }
+        }
+      },
+      "block_order": [
+        "caption_TKHqhF",
+        "heading_3TKYRc",
+        "tile_6BYkpX",
+        "tile_jiR7PW"
+      ],
+      "settings": {
+        "background_blur": 5,
+        "background_opacity": 0.2,
+        "content_alignment": "center",
+        "columns": 12,
+        "rows": 1,
+        "row_height": 430,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "color_scheme": "scheme-1",
+        "heading_size": "h2",
+        "caption_size": 14,
+        "anchor": ""
+      }
+    },
+    "rich_text_NF9mNU": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_NnGqqb": {
+          "type": "heading",
+          "settings": {
+            "heading": "Printing information",
+            "heading_size": "h2"
+          }
+        }
+      },
+      "block_order": [
+        "heading_NnGqqb"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "tc_print_settings_table_XdUVmk": {
+      "type": "tc-print-settings-table",
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "sample_scan_MgcCXN": {
       "type": "sample-scan",
       "blocks": {
@@ -324,160 +405,11 @@
       "settings": {
         "content_alignment": "center",
         "background_color": "",
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
         "color_scheme_dark": "",
         "padding_top": 36,
         "padding_bottom": 36,
         "content_height": 700
-      }
-    },
-    "tc_product_image_cards_EAhQeJ": {
-      "type": "tc-product-image-cards",
-      "blocks": {
-        "heading_Mkyytr": {
-          "type": "heading",
-          "settings": {
-            "heading": "Optional accessories",
-            "heading_size": "h1"
-          }
-        },
-        "card_4PLAat": {
-          "type": "card",
-          "settings": {
-            "image_primary": "shopify:\/\/shop_images\/1-isolated.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify:\/\/shop_images\/1.jpg",
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false,
-            "product": "tonecarrier-35-mm-easyloader-tray",
-            "title": "Easyloader Tray",
-            "description": ""
-          }
-        },
-        "card_8Ln7Cq": {
-          "type": "card",
-          "settings": {
-            "image_primary": "shopify:\/\/shop_images\/Catch_tray-1-isolated.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": true,
-            "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify:\/\/shop_images\/Catch_tray-1.png",
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false,
-            "product": "tonecarrier-35-mm-auto-spooling-tray",
-            "title": "Catch Tray",
-            "description": ""
-          }
-        },
-        "card_KAVBFq": {
-          "type": "card",
-          "settings": {
-            "image_primary": "shopify:\/\/shop_images\/1-isolated_140969d8-85e8-4288-879a-8386f27d1e24.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify:\/\/shop_images\/1.png",
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false,
-            "product": "tonecarrier-35-mm-chimney-light-hood",
-            "title": "Chimney (Light Hood)",
-            "description": ""
-          }
-        },
-        "card_c6jEVE": {
-          "type": "card",
-          "settings": {
-            "image_primary": "shopify:\/\/shop_images\/CS-Lite-isolated-1.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify:\/\/shop_images\/CS-Lite-1.png",
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false,
-            "product": "cs-lite-adapter-plate",
-            "title": "CS-Lite Adapter",
-            "description": ""
-          }
-        },
-        "card_UXYfEp": {
-          "type": "card",
-          "settings": {
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false,
-            "product": "universal-light-adapter",
-            "title": "Universal Adapter",
-            "description": ""
-          }
-        },
-        "card_4tXmyB": {
-          "type": "card",
-          "settings": {
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false,
-            "product": "tonecarrier-35-mm-slide-adapter",
-            "title": "Slide Adapter",
-            "description": ""
-          }
-        },
-        "card_3hhmLR": {
-          "type": "card",
-          "settings": {
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false,
-            "product": "dust-brush-tonecarrier-35-mm",
-            "title": "Dust Brush",
-            "description": ""
-          }
-        }
-      },
-      "block_order": [
-        "heading_Mkyytr",
-        "card_4PLAat",
-        "card_8Ln7Cq",
-        "card_KAVBFq",
-        "card_c6jEVE",
-        "card_UXYfEp",
-        "card_4tXmyB",
-        "card_3hhmLR"
-      ],
-      "settings": {
-        "content_alignment": "center",
-        "color_scheme": "scheme-4",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "cards_per_row": 3
       }
     },
     "tc_product_image_cards_y89fiL": {
@@ -486,13 +418,18 @@
         "heading_pbcyCV": {
           "type": "heading",
           "settings": {
-            "heading": "What's in the box",
+            "heading": "Included in the download",
             "heading_size": "h1"
           }
         },
         "card_TVhPiM": {
           "type": "card",
           "settings": {
+            "product": "",
+            "title": "toneCarrier 35 mm",
+            "description": "STL and 3MF files",
+            "badge": "Digital file",
+            "badge_color": "",
             "image_primary": "shopify:\/\/shop_images\/Holder-35-isolated.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
@@ -501,15 +438,17 @@
             "image_secondary_offset_x": 0,
             "image_secondary_offset_y": 0,
             "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false,
-            "product": "",
-            "title": "toneCarrier 35 mm",
-            "description": ""
+            "image_secondary_offset_y_flip": false
           }
         },
         "card_rNwAgE": {
           "type": "card",
           "settings": {
+            "product": "",
+            "title": "Frame mask kit",
+            "description": "STL and 3MF files",
+            "badge": "Digital file",
+            "badge_color": "",
             "image_primary": "shopify:\/\/shop_images\/1-isolated_449259aa-cf9f-455b-8664-2cd040c9e1ef.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
@@ -518,17 +457,52 @@
             "image_secondary_offset_x": 0,
             "image_secondary_offset_y": 0,
             "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        },
+        "card_664fXq": {
+          "type": "card",
+          "settings": {
             "product": "",
-            "title": "Frame mask (1 size)",
-            "description": ""
+            "title": "Print and assembly manual",
+            "description": "PDF file",
+            "badge": "Digital file",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        },
+        "card_rM6fk7": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "title": "Bill of Materials",
+            "description": "PDF file",
+            "badge": "Digital file",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
           }
         }
       },
       "block_order": [
         "heading_pbcyCV",
         "card_TVhPiM",
-        "card_rNwAgE"
+        "card_rNwAgE",
+        "card_664fXq",
+        "card_rM6fk7"
       ],
       "settings": {
         "content_alignment": "center",
@@ -536,6 +510,259 @@
         "padding_top": 36,
         "padding_bottom": 36,
         "cards_per_row": 4
+      }
+    },
+    "tc_product_image_cards_eQzRBC": {
+      "type": "tc-product-image-cards",
+      "blocks": {
+        "heading_BztjdW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Extra hardware required",
+            "heading_size": "h1"
+          }
+        },
+        "text_6YzLya": {
+          "type": "text",
+          "settings": {
+            "text": "<p>To guarantee good and reliable performance, the toneCarrier uses some stock hardware for critical functions. You will need to source those items to assemble the printed parts.<\/p>"
+          }
+        },
+        "card_nphB4M": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "title": "M5 screws",
+            "description": "",
+            "badge": "",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        },
+        "card_tzahR4": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "title": "M5 nuts",
+            "description": "",
+            "badge": "",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        },
+        "card_yWa8pf": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "title": "M3 screws",
+            "description": "",
+            "badge": "",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        },
+        "card_zgR8hU": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "title": "M3 nuts",
+            "description": "",
+            "badge": "",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        },
+        "card_hUzLhY": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "title": "O-rings",
+            "description": "",
+            "badge": "",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        },
+        "card_XUBkRX": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "title": "Bearings",
+            "description": "",
+            "badge": "",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        },
+        "card_kQnCjX": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "title": "Timing belt",
+            "description": "",
+            "badge": "",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        },
+        "card_ARGphV": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "title": "Pulleys",
+            "description": "",
+            "badge": "",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_BztjdW",
+        "text_6YzLya",
+        "card_nphB4M",
+        "card_tzahR4",
+        "card_yWa8pf",
+        "card_zgR8hU",
+        "card_hUzLhY",
+        "card_XUBkRX",
+        "card_kQnCjX",
+        "card_ARGphV"
+      ],
+      "settings": {
+        "content_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "cards_per_row": 3
+      }
+    },
+    "rich_text_EwEzzq": {
+      "type": "rich-text",
+      "blocks": {
+        "text_EArbff": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Prefer to avoid the hassle of bulk buys and ordering from multiple vendors? Check out our ready-made hardware kits, which include all the components you need to complete the toneCarrier build.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_EArbff"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    },
+    "featured_product_gLYCBp": {
+      "type": "featured-product",
+      "blocks": {
+        "title_YfBqQi": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h2"
+          }
+        },
+        "price_mG4bhN": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "variant_picker_W3AxTE": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "buy_buttons_fTmw6i": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        }
+      },
+      "block_order": [
+        "title_YfBqQi",
+        "price_mG4bhN",
+        "variant_picker_W3AxTE",
+        "buy_buttons_fTmw6i"
+      ],
+      "settings": {
+        "product": "tonecarrier-hardware-kit",
+        "color_scheme": "scheme-4",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "cover",
+        "media_position": "right",
+        "image_zoom": "hover",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "multicolumn_3pQacX": {
@@ -733,12 +960,16 @@
     }
   },
   "order": [
-    "tc_sticky_product_bar_P8zecQ",
     "main",
     "bento_bQfpWa",
+    "bento_eVw3LP",
+    "rich_text_NF9mNU",
+    "tc_print_settings_table_XdUVmk",
     "sample_scan_MgcCXN",
-    "tc_product_image_cards_EAhQeJ",
     "tc_product_image_cards_y89fiL",
+    "tc_product_image_cards_eQzRBC",
+    "rich_text_EwEzzq",
+    "featured_product_gLYCBp",
     "multicolumn_3pQacX",
     "collapsible_content_HLXaFc",
     "related-products"

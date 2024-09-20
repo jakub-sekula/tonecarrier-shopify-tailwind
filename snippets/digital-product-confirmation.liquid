@@ -1,16 +1,24 @@
-<div id="confirmation-container" style="display:none" class='tw-w-full tw-flex tw-flex-col tw-gap-6 tw-mb-5 tw-bg-orange-50 tw-p-6'>
-  <label for='confirmation' class='tw-text-orange-800 tw-text-2xl tw-gap-6 tw-flex tw-flex-col'>
+<style>
+  #confirmation-container strong {
+    font-weight: 600;
+  }
+</style>
+
+<div id="confirmation-container" style="display:none" class='tw-w-full tw-flex tw-flex-col tw-gap-6 tw-mb-5 tw-bg-blue-50 tw-p-6'>
+  <label for='confirmation' class='tw-text-blue-800 tw-gap-6 tw-flex tw-flex-col'>
     <p>
-      Please enter your initials below to acknowledge that you are buying <strong>digital files only</strong> and that
-      you have access to a 3D printer to make this item yourself.
+      This is a <strong>digital product</strong>. You need
+       access to a 3D printer to print the parts yourself.
     </p>
-    <p>By purchasing this product you accept that no physical goods will be shipped and no refunds will be issued.</p>
+    <p>By ordering you accept that <strong>no physical goods will be shipped</strong> and no refunds will be issued.</p>
   </label>
   <input
     required
-    class='tw-text-3xl tw-px-3 tw-py-2 tw-shrink-0 tw-border tw-bg-white'
+    class='tw-text-3xl tw-px-3 tw-py-2 tw-shrink-0 tw-border tw-bg-white tw-w-full'
     id='confirmation'
+    placeholder="Type your initials here"
     type='text'
+    maxlength=5
     name='properties[Confirmation]'
     form='{{ product_form_id }}'
   >

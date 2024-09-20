@@ -36,7 +36,7 @@
 
   .bento-background-image {
     mask-image: linear-gradient(to bottom, black, transparent 90%);
-    opacity: {{section.settings.background_opacity}};
+    opacity: {{ section.settings.background_opacity }};
     mix-blend-mode: screen;
     filter: blur({{section.settings.background_blur}}px);
     transform: scale(1.1);
@@ -45,9 +45,12 @@
     height: 100%;
   }
 
-
   /* Desktop View: Grid layout for screens wider than 960px */
   @media (min-width: 960px) {
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
     .bento-grid {
       display: grid;
       grid-template-rows: repeat({{ section.settings.rows }}, {{ section.settings.row_height }}px);
@@ -75,7 +78,7 @@
   {% endif %}
   class="isolate section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }} tw-relative">
   {% if section.settings.background_image != blank %}
-    <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-1/2 tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: "bento-background-image" }}</div>
+    <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-full tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: "bento-background-image" }}</div>
   {% endif %}
   <div class="{% unless section.settings.full_width %} page-width{% endunless %}">
     <div style="padding-bottom: {{section.settings.padding_bottom}}px" class="tw-mx-auto  rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
@@ -171,7 +174,7 @@
             <h3 class="tw-z-10 {{ section.settings.heading_size }}">{{ block.settings.title }}</h3>
             <div style="z-index: 10; font-size: {{section.settings.caption_size}}px">{{ block.settings.description }}</div>
             {% unless block.settings.image == blank %}
-              <div style="display: block!important" class="tw-bg-gradient-to-b tw-from-black tw-h-1/2 tw-w-full tw-absolute tw-z-[5] tw-left-0 tw-top-0"></div>
+              <div style="display: block!important;" class="tc-fade-to-bottom color-{{ section.settings.color_scheme }} tw-h-3/5 tw-w-full tw-absolute tw-z-[5] tw-left-0 tw-top-0"></div>
               {{ block.settings.image | image_url: width: 1200 | image_tag: widths: '300, 600, 900, 1200, 1600', class: "tw-z-1 tw-inset-0 tw-absolute tw-object-cover tw-w-full tw-h-full group-hover:tw-scale-105 tw-duration-500 tw-transition-all" }}
             {% endunless %}
           </li>

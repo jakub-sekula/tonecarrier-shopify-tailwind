@@ -143,10 +143,8 @@
   </div>
 
   <div class="page-width !tw-pr-24 md:!tw-pr-0 tw-relative">
-    <div id="right-mask-{{section.id}}" class="tw-absolute md:tw-hidden tw-top-0 tw-right-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }}" style="-webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
-  mask-image: linear-gradient(to left, black 0%, transparent 100%);"></div>
-  <div id="left-mask-{{section.id}}" class="tw-absolute md:tw-hidden hidden tw-top-0 tw-left-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }}" style="-webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
-  mask-image: linear-gradient(to right, black 0%, transparent 100%);"></div>
+    <div id="right-mask-{{section.id}}" class="tw-absolute md:tw-hidden tw-top-0 tw-right-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }} tc-fade-to-left"></div>
+  <div id="left-mask-{{section.id}}" class="tw-absolute md:tw-hidden hidden tw-top-0 tw-left-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }} tc-fade-to-right"></div>
     <swiper-container
       id="swiper-{{section.id}}"
       init="false"
@@ -155,12 +153,15 @@
         {% if block.type == 'card' %}
           <swiper-slide>
             <div
-              class="card-{{ section.id }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %} tw-group tw-cursor-grab"
+              class="card-{{ section.id }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %} tw-group tw-cursor-grab tw-relative"
               {% if settings.animations_reveal_on_scroll %}
               data-cascade
               style="--animation-order: {{ forloop.index }};"
               {% endif %}
               {{ block.shopify_attributes }}>
+              {% unless block.settings.badge == blank %} 
+                <div style="color: {{block.settings.badge_color}}; border-color: {{block.settings.badge_color}}" class="tw-absolute tw-left-6 tw-top-6 tw-px-6 tw-py-3 tw-text-lg tw-rounded tw-font-bold tw-border">{{block.settings.badge}}</div>
+              {% endunless %}
             {%if block.settings.product != blank%}<a href="{{ shop.url }}{{ block.settings.product.url }}" class="card-image-container-{{ section.id }} tw-cursor-grab">{% else %}<div class="card-image-container-{{ section.id }}">{% endif %}
                 <img
                   style="transform: ({% if block.settings.image_primary_offset_x_flip %}-{% endif %}{{block.settings.image_primary_offset_x}}%;  {% if block.settings.image_primary_offset_y_flip %}-{% endif %}{{block.settings.image_primary_offset_y}}%)"
@@ -189,15 +190,19 @@
                 {% endunless %}
 
                 {% unless block.settings.description == blank %}
-                  <ul class="tw-mb-6 tw-flex tw-flex-col tw-gap-2">
-                    {% assign description_lines = block.settings.description | split: "|" %}
+                  {% assign description_lines = block.settings.description | split: "|" %}
+                  {% if description_lines.size > 1 %}
+                    <ul class="tw-flex tw-flex-col tw-gap-2">
                     {% for line in description_lines %}
                       <li class="tw-flex tw-gap-2 tw-items-center">
                         {{ 'lucide-circle-check-big.svg' | inline_asset_content }}
                         {{ line }}
                       </li>
                     {% endfor %}
-                  </ul>
+                    </ul>
+                    {%else %}
+                    <p>{{ block.settings.description }}</p>
+                  {% endif %}
                 {% endunless %}
                 {% unless block.settings.product == blank %}
                     {% assign product_form_id = block.id %}
@@ -387,6 +392,31 @@ leftMask.classList.add("hidden")
         "name": "card",
         "settings": [
           {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "description",
+            "label": "Description"
+          },
+          {
+            "type": "text",
+            "id": "badge",
+            "label": "Badge"
+          },
+          {
+            "type": "color",
+            "id": "badge_color",
+            "label": "Badge color"
+          },
+          {
             "type": "image_picker",
             "id": "image_primary",
             "label": "Image (primary)"
@@ -455,21 +485,6 @@ leftMask.classList.add("hidden")
             "id": "image_secondary_offset_y_flip",
             "label": "Y offset flip",
             "default": false
-          },
-          {
-            "type": "product",
-            "id": "product",
-            "label": "Product"
-          },
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Title"
-          },
-          {
-            "type": "textarea",
-            "id": "description",
-            "label": "Description"
           }
         ]
       },
