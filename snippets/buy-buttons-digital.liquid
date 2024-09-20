@@ -116,29 +116,17 @@
     </div>
   {%- endif -%}
 
-  {%- if show_pickup_availability -%}
-    {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
+</div>
 
-    {%- assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities
-      | where: 'pick_up_enabled', true
-    -%}
+{% comment %} <script defer>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('product-form');
+    const confirmationInput = document.querySelector('#confirmation');
 
-    <script>
-      async function checkQuantityInCart(){
-        const variantId = {{product.selected_or_first_available_variant.id}}
-        const productId = {{product.id}}
-        const tags = {{product.tags | json}}
+    if (confirmationInput && form) {
+      const submitButton = form.submitButton;
 
-        if(!tags.includes("Digital download")) return
-
-        const cartContents = await fetch(window.Shopify.routes.root + "cart.js").then(res=>res.json()).then(json => json.items)
-        const alreadyInCart = cartContents.some(item => item.variant_id === variantId && item.product_id === productId)
-
-        const form = document.querySelector("product-form")
-        const submitButton = form.querySelector("button[type='submit']")
-        const confirmationInput = document.querySelector("input#confirmation")
-
-        function updateSubmitButtonState() {
+      function updateSubmitButtonState() {
         const val = confirmationInput.value;
         const text = submitButton.innerText;
 
@@ -152,26 +140,92 @@
         }
       }
 
-        if(alreadyInCart){
-          submitButton.disabled= true;
-          submitButton.querySelector('span').innerText = "Already in cart"
-          if(confirmationInput) {
-            confirmationInput.disabled = true
-            confirmationInput.value = ""
-          }
+      // Initial check
+
+      // Event listener for input changes
+      // updateSubmitButtonState();
+      // confirmationInput.addEventListener('input', updateSubmitButtonState);
+      const subscriber = subscribe(PUB_SUB_EVENTS.cartUpdate, (event) => {console.log(event); updateSubmitButtonState()})
+
+    } else {
+      console.error('Confirmation input or form not found');
+    }
+  });
+</script> {% endcomment %}
+
+<script defer>
+  async function checkQuantityInCart() {
+  console.log("Checking quantity in cart...");
+    const variantId = {{ product.selected_or_first_available_variant.id }};
+    const productId = {{ product.id }};
+    const tags = {{ product.tags | json }};
+
+    console.log(variantId, productId, tags);
+
+
+    if (!tags.includes("Digital download")) return;
+
+    try {
+      const cartContents = await fetch(window.Shopify.routes.root + "cart.js")
+        .then(res => res.json())
+        .then(json => json.items);
+      const alreadyInCart = cartContents.some(
+        item => item.variant_id === variantId && item.product_id === productId
+      );
+
+
+    console.log(cartContents, alreadyInCart);
+
+      const form = document.querySelector(".product-form");
+      const submitButton = form.querySelector(".product-form__submit");
+      const confirmationInput = document.querySelector("input#confirmation");
+      const confirmationContainer = document.querySelector('#confirmation-container')
+
+      function updateSubmitButtonState() {
+        const val = confirmationInput.value;
+        const text = submitButton.innerText;
+
+        console.log("Submit button text:", text);
+        if (!val && !["Already in cart"].includes(submitButton.innerText)) {
+          submitButton.disabled = true;
+          const buttonText = submitButton.querySelector("span");
+          if (buttonText) buttonText.innerText = "Please type initials to confirm";
         } else {
-          if(confirmationInput) {
-            confirmationInput.disabled = false
-            updateSubmitButtonState();
-            confirmationInput.addEventListener('input', updateSubmitButtonState);
-          }
+          submitButton.disabled = false;
+          const buttonText = submitButton.querySelector("span");
+          if (buttonText) buttonText.innerText = "{{ 'products.product.add_to_cart' | t }}";
         }
       }
 
 
-      console.log("checking...")
-      document.addEventListener("DOMContentLoaded", ()=>{checkQuantityInCart()
-      const subscriber = subscribe(PUB_SUB_EVENTS.cartUpdate, (event) => {console.log("gowno": event); checkQuantityInCart()})})
-    </script>
-  {%- endif -%}
-</div>
+      if (alreadyInCart) {
+        submitButton.disabled = true;
+        confirmationContainer.style.display = "none"
+        const buttonText = submitButton.querySelector("span");
+        if (buttonText) buttonText.innerText = "Already in cart";
+        if (confirmationInput) {
+          confirmationInput.disabled = true;
+          confirmationInput.value = "";
+        }
+      } else {
+        if (confirmationInput) {
+        confirmationContainer.style.display = "block"
+
+          confirmationInput.disabled = false;
+          updateSubmitButtonState();
+          confirmationInput.addEventListener("input", updateSubmitButtonState);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching cart contents:", error);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    checkQuantityInCart();
+    const subscriber = subscribe(PUB_SUB_EVENTS.cartUpdate, (event) => {
+      console.log("Cart updated:", event);
+      checkQuantityInCart();
+    });
+  });
+</script>

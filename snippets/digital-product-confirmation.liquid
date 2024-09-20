@@ -1,10 +1,5 @@
-<div class='tw-w-full tw-flex tw-flex-col tw-gap-6 tw-mb-5 tw-bg-orange-50 tw-p-6'>
+<div id="confirmation-container" style="display:none" class='tw-w-full tw-flex tw-flex-col tw-gap-6 tw-mb-5 tw-bg-orange-50 tw-p-6'>
   <label for='confirmation' class='tw-text-orange-800 tw-text-2xl tw-gap-6 tw-flex tw-flex-col'>
-    {% comment %}
-      <div class='tw-size-16 tw-grid tw-shrink-0 tw-place-items-center tw-bg-sky-200 tw-text-sky-600 tw-rounded-md tw-self-start tw-aspect-square'>
-        <i data-lucide='file-down' class='tw-size-8'></i>
-      </div>
-    {% endcomment %}
     <p>
       Please enter your initials below to acknowledge that you are buying <strong>digital files only</strong> and that
       you have access to a 3D printer to make this item yourself.
@@ -20,37 +15,3 @@
     form='{{ product_form_id }}'
   >
 </div>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('product-form');
-    const confirmationInput = document.querySelector('#confirmation');
-
-    if (confirmationInput && form) {
-      const submitButton = form.submitButton;
-
-      function updateSubmitButtonState() {
-        const val = confirmationInput.value;
-        const text = submitButton.innerText;
-
-        console.log(text);
-        if (!val && !['Already in cart'].includes(submitButton.innerText)) {
-          submitButton.disabled = true;
-          submitButton.querySelector('span').innerText = 'Please type initials to confirm';
-        } else {
-          submitButton.disabled = false;
-          submitButton.querySelector('span').innerText = '{{ 'products.product.add_to_cart' | t }}'
-        }
-      }
-
-      // Initial check
-
-      // Event listener for input changes
-      // updateSubmitButtonState();
-      // confirmationInput.addEventListener('input', updateSubmitButtonState);
-      const subscriber = subscribe(PUB_SUB_EVENTS.cartUpdate, (event) => {console.log(event); updateSubmitButtonState()})
-
-    } else {
-      console.error('Confirmation input or form not found');
-    }
-  });
-</script>
