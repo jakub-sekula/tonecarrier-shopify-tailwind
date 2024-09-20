@@ -227,6 +227,9 @@
         "tile_wxG86T"
       ],
       "settings": {
+        "background_image": "shopify:\/\/shop_images\/DSCF0312-2.jpg",
+        "background_blur": 3,
+        "background_opacity": 0.1,
         "content_alignment": "center",
         "columns": 12,
         "rows": 4,

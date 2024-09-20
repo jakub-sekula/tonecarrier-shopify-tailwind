@@ -34,6 +34,18 @@
     border-radius: 1.5rem;
   }
 
+  .bento-background-image {
+    mask-image: linear-gradient(to bottom, black, transparent 90%);
+    opacity: {{section.settings.background_opacity}};
+    mix-blend-mode: screen;
+    filter: blur({{section.settings.background_blur}}px);
+    transform: scale(1.1);
+    transform-origin: top;
+    width: 100%;
+    height: 100%;
+  }
+
+
   /* Desktop View: Grid layout for screens wider than 960px */
   @media (min-width: 960px) {
     .bento-grid {
@@ -42,12 +54,13 @@
       grid-template-columns: repeat({{ section.settings.columns }}, 1fr);
       gap: 1.5rem;
     }
-
     {% for block in section.blocks %}
       {% if block.type == 'Tile' %}
         .bento-tile-{{ block.id }} {
-          grid-column: span {{ block.settings.width }} / span {{ block.settings.width }};
-          grid-row: span {{ block.settings.height }}/ span {{ block.settings.height }};
+          --width: {{ block.settings.width }};
+          --height: {{ block.settings.height }};
+          grid-column: span var(--width)/ span var(--width);
+          grid-row: span var(--height)/ span var(--height);
           grid-column-start: {{ block.settings.start_column }};
           grid-row-start: {{ block.settings.start_row }};
         }
@@ -60,7 +73,10 @@
   {% if section.settings.anchor != blank %}
   id="{{section.settings.anchor}}"
   {% endif %}
-  class="isolate section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }}">
+  class="isolate section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }} tw-relative">
+  {% if section.settings.background_image != blank %}
+    <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-1/2 tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: "bento-background-image" }}</div>
+  {% endif %}
   <div class="{% unless section.settings.full_width %} page-width{% endunless %}">
     <div style="padding-bottom: {{section.settings.padding_bottom}}px" class="tw-mx-auto  rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
       <div class="rich-text__blocks {{ section.settings.content_alignment }}">
@@ -193,6 +209,30 @@
     "class": "section",
     "tag": "section",
     "settings": [
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background image"
+      },
+      {
+        "type": "range",
+        "id": "background_blur",
+        "default": 5,
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Background blur"
+      },
+      {
+        "type": "range",
+        "id": "background_opacity",
+        "default": 0.2,
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "label": "Background opacity"
+      },
       {
         "type": "select",
         "id": "content_alignment",
