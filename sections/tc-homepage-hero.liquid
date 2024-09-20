@@ -9,7 +9,6 @@
 */
 
   .homepage-hero-section-{{ section.id }} {
-    max-height: 400px;
     height: 100%;
     position: relative;
     color: white;
@@ -40,8 +39,10 @@
   .hero-heading strong {
     background-image: linear-gradient(to right, #f59e0b, #f87171);
     background-clip: text;
-    color: transparent
+    color: transparent;
+    padding: 10rem;
   }
+
   .hero-text {
     margin-bottom: 24px;
     font-size: calc(0.875 * 16px);
@@ -54,10 +55,10 @@
   }
 
 
-  @media screen and (min-width: 750px) {
-
-    .hero-heading {
-      font-size: 80px;
+/* md (min-width: 768px) */
+@media (min-width: 768px) {
+  .hero-heading {
+      font-size: 60px;
     }
 
     .hero-text-wrapper {
@@ -70,33 +71,30 @@
       line-height: calc(1.75 * 16px)
     }
 
-  }
 
+}
 
-  @media screen and (min-width: 960px) {
-    .homepage-hero-section-{{ section.id }} {
-      max-height: unset;
-    }
-
-
-    /*
-   .section-{{ section.id }}-padding {
-   padding-top: {{ section.settings.padding_top }}px;
-   padding-bottom: {{ section.settings.padding_bottom }}px;
-   }
-*/
-
-    .hero-heading {
+/* lg (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .hero-heading {
       font-size: 80px;
     }
 
-    .hero-text-wrapper {
-      padding-top: 160px;
-      padding-bottom: 160px;
-    }
+}
+
+/* xl (min-width: 1280px) */
+@media (min-width: 1280px) {
+  /* Add your 'xl' styles here */
+}
+
+/* 2xl (min-width: 1536px) */
+@media (min-width: 1536px) {
+  /* Add your '2xl' styles here */
+}
 
 
-  }
+ 
+
 {%- endstyle -%}
 
 <section class="isolate homepage-hero-section-{{section.id}} tw-overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding">
@@ -136,7 +134,7 @@
             </div>
           {%- when 'button' -%}
             <div
-              class="tw-mx-auto sm:tw-max-w-none sm:tw-flex sm:tw-justify-center tw-flex tw-flex-col md:tw-flex-row tw-gap-4 {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              class="tw-mx-auto tw-w-full tw-max-w-[400px] md:tw-flex-row sm:tw-justify-center tw-flex tw-flex-col tw-gap-4 {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
               {{ block.shopify_attributes }}
               {% if settings.animations_reveal_on_scroll %}
               data-cascade
