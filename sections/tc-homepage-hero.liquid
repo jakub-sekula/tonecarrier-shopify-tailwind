@@ -25,7 +25,7 @@
     height: 100%;
     object-fit: cover;
     opacity: 0.25;
-    user-select: none;
+    z-index: -10
   }
 
   .hero-heading {
@@ -76,7 +76,8 @@
   @media screen and (min-width: 960px) {
     .homepage-hero-section-{{ section.id }} {
       max-height: unset;
-}
+    }
+
 
     /*
    .section-{{ section.id }}-padding {
@@ -99,8 +100,6 @@
 {%- endstyle -%}
 
 <section class="isolate homepage-hero-section-{{section.id}} tw-overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding">
-  {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.background_image, class: "homepage-hero-background" }}
-
   <div class="!md:tw-pt-64 !md:tw-pb-64 !md:tw-pt-64 tw-mx-auto hero-text-wrapper tw-px-4 tw-sm:px-6 page-width {% if section.settings.full_width %} page-width{% endif %}">
     <div class="hero-blocks tw-text-center md:tw-pb-16 {{ section.settings.content_alignment }}">
       {%- for block in section.blocks -%}
@@ -146,11 +145,13 @@
               {%- if block.settings.button_label != blank -%}
                 {% render 'tc-button'
                   , type: "link"
+                  , url: block.settings.button_link
                   , text: block.settings.button_label %}
               {%- endif -%}
               {%- if block.settings.button_label_2 != blank -%}
                 {% render 'tc-button'
                   , type: "link"
+                  , url: block.settings.button_link_2
                   , text: block.settings.button_label_2 %}
               {%- endif -%}
             </div>
@@ -158,8 +159,7 @@
       {%- endfor -%}
     </div>
   </div>
-
-
+  {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.background_image, class: "homepage-hero-background" }}
 </section>
 
 {% schema %}

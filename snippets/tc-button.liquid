@@ -8,7 +8,7 @@
     role="link"
     href="{{ url }}"
     aria-disabled="{{ disabled }}"
-    class="tw-bg-orange-500 md:tw-px-8 md:tw-py-3 tw-px-4 tw-py-2 tw-font-medium tw-inline-flex tw-items-center tw-justify-center tw-border tw-border-transparent tw-rounded tw-leading-snug tw-transition tw-duration-150 tw-ease {% if disabled %} tw-opacity-50 tw-cursor-not-allowed {% endif %}"
+    class="tw-cursor-pointer tw-bg-orange-500 md:tw-px-8 md:tw-py-3 tw-px-4 tw-py-2 tw-font-medium tw-inline-flex tw-items-center tw-justify-center tw-border tw-border-transparent tw-rounded tw-leading-snug tw-transition tw-duration-150 tw-ease {% if disabled %} tw-opacity-50 tw-cursor-not-allowed {% endif %}"
     {% if disabled %} onclick="return false;" {% endif %}
   >
     {{ text | escape }}
@@ -17,7 +17,7 @@
   <button
     role="button"
     aria-disabled="{{ disabled }}"
-    class="tw-bg-orange-500 md:tw-px-8 md:tw-py-3 tw-px-4 tw-py-2 tw-font-medium tw-inline-flex tw-items-center tw-justify-center tw-border tw-border-transparent tw-rounded tw-leading-snug tw-transition tw-duration-150 tw-ease {% if disabled %} tw-opacity-50 tw-cursor-not-allowed {% endif %}"
+    class="tw-cursor-pointer tw-bg-orange-500 md:tw-px-8 md:tw-py-3 tw-px-4 tw-py-2 tw-font-medium tw-inline-flex tw-items-center tw-justify-center tw-border tw-border-transparent tw-rounded tw-leading-snug tw-transition tw-duration-150 tw-ease {% if disabled %} tw-opacity-50 tw-cursor-not-allowed {% endif %}"
     {% if disabled %} disabled {% endif %}
   >
     {{ text | escape }}

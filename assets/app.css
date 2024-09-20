@@ -954,6 +954,10 @@ video {
   cursor: not-allowed;
 }
 
+.tw-cursor-auto {
+  cursor: auto;
+}
+
 .tw-select-none {
   -webkit-user-select: none;
      -moz-user-select: none;
