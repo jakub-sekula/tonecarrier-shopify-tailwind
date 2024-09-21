@@ -13,63 +13,64 @@
     position: relative;
     color: white;
     background: black;
+    {% if section.settings.max_height != 0 %} max-height: {{ section.settings.max_height }}px {% endif %}
 
-  }
+}
 
-  .homepage-hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.25;
-    z-index: -10
-  }
+.homepage-hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
+  z-index: -10
+}
 
-  .hero-heading {
-    color: white;
-    font-weight: 800;
-    font-size: 30px;
-    line-height: 1em;
-    letter-spacing: -0.05em;
-    margin-bottom: 16px;
-  }
+.hero-heading {
+  color: white;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1em;
+  letter-spacing: -0.05em;
+  margin-bottom: 16px;
+}
 
-  .hero-heading strong {
-    background-image: linear-gradient(to right, #f59e0b, #f87171);
-    background-clip: text;
-    color: transparent;
-    padding: 1rem;
-  }
+.hero-heading strong {
+  background-image: linear-gradient(to right, #f59e0b, #f87171);
+  background-clip: text;
+  color: transparent;
+  padding: 1rem;
+}
 
-  .hero-text {
-    margin-bottom: 24px;
-    font-size: calc(0.875 * 16px);
-    line-height: calc(1.25 * 16px)
-  }
+.hero-text {
+  margin-bottom: 24px;
+  font-size: calc(0.875 * 16px);
+  line-height: calc(1.25 * 16px)
+}
 
-  .hero-text-wrapper {
-    padding-top: 40px;
-    padding-bottom: 20px;
-  }
+.hero-text-wrapper {
+  padding-top: 40px;
+  padding-bottom: 20px;
+}
 
 
 /* md (min-width: 768px) */
 @media (min-width: 768px) {
   .hero-heading {
-      font-size: 60px;
-    }
+    font-size: 60px;
+  }
 
-    .hero-text-wrapper {
-      padding-top: 160px;
-      padding-bottom: 160px;
-    }
+  .hero-text-wrapper {
+    padding-top: 160px;
+    padding-bottom: 160px;
+  }
 
-    .hero-text {
-      font-size: calc(1.25 * 16px);
-      line-height: calc(1.75 * 16px)
-    }
+  .hero-text {
+    font-size: calc(1.25 * 16px);
+    line-height: calc(1.75 * 16px)
+  }
 
 
 }
@@ -77,23 +78,23 @@
 /* lg (min-width: 1024px) */
 @media (min-width: 1024px) {
   .hero-heading {
-      font-size: 80px;
-    }
+    font-size: 80px;
+  }
 
 }
 
 /* xl (min-width: 1280px) */
 @media (min-width: 1280px) {
-  /* Add your 'xl' styles here */
+;
+/* Add your 'xl' styles here */
 }
 
 /* 2xl (min-width: 1536px) */
 @media (min-width: 1536px) {
-  /* Add your '2xl' styles here */
+;
+/* Add your '2xl' styles here */
 }
 
-
- 
 
 {%- endstyle -%}
 
@@ -157,7 +158,12 @@
       {%- endfor -%}
     </div>
   </div>
-  {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.background_image, class: "homepage-hero-background" }}
+  {% if section.settings.background_video != blank %}
+    {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.background_image, class: "homepage-hero-background" }}
+  {% endif %}
+  {% if section.settings.background_image != blank %}
+    {{ section.settings.background_image | image_url: width: 1500 | image_tag: class: "homepage-hero-background" }}
+  {% endif %}
 </section>
 
 {% schema %}
@@ -221,12 +227,13 @@
       },
       {
         "type": "range",
-        "id": "cards_per_row",
+        "id": "max_height",
         "min": 0,
-        "max": 6,
-        "step": 1,
-        "label": "Cards per row",
-        "default": 3
+        "max": 1000,
+        "step": 10,
+        "unit": "px",
+        "label": "Max height",
+        "default": 0
       }
     ],
     "blocks": [

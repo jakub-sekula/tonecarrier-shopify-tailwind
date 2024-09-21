@@ -1,6 +1,5 @@
 {{ 'bootstrap-offcanvas.css' | asset_url | stylesheet_tag }}
 
-
 {%- style -%}
 
   .section-{{ section.id }}-padding {
@@ -13,13 +12,13 @@
   }
 
   /* Default: Flex layout */
-  .bento-grid {
+  .bento-grid-{{ section.id }} {
     display: flex;
     flex-direction: column;
     gap: 16px;
   }
 
-  .bento-tile {
+  .bento-tile-{{ section.id }} {
     background: rgb(var(--color-background)) linear-gradient(rgba(var(--color-foreground),0.04),rgba(var(--color-foreground),0.04));
     padding: 20px;
     width: 100%;
@@ -34,7 +33,7 @@
     border-radius: 1.5rem;
   }
 
-  .bento-background-image {
+  .bento-background-image-{{ section.id }} {
     mask-image: linear-gradient(to bottom, black, transparent 90%);
     opacity: {{ section.settings.background_opacity }};
     mix-blend-mode: screen;
@@ -45,13 +44,23 @@
     height: 100%;
   }
 
+  .bento-add-to-cart-button {
+    color: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+  }
+
+  .bento-product-price {
+    color: rgb(var(--color-background))
+  }
+
   /* Desktop View: Grid layout for screens wider than 960px */
   @media (min-width: 960px) {
     .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
-  }
-    .bento-grid {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    .bento-grid-{{ section.id }} {
       display: grid;
       grid-template-rows: repeat({{ section.settings.rows }}, {{ section.settings.row_height }}px);
       grid-template-columns: repeat({{ section.settings.columns }}, 1fr);
@@ -78,99 +87,177 @@
   {% endif %}
   class="isolate section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }} tw-relative">
   {% if section.settings.background_image != blank %}
-    <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-full tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: "bento-background-image" }}</div>
+    {% assign bg_image_class = "bento-background-image-" | append: section.id %}
+    <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-full tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: bg_image_class }}</div>
   {% endif %}
   <div class="{% unless section.settings.full_width %} page-width{% endunless %}">
-    <div style="padding-bottom: {{section.settings.padding_bottom}}px" class="tw-mx-auto  rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
-      <div class="rich-text__blocks {{ section.settings.content_alignment }}">
-        {%- for block in section.blocks -%}
-          {%- case block.type -%}
-            {%- when 'heading' -%}
-              <h2
-                class="rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                {{ block.shopify_attributes }}
-                {% if settings.animations_reveal_on_scroll %}
-                data-cascade
-                style="--animation-order: {{ forloop.index }};"
-                {% endif %}>
-                {{ block.settings.heading }}
-              </h2>
-            {%- when 'caption' -%}
-              <p
-                class="rich-text__caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                {{ block.shopify_attributes }}
-                {% if settings.animations_reveal_on_scroll %}
-                data-cascade
-                style="--animation-order: {{ forloop.index }};"
-                {% endif %}>
-                {{ block.settings.caption | escape }}
-              </p>
-            {%- when 'text' -%}
-              <div
-                class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                {{ block.shopify_attributes }}
-                {% if settings.animations_reveal_on_scroll %}
-                data-cascade
-                style="--animation-order: {{ forloop.index }};"
-                {% endif %}>
-                {{ block.settings.text }}
-              </div>
-            {%- when 'button' -%}
-              <div
-                class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                {{ block.shopify_attributes }}
-                {% if settings.animations_reveal_on_scroll %}
-                data-cascade
-                style="--animation-order: {{ forloop.index }};"
-                {% endif %}>
-                {%- if block.settings.button_label != blank -%}
-                  <a
-                    {% if block.settings.button_link == blank %}
-                    role="link"
-                    aria-disabled="true"
-                    {% else %}
-                    href="{{ block.settings.button_link }}"
-                    {% endif %}
-                    class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}">
-                    {{- block.settings.button_label | escape -}}
-                  </a>
-                {%- endif -%}
-                {%- if block.settings.button_label_2 != blank -%}
-                  <a
-                    {% if block.settings.button_link_2 == blank %}
-                    role="link"
-                    aria-disabled="true"
-                    {% else %}
-                    href="{{ block.settings.button_link_2 }}"
-                    {% endif %}
-                    class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}">
-                    {{- block.settings.button_label_2 | escape -}}
-                  </a>
-                {%- endif -%}
-              </div>
-          {%- endcase -%}
-        {%- endfor -%}
+
+    {% assign has_desired_block = false %}
+    {% for block in section.blocks %}
+      {% if block.type == 'heading' or block.type == 'caption' or block.type == 'text' %}
+        {% assign has_desired_block = true %}
+      {% endif %}
+    {% endfor %}
+    {% if has_desired_block %}
+      <div style="padding-bottom: {{section.settings.padding_bottom}}px" class="tw-mx-auto  rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
+        <div class="rich-text__blocks {{ section.settings.content_alignment }}">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'heading' -%}
+                <h2
+                  class="rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {{ block.shopify_attributes }}
+                  {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                  {% endif %}>
+                  {{ block.settings.heading }}
+                </h2>
+              {%- when 'caption' -%}
+                <p
+                  class="rich-text__caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {{ block.shopify_attributes }}
+                  {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                  {% endif %}>
+                  {{ block.settings.caption | escape }}
+                </p>
+              {%- when 'text' -%}
+                <div
+                  class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {{ block.shopify_attributes }}
+                  {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                  {% endif %}>
+                  {{ block.settings.text }}
+                </div>
+              {%- when 'button' -%}
+                <div
+                  class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {{ block.shopify_attributes }}
+                  {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                  {% endif %}>
+                  {%- if block.settings.button_label != blank -%}
+                    <a
+                      {% if block.settings.button_link == blank %}
+                      role="link"
+                      aria-disabled="true"
+                      {% else %}
+                      href="{{ block.settings.button_link }}"
+                      {% endif %}
+                      class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}">
+                      {{- block.settings.button_label | escape -}}
+                    </a>
+                  {%- endif -%}
+                  {%- if block.settings.button_label_2 != blank -%}
+                    <a
+                      {% if block.settings.button_link_2 == blank %}
+                      role="link"
+                      aria-disabled="true"
+                      {% else %}
+                      href="{{ block.settings.button_link_2 }}"
+                      {% endif %}
+                      class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}">
+                      {{- block.settings.button_label_2 | escape -}}
+                    </a>
+                  {%- endif -%}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
       </div>
-    </div>
-    <ul class="bento-grid">
+    {% endif %}
+    <ul class="bento-grid-{{section.id}}">
       {% for block in section.blocks %}
         {% if block.type == 'Tile' %}
           <li
-            class="bento-tile bento-tile-{{ block.id }} tw-group {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            class="bento-tile-{{section.id}} bento-tile-{{ block.id }} tw-group {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             {% if settings.animations_reveal_on_scroll %}
             data-cascade
             {% endif %}
             {{ block.shopify_attributes }}>
-            {% if block.settings.extended_description != blank %}
-              <button
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasExample"
-                aria-controls="offcanvasExample"
-                class="tw-absolute tw-bottom-6 tw-right-6 tw-w-16 tw-h-16 tw-rounded-full tw-bg-neutral-800 tw-z-10 tw-grid tw-place-items-center tw-hover-bg-neutral-700 active:tw-bg-neutral-900">
-                {{ 'lucide-plus.svg' | inline_asset_content }}
-              </button>
+            {% if block.settings.link != blank %}
+              <a
+                href="{{ block.settings.link }}"
+                role="link"
+                class="tw-absolute tw-z-10 tw-inset-0"></a>
             {% endif %}
+
+            {% unless block.settings.link == blank and block.settings.product == blank and block.settings.extended_description == blank %}
+              <div class="tw-absolute tw-bottom-0 tw-right-0 tw-w-full tw-px-6 tw-pb-6 tw-flex tw-z-20 tw-items-center tw-justify-end tw-gap-6">
+
+                {% if block.settings.product != blank %}
+                  <p class="bento-product-price tw-mr-auto">{{block.settings.product.selected_or_first_available_variant.price | money }}</p>
+                  {% assign product_form_id = block.id %}
+                  <product-form data-section-id="{{ section.id }}">
+                    {%- form 'product'
+                      , block.settings.product
+                      , id: product_form_id
+                      , class: 'form'
+                      , novalidate: 'novalidate'
+                      , data-type: 'add-to-cart-form'
+                    -%}
+                      <input
+                        type="hidden"
+                        name="id"
+                        value="{{ block.settings.product.selected_or_first_available_variant.id }}"
+                        class="product-variant-id"
+                        {% if block.settings.product.selected_or_first_available_variant.available == false %}
+                        disabled
+                        {% endif %}>
+                      <button
+                        id="{{ product_form_id }}-submit"
+                        type="submit"
+                        name="add"
+                        class="button button--secondary bento-add-to-cart-button"
+                        aria-haspopup="dialog"
+                        aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ block.settings.product.id }}"
+                        aria-live="polite"
+                        data-sold-out-message="true"
+                        {% if block.settings.product.selected_or_first_available_variant.available == false %}
+                        disabled
+                        {% endif %}>
+                        <span>
+                          {%- if block.settings.product.selected_or_first_available_variant.available -%}
+                            {{ 'products.product.add_to_cart' | t }}
+                          {%- else -%}
+                            {{ 'products.product.sold_out' | t }}
+                          {%- endif -%}
+                        </span>
+                        {%- render 'loading-spinner' -%}
+                      </button>
+                    {%- endform -%}
+                  </product-form>
+                {% endif %}
+
+                {% if block.settings.link != blank %}
+                  <a href="{{block.settings.link}}" class="tw-whitespace-nowrap tw-inline-flex tw-h-16 tw-pl-6 tw-pr-4 tw-items-center tw-gap-2 color-{{ section.settings.color_scheme }}">
+
+                    {% if block.settings.link_label == blank %}
+                      View more
+                    {% else %}
+                      {{ block.settings.link_label }}
+                    {% endif %}
+
+                    {{ 'lucide-chevron-right.svg' | inline_asset_content }}</a>
+                {% endif %}
+                {% if block.settings.extended_description != blank %}
+                  <button
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasExample"
+                    aria-controls="offcanvasExample"
+                    class="tw-w-16 tw-h-16 tw-rounded-full tw-grid tw-place-items-center color-{{ section.settings.color_scheme }}">
+                    {{ 'lucide-plus.svg' | inline_asset_content }}
+                  </button>
+                {% endif %}
+              </div>
+
+            {% endunless %}
             <h3 class="tw-z-10 {{ section.settings.heading_size }}">{{ block.settings.title }}</h3>
             <div style="z-index: 10; font-size: {{section.settings.caption_size}}px">{{ block.settings.description }}</div>
             {% unless block.settings.image == blank %}
@@ -204,7 +291,11 @@
       {% endfor %}
     </ul>
   </div>
+
 </section>
+
+<script src='{{ 'product-form.js' | asset_url }}' defer='defer'></script>
+
 
 {% schema %}
   {
@@ -360,18 +451,33 @@
             "id": "title",
             "label": "Tile title",
             "placeholder": "Tile title",
-            "default": "Tile title"
+            "default": "Title"
           },
           {
             "type": "richtext",
             "id": "description",
             "label": "Tile description",
-            "default": "<p>Tile description</p>"
+            "default": "<p>Description</p>"
           },
           {
             "type": "image_picker",
             "id": "image",
             "label": "Image"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          },
+          {
+            "type": "text",
+            "id": "link_label",
+            "label": "Link label"
+          },
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
           },
           {
             "type": "richtext",
