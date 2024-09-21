@@ -1,7 +1,155 @@
 {
   "sections": {
+    "bento_QFQBRB": {
+      "type": "bento",
+      "blocks": {
+        "tile_JiFGgY": {
+          "type": "Tile",
+          "settings": {
+            "title": "Film holder",
+            "description": "<p>Optimized for scanning full rolls and cut strips of 35 mm film. Perfect starting point for camera scanning.<\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0553-Edit.jpg",
+            "link": "shopify:\/\/products\/tonecarrier-35-mm-film-holder",
+            "link_label": "More details",
+            "product": "tonecarrier-35-mm-film-holder",
+            "extended_description": "",
+            "height": 1,
+            "width": 6,
+            "start_column": 1,
+            "start_row": 1
+          }
+        },
+        "tile_4xXfJj": {
+          "type": "Tile",
+          "settings": {
+            "title": "Full scanning kit",
+            "description": "<p>A complete film holding kit containing everything you need to scan safely and efficiently. Includes useful accessories that make scanning sessions fun and seamless.<\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0483-Edit.png",
+            "link": "shopify:\/\/products\/tonecarrier-35-mm-scanning-kit",
+            "link_label": "More details",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 6,
+            "start_column": 7,
+            "start_row": 1
+          }
+        },
+        "heading_qECwY8": {
+          "type": "heading",
+          "settings": {
+            "heading": "35 mm film scanning",
+            "heading_size": "h0"
+          }
+        },
+        "text_HXctLA": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The toneCarrier system has all you need to reliably hold and advance film when scanning with a digital camera.<\/p><p>Start simple with just a film carrier, or get the full kit for the best scan results.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "tile_JiFGgY",
+        "tile_4xXfJj",
+        "heading_qECwY8",
+        "text_HXctLA"
+      ],
+      "settings": {
+        "background_image": "shopify:\/\/shop_images\/DSCF0509-2.jpg",
+        "background_blur": 4,
+        "background_opacity": 0.7,
+        "content_alignment": "center",
+        "columns": 12,
+        "rows": 1,
+        "row_height": 400,
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "color_scheme": "scheme-4",
+        "heading_size": "h1",
+        "caption_size": 16,
+        "anchor": ""
+      }
+    },
+    "tc_product_image_cards_pXtXKr": {
+      "type": "tc-product-image-cards",
+      "blocks": {
+        "heading_nyxVDm": {
+          "type": "heading",
+          "settings": {
+            "heading": "Optional accessories",
+            "heading_size": "h1"
+          }
+        },
+        "text_BGmDd4": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Enhance your scanning experience with add-ons designed to work perfectly with the toneCarrier system.<\/p>"
+          }
+        },
+        "card_Y43WkJ": {
+          "type": "card",
+          "settings": {
+            "product": "tonecarrier-35-mm-auto-spooling-tray",
+            "title": "",
+            "description": "",
+            "badge": "",
+            "badge_color": "",
+            "image_primary_offset_x": 0,
+            "image_primary_offset_y": 0,
+            "image_primary_offset_x_flip": false,
+            "image_primary_offset_y_flip": false,
+            "image_secondary_offset_x": 0,
+            "image_secondary_offset_y": 0,
+            "image_secondary_offset_x_flip": false,
+            "image_secondary_offset_y_flip": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_nyxVDm",
+        "text_BGmDd4",
+        "card_Y43WkJ"
+      ],
+      "settings": {
+        "content_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "cards_per_row": 3
+      }
+    },
+    "featured_collection_E8wjma": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Optional accessories",
+        "heading_size": "h1",
+        "description": "<p>Enhance your scanning experience with add-ons designed to work perfectly with the toneCarrier system.<\/p>",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "tonecarrier-35-mm-accessories",
+        "products_to_show": 25,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": true,
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "banner": {
       "type": "main-collection-banner",
+      "disabled": true,
       "settings": {
         "show_collection_description": true,
         "show_collection_image": true,
@@ -10,27 +158,120 @@
     },
     "product-grid": {
       "type": "main-collection-product-grid",
+      "disabled": true,
       "settings": {
         "products_per_page": 16,
         "columns_desktop": 4,
-        "color_scheme": "",
-        "image_ratio": "adapt",
+        "color_scheme": "scheme-4",
+        "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": false,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
-        "enable_filtering": true,
+        "enable_filtering": false,
         "filter_type": "vertical",
-        "enable_sorting": true,
+        "enable_sorting": false,
         "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "bento_MawUwx": {
+      "type": "bento",
+      "blocks": {
+        "heading_aeKhFE": {
+          "type": "heading",
+          "settings": {
+            "heading": "Make it yourself",
+            "heading_size": "h0"
+          }
+        },
+        "text_J9ziTa": {
+          "type": "text",
+          "settings": {
+            "text": "<p>If you have a 3D printer and feel like doing some DIY, the toneCarrier is also available in a self-printed version.<\/p><p>With easy to print parts and some extra hardware you will be ready to scan in no time.<\/p>"
+          }
+        },
+        "tile_Gr9wUn": {
+          "type": "Tile",
+          "settings": {
+            "title": "Film holder (DIY)",
+            "description": "<p>Includes STL and 3MF files for the film holder, as well as complete assembly instructions and Bill of Materials.<\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0553-Edit.jpg",
+            "link": "shopify:\/\/products\/tonecarrier-35-mm-stl",
+            "link_label": "More details",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 6,
+            "start_column": 1,
+            "start_row": 2
+          }
+        },
+        "tile_9dteNg": {
+          "type": "Tile",
+          "settings": {
+            "title": "Full scanning kit (DIY)",
+            "description": "<p>Also includes files for input and output trays, light hood, and light source adapters.<\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0483-Edit.png",
+            "link": "shopify:\/\/products\/tonecarrier-35-mm-scanning-kit",
+            "link_label": "More details",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 6,
+            "start_column": 7,
+            "start_row": 2
+          }
+        },
+        "tile_yCjhaj": {
+          "type": "Tile",
+          "settings": {
+            "title": "",
+            "description": "",
+            "image": "shopify:\/\/shop_images\/DSCF2613.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 12,
+            "start_column": 1,
+            "start_row": 1
+          }
+        }
+      },
+      "block_order": [
+        "heading_aeKhFE",
+        "text_J9ziTa",
+        "tile_Gr9wUn",
+        "tile_9dteNg",
+        "tile_yCjhaj"
+      ],
+      "settings": {
+        "background_image": "shopify:\/\/shop_images\/DSCF2613.png",
+        "background_blur": 5,
+        "background_opacity": 0.1,
+        "content_alignment": "center",
+        "columns": 12,
+        "rows": 1,
+        "row_height": 400,
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "color_scheme": "scheme-4",
+        "heading_size": "h1",
+        "caption_size": 16,
+        "anchor": ""
+      }
     }
   },
   "order": [
+    "bento_QFQBRB",
+    "tc_product_image_cards_pXtXKr",
+    "featured_collection_E8wjma",
     "banner",
-    "product-grid"
+    "product-grid",
+    "bento_MawUwx"
   ]
 }
