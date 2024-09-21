@@ -783,8 +783,16 @@ video {
   margin-right: auto;
 }
 
+.tw-mb-2 {
+  margin-bottom: 0.5rem;
+}
+
 .tw-block {
   display: block;
+}
+
+.tw-inline {
+  display: inline;
 }
 
 .tw-flex {
@@ -1120,6 +1128,10 @@ video {
 
 .tw-border {
   border-width: 1px;
+}
+
+.tw-border-b {
+  border-bottom-width: 1px;
 }
 
 .tw-border-black {
@@ -1698,6 +1710,12 @@ video {
 
   .md\:tw-w-auto {
     width: auto;
+  }
+
+  .md\:tw-w-fit {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
   }
 
   .md\:tw-flex-row {

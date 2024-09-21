@@ -71,7 +71,7 @@
 
 <section style="padding-left: 0; padding-right: 0" class="isolate tw-overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
   <div style="padding-bottom: {{section.settings.padding_bottom}}px" class="tw-mx-auto  rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
-    <div class="rich-text__blocks {{ section.settings.content_alignment }}">
+    <div class="page-width rich-text__blocks {{ section.settings.content_alignment }}">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}

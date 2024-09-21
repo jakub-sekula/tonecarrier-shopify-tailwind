@@ -15,7 +15,7 @@
   .bento-grid-{{ section.id }} {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1.5rem;
   }
 
   .bento-tile-{{ section.id }} {
@@ -66,20 +66,39 @@
       grid-template-columns: repeat({{ section.settings.columns }}, 1fr);
       gap: 1.5rem;
     }
-    {% for block in section.blocks %}
-      {% if block.type == 'Tile' %}
-        .bento-tile-{{ block.id }} {
-          --width: {{ block.settings.width }};
-          --height: {{ block.settings.height }};
-          grid-column: span var(--width)/ span var(--width);
-          grid-row: span var(--height)/ span var(--height);
-          grid-column-start: {{ block.settings.start_column }};
-          grid-row-start: {{ block.settings.start_row }};
-        }
-      {% endif %}
-    {% endfor %}
   }
-{%- endstyle -%}
+  
+      {% for block in section.blocks %}
+        {% if block.type == 'Tile' %}
+          .bento-tile-{{ block.id }} {
+            --width: {{ block.settings.width }};
+            --height: {{ block.settings.height }};
+            grid-column: span var(--width)/ span var(--width);
+            grid-row: span var(--height)/ span var(--height);
+            grid-column-start: {{ block.settings.start_column }};
+            grid-row-start: {{ block.settings.start_row }};
+          }
+    
+          .bento-tile-fade-color-{{ block.id }} {
+            background-color: {{ block.settings.fade_color }};
+          }
+    
+          .bento-tile-fade-{{ block.id }} {
+            height: {{ block.settings.fade_height }}%;
+            width: 100%;
+            position: absolute;
+            z-index: 5;
+            left: 0;
+            top: 0
+          }
+
+          .bento-text-container-{{ block.id }} * {
+            color: {{block.settings.text_color}};
+            border-color: {{block.settings.text_color}}
+          }
+        {% endif %}
+      {% endfor %}
+  {%- endstyle -%}
 
 <section
   {% if section.settings.anchor != blank %}
@@ -191,13 +210,13 @@
               <div class="tw-absolute tw-bottom-0 tw-right-0 tw-w-full tw-px-6 tw-pb-6 tw-flex tw-z-20 tw-items-center tw-justify-end tw-gap-6">
 
                 {% if block.settings.product != blank %}
-                  <p class="bento-product-price tw-mr-auto">{{block.settings.product.selected_or_first_available_variant.price | money }}</p>
+                  <p class="tw-hidden md:tw-block bento-product-price tw-mr-auto">{{ block.settings.product.selected_or_first_available_variant.price | money }}</p>
                   {% assign product_form_id = block.id %}
-                  <product-form data-section-id="{{ section.id }}">
+                  <product-form data-section-id="{{ section.id }}" class="tw-w-full tw-flex tw-justify-end">
                     {%- form 'product'
                       , block.settings.product
                       , id: product_form_id
-                      , class: 'form'
+                      , class: 'form tw-w-full tw-flex'
                       , novalidate: 'novalidate'
                       , data-type: 'add-to-cart-form'
                     -%}
@@ -213,7 +232,7 @@
                         id="{{ product_form_id }}-submit"
                         type="submit"
                         name="add"
-                        class="button button--secondary bento-add-to-cart-button"
+                        class="button button--secondary bento-add-to-cart-button tw-w-full md:tw-w-fit tw-ml-auto"
                         aria-haspopup="dialog"
                         aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ block.settings.product.id }}"
                         aria-live="polite"
@@ -258,10 +277,15 @@
               </div>
 
             {% endunless %}
-            <h3 class="tw-z-10 {{ section.settings.heading_size }}">{{ block.settings.title }}</h3>
-            <div style="z-index: 10; font-size: {{section.settings.caption_size}}px">{{ block.settings.description }}</div>
+            <div class="tw-z-10 bento-text-container-{{ block.id }}">
+              <h3 class="{{ section.settings.heading_size }}">{{ block.settings.title }}</h3>
+              {% if block.settings.product != blank %}
+                <p class="tw-w-full md:tw-hidden tw-border-b tw-mb-2 tw-pb-2">{{ block.settings.product.selected_or_first_available_variant.price | money }}</p>
+              {% endif %}
+              <div style="z-index: 10; font-size: {{section.settings.caption_size}}px">{{ block.settings.description }}</div>
+            </div>
             {% unless block.settings.image == blank %}
-              <div style="display: block!important;" class="tc-fade-to-bottom color-{{ section.settings.color_scheme }} tw-h-3/5 tw-w-full tw-absolute tw-z-[5] tw-left-0 tw-top-0"></div>
+              <div class="tc-fade-to-bottom {%if block.settings.fade_color == blank%}color-{{ section.settings.color_scheme }}{% else %}bento-tile-fade-color-{{block.id}}{% endif %} bento-tile-fade-{{ block.id }}"></div>
               {{ block.settings.image | image_url: width: 1200 | image_tag: widths: '300, 600, 900, 1200, 1600', class: "tw-z-1 tw-inset-0 tw-absolute tw-object-cover tw-w-full tw-h-full group-hover:tw-scale-105 tw-duration-500 tw-transition-all" }}
             {% endunless %}
           </li>
@@ -519,7 +543,29 @@
             "max": 12,
             "step": 1,
             "default": 1
-          }
+          },
+          {
+            "type": "color",
+            "id": "fade_color",
+            "label": "Fade color",
+            "info": "Override fade color from color scheme"
+          },
+          {
+            "type": "range",
+            "id": "fade_height",
+            "min": 0,
+            "max": 100,
+            "default": 50,
+            "unit": "%",
+            "step": 1,
+            "label": "Fade height"
+          },
+          {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text color",
+            "info": "Override text color from color scheme"
+          },
         ]
       },
       {

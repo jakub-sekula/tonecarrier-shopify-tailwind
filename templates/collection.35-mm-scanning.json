@@ -25,7 +25,10 @@
             "height": 1,
             "width": 6,
             "start_column": 1,
-            "start_row": 1
+            "start_row": 1,
+            "fade_color": "#ffffff",
+            "fade_height": 67,
+            "text_color": "#000000"
           }
         },
         "tile_4xXfJj": {
@@ -36,12 +39,15 @@
             "image": "shopify:\/\/shop_images\/DSCF0483-Edit.png",
             "link": "shopify:\/\/products\/tonecarrier-35-mm-scanning-kit",
             "link_label": "More details",
-            "product": "",
+            "product": "tonecarrier-35-mm-scanning-kit",
             "extended_description": "",
             "height": 1,
             "width": 6,
             "start_column": 7,
-            "start_row": 1
+            "start_row": 1,
+            "fade_color": "#ffffff",
+            "fade_height": 80,
+            "text_color": "#000000"
           }
         },
         "heading_qECwY8": {
@@ -65,9 +71,9 @@
         "text_HXctLA"
       ],
       "settings": {
-        "background_image": "shopify:\/\/shop_images\/DSCF0509-2.jpg",
+        "background_image": "shopify:\/\/shop_images\/DSCF0312-2.webp",
         "background_blur": 4,
-        "background_opacity": 0.7,
+        "background_opacity": 0.4,
         "content_alignment": "center",
         "columns": 12,
         "rows": 1,
@@ -126,34 +132,6 @@
         "padding_top": 36,
         "padding_bottom": 36,
         "cards_per_row": 3
-      }
-    },
-    "featured_collection_E8wjma": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Optional accessories",
-        "heading_size": "h1",
-        "description": "<p>Enhance your scanning experience with add-ons designed to work perfectly with the toneCarrier system.<\/p>",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "tonecarrier-35-mm-accessories",
-        "products_to_show": 25,
-        "columns_desktop": 4,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": true,
-        "color_scheme": "scheme-1",
-        "image_ratio": "square",
-        "image_shape": "default",
-        "show_secondary_image": false,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "padding_top": 36,
-        "padding_bottom": 36
       }
     },
     "banner": {
@@ -215,7 +193,10 @@
             "height": 1,
             "width": 6,
             "start_column": 1,
-            "start_row": 2
+            "start_row": 2,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
           }
         },
         "tile_9dteNg": {
@@ -231,7 +212,10 @@
             "height": 1,
             "width": 6,
             "start_column": 7,
-            "start_row": 2
+            "start_row": 2,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
           }
         },
         "tile_yCjhaj": {
@@ -247,7 +231,10 @@
             "height": 1,
             "width": 12,
             "start_column": 1,
-            "start_row": 1
+            "start_row": 1,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
           }
         }
       },
@@ -278,7 +265,6 @@
   "order": [
     "bento_QFQBRB",
     "tc_product_image_cards_pXtXKr",
-    "featured_collection_E8wjma",
     "banner",
     "product-grid",
     "bento_MawUwx"
