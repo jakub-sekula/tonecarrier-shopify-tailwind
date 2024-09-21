@@ -33,6 +33,11 @@
             "show_dynamic_checkout": false,
             "show_gift_card_recipient": true
           }
+        },
+        "description_3V4Q6Y": {
+          "type": "description",
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -40,7 +45,8 @@
         "title",
         "caption",
         "price",
-        "buy_buttons"
+        "buy_buttons",
+        "description_3V4Q6Y"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -525,32 +531,14 @@
         "text_6YzLya": {
           "type": "text",
           "settings": {
-            "text": "<p>To guarantee good and reliable performance, the toneCarrier uses some stock hardware for critical functions. You will need to source those items to assemble the printed parts.<\/p>"
+            "text": "<p>The toneCarrier is built with some off-the-shelf hardware for smooth and reliable performance.<\/p><p>You will need to source those extra items to assemble the holder.<\/p>"
           }
         },
         "card_nphB4M": {
           "type": "card",
           "settings": {
             "product": "",
-            "title": "M5 screws",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_tzahR4": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "title": "M5 nuts",
+            "title": "M5 screws & nuts",
             "description": "",
             "badge": "",
             "badge_color": "",
@@ -568,25 +556,7 @@
           "type": "card",
           "settings": {
             "product": "",
-            "title": "M3 screws",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_zgR8hU": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "title": "M3 nuts",
+            "title": "M3 screws & nuts",
             "description": "",
             "badge": "",
             "badge_color": "",
@@ -677,9 +647,7 @@
         "heading_BztjdW",
         "text_6YzLya",
         "card_nphB4M",
-        "card_tzahR4",
         "card_yWa8pf",
-        "card_zgR8hU",
         "card_hUzLhY",
         "card_XUBkRX",
         "card_kQnCjX",
@@ -687,7 +655,7 @@
       ],
       "settings": {
         "content_alignment": "center",
-        "color_scheme": "",
+        "color_scheme": "scheme-4",
         "padding_top": 36,
         "padding_bottom": 36,
         "cards_per_row": 3
@@ -696,22 +664,30 @@
     "rich_text_EwEzzq": {
       "type": "rich-text",
       "blocks": {
+        "heading_XJETz3": {
+          "type": "heading",
+          "settings": {
+            "heading": "Does it seem like too much effort to source this all yourself?",
+            "heading_size": "h2"
+          }
+        },
         "text_EArbff": {
           "type": "text",
           "settings": {
-            "text": "<p>Prefer to avoid the hassle of bulk buys and ordering from multiple vendors? Check out our ready-made hardware kits, which include all the components you need to complete the toneCarrier build.<\/p>"
+            "text": "<p>There's an easier way: avoid the hassle of bulk orders and buying from multiple vendors with our  ready-made hardware kit, which includes all the necessary components to build a toneCarrier yourself.<\/p>"
           }
         }
       },
       "block_order": [
+        "heading_XJETz3",
         "text_EArbff"
       ],
       "settings": {
         "desktop_content_position": "center",
         "content_alignment": "center",
-        "color_scheme": "",
+        "color_scheme": "scheme-4",
         "full_width": true,
-        "padding_top": 0,
+        "padding_top": 36,
         "padding_bottom": 36
       }
     },
