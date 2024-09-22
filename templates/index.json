@@ -41,6 +41,218 @@
         "max_height": 0
       }
     },
+    "image_with_text_tn7xXN": {
+      "type": "image-with-text",
+      "blocks": {
+        "caption_fHMKdj": {
+          "type": "caption",
+          "settings": {
+            "caption": "Professional grade tools",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_ejT9dW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Film scanning made better",
+            "heading_size": "h1"
+          }
+        },
+        "text_LKXdjG": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The toneCarrier is a fully-featured, dedicated film holding system specifically designed for a digital camera scanning workflow.<\/p><p>Make archival-grade digital copies of your film photos in minutes. Forget the struggle of flatbed scanners - scanning with a camera is the modern way to preserve and share your film photography.<\/p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "caption_fHMKdj",
+        "heading_ejT9dW",
+        "text_LKXdjG"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/Square.png",
+        "height": "adapt",
+        "desktop_image_width": "small",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "bento_UtMxTe": {
+      "type": "bento",
+      "blocks": {
+        "heading_ULikV9": {
+          "type": "heading",
+          "settings": {
+            "heading": "What is camera scanning?",
+            "heading_size": "h1"
+          }
+        },
+        "text_6fr77k": {
+          "type": "text",
+          "settings": {
+            "text": "<p>In the past digitizing film meant investing in a bulky, expensive and slow flatbed scanner or relying on a professional lab, with all the associated costs and loss of creative control.<\/p><p><\/p>"
+          }
+        },
+        "text_RQFJJp": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Camera scanning is the modern alternative. In this process, you use a digital camera with a macro lens to take a high quality photo of the negative, which is inverted to obtain a high resolution scan.<\/p>"
+          }
+        },
+        "heading_y8gzBw": {
+          "type": "heading",
+          "settings": {
+            "heading": "Parts of a scanning setup",
+            "heading_size": "h2"
+          }
+        },
+        "tile_d9P7FW": {
+          "type": "Tile",
+          "settings": {
+            "title": "Film holder",
+            "description": "<p>Used to hold the film flat and level and easily advance it from one frame to the next<\/p>",
+            "link": "#lineup",
+            "link_label": "Our range",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 5,
+            "start_column": 2,
+            "start_row": 1,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
+          }
+        },
+        "tile_aM8RiG": {
+          "type": "Tile",
+          "settings": {
+            "title": "Digital camera",
+            "description": "<p>DSLR or mirrorless with RAW capture capability. No need for the latest and greatest - any camera from the last decade will work great as a scanner.<\/p>",
+            "link": "",
+            "link_label": "",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 5,
+            "start_column": 7,
+            "start_row": 1,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
+          }
+        },
+        "tile_THN4zb": {
+          "type": "Tile",
+          "settings": {
+            "title": "Macro lens",
+            "description": "<p>To get good scans, you need to be able to get close to the film. A macro lens provides high magnifications needed for resolving all the detail of the negative.<\/p>",
+            "link": "shopify:\/\/pages\/macro-lens-recommendations",
+            "link_label": "Lens recommendations",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 5,
+            "start_column": 2,
+            "start_row": 2,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
+          }
+        },
+        "tile_nFaPi7": {
+          "type": "Tile",
+          "settings": {
+            "title": "Camera mount",
+            "description": "<p>You need a way to hold the camera vertical above the film holder. Popular options are dedicated copy stands, tripods, or modified vintage enlarger heads.<\/p>",
+            "link": "",
+            "link_label": "",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 5,
+            "start_column": 7,
+            "start_row": 2,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
+          }
+        },
+        "tile_D8cJPF": {
+          "type": "Tile",
+          "settings": {
+            "title": "Conversion software",
+            "description": "<p>Specialized programs to accurately invert the negative and turn it into finished, high quality scans.<\/p>",
+            "link": "shopify:\/\/pages\/converting-negatives-with-negative-lab-pro",
+            "link_label": "Software recommendations",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 5,
+            "start_column": 7,
+            "start_row": 3,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
+          }
+        },
+        "tile_A7jtYU": {
+          "type": "Tile",
+          "settings": {
+            "title": "Light source",
+            "description": "<p>A way to evenly illuminate the film from behind. You can start simple by using your smartphone, then upgrade to a dedicated scanning light.<\/p>",
+            "link": "shopify:\/\/pages\/light-source-recommendations",
+            "link_label": "Light recommendations",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 5,
+            "start_column": 2,
+            "start_row": 3,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_ULikV9",
+        "text_6fr77k",
+        "text_RQFJJp",
+        "heading_y8gzBw",
+        "tile_d9P7FW",
+        "tile_aM8RiG",
+        "tile_THN4zb",
+        "tile_nFaPi7",
+        "tile_D8cJPF",
+        "tile_A7jtYU"
+      ],
+      "settings": {
+        "background_blur": 5,
+        "background_opacity": 0.2,
+        "content_alignment": "center",
+        "columns": 12,
+        "rows": 1,
+        "row_height": 200,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "color_scheme": "scheme-1",
+        "heading_size": "h2",
+        "caption_size": 14,
+        "anchor": ""
+      }
+    },
     "bento_jFmJGP": {
       "type": "bento",
       "blocks": {
@@ -143,7 +355,7 @@
         "color_scheme": "scheme-4",
         "heading_size": "h1",
         "caption_size": 16,
-        "anchor": ""
+        "anchor": "lineup"
       }
     },
     "sample_scan_3JWfQk": {
@@ -199,11 +411,126 @@
         "padding_bottom": 36,
         "content_height": 400
       }
+    },
+    "rich_text_X3CFcX": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_QwTePn": {
+          "type": "heading",
+          "settings": {
+            "heading": "Why scan with a camera?",
+            "heading_size": "h1"
+          }
+        },
+        "text_CHtmN7": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_QwTePn",
+        "text_CHtmN7"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "multicolumn_7VYUiW": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_7GcTWF": {
+          "type": "column",
+          "settings": {
+            "title": "Speed",
+            "text": "<p>Camera scanning is the fastest way to digitize film. With the toneCarrier system, a full roll can be scanned in less than 2 minutes.<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_Ei3zzE": {
+          "type": "column",
+          "settings": {
+            "title": "Quality",
+            "text": "<p>Modern sensors and macro lenses offer excellent detail reproduction, far greater than that offered by flatbed scanners.<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_Ke7VeG": {
+          "type": "column",
+          "settings": {
+            "title": "Convenience",
+            "text": "<p>You may already own most of the equipment needed - and you don't need the newest, most expensive camera to start making great scans.<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_d8mUre": {
+          "type": "column",
+          "settings": {
+            "title": "Upgradeability",
+            "text": "<p>Upgrade to your digital camera and lens also upgrade your scanner - as technology improves, so will your scan quality.<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_7GcTWF",
+        "column_Ei3zzE",
+        "column_Ke7VeG",
+        "column_d8mUre"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "columns_desktop": 4,
+        "column_alignment": "left",
+        "background_style": "none",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    },
+    "bento_ckRpXx": {
+      "type": "bento",
+      "settings": {
+        "background_blur": 5,
+        "background_opacity": 0.2,
+        "content_alignment": "center",
+        "columns": 12,
+        "rows": 12,
+        "row_height": 450,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "color_scheme": "",
+        "heading_size": "h1",
+        "caption_size": 16,
+        "anchor": ""
+      }
     }
   },
   "order": [
     "tc_homepage_hero_LAKm3m",
+    "image_with_text_tn7xXN",
+    "bento_UtMxTe",
     "bento_jFmJGP",
-    "sample_scan_3JWfQk"
+    "sample_scan_3JWfQk",
+    "rich_text_X3CFcX",
+    "multicolumn_7VYUiW",
+    "bento_ckRpXx"
   ]
 }
