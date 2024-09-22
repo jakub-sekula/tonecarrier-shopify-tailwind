@@ -1,12 +1,3 @@
-/*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
 {
   "sections": {
     "tc_homepage_hero_LAKm3m": {
@@ -47,133 +38,172 @@
         "background_video": "shopify:\/\/files\/videos\/leaks_trim.mp4",
         "padding_top": 36,
         "padding_bottom": 36,
-        "cards_per_row": 3
+        "max_height": 0
       }
     },
-    "tc_product_image_cards_9bxm8y": {
-      "type": "tc-product-image-cards",
+    "bento_jFmJGP": {
+      "type": "bento",
       "blocks": {
-        "heading_YR7GBb": {
+        "caption_99yDmy": {
+          "type": "caption",
+          "settings": {
+            "caption": "Scan anything",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_r7Thag": {
           "type": "heading",
           "settings": {
-            "heading": "Scan any film format",
+            "heading": "Supports most film formats",
             "heading_size": "h1"
+          }
+        },
+        "text_WVFgd7": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The toneCarrier system is designed to get great quality scans from any roll film format<\/p>"
+          }
+        },
+        "tile_gwmLwK": {
+          "type": "Tile",
+          "settings": {
+            "title": "35 mm film",
+            "description": "<p>Full frame to panoramic (X-Pan)<\/p>",
+            "image": "shopify:\/\/shop_images\/Hero-props-1.jpg",
+            "link": "shopify:\/\/collections\/35-mm-film-scanning",
+            "link_label": "Shop 35 mm",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 4,
+            "start_column": 1,
+            "start_row": 1,
+            "fade_color": "#000000",
+            "fade_height": 40,
+            "text_color": "#ffffff"
+          }
+        },
+        "tile_FTB3km": {
+          "type": "Tile",
+          "settings": {
+            "title": "120 film",
+            "description": "<p>All medium format up to 6x9<\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0422-Edit.jpg",
+            "link": "shopify:\/\/collections\/120-film-scanning",
+            "link_label": "Shop 120",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 4,
+            "start_column": 5,
+            "start_row": 1,
+            "fade_color": "#000000",
+            "fade_height": 40,
+            "text_color": "#ffffff"
+          }
+        },
+        "tile_na8A46": {
+          "type": "Tile",
+          "settings": {
+            "title": "110 film",
+            "description": "<p>Proof that size doesn't matter<\/p>",
+            "image": "shopify:\/\/shop_images\/DSCF0759-Edit-2.jpg",
+            "link": "shopify:\/\/collections\/110-film-scanning",
+            "link_label": "Shop 110",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 4,
+            "start_column": 9,
+            "start_row": 1,
+            "fade_color": "#000000",
+            "fade_height": 40,
+            "text_color": "#ffffff"
           }
         }
       },
       "block_order": [
-        "heading_YR7GBb"
+        "caption_99yDmy",
+        "heading_r7Thag",
+        "text_WVFgd7",
+        "tile_gwmLwK",
+        "tile_FTB3km",
+        "tile_na8A46"
+      ],
+      "settings": {
+        "background_blur": 5,
+        "background_opacity": 0.2,
+        "content_alignment": "center",
+        "columns": 12,
+        "rows": 1,
+        "row_height": 300,
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "color_scheme": "scheme-4",
+        "heading_size": "h1",
+        "caption_size": 16,
+        "anchor": ""
+      }
+    },
+    "sample_scan_3JWfQk": {
+      "type": "sample-scan",
+      "blocks": {
+        "caption_Jx46KJ": {
+          "type": "caption",
+          "settings": {
+            "caption": "Sample scans",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_LETNVj": {
+          "type": "heading",
+          "settings": {
+            "heading": "Capture every detail",
+            "heading_size": "h1"
+          }
+        },
+        "text_xMFkDD": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours.<\/p><p>Click or tap on any image in the gallery below to zoom in and view the film grain.<\/p>"
+          }
+        },
+        "scan_image_mzd7UE": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0312.jpg",
+            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0312-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Colorplus 200",
+            "raw_download_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "caption_Jx46KJ",
+        "heading_LETNVj",
+        "text_xMFkDD",
+        "scan_image_mzd7UE"
       ],
       "settings": {
         "content_alignment": "center",
+        "background_color": "",
         "color_scheme": "",
+        "color_scheme_dark": "scheme-4",
         "padding_top": 36,
         "padding_bottom": 36,
-        "cards_per_row": 3
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "35 mm film scanning",
-        "heading_size": "h1",
-        "description": "",
-        "show_description": false,
-        "description_style": "uppercase",
-        "collection": "35-mm-film-scanning",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "full_width": true,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 28,
-        "padding_bottom": 36
-      }
-    },
-    "video": {
-      "type": "video",
-      "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "enable_video_looping": false,
-        "video_url": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc",
-        "description": "",
-        "full_width": false,
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "multicolumn": {
-      "type": "multicolumn",
-      "blocks": {
-        "column1": {
-          "type": "column",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/PACKAGING.jpg",
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column2": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column3": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column1",
-        "column2",
-        "column3"
-      ],
-      "settings": {
-        "title": "dasda",
-        "heading_size": "h1",
-        "image_width": "third",
-        "image_ratio": "square",
-        "columns_desktop": 3,
-        "column_alignment": "left",
-        "background_style": "primary",
-        "button_label": "",
-        "button_link": "",
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "content_height": 400
       }
     }
   },
   "order": [
     "tc_homepage_hero_LAKm3m",
-    "tc_product_image_cards_9bxm8y",
-    "featured_collection",
-    "video",
-    "multicolumn"
+    "bento_jFmJGP",
+    "sample_scan_3JWfQk"
   ]
 }

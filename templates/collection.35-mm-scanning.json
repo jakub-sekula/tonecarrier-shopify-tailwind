@@ -1,12 +1,3 @@
-/*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
 {
   "sections": {
     "bento_QFQBRB": {
@@ -35,7 +26,7 @@
           "type": "Tile",
           "settings": {
             "title": "Full scanning kit",
-            "description": "<p>A complete film holding kit containing everything you need to scan safely and efficiently. Includes useful accessories that make scanning sessions fun and seamless.<\/p>",
+            "description": "<p>A complete film holding solution for the most efficient and enjoyable scanning experience.<\/p>",
             "image": "shopify:\/\/shop_images\/DSCF0483-Edit.png",
             "link": "shopify:\/\/products\/tonecarrier-35-mm-scanning-kit",
             "link_label": "More details",
@@ -54,13 +45,13 @@
           "type": "heading",
           "settings": {
             "heading": "35 mm film scanning",
-            "heading_size": "h0"
+            "heading_size": "hxl"
           }
         },
         "text_HXctLA": {
           "type": "text",
           "settings": {
-            "text": "<p>The toneCarrier system has all you need to reliably hold and advance film when scanning with a digital camera.<\/p><p>Start simple with just a film carrier, or get the full kit for the best scan results.<\/p>"
+            "text": "<p>Start simple with just a film carrier, or get the full kit for the best scan results.<\/p>"
           }
         }
       },
@@ -73,8 +64,8 @@
       "settings": {
         "background_image": "shopify:\/\/shop_images\/DSCF0312-2.webp",
         "background_blur": 4,
-        "background_opacity": 0.4,
-        "content_alignment": "center",
+        "background_opacity": 0.1,
+        "content_alignment": "left",
         "columns": 12,
         "rows": 1,
         "row_height": 400,
