@@ -177,7 +177,6 @@
                 {{ block.settings.image | image_url: width: 1000 | image_tag }}
               {% else %}
                 {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
-
             </swiper-slide>
           {% endif %}
         {% endfor %}
@@ -310,7 +309,16 @@
     "presets": [
       {
         "name": "Manual step",
-        "settings": {}
+        "settings": {
+        },
+        "blocks": [
+        {
+          "type": "bullet"
+        },
+        {
+          "type": "image"
+        }
+      ]
       }
     ]
   }
