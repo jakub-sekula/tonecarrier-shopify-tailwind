@@ -113,7 +113,54 @@
         "text_gcP9QN",
         "button_9VJN8R"
       ],
-      "disabled": true,
+      "settings": {
+        "content_alignment": "center",
+        "background_video": "shopify:\/\/files\/videos\/leaks_trim.mp4",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "max_height": 0
+      }
+    },
+    "tc_homepage_hero_yzfcQL": {
+      "type": "tc-homepage-hero",
+      "blocks": {
+        "heading_RtyMdT": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p>Finally, a better way to<\/p><p><strong>preserve film<\/strong>memories<\/p>",
+            "heading_size": "h0"
+          }
+        },
+        "text_tLMjVL": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The toneCarrier is a complete system for digitizing negatives and slides.<\/p><p><strong>All you need to scan 35 mm and 120 is a camera, tripod and a macro lens.<\/strong><\/p>"
+          }
+        },
+        "text_ccH4pV": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Discover the fast, easy, and fun scanning system built for the modern film lover.<\/p>"
+          }
+        },
+        "button_BQxWHa": {
+          "type": "button",
+          "settings": {
+            "button_label": "Intro to camera scanning",
+            "button_link": "shopify:\/\/collections\/35-mm-film-scanning",
+            "button_style_secondary": false,
+            "button_label_2": "Shop toneCarrier",
+            "button_link_2": "shopify:\/\/collections\/120-film-scanning",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_RtyMdT",
+        "text_tLMjVL",
+        "text_ccH4pV",
+        "button_BQxWHa"
+      ],
       "settings": {
         "content_alignment": "center",
         "background_video": "shopify:\/\/files\/videos\/leaks_trim.mp4",
@@ -597,6 +644,7 @@
   "order": [
     "bento_tVjxzY",
     "tc_homepage_hero_LAKm3m",
+    "tc_homepage_hero_yzfcQL",
     "image_with_text_tn7xXN",
     "bento_UtMxTe",
     "bento_jFmJGP",

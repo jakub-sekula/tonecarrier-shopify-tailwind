@@ -37,37 +37,50 @@
     "tc_manual_section_fEWQkW": {
       "type": "tc-manual-section",
       "blocks": {
-        "bullet_7ECC9L": {
-          "type": "bullet",
-          "settings": {
-            "type": "default",
-            "text": "<p>Press 4x M5 threaded brass inserts into the highlighted holes using a soldering iron.<\/p>"
-          }
-        },
         "bullet_LahrjK": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Press another 2 inserts into the belt cover mounting holes at the other side of the part.<\/p>"
+            "text": "<p>Lay the A-side of the housing flat on the table<\/p>"
+          }
+        },
+        "bullet_7ECC9L": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>Take 6x M5 thin square nuts (DIN962) and insert them into the slots around the bearing pockets<\/p>"
           }
         },
         "bullet_Lb8LKq": {
           "type": "bullet",
           "settings": {
-            "type": "tip",
-            "text": "<p>More more more tips! (tipperini)<\/p>"
+            "type": "caution",
+            "text": "<p>Depending on print quality the nuts may be slightly loose on their pockets. Keep the assembly horizontal to prevent them from falling out.<\/p>"
+          }
+        },
+        "image_TGejXW": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Hero-props-1.png"
+          }
+        },
+        "image_fdGNfy": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Hardwarekit-1.jpg"
           }
         }
       },
       "block_order": [
-        "bullet_7ECC9L",
         "bullet_LahrjK",
-        "bullet_Lb8LKq"
+        "bullet_7ECC9L",
+        "bullet_Lb8LKq",
+        "image_TGejXW",
+        "image_fdGNfy"
       ],
       "settings": {
         "step_number": 1,
-        "title": "Outer housing",
-        "image": "shopify:\/\/shop_images\/DSCF0759-Edit-2.jpg",
+        "title": "M5 nut assembly",
         "padding_top": 36,
         "padding_bottom": 36,
         "anchor": "",
@@ -77,29 +90,113 @@
     "tc_manual_section_pEcDcw": {
       "type": "tc-manual-section",
       "blocks": {
-        "bullet_gBjbNw": {
+        "bullet_zreiGL": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Press 4x M5 threaded brass inserts into the highlighted holes using a soldering iron.<\/p>"
+            "text": "<p>Take 4x bearings (type 688) and insert them into the pockets in the housing<\/p>"
           }
         },
-        "bullet_Akz6U7": {
+        "bullet_3C9KWj": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Press another 2 inserts into the belt cover mounting holes at the other side of the part.<\/p>"
+            "text": "<p>Put the housing to the side while working on the next step<\/p>"
+          }
+        },
+        "image_GYkHa7": {
+          "type": "image",
+          "settings": {
+          }
+        },
+        "image_n8b6KN": {
+          "type": "image",
+          "settings": {
           }
         }
       },
       "block_order": [
-        "bullet_gBjbNw",
-        "bullet_Akz6U7"
+        "bullet_zreiGL",
+        "bullet_3C9KWj",
+        "image_GYkHa7",
+        "image_n8b6KN"
       ],
       "settings": {
-        "step_number": 1,
-        "title": "Outer housing",
-        "image": "shopify:\/\/shop_images\/DSCF0759-Edit-2.jpg",
+        "step_number": 2,
+        "title": "Insert bearings",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "anchor": "",
+        "full_width": false
+      }
+    },
+    "tc_manual_section_7tN4F9": {
+      "type": "tc-manual-section",
+      "blocks": {
+        "bullet_JjEbW4": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>Prepare 4x<strong> M3 thin square nuts <\/strong>(DIN562)<\/p>"
+          }
+        },
+        "bullet_BfD3B4": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>Insert the nuts into pockets in each of the two long rollers<\/p>"
+          }
+        },
+        "bullet_Mryc9y": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>Take 8x 15x19x2 mm red silicone O-rings<\/p>"
+          }
+        },
+        "bullet_NjrbLK": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>Assemble the O-rings into the roller grooves<\/p>"
+          }
+        },
+        "bullet_LrhGxX": {
+          "type": "bullet",
+          "settings": {
+            "type": "tip",
+            "text": "<p>Wash your hands before handling the O-rings to prevent them becoming oily and contaminating the film<\/p>"
+          }
+        },
+        "image_UaFnRC": {
+          "type": "image",
+          "settings": {
+          }
+        },
+        "image_DJUfrr": {
+          "type": "image",
+          "settings": {
+          }
+        },
+        "image_tVHnKM": {
+          "type": "image",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "bullet_JjEbW4",
+        "bullet_BfD3B4",
+        "bullet_Mryc9y",
+        "bullet_NjrbLK",
+        "bullet_LrhGxX",
+        "image_UaFnRC",
+        "image_DJUfrr",
+        "image_tVHnKM"
+      ],
+      "settings": {
+        "step_number": 3,
+        "title": "Roller assembly",
         "padding_top": 36,
         "padding_bottom": 36,
         "anchor": "",
@@ -111,6 +208,7 @@
     "main",
     "rich_text_WVVfeN",
     "tc_manual_section_fEWQkW",
-    "tc_manual_section_pEcDcw"
+    "tc_manual_section_pEcDcw",
+    "tc_manual_section_7tN4F9"
   ]
 }
