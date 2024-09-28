@@ -1,162 +1,253 @@
 {%- style -%}
 
-    .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-        padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-        background: red;
-    }
-    
-    .section-{{ section.id }} {
-        background-color: {{ section.settings.background_color }}
-    }
-
-    .manual-step {
-        background: white;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-
-    }
-
-    .manual-step div {
-        width: 100%;
-        height: 250px;
-    }
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
 
   
-    
-    
-    /* md (min-width: 768px) */
-    @media (min-width: 768px) {
-    .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
+  .manual-step__heading strong {
+    font-weight: bold;
+    margin-right: 2rem;
+  }
 
-    .manual-step {
-        flex-direction: row;
+  .manual-step {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 
-    }
-    
-    }
-    
-    /* lg (min-width: 1024px) */
-    @media (min-width: 1024px) {
-     
-    }
-    
-    /* xl (min-width: 1280px) */
-    @media (min-width: 1280px) {
-    ;
-    
-    }
-    
-    /* 2xl (min-width: 1536px) */
-    @media (min-width: 1536px) {
-    ;
-    
-    }
-    
-    
-      
-      {%- endstyle -%}
-    
-    <section
-      {% if section.settings.anchor != blank %}
-      id="{{section.settings.anchor}}"
+  }
+
+
+  .manual-step__image, .manual-step__content {
+    width: 100%;
+    flex-shrink: 1;
+  }
+
+  .manual-step__image img {
+    width: 100%;
+  }
+
+  .manual-step-bullet {
+    display: flex;
+    /* align-items: center; */
+    gap: 1.5rem;
+    font-size: 1.5rem;
+    padding: 1rem 0;
+  }
+
+.manual-step-bullet__bullet {
+  display: grid;
+  font-weight: bold;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  border: 1px solid;
+  border-color: current;
+  border-radius: 999px;
+  font-size: 1.25rem;
+  background-color: white;
+}
+
+.manual-step-bullet__default {}
+
+.manual-step-bullet__caution {
+}
+
+.manual-step-bullet__tip {
+}
+
+.manual-step-content ul {
+  display: flex;
+  flex-direction: column
+}
+
+.manual-step__heading {
+    margin-bottom: 2rem;
+}
+
+/* md (min-width: 768px) */
+@media (min-width: 768px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .manual-step {
+    flex-direction: row;
+  }
+
+  .manual-step-bullet {
+    /* background: #f9f9f9; */
+    border-radius: 0.5rem;
+    /* margin-bottom: 2rem; */
+    padding-left: 1rem;
+    padding-right: 1rem
+  }
+
+  .manual-step__image {
+    width: 60%;
+    flex-shrink: 1;
+  }
+
+  .manual-step__content {
+    width: 40%;
+    flex-shrink: 1;
+    padding: 0 2rem 2rem;
+  }
+
+}
+
+/* lg (min-width: 1024px) */
+@media (min-width: 1024px) {}
+
+/* xl (min-width: 1280px) */
+@media (min-width: 1280px) {
+;
+
+}
+
+/* 2xl (min-width: 1536px) */
+@media (min-width: 1536px) {
+;
+
+}
+
+
+{%- endstyle -%}
+
+<section
+  {% if section.settings.anchor != blank %}
+  id="{{section.settings.anchor}}"
+  {% endif %}
+  class="isolate section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
+  {% if section.settings.background_image != blank %}
+    {% assign bg_image_class = "background-image-" | append: section.id %}
+    <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-full tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: bg_image_class }}</div>
+  {% endif %}
+  <div class="manual-step__heading page-width">
+    <h2><strong>Step {{section.settings.step_number}}</strong> {{section.settings.title}}</h2>
+  </div>
+  <div class="manual-step {% unless section.settings.full_width %} page-width{% endunless %}">
+    <div class="manual-step__image click-zoom-container tw-overflow-hidden">
+      {% if section.settings.image %}
+        {{section.settings.image |  image_url: width: 1000 |  image_tag}}
       {% endif %}
-      class="isolate section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
-      {% if section.settings.background_image != blank %}
-        {% assign bg_image_class = "background-image-" | append: section.id %}
-        <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-full tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: bg_image_class }}</div>
-      {% endif %}
-      <div class="manual-step {% unless section.settings.full_width %} page-width{% endunless %}">
-         <div class="tw-bg-orange-500 manual-step__image">hello</div>
-         <div class="tw-bg-blue-500 manual-step__content">world</div>
-      </div>
-    
-    </section>
+    </div>
+    <div class="manual-step__content">
+      <ul>
+        {% for block in section.blocks %}
+          <li class="manual-step-bullet manual-step-bullet__{{block.settings.type}}" {{ block.shopify_attributes }}>
+            <div class="manual-step-bullet__bullet">
+              {{ forloop.index }}
+            </div>
+            <div class="tw-w-full">
+              {{ block.settings.text }}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+</section>
 
 {% schema %}
-    {
-      "name": "Manual step",
-      "class": "section",
-      "tag": "section",
-      "settings": [
+  {
+    "name": "Manual step",
+    "class": "section",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "number",
+        "id": "step_number",
+        "label": "Step number"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Step title"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      },
+      {
+        "type": "text",
+        "id": "anchor",
+        "label": "Anchor"
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full width"
+      }
 
-        {
-          "type": "range",
-          "id": "padding_top",
-          "min": 0,
-          "max": 100,
-          "step": 4,
-          "unit": "px",
-          "label": "t:sections.all.padding.padding_top",
-          "default": 36
-        },
-        {
-          "type": "range",
-          "id": "padding_bottom",
-          "min": 0,
-          "max": 100,
-          "step": 4,
-          "unit": "px",
-          "label": "t:sections.all.padding.padding_bottom",
-          "default": 36
-        },
-        {
-          "type": "text",
-          "id": "anchor",
-          "label": "Anchor"
-        },
-        {"type": "checkbox",
-      "id": "full_width",
-    "label": "Full width"}
+    ],
+    "blocks": [
+      {
+        "type": "bullet",
+        "name": "Bullet",
+        "settings": [
+          {
+            "type": "select",
+            "id": "type",
+            "options": [
+              {
+                "value": "default",
+                "label": "Default"
+              },
+              {
+                "value": "caution",
+                "label": "Caution"
+              },
+              {
+                "value": "tip",
+                "label": "Tip"
+              }
 
-      ],
-      "blocks": [
-        {
-          "type": "bullet",
-          "name": "Bullet",
-          "settings": [
-            {
-              "type": "select",
-              "id": "type",
-              "options": [
-                {
-                  "value": "default",
-                  "label": "Default"
-                },
-                {
-                  "value": "caution",
-                  "label": "Caution"
-                },
-                {
-                  "value": "tip",
-                  "label": "Tip"
-                }
-               
-              ],
-              "default": "default",
-              "label": "Bullet type"
-            },
-            {
-              "type": "richtext",
-              "id": "text",
-              "label": "Bullet text",
-              "default": "<p>Bullet text</p>"
-            }
-          ]
-        }
-        
-      ],
-      "presets": [
-        {
-          "name": "Manual step",
-          "settings": {
-            
+            ],
+            "default": "default",
+            "label": "Bullet type"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Bullet text",
+            "default": "<p>Bullet text</p>"
           }
-        }
-      ]
-    }
-  {% endschema %}
+        ]
+      }
+
+    ],
+    "presets": [
+      {
+        "name": "Manual step",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

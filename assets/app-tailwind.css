@@ -10,6 +10,15 @@
 }
 
 
+.click-zoom-container > img {
+  max-width: 100%;
+  cursor: zoom-in
+}
+
+.click-zoom-container > img.zoomed-in {
+  cursor: zoom-out
+}
+
 
 .tc-fade-to-bottom {
     -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);

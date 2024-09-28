@@ -26,14 +26,6 @@
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
-    .click-zoom-container > img {
-      max-width: 100%;
-      cursor: zoom-in
-    }
-
-    .click-zoom-container > img.zoomed-in {
-      cursor: zoom-out
-    }
 
     .sample-height {
       max-height: {{ section.settings.content_height }}px
@@ -279,8 +271,6 @@
     swiper.initialize();
   })
 </script>
-
-{{ "tc-click-to-zoom.js" | asset_url | script_tag }}
 
 <script>
   const positives = document.querySelectorAll(".positive");

@@ -2,12 +2,36 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "custom_css": [
 
       ],
       "settings": {
         "padding_top": 100,
         "padding_bottom": 28
+      }
+    },
+    "rich_text_WVVfeN": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_dtjr9A": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ page.title }}",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_dtjr9A"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "scheme-3",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     },
     "tc_manual_section_fEWQkW": {
@@ -17,14 +41,65 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Bullet text<\/p>"
+            "text": "<p>Press 4x M5 threaded brass inserts into the highlighted holes using a soldering iron.<\/p>"
+          }
+        },
+        "bullet_LahrjK": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>Press another 2 inserts into the belt cover mounting holes at the other side of the part.<\/p>"
+          }
+        },
+        "bullet_Lb8LKq": {
+          "type": "bullet",
+          "settings": {
+            "type": "tip",
+            "text": "<p>More more more tips! (tipperini)<\/p>"
           }
         }
       },
       "block_order": [
-        "bullet_7ECC9L"
+        "bullet_7ECC9L",
+        "bullet_LahrjK",
+        "bullet_Lb8LKq"
       ],
       "settings": {
+        "step_number": 1,
+        "title": "Outer housing",
+        "image": "shopify:\/\/shop_images\/DSCF0759-Edit-2.jpg",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "anchor": "",
+        "full_width": false
+      }
+    },
+    "tc_manual_section_pEcDcw": {
+      "type": "tc-manual-section",
+      "blocks": {
+        "bullet_gBjbNw": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>Press 4x M5 threaded brass inserts into the highlighted holes using a soldering iron.<\/p>"
+          }
+        },
+        "bullet_Akz6U7": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>Press another 2 inserts into the belt cover mounting holes at the other side of the part.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "bullet_gBjbNw",
+        "bullet_Akz6U7"
+      ],
+      "settings": {
+        "step_number": 1,
+        "title": "Outer housing",
+        "image": "shopify:\/\/shop_images\/DSCF0759-Edit-2.jpg",
         "padding_top": 36,
         "padding_bottom": 36,
         "anchor": "",
@@ -34,6 +109,8 @@
   },
   "order": [
     "main",
-    "tc_manual_section_fEWQkW"
+    "rich_text_WVVfeN",
+    "tc_manual_section_fEWQkW",
+    "tc_manual_section_pEcDcw"
   ]
 }
