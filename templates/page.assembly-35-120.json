@@ -20,10 +20,17 @@
             "heading": "{{ page.title }}",
             "heading_size": "h1"
           }
+        },
+        "text_NigwQG": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this guide to correctly assemble the DIY (self-printed) toneCarrier kit. Or just have a look if you are curious about how it's built - that's fine too!<\/p>"
+          }
         }
       },
       "block_order": [
-        "heading_dtjr9A"
+        "heading_dtjr9A",
+        "text_NigwQG"
       ],
       "settings": {
         "desktop_content_position": "left",
@@ -61,13 +68,19 @@
         "image_TGejXW": {
           "type": "image",
           "settings": {
-            "image": "shopify:\/\/shop_images\/Hero-props-1.png"
+            "image": "shopify:\/\/shop_images\/120-assembly-2683.jpg"
           }
         },
         "image_fdGNfy": {
           "type": "image",
           "settings": {
-            "image": "shopify:\/\/shop_images\/Hardwarekit-1.jpg"
+            "image": "shopify:\/\/shop_images\/120-assembly-2684.jpg"
+          }
+        },
+        "image_xkcQLT": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2685.jpg"
           }
         }
       },
@@ -76,7 +89,8 @@
         "bullet_7ECC9L",
         "bullet_Lb8LKq",
         "image_TGejXW",
-        "image_fdGNfy"
+        "image_fdGNfy",
+        "image_xkcQLT"
       ],
       "settings": {
         "step_number": 1,
@@ -107,11 +121,13 @@
         "image_GYkHa7": {
           "type": "image",
           "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2688.jpg"
           }
         },
         "image_n8b6KN": {
           "type": "image",
           "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2689.jpg"
           }
         }
       },
@@ -147,6 +163,13 @@
             "text": "<p>Insert the nuts into pockets in each of the two long rollers<\/p>"
           }
         },
+        "bullet_gH6VkD": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>Use a thin tool to push the square nut all the way into the pocket<\/p>"
+          }
+        },
         "bullet_VRrw9d": {
           "type": "bullet",
           "settings": {
@@ -157,26 +180,37 @@
         "image_UaFnRC": {
           "type": "image",
           "settings": {
+            "image": "shopify:\/\/shop_images\/DSCF2694.jpg"
           }
         },
         "image_DJUfrr": {
           "type": "image",
           "settings": {
+            "image": "shopify:\/\/shop_images\/DSCF2698.jpg"
           }
         },
         "image_tVHnKM": {
           "type": "image",
           "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2702.jpg"
+          }
+        },
+        "image_NBbpab": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2706.jpg"
           }
         }
       },
       "block_order": [
         "bullet_JjEbW4",
         "bullet_BfD3B4",
+        "bullet_gH6VkD",
         "bullet_VRrw9d",
         "image_UaFnRC",
         "image_DJUfrr",
-        "image_tVHnKM"
+        "image_tVHnKM",
+        "image_NBbpab"
       ],
       "settings": {
         "step_number": 3,
@@ -214,16 +248,13 @@
         "image_QY6m6T": {
           "type": "image",
           "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2709.jpg"
           }
         },
         "image_LYP8N3": {
           "type": "image",
           "settings": {
-          }
-        },
-        "image_KWDtBT": {
-          "type": "image",
-          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2710.jpg"
           }
         }
       },
@@ -232,8 +263,7 @@
         "bullet_wf9aXx",
         "bullet_yq7LEF",
         "image_QY6m6T",
-        "image_LYP8N3",
-        "image_KWDtBT"
+        "image_LYP8N3"
       ],
       "settings": {
         "step_number": 4,
@@ -265,12 +295,38 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Place the remaining 4 bearings (type 688) onto the roller shafts as shown<\/p>"
+            "text": "<p>Take 2x top spacers and 2x right spacers and place them over the locating pins in the housing as shown<\/p>"
+          }
+        },
+        "bullet_yWr9yU": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>Place the remaining 4x bearings onto the roller shafts<\/p>"
           }
         },
         "image_RGyVKT": {
           "type": "image",
           "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2711.jpg"
+          }
+        },
+        "image_ACizH7": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2712.jpg"
+          }
+        },
+        "image_XBfR3e": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2714.jpg"
+          }
+        },
+        "image_d7LUeJ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2717.jpg"
           }
         }
       },
@@ -278,11 +334,15 @@
         "bullet_6EAhEN",
         "bullet_DqXyXh",
         "bullet_7rngeT",
-        "image_RGyVKT"
+        "bullet_yWr9yU",
+        "image_RGyVKT",
+        "image_ACizH7",
+        "image_XBfR3e",
+        "image_d7LUeJ"
       ],
       "settings": {
         "step_number": 5,
-        "title": "Put rollers in the housing",
+        "title": "Continue housing assembly",
         "padding_top": 36,
         "padding_bottom": 36,
         "anchor": "",
@@ -292,13 +352,6 @@
     "tc_manual_section_i4dPKi": {
       "type": "tc-manual-section",
       "blocks": {
-        "bullet_zFPaL8": {
-          "type": "bullet",
-          "settings": {
-            "type": "default",
-            "text": "<p>Take 2x top spacers and 2x right spacers and place them over the locating pins in the housing as shown<\/p>"
-          }
-        },
         "bullet_wmRjNF": {
           "type": "bullet",
           "settings": {
@@ -323,15 +376,22 @@
         "image_GjNLJM": {
           "type": "image",
           "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2718.jpg"
+          }
+        },
+        "image_VUPpFg": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2719.jpg"
           }
         }
       },
       "block_order": [
-        "bullet_zFPaL8",
         "bullet_wmRjNF",
         "bullet_zmb9bk",
         "bullet_48gmH3",
-        "image_GjNLJM"
+        "image_GjNLJM",
+        "image_VUPpFg"
       ],
       "settings": {
         "step_number": 6,
@@ -356,12 +416,7 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Tighten the screws using a 4 mm Hex (Allen) key in an X pattern as shown.<\/p>"
-          }
-        },
-        "image_ctc6ib": {
-          "type": "image",
-          "settings": {
+            "text": "<p>Tighten the screws using a 4 mm Hex (Allen) key in an X pattern (top left, bottom right, bottom left, top right)<\/p>"
           }
         },
         "bullet_MpB8kK": {
@@ -370,13 +425,19 @@
             "type": "caution",
             "text": "<p>Do not tighten the screws excessively to prevent warping the housing.<\/p>"
           }
+        },
+        "image_ctc6ib": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2722.jpg"
+          }
         }
       },
       "block_order": [
         "bullet_YbEU64",
         "bullet_g9qacM",
-        "image_ctc6ib",
-        "bullet_MpB8kK"
+        "bullet_MpB8kK",
+        "image_ctc6ib"
       ],
       "settings": {
         "step_number": 7,
@@ -395,11 +456,6 @@
           "settings": {
             "type": "default",
             "text": "<p>Turn the housing around and slide a 20-tooth GT2 pulley over one of the rollers<\/p>"
-          }
-        },
-        "image_NzkjHU": {
-          "type": "image",
-          "settings": {
           }
         },
         "bullet_WQKjE4": {
@@ -429,15 +485,49 @@
             "type": "tip",
             "text": "<p>Leave a small gap between the pulleys and the housing to prevent unnecessary friction<\/p>"
           }
+        },
+        "image_L7XXHV": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2727.jpg"
+          }
+        },
+        "image_NzkjHU": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2728.jpg"
+          }
+        },
+        "image_gKnphN": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2732.jpg"
+          }
+        },
+        "image_FThBAp": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2733.jpg"
+          }
+        },
+        "image_3xnW3U": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2729.jpg"
+          }
         }
       },
       "block_order": [
         "bullet_k6AjkW",
-        "image_NzkjHU",
         "bullet_WQKjE4",
         "bullet_J4YtA8",
         "bullet_tpRhEq",
-        "bullet_zYLAqk"
+        "bullet_zYLAqk",
+        "image_L7XXHV",
+        "image_NzkjHU",
+        "image_gKnphN",
+        "image_FThBAp",
+        "image_3xnW3U"
       ],
       "settings": {
         "step_number": 8,
@@ -465,24 +555,39 @@
             "text": "<p>Secure the cover with 2x M5x25 socket head cap screws and a 4 mm hex (Allen) key<\/p>"
           }
         },
-        "image_icWftR": {
-          "type": "image",
-          "settings": {
-          }
-        },
         "bullet_wXMmnN": {
           "type": "bullet",
           "settings": {
             "type": "caution",
             "text": "<p>Do not over-tighten the belt cover screws<\/p>"
           }
+        },
+        "image_JAEAfk": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2735.jpg"
+          }
+        },
+        "image_icWftR": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2736.jpg"
+          }
+        },
+        "image_97PUbw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2738.jpg"
+          }
         }
       },
       "block_order": [
         "bullet_FCHTAy",
         "bullet_nXNQyK",
+        "bullet_wXMmnN",
+        "image_JAEAfk",
         "image_icWftR",
-        "bullet_wXMmnN"
+        "image_97PUbw"
       ],
       "settings": {
         "step_number": 9,
@@ -520,7 +625,7 @@
         "bullet_ifhkAb": {
           "type": "bullet",
           "settings": {
-            "type": "default",
+            "type": "tip",
             "text": "<p>Tighten the screws firmly, as they are structural and essential for preventing the shafts from breaking during use<\/p>"
           }
         },
@@ -534,6 +639,19 @@
         "image_zTNdg9": {
           "type": "image",
           "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2742.jpg"
+          }
+        },
+        "image_QBkpBT": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2743.jpg"
+          }
+        },
+        "image_9mtqdf": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2745.jpg"
           }
         }
       },
@@ -543,7 +661,9 @@
         "bullet_VU36q8",
         "bullet_ifhkAb",
         "bullet_tKMYYc",
-        "image_zTNdg9"
+        "image_zTNdg9",
+        "image_QBkpBT",
+        "image_9mtqdf"
       ],
       "settings": {
         "step_number": 10,
@@ -564,16 +684,18 @@
             "text": "<p>Attach 4x feet to the bottom of the housing using the self-tapping M3x8 screw and a 2.5 mm hex (Allen) key<\/p>"
           }
         },
+        "bullet_4gUnUX": {
+          "type": "bullet",
+          "settings": {
+            "type": "default",
+            "text": "<p>The screws are cutting a thread in the plastic as they are turned. This can be quite difficult - an electric screwdriver on low torque setting can help!<\/p>"
+          }
+        },
         "bullet_hx4QRG": {
           "type": "bullet",
           "settings": {
             "type": "default",
             "text": "<p>Attach 4x self-adhesive rubber stickers into the corresponding pockets on the feet<\/p>"
-          }
-        },
-        "image_6TWzHC": {
-          "type": "image",
-          "settings": {
           }
         },
         "bullet_m6pJyA": {
@@ -582,13 +704,34 @@
             "type": "caution",
             "text": "<p>Do not overtighten the screws as you may strip the plastic and have to re-print the part<\/p>"
           }
+        },
+        "image_6TWzHC": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2746.jpg"
+          }
+        },
+        "image_jQeAQf": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2747.jpg"
+          }
+        },
+        "image_VdAkeE": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2748.jpg"
+          }
         }
       },
       "block_order": [
         "bullet_Bi7BrV",
+        "bullet_4gUnUX",
         "bullet_hx4QRG",
+        "bullet_m6pJyA",
         "image_6TWzHC",
-        "bullet_m6pJyA"
+        "image_jQeAQf",
+        "image_VdAkeE"
       ],
       "settings": {
         "step_number": 11,
@@ -619,6 +762,7 @@
         "image_NNPnyx": {
           "type": "image",
           "settings": {
+            "image": "shopify:\/\/shop_images\/120-assembly-2750.jpg"
           }
         }
       },

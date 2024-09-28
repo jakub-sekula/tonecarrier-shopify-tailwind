@@ -152,7 +152,7 @@
   {% if section.settings.anchor != blank %}
   id="{{section.settings.anchor}}"
   {% endif %}
-  class="isolate section-{{ section.id }} section-padding-{{ section.id }} color-{{ section.settings.color_scheme }}">
+  class="isolate section-{{ section.id }} section-padding-{{ section.id }} color-{{ section.settings.color_scheme }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
   {% if section.settings.background_image != blank %}
     {% assign bg_image_class = "background-image-" | append: section.id %}
     <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-full tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: bg_image_class }}</div>
@@ -162,7 +162,7 @@
       <strong>Step {{ section.settings.step_number }}</strong>
       {{ section.settings.title }}</h2>
   </div>
-  <div class="manual-step {% unless section.settings.full_width %} page-width{% endunless %}">
+  <div class="manual-step {% unless section.settings.full_width %} page-width{% endunless %} {% if settings.animations_reveal_on_scroll %}animate--fade-in{% endif %}">
     <div class="manual-step__image" {{ block.shopify_attributes }}>
       <swiper-container
         loop="true"
@@ -182,7 +182,7 @@
         {% endfor %}
       </swiper-container>
     </div>
-    <div class="manual-step__content">
+    <div class="manual-step__content {% if settings.animations_reveal_on_scroll %}animate--fade-in{% endif %}" >
       <ul>
         {% for block in section.blocks %}
           {% if block.type == "bullet" %}
