@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.tw-revert ol, .tw-revert ul, .tw-revert menu {
+  list-style: revert;
+  margin: revert;
+  padding: revert;
+}
+
+
+
 .tc-fade-to-bottom {
     -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 0%, transparent 100%);

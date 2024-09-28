@@ -24,7 +24,7 @@
       {%- endif -%}
     </h2>
     <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      {%- if section.settings.page.content != blank -%}
+    {%- if section.settings.page.content != blank -%}
         {{ section.settings.page.content }}
       {%- else -%}
         <div class="page-placeholder-wrapper placeholder">

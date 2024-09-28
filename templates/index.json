@@ -1,5 +1,85 @@
 {
   "sections": {
+    "bento_tVjxzY": {
+      "type": "bento",
+      "blocks": {
+        "tile_raqfhG": {
+          "type": "Tile",
+          "settings": {
+            "title": "Title",
+            "description": "<p>Description<\/p>",
+            "link": "",
+            "link_label": "",
+            "product": "",
+            "extended_description": "",
+            "height": 2,
+            "width": 8,
+            "start_column": 1,
+            "start_row": 1,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
+          }
+        },
+        "tile_FfCjcN": {
+          "type": "Tile",
+          "settings": {
+            "title": "Title",
+            "description": "<p>Description<\/p>",
+            "link": "",
+            "link_label": "",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 4,
+            "start_column": 9,
+            "start_row": 1,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
+          }
+        },
+        "tile_zHCmri": {
+          "type": "Tile",
+          "settings": {
+            "title": "Title",
+            "description": "<p>Description<\/p>",
+            "link": "",
+            "link_label": "",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 4,
+            "start_column": 9,
+            "start_row": 2,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "tile_raqfhG",
+        "tile_FfCjcN",
+        "tile_zHCmri"
+      ],
+      "settings": {
+        "background_blur": 5,
+        "background_opacity": 0.2,
+        "content_alignment": "center",
+        "columns": 12,
+        "rows": 2,
+        "row_height": 250,
+        "padding_top": 16,
+        "padding_bottom": 16,
+        "color_scheme": "scheme-3",
+        "heading_size": "h1",
+        "caption_size": 16,
+        "anchor": "",
+        "full_width": true,
+        "spacing": 16
+      }
+    },
     "tc_homepage_hero_LAKm3m": {
       "type": "tc-homepage-hero",
       "blocks": {
@@ -33,6 +113,7 @@
         "text_gcP9QN",
         "button_9VJN8R"
       ],
+      "disabled": true,
       "settings": {
         "content_alignment": "center",
         "background_video": "shopify:\/\/files\/videos\/leaks_trim.mp4",
@@ -250,20 +331,14 @@
         "color_scheme": "scheme-1",
         "heading_size": "h2",
         "caption_size": 14,
-        "anchor": ""
+        "anchor": "",
+        "full_width": false,
+        "spacing": 16
       }
     },
     "bento_jFmJGP": {
       "type": "bento",
       "blocks": {
-        "caption_99yDmy": {
-          "type": "caption",
-          "settings": {
-            "caption": "Scan anything",
-            "text_style": "caption-with-letter-spacing",
-            "text_size": "medium"
-          }
-        },
         "heading_r7Thag": {
           "type": "heading",
           "settings": {
@@ -336,7 +411,6 @@
         }
       },
       "block_order": [
-        "caption_99yDmy",
         "heading_r7Thag",
         "text_WVFgd7",
         "tile_gwmLwK",
@@ -355,7 +429,9 @@
         "color_scheme": "scheme-4",
         "heading_size": "h1",
         "caption_size": 16,
-        "anchor": "lineup"
+        "anchor": "lineup",
+        "full_width": false,
+        "spacing": 16
       }
     },
     "sample_scan_3JWfQk": {
@@ -409,7 +485,7 @@
         "color_scheme_dark": "scheme-4",
         "padding_top": 36,
         "padding_bottom": 36,
-        "content_height": 400
+        "content_height": 650
       }
     },
     "rich_text_X3CFcX": {
@@ -421,17 +497,10 @@
             "heading": "Why scan with a camera?",
             "heading_size": "h1"
           }
-        },
-        "text_CHtmN7": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
-          }
         }
       },
       "block_order": [
-        "heading_QwTePn",
-        "text_CHtmN7"
+        "heading_QwTePn"
       ],
       "settings": {
         "desktop_content_position": "center",
@@ -449,7 +518,7 @@
           "type": "column",
           "settings": {
             "title": "Speed",
-            "text": "<p>Camera scanning is the fastest way to digitize film. With the toneCarrier system, a full roll can be scanned in less than 2 minutes.<\/p>",
+            "text": "<p>Camera scanning is by far the quickest method to digitise your film. With the <strong>toneCarrier system<\/strong>, you can scan an entire roll in under 2 minutes, making it ideal for high-efficiency workflows without sacrificing quality.<\/p>",
             "link_label": "",
             "link": ""
           }
@@ -458,7 +527,7 @@
           "type": "column",
           "settings": {
             "title": "Quality",
-            "text": "<p>Modern sensors and macro lenses offer excellent detail reproduction, far greater than that offered by flatbed scanners.<\/p>",
+            "text": "<p>Modern camera sensors, paired with macro lenses, capture exceptional levels of detail—surpassing what traditional flatbed scanners can offer. The result is crisp, high-resolution scans that retain the depth and nuance of your original film.<\/p>",
             "link_label": "",
             "link": ""
           }
@@ -467,7 +536,7 @@
           "type": "column",
           "settings": {
             "title": "Convenience",
-            "text": "<p>You may already own most of the equipment needed - and you don't need the newest, most expensive camera to start making great scans.<\/p>",
+            "text": "<p>You likely already own much of the equipment needed for camera scanning, and you don't need the latest or most expensive gear to achieve great results. Even older cameras and vintage macro lenses can produce outstanding scans.<\/p>",
             "link_label": "",
             "link": ""
           }
@@ -476,7 +545,7 @@
           "type": "column",
           "settings": {
             "title": "Upgradeability",
-            "text": "<p>Upgrade to your digital camera and lens also upgrade your scanner - as technology improves, so will your scan quality.<\/p>",
+            "text": "<p>Every upgrade to your camera or lens also enhances your scanning setup. As technology continues to evolve, your scan quality improves too—allowing your system to grow with you over time.<\/p>",
             "link_label": "",
             "link": ""
           }
@@ -512,18 +581,21 @@
         "background_opacity": 0.2,
         "content_alignment": "center",
         "columns": 12,
-        "rows": 12,
+        "rows": 1,
         "row_height": 450,
         "padding_top": 36,
         "padding_bottom": 36,
         "color_scheme": "",
         "heading_size": "h1",
         "caption_size": 16,
-        "anchor": ""
+        "anchor": "",
+        "full_width": false,
+        "spacing": 16
       }
     }
   },
   "order": [
+    "bento_tVjxzY",
     "tc_homepage_hero_LAKm3m",
     "image_with_text_tn7xXN",
     "bento_UtMxTe",

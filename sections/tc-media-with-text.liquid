@@ -1,128 +1,55 @@
-{{ 'bootstrap-offcanvas.css' | asset_url | stylesheet_tag }}
-
 {%- style -%}
 
-  .section-{{ section.id }}-padding {
-    padding: {% if section.settings.full_width %} {{section.settings.spacing}}px {% endif %};
+.section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
+}
 
-  .section-{{ section.id }} {
+.section-{{ section.id }} {
     background-color: {{ section.settings.background_color }}
-  }
+}
 
-  /* Default: Flex layout */
-  .bento-grid-{{ section.id }} {
-    display: flex;
-    flex-direction: column;
-    gap: {{section.settings.spacing}}px;
-  }
 
-  .bento-tile-{{ section.id }} {
-    background: rgb(var(--color-background)) linear-gradient(rgba(var(--color-foreground),0.04),rgba(var(--color-foreground),0.04));
-    padding: 20px;
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    text-align: left;
-    min-height: {{ section.settings.row_height | times: 0.67 | round: 0 }}px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 1.5rem;
-  }
+/* md (min-width: 768px) */
+@media (min-width: 768px) {
+.section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+}
 
-  .bento-background-image-{{ section.id }} {
-    mask-image: linear-gradient(to bottom, black, transparent 90%);
-    opacity: {{ section.settings.background_opacity }};
-    mix-blend-mode: screen;
-    filter: blur({{section.settings.background_blur}}px);
-    transform: scale(1.1);
-    transform-origin: top;
-    width: 100%;
-    height: 100%;
-  }
+}
 
-  .bento-add-to-cart-button {
-    color: inherit;
-    font-size: inherit;
-    letter-spacing: inherit;
-  }
+/* lg (min-width: 1024px) */
+@media (min-width: 1024px) {
+ 
+}
 
-  .bento-product-price {
-    color: rgb(var(--color-background))
-  }
+/* xl (min-width: 1280px) */
+@media (min-width: 1280px) {
+;
 
-  /* Desktop View: Grid layout for screens wider than 960px */
-  @media (min-width: 960px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-    .bento-grid-{{ section.id }} {
-      display: grid;
-      grid-template-rows: repeat({{ section.settings.rows }}, {{ section.settings.row_height }}px);
-      grid-template-columns: repeat({{ section.settings.columns }}, 1fr);
-      /* gap: {{section.settings.spacing}}px; */
-    }
+}
 
-    .bento-tile-{{ section.id }} {
-    min-height: {{ section.settings.row_height }}px;
-  }
-  }
+/* 2xl (min-width: 1536px) */
+@media (min-width: 1536px) {
+;
+
+}
+
+
   
-      {% for block in section.blocks %}
-        {% if block.type == 'Tile' %}
-          .bento-tile-{{ block.id }} {
-            --width: {{ block.settings.width }};
-            --height: {{ block.settings.height }};
-            grid-column: span var(--width)/ span var(--width);
-            grid-row: span var(--height)/ span var(--height);
-            grid-column-start: {{ block.settings.start_column }};
-            grid-row-start: {{ block.settings.start_row }};
-          }
-    
-          .bento-tile-fade-color-{{ block.id }} {
-            background-color: {{ block.settings.fade_color }};
-          }
-    
-          .bento-tile-fade-{{ block.id }} {
-            height: {{ block.settings.fade_height }}%;
-            width: 100%;
-            position: absolute;
-            z-index: 5;
-            left: 0;
-            top: 0
-          }
-
-          .bento-text-container-{{ block.id }} * {
-            color: {{block.settings.text_color}};
-            border-color: {{block.settings.text_color}}
-          }
-        {% endif %}
-      {% endfor %}
   {%- endstyle -%}
 
 <section
   {% if section.settings.anchor != blank %}
   id="{{section.settings.anchor}}"
   {% endif %}
-  class="isolate section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }} tw-relative">
+  class="isolate section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
   {% if section.settings.background_image != blank %}
-    {% assign bg_image_class = "bento-background-image-" | append: section.id %}
+    {% assign bg_image_class = "background-image-" | append: section.id %}
     <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-full tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: bg_image_class }}</div>
   {% endif %}
   <div class="{% unless section.settings.full_width %} page-width{% endunless %}">
-
-    {% assign has_desired_block = false %}
-    {% for block in section.blocks %}
-      {% if block.type == 'heading' or block.type == 'caption' or block.type == 'text' %}
-        {% assign has_desired_block = true %}
-      {% endif %}
-    {% endfor %}
-    {% if has_desired_block %}
       <div style="padding-bottom: {{section.settings.padding_bottom}}px" class="tw-mx-auto  rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
         <div class="rich-text__blocks {{ section.settings.content_alignment }}">
           {%- for block in section.blocks -%}
@@ -194,144 +121,14 @@
           {%- endfor -%}
         </div>
       </div>
-    {% endif %}
-    <ul class="bento-grid-{{section.id}}">
-      {% for block in section.blocks %}
-        {% if block.type == 'Tile' %}
-          <li
-            class="bento-tile-{{section.id}} bento-tile-{{ block.id }} tw-group {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {% if settings.animations_reveal_on_scroll %}
-            data-cascade
-            {% endif %}
-            {{ block.shopify_attributes }}>
-            {% if block.settings.link != blank %}
-              <a
-                href="{{ block.settings.link }}"
-                role="link"
-                class="tw-absolute tw-z-10 tw-inset-0"></a>
-            {% endif %}
-
-            {% unless block.settings.link == blank and block.settings.product == blank and block.settings.extended_description == blank %}
-              <div class="tw-absolute tw-bottom-0 tw-right-0 tw-w-full tw-px-6 tw-pb-6 tw-flex tw-z-20 tw-items-center tw-justify-end tw-gap-6">
-
-                {% if block.settings.product != blank %}
-                  <p class="tw-hidden md:tw-block bento-product-price tw-mr-auto">{{ block.settings.product.selected_or_first_available_variant.price | money }}</p>
-                  {% assign product_form_id = block.id %}
-                  <product-form data-section-id="{{ section.id }}" class="tw-w-full tw-flex tw-justify-end">
-                    {%- form 'product'
-                      , block.settings.product
-                      , id: product_form_id
-                      , class: 'form tw-w-full tw-flex'
-                      , novalidate: 'novalidate'
-                      , data-type: 'add-to-cart-form'
-                    -%}
-                      <input
-                        type="hidden"
-                        name="id"
-                        value="{{ block.settings.product.selected_or_first_available_variant.id }}"
-                        class="product-variant-id"
-                        {% if block.settings.product.selected_or_first_available_variant.available == false %}
-                        disabled
-                        {% endif %}>
-                      <button
-                        id="{{ product_form_id }}-submit"
-                        type="submit"
-                        name="add"
-                        class="button button--secondary bento-add-to-cart-button tw-w-full md:tw-w-fit tw-ml-auto"
-                        aria-haspopup="dialog"
-                        aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ block.settings.product.id }}"
-                        aria-live="polite"
-                        data-sold-out-message="true"
-                        {% if block.settings.product.selected_or_first_available_variant.available == false %}
-                        disabled
-                        {% endif %}>
-                        <span>
-                          {%- if block.settings.product.selected_or_first_available_variant.available -%}
-                            {{ 'products.product.add_to_cart' | t }}
-                          {%- else -%}
-                            {{ 'products.product.sold_out' | t }}
-                          {%- endif -%}
-                        </span>
-                        {%- render 'loading-spinner' -%}
-                      </button>
-                    {%- endform -%}
-                  </product-form>
-                {% endif %}
-
-                {% if block.settings.link != blank %}
-                  <a href="{{block.settings.link}}" class="tw-whitespace-nowrap tw-inline-flex tw-h-16 tw-pl-6 tw-pr-4 tw-items-center tw-gap-2 color-{{ section.settings.color_scheme }}">
-
-                    {% if block.settings.link_label == blank %}
-                      View more
-                    {% else %}
-                      {{ block.settings.link_label }}
-                    {% endif %}
-
-                    {{ 'lucide-chevron-right.svg' | inline_asset_content }}</a>
-                {% endif %}
-                {% if block.settings.extended_description != blank %}
-                  <button
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasExample"
-                    aria-controls="offcanvasExample"
-                    class="tw-w-16 tw-h-16 tw-rounded-full tw-grid tw-place-items-center color-{{ section.settings.color_scheme }}">
-                    {{ 'lucide-plus.svg' | inline_asset_content }}
-                  </button>
-                {% endif %}
-              </div>
-
-            {% endunless %}
-            <div class="tw-z-10 bento-text-container-{{ block.id }}">
-              <h3 class="{{ section.settings.heading_size }}">{{ block.settings.title }}</h3>
-              {% if block.settings.product != blank %}
-                <p class="tw-w-full md:tw-hidden tw-border-b tw-mb-2 tw-pb-2">{{ block.settings.product.selected_or_first_available_variant.price | money }}</p>
-              {% endif %}
-              <div style="z-index: 10; font-size: {{section.settings.caption_size}}px">{{ block.settings.description }}</div>
-            </div>
-            {% unless block.settings.image == blank %}
-              <div class="tc-fade-to-bottom {%if block.settings.fade_color == blank%}color-{{ section.settings.color_scheme }}{% else %}bento-tile-fade-color-{{block.id}}{% endif %} bento-tile-fade-{{ block.id }}"></div>
-              {{ block.settings.image | image_url: width: 1200 | image_tag: widths: '300, 600, 900, 1200, 1600', class: "tw-z-1 tw-inset-0 tw-absolute tw-object-cover tw-w-full tw-h-full group-hover:tw-scale-105 tw-duration-500 tw-transition-all" }}
-            {% endunless %}
-          </li>
-
-          {% if block.settings.extended_description != blank %}
-            <div
-              class="offcanvas offcanvas-end tw-p-8 tw-text-black tw-flex tw-flex-col tw-gap-6"
-              tabindex="-1"
-              id="offcanvasExample"
-              aria-labelledby="offcanvasExampleLabel">
-              <div class="tw-flex tw-w-full tw-justify-between tw-items-center">
-                <h5 class="h3 !tw-text-black tw-font-bold" id="offcanvasExampleLabel">{{ block.settings.title }}</h5>
-                <button
-                  type="button"
-                  class="btn-close text-reset"
-                  data-bs-dismiss="offcanvas"
-                  aria-label="Close">
-                  {{ 'lucide-x.svg' | inline_asset_content }}
-                </button>
-              </div>
-              <div class="tw-bg-red-500">
-                {{ block.settings.extended_description }}
-              </div>
-            </div>
-          {% endif %}
-        {% endif %}
-      {% endfor %}
-    </ul>
   </div>
 
 </section>
-
-<script src='{{ 'product-form.js' | asset_url }}' defer='defer'></script>
-
-
 {% schema %}
-  {
-    "name": "Bento grid",
-    "class": "section",
-    "tag": "section",
-    "settings": [
+    {
+      "name": "Media with text",
+      "tag": "section",
+      "settings": [
       {
         "type": "image_picker",
         "id": "background_image",
@@ -378,34 +175,6 @@
       },
       {
         "type": "range",
-        "id": "columns",
-        "label": "Number of columns",
-        "min": 1,
-        "max": 12,
-        "step": 1,
-        "default": 12
-      },
-      {
-        "type": "range",
-        "id": "rows",
-        "label": "Number of rows",
-        "min": 1,
-        "max": 12,
-        "step": 1,
-        "default": 1
-      },
-      {
-        "type": "range",
-        "id": "row_height",
-        "label": "Row height",
-        "min": 100,
-        "max": 600,
-        "step": 10,
-        "unit": "px",
-        "default": 450
-      },
-      {
-        "type": "range",
         "id": "padding_top",
         "min": 0,
         "max": 100,
@@ -431,55 +200,11 @@
         "default": "scheme-1"
       },
       {
-        "type": "select",
-        "id": "heading_size",
-        "options": [
-          {
-            "value": "h2",
-            "label": "t:sections.all.heading_size.options__1.label"
-          },
-          {
-            "value": "h1",
-            "label": "t:sections.all.heading_size.options__2.label"
-          },
-          {
-            "value": "h0",
-            "label": "t:sections.all.heading_size.options__3.label"
-          },
-          {
-            "value": "hxl",
-            "label": "t:sections.all.heading_size.options__4.label"
-          }
-        ],
-        "default": "h1",
-        "label": "t:sections.all.heading_size.label"
-      },
-      {
-        "type": "range",
-        "id": "caption_size",
-        "min": 2,
-        "max": 64,
-        "step": 2,
-        "unit": "px",
-        "label": "Caption text size",
-        "default": 16
-      },
-      {
         "type": "text",
         "id": "anchor",
-        "label": "Anchor"
-      },
-      {"type": "checkbox",
-    "id": "full_width",
-  "label": "Full width"},
-  {"type": "range",
-"min": 0,
-"max": 128,
-"default": 16,
-"step": 8,
-"unit": "px",
-"id": "spacing",
-"label": "Spacing"}
+        "label": "Anchor",
+        "info": "Will set the ID of the section container. Can be used for navigation."
+      }
     ],
     "blocks": [
       {
@@ -728,11 +453,11 @@
     ],
     "presets": [
       {
-        "name": "Bento grid",
+        "name": "Media with text",
         "settings": {
           
         }
       }
     ]
-  }
-{% endschema %}
+    }
+    {% endschema %}
