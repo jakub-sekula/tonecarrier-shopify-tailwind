@@ -195,7 +195,7 @@
         "tile_9LgFNP": {
           "type": "Tile",
           "settings": {
-            "title": "Dual S-Curve design",
+            "title": "Dual S-curve film path",
             "description": "<p>The film channel geometry uses tension to keep the film flat and straight<\/p>",
             "link": "",
             "link_label": "",
@@ -291,7 +291,8 @@
         "padding_bottom": 48,
         "color_scheme": "scheme-4",
         "heading_size": "h2",
-        "caption_size": 14,
+        "caption_size": 16,
+        "tile_radius": 8,
         "anchor": "bento",
         "full_width": false,
         "spacing": 24
