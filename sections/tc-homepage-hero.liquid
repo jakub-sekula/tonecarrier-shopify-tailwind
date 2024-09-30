@@ -1,23 +1,37 @@
 {%- style -%}
 
-
-  /*
-   .section-{{ section.id }}-padding {
-   padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-   padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-   }
-*/
-
   .homepage-hero-section-{{ section.id }} {
     height: 100%;
     position: relative;
     color: white;
-    background: black;
+    padding-top: calc(4rem + var(--dynamic-header-height));
+    margin-top: calc(-1 * var(--dynamic-header-height));
+    margin-bottom: 6rem;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
     {% if section.settings.max_height != 0 %} max-height: {{ section.settings.max_height }}px {% endif %}
+}
 
+.hero-blocks {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
 .homepage-hero-background {
+  background: black;
+  position: absolute;
+  z-index: -10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 95%;
+}
+
+.homepage-hero-background video {
+  background: black;
   position: absolute;
   top: 0;
   left: 0;
@@ -25,61 +39,130 @@
   height: 100%;
   object-fit: cover;
   opacity: 0.25;
-  z-index: -10
 }
 
 .hero-heading {
+  font-family: "Inter Tight"
+  , sans-serif;
+  font-weight: 400;
   color: white;
-  font-weight: 800;
-  font-size: 30px;
+  font-size: 3.25rem;
   line-height: 1em;
-  letter-spacing: -0.05em;
-  margin-bottom: 16px;
+  letter-spacing: -0.02em;
 }
 
 .hero-heading strong {
   background-image: linear-gradient(to right, #f59e0b, #f87171);
   background-clip: text;
   color: transparent;
-  padding: 1rem;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
 }
 
 .hero-text {
-  margin-bottom: 24px;
-  font-size: calc(0.875 * 16px);
-  line-height: calc(1.25 * 16px)
+  font-size: 1.4rem;
+  line-height: 1.2em;
+  margin: 0 auto;
 }
 
-.hero-text-wrapper {
-  padding-top: 40px;
-  padding-bottom: 20px;
+.hero-text p:not(:last-child) {
+  margin-bottom: 1rem;
 }
 
+.hero-content-wrapper {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-button-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2rem;
+  margin-top: 1rem
+}
+
+.hero-button-container .button {
+  flex-shrink: 0;
+  background: var(--tw-color-orange-500)
+}
+
+.hero-button-container .button--secondary {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--tw-color-white);
+  color: var(--tw-color-white);
+}
+
+.hero-media-container {
+  width: 100%;
+  max-width: 800px;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px
+  , rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
 
 /* md (min-width: 768px) */
 @media (min-width: 768px) {
+
+  .homepage-hero-background {
+    height: 85%;
+  }
+
+  .homepage-hero-section-{{ section.id }} {
+    padding-top: calc(6rem + var(--dynamic-header-height));
+    margin-top: calc(-1 * var(--dynamic-header-height));
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem
+  }
+
   .hero-heading {
-    font-size: 60px;
+    font-size: 5rem
   }
 
-  .hero-text-wrapper {
-    padding-top: 160px;
-    padding-bottom: 160px;
-  }
+  .hero-content-wrapper {}
 
-  .hero-text {
-    font-size: calc(1.25 * 16px);
-    line-height: calc(1.75 * 16px)
-  }
+.hero-blocks {
+  text-align: center;
+}
+
+.hero-media-container {
+  max-width: 1000px;
+  margin-top: 3rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px
+  , rgba(0, 0, 0, 0.3) 0 30px 60px -30px;
+}
+
+.hero-text {}
+
+.hero-button-container {
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  gap: 3rem;
+}
 
 
 }
 
 /* lg (min-width: 1024px) */
 @media (min-width: 1024px) {
+
   .hero-heading {
-    font-size: 80px;
+    font-size: 7rem
   }
+
+  .hero-text {
+    font-size: 1.75rem
+  }
+
 
 }
 
@@ -99,8 +182,8 @@
 {%- endstyle -%}
 
 <section class="isolate homepage-hero-section-{{section.id}} tw-overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding">
-  <div class="!md:tw-pt-64 !md:tw-pb-64 !md:tw-pt-64 tw-mx-auto hero-text-wrapper tw-px-4 tw-sm:px-6 page-width {% if section.settings.full_width %} page-width{% endif %}">
-    <div class="hero-blocks tw-text-center md:tw-pb-16 {{ section.settings.content_alignment }}">
+  <div class="hero-content-wrapper {% unless section.settings.full_width %} page-width{% endunless %}">
+    <div class="hero-blocks">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
@@ -135,36 +218,78 @@
             </div>
           {%- when 'button' -%}
             <div
-              class="tw-mx-auto tw-w-full tw-max-w-[400px] md:tw-flex-row sm:tw-justify-center tw-flex tw-flex-col tw-gap-4 {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              class="hero-button-container {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
               {{ block.shopify_attributes }}
               {% if settings.animations_reveal_on_scroll %}
               data-cascade
               style="--animation-order: {{ forloop.index }};"
               {% endif %}>
               {%- if block.settings.button_label != blank -%}
-                {% render 'tc-button'
-                  , type: "link"
-                  , url: block.settings.button_link
-                  , text: block.settings.button_label %}
+                {% comment %} {% render 'tc-button'
+                                                                                                                                                                  , type: "link"
+                                                                                                                                                                  , url: block.settings.button_link
+                                                                                                                                                  , text: block.settings.button_label %}  {% endcomment %}
+
+                <a href="{{block.settings.button_link}}" class="button">
+                  {{ block.settings.button_label }}
+                </a>
               {%- endif -%}
               {%- if block.settings.button_label_2 != blank -%}
-                {% render 'tc-button'
-                  , type: "link"
-                  , url: block.settings.button_link_2
-                  , text: block.settings.button_label_2 %}
+                {% comment %} {% render 'tc-button'
+                                                                                                                                                , type: "link"
+                                                                                                                                                , url: block.settings.button_link_2
+                                                                                                                                  , text: block.settings.button_label_2 %} {% endcomment %}
+                <a href="{{block.settings.button_link_2}}" class="button button--secondary">
+                  {{ block.settings.button_label_2 }}
+                </a>
               {%- endif -%}
             </div>
         {%- endcase -%}
       {%- endfor -%}
+      <div class="hero-media-container">
+        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.hero_image }}
+      </div>
     </div>
   </div>
   {% if section.settings.background_video != blank %}
-    {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.background_image, class: "homepage-hero-background" }}
+    <div class="homepage-hero-background">
+      {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.background_image }}
+    </div>
   {% endif %}
   {% if section.settings.background_image != blank %}
     {{ section.settings.background_image | image_url: width: 1500 | image_tag: class: "homepage-hero-background" }}
   {% endif %}
 </section>
+
+<script>
+        const header = document.querySelector('sticky-header');
+
+        function updateHeaderHeight() {
+            const headerHeight = header.offsetHeight;
+            document.documentElement.style.setProperty('--dynamic-header-height', `${headerHeight}px`);
+            console.log("updated header height")
+        }
+
+        function setTransparentHeader() {
+            if (window.scrollY === 0) {
+                header.style.backgroundColor = 'transparent';
+                header.style.border = 'none';
+              } else {
+                header.style.backgroundColor = ''; // Reset to default or specify another color
+            }
+        }
+
+        // Update header height on load
+        updateHeaderHeight();
+        setTransparentHeader()
+
+        // Update header height on window resize
+        window.addEventListener('resize', updateHeaderHeight);
+
+        // Scroll event to change header background
+        window.addEventListener('scroll', setTransparentHeader);
+</script>
+
 
 {% schema %}
   {
@@ -176,26 +301,6 @@
     },
     "settings": [
       {
-        "type": "select",
-        "id": "content_alignment",
-        "options": [
-          {
-            "value": "left",
-            "label": "t:sections.rich-text.settings.content_alignment.options__1.label"
-          },
-          {
-            "value": "center",
-            "label": "t:sections.rich-text.settings.content_alignment.options__2.label"
-          },
-          {
-            "value": "right",
-            "label": "t:sections.rich-text.settings.content_alignment.options__3.label"
-          }
-        ],
-        "default": "center",
-        "label": "t:sections.rich-text.settings.content_alignment.label"
-      },
-      {
         "type": "video",
         "id": "background_video",
         "label": "Background video"
@@ -204,6 +309,16 @@
         "type": "image_picker",
         "id": "background_image",
         "label": "Background image"
+      },
+      {
+        "type": "video",
+        "id": "hero_video",
+        "label": "Hero video"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_image",
+        "label": "Hero image"
       },
       {
         "type": "range",

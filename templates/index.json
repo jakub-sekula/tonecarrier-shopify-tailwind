@@ -1,155 +1,19 @@
-/*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
 {
   "sections": {
-    "bento_tVjxzY": {
-      "type": "bento",
-      "blocks": {
-        "tile_raqfhG": {
-          "type": "Tile",
-          "settings": {
-            "title": "Title",
-            "description": "<p>Description<\/p>",
-            "link": "",
-            "link_label": "",
-            "product": "",
-            "extended_description": "",
-            "height": 2,
-            "width": 8,
-            "start_column": 1,
-            "start_row": 1,
-            "fade_color": "",
-            "fade_height": 50,
-            "text_color": ""
-          }
-        },
-        "tile_FfCjcN": {
-          "type": "Tile",
-          "settings": {
-            "title": "Title",
-            "description": "<p>Description<\/p>",
-            "link": "",
-            "link_label": "",
-            "product": "",
-            "extended_description": "",
-            "height": 1,
-            "width": 4,
-            "start_column": 9,
-            "start_row": 1,
-            "fade_color": "",
-            "fade_height": 50,
-            "text_color": ""
-          }
-        },
-        "tile_zHCmri": {
-          "type": "Tile",
-          "settings": {
-            "title": "Title",
-            "description": "<p>Description<\/p>",
-            "link": "",
-            "link_label": "",
-            "product": "",
-            "extended_description": "",
-            "height": 1,
-            "width": 4,
-            "start_column": 9,
-            "start_row": 2,
-            "fade_color": "",
-            "fade_height": 50,
-            "text_color": ""
-          }
-        }
-      },
-      "block_order": [
-        "tile_raqfhG",
-        "tile_FfCjcN",
-        "tile_zHCmri"
-      ],
-      "settings": {
-        "background_blur": 5,
-        "background_opacity": 0.2,
-        "content_alignment": "center",
-        "columns": 12,
-        "rows": 2,
-        "row_height": 250,
-        "padding_top": 16,
-        "padding_bottom": 16,
-        "color_scheme": "scheme-3",
-        "heading_size": "h1",
-        "caption_size": 16,
-        "anchor": "",
-        "full_width": true,
-        "spacing": 16
-      }
-    },
-    "tc_homepage_hero_LAKm3m": {
-      "type": "tc-homepage-hero",
-      "blocks": {
-        "heading_DLaxnB": {
-          "type": "heading",
-          "settings": {
-            "heading": "<p>The easy way to digitize<\/p><p><strong>your film memories<\/strong><\/p>",
-            "heading_size": "h0"
-          }
-        },
-        "text_gcP9QN": {
-          "type": "text",
-          "settings": {
-            "text": "<p>The toneCarrier is a complete system for digitizing negatives and slides.<\/p><p><strong>All you need to scan 35 mm and 120 is a camera, tripod and a macro lens.<\/strong><\/p>"
-          }
-        },
-        "button_9VJN8R": {
-          "type": "button",
-          "settings": {
-            "button_label": "Scan 35 mm film",
-            "button_link": "shopify:\/\/collections\/35-mm-film-scanning",
-            "button_style_secondary": false,
-            "button_label_2": "Scan 120 film",
-            "button_link_2": "shopify:\/\/collections\/120-film-scanning",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_DLaxnB",
-        "text_gcP9QN",
-        "button_9VJN8R"
-      ],
-      "settings": {
-        "content_alignment": "center",
-        "background_video": "shopify:\/\/files\/videos\/leaks_trim.mp4",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "max_height": 0
-      }
-    },
     "tc_homepage_hero_yzfcQL": {
       "type": "tc-homepage-hero",
       "blocks": {
         "heading_RtyMdT": {
           "type": "heading",
           "settings": {
-            "heading": "<p>Finally, a better way to<\/p><p><strong>preserve film<\/strong>memories<\/p>",
-            "heading_size": "h0"
+            "heading": "<p>Finally, a better way to<\/p><p>preserve <strong>film memories<\/strong><\/p>",
+            "heading_size": "h1"
           }
         },
         "text_tLMjVL": {
           "type": "text",
           "settings": {
-            "text": "<p>The toneCarrier is a complete system for digitizing negatives and slides.<\/p><p><strong>All you need to scan 35 mm and 120 is a camera, tripod and a macro lens.<\/strong><\/p>"
-          }
-        },
-        "text_ccH4pV": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Discover the fast, easy, and fun scanning system built for the modern film lover.<\/p>"
+            "text": "<p>Discover the fast, easy, and fun film scanning system built for the modern film lover.<\/p><p>All you need to start digitizing  is a camera, tripod and a macro lens.<\/p>"
           }
         },
         "button_BQxWHa": {
@@ -167,12 +31,11 @@
       "block_order": [
         "heading_RtyMdT",
         "text_tLMjVL",
-        "text_ccH4pV",
         "button_BQxWHa"
       ],
       "settings": {
-        "content_alignment": "center",
         "background_video": "shopify:\/\/files\/videos\/leaks_trim.mp4",
+        "hero_video": "shopify:\/\/files\/videos\/toneCarrier Ad.mp4",
         "padding_top": 36,
         "padding_bottom": 36,
         "max_height": 0
@@ -387,6 +250,7 @@
         "color_scheme": "scheme-1",
         "heading_size": "h2",
         "caption_size": 14,
+        "tile_radius": 15,
         "anchor": "",
         "full_width": false,
         "spacing": 16
@@ -485,6 +349,7 @@
         "color_scheme": "scheme-4",
         "heading_size": "h1",
         "caption_size": 16,
+        "tile_radius": 15,
         "anchor": "lineup",
         "full_width": false,
         "spacing": 16
@@ -644,6 +509,7 @@
         "color_scheme": "",
         "heading_size": "h1",
         "caption_size": 16,
+        "tile_radius": 15,
         "anchor": "",
         "full_width": false,
         "spacing": 16
@@ -651,8 +517,6 @@
     }
   },
   "order": [
-    "bento_tVjxzY",
-    "tc_homepage_hero_LAKm3m",
     "tc_homepage_hero_yzfcQL",
     "image_with_text_tn7xXN",
     "bento_UtMxTe",
