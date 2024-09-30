@@ -59,7 +59,7 @@
         "button_e8i3hQ": {
           "type": "button",
           "settings": {
-            "button_label": "Camera scanning basics",
+            "button_label": "Learn more",
             "button_link": "shopify:\/\/pages\/introduction-to-camera-scanninng",
             "button_style_secondary": false,
             "button_label_2": "",
@@ -135,7 +135,7 @@
         "heading_XwyK4p": {
           "type": "heading",
           "settings": {
-            "heading": "What makes a great scanning setip?",
+            "heading": "DSLR scanning essentials",
             "heading_size": "h1"
           }
         },
