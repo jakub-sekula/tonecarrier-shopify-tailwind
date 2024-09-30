@@ -1,0 +1,34 @@
+{% assign icon_name = icon_name | downcase %}
+
+{% case icon_name %}
+  {% when "lucide-chevron-left" %}
+    {{ "lucide-chevron-left.svg" | inline_asset_content }}
+  {% when "lucide-chevron-right" %}
+    {{ "lucide-chevron-right.svg" | inline_asset_content }}
+  {% when "lucide-circle-check-big" %}
+    {{ "lucide-circle-check-big.svg" | inline_asset_content }}
+  {% when "lucide-drill" %}
+    {{ "lucide-drill.svg" | inline_asset_content }}
+  {% when "lucide-film" %}
+    {{ "lucide-film.svg" | inline_asset_content }}
+  {% when "lucide-handshake" %}
+    {{ "lucide-handshake.svg" | inline_asset_content }}
+  {% when "lucide-lightbulb" %}
+    {{ "lucide-lightbulb.svg" | inline_asset_content }}
+  {% when "lucide-package" %}
+    {{ "lucide-package.svg" | inline_asset_content }}
+  {% when "lucide-plus" %}
+    {{ "lucide-plus.svg" | inline_asset_content }}
+  {% when "lucide-triangle-alert" %}
+    {{ "lucide-triangle-alert.svg" | inline_asset_content }}
+  {% when "lucide-undo-2" %}
+    {{ "lucide-undo-2.svg" | inline_asset_content }}
+  {% when "lucide-users" %}
+    {{ "lucide-users.svg" | inline_asset_content }}
+  {% when "lucide-x" %}
+    {{ "lucide-x.svg" | inline_asset_content }}
+  {% else %}
+    <!-- Optional: Handle case when the icon name doesn't match any files -->
+    <span>Icon not found</span>
+    {{ "lucide-triangle-alert.svg" | inline_asset_content }}
+{% endcase %}

@@ -1,0 +1,216 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }} {}
+
+.swiper-{{ section.id }} {
+  width: 100%
+}
+
+.swiper-slide-{{ section.id }} {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 3rem 0;
+}
+
+.card-heading-{{ section.id }} {
+  font-family: "Inter Tight"
+  , sans-serif;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1em;
+  letter-spacing: -0.02em;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
+}
+
+.card-heading-{{ section.id }}::before {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 2px;
+  background: var(--tw-color-slate-500);
+  content: ""
+}
+
+.card-caption-{{ section.id }} {
+  margin-left: 1.5rem;
+  font-weight: 300;
+  font-size: 1.25rem;
+}
+
+.icon-container {
+  width: 5rem;
+  height: 5rem;
+  display: grid;
+  place-items: center;
+  background: var(--tw-color-slate-100);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.icon-container svg {
+  stroke: var(--tw-color-slate-500);
+}
+
+/* md (min-width: 768px) */
+@media (min-width: 768px) {
+
+  .swiper-slide-{{ section.id }} {}
+}
+
+/* lg (min-width: 1024px) */
+@media (min-width: 1024px) {}
+
+/* xl (min-width: 1280px) */
+@media (min-width: 1280px) {
+;
+/* Add your 'xl' styles here */
+}
+
+/* 2xl (min-width: 1536px) */
+@media (min-width: 1536px) {
+;
+/* Add your '2xl' styles here */
+}
+
+
+{%- endstyle -%}
+
+<section
+  {% if section.settings.anchor != blank %}
+  id="{{section.settings.anchor}}"
+  {% endif %}
+  class="isolate section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
+
+  <swiper-container id="swiper-{{section.id}}" class="swiper-{{section.id}} page-width">
+    {% for block in section.blocks %}
+      <swiper-slide class="swiper-slide-{{section.id}}" {{ block.shopify_attributes }}>
+        <i class="icon-container">
+          {% if block.settings.icon != blank and block.settings.lucide_icon == blank %}
+            <img src="{{block.settings.icon |  image_url: width: 10}}">
+          {% else %}
+            {% render 'tc-lucide-icon'
+              , icon_name: block.settings.lucide_icon %}
+          {% endif %}
+        </i>
+        <h3 class="card-heading-{{section.id}}">
+          {{ block.settings.title }}
+        </h3>
+        <p class="card-caption-{{ section.id }}">{{ block.settings.caption }}</p>
+      </swiper-slide>
+    {% endfor %}
+  </swiper-container>
+</section>
+
+<script>
+  // swiper element
+  const swiperEl = document.querySelector('#swiper-{{section.id}}');
+
+  // swiper parameters
+  const swiperParams = {
+    slidesPerView: 1,
+    loop: true,
+    autoplay: true,
+    delay: 500,
+    breakpoints: {
+      768: {
+        slidesPerView: 2,
+    spaceBetween: 30,
+
+      },
+      1024: {
+    spaceBetween: 30,
+    slidesPerView: 3,
+      },
+    },
+  };
+
+  // now we need to assign all parameters to Swiper element
+  Object.assign(swiperEl, swiperParams);
+
+  // and now initialize it
+  swiperEl.initialize();
+</script>
+
+{% schema %}
+  {
+    "name": "Hero section",
+    "tag": "section",
+    "class": "section",
+    "disabled_on": {
+      "groups": ["header", "footer"]
+    },
+    "settings": [
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "card",
+        "name": "Card",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon"
+          },
+          {
+            "type": "text",
+            "id": "lucide_icon",
+            "label": "Lucide icon"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "caption",
+            "label": "Caption"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Cards slider",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

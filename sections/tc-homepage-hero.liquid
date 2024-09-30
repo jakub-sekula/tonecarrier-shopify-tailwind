@@ -1,12 +1,13 @@
 {%- style -%}
 
   .homepage-hero-section-{{ section.id }} {
+    z-index: 1;
     height: 100%;
     position: relative;
     color: white;
     padding-top: calc(4rem + var(--dynamic-header-height));
     margin-top: calc(-1 * var(--dynamic-header-height));
-    margin-bottom: 6rem;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
     display: flex;
     flex-direction: column;
     overflow: visible;
@@ -38,7 +39,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.25;
+  opacity: 0.1;
 }
 
 .hero-heading {
@@ -80,12 +81,13 @@
   flex-direction: column;
   width: 100%;
   gap: 2rem;
-  margin-top: 1rem
+  margin-top: 1rem;
 }
 
 .hero-button-container .button {
   flex-shrink: 0;
-  background: var(--tw-color-orange-500)
+  background: var(--tw-color-orange-500);
+  color: white
 }
 
 .hero-button-container .button--secondary {
@@ -181,7 +183,7 @@
 
 {%- endstyle -%}
 
-<section class="isolate homepage-hero-section-{{section.id}} tw-overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding">
+<section class="isolate homepage-hero-section-{{section.id}} tw-overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
   <div class="hero-content-wrapper {% unless section.settings.full_width %} page-width{% endunless %}">
     <div class="hero-blocks">
       {%- for block in section.blocks -%}
@@ -226,9 +228,9 @@
               {% endif %}>
               {%- if block.settings.button_label != blank -%}
                 {% comment %} {% render 'tc-button'
-                                                                                                                                                                  , type: "link"
-                                                                                                                                                                  , url: block.settings.button_link
-                                                                                                                                                  , text: block.settings.button_label %}  {% endcomment %}
+                                                                                                                                                                                    , type: "link"
+                                                                                                                                                                                    , url: block.settings.button_link
+                                                                                                                                                                  , text: block.settings.button_label %}  {% endcomment %}
 
                 <a href="{{block.settings.button_link}}" class="button">
                   {{ block.settings.button_label }}
@@ -236,9 +238,9 @@
               {%- endif -%}
               {%- if block.settings.button_label_2 != blank -%}
                 {% comment %} {% render 'tc-button'
-                                                                                                                                                , type: "link"
-                                                                                                                                                , url: block.settings.button_link_2
-                                                                                                                                  , text: block.settings.button_label_2 %} {% endcomment %}
+                                                                                                                                                                  , type: "link"
+                                                                                                                                                                  , url: block.settings.button_link_2
+                                                                                                                                                  , text: block.settings.button_label_2 %} {% endcomment %}
                 <a href="{{block.settings.button_link_2}}" class="button button--secondary">
                   {{ block.settings.button_label_2 }}
                 </a>
@@ -246,7 +248,12 @@
             </div>
         {%- endcase -%}
       {%- endfor -%}
-      <div class="hero-media-container">
+      <div
+        class="hero-media-container {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+        data-cascade
+        style="--animation-order: 5;"
+        {% endif %}>
         {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.hero_image }}
       </div>
     </div>
@@ -321,34 +328,20 @@
         "label": "Hero image"
       },
       {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
+      {
         "type": "range",
-        "id": "padding_top",
+        "id": "margin_bottom",
         "min": 0,
         "max": 100,
         "step": 4,
         "unit": "px",
-        "label": "t:sections.all.padding.padding_top",
-        "default": 36
-      },
-      {
-        "type": "range",
-        "id": "padding_bottom",
-        "min": 0,
-        "max": 100,
-        "step": 4,
-        "unit": "px",
-        "label": "t:sections.all.padding.padding_bottom",
-        "default": 36
-      },
-      {
-        "type": "range",
-        "id": "max_height",
-        "min": 0,
-        "max": 1000,
-        "step": 10,
-        "unit": "px",
-        "label": "Max height",
-        "default": 0
+        "label": "Bottom margin",
+        "default": 60
       }
     ],
     "blocks": [

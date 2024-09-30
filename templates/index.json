@@ -6,7 +6,7 @@
         "heading_RtyMdT": {
           "type": "heading",
           "settings": {
-            "heading": "<p>Finally, a better way to<\/p><p>preserve <strong>film memories<\/strong><\/p>",
+            "heading": "<p>There is a <strong>better way<\/strong> to<\/p><p>digitize <strong>film memories<\/strong><\/p>",
             "heading_size": "h1"
           }
         },
@@ -19,11 +19,11 @@
         "button_BQxWHa": {
           "type": "button",
           "settings": {
-            "button_label": "Intro to camera scanning",
-            "button_link": "shopify:\/\/collections\/35-mm-film-scanning",
+            "button_label": "What is camera scanning?",
+            "button_link": "shopify:\/\/pages\/introduction-to-camera-scanninng",
             "button_style_secondary": false,
-            "button_label_2": "Shop toneCarrier",
-            "button_link_2": "shopify:\/\/collections\/120-film-scanning",
+            "button_label_2": "Shop film carriers",
+            "button_link_2": "shopify:\/\/collections\/tonecarrier-35-mm",
             "button_style_secondary_2": false
           }
         }
@@ -36,9 +36,50 @@
       "settings": {
         "background_video": "shopify:\/\/files\/videos\/leaks_trim.mp4",
         "hero_video": "shopify:\/\/files\/videos\/toneCarrier Ad.mp4",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "max_height": 0
+        "color_scheme": "scheme-1",
+        "margin_bottom": 60
+      }
+    },
+    "rich_text_XaweJq": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_CdjEd4": {
+          "type": "heading",
+          "settings": {
+            "heading": "What is camera scanning?",
+            "heading_size": "h1"
+          }
+        },
+        "text_8WgbBb": {
+          "type": "text",
+          "settings": {
+            "text": "<p>In the past digitizing film meant investing in a bulky, expensive and slow flatbed scanner or relying on a professional lab, with all the associated costs and loss of creative control. Camera scanning is the modern alternative, where you use a digital camera with a macro lens to take a close-up photo of the negative, which is inverted to obtain a high resolution scan.<\/p><p><\/p>"
+          }
+        },
+        "button_e8i3hQ": {
+          "type": "button",
+          "settings": {
+            "button_label": "Camera scanning basics",
+            "button_link": "shopify:\/\/pages\/introduction-to-camera-scanninng",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_CdjEd4",
+        "text_8WgbBb",
+        "button_e8i3hQ"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     },
     "image_with_text_tn7xXN": {
@@ -74,13 +115,13 @@
       ],
       "settings": {
         "image": "shopify:\/\/shop_images\/Square.png",
-        "height": "adapt",
-        "desktop_image_width": "small",
+        "height": "small",
+        "desktop_image_width": "medium",
         "layout": "text_first",
         "desktop_content_position": "top",
         "desktop_content_alignment": "left",
-        "content_layout": "no-overlap",
-        "section_color_scheme": "",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-2",
         "color_scheme": "",
         "image_behavior": "none",
         "mobile_content_alignment": "left",
@@ -88,126 +129,107 @@
         "padding_bottom": 36
       }
     },
-    "bento_UtMxTe": {
+    "bento_tjy4FJ": {
       "type": "bento",
       "blocks": {
-        "heading_ULikV9": {
+        "heading_XwyK4p": {
           "type": "heading",
           "settings": {
-            "heading": "What is camera scanning?",
+            "heading": "What makes a great scanning setip?",
             "heading_size": "h1"
           }
         },
-        "text_6fr77k": {
-          "type": "text",
-          "settings": {
-            "text": "<p>In the past digitizing film meant investing in a bulky, expensive and slow flatbed scanner or relying on a professional lab, with all the associated costs and loss of creative control.<\/p><p><\/p>"
-          }
-        },
-        "text_RQFJJp": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Camera scanning is the modern alternative. In this process, you use a digital camera with a macro lens to take a high quality photo of the negative, which is inverted to obtain a high resolution scan.<\/p>"
-          }
-        },
-        "heading_y8gzBw": {
-          "type": "heading",
-          "settings": {
-            "heading": "Parts of a scanning setup",
-            "heading_size": "h2"
-          }
-        },
-        "tile_d9P7FW": {
+        "tile_XPryQg": {
           "type": "Tile",
           "settings": {
             "title": "Film holder",
-            "description": "<p>Used to hold the film flat and level and easily advance it from one frame to the next<\/p>",
+            "description": "<p>Used for holding the negative flat and straight, reducing reflections and easily advancing film from one frame to the next.<\/p>",
             "link": "#lineup",
             "link_label": "Our range",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 5,
-            "start_column": 2,
+            "width": 4,
+            "start_column": 1,
             "start_row": 1,
             "fade_color": "",
             "fade_height": 50,
             "text_color": ""
           }
         },
-        "tile_aM8RiG": {
+        "tile_pVjWeX": {
           "type": "Tile",
           "settings": {
             "title": "Digital camera",
-            "description": "<p>DSLR or mirrorless with RAW capture capability. No need for the latest and greatest - any camera from the last decade will work great as a scanner.<\/p>",
+            "description": "<p>A DSLR or mirrorless is ideal. No need for the latest and greatest - any camera from the last decade will work great as a scanner.<\/p>",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 5,
-            "start_column": 7,
+            "width": 4,
+            "start_column": 5,
             "start_row": 1,
             "fade_color": "",
             "fade_height": 50,
             "text_color": ""
           }
         },
-        "tile_THN4zb": {
+        "tile_g8w3wK": {
           "type": "Tile",
           "settings": {
             "title": "Macro lens",
-            "description": "<p>To get good scans, you need to be able to get close to the film. A macro lens provides high magnifications needed for resolving all the detail of the negative.<\/p>",
+            "description": "<p>A macro lens provides high magnifications needed for resolving all the detail of the negative.<\/p>",
             "link": "shopify:\/\/pages\/macro-lens-recommendations",
             "link_label": "Lens recommendations",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 5,
-            "start_column": 2,
-            "start_row": 2,
+            "width": 4,
+            "start_column": 9,
+            "start_row": 1,
             "fade_color": "",
             "fade_height": 50,
             "text_color": ""
           }
         },
-        "tile_nFaPi7": {
+        "tile_3CwxGR": {
           "type": "Tile",
           "settings": {
-            "title": "Camera mount",
-            "description": "<p>You need a way to hold the camera vertical above the film holder. Popular options are dedicated copy stands, tripods, or modified vintage enlarger heads.<\/p>",
+            "title": "Copy stand or tripod",
+            "description": "<p>Something to place the camera overhead the filmr Popular options are dedicated copy stands, tripods, or even vintage enlarger heads.<\/p>",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 5,
-            "start_column": 7,
+            "width": 4,
+            "start_column": 1,
             "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
             "text_color": ""
           }
         },
-        "tile_D8cJPF": {
+        "tile_Afg9ay": {
           "type": "Tile",
           "settings": {
             "title": "Conversion software",
-            "description": "<p>Specialized programs to accurately invert the negative and turn it into finished, high quality scans.<\/p>",
+            "description": "<p>Specialized programs to accurately invert the negative and turn it into finished, high quality scans. Paid and free options are available.<\/p>",
             "link": "shopify:\/\/pages\/converting-negatives-with-negative-lab-pro",
             "link_label": "Software recommendations",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 5,
-            "start_column": 7,
-            "start_row": 3,
+            "width": 4,
+            "start_column": 9,
+            "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
             "text_color": ""
           }
         },
-        "tile_A7jtYU": {
+        "tile_QakBA3": {
           "type": "Tile",
           "settings": {
             "title": "Light source",
@@ -217,9 +239,9 @@
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 5,
-            "start_column": 2,
-            "start_row": 3,
+            "width": 4,
+            "start_column": 5,
+            "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
             "text_color": ""
@@ -227,30 +249,27 @@
         }
       },
       "block_order": [
-        "heading_ULikV9",
-        "text_6fr77k",
-        "text_RQFJJp",
-        "heading_y8gzBw",
-        "tile_d9P7FW",
-        "tile_aM8RiG",
-        "tile_THN4zb",
-        "tile_nFaPi7",
-        "tile_D8cJPF",
-        "tile_A7jtYU"
+        "heading_XwyK4p",
+        "tile_XPryQg",
+        "tile_pVjWeX",
+        "tile_g8w3wK",
+        "tile_3CwxGR",
+        "tile_Afg9ay",
+        "tile_QakBA3"
       ],
       "settings": {
         "background_blur": 5,
         "background_opacity": 0.2,
         "content_alignment": "center",
         "columns": 12,
-        "rows": 1,
-        "row_height": 200,
+        "rows": 2,
+        "row_height": 250,
         "padding_top": 36,
         "padding_bottom": 36,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-4",
         "heading_size": "h2",
         "caption_size": 14,
-        "tile_radius": 15,
+        "tile_radius": 0,
         "anchor": "",
         "full_width": false,
         "spacing": 16
@@ -262,8 +281,8 @@
         "heading_r7Thag": {
           "type": "heading",
           "settings": {
-            "heading": "Supports most film formats",
-            "heading_size": "h1"
+            "heading": "Scan anything",
+            "heading_size": "h0"
           }
         },
         "text_WVFgd7": {
@@ -346,10 +365,10 @@
         "row_height": 300,
         "padding_top": 72,
         "padding_bottom": 72,
-        "color_scheme": "scheme-4",
+        "color_scheme": "scheme-1",
         "heading_size": "h1",
         "caption_size": 16,
-        "tile_radius": 15,
+        "tile_radius": 0,
         "anchor": "lineup",
         "full_width": false,
         "spacing": 16
@@ -495,35 +514,93 @@
         "padding_bottom": 36
       }
     },
-    "bento_ckRpXx": {
-      "type": "bento",
+    "1727729801bc3a3cd7": {
+      "type": "apps",
+      "blocks": {
+        "forms_inline_x3FTXi": {
+          "type": "shopify:\/\/apps\/forms\/blocks\/inline\/8744a304-fcb1-4347-b211-bb6b4759a76a",
+          "settings": {
+            "form_id": "182916",
+            "text_color": "#202020",
+            "button_background_color": "#202020",
+            "button_label_color": "#ffffff",
+            "links_color": "#1878b9",
+            "errors_color": "#e02229",
+            "text_alignment": "center",
+            "form_alignment": "center",
+            "padding_top": 64,
+            "padding_bottom": 64,
+            "padding_right": 0,
+            "padding_left": 0
+          }
+        }
+      },
+      "block_order": [
+        "forms_inline_x3FTXi"
+      ],
       "settings": {
-        "background_blur": 5,
-        "background_opacity": 0.2,
-        "content_alignment": "center",
-        "columns": 12,
-        "rows": 1,
-        "row_height": 450,
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "color_scheme": "",
-        "heading_size": "h1",
-        "caption_size": 16,
-        "tile_radius": 15,
-        "anchor": "",
-        "full_width": false,
-        "spacing": 16
+        "include_margins": true
+      }
+    },
+    "tc_cards_slider_67nmWR": {
+      "type": "tc-cards-slider",
+      "blocks": {
+        "card_RnJKgk": {
+          "type": "card",
+          "settings": {
+            "lucide_icon": "lucide-package",
+            "title": "Quick and secure delivery",
+            "caption": "All in stock items are shipped the next working day with fully insured Royal Mail services"
+          }
+        },
+        "card_CCCjHq": {
+          "type": "card",
+          "settings": {
+            "lucide_icon": "lucide-undo-2",
+            "title": "30 day returns",
+            "caption": "If you aren't fully satisfied, we accept returns up to 30 days after receipt."
+          }
+        },
+        "card_GpCwHR": {
+          "type": "card",
+          "settings": {
+            "lucide_icon": "lucide-handshake",
+            "title": "Excellent customer service",
+            "caption": "We are always happy to answer questions and even help customize the toneCarrier to your specific workflow needs."
+          }
+        },
+        "card_UGHkF9": {
+          "type": "card",
+          "settings": {
+            "lucide_icon": "lucide-users",
+            "title": "Hundreds of happy customers",
+            "caption": "Over 200 customers have built their scanning setup with toneCarrier so far - you can too!"
+          }
+        }
+      },
+      "block_order": [
+        "card_RnJKgk",
+        "card_CCCjHq",
+        "card_GpCwHR",
+        "card_UGHkF9"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "color_scheme": "scheme-3"
       }
     }
   },
   "order": [
     "tc_homepage_hero_yzfcQL",
+    "rich_text_XaweJq",
     "image_with_text_tn7xXN",
-    "bento_UtMxTe",
+    "bento_tjy4FJ",
     "bento_jFmJGP",
     "sample_scan_3JWfQk",
     "rich_text_X3CFcX",
     "multicolumn_7VYUiW",
-    "bento_ckRpXx"
+    "1727729801bc3a3cd7",
+    "tc_cards_slider_67nmWR"
   ]
 }
