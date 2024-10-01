@@ -6,7 +6,7 @@
         "heading_RtyMdT": {
           "type": "heading",
           "settings": {
-            "heading": "<p>There is a <strong>better way<\/strong> to<\/p><p>digitize <strong>film memories<\/strong><\/p>",
+            "heading": "<p>There is a <strong>better way<\/strong><\/p><p>to digitize <strong>film memories<\/strong><\/p>",
             "heading_size": "h1"
           }
         },
@@ -34,7 +34,9 @@
         "button_BQxWHa"
       ],
       "settings": {
-        "background_video": "shopify:\/\/files\/videos\/leaks_trim.mp4",
+        "background_video": "shopify:\/\/files\/videos\/Film scroll background - less zoom.mp4",
+        "background_blur": 5,
+        "background_opacity": 15,
         "hero_video": "shopify:\/\/files\/videos\/toneCarrier Ad.mp4",
         "color_scheme": "scheme-1",
         "margin_bottom": 60
@@ -434,8 +436,8 @@
         "heading_QwTePn": {
           "type": "heading",
           "settings": {
-            "heading": "Why scan with a camera?",
-            "heading_size": "h1"
+            "heading": "Why scan film with a camera?",
+            "heading_size": "h2"
           }
         }
       },

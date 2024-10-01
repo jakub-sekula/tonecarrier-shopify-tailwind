@@ -15,11 +15,12 @@
 }
 
 .hero-blocks {
-  text-align: center;
+  /* text-align: center; */
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
 }
+
 
 .homepage-hero-background {
   background: black;
@@ -39,8 +40,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.1;
+  opacity: calc({{ section.settings.background_opacity }} / 100);
+  filter: blur({{ section.settings.background_blur }}px)
 }
+
 
 .hero-heading {
   font-family: "Inter Tight"
@@ -67,8 +70,23 @@
   margin: 0 auto;
 }
 
+@media (max-width: 330px) {
+  .hero-heading * {
+    display: inline
+  }
+
+  .hero-heading p:not(:last-child) {
+    margin-right: 0.5ch;
+  }
+}
+
+.hero-text p {
+  display: inline
+}
+
 .hero-text p:not(:last-child) {
   margin-bottom: 1rem;
+  margin-right: 0.5ch;
 }
 
 .hero-content-wrapper {
@@ -81,13 +99,14 @@
   flex-direction: column;
   width: 100%;
   gap: 2rem;
-  margin-top: 1rem;
 }
 
 .hero-button-container .button {
   flex-shrink: 0;
   background: var(--tw-color-orange-500);
-  color: white
+  color: white;
+  letter-spacing: inherit;
+  font-size: 1.4rem;
 }
 
 .hero-button-container .button--secondary {
@@ -107,7 +126,49 @@
   box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px
   , rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
   border-radius: 0.5rem;
-  overflow: hidden;
+  position: relative;
+}
+
+.hero-media-container video {
+  border-radius: 0.5rem;
+  z-index: 2;
+}
+
+
+.hero-media-glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 30%;
+  z-index: 1;
+  box-shadow: 0 0 160px 6px rgba(255, 140, 0, 0.3);
+}
+
+@media (min-width: 450px) {
+  .hero-blocks {
+    text-align: center;
+  }
+
+
+}
+
+@media (min-width: 540px) {
+
+  .hero-button-container {
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+
+}
+
+@media (min-width: 600px){
+  .hero-text p {
+    display: inherit
+  }
 }
 
 /* md (min-width: 768px) */
@@ -116,6 +177,9 @@
   .homepage-hero-background {
     height: 85%;
   }
+
+
+  
 
   .homepage-hero-section-{{ section.id }} {
     padding-top: calc(6rem + var(--dynamic-header-height));
@@ -127,6 +191,10 @@
 
   .hero-heading {
     font-size: 5rem
+  }
+
+  .hero-text {
+    font-size: 1.6rem;
   }
 
   .hero-content-wrapper {}
@@ -144,11 +212,14 @@
 
 .hero-text {}
 
+
 .hero-button-container {
-  flex-direction: row;
-  width: 100%;
-  justify-content: center;
-  gap: 3rem;
+  margin-top: 1rem;
+  gap: 2rem;
+}
+
+.hero-button-container .button {
+  font-size: 1.6rem;
 }
 
 
@@ -228,9 +299,9 @@
               {% endif %}>
               {%- if block.settings.button_label != blank -%}
                 {% comment %} {% render 'tc-button'
-                                                                                                                                                                                    , type: "link"
-                                                                                                                                                                                    , url: block.settings.button_link
-                                                                                                                                                                  , text: block.settings.button_label %}  {% endcomment %}
+                                                                                                                                                                                                                        , type: "link"
+                                                                                                                                                                                                                        , url: block.settings.button_link
+                                                                                                                                                                                                  , text: block.settings.button_label %}  {% endcomment %}
 
                 <a href="{{block.settings.button_link}}" class="button">
                   {{ block.settings.button_label }}
@@ -238,9 +309,9 @@
               {%- endif -%}
               {%- if block.settings.button_label_2 != blank -%}
                 {% comment %} {% render 'tc-button'
-                                                                                                                                                                  , type: "link"
-                                                                                                                                                                  , url: block.settings.button_link_2
-                                                                                                                                                  , text: block.settings.button_label_2 %} {% endcomment %}
+                                                                                                                                                                                                      , type: "link"
+                                                                                                                                                                                                      , url: block.settings.button_link_2
+                                                                                                                                                                                  , text: block.settings.button_label_2 %} {% endcomment %}
                 <a href="{{block.settings.button_link_2}}" class="button button--secondary">
                   {{ block.settings.button_label_2 }}
                 </a>
@@ -254,6 +325,7 @@
         data-cascade
         style="--animation-order: 5;"
         {% endif %}>
+        <div class="hero-media-glow"></div>
         {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.hero_image }}
       </div>
     </div>
@@ -316,6 +388,26 @@
         "type": "image_picker",
         "id": "background_image",
         "label": "Background image"
+      },
+      {
+        "type": "range",
+        "id": "background_blur",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Background blur",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "background_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Background opacity",
+        "default": 10
       },
       {
         "type": "video",
