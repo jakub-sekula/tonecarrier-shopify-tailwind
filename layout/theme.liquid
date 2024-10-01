@@ -429,6 +429,90 @@ body {
 
 <script src="{{ "tc-click-to-zoom.js" | asset_url }}" defer></script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  const formContainer = document.querySelector('.newsletter-form-container');
+
+  const observer = new MutationObserver((mutationsList, observer) => {
+    const form = document.querySelector('form-embed');
+  
+    if (form) {
+      observer.disconnect();
+      const shadow = form.shadowRoot;
+
+      console.log(shadow);
+
+      // Create a <style> element to inject styles
+      const style = document.createElement('style');
+      style.textContent = `
+* {
+  font-family: unset !important;
+}
+
+h2 {
+  font-family: "Inter Tight", sans-serif !important;
+  font-size: 3rem !important;
+  font-weight: 400 !important;
+}
+
+p {
+  font-size: 1.6rem !important;
+}
+
+section {
+  margin: 0 !important;
+  margin-bottom: 2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+section[class*="_formContainer"] {
+max-width: unset!important}
+
+div[class*="_formDisclaimer"] * {
+  font-size: 1rem !important;
+  font-weight: 300 !important;
+  opacity: 0.6 !important;
+  text-align: center!important;
+}
+input,
+button,
+textarea {
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+@media (min-width: 768px) {
+  * {
+    text-align: left !important;
+  }
+  section {
+    justify-content: start !important;
+    align-items: start !important;
+  }
+
+  p {
+    font-size: 1.4rem !important;
+  }
+}
+`;
+
+      // Append the style element to the shadow root
+      shadow.appendChild(style);
+
+      formContainer.classList.add('loaded');
+      console.log("gowno"); // This should now fire
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+});
+  </script>
+
 
   </body>
 </html>
