@@ -6,24 +6,24 @@
         "heading_RtyMdT": {
           "type": "heading",
           "settings": {
-            "heading": "<p>There is a <strong>better way<\/strong><\/p><p>to digitize <strong>film memories<\/strong><\/p>",
+            "heading": "<p>The easier way to digitize<\/p><p><strong>your film memories<\/strong><\/p>",
             "heading_size": "h1"
           }
         },
         "text_tLMjVL": {
           "type": "text",
           "settings": {
-            "text": "<p>Discover the fast, easy, and fun film scanning system built for the modern film lover.<\/p><p>All you need to start digitizing  is a camera, tripod and a macro lens.<\/p>"
+            "text": "<p> The toneCarrier is a professional scanning system made for the modern film lover.<\/p><p>Start digitizing your favorite 35 mm, 120, and 110 film memories today.<\/p>"
           }
         },
         "button_BQxWHa": {
           "type": "button",
           "settings": {
-            "button_label": "What is camera scanning?",
-            "button_link": "shopify:\/\/pages\/introduction-to-camera-scanninng",
+            "button_label": "Shop film carriers",
+            "button_link": "shopify:\/\/collections\/all",
             "button_style_secondary": false,
-            "button_label_2": "Shop film carriers",
-            "button_link_2": "shopify:\/\/collections\/tonecarrier-35-mm",
+            "button_label_2": "",
+            "button_link_2": "",
             "button_style_secondary_2": false
           }
         }
