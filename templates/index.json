@@ -475,7 +475,7 @@
           "type": "heading",
           "settings": {
             "heading": "Scan anything",
-            "heading_size": "h0"
+            "heading_size": "h1"
           }
         },
         "text_WVFgd7": {
@@ -565,7 +565,7 @@
         "padding_top": 72,
         "padding_bottom": 72,
         "color_scheme": "scheme-1",
-        "heading_size": "h1",
+        "heading_size": "h2",
         "caption_size": 16,
         "tile_radius": 0,
         "anchor": "lineup",
