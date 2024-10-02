@@ -41,6 +41,10 @@
         gap: 6rem;
     }
 
+    .newsletter-form-container {
+        padding: 0 6rem;
+    }
+
   
     .newsletter-image-container {
         width: 100%;
@@ -83,7 +87,12 @@
         {% endfor %}
 
     </div>
-    <div class="newsletter-image-container tc-fade-to-left">
+    <div class="newsletter-image-container tc-fade-to-left {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        
+              {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: 15"
+              {% endif %}>
         {{section.settings.background_image |  image_url: width: 600 |  image_tag}}
     </div>
 

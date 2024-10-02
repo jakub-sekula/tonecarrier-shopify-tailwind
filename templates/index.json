@@ -131,6 +131,185 @@
         "padding_bottom": 36
       }
     },
+    "image_with_text_htRdbH": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_mMCqAp": {
+          "type": "heading",
+          "settings": {
+            "heading": "Sprocket holes included",
+            "heading_size": "h1"
+          }
+        },
+        "text_mJbbyR": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The toneCarrier 35 mm exposes sprocket holes by default, so you can always get the full picture.<\/p><p>And if you want to hide the holes and remove backlight bleed, use one of the included frame masks in full frame, half frame and X-Pan formats.<\/p>",
+            "text_style": "body"
+          }
+        },
+        "button_d6YbML": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop 35 mm",
+            "button_link": "shopify:\/\/products\/tonecarrier-35-mm-film-holder",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_mMCqAp",
+        "text_mJbbyR",
+        "button_d6YbML"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-4",
+        "color_scheme": "scheme-4",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_PTENLw": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_bek7Wm": {
+          "type": "heading",
+          "settings": {
+            "heading": "Full medium format support",
+            "heading_size": "h1"
+          }
+        },
+        "text_braLaT": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The toneCarrier 120 supports all common medium format frame sizes: <strong>6x4.5, 6x6, 6x7, 6x8 and 6x9<\/strong>.<\/p><p>Enoy the versatility and scan all formats with one device.<\/p>",
+            "text_style": "body"
+          }
+        },
+        "button_ACVPTq": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop 120",
+            "button_link": "shopify:\/\/products\/tonecarrier-120-film-holder-1",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_bek7Wm",
+        "text_braLaT",
+        "button_ACVPTq"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/DSCF0422-Edit.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_wiLFkA": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_fAERdq": {
+          "type": "heading",
+          "settings": {
+            "heading": "Dual roller drive mechanism",
+            "heading_size": "h1"
+          }
+        },
+        "text_MywpNU": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Belt driven dual rollers grab the film securely on both sides in a push-pull configuration<\/p><p>Thanks to this, you can scan strips as short as 4 standard 35 mm frames long.<\/p><p>Your images always stay safe, because the soft rubber rollers only ever contact the edges of the film.<\/p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_fAERdq",
+        "text_MywpNU"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/DSCF0764-Edit.jpg",
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-4",
+        "color_scheme": "scheme-4",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_qedYYH": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_cPmNiQ": {
+          "type": "heading",
+          "settings": {
+            "heading": "3D print your own",
+            "heading_size": "h1"
+          }
+        },
+        "text_7Q6YfD": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Up for a DIY project? 3D printing files for all toneCarrier holders and accessories are available for sale.<\/p><p>All parts thoroughly tested and easy to print even on small printers like <strong>Bambu Lab A1 mini and Prusa Mini<\/strong>.<\/p><p>Bill of materials and illustrated assembly manual included.<\/p>",
+            "text_style": "body"
+          }
+        },
+        "button_DW6qhU": {
+          "type": "button",
+          "settings": {
+            "button_label": "Get 3D print kits",
+            "button_link": "shopify:\/\/collections\/digital-downloads",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_cPmNiQ",
+        "text_7Q6YfD",
+        "button_DW6qhU"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/DSCF2613.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "bento_tjy4FJ": {
       "type": "bento",
       "blocks": {
@@ -156,7 +335,9 @@
             "start_row": 1,
             "fade_color": "",
             "fade_height": 50,
-            "text_color": ""
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_pVjWeX": {
@@ -174,7 +355,9 @@
             "start_row": 1,
             "fade_color": "",
             "fade_height": 50,
-            "text_color": ""
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_g8w3wK": {
@@ -192,7 +375,9 @@
             "start_row": 1,
             "fade_color": "",
             "fade_height": 50,
-            "text_color": ""
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_3CwxGR": {
@@ -210,7 +395,9 @@
             "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
-            "text_color": ""
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_Afg9ay": {
@@ -228,7 +415,9 @@
             "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
-            "text_color": ""
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_QakBA3": {
@@ -246,7 +435,9 @@
             "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
-            "text_color": ""
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         }
       },
@@ -308,8 +499,10 @@
             "start_column": 1,
             "start_row": 1,
             "fade_color": "#000000",
-            "fade_height": 40,
-            "text_color": "#ffffff"
+            "fade_height": 100,
+            "text_color": "#000000",
+            "use_custom_text_color": true,
+            "use_custom_fade_color": false
           }
         },
         "tile_FTB3km": {
@@ -327,15 +520,17 @@
             "start_column": 5,
             "start_row": 1,
             "fade_color": "#000000",
-            "fade_height": 40,
-            "text_color": "#ffffff"
+            "fade_height": 100,
+            "text_color": "#000000",
+            "use_custom_text_color": true,
+            "use_custom_fade_color": false
           }
         },
         "tile_na8A46": {
           "type": "Tile",
           "settings": {
             "title": "110 film",
-            "description": "<p>Proof that size doesn't matter<\/p>",
+            "description": "<p>Scan the popular format from the 80s<\/p>",
             "image": "shopify:\/\/shop_images\/DSCF0759-Edit-2.jpg",
             "link": "shopify:\/\/collections\/110-film-scanning",
             "link_label": "Shop 110",
@@ -346,8 +541,10 @@
             "start_column": 9,
             "start_row": 1,
             "fade_color": "#000000",
-            "fade_height": 40,
-            "text_color": "#ffffff"
+            "fade_height": 100,
+            "text_color": "#000000",
+            "use_custom_text_color": true,
+            "use_custom_fade_color": false
           }
         }
       },
@@ -412,13 +609,55 @@
             "film_stock": "Kodak Colorplus 200",
             "raw_download_url": ""
           }
+        },
+        "scan_image_7CbtwT": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0210.jpg",
+            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0210-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Colorplus 200",
+            "raw_download_url": ""
+          }
+        },
+        "scan_image_R7rMbr": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0514.jpg",
+            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0514-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Colorplus 200",
+            "raw_download_url": ""
+          }
+        },
+        "scan_image_kYq6Y6": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0509.jpg",
+            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0509-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Colorplus 200",
+            "raw_download_url": ""
+          }
         }
       },
       "block_order": [
         "caption_Jx46KJ",
         "heading_LETNVj",
         "text_xMFkDD",
-        "scan_image_mzd7UE"
+        "scan_image_mzd7UE",
+        "scan_image_7CbtwT",
+        "scan_image_R7rMbr",
+        "scan_image_kYq6Y6"
       ],
       "settings": {
         "content_alignment": "center",
@@ -516,34 +755,6 @@
         "padding_bottom": 36
       }
     },
-    "1727729801bc3a3cd7": {
-      "type": "apps",
-      "blocks": {
-        "forms_inline_x3FTXi": {
-          "type": "shopify:\/\/apps\/forms\/blocks\/inline\/8744a304-fcb1-4347-b211-bb6b4759a76a",
-          "settings": {
-            "form_id": "",
-            "text_color": "#202020",
-            "button_background_color": "#202020",
-            "button_label_color": "#ffffff",
-            "links_color": "#1878b9",
-            "errors_color": "#e02229",
-            "text_alignment": "center",
-            "form_alignment": "center",
-            "padding_top": 64,
-            "padding_bottom": 64,
-            "padding_right": 0,
-            "padding_left": 0
-          }
-        }
-      },
-      "block_order": [
-        "forms_inline_x3FTXi"
-      ],
-      "settings": {
-        "include_margins": true
-      }
-    },
     "tc_newsletter_signup_8AeV7E": {
       "type": "tc-newsletter-signup",
       "blocks": {
@@ -551,8 +762,8 @@
           "type": "shopify:\/\/apps\/forms\/blocks\/inline\/8744a304-fcb1-4347-b211-bb6b4759a76a",
           "settings": {
             "form_id": "182916",
-            "text_color": "#202020",
-            "button_background_color": "#202020",
+            "text_color": "#121212",
+            "button_background_color": "#121212",
             "button_label_color": "#ffffff",
             "links_color": "#1878b9",
             "errors_color": "#e02229",
@@ -571,6 +782,127 @@
       "settings": {
         "background_image": "shopify:\/\/shop_images\/tonecarrier-basic-low-res.webp",
         "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_UgHFAj": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_GpPgwQ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How is this different from other film carriers?",
+            "icon": "check_mark",
+            "row_content": "<p>The toneCarrier uses a unique push-pull mechanism for transporting film, meaning you can scan even short strips of four 35 mm frames. It also features a film-safe path which ensures zero emulsion contact with any part of the holder at any point.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_QHdVBC": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What is the shortest strip I can scan?",
+            "icon": "check_mark",
+            "row_content": "<p>The shortest strip scannable with the toneCarrier is 4 standard 35 mm frames long.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_YMAA8b": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Will this scratch my film?",
+            "icon": "check_mark",
+            "row_content": "<p>Nope! The film channel and accessories are designed with film safety in mind and your images will never touch any part of the holder as they travel through it. The only part of the film that is in contact with the mechanism are sprocket holes and the edges.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_qUKndy": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What is the maximum frame size I can scan?",
+            "icon": "check_mark",
+            "row_content": "<p>The 35 mm version supports up to X-Pan sized negatives, while the 120 version can scan up to 6x9 frames.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_rR3cVX": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What film formats does it support?",
+            "icon": "check_mark",
+            "row_content": "<p>Currently 35 mm, 110, and 120 film is supported. We are working on expanding the range to also include 127, and APS film in the future.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_jdMbAb": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What countries do you ship to?",
+            "icon": "check_mark",
+            "row_content": "<p>We can ship to most countries of the world using the Royal Mail International service.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_nn6HYn": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "I see this is 3D printed, can I print it myself?",
+            "icon": "check_mark",
+            "row_content": "<p>Yes! If you would like to 3D print and assemble the toneCarrier yourself, you can purchase STL and 3MF files in our store. The download contains a full list of required hardware, which is also available to purchase in our store as a kit if you'd like to avoid bulk buying components.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_fGPxdg": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What light source should I use with this?",
+            "icon": "check_mark",
+            "row_content": "<p>Any light source that has a high Color Reproduction Index (CRI) will work well for scanning. If you are just beginning, even your smartphone will do just fine! When you are ready to upgrade, we recommend lights such as the Cinestill CS-Lite or Kaiser Plano light table.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_phXmKX": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What else do I need to start camera scanning?",
+            "icon": "check_mark",
+            "row_content": "<p>You will need a DSLR or mirrorless camera, a tripod, and a macro lens. If you plan to scan a lot, a copy stand is also a worthwhile investment as it will allow you to keep the entire scanning setup more self-contained and always ready to go.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_6UBQfp": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Is the quality of camera scans better than a flatbed scanner?",
+            "icon": "check_mark",
+            "row_content": "<p>Yes! Scanning film with a digital camera with a proper macro lens allows you to extract much more resolution from a negative than is possible with the typical flatbed scanner. You will also be able to enjoy much greater dynamic range and quicker scanning times.<\/p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_GpPgwQ",
+        "collapsible_row_QHdVBC",
+        "collapsible_row_YMAA8b",
+        "collapsible_row_qUKndy",
+        "collapsible_row_rR3cVX",
+        "collapsible_row_jdMbAb",
+        "collapsible_row_nn6HYn",
+        "collapsible_row_fGPxdg",
+        "collapsible_row_phXmKX",
+        "collapsible_row_6UBQfp"
+      ],
+      "settings": {
+        "caption": "",
+        "heading": "Frequently Asked Questions",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "color_scheme": "scheme-4",
+        "container_color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -628,13 +960,17 @@
     "tc_homepage_hero_yzfcQL",
     "rich_text_XaweJq",
     "image_with_text_tn7xXN",
+    "image_with_text_htRdbH",
+    "image_with_text_PTENLw",
+    "image_with_text_wiLFkA",
+    "image_with_text_qedYYH",
     "bento_tjy4FJ",
     "bento_jFmJGP",
     "sample_scan_3JWfQk",
     "rich_text_X3CFcX",
     "multicolumn_7VYUiW",
-    "1727729801bc3a3cd7",
     "tc_newsletter_signup_8AeV7E",
+    "collapsible_content_UgHFAj",
     "tc_cards_slider_67nmWR"
   ]
 }

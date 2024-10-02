@@ -292,7 +292,7 @@
         "color_scheme": "scheme-4",
         "heading_size": "h2",
         "caption_size": 16,
-        "tile_radius": 8,
+        "tile_radius": 0,
         "anchor": "bento",
         "full_width": false,
         "spacing": 24

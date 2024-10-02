@@ -22,7 +22,7 @@
     height: 100%;
     background: rgb(var(--color-background)) linear-gradient(rgba(var(--color-foreground),0.04),rgba(var(--color-foreground),0.04));
     overflow: hidden;
-    border-radius: 1.5rem;
+    border-radius: {{section.settings.border_radius}}px;
   }
 
   .card-image-primary-{{ section.id }}
@@ -384,7 +384,17 @@ leftMask.classList.add("hidden")
         "step": 1,
         "label": "Cards per row",
         "default": 3
-      }
+      },
+      {
+        "type": "range",
+        "id": "border_radius",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Tile border radius"
+      },
     ],
     "blocks": [
       {

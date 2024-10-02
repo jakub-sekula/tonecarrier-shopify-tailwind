@@ -19,7 +19,9 @@
             "start_row": 1,
             "fade_color": "#ffffff",
             "fade_height": 67,
-            "text_color": "#000000"
+            "text_color": "#000000",
+            "use_custom_text_color": true,
+            "use_custom_fade_color": true
           }
         },
         "tile_4xXfJj": {
@@ -38,14 +40,16 @@
             "start_row": 1,
             "fade_color": "#ffffff",
             "fade_height": 80,
-            "text_color": "#000000"
+            "text_color": "#000000",
+            "use_custom_text_color": true,
+            "use_custom_fade_color": true
           }
         },
         "heading_qECwY8": {
           "type": "heading",
           "settings": {
             "heading": "35 mm film scanning",
-            "heading_size": "hxl"
+            "heading_size": "h1"
           }
         },
         "text_HXctLA": {
@@ -64,17 +68,48 @@
       "settings": {
         "background_image": "shopify:\/\/shop_images\/DSCF0312-2.webp",
         "background_blur": 4,
-        "background_opacity": 0.1,
-        "content_alignment": "left",
+        "background_opacity": 0,
+        "content_alignment": "center",
         "columns": 12,
         "rows": 1,
-        "row_height": 400,
+        "row_height": 340,
         "padding_top": 72,
         "padding_bottom": 72,
         "color_scheme": "scheme-4",
         "heading_size": "h1",
         "caption_size": 16,
-        "anchor": ""
+        "tile_radius": 0,
+        "anchor": "",
+        "full_width": false,
+        "spacing": 16
+      }
+    },
+    "featured_collection_AYzcNX": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Optional accessories",
+        "heading_size": "h1",
+        "description": "<p>Those add-ons are designed to work perfectly with the toneCarrier and make your scanning workflow more efficient and enjoable.<\/p>",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "tonecarrier-35-mm-accessories",
+        "products_to_show": 25,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "enable_desktop_slider": true,
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "tc_product_image_cards_pXtXKr": {
@@ -117,12 +152,14 @@
         "text_BGmDd4",
         "card_Y43WkJ"
       ],
+      "disabled": true,
       "settings": {
         "content_alignment": "center",
         "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 36,
-        "cards_per_row": 3
+        "cards_per_row": 3,
+        "border_radius": 0
       }
     },
     "banner": {
@@ -187,7 +224,9 @@
             "start_row": 1,
             "fade_color": "",
             "fade_height": 50,
-            "text_color": ""
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_Gr9wUn": {
@@ -206,7 +245,9 @@
             "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
-            "text_color": ""
+            "text_color": "#ffffff",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_9dteNg": {
@@ -225,7 +266,9 @@
             "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
-            "text_color": ""
+            "text_color": "#ffffff",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         }
       },
@@ -236,6 +279,7 @@
         "tile_Gr9wUn",
         "tile_9dteNg"
       ],
+      "disabled": true,
       "settings": {
         "background_image": "shopify:\/\/shop_images\/DSCF2613.png",
         "background_blur": 5,
@@ -249,12 +293,16 @@
         "color_scheme": "scheme-4",
         "heading_size": "h1",
         "caption_size": 16,
-        "anchor": ""
+        "tile_radius": 0,
+        "anchor": "",
+        "full_width": false,
+        "spacing": 16
       }
     }
   },
   "order": [
     "bento_QFQBRB",
+    "featured_collection_AYzcNX",
     "tc_product_image_cards_pXtXKr",
     "banner",
     "product-grid",

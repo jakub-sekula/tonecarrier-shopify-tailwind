@@ -48,21 +48,24 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Lay the A-side of the housing flat on the table<\/p>"
+            "text": "<p>Lay the A-side of the housing flat on the table<\/p>",
+            "push": false
           }
         },
         "bullet_7ECC9L": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Take 6x M5 thin square nuts (DIN962) and insert them into the slots around the bearing pockets<\/p>"
+            "text": "<p>Take 6x M5 thin square nuts (DIN962) and insert them into the slots around the bearing pockets<\/p>",
+            "push": false
           }
         },
         "bullet_Lb8LKq": {
           "type": "bullet",
           "settings": {
             "type": "caution",
-            "text": "<p>Depending on print quality the nuts may be slightly loose on their pockets. Keep the assembly horizontal to prevent them from falling out.<\/p>"
+            "text": "<p>Depending on print quality the nuts may be slightly loose on their pockets. Keep the assembly horizontal to prevent them from falling out.<\/p>",
+            "push": true
           }
         },
         "image_TGejXW": {
@@ -108,14 +111,16 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Take 4x bearings (type 688) and insert them into the pockets in the housing<\/p>"
+            "text": "<p>Take 4x bearings (type 688) and insert them into the pockets in the housing<\/p>",
+            "push": false
           }
         },
         "bullet_3C9KWj": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Put the housing to the side while working on the next step<\/p>"
+            "text": "<p>Put the housing to the side while working on the next step<\/p>",
+            "push": false
           }
         },
         "image_GYkHa7": {
@@ -153,28 +158,32 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Prepare 4x<strong> M3 thin square nuts <\/strong>(DIN562)<\/p>"
+            "text": "<p>Prepare 4x<strong> M3 thin square nuts <\/strong>(DIN562)<\/p>",
+            "push": false
           }
         },
         "bullet_BfD3B4": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Insert the nuts into pockets in each of the two long rollers<\/p>"
+            "text": "<p>Insert the nuts into pockets in each of the two long rollers<\/p>",
+            "push": false
           }
         },
         "bullet_gH6VkD": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Use a thin tool to push the square nut all the way into the pocket<\/p>"
+            "text": "<p>Use a thin tool to push the square nut all the way into the pocket<\/p>",
+            "push": false
           }
         },
         "bullet_VRrw9d": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Insert a M3x40 socket head cap screw into the roller as shown and lightly tighten with your fingers<\/p>"
+            "text": "<p>Insert a M3x40 socket head cap screw into the roller as shown and lightly tighten with your fingers<\/p>",
+            "push": false
           }
         },
         "image_UaFnRC": {
@@ -228,21 +237,24 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Take 8x 15x19x2 mm red silicone O-rings<\/p>"
+            "text": "<p>Take 8x 15x19x2 mm red silicone O-rings<\/p>",
+            "push": false
           }
         },
         "bullet_wf9aXx": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Place the O-rings inside the grooved at both sides of each roller<\/p>"
+            "text": "<p>Place the O-rings inside the grooved at both sides of each roller<\/p>",
+            "push": false
           }
         },
         "bullet_yq7LEF": {
           "type": "bullet",
           "settings": {
             "type": "tip",
-            "text": "<p>Wash your hands before handling the O-rings to prevent them becoming dirty and contaminating the film<\/p>"
+            "text": "<p>Wash your hands before handling the O-rings to prevent them becoming dirty and contaminating the film<\/p>",
+            "push": true
           }
         },
         "image_QY6m6T": {
@@ -281,28 +293,32 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Place the rollers in the housing assembly from step 2 as shown<\/p>"
+            "text": "<p>Place the rollers in the housing assembly from step 2 as shown<\/p>",
+            "push": false
           }
         },
         "bullet_DqXyXh": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Check the orientation of the top (long) rollers. The M3 screw must be <strong>pointing up<\/strong>.<\/p>"
+            "text": "<p>Check the orientation of the top (long) rollers. The M3 screw must be <strong>pointing up<\/strong>.<\/p>",
+            "push": false
           }
         },
         "bullet_7rngeT": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Take 2x top spacers and 2x bottom spacers and place them over the locating pins in the housing as shown<\/p>"
+            "text": "<p>Take 2x top spacers and 2x bottom spacers and place them over the locating pins in the housing as shown<\/p>",
+            "push": false
           }
         },
         "bullet_yWr9yU": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Place the remaining 4x bearings onto the roller shafts<\/p>"
+            "text": "<p>Place the remaining 4x bearings onto the roller shafts<\/p>",
+            "push": false
           }
         },
         "image_RGyVKT": {
@@ -356,21 +372,24 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Lower the B-side of the housing onto the rollers<\/p>"
+            "text": "<p>Lower the B-side of the housing onto the rollers<\/p>",
+            "push": false
           }
         },
         "bullet_zmb9bk": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Gently lift the entire assembly while keeping it horizontal and press the housing together<\/p>"
+            "text": "<p>Gently lift the entire assembly while keeping it horizontal and press the housing together<\/p>",
+            "push": false
           }
         },
         "bullet_48gmH3": {
           "type": "bullet",
           "settings": {
             "type": "caution",
-            "text": "<p>This step should not require much  force - if you struggle, stop and confirm that all parts are placed correctly to prevent damage.<\/p>"
+            "text": "<p>This step should not require much  force - if you struggle, stop and confirm that all parts are placed correctly to prevent damage.<\/p>",
+            "push": true
           }
         },
         "image_GjNLJM": {
@@ -409,21 +428,24 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Take 4x M5x45 socket head cap screws and insert them into the corresponding holes in the corners of the housing.<\/p>"
+            "text": "<p>Take 4x M5x45 socket head cap screws and insert them into the corresponding holes in the corners of the housing.<\/p>",
+            "push": false
           }
         },
         "bullet_g9qacM": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Tighten the screws using a 4 mm Hex (Allen) key in an X pattern (top left, bottom right, bottom left, top right)<\/p>"
+            "text": "<p>Tighten the screws using a 4 mm Hex (Allen) key in an X pattern (top left, bottom right, bottom left, top right)<\/p>",
+            "push": false
           }
         },
         "bullet_MpB8kK": {
           "type": "bullet",
           "settings": {
             "type": "caution",
-            "text": "<p>Do not tighten the screws excessively to prevent warping the housing.<\/p>"
+            "text": "<p>Do not tighten the screws excessively to prevent warping the housing.<\/p>",
+            "push": true
           }
         },
         "image_ctc6ib": {
@@ -455,35 +477,40 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Turn the housing around and slide a 20-tooth GT2 pulley over one of the rollers<\/p>"
+            "text": "<p>Turn the housing around and slide a 20-tooth GT2 pulley over one of the rollers<\/p>",
+            "push": false
           }
         },
         "bullet_WQKjE4": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Tighten the pulley using a M3x2.5 mm hex (Allen) key<\/p>"
+            "text": "<p>Tighten the pulley using a M3x2.5 mm hex (Allen) key<\/p>",
+            "push": false
           }
         },
         "bullet_J4YtA8": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Install the timing belt by placing it over the pulley and lightly stretching it over to the second roller shaft as shown<\/p>"
+            "text": "<p>Install the timing belt by placing it over the pulley and lightly stretching it over to the second roller shaft as shown<\/p>",
+            "push": false
           }
         },
         "bullet_tpRhEq": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Tighten the second pulley<\/p>"
+            "text": "<p>Tighten the second pulley<\/p>",
+            "push": false
           }
         },
         "bullet_zYLAqk": {
           "type": "bullet",
           "settings": {
             "type": "tip",
-            "text": "<p>Leave a small gap between the pulleys and the housing to prevent unnecessary friction<\/p>"
+            "text": "<p>Leave a small gap between the pulleys and the housing to prevent unnecessary friction<\/p>",
+            "push": true
           }
         },
         "image_L7XXHV": {
@@ -545,21 +572,24 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Place the belt cover over the belt and pulleys as shown<\/p>"
+            "text": "<p>Place the belt cover over the belt and pulleys as shown<\/p>",
+            "push": false
           }
         },
         "bullet_nXNQyK": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Secure the cover with 2x M5x25 socket head cap screws and a 4 mm hex (Allen) key<\/p>"
+            "text": "<p>Secure the cover with 2x M5x25 socket head cap screws and a 4 mm hex (Allen) key<\/p>",
+            "push": false
           }
         },
         "bullet_wXMmnN": {
           "type": "bullet",
           "settings": {
             "type": "caution",
-            "text": "<p>Do not over-tighten the belt cover screws<\/p>"
+            "text": "<p>Do not over-tighten the belt cover screws<\/p>",
+            "push": true
           }
         },
         "image_JAEAfk": {
@@ -605,35 +635,40 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Lay the assembly flat with the remaining roller shafts pointing up<\/p>"
+            "text": "<p>Lay the assembly flat with the remaining roller shafts pointing up<\/p>",
+            "push": false
           }
         },
         "bullet_C3CXa9": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p><strong>Carefully<\/strong> remove the previously inserted M3x40 socket head cap screws<\/p>"
+            "text": "<p><strong>Carefully<\/strong> remove the previously inserted M3x40 socket head cap screws<\/p>",
+            "push": false
           }
         },
         "bullet_VU36q8": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Install the 2x knobs into the shafts and secure them using the M3x40 screws<\/p>"
+            "text": "<p>Install the 2x knobs into the shafts and secure them using the M3x40 screws<\/p>",
+            "push": false
           }
         },
         "bullet_ifhkAb": {
           "type": "bullet",
           "settings": {
             "type": "tip",
-            "text": "<p>Tighten the screws firmly, as they are structural and essential for preventing the shafts from breaking during use<\/p>"
+            "text": "<p>Tighten the screws firmly, as they are structural and essential for preventing the shafts from breaking during use<\/p>",
+            "push": false
           }
         },
         "bullet_tKMYYc": {
           "type": "bullet",
           "settings": {
             "type": "caution",
-            "text": "<p>Do not turn the shafts while the screws are removed as it may cause their retaining nut to fall out<\/p>"
+            "text": "<p>Do not turn the shafts while the screws are removed as it may cause their retaining nut to fall out<\/p>",
+            "push": true
           }
         },
         "image_zTNdg9": {
@@ -681,28 +716,32 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Attach 4x feet to the bottom of the housing using the self-tapping M3x8 screw and a 2.5 mm hex (Allen) key<\/p>"
+            "text": "<p>Attach 4x feet to the bottom of the housing using the self-tapping M3x8 screw and a 2.5 mm hex (Allen) key<\/p>",
+            "push": false
           }
         },
         "bullet_4gUnUX": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>The screws are cutting a thread in the plastic as they are turned. This can be quite difficult - an electric screwdriver on low torque setting can help!<\/p>"
+            "text": "<p>The screws are cutting a thread in the plastic as they are turned. This can be quite difficult - an electric screwdriver on low torque setting can help!<\/p>",
+            "push": false
           }
         },
         "bullet_hx4QRG": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Attach 4x self-adhesive rubber stickers into the corresponding pockets on the feet<\/p>"
+            "text": "<p>Attach 4x self-adhesive rubber stickers into the corresponding pockets on the feet<\/p>",
+            "push": false
           }
         },
         "bullet_m6pJyA": {
           "type": "bullet",
           "settings": {
             "type": "caution",
-            "text": "<p>Do not overtighten the screws as you may strip the plastic and have to re-print the part<\/p>"
+            "text": "<p>Do not overtighten the screws as you may strip the plastic and have to re-print the part<\/p>",
+            "push": true
           }
         },
         "image_6TWzHC": {
@@ -749,14 +788,16 @@
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Great job! Your toneCarrier is now fully assembled and ready to use.<\/p>"
+            "text": "<p>Great job! Your toneCarrier is now fully assembled and ready to use.<\/p>",
+            "push": false
           }
         },
         "bullet_Rwg3PE": {
           "type": "bullet",
           "settings": {
             "type": "default",
-            "text": "<p>Start scanning!<\/p>"
+            "text": "<p>Start scanning!<\/p>",
+            "push": false
           }
         },
         "image_NNPnyx": {

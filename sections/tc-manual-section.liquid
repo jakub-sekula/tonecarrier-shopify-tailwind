@@ -82,6 +82,9 @@
 .manual-step-bullet__caution {
   background-color: var(--tw-color-amber-50);
   color: var(--tw-color-amber-800);
+}
+
+.manual-step__push-to-bottom {
   margin-top: auto;
 }
 
@@ -94,7 +97,7 @@
 .manual-step-bullet__tip {
   background-color: var(--tw-color-blue-50);
   color: var(--tw-color-blue-800);
-  margin-top: auto;
+
 }
 
 .manual-step-bullet__tip .manual-step-bullet__bullet {
@@ -185,11 +188,11 @@
         {% endfor %}
       </swiper-container>
     </div>
-    <div class="manual-step__content {% if settings.animations_reveal_on_scroll %}animate--fade-in{% endif %}" >
+    <div class="manual-step__content {% if settings.animations_reveal_on_scroll %}animate--fade-in{% endif %}">
       <ul>
         {% for block in section.blocks %}
           {% if block.type == "bullet" %}
-            <li class="manual-step-bullet manual-step-bullet__{{block.settings.type}}" {{ block.shopify_attributes }}>
+            <li class="manual-step-bullet manual-step-bullet__{{block.settings.type}} {% if block.settings.push %} manual-step__push-to-bottom {% endif %}" {{ block.shopify_attributes }}>
               <div class="manual-step-bullet__bullet">
                 {% case block.settings.type %}
                   {% when "default" %}
@@ -293,6 +296,12 @@
             "id": "text",
             "label": "Bullet text",
             "default": "<p>Bullet text</p>"
+          },
+          {
+            "type": "checkbox",
+            "id": "push",
+            "default": false,
+            "label": "Push to bottom"
           }
         ]
       },
@@ -312,16 +321,15 @@
     "presets": [
       {
         "name": "Manual step",
-        "settings": {
-        },
+        "settings": {},
         "blocks": [
-        {
-          "type": "bullet"
-        },
-        {
-          "type": "image"
-        }
-      ]
+          {
+            "type": "bullet"
+          },
+          {
+            "type": "image"
+          }
+        ]
       }
     ]
   }

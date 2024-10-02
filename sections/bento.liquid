@@ -3,7 +3,7 @@
 {%- style -%}
 
   .section-{{ section.id }}-padding {
-    padding: {% if section.settings.full_width %} {{section.settings.spacing}}px {% endif %};
+    padding: {% if section.settings.full_width %} {{ section.settings.spacing }}px {% endif %};
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
@@ -16,7 +16,7 @@
   .bento-grid-{{ section.id }} {
     display: flex;
     flex-direction: column;
-    gap: {{section.settings.spacing}}px;
+    gap: {{ section.settings.spacing }}px;
   }
 
   .bento-tile-{{ section.id }} {
@@ -31,7 +31,7 @@
     min-height: {{ section.settings.row_height | times: 0.67 | round: 0 }}px;
     position: relative;
     overflow: hidden;
-    border-radius: {{section.settings.tile_radius}}px;
+    border-radius: {{ section.settings.tile_radius }}px;
   }
 
   .bento-background-image-{{ section.id }} {
@@ -69,41 +69,45 @@
     }
 
     .bento-tile-{{ section.id }} {
-    min-height: {{ section.settings.row_height }}px;
+      min-height: {{ section.settings.row_height }}px;
+    }
   }
-  }
-  
-      {% for block in section.blocks %}
-        {% if block.type == 'Tile' %}
-          .bento-tile-{{ block.id }} {
-            --width: {{ block.settings.width }};
-            --height: {{ block.settings.height }};
-            grid-column: span var(--width)/ span var(--width);
-            grid-row: span var(--height)/ span var(--height);
-            grid-column-start: {{ block.settings.start_column }};
-            grid-row-start: {{ block.settings.start_row }};
-          }
-    
-          .bento-tile-fade-color-{{ block.id }} {
-            background-color: {{ block.settings.fade_color }};
-          }
-    
-          .bento-tile-fade-{{ block.id }} {
-            height: {{ block.settings.fade_height }}%;
-            width: 100%;
-            position: absolute;
-            z-index: 5;
-            left: 0;
-            top: 0
-          }
 
-          .bento-text-container-{{ block.id }} * {
-            color: {{block.settings.text_color}};
-            border-color: {{block.settings.text_color}}
-          }
-        {% endif %}
-      {% endfor %}
-  {%- endstyle -%}
+  {% for block in section.blocks %}
+    {% if block.type == 'Tile' %}
+      .bento-tile-{{ block.id }} {
+        --width: {{ block.settings.width }};
+        --height: {{ block.settings.height }};
+        grid-column: span var(--width)/ span var(--width);
+        grid-row: span var(--height)/ span var(--height);
+        grid-column-start: {{ block.settings.start_column }};
+        grid-row-start: {{ block.settings.start_row }};
+      }
+
+      .bento-tile-fade-color-{{ block.id }} {
+        background-color: {% if block.settings.use_custom_fade_color %} {{ block.settings.fade_color }}
+      {% else %} inherit {% endif %};
+  }
+
+  .bento-tile-fade-{{ block.id }} {
+    height: {{ block.settings.fade_height }}%;
+    width: 100%;
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    top: 0
+  }
+
+  .bento-text-container-{{ block.id }}
+  * {
+    color: {% if block.settings.use_custom_text_color %} {{ block.settings.text_color }}
+  {% else %} inherit {% endif %};
+  border-color: {% if block.settings.use_custom_text_color %} {{ block.settings.texte_color }}
+{% else %} inherit {% endif %};
+}
+{% endif %}
+{% endfor %}
+{%- endstyle -%}
 
 <section
   {% if section.settings.anchor != blank %}
@@ -479,17 +483,22 @@
         "id": "anchor",
         "label": "Anchor"
       },
-      {"type": "checkbox",
-    "id": "full_width",
-  "label": "Full width"},
-  {"type": "range",
-"min": 0,
-"max": 128,
-"default": 16,
-"step": 8,
-"unit": "px",
-"id": "spacing",
-"label": "Spacing"}
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full width"
+      },
+
+      {
+        "type": "range",
+        "min": 0,
+        "max": 128,
+        "default": 16,
+        "step": 8,
+        "unit": "px",
+        "id": "spacing",
+        "label": "Spacing"
+      }
     ],
     "blocks": [
       {
@@ -591,6 +600,18 @@
             "id": "text_color",
             "label": "Text color",
             "info": "Override text color from color scheme"
+          },
+          {
+            "type": "checkbox",
+            "id": "use_custom_text_color",
+            "label": "Use custom text color",
+            "default": false
+          },
+          {
+            "type": "checkbox",
+            "id": "use_custom_fade_color",
+            "label": "Use custom fade color",
+            "default": false
           }
         ]
       },
@@ -739,9 +760,7 @@
     "presets": [
       {
         "name": "Bento grid",
-        "settings": {
-          
-        }
+        "settings": {}
       }
     ]
   }
