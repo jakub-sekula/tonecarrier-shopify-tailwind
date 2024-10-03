@@ -42,46 +42,51 @@
         "margin_bottom": 60
       }
     },
-    "rich_text_pyPjWd": {
-      "type": "rich-text",
+    "image_with_text_tn7xXN": {
+      "type": "image-with-text",
       "blocks": {
-        "heading_BXmM7U": {
+        "caption_fHMKdj": {
+          "type": "caption",
+          "settings": {
+            "caption": "Professional grade tools",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_ejT9dW": {
           "type": "heading",
           "settings": {
-            "heading": "Quality you can trust",
-            "heading_size": "h1"
+            "heading": "Making film scanning fun again",
+            "heading_size": "h2"
           }
         },
-        "text_8NLtGE": {
+        "text_LKXdjG": {
           "type": "text",
           "settings": {
-            "text": "<p>Over 200 customers have upgraded their DSLR scannig workflows with the toneCarrier.<\/p><p>All reviews from verified customers in our Etsy shop.<\/p>"
-          }
-        },
-        "button_EQYMtq": {
-          "type": "button",
-          "settings": {
-            "button_label": "",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "text": "<p>The toneCarrier is a fully-featured, dedicated film holding system specifically designed scanning negative and slide film using a digital camera (DSLR or mirrorless).<\/p><p>We make it possible to get archival-grade digital copies of your film in minutes. Forget the struggle of slow, bulky and outdated flatbed scanners - scanning with a camera is the modern way to preserve and share your film photography work.<\/p>",
+            "text_style": "body"
           }
         }
       },
       "block_order": [
-        "heading_BXmM7U",
-        "text_8NLtGE",
-        "button_EQYMtq"
+        "caption_fHMKdj",
+        "heading_ejT9dW",
+        "text_LKXdjG"
       ],
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
+        "image": "shopify:\/\/shop_images\/Square.png",
+        "height": "small",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-1",
         "color_scheme": "",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "rich_text_XaweJq": {
@@ -97,7 +102,7 @@
         "text_8WgbBb": {
           "type": "text",
           "settings": {
-            "text": "<p>Camera scanning is the modern alternative to slow and bulky flatbed film scanners, or handing your negatives off to a dedicated lab. Simply use use a macro-capable digital camera to take a photo of the negative, then invert the colors to get a professional grade scans at home.<\/p><p><\/p>"
+            "text": "<p>Camera scanning is the process of digitizing film images using a DSLR or a mirrorless camera with a macro lens. You can achieve amazing, <strong>professional grade reproductions<\/strong> by taking a picture of the negative with a macro lens, then inverting the colors using specialized software.<\/p>"
           }
         },
         "button_e8i3hQ": {
@@ -124,53 +129,6 @@
         "full_width": true,
         "padding_top": 40,
         "padding_bottom": 52
-      }
-    },
-    "image_with_text_tn7xXN": {
-      "type": "image-with-text",
-      "blocks": {
-        "caption_fHMKdj": {
-          "type": "caption",
-          "settings": {
-            "caption": "Professional grade tools",
-            "text_style": "caption-with-letter-spacing",
-            "text_size": "medium"
-          }
-        },
-        "heading_ejT9dW": {
-          "type": "heading",
-          "settings": {
-            "heading": "Film scanning made better",
-            "heading_size": "h1"
-          }
-        },
-        "text_LKXdjG": {
-          "type": "text",
-          "settings": {
-            "text": "<p>The toneCarrier is a fully-featured, dedicated film holding system specifically designed for a digital camera scanning workflow.<\/p><p>Make archival-grade digital copies of your film photos in minutes. Forget the struggle of flatbed scanners - scanning with a camera is the modern way to preserve and share your film photography.<\/p>",
-            "text_style": "body"
-          }
-        }
-      },
-      "block_order": [
-        "caption_fHMKdj",
-        "heading_ejT9dW",
-        "text_LKXdjG"
-      ],
-      "settings": {
-        "image": "shopify:\/\/shop_images\/Square.png",
-        "height": "small",
-        "desktop_image_width": "medium",
-        "layout": "text_first",
-        "desktop_content_position": "top",
-        "desktop_content_alignment": "left",
-        "content_layout": "overlap",
-        "section_color_scheme": "scheme-2",
-        "color_scheme": "",
-        "image_behavior": "none",
-        "mobile_content_alignment": "left",
-        "padding_top": 36,
-        "padding_bottom": 36
       }
     },
     "image_with_text_htRdbH": {
@@ -597,6 +555,7 @@
         "tile_FTB3km",
         "tile_na8A46"
       ],
+      "disabled": true,
       "settings": {
         "background_blur": 5,
         "background_opacity": 0.2,
@@ -613,6 +572,34 @@
         "anchor": "lineup",
         "full_width": false,
         "spacing": 16
+      }
+    },
+    "featured_collection_ipafC9": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Shop film carriers",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "all-film-holders",
+        "products_to_show": 3,
+        "columns_desktop": 3,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "sample_scan_3JWfQk": {
@@ -706,9 +693,37 @@
         "background_color": "",
         "color_scheme": "",
         "color_scheme_dark": "scheme-4",
-        "padding_top": 36,
-        "padding_bottom": 36,
+        "padding_top": 72,
+        "padding_bottom": 72,
         "content_height": 650
+      }
+    },
+    "featured_collection_E9Yica": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Shop scanning kits",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "scanning-kits",
+        "products_to_show": 3,
+        "columns_desktop": 3,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "scheme-4",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "rich_text_X3CFcX": {
@@ -795,6 +810,48 @@
         "swipe_on_mobile": true,
         "padding_top": 0,
         "padding_bottom": 36
+      }
+    },
+    "rich_text_pyPjWd": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_BXmM7U": {
+          "type": "heading",
+          "settings": {
+            "heading": "Quality you can trust",
+            "heading_size": "h1"
+          }
+        },
+        "text_8NLtGE": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Over 200 customers have upgraded their DSLR scannig workflows with the toneCarrier.<\/p><p>All reviews from verified customers in our Etsy shop.<\/p>"
+          }
+        },
+        "button_EQYMtq": {
+          "type": "button",
+          "settings": {
+            "button_label": "",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_BXmM7U",
+        "text_8NLtGE",
+        "button_EQYMtq"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     },
     "tc_scrolling_image_bar_CJdLck": {
@@ -1245,15 +1302,17 @@
   },
   "order": [
     "tc_homepage_hero_yzfcQL",
-    "rich_text_XaweJq",
     "image_with_text_tn7xXN",
+    "rich_text_XaweJq",
     "image_with_text_htRdbH",
     "image_with_text_PTENLw",
     "image_with_text_wiLFkA",
     "image_with_text_qedYYH",
     "bento_tjy4FJ",
     "bento_jFmJGP",
+    "featured_collection_ipafC9",
     "sample_scan_3JWfQk",
+    "featured_collection_E9Yica",
     "rich_text_X3CFcX",
     "multicolumn_7VYUiW",
     "rich_text_pyPjWd",
