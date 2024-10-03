@@ -27,6 +27,10 @@
     {{ "lucide-users.svg" | inline_asset_content }}
   {% when "lucide-x" %}
     {{ "lucide-x.svg" | inline_asset_content }}
+    {% when "lucide-star" %}
+      {{ "lucide-star.svg" | inline_asset_content }}
+      {% when "lucide-shield-check" %}
+        {{ "lucide-shield-check.svg" | inline_asset_content }}
   {% else %}
     <!-- Optional: Handle case when the icon name doesn't match any files -->
     <span>Icon not found</span>

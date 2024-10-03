@@ -42,6 +42,302 @@
         "margin_bottom": 60
       }
     },
+    "rich_text_pyPjWd": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_BXmM7U": {
+          "type": "heading",
+          "settings": {
+            "heading": "Loved by film lovers",
+            "heading_size": "h1"
+          }
+        },
+        "text_8NLtGE": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Over 200 customers have upgraded their DSLR scannig rigs with the toneCarrier.<\/p><p>All reviews from verified customers in our Etsy shop.<\/p>"
+          }
+        },
+        "button_EQYMtq": {
+          "type": "button",
+          "settings": {
+            "button_label": "",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_BXmM7U",
+        "text_8NLtGE",
+        "button_EQYMtq"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "tc_scrolling_image_bar_CJdLck": {
+      "type": "tc-scrolling-image-bar",
+      "blocks": {
+        "review_KzWwrJ": {
+          "type": "review",
+          "settings": {
+            "author": "Ivan",
+            "review": "Excellent product. Just perfect! Does the job.",
+            "source": "Etsy",
+            "date": "Oct 1, 2024",
+            "stars": 5
+          }
+        },
+        "review_mEbpYJ": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/icm_fullxfull.704137727_d7iiozjkf3swk804sw4s.jpg",
+            "review": "Review content",
+            "source": "Source",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
+        },
+        "review_e7cwLF": {
+          "type": "review",
+          "settings": {
+            "author": "Craig W.",
+            "review": "I REALLY like this for scanning 120. I own the Valoi 360 and now am most likely going to sell it on eBay and just use this.",
+            "source": "Etsy",
+            "date": "Sep 25, 2024",
+            "stars": 5
+          }
+        },
+        "review_W9m9hk": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6116066881_eqpz1zlz.jpg",
+            "review": "Review content",
+            "source": "Source",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
+        },
+        "review_Fx9CKM": {
+          "type": "review",
+          "settings": {
+            "author": "Justin",
+            "review": "Great item! Clever design that makes digitizing my negatives way faster and easier than before.",
+            "source": "Etsy",
+            "date": "Sep 15, 2024",
+            "stars": 5
+          }
+        },
+        "review_W3ykYR": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6117566321_med46ppe.jpg",
+            "review": "Review content",
+            "source": "Etsy",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
+        },
+        "review_Jt8xXy": {
+          "type": "review",
+          "settings": {
+            "author": "Katie P.",
+            "review": "I am extremely pleased with this scanning setup! The print was of very high quality and had some heft to it. 120 film goes in fairly easily, and advances very smoothly. The masks click in and out easily. Overall, extremely well thought out and made!",
+            "source": "Etsy",
+            "date": "Aug 18, 2024",
+            "stars": 5
+          }
+        },
+        "review_3brTxd": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6065199583_4npzodqd.jpg",
+            "review": "Review content",
+            "source": "Etsy",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
+        },
+        "review_gyke8q": {
+          "type": "review",
+          "settings": {
+            "author": "Kenny B.",
+            "review": "This film holder works great. it is well designed and well made. every time i scan, i feel confident that my film is flat and secure.",
+            "source": "Etsy",
+            "date": "Jul 9, 2024",
+            "stars": 5
+          }
+        },
+        "review_JYYaie": {
+          "type": "review",
+          "settings": {
+            "author": "Justin",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.5933097143_p67sx5d1.jpg",
+            "review": "This was exactly what I was looking for, I can quickly feed my negatives through and digitize them with my macro lens. It’s much quicker loading up the film carrier for a flatbed scanner. The other benefit is that it’s way easier to keep dust particles off of your negatives when using this device. Great customer service from Jake as well!",
+            "source": "Etsy",
+            "date": "Aug 30, 2024",
+            "stars": 5
+          }
+        },
+        "review_R3Tw36": {
+          "type": "review",
+          "settings": {
+            "author": "Kenny B.",
+            "review": "Much like its 35mm companion, this film holder works great. it is well designed and holds the film flat and secure during scanning (...) would recommend!",
+            "source": "Etsy",
+            "date": "Jul 9, 2024",
+            "stars": 5
+          }
+        },
+        "review_HYXEGP": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6063710274_tod92wlo.jpg",
+            "review": "Review content",
+            "source": "Etsy",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
+        },
+        "review_QxJ7Lw": {
+          "type": "review",
+          "settings": {
+            "author": "Brett A.",
+            "review": "Fast shipping and the product is exactly what I needed. Should’ve bought it earlier!",
+            "source": "Etsy",
+            "date": "Jun 30, 2024",
+            "stars": 5
+          }
+        },
+        "review_TYbz49": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6157596964_lumkad6d.jpg",
+            "review": "Review content",
+            "source": "Etsy",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
+        },
+        "review_M3UEQp": {
+          "type": "review",
+          "settings": {
+            "author": "William",
+            "review": "Excellent seller and fast shipping! Great product, and exactly what I have been looking for. Top notch 3D printed parts and set up. Definitely worth the money for the simplified scanning set up! Thank you again!",
+            "source": "Etsy",
+            "date": "Jun 25, 2024",
+            "stars": 5
+          }
+        },
+        "review_AwQBUt": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6205665709_frjgu5zf.jpg",
+            "review": "Review content",
+            "source": "Etsy",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
+        },
+        "review_iy7MwN": {
+          "type": "review",
+          "settings": {
+            "author": "John B.",
+            "review": "This is the film holder you are looking for. Substantial build quality, film rollers are smooth and firm. I completely underestimated how much time you can save by simply rolling your film through. Great Customer Service as well.",
+            "source": "Etsy",
+            "date": "Jun 19, 2024",
+            "stars": 5
+          }
+        },
+        "review_6UTVWC": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/iap_600x600.6151646851_4pdhi82b.jpg",
+            "review": "Review content",
+            "source": "Etsy",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
+        },
+        "review_dydQXC": {
+          "type": "review",
+          "settings": {
+            "author": "Mirco",
+            "review": "Had some questions before buying and the communication with the seller was perfect! The shipping was fast and the quality of the carrier is really good! I must confess that I don’t have any others to compare this one to but I would still recommend this one.",
+            "source": "Etsy",
+            "date": "Jun 18, 2024",
+            "stars": 5
+          }
+        },
+        "review_FCHfPM": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.5897241383_m7ad0eaf.jpg",
+            "review": "Review content",
+            "source": "Etsy",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
+        },
+        "review_9UaxJm": {
+          "type": "review",
+          "settings": {
+            "author": "Kevin",
+            "review": "Really easy to use and good build quality!!",
+            "source": "Etsy",
+            "date": "May 31, 2024",
+            "stars": 5
+          }
+        }
+      },
+      "block_order": [
+        "review_KzWwrJ",
+        "review_mEbpYJ",
+        "review_e7cwLF",
+        "review_W9m9hk",
+        "review_Fx9CKM",
+        "review_W3ykYR",
+        "review_Jt8xXy",
+        "review_3brTxd",
+        "review_gyke8q",
+        "review_JYYaie",
+        "review_R3Tw36",
+        "review_HYXEGP",
+        "review_QxJ7Lw",
+        "review_TYbz49",
+        "review_M3UEQp",
+        "review_AwQBUt",
+        "review_iy7MwN",
+        "review_6UTVWC",
+        "review_dydQXC",
+        "review_FCHfPM",
+        "review_9UaxJm"
+      ],
+      "settings": {
+        "vertical": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "max_height": 67
+      }
+    },
     "rich_text_XaweJq": {
       "type": "rich-text",
       "blocks": {
@@ -958,6 +1254,8 @@
   },
   "order": [
     "tc_homepage_hero_yzfcQL",
+    "rich_text_pyPjWd",
+    "tc_scrolling_image_bar_CJdLck",
     "rich_text_XaweJq",
     "image_with_text_tn7xXN",
     "image_with_text_htRdbH",

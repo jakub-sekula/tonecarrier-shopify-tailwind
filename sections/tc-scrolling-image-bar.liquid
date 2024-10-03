@@ -1,0 +1,457 @@
+
+{% assign block_count = 0 %}
+{% for block in section.blocks %}
+       {% assign block_count = block_count | plus: 1 %}
+{% endfor %}
+{% assign blocks_per_group = 5 %}
+{% assign block_groups = block_count |  divided_by: blocks_per_group %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }} {}
+
+  :root {
+  --color-text: navy;
+  --color-bg: papayawhip;
+  --color-bg-accent: #ecdcc0;
+  --size: clamp(10rem, 1rem + 40vmin, 30rem);
+  --gap: calc(var(--size) / 14);
+  --duration: 360s;
+  --scroll-start: 0;
+  --scroll-end: calc(-100% - var(--gap));
+}
+
+@keyframes scroll-x {
+  from {
+    transform: translateX(var(--scroll-start));
+  }
+  to {
+    transform: translateX(var(--scroll-end));
+  }
+}
+
+@keyframes scroll-y {
+  from {
+    transform: translateY(var(--scroll-start));
+  }
+  to {
+    transform: translateY(var(--scroll-end));
+  }
+}
+
+  .marquee {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: var(--gap);
+  mask-image: linear-gradient(
+    var(--mask-direction, to right),
+    hsl(0 0% 0% / 0),
+    hsl(0 0% 0% / 1) 20%,
+    hsl(0 0% 0% / 1) 80%,
+    hsl(0 0% 0% / 0)
+  );
+  width: 100%;
+}
+
+
+
+.marquee__group {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--gap);
+  min-width: 100%;
+  animation: scroll-x var(--duration) linear infinite;
+}
+
+.review-tile {
+  background: #fafafa;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+ 
+}
+
+.mobile-only .review-tile {
+  aspect-ratio: 5/4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.review-text-container{ 
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem
+}
+
+.mobile-only .review-text-container{ 
+gap: 2rem;
+width: 100%
+}
+
+.review-tile p {
+  font-size: 1.4rem
+}
+
+.mobile-only .review-tile p {
+  font-size: clamp(1rem, 4vw, 3rem);
+}
+
+
+.review-tile > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover
+}
+
+.stars-container {
+  display: flex;
+  height: 1.6rem;
+  gap: 0.25rem
+}
+
+.mobile-only .stars-container {
+  display: flex;
+  height: 3rem;
+  gap: 0.25rem;
+  /* margin-top: auto */
+}
+
+.stars-container svg {
+  fill: var(--tw-color-orange-400);
+  stroke: var(--tw-color-orange-400);
+  height: 100%;
+  width: fit-content;
+}
+
+.verified-container {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.2rem;
+  width: 100%
+}
+.verified-container svg {
+  height: 1.5rem;
+  width: fit-content;
+  stroke: var(--tw-color-green-500)
+}
+
+.verified-container span {
+  margin-left: auto
+}
+
+.review-author {
+  margin-top: auto
+}
+
+.mobile-only .review-author {
+  /* margin-top: unset; */
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__group {
+    animation-play-state: paused;
+  }
+}
+
+.marquee--vertical {
+  --mask-direction: to bottom;
+}
+
+.marquee--vertical,
+.marquee--vertical .marquee__group {
+  flex-direction: column;
+}
+
+.marquee--vertical .marquee__group {
+  animation-name: scroll-y;
+}
+
+.marquee--reverse .marquee__group {
+  animation-direction: reverse;
+  animation-delay: calc(-0.25 * var(--duration));
+}
+
+/* Parent wrapper */
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--gap);
+  margin: auto;
+  max-height: {{section.settings.max_height | times: 0.5 | round: 0}}vh;
+  position: relative;
+  /* overflow: hidden */
+}
+
+.wrapper.mobile-only {
+  display: flex;
+}
+
+.wrapper--horizontal {
+  grid-template-rows: repeat(5, 1fr);
+  }
+  
+  .wrapper--vertical {
+    /* flex-direction: row; */
+    height: 100vh;
+    justify-content: center;
+    grid-template-rows: repeat(1, {{section.settings.max_height | times: 0.5 | round: 0}}vh);
+}
+
+.review-grid-hide-on-mobile {
+  display: none;
+}
+
+@keyframes fade {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (min-width: 540px) {
+.wrapper--vertical {
+  grid-template-columns: repeat(2,1fr);
+}
+
+}
+/* md (min-width: 768px) */
+@media (min-width: 768px) {
+.mobile-only {
+  display: none
+}
+
+  .review-grid-hide-on-mobile {
+  display: grid;
+}
+.review-tile.square {
+  aspect-ratio: 1;
+}
+
+.wrapper--vertical {
+  grid-template-columns: repeat(3,1fr);
+  grid-template-rows: repeat(1, {{section.settings.max_height | times: 0.75 | round: 0}}vh);
+  max-height: {{section.settings.max_height | times: 0.75 | round: 0}}vh;
+
+}
+
+}
+
+/* lg (min-width: 1024px) */
+@media (min-width: 1024px) {
+}
+
+/* xl (min-width: 1280px) */
+@media (min-width: 1280px) {
+  .wrapper--vertical{
+  grid-template-columns: repeat(4,1fr);
+  grid-template-rows: repeat(1, {{section.settings.max_height}}vh);
+  max-height: {{section.settings.max_height}}vh;
+
+}
+;
+/* Add your 'xl' styles here */
+}
+
+/* 2xl (min-width: 1536px) */
+@media (min-width: 1536px) {
+;
+}
+
+
+{%- endstyle -%}
+
+
+<section {% if section.settings.anchor != blank %}
+  id="{{section.settings.anchor}}"
+  {% endif %}
+  class="isolate section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+  <article class="page-width wrapper review-grid-hide-on-mobile {% if section.settings.vertical %} wrapper--vertical {%else %}wrapper--horizontal {%endif %}">
+    {%for i in (0..block_groups) %}
+    {% assign mod_result = i | modulo: 2 %}
+
+    {% assign slice_start_index = forloop.index |  times: blocks_per_group | minus: blocks_per_group %}
+    {% assign slice_end_index = slice_start_index |  plus: blocks_per_group %}
+
+    {% assign current_block_group = section.blocks | slice: slice_start_index, slice_end_index  %}
+
+  <div class="marquee {% if section.settings.vertical %} marquee--vertical {%endif %} {% if mod_result == 1 %}
+  marquee--reverse
+{% endif %}">
+    {% for j in (1..2) %}
+      <div class="marquee__group">
+      {%for block in current_block_group %}
+      <div class="review-tile {% if block.settings.image != blank %}square {%endif %}" {{ block.shopify_attributes }}>
+        {% if block.settings.image != blank %}
+        {{block.settings.image |  image_url: width: 250 |  image_tag }}
+        {% else %}
+        <div class="review-text-container">
+
+          <div class="stars-container">
+            {% for i in (1..block.settings.stars) %}  
+              {% render 'tc-lucide-icon',icon_name: "lucide-star" %}
+            {% endfor %}
+            </div>
+            <p>{{block.settings.review}}</p>
+            <p class="review-author">
+              Reviewed by <strong>{{block.settings.author}}</strong>
+            </p>
+            <div class="verified-container">{%render 'tc-lucide-icon', icon_name: "lucide-shield-check" %} Verified purchase <span>{{block.settings.date}}</span></div>
+        </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</article>
+
+<swiper-container cssMode="true" slides-per-view="auto" centered-slides="true" autoplay-delay="2500" autoplay-disable-on-interaction="false" class="page-width mobile-only"></article>
+    {%for block in section.blocks %}
+    <swiper-slide class="review-tile {% if block.settings.image != blank %}square {%endif %}" {{ block.shopify_attributes }}>
+      {% if block.settings.image != blank %}
+      {{block.settings.image |  image_url: width: 250 |  image_tag }}
+      {% else %}
+      <div class="review-text-container">
+        <div class="stars-container">
+          {% for i in (1..block.settings.stars) %}  
+            {% render 'tc-lucide-icon',icon_name: "lucide-star" %}
+          {% endfor %}
+          </div>
+          <p>{{block.settings.review}}</p>
+          <p class="review-author">
+            Reviewed by <strong>{{block.settings.author}}</strong>
+          </p>
+          <div class="verified-container">{%render 'tc-lucide-icon', icon_name: "lucide-shield-check" %} Verified purchase <span>{{block.settings.date}}</span></div>
+      </div>
+      {% endif %}
+    </swiper-slide>
+  {% endfor %}
+</swiper-container>
+</section>
+
+<script></script>
+
+{% schema %}
+  {
+    "name": "Scrolling image bar",
+    "tag": "section",
+    "class": "section",
+    "disabled_on": {
+      "groups": ["header", "footer"]
+    },
+    "settings": [
+      {"type": "text",
+    "id": "heading",
+  "label": "Heading"},
+  {"type": "richtext",
+"id":"caption",
+"label": "Caption"},
+      {"type": "checkbox",
+    "id": "vertical",
+  "label": "Vertical"},
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      },{
+        "type": "range",
+        "id": "max_height",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "vh",
+        "label": "Max height",
+        "default": 67
+      }
+    ],
+    "blocks": [
+      {
+        "type": "review",
+        "name": "Review",
+        "settings": [
+          {
+            "type": "text",
+            "id": "author",
+            "label": "Author",
+            "default": "Review author"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "review",
+            "label": "Review",
+            "default": "Review content"
+          },
+          {
+            "type": "text",
+            "id": "source",
+            "label": "Source",
+            "default": "Etsy"
+          },
+          {
+            "type": "text",
+            "id": "date",
+            "label": "date",
+            "default": "1 Jan 1900"
+          },
+          {
+            "type": "range",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "default": 5,
+            "id": "stars",
+            "label": "Stars"
+          },
+          {
+            "type": "image_picker",
+            "id": "avatar",
+            "label": "Avatar"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Scrolling image bar",
+        "settings": {}
+        
+      }
+    ],
+  }
+{% endschema %}
