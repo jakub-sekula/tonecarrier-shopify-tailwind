@@ -73,11 +73,11 @@
 .review-tile {
   background: #fafafa;
   width: 100%;
-  height: 100%;
   position: relative;
   overflow: hidden;
  
 }
+
 
 .mobile-only .review-tile {
   aspect-ratio: 5/4;
@@ -85,6 +85,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height:auto
+}
+
+.mobile-only .square {
+  aspect-ratio: 5/4;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height:100% */
 }
 
 .review-text-container{ 
@@ -125,7 +135,7 @@ width: 100%
   display: flex;
   height: 3rem;
   gap: 0.25rem;
-  /* margin-top: auto */
+  margin-top: 2rem;
 }
 
 .stars-container svg {
@@ -142,6 +152,15 @@ width: 100%
   font-size: 1.2rem;
   width: 100%
 }
+
+.mobile-only .verified-container {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.4rem;
+  width: 100%
+}
+
 .verified-container svg {
   height: 1.5rem;
   width: fit-content;
@@ -216,6 +235,10 @@ width: 100%
   display: none;
 }
 
+.review-tile.square {
+  aspect-ratio: 1;
+}
+
 @keyframes fade {
   to {
     opacity: 0;
@@ -238,9 +261,7 @@ width: 100%
   .review-grid-hide-on-mobile {
   display: grid;
 }
-.review-tile.square {
-  aspect-ratio: 1;
-}
+
 
 .wrapper--vertical {
   grid-template-columns: repeat(3,1fr);
@@ -297,7 +318,7 @@ width: 100%
       {%for block in current_block_group %}
       <div class="review-tile {% if block.settings.image != blank %}square {%endif %}" {{ block.shopify_attributes }}>
         {% if block.settings.image != blank %}
-        {{block.settings.image |  image_url: width: 250 |  image_tag }}
+        {{block.settings.image |  image_url: width: 600 |  image_tag }}
         {% else %}
         <div class="review-text-container">
 
@@ -321,11 +342,13 @@ width: 100%
   {% endfor %}
 </article>
 
-<swiper-container cssMode="true" slides-per-view="auto" centered-slides="true" autoplay-delay="2500" autoplay-disable-on-interaction="false" class="page-width mobile-only"></article>
+{% comment %} autoplay-delay="2500" autoplay-disable-on-interaction="false" {% endcomment %}
+
+<swiper-container space-between="30" autoplay-delay="4000" loop="true" css-mode="true" autoplay-disable-on-interaction="true"  class="page-width mobile-only">
     {%for block in section.blocks %}
     <swiper-slide class="review-tile {% if block.settings.image != blank %}square {%endif %}" {{ block.shopify_attributes }}>
       {% if block.settings.image != blank %}
-      {{block.settings.image |  image_url: width: 250 |  image_tag }}
+      {{block.settings.image |  image_url: width: 600 |  image_tag }}
       {% else %}
       <div class="review-text-container">
         <div class="stars-container">

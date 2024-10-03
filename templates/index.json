@@ -87,13 +87,13 @@
     "tc_scrolling_image_bar_CJdLck": {
       "type": "tc-scrolling-image-bar",
       "blocks": {
-        "review_KzWwrJ": {
+        "review_e7cwLF": {
           "type": "review",
           "settings": {
-            "author": "Ivan",
-            "review": "Excellent product. Just perfect! Does the job.",
+            "author": "Craig W.",
+            "review": "I REALLY like this for scanning 120. I own the Valoi 360 and now am most likely going to sell it on eBay and just use this.",
             "source": "Etsy",
-            "date": "Oct 1, 2024",
+            "date": "Sep 25, 2024",
             "stars": 5
           }
         },
@@ -108,24 +108,13 @@
             "stars": 5
           }
         },
-        "review_e7cwLF": {
+        "review_KzWwrJ": {
           "type": "review",
           "settings": {
-            "author": "Craig W.",
-            "review": "I REALLY like this for scanning 120. I own the Valoi 360 and now am most likely going to sell it on eBay and just use this.",
+            "author": "Ivan",
+            "review": "Excellent product. Just perfect! Does the job.",
             "source": "Etsy",
-            "date": "Sep 25, 2024",
-            "stars": 5
-          }
-        },
-        "review_W9m9hk": {
-          "type": "review",
-          "settings": {
-            "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6116066881_eqpz1zlz.jpg",
-            "review": "Review content",
-            "source": "Source",
-            "date": "1 Jan 1900",
+            "date": "Oct 1, 2024",
             "stars": 5
           }
         },
@@ -139,11 +128,11 @@
             "stars": 5
           }
         },
-        "review_W3ykYR": {
+        "review_AwQBUt": {
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6117566321_med46ppe.jpg",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6205665709_frjgu5zf.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -160,11 +149,11 @@
             "stars": 5
           }
         },
-        "review_3brTxd": {
+        "review_W3ykYR": {
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6065199583_4npzodqd.jpg",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6117566321_med46ppe.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -181,17 +170,6 @@
             "stars": 5
           }
         },
-        "review_JYYaie": {
-          "type": "review",
-          "settings": {
-            "author": "Justin",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.5933097143_p67sx5d1.jpg",
-            "review": "This was exactly what I was looking for, I can quickly feed my negatives through and digitize them with my macro lens. It’s much quicker loading up the film carrier for a flatbed scanner. The other benefit is that it’s way easier to keep dust particles off of your negatives when using this device. Great customer service from Jake as well!",
-            "source": "Etsy",
-            "date": "Aug 30, 2024",
-            "stars": 5
-          }
-        },
         "review_R3Tw36": {
           "type": "review",
           "settings": {
@@ -202,13 +180,13 @@
             "stars": 5
           }
         },
-        "review_HYXEGP": {
+        "review_W9m9hk": {
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6063710274_tod92wlo.jpg",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6116066881_eqpz1zlz.jpg",
             "review": "Review content",
-            "source": "Etsy",
+            "source": "Source",
             "date": "1 Jan 1900",
             "stars": 5
           }
@@ -223,11 +201,11 @@
             "stars": 5
           }
         },
-        "review_TYbz49": {
+        "review_HYXEGP": {
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6157596964_lumkad6d.jpg",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6063710274_tod92wlo.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -244,11 +222,11 @@
             "stars": 5
           }
         },
-        "review_AwQBUt": {
+        "review_3brTxd": {
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6205665709_frjgu5zf.jpg",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6065199583_4npzodqd.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -265,17 +243,6 @@
             "stars": 5
           }
         },
-        "review_6UTVWC": {
-          "type": "review",
-          "settings": {
-            "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_600x600.6151646851_4pdhi82b.jpg",
-            "review": "Review content",
-            "source": "Etsy",
-            "date": "1 Jan 1900",
-            "stars": 5
-          }
-        },
         "review_dydQXC": {
           "type": "review",
           "settings": {
@@ -286,11 +253,11 @@
             "stars": 5
           }
         },
-        "review_FCHfPM": {
+        "review_6UTVWC": {
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.5897241383_m7ad0eaf.jpg",
+            "image": "shopify:\/\/shop_images\/iap_600x600.6151646851_4pdhi82b.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -306,32 +273,67 @@
             "date": "May 31, 2024",
             "stars": 5
           }
+        },
+        "review_JYYaie": {
+          "type": "review",
+          "settings": {
+            "author": "Justin",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.5933097143_p67sx5d1.jpg",
+            "review": "This was exactly what I was looking for, I can quickly feed my negatives through and digitize them with my macro lens. It’s much quicker loading up the film carrier for a flatbed scanner. The other benefit is that it’s way easier to keep dust particles off of your negatives when using this device. Great customer service from Jake as well!",
+            "source": "Etsy",
+            "date": "Aug 30, 2024",
+            "stars": 5
+          }
+        },
+        "review_TYbz49": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.6157596964_lumkad6d.jpg",
+            "review": "Review content",
+            "source": "Etsy",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
+        },
+        "review_FCHfPM": {
+          "type": "review",
+          "settings": {
+            "author": "Review author",
+            "image": "shopify:\/\/shop_images\/iap_1000x1000.5897241383_m7ad0eaf.jpg",
+            "review": "Review content",
+            "source": "Etsy",
+            "date": "1 Jan 1900",
+            "stars": 5
+          }
         }
       },
       "block_order": [
-        "review_KzWwrJ",
-        "review_mEbpYJ",
         "review_e7cwLF",
-        "review_W9m9hk",
+        "review_mEbpYJ",
+        "review_KzWwrJ",
         "review_Fx9CKM",
-        "review_W3ykYR",
-        "review_Jt8xXy",
-        "review_3brTxd",
-        "review_gyke8q",
-        "review_JYYaie",
-        "review_R3Tw36",
-        "review_HYXEGP",
-        "review_QxJ7Lw",
-        "review_TYbz49",
-        "review_M3UEQp",
         "review_AwQBUt",
+        "review_Jt8xXy",
+        "review_W3ykYR",
+        "review_gyke8q",
+        "review_R3Tw36",
+        "review_W9m9hk",
+        "review_QxJ7Lw",
+        "review_HYXEGP",
+        "review_M3UEQp",
+        "review_3brTxd",
         "review_iy7MwN",
-        "review_6UTVWC",
         "review_dydQXC",
-        "review_FCHfPM",
-        "review_9UaxJm"
+        "review_6UTVWC",
+        "review_9UaxJm",
+        "review_JYYaie",
+        "review_TYbz49",
+        "review_FCHfPM"
       ],
       "settings": {
+        "heading": "",
+        "caption": "",
         "vertical": true,
         "padding_top": 0,
         "padding_bottom": 0,
