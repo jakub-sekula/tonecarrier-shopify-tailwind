@@ -340,7 +340,7 @@
   </article>
 
 
-  <swiper-container space-between="30" autoplay-delay="4000" loop="true" css-mode="true" autoplay-disable-on-interaction="false"  class="page-width mobile-only">
+  <swiper-container space-between="30" autoplay-delay="4000" loop="true" autoplay-disable-on-interaction="false"  class="page-width mobile-only">
     {%for block in section.blocks %}
     <swiper-slide class="review-tile {% if block.settings.image != blank %}square {%endif %}" {{ block.shopify_attributes }}>
       {% if block.settings.image != blank %}
