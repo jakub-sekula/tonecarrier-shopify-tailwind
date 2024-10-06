@@ -14,7 +14,7 @@ containers.forEach((container) => {
   let isZoomedIn = false; // Track whether the image is zoomed in or not
 
   // Default sizes for the image (small image when not zoomed)
-  const defaultSizes = "100px";
+  const defaultSizes = "1000px";
 
   // High-res sizes (large image when zoomed)
   const highResSizes = "3840px";

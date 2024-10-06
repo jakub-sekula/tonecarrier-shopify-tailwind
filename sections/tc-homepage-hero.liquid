@@ -341,12 +341,12 @@
         style="--animation-order: 5;"
         {% endif %}>
         <div class="hero-media-glow"></div>
-        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.hero_image }}
+        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "1000px", poster: section.settings.hero_image }}
       </div>
   </div>
   {% if section.settings.background_video != blank %}
     <div class="homepage-hero-background">
-      {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "600px", poster: section.settings.background_image }}
+      {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "1200px", poster: section.settings.background_image }}
     </div>
   {% endif %}
   {% if section.settings.background_image != blank %}
