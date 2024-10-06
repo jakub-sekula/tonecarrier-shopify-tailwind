@@ -1,3 +1,12 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
 {
   "sections": {
     "tc_homepage_hero_yzfcQL": {
@@ -6,21 +15,21 @@
         "heading_RtyMdT": {
           "type": "heading",
           "settings": {
-            "heading": "<p>The easier way to digitize<\/p><p><strong>your film memories<\/strong><\/p>",
+            "heading": "<p>The easier way to digitize</p><p><strong>your film memories</strong></p>",
             "heading_size": "h1"
           }
         },
         "text_tLMjVL": {
           "type": "text",
           "settings": {
-            "text": "<p> The toneCarrier is a professional scanning system made for the modern film lover.<\/p><p>Start digitizing your favorite 35 mm, 120, and 110 film memories today.<\/p>"
+            "text": "<p> The toneCarrier is a professional scanning system made for the modern film lover.</p><p>Start digitizing your favorite 35 mm, 120, and 110 film memories today.</p>"
           }
         },
         "button_BQxWHa": {
           "type": "button",
           "settings": {
             "button_label": "Shop film carriers",
-            "button_link": "shopify:\/\/collections\/all",
+            "button_link": "shopify://collections/all",
             "button_style_secondary": false,
             "button_label_2": "",
             "button_link_2": "",
@@ -34,11 +43,11 @@
         "button_BQxWHa"
       ],
       "settings": {
-        "background_video": "shopify:\/\/files\/videos\/Film scroll background - less zoom.mp4",
+        "background_video": "shopify://files/videos/Film scroll background - less zoom.mp4",
         "background_blur": 5,
         "background_opacity": 15,
-        "hero_video": "shopify:\/\/files\/videos\/Mk2 promo draft 1.mp4",
-        "hero_image": "shopify:\/\/shop_images\/Hero_poster_1.1.1.jpg",
+        "hero_video": "shopify://files/videos/Mk2 promo draft 4.mp4",
+        "hero_image": "shopify://shop_images/Hero_poster_3.1.1.jpg",
         "color_scheme": "scheme-1",
         "margin_bottom": 60
       }
@@ -64,7 +73,7 @@
         "text_LKXdjG": {
           "type": "text",
           "settings": {
-            "text": "<p>The toneCarrier is a fully-featured, dedicated film holding system specifically designed scanning negative and slide film using a digital camera (DSLR or mirrorless).<\/p><p>We make it possible to get archival-grade digital copies of your film in minutes. Forget the struggle of slow, bulky and outdated flatbed scanners - scanning with a camera is the modern way to preserve and share your film photography work.<\/p>",
+            "text": "<p>The toneCarrier is a fully-featured, dedicated film holding system specifically designed scanning negative and slide film using a digital camera (DSLR or mirrorless).</p><p>We make it possible to get archival-grade digital copies of your film in minutes. Forget the struggle of slow, bulky and outdated flatbed scanners - scanning with a camera is the modern way to preserve and share your film photography work.</p>",
             "text_style": "body"
           }
         }
@@ -75,7 +84,7 @@
         "text_LKXdjG"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/Square.png",
+        "image": "shopify://shop_images/Square.png",
         "height": "small",
         "desktop_image_width": "medium",
         "layout": "text_first",
@@ -103,14 +112,14 @@
         "text_8WgbBb": {
           "type": "text",
           "settings": {
-            "text": "<p>Camera scanning is the process of digitizing film images using a DSLR or a mirrorless camera with a macro lens. You can achieve amazing, <strong>professional grade reproductions<\/strong> by taking a picture of the negative with a macro lens, then inverting the colors using specialized software.<\/p>"
+            "text": "<p>Camera scanning is the process of digitizing film images using a DSLR or a mirrorless camera with a macro lens. You can achieve amazing, <strong>professional grade reproductions</strong> by taking a picture of the negative with a macro lens, then inverting the colors using specialized software.</p>"
           }
         },
         "button_e8i3hQ": {
           "type": "button",
           "settings": {
             "button_label": "Intro to DSLR scanning",
-            "button_link": "shopify:\/\/pages\/introduction-to-camera-scanninng",
+            "button_link": "shopify://pages/introduction-to-camera-scanninng",
             "button_style_secondary": false,
             "button_label_2": "",
             "button_link_2": "",
@@ -145,7 +154,7 @@
         "text_mJbbyR": {
           "type": "text",
           "settings": {
-            "text": "<p>The toneCarrier 35 mm exposes sprocket holes by default, so you can always get the full picture.<\/p><p>And if you want to hide the holes and remove backlight bleed, use one of the included frame masks in full frame, half frame and X-Pan formats.<\/p>",
+            "text": "<p>The toneCarrier 35 mm exposes sprocket holes by default, so you can always get the full picture.</p><p>And if you want to hide the holes and remove backlight bleed, use one of the included frame masks in full frame, half frame and X-Pan formats.</p>",
             "text_style": "body"
           }
         },
@@ -153,7 +162,7 @@
           "type": "button",
           "settings": {
             "button_label": "Shop 35 mm",
-            "button_link": "shopify:\/\/products\/tonecarrier-35-mm-film-holder",
+            "button_link": "shopify://products/tonecarrier-35-mm-film-holder",
             "button_style_secondary": false
           }
         }
@@ -164,7 +173,7 @@
         "button_d6YbML"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
+        "image": "shopify://shop_images/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
@@ -192,7 +201,7 @@
         "text_braLaT": {
           "type": "text",
           "settings": {
-            "text": "<p>The toneCarrier 120 supports all common medium format frame sizes: <strong>6x4.5, 6x6, 6x7, 6x8 and 6x9<\/strong>.<\/p><p>Enoy the versatility and scan all formats with one device.<\/p>",
+            "text": "<p>The toneCarrier 120 supports all common medium format frame sizes: <strong>6x4.5, 6x6, 6x7, 6x8 and 6x9</strong>.</p><p>Enoy the versatility and scan all formats with one device.</p>",
             "text_style": "body"
           }
         },
@@ -200,7 +209,7 @@
           "type": "button",
           "settings": {
             "button_label": "Shop 120",
-            "button_link": "shopify:\/\/products\/tonecarrier-120-film-holder-1",
+            "button_link": "shopify://products/tonecarrier-120-film-holder-1",
             "button_style_secondary": false
           }
         }
@@ -211,7 +220,7 @@
         "button_ACVPTq"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/DSCF0422-Edit.jpg",
+        "image": "shopify://shop_images/DSCF0422-Edit.jpg",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "text_first",
@@ -239,7 +248,7 @@
         "text_MywpNU": {
           "type": "text",
           "settings": {
-            "text": "<p>Belt driven dual rollers grab the film securely on both sides in a push-pull configuration<\/p><p>Thanks to this, you can scan strips as short as 4 standard 35 mm frames long.<\/p><p>Your images always stay safe, because the soft rubber rollers only ever contact the edges of the film.<\/p>",
+            "text": "<p>Belt driven dual rollers grab the film securely on both sides in a push-pull configuration</p><p>Thanks to this, you can scan strips as short as 4 standard 35 mm frames long.</p><p>Your images always stay safe, because the soft rubber rollers only ever contact the edges of the film.</p>",
             "text_style": "body"
           }
         }
@@ -249,7 +258,7 @@
         "text_MywpNU"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/DSCF0764-Edit.jpg",
+        "image": "shopify://shop_images/DSCF0764-Edit.jpg",
         "height": "medium",
         "desktop_image_width": "medium",
         "layout": "image_first",
@@ -277,7 +286,7 @@
         "text_7Q6YfD": {
           "type": "text",
           "settings": {
-            "text": "<p>Up for a DIY project? 3D printing files for all toneCarrier holders and accessories are available for sale.<\/p><p>All parts thoroughly tested and easy to print even on small printers like <strong>Bambu Lab A1 mini and Prusa Mini<\/strong>.<\/p><p>Bill of materials and illustrated assembly manual included.<\/p>",
+            "text": "<p>Up for a DIY project? 3D printing files for all toneCarrier holders and accessories are available for sale.</p><p>All parts thoroughly tested and easy to print even on small printers like <strong>Bambu Lab A1 mini and Prusa Mini</strong>.</p><p>Bill of materials and illustrated assembly manual included.</p>",
             "text_style": "body"
           }
         },
@@ -285,7 +294,7 @@
           "type": "button",
           "settings": {
             "button_label": "Get 3D print kits",
-            "button_link": "shopify:\/\/collections\/digital-downloads",
+            "button_link": "shopify://collections/digital-downloads",
             "button_style_secondary": false
           }
         }
@@ -296,7 +305,7 @@
         "button_DW6qhU"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/DSCF2613.png",
+        "image": "shopify://shop_images/DSCF2613.png",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "text_first",
@@ -325,7 +334,7 @@
           "type": "Tile",
           "settings": {
             "title": "Film holder",
-            "description": "<p>Used for holding the negative flat and straight, reducing reflections and easily advancing film from one frame to the next.<\/p>",
+            "description": "<p>Used for holding the negative flat and straight, reducing reflections and easily advancing film from one frame to the next.</p>",
             "link": "#lineup",
             "link_label": "Our range",
             "product": "",
@@ -345,7 +354,7 @@
           "type": "Tile",
           "settings": {
             "title": "Digital camera",
-            "description": "<p>A DSLR or mirrorless is ideal. No need for the latest and greatest - any camera from the last decade will work great as a scanner.<\/p>",
+            "description": "<p>A DSLR or mirrorless is ideal. No need for the latest and greatest - any camera from the last decade will work great as a scanner.</p>",
             "link": "",
             "link_label": "",
             "product": "",
@@ -365,8 +374,8 @@
           "type": "Tile",
           "settings": {
             "title": "Macro lens",
-            "description": "<p>A macro lens provides high magnifications needed for resolving all the detail of the negative.<\/p>",
-            "link": "shopify:\/\/pages\/macro-lens-recommendations",
+            "description": "<p>A macro lens provides high magnifications needed for resolving all the detail of the negative.</p>",
+            "link": "shopify://pages/macro-lens-recommendations",
             "link_label": "Lens recommendations",
             "product": "",
             "extended_description": "",
@@ -385,7 +394,7 @@
           "type": "Tile",
           "settings": {
             "title": "Copy stand or tripod",
-            "description": "<p>Something to place the camera overhead the filmr Popular options are dedicated copy stands, tripods, or even vintage enlarger heads.<\/p>",
+            "description": "<p>Something to place the camera overhead the filmr Popular options are dedicated copy stands, tripods, or even vintage enlarger heads.</p>",
             "link": "",
             "link_label": "",
             "product": "",
@@ -405,8 +414,8 @@
           "type": "Tile",
           "settings": {
             "title": "Conversion software",
-            "description": "<p>Specialized programs to accurately invert the negative and turn it into finished, high quality scans. Paid and free options are available.<\/p>",
-            "link": "shopify:\/\/pages\/converting-negatives-with-negative-lab-pro",
+            "description": "<p>Specialized programs to accurately invert the negative and turn it into finished, high quality scans. Paid and free options are available.</p>",
+            "link": "shopify://pages/converting-negatives-with-negative-lab-pro",
             "link_label": "Software recommendations",
             "product": "",
             "extended_description": "",
@@ -425,8 +434,8 @@
           "type": "Tile",
           "settings": {
             "title": "Light source",
-            "description": "<p>A way to evenly illuminate the film from behind. You can start simple by using your smartphone, then upgrade to a dedicated scanning light.<\/p>",
-            "link": "shopify:\/\/pages\/light-source-recommendations",
+            "description": "<p>A way to evenly illuminate the film from behind. You can start simple by using your smartphone, then upgrade to a dedicated scanning light.</p>",
+            "link": "shopify://pages/light-source-recommendations",
             "link_label": "Light recommendations",
             "product": "",
             "extended_description": "",
@@ -482,16 +491,16 @@
         "text_WVFgd7": {
           "type": "text",
           "settings": {
-            "text": "<p>The toneCarrier system is designed to get great quality scans from any roll film format<\/p>"
+            "text": "<p>The toneCarrier system is designed to get great quality scans from any roll film format</p>"
           }
         },
         "tile_gwmLwK": {
           "type": "Tile",
           "settings": {
             "title": "35 mm film",
-            "description": "<p>Full frame to panoramic (X-Pan)<\/p>",
-            "image": "shopify:\/\/shop_images\/Hero-props-1.jpg",
-            "link": "shopify:\/\/collections\/35-mm-film-scanning",
+            "description": "<p>Full frame to panoramic (X-Pan)</p>",
+            "image": "shopify://shop_images/Hero-props-1.jpg",
+            "link": "shopify://collections/35-mm-film-scanning",
             "link_label": "Shop 35 mm",
             "product": "",
             "extended_description": "",
@@ -510,9 +519,9 @@
           "type": "Tile",
           "settings": {
             "title": "120 film",
-            "description": "<p>All medium format up to 6x9<\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0422-Edit.jpg",
-            "link": "shopify:\/\/collections\/120-film-scanning",
+            "description": "<p>All medium format up to 6x9</p>",
+            "image": "shopify://shop_images/DSCF0422-Edit.jpg",
+            "link": "shopify://collections/120-film-scanning",
             "link_label": "Shop 120",
             "product": "",
             "extended_description": "",
@@ -531,9 +540,9 @@
           "type": "Tile",
           "settings": {
             "title": "110 film",
-            "description": "<p>Scan the popular format from the 80s<\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0759-Edit-2.jpg",
-            "link": "shopify:\/\/collections\/110-film-scanning",
+            "description": "<p>Scan the popular format from the 80s</p>",
+            "image": "shopify://shop_images/DSCF0759-Edit-2.jpg",
+            "link": "shopify://collections/110-film-scanning",
             "link_label": "Shop 110",
             "product": "",
             "extended_description": "",
@@ -624,14 +633,14 @@
         "text_xMFkDD": {
           "type": "text",
           "settings": {
-            "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours.<\/p><p>Click or tap on any image in the gallery below to zoom in and view the film grain.<\/p>"
+            "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours.</p><p>Click or tap on any image in the gallery below to zoom in and view the film grain.</p>"
           }
         },
         "scan_image_mzd7UE": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0312.jpg",
-            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0312-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF0312.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0312-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -643,8 +652,8 @@
         "scan_image_7CbtwT": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0210.jpg",
-            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0210-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF0210.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0210-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -656,8 +665,8 @@
         "scan_image_R7rMbr": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0514.jpg",
-            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0514-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF0514.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0514-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -669,8 +678,8 @@
         "scan_image_kYq6Y6": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0509.jpg",
-            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0509-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF0509.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0509-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -757,7 +766,7 @@
           "type": "column",
           "settings": {
             "title": "Speed",
-            "text": "<p>Camera scanning is by far the quickest method to digitise your film. With the <strong>toneCarrier system<\/strong>, you can scan an entire roll in under 2 minutes, making it ideal for high-efficiency workflows without sacrificing quality.<\/p>",
+            "text": "<p>Camera scanning is by far the quickest method to digitise your film. With the <strong>toneCarrier system</strong>, you can scan an entire roll in under 2 minutes, making it ideal for high-efficiency workflows without sacrificing quality.</p>",
             "link_label": "",
             "link": ""
           }
@@ -766,7 +775,7 @@
           "type": "column",
           "settings": {
             "title": "Quality",
-            "text": "<p>Modern camera sensors, paired with macro lenses, capture exceptional levels of detail—surpassing what traditional flatbed scanners can offer. The result is crisp, high-resolution scans that retain the depth and nuance of your original film.<\/p>",
+            "text": "<p>Modern camera sensors, paired with macro lenses, capture exceptional levels of detail—surpassing what traditional flatbed scanners can offer. The result is crisp, high-resolution scans that retain the depth and nuance of your original film.</p>",
             "link_label": "",
             "link": ""
           }
@@ -775,7 +784,7 @@
           "type": "column",
           "settings": {
             "title": "Convenience",
-            "text": "<p>You likely already own much of the equipment needed for camera scanning, and you don't need the latest or most expensive gear to achieve great results. Even older cameras and vintage macro lenses can produce outstanding scans.<\/p>",
+            "text": "<p>You likely already own much of the equipment needed for camera scanning, and you don't need the latest or most expensive gear to achieve great results. Even older cameras and vintage macro lenses can produce outstanding scans.</p>",
             "link_label": "",
             "link": ""
           }
@@ -784,7 +793,7 @@
           "type": "column",
           "settings": {
             "title": "Upgradeability",
-            "text": "<p>Every upgrade to your camera or lens also enhances your scanning setup. As technology continues to evolve, your scan quality improves too—allowing your system to grow with you over time.<\/p>",
+            "text": "<p>Every upgrade to your camera or lens also enhances your scanning setup. As technology continues to evolve, your scan quality improves too—allowing your system to grow with you over time.</p>",
             "link_label": "",
             "link": ""
           }
@@ -826,7 +835,7 @@
         "text_8NLtGE": {
           "type": "text",
           "settings": {
-            "text": "<p>Over 200 customers have upgraded their DSLR scannig workflows with the toneCarrier.<\/p><p>All reviews from verified customers in our Etsy shop.<\/p>"
+            "text": "<p>Over 200 customers have upgraded their DSLR scannig workflows with the toneCarrier.</p><p>All reviews from verified customers in our Etsy shop.</p>"
           }
         },
         "button_EQYMtq": {
@@ -872,7 +881,7 @@
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/icm_fullxfull.704137727_d7iiozjkf3swk804sw4s.jpg",
+            "image": "shopify://shop_images/icm_fullxfull.704137727_d7iiozjkf3swk804sw4s.jpg",
             "review": "Review content",
             "source": "Source",
             "date": "1 Jan 1900",
@@ -893,7 +902,7 @@
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6205665709_frjgu5zf.jpg",
+            "image": "shopify://shop_images/iap_1000x1000.6205665709_frjgu5zf.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -914,7 +923,7 @@
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6117566321_med46ppe.jpg",
+            "image": "shopify://shop_images/iap_1000x1000.6117566321_med46ppe.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -935,7 +944,7 @@
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6116066881_eqpz1zlz.jpg",
+            "image": "shopify://shop_images/iap_1000x1000.6116066881_eqpz1zlz.jpg",
             "review": "Review content",
             "source": "Source",
             "date": "1 Jan 1900",
@@ -956,7 +965,7 @@
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6063710274_tod92wlo.jpg",
+            "image": "shopify://shop_images/iap_1000x1000.6063710274_tod92wlo.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -977,7 +986,7 @@
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6065199583_4npzodqd.jpg",
+            "image": "shopify://shop_images/iap_1000x1000.6065199583_4npzodqd.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -998,7 +1007,7 @@
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_600x600.6151646851_4pdhi82b.jpg",
+            "image": "shopify://shop_images/iap_600x600.6151646851_4pdhi82b.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -1019,7 +1028,7 @@
           "type": "review",
           "settings": {
             "author": "Justin",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.5933097143_p67sx5d1.jpg",
+            "image": "shopify://shop_images/iap_1000x1000.5933097143_p67sx5d1.jpg",
             "review": "This was exactly what I was looking for, I can quickly feed my negatives through and digitize them with my macro lens. It’s much quicker loading up the film carrier for a flatbed scanner. The other benefit is that it’s way easier to keep dust particles off of your negatives when using this device. Great customer service from Jake as well!",
             "source": "Etsy",
             "date": "Aug 30, 2024",
@@ -1040,7 +1049,7 @@
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.6157596964_lumkad6d.jpg",
+            "image": "shopify://shop_images/iap_1000x1000.6157596964_lumkad6d.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -1061,7 +1070,7 @@
           "type": "review",
           "settings": {
             "author": "Review author",
-            "image": "shopify:\/\/shop_images\/iap_1000x1000.5897241383_m7ad0eaf.jpg",
+            "image": "shopify://shop_images/iap_1000x1000.5897241383_m7ad0eaf.jpg",
             "review": "Review content",
             "source": "Etsy",
             "date": "1 Jan 1900",
@@ -1104,7 +1113,7 @@
       "type": "tc-newsletter-signup",
       "blocks": {
         "forms_inline_bXHfLq": {
-          "type": "shopify:\/\/apps\/forms\/blocks\/inline\/8744a304-fcb1-4347-b211-bb6b4759a76a",
+          "type": "shopify://apps/forms/blocks/inline/8744a304-fcb1-4347-b211-bb6b4759a76a",
           "settings": {
             "form_id": "182916",
             "text_color": "#121212",
@@ -1125,7 +1134,7 @@
         "forms_inline_bXHfLq"
       ],
       "settings": {
-        "background_image": "shopify:\/\/shop_images\/tonecarrier-basic-low-res.webp",
+        "background_image": "shopify://shop_images/tonecarrier-basic-low-res.webp",
         "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36
@@ -1139,7 +1148,7 @@
           "settings": {
             "heading": "How is this different from other film carriers?",
             "icon": "check_mark",
-            "row_content": "<p>The toneCarrier uses a unique push-pull mechanism for transporting film, meaning you can scan even short strips of four 35 mm frames. It also features a film-safe path which ensures zero emulsion contact with any part of the holder at any point.<\/p>",
+            "row_content": "<p>The toneCarrier uses a unique push-pull mechanism for transporting film, meaning you can scan even short strips of four 35 mm frames. It also features a film-safe path which ensures zero emulsion contact with any part of the holder at any point.</p>",
             "page": ""
           }
         },
@@ -1148,7 +1157,7 @@
           "settings": {
             "heading": "What is the shortest strip I can scan?",
             "icon": "check_mark",
-            "row_content": "<p>The shortest strip scannable with the toneCarrier is 4 standard 35 mm frames long.<\/p>",
+            "row_content": "<p>The shortest strip scannable with the toneCarrier is 4 standard 35 mm frames long.</p>",
             "page": ""
           }
         },
@@ -1157,7 +1166,7 @@
           "settings": {
             "heading": "Will this scratch my film?",
             "icon": "check_mark",
-            "row_content": "<p>Nope! The film channel and accessories are designed with film safety in mind and your images will never touch any part of the holder as they travel through it. The only part of the film that is in contact with the mechanism are sprocket holes and the edges.<\/p>",
+            "row_content": "<p>Nope! The film channel and accessories are designed with film safety in mind and your images will never touch any part of the holder as they travel through it. The only part of the film that is in contact with the mechanism are sprocket holes and the edges.</p>",
             "page": ""
           }
         },
@@ -1166,7 +1175,7 @@
           "settings": {
             "heading": "What is the maximum frame size I can scan?",
             "icon": "check_mark",
-            "row_content": "<p>The 35 mm version supports up to X-Pan sized negatives, while the 120 version can scan up to 6x9 frames.<\/p>",
+            "row_content": "<p>The 35 mm version supports up to X-Pan sized negatives, while the 120 version can scan up to 6x9 frames.</p>",
             "page": ""
           }
         },
@@ -1175,7 +1184,7 @@
           "settings": {
             "heading": "What film formats does it support?",
             "icon": "check_mark",
-            "row_content": "<p>Currently 35 mm, 110, and 120 film is supported. We are working on expanding the range to also include 127, and APS film in the future.<\/p>",
+            "row_content": "<p>Currently 35 mm, 110, and 120 film is supported. We are working on expanding the range to also include 127, and APS film in the future.</p>",
             "page": ""
           }
         },
@@ -1184,7 +1193,7 @@
           "settings": {
             "heading": "What countries do you ship to?",
             "icon": "check_mark",
-            "row_content": "<p>We can ship to most countries of the world using the Royal Mail International service.<\/p>",
+            "row_content": "<p>We can ship to most countries of the world using the Royal Mail International service.</p>",
             "page": ""
           }
         },
@@ -1193,7 +1202,7 @@
           "settings": {
             "heading": "I see this is 3D printed, can I print it myself?",
             "icon": "check_mark",
-            "row_content": "<p>Yes! If you would like to 3D print and assemble the toneCarrier yourself, you can purchase STL and 3MF files in our store. The download contains a full list of required hardware, which is also available to purchase in our store as a kit if you'd like to avoid bulk buying components.<\/p>",
+            "row_content": "<p>Yes! If you would like to 3D print and assemble the toneCarrier yourself, you can purchase STL and 3MF files in our store. The download contains a full list of required hardware, which is also available to purchase in our store as a kit if you'd like to avoid bulk buying components.</p>",
             "page": ""
           }
         },
@@ -1202,7 +1211,7 @@
           "settings": {
             "heading": "What light source should I use with this?",
             "icon": "check_mark",
-            "row_content": "<p>Any light source that has a high Color Reproduction Index (CRI) will work well for scanning. If you are just beginning, even your smartphone will do just fine! When you are ready to upgrade, we recommend lights such as the Cinestill CS-Lite or Kaiser Plano light table.<\/p>",
+            "row_content": "<p>Any light source that has a high Color Reproduction Index (CRI) will work well for scanning. If you are just beginning, even your smartphone will do just fine! When you are ready to upgrade, we recommend lights such as the Cinestill CS-Lite or Kaiser Plano light table.</p>",
             "page": ""
           }
         },
@@ -1211,7 +1220,7 @@
           "settings": {
             "heading": "What else do I need to start camera scanning?",
             "icon": "check_mark",
-            "row_content": "<p>You will need a DSLR or mirrorless camera, a tripod, and a macro lens. If you plan to scan a lot, a copy stand is also a worthwhile investment as it will allow you to keep the entire scanning setup more self-contained and always ready to go.<\/p>",
+            "row_content": "<p>You will need a DSLR or mirrorless camera, a tripod, and a macro lens. If you plan to scan a lot, a copy stand is also a worthwhile investment as it will allow you to keep the entire scanning setup more self-contained and always ready to go.</p>",
             "page": ""
           }
         },
@@ -1220,7 +1229,7 @@
           "settings": {
             "heading": "Is the quality of camera scans better than a flatbed scanner?",
             "icon": "check_mark",
-            "row_content": "<p>Yes! Scanning film with a digital camera with a proper macro lens allows you to extract much more resolution from a negative than is possible with the typical flatbed scanner. You will also be able to enjoy much greater dynamic range and quicker scanning times.<\/p>",
+            "row_content": "<p>Yes! Scanning film with a digital camera with a proper macro lens allows you to extract much more resolution from a negative than is possible with the typical flatbed scanner. You will also be able to enjoy much greater dynamic range and quicker scanning times.</p>",
             "page": ""
           }
         }

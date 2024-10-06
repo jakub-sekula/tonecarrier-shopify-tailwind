@@ -1,8 +1,17 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
 {
   "current": {
-    "logo": "shopify:\/\/shop_images\/tone-logo-white.png",
+    "logo": "shopify://shop_images/tone-logo-white.png",
     "logo_width": 110,
-    "favicon": "shopify:\/\/shop_images\/tone-black-square.png",
+    "favicon": "shopify://shop_images/tone-black-square.png",
     "type_header_font": "inter_n4",
     "heading_scale": 100,
     "type_body_font": "inter_n3",
@@ -97,7 +106,7 @@
     "sale_badge_color_scheme": "scheme-5",
     "sold_out_badge_color_scheme": "scheme-3",
     "social_facebook_link": "",
-    "social_instagram_link": "https:\/\/instagram.com\/tonephotographic",
+    "social_instagram_link": "https://instagram.com/tonephotographic",
     "social_youtube_link": "",
     "social_tiktok_link": "",
     "social_twitter_link": "",
@@ -132,7 +141,7 @@
     ],
     "blocks": {
       "15683396631634586217": {
-        "type": "shopify:\/\/apps\/inbox\/blocks\/chat\/841fc607-4181-4ad1-842d-e24d7f8bad6b",
+        "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
         "disabled": false,
         "settings": {
           "button_color": "#000000",
