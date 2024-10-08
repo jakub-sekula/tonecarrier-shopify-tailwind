@@ -105,8 +105,8 @@
   id="{{section.settings.anchor}}"
   {% endif %}
   class="isolate section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
-
-  <div id="swiper-{{section.id}}" class="swiper swiper-{{section.id}} page-width">
+<div class=" page-width">
+  <div id="swiper-{{section.id}}" class="swiper swiper-{{section.id}}">
     <ul class="swiper-wrapper swiper-wrapper-{{section.id}}">
       {% for block in section.blocks %}
         <li class="swiper-slide swiper-slide-{{section.id}}" {{ block.shopify_attributes }}>
@@ -126,6 +126,7 @@
       {% endfor %}
     </ul>
   </div>
+</div>
 </section>
 
 <script>
