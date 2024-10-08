@@ -7,7 +7,6 @@
     <meta name='theme-color' content=''>
     <link rel='canonical' href='{{ canonical_url }}'>
 
-
     {%- if settings.favicon != blank -%}
       <link
         rel='icon'
@@ -294,6 +293,7 @@ body {
 
     {{ 'app.css' | asset_url | stylesheet_tag }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'lightgallery-bundle.min.css' | asset_url | stylesheet_tag }}
 
     {%- unless settings.type_body_font.system? -%}
       {% comment %}theme-check-disable AssetPreload{% endcomment %}
@@ -427,7 +427,10 @@ body {
       });
     </script>
 
-<script src="{{ "tc-click-to-zoom.js" | asset_url }}" defer></script>
+<script src="{{ "tc-click-to-zoom.js" | asset_url }}" defer="defer"></script>
+
+<script src="{{ 'lightgallery.min.js' | asset_url }}" defer="defer"></script>
+
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {

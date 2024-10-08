@@ -1,3 +1,12 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
 {
   "sections": {
     "bento_QFQBRB": {
@@ -7,9 +16,9 @@
           "type": "Tile",
           "settings": {
             "title": "Film holder",
-            "description": "<p>Optimized for scanning full rolls and cut strips of 35 mm film. Perfect starting point for camera scanning.<\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0553-Edit.jpg",
-            "link": "shopify:\/\/products\/tonecarrier-35-mm-film-holder",
+            "description": "<p>Optimized for scanning full rolls and cut strips of 35 mm film. Perfect starting point for camera scanning.</p>",
+            "image": "shopify://shop_images/DSCF0553-Edit.jpg",
+            "link": "shopify://products/tonecarrier-35-mm-film-holder",
             "link_label": "More details",
             "product": "tonecarrier-35-mm-film-holder",
             "extended_description": "",
@@ -28,9 +37,9 @@
           "type": "Tile",
           "settings": {
             "title": "Full scanning kit",
-            "description": "<p>A complete film holding solution for the most efficient and enjoyable scanning experience.<\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0483-Edit.png",
-            "link": "shopify:\/\/products\/tonecarrier-35-mm-scanning-kit",
+            "description": "<p>A complete film holding solution for the most efficient and enjoyable scanning experience.</p>",
+            "image": "shopify://shop_images/DSCF0483-Edit.png",
+            "link": "shopify://products/tonecarrier-35-mm-scanning-kit",
             "link_label": "More details",
             "product": "tonecarrier-35-mm-scanning-kit",
             "extended_description": "",
@@ -55,7 +64,7 @@
         "text_HXctLA": {
           "type": "text",
           "settings": {
-            "text": "<p>Start simple with just a film carrier, or get the full kit for the best scan results.<\/p>"
+            "text": "<p>Start simple with just a film carrier, or get the full kit for the best scan results.</p>"
           }
         }
       },
@@ -66,7 +75,7 @@
         "text_HXctLA"
       ],
       "settings": {
-        "background_image": "shopify:\/\/shop_images\/DSCF0312-2.webp",
+        "background_image": "shopify://shop_images/DSCF0312-2.webp",
         "background_blur": 4,
         "background_opacity": 0,
         "content_alignment": "center",
@@ -89,7 +98,7 @@
       "settings": {
         "title": "Optional accessories",
         "heading_size": "h1",
-        "description": "<p>Those add-ons are designed to work perfectly with the toneCarrier and make your scanning workflow more efficient and enjoable.<\/p>",
+        "description": "<p>Those add-ons are designed to work perfectly with the toneCarrier and make your scanning workflow more efficient and enjoable.</p>",
         "show_description": false,
         "description_style": "body",
         "collection": "tonecarrier-35-mm-accessories",
@@ -125,7 +134,7 @@
         "text_BGmDd4": {
           "type": "text",
           "settings": {
-            "text": "<p>Enhance your scanning experience with add-ons designed to work perfectly with the toneCarrier system.<\/p>"
+            "text": "<p>Enhance your scanning experience with add-ons designed to work perfectly with the toneCarrier system.</p>"
           }
         },
         "card_Y43WkJ": {
@@ -205,7 +214,7 @@
         "text_J9ziTa": {
           "type": "text",
           "settings": {
-            "text": "<p>If you have a 3D printer and feel like doing some DIY, the toneCarrier is also available in a self-printed version.<\/p><p>With easy to print parts and some extra hardware you will be ready to scan in no time.<\/p>"
+            "text": "<p>If you have a 3D printer and feel like doing some DIY, the toneCarrier is also available in a self-printed version.</p><p>With easy to print parts and some extra hardware you will be ready to scan in no time.</p>"
           }
         },
         "tile_yCjhaj": {
@@ -213,7 +222,7 @@
           "settings": {
             "title": "",
             "description": "",
-            "image": "shopify:\/\/shop_images\/DSCF2613.jpg",
+            "image": "shopify://shop_images/DSCF2613.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -233,9 +242,9 @@
           "type": "Tile",
           "settings": {
             "title": "Film holder (DIY)",
-            "description": "<p>Includes STL and 3MF files for the film holder, as well as complete assembly instructions and Bill of Materials.<\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0553-Edit.jpg",
-            "link": "shopify:\/\/products\/tonecarrier-35-mm-stl",
+            "description": "<p>Includes STL and 3MF files for the film holder, as well as complete assembly instructions and Bill of Materials.</p>",
+            "image": "shopify://shop_images/DSCF0553-Edit.jpg",
+            "link": "shopify://products/tonecarrier-35-mm-stl",
             "link_label": "More details",
             "product": "",
             "extended_description": "",
@@ -254,9 +263,9 @@
           "type": "Tile",
           "settings": {
             "title": "Full scanning kit (DIY)",
-            "description": "<p>Also includes files for input and output trays, light hood, and light source adapters.<\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0483-Edit.png",
-            "link": "shopify:\/\/products\/tonecarrier-35-mm-scanning-kit",
+            "description": "<p>Also includes files for input and output trays, light hood, and light source adapters.</p>",
+            "image": "shopify://shop_images/DSCF0483-Edit.png",
+            "link": "shopify://products/tonecarrier-35-mm-scanning-kit",
             "link_label": "More details",
             "product": "",
             "extended_description": "",
@@ -281,7 +290,7 @@
       ],
       "disabled": true,
       "settings": {
-        "background_image": "shopify:\/\/shop_images\/DSCF2613.png",
+        "background_image": "shopify://shop_images/DSCF2613.png",
         "background_blur": 5,
         "background_opacity": 0.1,
         "content_alignment": "center",

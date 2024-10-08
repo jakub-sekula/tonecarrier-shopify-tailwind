@@ -1,3 +1,12 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
 {
   "sections": {
     "tc_sticky_product_bar_P8zecQ": {
@@ -94,15 +103,15 @@
         "text_L3nm7F": {
           "type": "text",
           "settings": {
-            "text": "<p>Thoughtful, user-centric design makes scanning sessions more enjoyable than ever.<\/p>"
+            "text": "<p>Thoughtful, user-centric design makes scanning sessions more enjoyable than ever.</p>"
           }
         },
         "tile_bXxXKL": {
           "type": "Tile",
           "settings": {
             "title": "72 mm wide film window",
-            "description": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)<\/p>",
-            "image": "shopify:\/\/shop_images\/Hero-props-1.png",
+            "description": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)</p>",
+            "image": "shopify://shop_images/Hero-props-1.png",
             "link": "",
             "link_label": "",
             "product": "",
@@ -120,8 +129,8 @@
           "type": "Tile",
           "settings": {
             "title": "Scratch proof",
-            "description": "<p>Only film contact is along the edge, far away from the image area. <\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0764-Edit.jpg",
+            "description": "<p>Only film contact is along the edge, far away from the image area. </p>",
+            "image": "shopify://shop_images/DSCF0764-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -139,8 +148,8 @@
           "type": "Tile",
           "settings": {
             "title": "Large ergonomic knobs",
-            "description": "<p>Easily advance and precisely adjust film position. <\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0777.jpg",
+            "description": "<p>Easily advance and precisely adjust film position. </p>",
+            "image": "shopify://shop_images/DSCF0777.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -158,8 +167,8 @@
           "type": "Tile",
           "settings": {
             "title": "Scan with sprocket holes",
-            "description": "<p>Nearly the full image area is available to scan<\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
+            "description": "<p>Nearly the full image area is available to scan</p>",
+            "image": "shopify://shop_images/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -177,8 +186,8 @@
           "type": "Tile",
           "settings": {
             "title": "Modular and extensible",
-            "description": "<p>Full system of accessories that will make you actually enjoy scanning<\/p>",
-            "image": "shopify:\/\/shop_images\/Full_kit-1.png",
+            "description": "<p>Full system of accessories that will make you actually enjoy scanning</p>",
+            "image": "shopify://shop_images/Full_kit-1.png",
             "link": "",
             "link_label": "",
             "product": "",
@@ -196,7 +205,7 @@
           "type": "Tile",
           "settings": {
             "title": "Dual S-curve film path",
-            "description": "<p>The film channel geometry uses tension to keep the film flat and straight<\/p>",
+            "description": "<p>The film channel geometry uses tension to keep the film flat and straight</p>",
             "link": "",
             "link_label": "",
             "product": "",
@@ -214,8 +223,8 @@
           "type": "Tile",
           "settings": {
             "title": "Interchangeable frame masks",
-            "description": "<p>Block stray light for the best scan quality<\/p>",
-            "image": "shopify:\/\/shop_images\/DSCF0681-Edit_Large_dfaf5657-ba92-4dc7-a7e5-768faf15d307.jpg",
+            "description": "<p>Block stray light for the best scan quality</p>",
+            "image": "shopify://shop_images/DSCF0681-Edit_Large_dfaf5657-ba92-4dc7-a7e5-768faf15d307.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -233,8 +242,8 @@
           "type": "Tile",
           "settings": {
             "title": "Works with any light",
-            "description": "<p>Place the toneCarrier over any light source - even your smartphone! Or use a dedicated scanning light e.g. CS-Lite.<\/p>",
-            "image": "shopify:\/\/shop_images\/CS-Lite-1.jpg",
+            "description": "<p>Place the toneCarrier over any light source - even your smartphone! Or use a dedicated scanning light e.g. CS-Lite.</p>",
+            "image": "shopify://shop_images/CS-Lite-1.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -252,7 +261,7 @@
           "type": "Tile",
           "settings": {
             "title": "Film safe by design",
-            "description": "<p>Soft silicone rollers gently grab the film without scratching or scuffing it.<\/p>",
+            "description": "<p>Soft silicone rollers gently grab the film without scratching or scuffing it.</p>",
             "link": "",
             "link_label": "",
             "product": "",
@@ -319,14 +328,14 @@
         "text_yywqAL": {
           "type": "text",
           "settings": {
-            "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours. Click or tap on any image in the gallery below to zoom in and view the film grain.<\/p>"
+            "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours. Click or tap on any image in the gallery below to zoom in and view the film grain.</p>"
           }
         },
         "image_jiPpg4": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0210.jpg",
-            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0210-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF0210.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0210-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -338,8 +347,8 @@
         "image_TbQebX": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0509.jpg",
-            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0509-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF0509.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0509-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -351,8 +360,8 @@
         "image_Kx6XCj": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0312.jpg",
-            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0312-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF0312.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0312-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -364,8 +373,8 @@
         "image_tm4y3y": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify:\/\/shop_images\/DSCF0514.jpg",
-            "sample_scan_negative": "shopify:\/\/shop_images\/DSCF0514-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF0514.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0514-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
@@ -412,12 +421,12 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify:\/\/shop_images\/1-isolated.png",
+            "image_primary": "shopify://shop_images/1-isolated.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
             "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify:\/\/shop_images\/1.jpg",
+            "image_secondary": "shopify://shop_images/1.jpg",
             "image_secondary_offset_x": 0,
             "image_secondary_offset_y": 0,
             "image_secondary_offset_x_flip": false,
@@ -432,12 +441,12 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify:\/\/shop_images\/Catch_tray-1-isolated.png",
+            "image_primary": "shopify://shop_images/Catch_tray-1-isolated.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": true,
             "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify:\/\/shop_images\/Catch_tray-1.png",
+            "image_secondary": "shopify://shop_images/Catch_tray-1.png",
             "image_secondary_offset_x": 0,
             "image_secondary_offset_y": 0,
             "image_secondary_offset_x_flip": false,
@@ -452,12 +461,12 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify:\/\/shop_images\/1-isolated_140969d8-85e8-4288-879a-8386f27d1e24.png",
+            "image_primary": "shopify://shop_images/1-isolated_140969d8-85e8-4288-879a-8386f27d1e24.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
             "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify:\/\/shop_images\/1.png",
+            "image_secondary": "shopify://shop_images/1.png",
             "image_secondary_offset_x": 0,
             "image_secondary_offset_y": 0,
             "image_secondary_offset_x_flip": false,
@@ -472,12 +481,12 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify:\/\/shop_images\/CS-Lite-isolated-1.png",
+            "image_primary": "shopify://shop_images/CS-Lite-isolated-1.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
             "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify:\/\/shop_images\/CS-Lite-1.png",
+            "image_secondary": "shopify://shop_images/CS-Lite-1.png",
             "image_secondary_offset_x": 0,
             "image_secondary_offset_y": 0,
             "image_secondary_offset_x_flip": false,
@@ -575,7 +584,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify:\/\/shop_images\/Holder-35-isolated.png",
+            "image_primary": "shopify://shop_images/Holder-35-isolated.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -594,7 +603,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify:\/\/shop_images\/1-isolated_449259aa-cf9f-455b-8664-2cd040c9e1ef.png",
+            "image_primary": "shopify://shop_images/1-isolated_449259aa-cf9f-455b-8664-2cd040c9e1ef.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -626,7 +635,7 @@
           "type": "column",
           "settings": {
             "title": "Digital camera",
-            "text": "<p>Any DSLR or mirrorless camera with RAW capture mode.<\/p>",
+            "text": "<p>Any DSLR or mirrorless camera with RAW capture mode.</p>",
             "link_label": "",
             "link": ""
           }
@@ -635,7 +644,7 @@
           "type": "column",
           "settings": {
             "title": "Macro lens",
-            "text": "<p>55 mm or higher focal length recommended<\/p>",
+            "text": "<p>55 mm or higher focal length recommended</p>",
             "link_label": "",
             "link": ""
           }
@@ -644,7 +653,7 @@
           "type": "column",
           "settings": {
             "title": "Light source",
-            "text": "<p>White light with a high CRI (Color Reproduction Index) is ideal<\/p>",
+            "text": "<p>White light with a high CRI (Color Reproduction Index) is ideal</p>",
             "link_label": "",
             "link": ""
           }
@@ -653,7 +662,7 @@
           "type": "column",
           "settings": {
             "title": "Copy stand or tripod",
-            "text": "<p>Used to keep the camera steady and level over the negative<\/p>",
+            "text": "<p>Used to keep the camera steady and level over the negative</p>",
             "link_label": "",
             "link": ""
           }
@@ -690,7 +699,7 @@
           "settings": {
             "heading": "How is this different from other film carriers?",
             "icon": "none",
-            "row_content": "<p>The toneCarrier uses a unique push-pull mechanism for transporting film, meaning you can scan even short strips of four 35 mm frames. It also features a film-safe path which ensures zero emulsion contact with any part of the holder at any point.<\/p>",
+            "row_content": "<p>The toneCarrier uses a unique push-pull mechanism for transporting film, meaning you can scan even short strips of four 35 mm frames. It also features a film-safe path which ensures zero emulsion contact with any part of the holder at any point.</p>",
             "page": ""
           }
         },
@@ -699,7 +708,7 @@
           "settings": {
             "heading": "What is the shortest strip I can scan?",
             "icon": "none",
-            "row_content": "<p>The shortest strip scannable with the toneCarrier is 4 standard 35 mm frames long.<\/p>",
+            "row_content": "<p>The shortest strip scannable with the toneCarrier is 4 standard 35 mm frames long.</p>",
             "page": ""
           }
         },
@@ -708,7 +717,7 @@
           "settings": {
             "heading": "Will this scratch my film?",
             "icon": "none",
-            "row_content": "<p>Not at all! The film channel and accessories are designed with film safety in mind and your images will never touch any part of the holder as they travel through it. The only part of the film that is in contact with the mechanism are sprocket holes and the edges.<\/p>",
+            "row_content": "<p>Not at all! The film channel and accessories are designed with film safety in mind and your images will never touch any part of the holder as they travel through it. The only part of the film that is in contact with the mechanism are sprocket holes and the edges.</p>",
             "page": ""
           }
         },
@@ -717,7 +726,7 @@
           "settings": {
             "heading": "What is the maximum frame size I can scan?",
             "icon": "none",
-            "row_content": "<p>The 35 mm version supports up to X-Pan sized negatives, while the 120 version can scan up to 6x9 frames.<\/p>",
+            "row_content": "<p>The 35 mm version supports up to X-Pan sized negatives, while the 120 version can scan up to 6x9 frames.</p>",
             "page": ""
           }
         },
@@ -726,7 +735,7 @@
           "settings": {
             "heading": "What film formats are supported?",
             "icon": "none",
-            "row_content": "<p>Currently we offer holders and accessories for 35 mm, 110, and 120 film.<\/p>",
+            "row_content": "<p>Currently we offer holders and accessories for 35 mm, 110, and 120 film.</p>",
             "page": ""
           }
         },
@@ -735,7 +744,7 @@
           "settings": {
             "heading": "What countries do you ship to?",
             "icon": "none",
-            "row_content": "<p>We can ship to most countries of the world using the Royal Mail International service.<\/p>",
+            "row_content": "<p>We can ship to most countries of the world using the Royal Mail International service.</p>",
             "page": ""
           }
         },
@@ -744,7 +753,7 @@
           "settings": {
             "heading": "Is the quality of camera scans better than a flatbed scanner?",
             "icon": "none",
-            "row_content": "<p>Yes! Scanning film with a digital camera with a proper macro lens allows you to extract much more resolution from a negative than is possible with the typical flatbed scanner. You will also be able to enjoy much greater dynamic range and quicker scanning times.<\/p>",
+            "row_content": "<p>Yes! Scanning film with a digital camera with a proper macro lens allows you to extract much more resolution from a negative than is possible with the typical flatbed scanner. You will also be able to enjoy much greater dynamic range and quicker scanning times.</p>",
             "page": ""
           }
         },
@@ -753,7 +762,7 @@
           "settings": {
             "heading": "What else do I need to start camera scanning?",
             "icon": "none",
-            "row_content": "<p>You will need a DSLR or mirrorless camera, a tripod, and a macro lens. If you plan to scan a lot, a copy stand is also a worthwhile investment as it will allow you to keep the entire scanning setup more self-contained and always ready to go.<\/p>",
+            "row_content": "<p>You will need a DSLR or mirrorless camera, a tripod, and a macro lens. If you plan to scan a lot, a copy stand is also a worthwhile investment as it will allow you to keep the entire scanning setup more self-contained and always ready to go.</p>",
             "page": ""
           }
         },
@@ -762,7 +771,7 @@
           "settings": {
             "heading": "What light source should I use with this?",
             "icon": "none",
-            "row_content": "<p>Any light source that has a high Color Reproduction Index (CRI) will work well for scanning. If you are just beginning, even your smartphone will do just fine! When you are ready to upgrade, we recommend lights such as the Cinestill CS-Lite or Kaiser Plano light table.<\/p>",
+            "row_content": "<p>Any light source that has a high Color Reproduction Index (CRI) will work well for scanning. If you are just beginning, even your smartphone will do just fine! When you are ready to upgrade, we recommend lights such as the Cinestill CS-Lite or Kaiser Plano light table.</p>",
             "page": ""
           }
         }
