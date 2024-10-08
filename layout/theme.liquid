@@ -293,7 +293,6 @@ body {
 
     {{ 'app.css' | asset_url | stylesheet_tag }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
-    {{ 'lightgallery-bundle.min.css' | asset_url | stylesheet_tag }}
 
     {%- unless settings.type_body_font.system? -%}
       {% comment %}theme-check-disable AssetPreload{% endcomment %}
@@ -408,7 +407,9 @@ body {
     </script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    {% comment %} <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script> {% endcomment %}
+
+
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -427,9 +428,19 @@ body {
       });
     </script>
 
-<script src="{{ "tc-click-to-zoom.js" | asset_url }}" defer="defer"></script>
+{% comment %} <script src="{{ "tc-click-to-zoom.js" | asset_url }}" defer="defer"></script> {% endcomment %}
 
-<script src="{{ 'lightgallery.min.js' | asset_url }}" defer="defer"></script>
+{% comment %} Photoswipe components {% endcomment %}
+<script src="{{"photoswipe.umd.min.js" |  asset_url}}"></script>
+<script src="{{"photoswipe-lightbox.umd.min.js" |  asset_url}}"></script>
+<link rel="stylesheet" href="{{"photoswipe.css" |  asset_url}}">
+
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer="defer"></script>
 
 
 <script>

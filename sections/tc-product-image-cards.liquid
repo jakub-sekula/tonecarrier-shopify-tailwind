@@ -261,17 +261,12 @@
 <script>
   
   document.addEventListener("DOMContentLoaded", ()=> {
-  const swiper = document.querySelector("#swiper-{{section.id}}")
-  const swiperParams = {
-    slidesPerView: 1,
+  const swiper = new Swiper("#swiper-{{section.id}}", {slidesPerView: 1,
     spaceBetween: 16,
     observer:true,
-    // centeredSlides: true,
-    // cssMode:  true,
       keyboard: {
     enabled: true,
     lazyPreloadPrevNext: 5,
-   
   },
   breakpoints: {
     320: {
@@ -284,19 +279,10 @@
     960: {
       slidesPerView: 4,
     }
-  },
-    injectStyles: [
-      `
-      .swiper {
-       overflow: visible;
-      },
-      `,
-    ],
-  };
+  }
+  })
 
-  Object.assign(swiper, swiperParams);
 
-  swiper.initialize();
 
   })
 </script>

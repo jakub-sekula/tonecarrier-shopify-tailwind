@@ -11,13 +11,19 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
-  .swiper {
+  .swiper-{{ section.id }} {
     overflow: visible
   }
 
-  .swiper-slide-next .scan-info-block,
+  .swiper-{{ section.id }}
+  .swiper-slide-next .scan-info-block
+  , .swiper-{{ section.id }}
   .swiper-slide-prev .scan-info-block {
     display: none
+  }
+
+  .pswp__img {
+    cursor: pointer !important;
   }
 
 
@@ -127,63 +133,21 @@
         {{ 'lucide-chevron-right.svg' | inline_asset_content }}
       </button>
     </div>
-    <swiper-container
-      id="main-swiper"
+    <div
+      id="swiper-{{section.id}}"
       init="false"
-      class="tw-w-full md:tw-h-full">
-      {% for block in section.blocks %}
-        {% if block.type == "scan_image" %}
-          <swiper-slide class="tw-relative">
-            {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
-              <div class="scan-info-block tw-opacity-100 hover:tw-opacity-0 tw-transition-opacity tw-duration-300 tw-z-10 tw-hidden tw-text-white md:tw-flex tw-flex-col tw-gap-2 tw-absolute tw-left-4 tw-top-4 tw-bg-black/40 tw-backdrop-blur-md tw-p-6">
-                {% if block.settings.camera != blank %}
-                  <div class="tw-flex tw-flex-col tw-gap-1">
-                    <span class="tw-uppercase tw-text-xs tw-font-bold">Camera</span>
-                    <span>{{ block.settings.camera }}</span>
-                  </div>
-                {% endif %}
-                {% if block.settings.lens != blank %}
-                  <div class="tw-flex tw-flex-col tw-gap-1">
-                    <span class="tw-uppercase tw-text-xs tw-font-bold">Lens</span>
-                    <span>{{ block.settings.lens }}</span>
-                  </div>
-                {% endif %}
-                {% if block.settings.light_source != blank %}
-                  <div class="tw-flex tw-flex-col tw-gap-1">
-                    <span class="tw-uppercase tw-text-xs tw-font-bold">Light source</span>
-                    <span>{{ block.settings.light_source }}</span>
-                  </div>
-                {% endif %}
-                {% if block.settings.converted_with != blank %}
-                  <div class="tw-flex tw-flex-col tw-gap-1">
-                    <span class="tw-uppercase tw-text-xs tw-font-bold">Converted with</span>
-                    <span>{{ block.settings.converted_with }}</span>
-                  </div>
-                {% endif %}
-                {% if block.settings.film_stock != blank %}
-                  <div class="tw-flex tw-flex-col tw-gap-1">
-                    <span class="tw-uppercase tw-text-xs tw-font-bold">Film stock</span>
-                    <span>{{ block.settings.film_stock }}</span>
-                  </div>
-                {% endif %}
-
-              </div>
-            {% endunless %}
-            <div class="click-zoom-container positive tw-overflow-hidden tw-w-full tw-h-full">
-              <img
-                srcset="{{ block.settings.sample_scan_positive | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_positive | image_url: width: 3840 }} 4x"
-                sizes="1400px, 3840px"
-                class="positive-{{block.id}}  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-            </div>
-            <div class="click-zoom-container negative hidden tw-overflow-hidden tw-w-full tw-h-full">
-              <img
-                srcset="{{ block.settings.sample_scan_negative | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_negative | image_url: width: 3840 }} 4x"
-                sizes="1400px, 3840px"
-                class="negative-{{block.id}}  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-            </div>
-            <div class="md:tw-hidden tw-p-6 tw-pb-0">
+      class="swiper swiper-{{section.id}} tw-w-full md:tw-h-full">
+      <ul class="swiper-wrapper swiper-wrapper-{{section.id}}">
+        {% for block in section.blocks %}
+          {% if block.type == "scan_image" %}
+            <a
+              class="swiper-slide tw-relative"
+              href="{{ block.settings.sample_scan_positive | image_url: width: 3840 }}"
+              data-pswp-width="3000"
+              data-pswp-height="2000"
+              target="_blank">
               {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
-                <div class="tw-z-10 tw-grid tw-grid-cols-2 tw-gap-x-2 tw-gap-y-4">
+                <div class="scan-info-block tw-opacity-100 hover:tw-opacity-0 tw-transition-opacity tw-duration-300 tw-z-10 tw-hidden tw-text-white md:tw-flex tw-flex-col tw-gap-2 tw-absolute tw-left-4 tw-top-4 tw-bg-black/40 tw-backdrop-blur-md tw-p-6">
                   {% if block.settings.camera != blank %}
                     <div class="tw-flex tw-flex-col tw-gap-1">
                       <span class="tw-uppercase tw-text-xs tw-font-bold">Camera</span>
@@ -217,12 +181,61 @@
 
                 </div>
               {% endunless %}
-            </div>
-          </swiper-slide>
-        {%- endif -%}
+              <div class="click-zoom-container positive tw-overflow-hidden tw-w-full tw-h-full">
+                <img
+                  srcset="{{ block.settings.sample_scan_positive | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_positive | image_url: width: 3840 }} 4x"
+                  sizes="1400px, 3840px"
+                  class="positive-{{block.id}}  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
+              </div>
+              <div class="click-zoom-container negative hidden tw-overflow-hidden tw-w-full tw-h-full">
+                <img
+                  srcset="{{ block.settings.sample_scan_negative | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_negative | image_url: width: 3840 }} 4x"
+                  sizes="1400px, 3840px"
+                  class="negative-{{block.id}}  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
+              </div>
+              <div class="md:tw-hidden tw-p-6 tw-pb-0">
+                {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
+                  <div class="tw-z-10 tw-grid tw-grid-cols-2 tw-gap-x-2 tw-gap-y-4">
+                    {% if block.settings.camera != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Camera</span>
+                        <span>{{ block.settings.camera }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.lens != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Lens</span>
+                        <span>{{ block.settings.lens }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.light_source != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Light source</span>
+                        <span>{{ block.settings.light_source }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.converted_with != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Converted with</span>
+                        <span>{{ block.settings.converted_with }}</span>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.film_stock != blank %}
+                      <div class="tw-flex tw-flex-col tw-gap-1">
+                        <span class="tw-uppercase tw-text-xs tw-font-bold">Film stock</span>
+                        <span>{{ block.settings.film_stock }}</span>
+                      </div>
+                    {% endif %}
 
-      {%- endfor -%}
-    </swiper-container>
+                  </div>
+                {% endunless %}
+              </div>
+            </a>
+          {%- endif -%}
+
+        {%- endfor -%}
+      </ul>
+    </div>
     <button
       id="prev-slide"
       class="disabled:md:tw-hidden tw-hidden md:tw-grid tw-place-items-center tw-absolute tw-top-1/2 -tw-left-8 -tw-translate-x-full tw-size-16 tw-bg-neutral-200 tw-text-black tw-rounded-full"
@@ -241,36 +254,70 @@
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", ()=> {
-    const swiper = document.querySelector("#main-swiper")
-  const swiperParams = {
-    slidesPerView: 1,
-    spaceBetween: 128,
-    // loop:true,
-    navigation: {
-        nextEl: "#next-slide",
-        prevEl: "#prev-slide",
-      },
-      keyboard: {
-    enabled: true,
-    onlyInViewport: true,
-    lazyPreloadPrevNext: 5,
-  },
-    injectStyles: [
-      `
-      .swiper {
-       overflow: visible;
-      },
-      .swiper-slide-next .scan-info-block {
-      display:none}
-      `,
-    ],
+      document.addEventListener("DOMContentLoaded", ()=> {
+
+      const swiper = new Swiper("#swiper-{{section.id}}", {
+        slidesPerView: 1,
+        spaceBetween: 128,
+        loop:true,
+        navigation: {
+            nextEl: "#next-slide",
+            prevEl: "#prev-slide",
+          },
+          keyboard: {
+        enabled: true,
+        onlyInViewport: true,
+        lazyPreloadPrevNext: 5,
+      }
+      })
+
+      const photo_swipe_options = {
+  gallery: '#swiper-{{section.id}}',
+  pswpModule: PhotoSwipe,
+  children: 'a',
+  loop: true,
+  showHideAnimationType: 'zoom', /* options: fade, zoom, none */
+
+  mouseMovePan: true,
+
+  initialZoomLevel: 'fit',
+  secondaryZoomLevel: 1.5,
+  maxZoomLevel: 1,
+  wheelToZoom: true, /* deafult: undefined */
   };
 
-  Object.assign(swiper, swiperParams);
-    swiper.initialize();
-  })
+  const lightbox = new PhotoSwipeLightbox(photo_swipe_options);
+
+  lightbox.init();
+
+  lightbox.on('change', () => {
+  const { pswp } = lightbox;
+  swiper.slideTo(pswp.currIndex, 0, false);
+  console.log('Slide index', pswp.currIndex);
+  });
+
+  /* ### PhotoSwipe events ### */
+
+  lightbox.on('afterInit', () => {
+  const { pswp } = lightbox;
+  if(swiper.params.autoplay.enabled){
+    swiper.autoplay.stop();
+  };
+  });
+
+  lightbox.on('closingAnimationStart', () => {
+  //console.log('closingAnimationStart');
+  const { pswp } = lightbox;
+  swiper.slideTo(pswp.currIndex, 0, false);
+  /* if autoplay enabled == true -> autoplay.start() when close lightbox */
+  if(swiper.params.autoplay.enabled){
+    swiper.autoplay.start();
+  }
+  });
+
+      })
 </script>
+
 
 <script>
   const positives = document.querySelectorAll(".positive");

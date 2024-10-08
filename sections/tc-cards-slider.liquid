@@ -7,7 +7,21 @@
   .section-{{ section.id }} {}
 
 .swiper-{{ section.id }} {
-  width: 100%
+  overflow: hidden;
+
+  /*
+   width: 100%;
+   margin: 0 auto;
+*/
+}
+
+.swiper-wrapper-{{ section.id }} {
+;
+
+/*
+   width: 100%;
+   margin: 0 auto;
+*/
 }
 
 .swiper-slide-{{ section.id }} {
@@ -92,54 +106,51 @@
   {% endif %}
   class="isolate section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
 
-  <swiper-container id="swiper-{{section.id}}" class="swiper-{{section.id}} page-width">
-    {% for block in section.blocks %}
-      <swiper-slide class="swiper-slide-{{section.id}}" {{ block.shopify_attributes }}>
-        <i class="icon-container">
-          {% if block.settings.icon != blank and block.settings.lucide_icon == blank %}
-            <img src="{{block.settings.icon |  image_url: width: 10}}">
-          {% else %}
-            {% render 'tc-lucide-icon'
-              , icon_name: block.settings.lucide_icon %}
-          {% endif %}
-        </i>
-        <h3 class="card-heading-{{section.id}}">
-          {{ block.settings.title }}
-        </h3>
-        <p class="card-caption-{{ section.id }}">{{ block.settings.caption }}</p>
-      </swiper-slide>
-    {% endfor %}
-  </swiper-container>
+  <div id="swiper-{{section.id}}" class="swiper swiper-{{section.id}} page-width">
+    <ul class="swiper-wrapper swiper-wrapper-{{section.id}}">
+      {% for block in section.blocks %}
+        <li class="swiper-slide swiper-slide-{{section.id}}" {{ block.shopify_attributes }}>
+          <i class="icon-container">
+            {% if block.settings.icon != blank and block.settings.lucide_icon == blank %}
+              <img src="{{block.settings.icon |  image_url: width: 10}}">
+            {% else %}
+              {% render 'tc-lucide-icon'
+                , icon_name: block.settings.lucide_icon %}
+            {% endif %}
+          </i>
+          <h3 class="card-heading-{{section.id}}">
+            {{ block.settings.title }}
+          </h3>
+          <p class="card-caption-{{ section.id }}">{{ block.settings.caption }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 </section>
 
 <script>
   // swiper element
-  const swiperEl = document.querySelector('#swiper-{{section.id}}');
+  document.addEventListener("DOMContentLoaded", () => {
 
-  // swiper parameters
-  const swiperParams = {
-    slidesPerView: 1,
-    loop: true,
-    autoplay: true,
-    delay: 500,
-    breakpoints: {
-      768: {
-        slidesPerView: 2,
-    spaceBetween: 30,
-
+    const swiper = new Swiper('#swiper-{{section.id}}', {
+      slidesPerView: 1,
+      loop: true,
+      autoplay: true,
+      delay: 500,
+      breakpoints: {
+        768: {
+          slidesPerView: 2,
+      spaceBetween: 30,
+  
+        },
+        1024: {
+      spaceBetween: 30,
+      slidesPerView: 3,
+        },
       },
-      1024: {
-    spaceBetween: 30,
-    slidesPerView: 3,
-      },
-    },
-  };
+    });
 
-  // now we need to assign all parameters to Swiper element
-  Object.assign(swiperEl, swiperParams);
-
-  // and now initialize it
-  swiperEl.initialize();
+  })
 </script>
 
 {% schema %}
