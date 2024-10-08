@@ -11,6 +11,19 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  .negative #swiper-positive-{{ section.id }}
+ {
+    display: none;
+  }
+
+  #swiper-negative-{{ section.id }} {
+    display: none
+  }
+
+  .negative #swiper-negative-{{ section.id }} {
+    display: block;
+  }
+
   .swiper-{{ section.id }} {
     overflow: visible
   }
@@ -119,22 +132,22 @@
     </div>
   </div>
   <div class="tw-aspect-[3/2] tw-mx-auto tw-relative sample-height" {{ block.shopify_attributes }}>
-    <div class="tw-w-full tw-gap-6 tw-px-6 tw-justify-center md:tw-hidden tw-flex tw-mb-6">
-      <button
-        id="prev-slide"
-        class="tw-grid tw-place-items-center tw-size-16 tw-bg-neutral-200 tw-text-black tw-rounded-full"
-        aria-label="previous">
-        {{ 'lucide-chevron-left.svg' | inline_asset_content }}
-      </button>
-      <button
-        id="next-slide"
-        class="tw-grid tw-place-items-center tw-size-16 tw-bg-neutral-200 tw-text-black tw-rounded-full"
-        aria-label="next">
-        {{ 'lucide-chevron-right.svg' | inline_asset_content }}
-      </button>
-    </div>
+    {% comment %} <div class="tw-w-full tw-gap-6 tw-px-6 tw-justify-center md:tw-hidden tw-flex tw-mb-6">
+                  <button
+                    id="prev-slide"
+                    class="tw-grid tw-place-items-center tw-size-16 tw-bg-neutral-200 tw-text-black tw-rounded-full"
+                    aria-label="previous">
+                    {{ 'lucide-chevron-left.svg' | inline_asset_content }}
+                  </button>
+                  <button
+                    id="next-slide"
+                    class="tw-grid tw-place-items-center tw-size-16 tw-bg-neutral-200 tw-text-black tw-rounded-full"
+                    aria-label="next">
+                    {{ 'lucide-chevron-right.svg' | inline_asset_content }}
+                  </button>
+            </div> {% endcomment %}
     <div
-      id="swiper-{{section.id}}"
+      id="swiper-positive-{{section.id}}"
       init="false"
       class="swiper swiper-{{section.id}} tw-w-full md:tw-h-full">
       <ul class="swiper-wrapper swiper-wrapper-{{section.id}}">
@@ -181,14 +194,14 @@
 
                 </div>
               {% endunless %}
-                <img
-                  srcset="{{ block.settings.sample_scan_positive | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_positive | image_url: width: 3840 }} 4x"
-                  sizes="1400px, 3840px"
-                  class="positive-{{block.id}}  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-                <img
-                  srcset="{{ block.settings.sample_scan_negative | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_negative | image_url: width: 3840 }} 4x"
-                  sizes="1400px, 3840px"
-                  class="negative-{{block.id}} hidden  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
+              <img
+                srcset="{{ block.settings.sample_scan_positive | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_positive | image_url: width: 3840 }} 4x"
+                sizes="1400px, 3840px"
+                class="positive-{{block.id}}  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
+              <img
+                srcset="{{ block.settings.sample_scan_negative | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_negative | image_url: width: 3840 }} 4x"
+                sizes="1400px, 3840px"
+                class="negative-{{block.id}} hidden  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
               <div class="md:tw-hidden tw-p-6 tw-pb-0">
                 {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
                   <div class="tw-z-10 tw-grid tw-grid-cols-2 tw-gap-x-2 tw-gap-y-4">
@@ -231,12 +244,17 @@
 
         {%- endfor -%}
       </ul>
+    </div>
+    <div
+      id="swiper-negative-{{section.id}}"
+      init="false"
+      class="swiper swiper-{{section.id}} tw-w-full md:tw-h-full ">
       <ul class="swiper-wrapper swiper-wrapper-{{section.id}}">
         {% for block in section.blocks %}
           {% if block.type == "scan_image" %}
             <a
               class="swiper-slide swiper-slide-{{ section.id }} swiper-slide-{{ block.id }} tw-relative"
-              href="{{ block.settings.sample_scan_positive | image_url: width: 3840 }}"
+              href="{{ block.settings.sample_scan_negative | image_url: width: 3840 }}"
               data-pswp-width="3000"
               data-pswp-height="2000"
               target="_blank">
@@ -275,14 +293,10 @@
 
                 </div>
               {% endunless %}
-                <img
-                  srcset="{{ block.settings.sample_scan_positive | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_positive | image_url: width: 3840 }} 4x"
-                  sizes="1400px, 3840px"
-                  class="positive-{{block.id}}  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
-                <img
-                  srcset="{{ block.settings.sample_scan_negative | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_negative | image_url: width: 3840 }} 4x"
-                  sizes="1400px, 3840px"
-                  class="negative-{{block.id}} hidden  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
+              <img
+                srcset="{{ block.settings.sample_scan_negative | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_negative | image_url: width: 3840 }} 4x"
+                sizes="1400px, 3840px"
+                class="negative-{{block.id}} tw-origin-center tw-object-cover tw-w-full tw-h-full" />
               <div class="md:tw-hidden tw-p-6 tw-pb-0">
                 {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
                   <div class="tw-z-10 tw-grid tw-grid-cols-2 tw-gap-x-2 tw-gap-y-4">
@@ -342,82 +356,84 @@
   </div>
 </section>
 
-
 <script>
-      document.addEventListener("DOMContentLoaded", ()=> {
+document.addEventListener("DOMContentLoaded", () => {
+  const swiperOptions = {
+    slidesPerView: 1,
+    spaceBetween: 128,
+    loop: true,
+    navigation: {
+      nextEl: "#next-slide",
+      prevEl: "#prev-slide",
+    },
+    keyboard: {
+      enabled: true,
+      onlyInViewport: true,
+      lazyPreloadPrevNext: 5,
+    },
+  };
 
-      const swiper = new Swiper("#swiper-{{section.id}}", {
-        slidesPerView: 1,
-        spaceBetween: 128,
-        loop:true,
-        navigation: {
-            nextEl: "#next-slide",
-            prevEl: "#prev-slide",
-          },
-          keyboard: {
-        enabled: true,
-        onlyInViewport: true,
-        lazyPreloadPrevNext: 5,
+  const swiperNegative = new Swiper("#swiper-negative-{{section.id}}", swiperOptions);
+  const swiperPositive = new Swiper("#swiper-positive-{{section.id}}", swiperOptions);
+
+  const createPhotoSwipeLightbox = (gallerySelector, swiperInstance) => {
+    const photoSwipeOptions = {
+      gallery: gallerySelector,
+      pswpModule: PhotoSwipe,
+      children: 'a',
+      loop: true,
+      showHideAnimationType: 'zoom', /* options: fade, zoom, none */
+      mouseMovePan: true,
+      initialZoomLevel: 'fit',
+      secondaryZoomLevel: 1.5,
+      maxZoomLevel: 1,
+      wheelToZoom: true, /* default: undefined */
+    };
+
+    const lightbox = new PhotoSwipeLightbox(photoSwipeOptions);
+
+    lightbox.init();
+
+    lightbox.on('change', () => {
+      const { pswp } = lightbox;
+      swiperInstance.slideTo(pswp.currIndex, 0, false);
+      console.log('Slide index', pswp.currIndex);
+    });
+
+    lightbox.on('afterInit', () => {
+      if (swiperInstance.params.autoplay && swiperInstance.params.autoplay.enabled) {
+        swiperInstance.autoplay.stop();
       }
-      })
+    });
 
-      const photo_swipe_options = {
-  gallery: '#swiper-{{section.id}}',
-  pswpModule: PhotoSwipe,
-  children: 'a',
-  loop: true,
-  showHideAnimationType: 'zoom', /* options: fade, zoom, none */
+    lightbox.on('closingAnimationStart', () => {
+      const { pswp } = lightbox;
+      swiperInstance.slideTo(pswp.currIndex, 0, false);
+      if (swiperInstance.params.autoplay && swiperInstance.params.autoplay.enabled) {
+        swiperInstance.autoplay.start();
+      }
+    });
 
-  mouseMovePan: true,
-
-  initialZoomLevel: 'fit',
-  secondaryZoomLevel: 1.5,
-  maxZoomLevel: 1,
-  wheelToZoom: true, /* deafult: undefined */
+    return lightbox;
   };
 
-  const lightbox = new PhotoSwipeLightbox(photo_swipe_options);
-
-  lightbox.init();
-
-  lightbox.on('change', () => {
-  const { pswp } = lightbox;
-  swiper.slideTo(pswp.currIndex, 0, false);
-  console.log('Slide index', pswp.currIndex);
-  });
-
-  /* ### PhotoSwipe events ### */
-
-  lightbox.on('afterInit', () => {
-  const { pswp } = lightbox;
-  if(swiper.params.autoplay.enabled){
-    swiper.autoplay.stop();
-  };
-  });
-
-  lightbox.on('closingAnimationStart', () => {
-  //console.log('closingAnimationStart');
-  const { pswp } = lightbox;
-  swiper.slideTo(pswp.currIndex, 0, false);
-  /* if autoplay enabled == true -> autoplay.start() when close lightbox */
-  if(swiper.params.autoplay.enabled){
-    swiper.autoplay.start();
-  }
-  });
-
-      })
+  const lightboxPositive = createPhotoSwipeLightbox('#swiper-positive-{{section.id}}', swiperPositive);
+  const lightboxNegative = createPhotoSwipeLightbox('#swiper-negative-{{section.id}}', swiperNegative);
+});
 </script>
 
 
+
 <script>
-  const positives = document.querySelectorAll(".positive");
-  const negatives = document.querySelectorAll(".negative");
-  const slides = document.querySelectorAll(".swiper-slide-{{ section.id }}")
+  // const positives = document.querySelectorAll(".positive");
+  // const negatives = document.querySelectorAll(".negative");
   const toggle = document.querySelector("#negative_mode");
       const section = document.querySelector(".section-{{section.id}}")
-  toggle.addEventListener("change", (e) => {
-    positives.forEach(img => img.classList.toggle("hidden"));
-    negatives.forEach(img => img.classList.toggle("hidden"));
+  
+      toggle.addEventListener("change", (e) => {
+    section.classList.toggle("negative");
+    // positives.forEach(img => img.classList.toggle("hidden"));
+    // negatives.forEach(img => img.classList.toggle("hidden"));
 
     if (e.target.checked) {
       section.classList.remove("color-{{ section.settings.color_scheme }}")
