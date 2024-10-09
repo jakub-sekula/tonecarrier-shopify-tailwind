@@ -636,6 +636,19 @@
             "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours.</p><p>Click or tap on any image in the gallery below to zoom in and view the film grain.</p>"
           }
         },
+        "scan_image_QkrRKT": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF2949.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF2949-2.jpg",
+            "camera": "",
+            "lens": "",
+            "light_source": "",
+            "converted_with": "",
+            "film_stock": "",
+            "raw_download_url": ""
+          }
+        },
         "scan_image_mzd7UE": {
           "type": "scan_image",
           "settings": {
@@ -693,6 +706,7 @@
         "caption_Jx46KJ",
         "heading_LETNVj",
         "text_xMFkDD",
+        "scan_image_QkrRKT",
         "scan_image_mzd7UE",
         "scan_image_7CbtwT",
         "scan_image_R7rMbr",
