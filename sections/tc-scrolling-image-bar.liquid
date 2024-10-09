@@ -339,32 +339,47 @@
     {% endfor %}
   </article>
 
+<div class="page-width mobile-only">
 
-  <swiper-container space-between="30" autoplay-delay="4000" loop="true" autoplay-disable-on-interaction="false"  class="page-width mobile-only">
+  <div space-between="30" autoplay-delay="4000" loop="true" autoplay-disable-on-interaction="false"  class="swiper swiper-{{ section.id }}">
+  <ul class="swiper-wrapper swiper-wrapper-{{ section.id }}" >
+
     {%for block in section.blocks %}
-    <swiper-slide class="review-tile {% if block.settings.image != blank %}square {%endif %}" {{ block.shopify_attributes }}>
-      {% if block.settings.image != blank %}
-      {{block.settings.image |  image_url: width: 600 |  image_tag }}
-      {% else %}
-      <div class="review-text-container">
-        <div class="stars-container">
-          {% for i in (1..block.settings.stars) %}  
-            {% render 'tc-lucide-icon',icon_name: "lucide-star" %}
-          {% endfor %}
-          </div>
-          <p>{{block.settings.review}}</p>
-          <p class="review-author">
-            Reviewed by <strong>{{block.settings.author}}</strong>
-          </p>
-          <div class="verified-container">{%render 'tc-lucide-icon', icon_name: "lucide-shield-check" %} Verified purchase <span>{{block.settings.date}}</span></div>
-      </div>
-      {% endif %}
-    </swiper-slide>
-  {% endfor %}
-</swiper-container>
+      <li class="swiper-slide swiper-slide-{{ section.id }} swiper-slide-{{ block.id }} review-tile {% if block.settings.image != blank %}square {%endif %}" {{ block.shopify_attributes }}>
+        {% if block.settings.image != blank %}
+        {{block.settings.image |  image_url: width: 600 |  image_tag }}
+        {% else %}
+        <div class="review-text-container">
+          <div class="stars-container">
+            {% for i in (1..block.settings.stars) %}  
+              {% render 'tc-lucide-icon',icon_name: "lucide-star" %}
+            {% endfor %}
+            </div>
+            <p>{{block.settings.review}}</p>
+            <p class="review-author">
+              Reviewed by <strong>{{block.settings.author}}</strong>
+            </p>
+            <div class="verified-container">{%render 'tc-lucide-icon', icon_name: "lucide-shield-check" %} Verified purchase <span>{{block.settings.date}}</span></div>
+        </div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+</div>
 </section>
 
-<script></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const swiper = new Swiper('.swiper-{{section.id}}', {
+      loop: true,
+      autoplay: true,
+      delay: 4000,
+      spaceBetween: 30,
+    });
+})
+
+</script>
 
 {% schema %}
   {
