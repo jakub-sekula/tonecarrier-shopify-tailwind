@@ -66,14 +66,14 @@
         "heading_ejT9dW": {
           "type": "heading",
           "settings": {
-            "heading": "Making film scanning fun again",
+            "heading": "Making film scanning fun",
             "heading_size": "h2"
           }
         },
         "text_LKXdjG": {
           "type": "text",
           "settings": {
-            "text": "<p>The toneCarrier is a fully-featured, dedicated film holding system specifically designed scanning negative and slide film using a digital camera (DSLR or mirrorless).</p><p>We make it possible to get archival-grade digital copies of your film in minutes. Forget the struggle of slow, bulky and outdated flatbed scanners - scanning with a camera is the modern way to preserve and share your film photography work.</p>",
+            "text": "<p>Scanning does not have to be a chore. The toneCarrier is a fully-featured, dedicated film holding system specifically designed scanning negative and slide film using a digital camera (DSLR or mirrorless).</p><p>We make it possible to get archival-grade digital copies of your film in minutes. Forget the struggle of slow, bulky and outdated flatbed scanners - scanning with a camera is the modern way to preserve and share your film photography work.</p>",
             "text_style": "body"
           }
         }
@@ -84,8 +84,8 @@
         "text_LKXdjG"
       ],
       "settings": {
-        "image": "shopify://shop_images/Square.png",
-        "height": "small",
+        "image": "shopify://shop_images/DSCF2986-Edit.jpg",
+        "height": "large",
         "desktop_image_width": "medium",
         "layout": "text_first",
         "desktop_content_position": "top",
@@ -99,46 +99,83 @@
         "padding_bottom": 36
       }
     },
-    "rich_text_XaweJq": {
-      "type": "rich-text",
+    "image_banner_kJEDdY": {
+      "type": "image-banner",
       "blocks": {
-        "heading_CdjEd4": {
+        "heading_wUgUa8": {
           "type": "heading",
           "settings": {
             "heading": "What is camera scanning?",
             "heading_size": "h1"
           }
         },
-        "text_8WgbBb": {
+        "text_VM64f8": {
           "type": "text",
           "settings": {
-            "text": "<p>Camera scanning is the process of digitizing film images using a DSLR or a mirrorless camera with a macro lens. You can achieve amazing, <strong>professional grade reproductions</strong> by taking a picture of the negative with a macro lens, then inverting the colors using specialized software.</p>"
+            "text": "Camera (or DSLR) scanning is the process of digitizing film images using a DSLR or a mirrorless digital camera with a macro lens. You can achieve amazing, <strong>professional quality reproductions</strong> by taking a picture of the negative with a macro lens, then inverting the colors using specialized software.",
+            "text_style": "body"
           }
         },
-        "button_e8i3hQ": {
-          "type": "button",
+        "buttons_7XVM6j": {
+          "type": "buttons",
           "settings": {
-            "button_label": "Intro to DSLR scanning",
-            "button_link": "shopify://pages/introduction-to-camera-scanninng",
-            "button_style_secondary": false,
+            "button_label_1": "Read our intro guide",
+            "button_link_1": "shopify://pages/introduction-to-camera-scanninng",
+            "button_style_secondary_1": false,
             "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "button_link_2": "shopify://collections/all-film-holders",
+            "button_style_secondary_2": true
           }
         }
       },
       "block_order": [
-        "heading_CdjEd4",
-        "text_8WgbBb",
-        "button_e8i3hQ"
+        "heading_wUgUa8",
+        "text_VM64f8",
+        "buttons_7XVM6j"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/DSCF2949-2.jpg",
+        "image_2": "shopify://shop_images/DSCF2949.jpg",
+        "image_overlay_opacity": 50,
+        "image_height": "small",
+        "desktop_content_position": "middle-center",
+        "show_text_box": true,
+        "desktop_content_alignment": "center",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "rich_text_nW4EDF": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_iG4bkY": {
+          "type": "heading",
+          "settings": {
+            "heading": "Professional quality tools",
+            "heading_size": "h1"
+          }
+        },
+        "text_tLJ9Pi": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Our products are designed by photographers for photographers. The result of over 2 years of development is a film scanning system that truly is a joy to use. Take a look and discover some of our key features below.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_iG4bkY",
+        "text_tLJ9Pi"
       ],
       "settings": {
         "desktop_content_position": "center",
         "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
+        "padding_top": 100,
+        "padding_bottom": 100
       }
     },
     "image_with_text_htRdbH": {
@@ -175,6 +212,82 @@
       "settings": {
         "image": "shopify://shop_images/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
         "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-4",
+        "color_scheme": "scheme-4",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_PTJWDm": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_KN88Gx": {
+          "type": "heading",
+          "settings": {
+            "heading": "Belt driven film advance mechanism",
+            "heading_size": "h1"
+          }
+        },
+        "text_LN8tDm": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Both sets of rollers are synchronized using a precision pulley and timing belt system. Your film will never get stuck in the carrier and you can easily adjust its position with extreme precision to get a perfect result scan after scan.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_KN88Gx",
+        "text_LN8tDm"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Pulley_1.6.1.jpg",
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_wiLFkA": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_fAERdq": {
+          "type": "heading",
+          "settings": {
+            "heading": "Dual roller drive",
+            "heading_size": "h1"
+          }
+        },
+        "text_MywpNU": {
+          "type": "text",
+          "settings": {
+            "text": "<p>There are two sets of soft rubber rollers on both sides of each carrier. They grab the film gently, but securely on both sides in a push-pull configuration allowing you to scan any length of film - from full, uncut rolls, to short strips of 4 or more frames.</p><p>Your images always stay safe, because the soft rubber rollers only ever contact the edges of the film.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_fAERdq",
+        "text_MywpNU"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/DSCF0764-Edit.jpg",
+        "height": "medium",
         "desktop_image_width": "medium",
         "layout": "image_first",
         "desktop_content_position": "top",
@@ -235,30 +348,30 @@
         "padding_bottom": 36
       }
     },
-    "image_with_text_wiLFkA": {
+    "image_with_text_LpWNTJ": {
       "type": "image-with-text",
       "blocks": {
-        "heading_fAERdq": {
+        "heading_CTHiqe": {
           "type": "heading",
           "settings": {
-            "heading": "Dual roller drive mechanism",
+            "heading": "Precision engineering",
             "heading_size": "h1"
           }
         },
-        "text_MywpNU": {
+        "text_Azk8Pj": {
           "type": "text",
           "settings": {
-            "text": "<p>Belt driven dual rollers grab the film securely on both sides in a push-pull configuration</p><p>Thanks to this, you can scan strips as short as 4 standard 35 mm frames long.</p><p>Your images always stay safe, because the soft rubber rollers only ever contact the edges of the film.</p>",
+            "text": "<p>The holder materials are carefully chosen to ensure a smooth, reliable scanning experience every time. The housing is constructed from high quality, matte finish plastic and metal hardware is used where it matters - to increase stiffness and provide buttery smooth film motion.</p>",
             "text_style": "body"
           }
         }
       },
       "block_order": [
-        "heading_fAERdq",
-        "text_MywpNU"
+        "heading_CTHiqe",
+        "text_Azk8Pj"
       ],
       "settings": {
-        "image": "shopify://shop_images/DSCF0764-Edit.jpg",
+        "image": "shopify://shop_images/Hardware_1.29.1.jpg",
         "height": "medium",
         "desktop_image_width": "medium",
         "layout": "image_first",
@@ -267,6 +380,44 @@
         "content_layout": "overlap",
         "section_color_scheme": "scheme-4",
         "color_scheme": "scheme-4",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_7nTEzN": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_fRt47y": {
+          "type": "heading",
+          "settings": {
+            "heading": "Top quality fit and finish",
+            "heading_size": "h1"
+          }
+        },
+        "text_fYq7Cm": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Thoughtful design of parts and top quality manufacturing mean that when you pick up a toneCarrier, you immediately know you're dealing with a professional grade tool.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_fRt47y",
+        "text_fYq7Cm"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Knob_1.12.1.jpg",
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
         "image_behavior": "none",
         "mobile_content_alignment": "left",
         "padding_top": 36,
@@ -286,7 +437,7 @@
         "text_7Q6YfD": {
           "type": "text",
           "settings": {
-            "text": "<p>Up for a DIY project? 3D printing files for all toneCarrier holders and accessories are available for sale.</p><p>All parts thoroughly tested and easy to print even on small printers like <strong>Bambu Lab A1 mini and Prusa Mini</strong>.</p><p>Bill of materials and illustrated assembly manual included.</p>",
+            "text": "<p>Up for a DIY project? 3D printing files for the toneCarrier holders and accessories are available for sale.</p><p>All parts thoroughly tested and easy to print even on small printers like <strong>Bambu Lab A1 mini and Prusa Mini</strong>.</p><p>Bill of materials and illustrated assembly manual included, and you can even get pre-picked hardware kits to start scanning in no time.</p>",
             "text_style": "body"
           }
         },
@@ -312,8 +463,8 @@
         "desktop_content_position": "top",
         "desktop_content_alignment": "left",
         "content_layout": "overlap",
-        "section_color_scheme": "scheme-1",
-        "color_scheme": "scheme-1",
+        "section_color_scheme": "scheme-4",
+        "color_scheme": "scheme-4",
         "image_behavior": "none",
         "mobile_content_alignment": "left",
         "padding_top": 36,
@@ -1327,10 +1478,14 @@
   "order": [
     "tc_homepage_hero_yzfcQL",
     "image_with_text_tn7xXN",
-    "rich_text_XaweJq",
+    "image_banner_kJEDdY",
+    "rich_text_nW4EDF",
     "image_with_text_htRdbH",
-    "image_with_text_PTENLw",
+    "image_with_text_PTJWDm",
     "image_with_text_wiLFkA",
+    "image_with_text_PTENLw",
+    "image_with_text_LpWNTJ",
+    "image_with_text_7nTEzN",
     "image_with_text_qedYYH",
     "bento_tjy4FJ",
     "bento_jFmJGP",
