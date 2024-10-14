@@ -1,0 +1,101 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner_LwnTpH": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_fR7ca6": {
+          "type": "heading",
+          "settings": {
+            "heading": "Introduction to camera scanning",
+            "heading_size": "h1"
+          }
+        },
+        "text_JeFFMN": {
+          "type": "text",
+          "settings": {
+            "text": "Whether you're looking to digitize your old family negatives or love the tactile experience of shooting film but want to share your work online, camera scanning is the perfect way to bridge the gap between analogue and digital. Read our introduction to discover the modern way to scan film.",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_fR7ca6",
+        "text_JeFFMN"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/DSCF0312-2.webp",
+        "image_overlay_opacity": 20,
+        "image_height": "small",
+        "desktop_content_position": "middle-left",
+        "show_text_box": true,
+        "desktop_content_alignment": "left",
+        "color_scheme": "scheme-4",
+        "image_behavior": "zoom-in",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "rich_text_D7hTXV": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_WeeGcn": {
+          "type": "heading",
+          "settings": {
+            "heading": "What is camera (DSLR) scanning?",
+            "heading_size": "h1"
+          }
+        },
+        "text_Fy3grE": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Camera scanning is the process of digitizing your film photos—whether negatives or slides—by taking a photographing them up-close using a digital camera equipped with a macro lens. This method harnesses the advances in digital camera sensor technology to deliver sharp, detailed digital reproductions of your analog images.</p>"
+          }
+        },
+        "text_RnCDhH": {
+          "type": "text",
+          "settings": {
+            "text": "<p>You don’t need the latest and most expensive gear to get started. Many photographers achieve outstanding results using DSLR or mirrorless cameras released in the last decade, paired with affordable vintage macro lenses known for their excellent optics. In fact, we’ve curated a list of recommended lenses that are proven within the scanning community—check it out here!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_WeeGcn",
+        "text_Fy3grE",
+        "text_RnCDhH"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-4",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "custom_css": [
+
+      ],
+      "settings": {
+        "padding_top": 100,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "image_banner_LwnTpH",
+    "rich_text_D7hTXV",
+    "main"
+  ]
+}
