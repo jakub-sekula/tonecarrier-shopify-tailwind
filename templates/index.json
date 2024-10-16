@@ -1,12 +1,12 @@
 /*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "tc_homepage_hero_yzfcQL": {
@@ -211,7 +211,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
-        "height": "adapt",
+        "height": "medium",
         "desktop_image_width": "medium",
         "layout": "image_first",
         "desktop_content_position": "top",
@@ -334,7 +334,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/DSCF0422-Edit.jpg",
-        "height": "adapt",
+        "height": "medium",
         "desktop_image_width": "medium",
         "layout": "text_first",
         "desktop_content_position": "top",
@@ -430,22 +430,22 @@
         "heading_cPmNiQ": {
           "type": "heading",
           "settings": {
-            "heading": "3D print your own",
+            "heading": "Scan 110 film",
             "heading_size": "h1"
           }
         },
         "text_7Q6YfD": {
           "type": "text",
           "settings": {
-            "text": "<p>Up for a DIY project? 3D printing files for the toneCarrier holders and accessories are available for sale.</p><p>All parts thoroughly tested and easy to print even on small printers like <strong>Bambu Lab A1 mini and Prusa Mini</strong>.</p><p>Bill of materials and illustrated assembly manual included, and you can even get pre-picked hardware kits to start scanning in no time.</p>",
+            "text": "<p>One the most popular film format of the 70s is a lot of fun to shoot - but scanning it at home used to be tricky. Not anymore with the toneCarrier Mini, a smaller film holder and accessory system designed to get the most out of those tiny, unusual negatives.</p>",
             "text_style": "body"
           }
         },
         "button_DW6qhU": {
           "type": "button",
           "settings": {
-            "button_label": "Get 3D print kits",
-            "button_link": "shopify://collections/digital-downloads",
+            "button_label": "Shop 110",
+            "button_link": "shopify://collections/110-scanning",
             "button_style_secondary": false
           }
         }
@@ -456,8 +456,55 @@
         "button_DW6qhU"
       ],
       "settings": {
+        "image": "shopify://shop_images/110_1.31.1.jpg",
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_nepqaj": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_ijEEAY": {
+          "type": "heading",
+          "settings": {
+            "heading": "3D print your own",
+            "heading_size": "h1"
+          }
+        },
+        "text_gCQKhk": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Up for a DIY project? 3D printing files for the toneCarrier holders and accessories are available for sale.</p><p>All parts thoroughly tested and easy to print even on small printers like <strong>Bambu Lab A1 mini and Prusa Mini</strong>.</p><p>Bill of materials and illustrated assembly manual included, and you can even get pre-picked hardware kits to start scanning in no time.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_rtPdxy": {
+          "type": "button",
+          "settings": {
+            "button_label": "Get 3D print kits",
+            "button_link": "shopify://collections/digital-downloads",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_ijEEAY",
+        "text_gCQKhk",
+        "button_rtPdxy"
+      ],
+      "settings": {
         "image": "shopify://shop_images/DSCF2613.png",
-        "height": "adapt",
+        "height": "medium",
         "desktop_image_width": "medium",
         "layout": "text_first",
         "desktop_content_position": "top",
@@ -1487,6 +1534,7 @@
     "image_with_text_LpWNTJ",
     "image_with_text_7nTEzN",
     "image_with_text_qedYYH",
+    "image_with_text_nepqaj",
     "bento_tjy4FJ",
     "bento_jFmJGP",
     "featured_collection_ipafC9",

@@ -48,17 +48,10 @@
     "rich_text_D7hTXV": {
       "type": "rich-text",
       "blocks": {
-        "heading_WeeGcn": {
-          "type": "heading",
-          "settings": {
-            "heading": "What is camera (DSLR) scanning?",
-            "heading_size": "h1"
-          }
-        },
         "text_Fy3grE": {
           "type": "text",
           "settings": {
-            "text": "<p>Camera scanning is the process of digitizing your film photos—whether negatives or slides—by taking a photographing them up-close using a digital camera equipped with a macro lens. This method harnesses the advances in digital camera sensor technology to deliver sharp, detailed digital reproductions of your analog images.</p>"
+            "text": "<p><strong>Camera scanning is the process of digitizing your film photos—whether negatives or slides—by taking a photographing them up-close using a digital camera equipped with a macro lens. This method harnesses the advances in digital camera sensor technology to deliver sharp, detailed digital reproductions of your analog images.</strong></p>"
           }
         },
         "text_RnCDhH": {
@@ -69,14 +62,13 @@
         }
       },
       "block_order": [
-        "heading_WeeGcn",
         "text_Fy3grE",
         "text_RnCDhH"
       ],
       "settings": {
         "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "scheme-4",
+        "content_alignment": "left",
+        "color_scheme": "scheme-2",
         "full_width": true,
         "padding_top": 40,
         "padding_bottom": 52
@@ -88,8 +80,9 @@
 
       ],
       "settings": {
-        "padding_top": 100,
-        "padding_bottom": 28
+        "show_title": false,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     }
   },
