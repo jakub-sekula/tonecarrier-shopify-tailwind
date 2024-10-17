@@ -106,7 +106,7 @@
         "description": "<p>Expand your scanning kit with accessories designed specifically for 35 mm film.</p>",
         "show_description": false,
         "description_style": "body",
-        "collection": "tonecarrier-120-accessories",
+        "collection": "tonecarrier-110-accessories",
         "products_to_show": 16,
         "columns_desktop": 4,
         "full_width": false,
