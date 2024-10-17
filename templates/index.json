@@ -1368,7 +1368,7 @@
           "type": "collapsible_row",
           "settings": {
             "heading": "What is the shortest strip I can scan?",
-            "icon": "check_mark",
+            "icon": "none",
             "row_content": "<p>The shortest strip scannable with the toneCarrier is 4 standard 35 mm frames long.</p>",
             "page": ""
           }
@@ -1377,7 +1377,7 @@
           "type": "collapsible_row",
           "settings": {
             "heading": "Will this scratch my film?",
-            "icon": "check_mark",
+            "icon": "none",
             "row_content": "<p>Nope! The film channel and accessories are designed with film safety in mind and your images will never touch any part of the holder as they travel through it. The only part of the film that is in contact with the mechanism are sprocket holes and the edges.</p>",
             "page": ""
           }
@@ -1386,7 +1386,7 @@
           "type": "collapsible_row",
           "settings": {
             "heading": "What is the maximum frame size I can scan?",
-            "icon": "check_mark",
+            "icon": "none",
             "row_content": "<p>The 35 mm version supports up to X-Pan sized negatives, while the 120 version can scan up to 6x9 frames.</p>",
             "page": ""
           }
@@ -1395,7 +1395,7 @@
           "type": "collapsible_row",
           "settings": {
             "heading": "What film formats does it support?",
-            "icon": "check_mark",
+            "icon": "none",
             "row_content": "<p>Currently 35 mm, 110, and 120 film is supported. We are working on expanding the range to also include 127, and APS film in the future.</p>",
             "page": ""
           }
@@ -1404,7 +1404,7 @@
           "type": "collapsible_row",
           "settings": {
             "heading": "What countries do you ship to?",
-            "icon": "check_mark",
+            "icon": "none",
             "row_content": "<p>We can ship to most countries of the world using the Royal Mail International service.</p>",
             "page": ""
           }
@@ -1413,7 +1413,7 @@
           "type": "collapsible_row",
           "settings": {
             "heading": "What light source should I use with this?",
-            "icon": "check_mark",
+            "icon": "none",
             "row_content": "<p>Any light source that has a high Color Reproduction Index (CRI) will work well for scanning. If you are just beginning, even your smartphone will do just fine! When you are ready to upgrade, we recommend lights such as the Cinestill CS-Lite or Kaiser Plano light table.</p>",
             "page": ""
           }
@@ -1422,7 +1422,7 @@
           "type": "collapsible_row",
           "settings": {
             "heading": "What else do I need to start camera scanning?",
-            "icon": "check_mark",
+            "icon": "none",
             "row_content": "<p>You will need a DSLR or mirrorless camera, a tripod, and a macro lens. If you plan to scan a lot, a copy stand is also a worthwhile investment as it will allow you to keep the entire scanning setup more self-contained and always ready to go.</p>",
             "page": ""
           }
@@ -1431,7 +1431,7 @@
           "type": "collapsible_row",
           "settings": {
             "heading": "Is the quality of camera scans better than a flatbed scanner?",
-            "icon": "check_mark",
+            "icon": "none",
             "row_content": "<p>Yes! Scanning film with a digital camera with a proper macro lens allows you to extract much more resolution from a negative than is possible with the typical flatbed scanner. You will also be able to enjoy much greater dynamic range and quicker scanning times.</p>",
             "page": ""
           }
@@ -1451,13 +1451,14 @@
       "settings": {
         "caption": "",
         "heading": "Frequently Asked Questions",
-        "heading_size": "h1",
-        "heading_alignment": "center",
+        "heading_size": "h2",
+        "heading_alignment": "left",
         "layout": "none",
         "color_scheme": "scheme-4",
         "container_color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
+        "open_first_collapsible_row": true,
+        "image": "shopify://shop_images/DSCF2989-Edit.jpg",
+        "image_ratio": "large",
         "desktop_layout": "image_second",
         "padding_top": 36,
         "padding_bottom": 36
@@ -1486,7 +1487,7 @@
           "type": "card",
           "settings": {
             "lucide_icon": "lucide-handshake",
-            "title": "Excellent customer service",
+            "title": "5-star customer service",
             "caption": "We are always happy to answer questions and even help customize the toneCarrier to your specific workflow needs."
           }
         },
