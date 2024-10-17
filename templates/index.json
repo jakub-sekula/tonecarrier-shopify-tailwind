@@ -840,8 +840,8 @@
           "settings": {
             "sample_scan_positive": "shopify://shop_images/DSCF2949.jpg",
             "sample_scan_negative": "shopify://shop_images/DSCF2949-2.jpg",
-            "camera": "Lomography Lomomatic 110",
-            "lens": "",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Lomography Tiger 200",
