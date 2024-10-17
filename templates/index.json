@@ -890,13 +890,13 @@
         "scan_image_kYq6Y6": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0509.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0509-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF3116-2.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF3116.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Colorplus 200",
+            "film_stock": "Kodak Gold 200",
             "raw_download_url": ""
           }
         }
