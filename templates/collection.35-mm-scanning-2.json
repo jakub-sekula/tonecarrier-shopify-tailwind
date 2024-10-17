@@ -53,8 +53,8 @@
         "heading_kxDgpc": {
           "type": "heading",
           "settings": {
-            "heading": "35 mm scanning tools",
-            "heading_size": "h1"
+            "heading": "35 mm film holders and kits",
+            "heading_size": "h2"
           }
         },
         "text_Cq8PdW": {
@@ -72,10 +72,10 @@
       "settings": {
         "desktop_content_position": "left",
         "content_alignment": "left",
-        "color_scheme": "scheme-3",
+        "color_scheme": "scheme-1",
         "full_width": true,
         "padding_top": 40,
-        "padding_bottom": 52
+        "padding_bottom": 0
       }
     },
     "product-grid": {
