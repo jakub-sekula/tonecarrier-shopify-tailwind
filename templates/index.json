@@ -1359,7 +1359,7 @@
           "type": "collapsible_row",
           "settings": {
             "heading": "How is this different from other film carriers?",
-            "icon": "check_mark",
+            "icon": "none",
             "row_content": "<p>The toneCarrier uses a unique push-pull mechanism for transporting film, meaning you can scan even short strips of four 35 mm frames. It also features a film-safe path which ensures zero emulsion contact with any part of the holder at any point.</p>",
             "page": ""
           }
@@ -1409,15 +1409,6 @@
             "page": ""
           }
         },
-        "collapsible_row_nn6HYn": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "I see this is 3D printed, can I print it myself?",
-            "icon": "check_mark",
-            "row_content": "<p>Yes! If you would like to 3D print and assemble the toneCarrier yourself, you can purchase STL and 3MF files in our store. The download contains a full list of required hardware, which is also available to purchase in our store as a kit if you'd like to avoid bulk buying components.</p>",
-            "page": ""
-          }
-        },
         "collapsible_row_fGPxdg": {
           "type": "collapsible_row",
           "settings": {
@@ -1453,7 +1444,6 @@
         "collapsible_row_qUKndy",
         "collapsible_row_rR3cVX",
         "collapsible_row_jdMbAb",
-        "collapsible_row_nn6HYn",
         "collapsible_row_fGPxdg",
         "collapsible_row_phXmKX",
         "collapsible_row_6UBQfp"
