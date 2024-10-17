@@ -46,7 +46,7 @@
         "background_video": "shopify://files/videos/Film scroll background - less zoom.mp4",
         "background_blur": 5,
         "background_opacity": 15,
-        "hero_video": "shopify://files/videos/Mk2 promo draft 4.mp4",
+        "hero_video": "shopify://files/videos/MK2 Promo draft 7.mp4",
         "hero_image": "shopify://shop_images/Hero_poster_3.1.1.jpg",
         "color_scheme": "scheme-1",
         "margin_bottom": 60
@@ -55,31 +55,22 @@
     "image_with_text_tn7xXN": {
       "type": "image-with-text",
       "blocks": {
-        "caption_fHMKdj": {
-          "type": "caption",
-          "settings": {
-            "caption": "Professional grade tools",
-            "text_style": "caption-with-letter-spacing",
-            "text_size": "medium"
-          }
-        },
         "heading_ejT9dW": {
           "type": "heading",
           "settings": {
-            "heading": "Making film scanning fun",
+            "heading": "Did you know scanning film does not need to be a chore?",
             "heading_size": "h2"
           }
         },
         "text_LKXdjG": {
           "type": "text",
           "settings": {
-            "text": "<p>Scanning does not have to be a chore. The toneCarrier is a fully-featured, dedicated film holding system specifically designed scanning negative and slide film using a digital camera (DSLR or mirrorless).</p><p>We make it possible to get archival-grade digital copies of your film in minutes. Forget the struggle of slow, bulky and outdated flatbed scanners - scanning with a camera is the modern way to preserve and share your film photography work.</p>",
+            "text": "<p>With the right tools, it can actually be a fun part of the modern analog photography experience.</p><p>The toneCarrier is a fully-featured, dedicated film holding system specifically designed scanning negative and slide film using a digital camera (DSLR or mirrorless).</p><p>We make it possible to get archival-grade digital copies of your film in minutes. Forget the struggle of slow, bulky and outdated flatbed scanners - scanning with a camera is the modern way to preserve and share your film photography work.</p>",
             "text_style": "body"
           }
         }
       },
       "block_order": [
-        "caption_fHMKdj",
         "heading_ejT9dW",
         "text_LKXdjG"
       ],
@@ -518,6 +509,91 @@
         "padding_bottom": 36
       }
     },
+    "image_with_text_7kjMGd": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_YRCNqW": {
+          "type": "heading",
+          "settings": {
+            "heading": "A fully featured scanning system",
+            "heading_size": "h1"
+          }
+        },
+        "text_yGaFiP": {
+          "type": "text",
+          "settings": {
+            "text": "<p>With holders and accessories available for every major film width and frame size, every photographer can find something to suit their specific needs. </p>",
+            "text_style": "body"
+          }
+        },
+        "button_V6gkXR": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop all products",
+            "button_link": "shopify://collections/all-ready-to-use",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_YRCNqW",
+        "text_yGaFiP",
+        "button_V6gkXR"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/DSCF3143.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-4",
+        "color_scheme": "scheme-4",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_6Th4iC": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_BkGWeW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Fast and secure shipping",
+            "heading_size": "h1"
+          }
+        },
+        "text_43JUrH": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Most orders are posted on the next working day and delivered within 5 to 7 days with fully tracked and insured Royal Mail services. </p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_BkGWeW",
+        "text_43JUrH"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/DSCF3167_92be6306-5c4a-4e8d-9650-9879649e222e.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "bento_tjy4FJ": {
       "type": "bento",
       "blocks": {
@@ -673,112 +749,6 @@
         "caption_size": 14,
         "tile_radius": 0,
         "anchor": "",
-        "full_width": false,
-        "spacing": 16
-      }
-    },
-    "bento_jFmJGP": {
-      "type": "bento",
-      "blocks": {
-        "heading_r7Thag": {
-          "type": "heading",
-          "settings": {
-            "heading": "Scan anything",
-            "heading_size": "h1"
-          }
-        },
-        "text_WVFgd7": {
-          "type": "text",
-          "settings": {
-            "text": "<p>The toneCarrier system is designed to get great quality scans from any roll film format</p>"
-          }
-        },
-        "tile_gwmLwK": {
-          "type": "Tile",
-          "settings": {
-            "title": "35 mm film",
-            "description": "<p>Full frame to panoramic (X-Pan)</p>",
-            "image": "shopify://shop_images/Hero-props-1.jpg",
-            "link": "shopify://collections/35-mm-film-scanning",
-            "link_label": "Shop 35 mm",
-            "product": "",
-            "extended_description": "",
-            "height": 1,
-            "width": 4,
-            "start_column": 1,
-            "start_row": 1,
-            "fade_color": "#000000",
-            "fade_height": 100,
-            "text_color": "#000000",
-            "use_custom_text_color": true,
-            "use_custom_fade_color": false
-          }
-        },
-        "tile_FTB3km": {
-          "type": "Tile",
-          "settings": {
-            "title": "120 film",
-            "description": "<p>All medium format up to 6x9</p>",
-            "image": "shopify://shop_images/DSCF0422-Edit.jpg",
-            "link": "shopify://collections/120-film-scanning",
-            "link_label": "Shop 120",
-            "product": "",
-            "extended_description": "",
-            "height": 1,
-            "width": 4,
-            "start_column": 5,
-            "start_row": 1,
-            "fade_color": "#000000",
-            "fade_height": 100,
-            "text_color": "#000000",
-            "use_custom_text_color": true,
-            "use_custom_fade_color": false
-          }
-        },
-        "tile_na8A46": {
-          "type": "Tile",
-          "settings": {
-            "title": "110 film",
-            "description": "<p>Scan the popular format from the 80s</p>",
-            "image": "shopify://shop_images/DSCF0759-Edit-2.jpg",
-            "link": "shopify://collections/110-film-scanning",
-            "link_label": "Shop 110",
-            "product": "",
-            "extended_description": "",
-            "height": 1,
-            "width": 4,
-            "start_column": 9,
-            "start_row": 1,
-            "fade_color": "#000000",
-            "fade_height": 100,
-            "text_color": "#000000",
-            "use_custom_text_color": true,
-            "use_custom_fade_color": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_r7Thag",
-        "text_WVFgd7",
-        "tile_gwmLwK",
-        "tile_FTB3km",
-        "tile_na8A46"
-      ],
-      "disabled": true,
-      "settings": {
-        "background_blur": 5,
-        "background_opacity": 0.2,
-        "content_alignment": "center",
-        "columns": 12,
-        "rows": 1,
-        "row_height": 300,
-        "padding_top": 72,
-        "padding_bottom": 72,
-        "color_scheme": "scheme-1",
-        "heading_size": "h2",
-        "caption_size": 16,
-        "tile_radius": 0,
-        "anchor": "lineup",
         "full_width": false,
         "spacing": 16
       }
@@ -1526,8 +1496,9 @@
     "image_with_text_7nTEzN",
     "image_with_text_qedYYH",
     "image_with_text_nepqaj",
+    "image_with_text_7kjMGd",
+    "image_with_text_6Th4iC",
     "bento_tjy4FJ",
-    "bento_jFmJGP",
     "featured_collection_ipafC9",
     "sample_scan_3JWfQk",
     "featured_collection_E9Yica",
