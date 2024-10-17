@@ -184,7 +184,7 @@
         "heading_mMCqAp": {
           "type": "heading",
           "settings": {
-            "heading": "Sprocket holes included",
+            "heading": "Scan all variants of 35 mm film",
             "heading_size": "h1"
           }
         },
@@ -307,7 +307,7 @@
         "heading_bek7Wm": {
           "type": "heading",
           "settings": {
-            "heading": "Full medium format support",
+            "heading": "Full 120 medium format support",
             "heading_size": "h1"
           }
         },
@@ -354,7 +354,7 @@
         "heading_CTHiqe": {
           "type": "heading",
           "settings": {
-            "heading": "Precision engineering",
+            "heading": "Made for speed and precision",
             "heading_size": "h1"
           }
         },
@@ -392,14 +392,14 @@
         "heading_fRt47y": {
           "type": "heading",
           "settings": {
-            "heading": "Top quality fit and finish",
+            "heading": "High quality finish",
             "heading_size": "h1"
           }
         },
         "text_fYq7Cm": {
           "type": "text",
           "settings": {
-            "text": "<p>Thoughtful design of parts and top quality manufacturing mean that when you pick up a toneCarrier, you immediately know you're dealing with a professional grade tool.</p>",
+            "text": "<p>The toneCarrier system features a distinctive grooved texture that is a consistent design motif across all parts. This intentional aesthetic choice gives the system a unique, industrial look that reflects its precision-engineered design. </p>",
             "text_style": "body"
           }
         }
@@ -430,7 +430,7 @@
         "heading_cPmNiQ": {
           "type": "heading",
           "settings": {
-            "heading": "Scan 110 film",
+            "heading": "Easy 110 film scanning",
             "heading_size": "h1"
           }
         },
