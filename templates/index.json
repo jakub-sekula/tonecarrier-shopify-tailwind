@@ -491,8 +491,8 @@
         "button_rtPdxy": {
           "type": "button",
           "settings": {
-            "button_label": "Get 3D print kits",
-            "button_link": "shopify://collections/digital-downloads",
+            "button_label": "Get 3D print files on Etsy",
+            "button_link": "https://tonephotographic.etsy.com",
             "button_style_secondary": false
           }
         }
@@ -1047,7 +1047,7 @@
         "text_8NLtGE": {
           "type": "text",
           "settings": {
-            "text": "<p>Over 200 customers have upgraded their DSLR scannig workflows with the toneCarrier.</p><p>All reviews from verified customers in our Etsy shop.</p>"
+            "text": "<p>Over 200 customers have already upgraded their DSLR scanning workflows with the toneCarrier.</p><p>All reviews from verified customers in our Etsy shop.</p>"
           }
         },
         "button_EQYMtq": {
@@ -1451,15 +1451,14 @@
       "settings": {
         "caption": "",
         "heading": "Frequently Asked Questions",
-        "heading_size": "h2",
-        "heading_alignment": "left",
+        "heading_size": "h1",
+        "heading_alignment": "center",
         "layout": "none",
-        "color_scheme": "scheme-4",
+        "color_scheme": "scheme-1",
         "container_color_scheme": "",
         "open_first_collapsible_row": true,
-        "image": "shopify://shop_images/DSCF2989-Edit.jpg",
-        "image_ratio": "large",
-        "desktop_layout": "image_second",
+        "image_ratio": "small",
+        "desktop_layout": "image_first",
         "padding_top": 36,
         "padding_bottom": 36
       }
