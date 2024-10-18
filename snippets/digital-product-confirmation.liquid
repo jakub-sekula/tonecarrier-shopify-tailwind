@@ -8,19 +8,19 @@
 }
 </style>
 
-<div id="confirmation-container" style="display:none" class='tw-w-full tw-flex tw-flex-col tw-gap-6 tw-mb-5 tw-bg-blue-50 tw-p-6'>
-  <label for='confirmation' class='tw-text-blue-800 tw-gap-6 tw-flex tw-flex-col'>
-    <p>
-      This is a <strong>digital product</strong>. You need
-       access to a 3D printer to print the parts yourself.
-    </p>
-    <p>By ordering you accept that <strong>no physical goods will be shipped</strong> and no refunds will be issued.</p>
+<div id="confirmation-container" style="display:none" class='digital-confirmation-box'>
+  <label for='confirmation' class=''>
+    <span class="digital-product-badge">{% render 'tc-lucide-icon'
+                , icon_name: "lucide-arrow-down-to-line" %} DIGITAL CONTENT ONLY</span>
+                <p>This is a digital download. You need access to a 3D printer, as well as additional tools andhardware to assebmle this product yourself.</p>
+                <p>By placing an order, you acknowledge that no physical goods will be shipped. Due to the nature of digital goods, all 3D print file <strong>sales are final, with no refunds.</strong></p>
+                <p>After purchasing, you will receive an email with all files and instructions.</p>
   </label>
   <input
     required
-    class='tw-px-3 tw-py-2 tw-shrink-0 tw-border tw-bg-white tw-w-full'
+    class=''
     id='confirmation'
-    placeholder="Type your initials here"
+    placeholder="Type your initials to acknowledge"
     type='text'
     maxlength=5
     name='properties[Confirmation]'

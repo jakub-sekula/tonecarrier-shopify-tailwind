@@ -154,7 +154,7 @@
         if (!val && !["Already in cart"].includes(submitButton.innerText)) {
           submitButton.disabled = true;
           const buttonText = submitButton.querySelector("span");
-          if (buttonText) buttonText.innerText = "Enter initials above to confirm";
+          if (buttonText) buttonText.innerText = "Add to cart";
         } else {
           submitButton.disabled = false;
           const buttonText = submitButton.querySelector("span");
