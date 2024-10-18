@@ -71,7 +71,6 @@
         }
       },
       "block_order": [
-        "judge_me_reviews_preview_badge_fUWpUK",
         "vendor",
         "title",
         "caption",
@@ -136,9 +135,9 @@
         "tile_FM3LRx": {
           "type": "Tile",
           "settings": {
-            "title": "Scratch proof",
-            "description": "<p>Only film contact is along the edge, far away from the image area. </p>",
-            "image": "shopify://shop_images/DSCF0764-Edit.jpg",
+            "title": "Super smooth belt drive",
+            "description": "<p>A unique film advance mechanism grabs negatives from both sides, ensuring smooth and gentle motion even when scanning short strips of 4 or more frames.</p>",
+            "image": "shopify://shop_images/Pulley_1.6.1.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -159,13 +158,13 @@
           "settings": {
             "title": "Large ergonomic knobs",
             "description": "<p>Easily advance and precisely adjust film position. </p>",
-            "image": "shopify://shop_images/DSCF0777.jpg",
+            "image": "shopify://shop_images/Knob_1.12.1.jpg",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
+            "width": 5,
             "start_column": 1,
             "start_row": 2,
             "fade_color": "",
@@ -186,8 +185,8 @@
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 8,
-            "start_column": 5,
+            "width": 7,
+            "start_column": 6,
             "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
@@ -222,6 +221,7 @@
           "settings": {
             "title": "Dual S-curve film path",
             "description": "<p>The film channel geometry uses tension to keep the film flat and straight</p>",
+            "image": "shopify://shop_images/DSCF0764-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -248,7 +248,7 @@
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
+            "width": 5,
             "start_column": 1,
             "start_row": 4,
             "fade_color": "",
@@ -269,8 +269,8 @@
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
-            "start_column": 5,
+            "width": 7,
+            "start_column": 6,
             "start_row": 4,
             "fade_color": "",
             "fade_height": 50,
@@ -284,14 +284,36 @@
           "settings": {
             "title": "Film safe by design",
             "description": "<p>Soft silicone rollers gently grab the film without scratching or scuffing it.</p>",
+            "image": "shopify://shop_images/Stills_1.7.1.jpg",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
-            "start_column": 9,
-            "start_row": 4,
+            "width": 7,
+            "start_column": 1,
+            "start_row": 5,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
+          }
+        },
+        "tile_4ip4Rx": {
+          "type": "Tile",
+          "settings": {
+            "title": "High quality fit and finish",
+            "description": "<p>Carefully engineered and meticulously constructed from premium materials and metal hardware.</p>",
+            "image": "shopify://shop_images/Hardware_1.29.1.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 5,
+            "start_column": 8,
+            "start_row": 5,
             "fade_color": "",
             "fade_height": 50,
             "text_color": "",
@@ -311,7 +333,8 @@
         "tile_9LgFNP",
         "tile_3Rdz4H",
         "tile_e6drQG",
-        "tile_wxG86T"
+        "tile_wxG86T",
+        "tile_4ip4Rx"
       ],
       "settings": {
         "background_blur": 3,
@@ -460,7 +483,7 @@
         "card_8Ln7Cq": {
           "type": "card",
           "settings": {
-            "product": "tonecarrier-35-mm-auto-spooling-tray",
+            "product": "tonecarrier-35-mm-self-spooling-tray",
             "title": "Catch Tray",
             "description": "",
             "badge": "",
@@ -480,7 +503,7 @@
         "card_KAVBFq": {
           "type": "card",
           "settings": {
-            "product": "tonecarrier-35-mm-chimney-light-hood",
+            "product": "tonecarrier-35-mm-chimney-kit",
             "title": "Chimney (Light Hood)",
             "description": "",
             "badge": "",
@@ -556,7 +579,7 @@
         "card_3hhmLR": {
           "type": "card",
           "settings": {
-            "product": "dust-brush-tonecarrier-35-mm",
+            "product": "tonecarrier-35-mm-dust-brush",
             "title": "Dust Brush",
             "description": "",
             "badge": "",

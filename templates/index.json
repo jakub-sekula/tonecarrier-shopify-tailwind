@@ -456,7 +456,7 @@
         "text_7Q6YfD": {
           "type": "text",
           "settings": {
-            "text": "<p>One the most popular film format of the 70s is a lot of fun to shoot - but scanning it at home used to be tricky. Not anymore with the toneCarrier Mini, a smaller film holder and accessory system designed to get the most out of those fun-sized negatives.</p>",
+            "text": "<p>One the most popular film format of the 70s is a lot of fun to shoot - but scanning it at home used to be tricky. Not anymore with the toneCarrier Mini, a smaller film holder and accessory system designed to get the most out of those tiny, unusual negatives.</p>",
             "text_style": "body"
           }
         },
@@ -475,7 +475,7 @@
         "button_DW6qhU"
       ],
       "settings": {
-        "image": "shopify://shop_images/DSCF3202-Edit.jpg",
+        "image": "shopify://shop_images/110_1.31.1.jpg",
         "height": "medium",
         "desktop_image_width": "medium",
         "layout": "image_first",
@@ -510,8 +510,8 @@
         "button_rtPdxy": {
           "type": "button",
           "settings": {
-            "button_label": "Get 3D print files",
-            "button_link": "shopify://collections/digital-downloads",
+            "button_label": "Get 3D print files on Etsy",
+            "button_link": "https://tonephotographic.etsy.com",
             "button_style_secondary": false
           }
         }

@@ -436,7 +436,7 @@
         "card_8Ln7Cq": {
           "type": "card",
           "settings": {
-            "product": "tonecarrier-35-mm-auto-spooling-tray",
+            "product": "tonecarrier-35-mm-self-spooling-tray",
             "title": "Catch Tray",
             "description": "",
             "badge": "",
@@ -496,7 +496,7 @@
         "card_UXYfEp": {
           "type": "card",
           "settings": {
-            "product": "tonecarrier-universal-light-adapter",
+            "product": "universal-light-adapter",
             "title": "Universal Adapter",
             "description": "",
             "badge": "",

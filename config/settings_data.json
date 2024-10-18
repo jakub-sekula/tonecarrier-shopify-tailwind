@@ -153,18 +153,6 @@
           "button_vertical_position": "lowest",
           "greeting_message": "Hi, welcome to Tone Photographic! How can we help?"
         }
-      },
-      "14060646107696862457": {
-        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": false,
-        "settings": {
-        }
-      },
-      "13768625480086291342": {
-        "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
-        "disabled": false,
-        "settings": {
-        }
       }
     },
     "color_schemes": {
@@ -192,7 +180,7 @@
       },
       "scheme-3": {
         "settings": {
-          "background": "#1d1e20",
+          "background": "#242833",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
