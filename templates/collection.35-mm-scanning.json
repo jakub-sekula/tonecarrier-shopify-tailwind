@@ -1,12 +1,12 @@
 /*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "bento_QFQBRB": {
@@ -18,9 +18,9 @@
             "title": "Film holder",
             "description": "<p>Optimized for scanning full rolls and cut strips of 35 mm film. Perfect starting point for camera scanning.</p>",
             "image": "shopify://shop_images/DSCF0553-Edit.jpg",
-            "link": "shopify://products/tonecarrier-35-mm-film-holder",
+            "link": "shopify://products/tonecarrier-35-mm",
             "link_label": "More details",
-            "product": "tonecarrier-35-mm-film-holder",
+            "product": "tonecarrier-35-mm",
             "extended_description": "",
             "height": 1,
             "width": 6,
@@ -39,9 +39,9 @@
             "title": "Full scanning kit",
             "description": "<p>A complete film holding solution for the most efficient and enjoyable scanning experience.</p>",
             "image": "shopify://shop_images/DSCF0483-Edit.png",
-            "link": "shopify://products/tonecarrier-35-mm-scanning-kit",
+            "link": "shopify://products/tonecarrier-35-mm-kit",
             "link_label": "More details",
-            "product": "tonecarrier-35-mm-scanning-kit",
+            "product": "tonecarrier-35-mm-kit",
             "extended_description": "",
             "height": 1,
             "width": 6,
@@ -265,7 +265,7 @@
             "title": "Full scanning kit (DIY)",
             "description": "<p>Also includes files for input and output trays, light hood, and light source adapters.</p>",
             "image": "shopify://shop_images/DSCF0483-Edit.png",
-            "link": "shopify://products/tonecarrier-35-mm-scanning-kit",
+            "link": "shopify://products/tonecarrier-35-mm-kit",
             "link_label": "More details",
             "product": "",
             "extended_description": "",

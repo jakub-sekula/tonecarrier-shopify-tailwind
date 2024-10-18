@@ -218,7 +218,7 @@
           "type": "button",
           "settings": {
             "button_label": "Shop 35 mm",
-            "button_link": "shopify://products/tonecarrier-35-mm-film-holder",
+            "button_link": "shopify://products/tonecarrier-35-mm",
             "button_style_secondary": false
           }
         }
@@ -341,7 +341,7 @@
           "type": "button",
           "settings": {
             "button_label": "Shop 120",
-            "button_link": "shopify://products/tonecarrier-120-film-holder-1",
+            "button_link": "shopify://products/tonecarrier-120",
             "button_style_secondary": false
           }
         }
