@@ -510,8 +510,8 @@
         "button_rtPdxy": {
           "type": "button",
           "settings": {
-            "button_label": "Get 3D print files on Etsy",
-            "button_link": "https://tonephotographic.etsy.com",
+            "button_label": "Get 3D print files",
+            "button_link": "shopify://collections/3d-print-files",
             "button_style_secondary": false
           }
         }

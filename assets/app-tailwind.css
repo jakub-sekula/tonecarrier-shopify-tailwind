@@ -2,9 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+.digital-product-badge {
+  font-size: 0.675em;
+  color: white;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0);
+  gap: 0.5rem;
+}
+
+.digital-product-badge svg {
+  height: 1.25rem;
+  width: fit-content;
+}
 
 :root {
   --swiper-navigation-color: black;
@@ -12,43 +32,39 @@
   --swiper-navigation-sides-offset: 2rem;
 }
 
-.tw-revert ol, .tw-revert ul, .tw-revert menu {
+.tw-revert ol,
+.tw-revert ul,
+.tw-revert menu {
   list-style: revert;
   margin: revert;
   padding: revert;
 }
 
-
 .click-zoom-container > img {
   max-width: 100%;
-  cursor: zoom-in
+  cursor: zoom-in;
 }
 
 .click-zoom-container > img.zoomed-in {
-  cursor: zoom-out
+  cursor: zoom-out;
 }
 
-
 .tc-fade-to-bottom {
-    -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  }
-
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+}
 
 .tc-fade-to-top {
-    -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
-    mask-image: linear-gradient(to top, black 0%, transparent 100%);
-  }
-
+  -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
+  mask-image: linear-gradient(to top, black 0%, transparent 100%);
+}
 
 .tc-fade-to-left {
-    -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
-    mask-image: linear-gradient(to left, black 0%, transparent 100%);
-  }
-
+  -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
+  mask-image: linear-gradient(to left, black 0%, transparent 100%);
+}
 
 .tc-fade-to-right {
-    -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
-    mask-image: linear-gradient(to right, black 0%, transparent 100%);
-  }
-
+  -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
+  mask-image: linear-gradient(to right, black 0%, transparent 100%);
+}

@@ -1,12 +1,12 @@
 /*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -96,24 +96,40 @@
             "title": "72 mm wide film window",
             "description": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)</p>",
             "image": "shopify://shop_images/Hero-props-1.png",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
             "width": 6,
             "start_column": 1,
-            "start_row": 1
+            "start_row": 1,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_FM3LRx": {
           "type": "Tile",
           "settings": {
-            "title": "Scratch proof",
-            "description": "<p>Only film contact is along the edge, far away from the image area. </p>",
-            "image": "shopify://shop_images/DSCF0764-Edit.jpg",
+            "title": "Super smooth belt drive",
+            "description": "<p>A unique film advance mechanism grabs negatives from both sides, ensuring smooth and gentle motion even when scanning short strips of 4 or more frames.</p>",
+            "image": "shopify://shop_images/Pulley_1.6.1.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
             "width": 6,
             "start_column": 7,
-            "start_row": 1
+            "start_row": 1,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_3GPDez": {
@@ -121,12 +137,20 @@
           "settings": {
             "title": "Large ergonomic knobs",
             "description": "<p>Easily advance and precisely adjust film position. </p>",
-            "image": "shopify://shop_images/DSCF0777.jpg",
+            "image": "shopify://shop_images/Knob_1.12.1.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
+            "width": 5,
             "start_column": 1,
-            "start_row": 2
+            "start_row": 2,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_mcaT8F": {
@@ -135,11 +159,19 @@
             "title": "Scan with sprocket holes",
             "description": "<p>Nearly the full image area is available to scan</p>",
             "image": "shopify://shop_images/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 8,
-            "start_column": 5,
-            "start_row": 2
+            "width": 7,
+            "start_column": 6,
+            "start_row": 2,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_gerTnQ": {
@@ -148,23 +180,40 @@
             "title": "Modular and extensible",
             "description": "<p>Full system of accessories that will make you actually enjoy scanning</p>",
             "image": "shopify://shop_images/Full_kit-1.png",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
             "width": 7,
             "start_column": 1,
-            "start_row": 3
+            "start_row": 3,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_9LgFNP": {
           "type": "Tile",
           "settings": {
-            "title": "Dual S-Curve design",
+            "title": "Dual S-curve film path",
             "description": "<p>The film channel geometry uses tension to keep the film flat and straight</p>",
+            "image": "shopify://shop_images/DSCF0764-Edit.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
             "width": 5,
             "start_column": 8,
-            "start_row": 3
+            "start_row": 3,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_3Rdz4H": {
@@ -173,11 +222,19 @@
             "title": "Interchangeable frame masks",
             "description": "<p>Block stray light for the best scan quality</p>",
             "image": "shopify://shop_images/DSCF0681-Edit_Large_dfaf5657-ba92-4dc7-a7e5-768faf15d307.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
+            "width": 5,
             "start_column": 1,
-            "start_row": 4
+            "start_row": 4,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_e6drQG": {
@@ -186,11 +243,19 @@
             "title": "Works with any light",
             "description": "<p>Place the toneCarrier over any light source - even your smartphone! Or use a dedicated scanning light e.g. CS-Lite.</p>",
             "image": "shopify://shop_images/CS-Lite-1.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
-            "start_column": 5,
-            "start_row": 4
+            "width": 7,
+            "start_column": 6,
+            "start_row": 4,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         },
         "tile_wxG86T": {
@@ -198,11 +263,41 @@
           "settings": {
             "title": "Film safe by design",
             "description": "<p>Soft silicone rollers gently grab the film without scratching or scuffing it.</p>",
+            "image": "shopify://shop_images/Stills_1.7.1.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
-            "start_column": 9,
-            "start_row": 4
+            "width": 7,
+            "start_column": 1,
+            "start_row": 5,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
+          }
+        },
+        "tile_4ip4Rx": {
+          "type": "Tile",
+          "settings": {
+            "title": "High quality fit and finish",
+            "description": "<p>Carefully engineered and meticulously constructed from premium materials and metal hardware.</p>",
+            "image": "shopify://shop_images/Hardware_1.29.1.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 5,
+            "start_column": 8,
+            "start_row": 5,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         }
       },
@@ -217,22 +312,25 @@
         "tile_9LgFNP",
         "tile_3Rdz4H",
         "tile_e6drQG",
-        "tile_wxG86T"
+        "tile_wxG86T",
+        "tile_4ip4Rx"
       ],
       "settings": {
-        "background_image": "shopify://shop_images/DSCF0312-2.jpg",
         "background_blur": 3,
         "background_opacity": 0.1,
         "content_alignment": "center",
         "columns": 12,
         "rows": 4,
         "row_height": 430,
-        "padding_top": 36,
-        "padding_bottom": 36,
+        "padding_top": 48,
+        "padding_bottom": 48,
         "color_scheme": "scheme-4",
         "heading_size": "h2",
-        "caption_size": 14,
-        "anchor": "bento"
+        "caption_size": 16,
+        "tile_radius": 0,
+        "anchor": "bento",
+        "full_width": false,
+        "spacing": 24
       }
     },
     "bento_eVw3LP": {
@@ -259,11 +357,19 @@
             "title": "Designed for filament printers",
             "description": "<p>Easy to print and robust parts, most require no supports. Uses simple, standard materials like PLA and PETG.</p>",
             "image": "shopify://shop_images/DSCF2613.png",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
             "width": 6,
             "start_column": 1,
-            "start_row": 1
+            "start_row": 1,
+            "fade_color": "#000000",
+            "fade_height": 40,
+            "text_color": "#ffffff",
+            "use_custom_text_color": true,
+            "use_custom_fade_color": true
           }
         },
         "tile_jiR7PW": {
@@ -272,11 +378,19 @@
             "title": "Works with small build plates",
             "description": "<p>The toneCarrier 35 mm can be printed even on small printers with a 180x180 mm build plate (A1 mini, Prusa Mini etc.)</p>",
             "image": "shopify://shop_images/Build_volume_256mm_180mm_26d17d37-95d7-4ed5-adc2-69b465524a1d.png",
+            "link": "",
+            "link_label": "",
+            "product": "",
             "extended_description": "",
             "height": 1,
             "width": 6,
             "start_column": 7,
-            "start_row": 1
+            "start_row": 1,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
           }
         }
       },
@@ -297,38 +411,11 @@
         "padding_bottom": 36,
         "color_scheme": "scheme-1",
         "heading_size": "h2",
-        "caption_size": 14,
-        "anchor": ""
-      }
-    },
-    "rich_text_NF9mNU": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_NnGqqb": {
-          "type": "heading",
-          "settings": {
-            "heading": "Printing information",
-            "heading_size": "h2"
-          }
-        }
-      },
-      "block_order": [
-        "heading_NnGqqb"
-      ],
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
-    },
-    "tc_print_settings_table_XdUVmk": {
-      "type": "tc-print-settings-table",
-      "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
+        "caption_size": 16,
+        "tile_radius": 0,
+        "anchor": "",
+        "full_width": false,
+        "spacing": 24
       }
     },
     "sample_scan_MgcCXN": {
@@ -420,7 +507,7 @@
       "settings": {
         "content_alignment": "center",
         "background_color": "",
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "color_scheme_dark": "",
         "padding_top": 36,
         "padding_bottom": 36,
@@ -492,39 +579,21 @@
             "image_secondary_offset_x_flip": false,
             "image_secondary_offset_y_flip": false
           }
-        },
-        "card_rM6fk7": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "title": "Bill of Materials",
-            "description": "PDF file",
-            "badge": "Digital file",
-            "badge_color": "",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
         }
       },
       "block_order": [
         "heading_pbcyCV",
         "card_TVhPiM",
         "card_rNwAgE",
-        "card_664fXq",
-        "card_rM6fk7"
+        "card_664fXq"
       ],
       "settings": {
         "content_alignment": "center",
         "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36,
-        "cards_per_row": 4
+        "cards_per_row": 4,
+        "border_radius": 0
       }
     },
     "tc_product_image_cards_eQzRBC": {
@@ -667,7 +736,8 @@
         "color_scheme": "scheme-4",
         "padding_top": 36,
         "padding_bottom": 36,
-        "cards_per_row": 3
+        "cards_per_row": 3,
+        "border_radius": 0
       }
     },
     "rich_text_EwEzzq": {
@@ -948,8 +1018,6 @@
     "main",
     "bento_bQfpWa",
     "bento_eVw3LP",
-    "rich_text_NF9mNU",
-    "tc_print_settings_table_XdUVmk",
     "sample_scan_MgcCXN",
     "tc_product_image_cards_y89fiL",
     "tc_product_image_cards_eQzRBC",

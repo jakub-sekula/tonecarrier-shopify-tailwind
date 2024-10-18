@@ -167,23 +167,38 @@
   </div>
   <div class="manual-step {% unless section.settings.full_width %} page-width{% endunless %} {% if settings.animations_reveal_on_scroll %}animate--fade-in{% endif %}">
     <div class="manual-step__image" {{ block.shopify_attributes }}>
-      <swiper-container
+      <div
+        id="swiper-{{section.id}}"
+        class="swiper swiper-{{section.id}}"
         loop="true"
         navigation="true"
         pagination="true"
         pagination-type="fraction">
+        <ul class="swiper-wrapper swiper-wrapper-{{section.id}}">
 
-        {% for block in section.blocks %}
-          {% if block.type == "image" %}
-            <swiper-slide class="click-zoom-container tw-overflow-hidden">
-              {% if block.settings.image != blank %}
-                {{ block.settings.image | image_url: width: 1000 | image_tag }}
-              {% else %}
-                {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
-            </swiper-slide>
-          {% endif %}
-        {% endfor %}
-      </swiper-container>
+          {% for block in section.blocks %}
+            {% if block.type == "image" %}
+              <a
+                data-pswp-width="3000"
+                data-pswp-height="2000"
+                href="{% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 3840 }}
+                {% else %}
+                  {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}"
+                target="_blank"
+                class="swiper-slide swiper-slide-{{ section.id }} swiper-slide-{{ block.id }} click-zoom-container tw-overflow-hidden">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 1000 | image_tag }}
+                {% else %}
+                  {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
+              </a>
+            {% endif %}
+          {% endfor %}
+          </ul>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-pagination"></div>
+      </div>
     </div>
     <div class="manual-step__content {% if settings.animations_reveal_on_scroll %}animate--fade-in{% endif %}">
       <ul>
@@ -213,6 +228,78 @@
   </div>
 
 </section>
+
+<script type="module">
+  import ObjectPosition from '{{ "photoswipe-object-position.js" | asset_url }}';
+  document.addEventListener("DOMContentLoaded", () => {
+  const swiperOptions = {
+    slidesPerView: 1,
+    spaceBetween: 128,
+    loop: true,
+    pagination: {
+        el: ".swiper-pagination",
+        type: "fraction",
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    keyboard: {
+      enabled: true,
+      onlyInViewport: true,
+      lazyPreloadPrevNext: 5,
+    },
+  };
+
+  const swiper = new Swiper("#swiper-{{section.id}}", swiperOptions);
+
+  const createPhotoSwipeLightbox = (gallerySelector, swiperInstance) => {
+    const photoSwipeOptions = {
+      gallery: gallerySelector,
+      pswpModule: PhotoSwipe,
+      children: 'a',
+      loop: true,
+      showHideAnimationType: 'fade',
+      mouseMovePan: true,
+      initialZoomLevel: 'fit',
+      secondaryZoomLevel: 1.5,
+      maxZoomLevel: 2,
+      wheelToZoom: true, 
+    };
+
+    const lightbox = new PhotoSwipeLightbox(photoSwipeOptions);
+    new ObjectPosition(lightbox);
+    lightbox.addFilter('useContentPlaceholder',
+                   (useContentPlaceholder, content) => { return false; });
+
+    lightbox.init();
+
+    lightbox.on('change', () => {
+      const { pswp } = lightbox;
+      swiperInstance.slideTo(pswp.currIndex, 0, false);
+      console.log('Slide index', pswp.currIndex);
+    });
+
+    lightbox.on('afterInit', () => {
+      if (swiperInstance.params.autoplay && swiperInstance.params.autoplay.enabled) {
+        swiperInstance.autoplay.stop();
+      }
+    });
+
+    lightbox.on('closingAnimationStart', () => {
+      const { pswp } = lightbox;
+      swiperInstance.slideTo(pswp.currIndex, 0, false);
+      if (swiperInstance.params.autoplay && swiperInstance.params.autoplay.enabled) {
+        swiperInstance.autoplay.start();
+      }
+    });
+
+    return lightbox;
+  };
+
+  const lightbox = createPhotoSwipeLightbox('#swiper-{{section.id}}', swiper);
+  });
+</script>
 
 {% schema %}
   {

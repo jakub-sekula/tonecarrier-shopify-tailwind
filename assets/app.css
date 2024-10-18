@@ -2743,13 +2743,38 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.digital-product-badge {
+  font-size: 0.675em;
+  color: white;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0);
+  gap: 0.5rem;
+}
+
+.digital-product-badge svg {
+  height: 1.25rem;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 :root {
   --swiper-navigation-color: black;
   --swiper-navigation-size: 3rem;
   --swiper-navigation-sides-offset: 2rem;
 }
 
-.tw-revert ol, .tw-revert ul, .tw-revert menu {
+.tw-revert ol,
+.tw-revert ul,
+.tw-revert menu {
   list-style: revert;
   margin: revert;
   padding: revert;
@@ -2757,11 +2782,11 @@ video {
 
 .click-zoom-container > img {
   max-width: 100%;
-  cursor: zoom-in
+  cursor: zoom-in;
 }
 
 .click-zoom-container > img.zoomed-in {
-  cursor: zoom-out
+  cursor: zoom-out;
 }
 
 .tc-fade-to-bottom {
@@ -2862,4 +2887,3 @@ video {
     opacity: 1;
   }
 }
-
