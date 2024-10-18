@@ -456,7 +456,7 @@
         "card_KAVBFq": {
           "type": "card",
           "settings": {
-            "product": "tonecarrier-35-mm-chimney-light-hood",
+            "product": "tonecarrier-35-mm-chimney-kit",
             "title": "Chimney (Light Hood)",
             "description": "",
             "badge": "",
@@ -476,7 +476,7 @@
         "card_c6jEVE": {
           "type": "card",
           "settings": {
-            "product": "cs-lite-adapter-plate",
+            "product": "tonecarrier-cs-lite-adapter",
             "title": "CS-Lite Adapter",
             "description": "",
             "badge": "",
@@ -496,7 +496,7 @@
         "card_UXYfEp": {
           "type": "card",
           "settings": {
-            "product": "universal-light-adapter",
+            "product": "tonecarrier-universal-light-adapter",
             "title": "Universal Adapter",
             "description": "",
             "badge": "",
@@ -532,7 +532,7 @@
         "card_3hhmLR": {
           "type": "card",
           "settings": {
-            "product": "dust-brush-tonecarrier-35-mm",
+            "product": "tonecarrier-35-mm-dust-brush",
             "title": "Dust Brush",
             "description": "",
             "badge": "",

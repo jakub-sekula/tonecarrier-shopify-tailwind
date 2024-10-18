@@ -454,7 +454,7 @@
         "card_8Ln7Cq": {
           "type": "card",
           "settings": {
-            "product": "tonecarrier-35-mm-auto-spooling-tray",
+            "product": "tonecarrier-35-mm-self-spooling-tray",
             "title": "Catch Tray",
             "description": "",
             "badge": "",
@@ -474,7 +474,7 @@
         "card_KAVBFq": {
           "type": "card",
           "settings": {
-            "product": "tonecarrier-35-mm-chimney-light-hood",
+            "product": "tonecarrier-35-mm-chimney-kit",
             "title": "Chimney (Light Hood)",
             "description": "",
             "badge": "",
@@ -494,7 +494,7 @@
         "card_c6jEVE": {
           "type": "card",
           "settings": {
-            "product": "cs-lite-adapter-plate",
+            "product": "tonecarrier-cs-lite-adapter",
             "title": "CS-Lite Adapter",
             "description": "",
             "badge": "",
