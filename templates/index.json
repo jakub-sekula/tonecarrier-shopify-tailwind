@@ -475,7 +475,7 @@
         "button_DW6qhU"
       ],
       "settings": {
-        "image": "shopify://shop_images/110_1.31.1.jpg",
+        "image": "shopify://shop_images/DSCF3202-Edit.jpg",
         "height": "medium",
         "desktop_image_width": "medium",
         "layout": "image_first",
@@ -600,11 +600,20 @@
             "text": "<p>Most orders are posted on the next working day and delivered within 5 to 7 days with fully tracked and insured Royal Mail services. </p>",
             "text_style": "body"
           }
+        },
+        "button_8Y4fei": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shipping details",
+            "button_link": "shopify://pages/shipping",
+            "button_style_secondary": true
+          }
         }
       },
       "block_order": [
         "heading_BkGWeW",
-        "text_43JUrH"
+        "text_43JUrH",
+        "button_8Y4fei"
       ],
       "settings": {
         "image": "shopify://shop_images/DSCF3167_92be6306-5c4a-4e8d-9650-9879649e222e.jpg",
