@@ -45,7 +45,7 @@
       <h3 class="tw-mr-auto">{{ product.title }}</h3>
       <p>{{ product.price | money }}</p>
       {% assign product_form_id = section.id %}
-      <product-form data-section-id="{{ section.id }}"></product-form>
+      <product-form data-section-id="{{ section.id }}">
                     {%- form 'product'
                       , product
                       , id: product_form_id
@@ -119,8 +119,6 @@
     });
   });
 </script>
-
-
 
 {% schema %}
   {
