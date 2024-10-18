@@ -1,11 +1,36 @@
 <style>
-  #confirmation-container strong {
-    font-weight: 600;
-  }
 
-  #confirmation-container {
-  max-width: 44rem;
+  .digital-confirmation-box {
+    font-size: 1.4rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  background-color: var(--tw-color-neutral-100);
+  border: 1px solid var(--tw-color-neutral-300);
+  padding: 2rem;
+  position: relative
 }
+
+.digital-confirmation-box label {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.digital-confirmation-box input {
+  width: 100%;
+  padding: 1rem
+}
+
+.digital-confirmation-box .digital-product-badge {
+  position: inherit;
+  align-self: flex-start;
+  font-size: 1.25rem;
+}
+}
+
 </style>
 
 <div id="confirmation-container" style="display:none" class='digital-confirmation-box'>

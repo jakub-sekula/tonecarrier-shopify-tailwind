@@ -60,7 +60,7 @@
       "settings": {
         "enable_sticky_info": true,
         "show_initials_field": true,
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
         "media_size": "medium",
         "constrain_to_viewport": false,
         "media_fit": "cover",
@@ -336,14 +336,6 @@
     "bento_eVw3LP": {
       "type": "bento",
       "blocks": {
-        "caption_TKHqhF": {
-          "type": "caption",
-          "settings": {
-            "caption": "Uncompromising design",
-            "text_style": "caption-with-letter-spacing",
-            "text_size": "medium"
-          }
-        },
         "heading_3TKYRc": {
           "type": "heading",
           "settings": {
@@ -395,7 +387,6 @@
         }
       },
       "block_order": [
-        "caption_TKHqhF",
         "heading_3TKYRc",
         "tile_6BYkpX",
         "tile_jiR7PW"
