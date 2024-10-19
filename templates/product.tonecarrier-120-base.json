@@ -107,9 +107,9 @@
         "tile_bXxXKL": {
           "type": "Tile",
           "settings": {
-            "title": "72 mm wide film window",
-            "description": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)</p>",
-            "image": "shopify://shop_images/Hero-props-1.png",
+            "title": "92 mm wide film window",
+            "description": "<p>Scan all popular medium format frame sizes from 645 to 6x9.</p>",
+            "image": "shopify://shop_images/DSCF0422-Edit_a717fe7a-105c-4a06-95c6-b89205bf5ef5.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -170,9 +170,9 @@
         "tile_mcaT8F": {
           "type": "Tile",
           "settings": {
-            "title": "Scan with sprocket holes",
-            "description": "<p>Nearly the full image area is available to scan</p>",
-            "image": "shopify://shop_images/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
+            "title": "Excelent film flatness",
+            "description": "<p>Thanks to the dual S-curve film path, the negatives are kept straight and flat with minimal film contact.</p>",
+            "image": "shopify://shop_images/DSCF0649-HDR-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -193,7 +193,7 @@
           "settings": {
             "title": "Modular and extensible",
             "description": "<p>Full system of accessories that will make you actually enjoy scanning</p>",
-            "image": "shopify://shop_images/Full_kit-1.png",
+            "image": "shopify://shop_images/DSCF0662-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -235,7 +235,7 @@
           "settings": {
             "title": "Interchangeable frame masks",
             "description": "<p>Block stray light for the best scan quality</p>",
-            "image": "shopify://shop_images/DSCF0681-Edit_Large_dfaf5657-ba92-4dc7-a7e5-768faf15d307.jpg",
+            "image": "shopify://shop_images/DSCF0680-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -256,7 +256,7 @@
           "settings": {
             "title": "Works with any light",
             "description": "<p>Place the toneCarrier over any light source - even your smartphone! Or use a dedicated scanning light e.g. CS-Lite.</p>",
-            "image": "shopify://shop_images/CS-Lite-1.jpg",
+            "image": "shopify://shop_images/DSCF3218-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -383,13 +383,69 @@
             "film_stock": "",
             "raw_download_url": ""
           }
+        },
+        "scan_image_adpCAF": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0273.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0273-2.jpg",
+            "camera": "",
+            "lens": "",
+            "light_source": "",
+            "converted_with": "",
+            "film_stock": "",
+            "raw_download_url": ""
+          }
+        },
+        "scan_image_a9C8RN": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF3111.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF3111-2.jpg",
+            "camera": "",
+            "lens": "",
+            "light_source": "",
+            "converted_with": "",
+            "film_stock": "",
+            "raw_download_url": ""
+          }
+        },
+        "scan_image_7RK3jm": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0272.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0272-2.jpg",
+            "camera": "",
+            "lens": "",
+            "light_source": "",
+            "converted_with": "",
+            "film_stock": "",
+            "raw_download_url": ""
+          }
+        },
+        "scan_image_HUt6Dc": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF3121.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF3121-2.jpg",
+            "camera": "",
+            "lens": "",
+            "light_source": "",
+            "converted_with": "",
+            "film_stock": "",
+            "raw_download_url": ""
+          }
         }
       },
       "block_order": [
         "caption_QbEeLW",
         "heading_qtaYNL",
         "text_yywqAL",
-        "scan_image_mhe6jY"
+        "scan_image_mhe6jY",
+        "scan_image_adpCAF",
+        "scan_image_a9C8RN",
+        "scan_image_7RK3jm",
+        "scan_image_HUt6Dc"
       ],
       "settings": {
         "content_alignment": "center",
