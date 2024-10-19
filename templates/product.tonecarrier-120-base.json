@@ -379,170 +379,6 @@
         "content_height": 700
       }
     },
-    "tc_product_image_cards_EAhQeJ": {
-      "type": "tc-product-image-cards",
-      "blocks": {
-        "heading_Mkyytr": {
-          "type": "heading",
-          "settings": {
-            "heading": "Optional accessories",
-            "heading_size": "h1"
-          }
-        },
-        "card_4PLAat": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-easyloader-tray",
-            "title": "Easyloader Tray",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary": "shopify://shop_images/1-isolated.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify://shop_images/1.jpg",
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_8Ln7Cq": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-self-spooling-tray",
-            "title": "Catch Tray",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary": "shopify://shop_images/Catch_tray-1-isolated.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": true,
-            "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify://shop_images/Catch_tray-1.png",
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_KAVBFq": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-chimney-kit",
-            "title": "Chimney (Light Hood)",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary": "shopify://shop_images/1-isolated_140969d8-85e8-4288-879a-8386f27d1e24.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify://shop_images/1.png",
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_c6jEVE": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-cs-lite-adapter",
-            "title": "CS-Lite Adapter",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary": "shopify://shop_images/CS-Lite-isolated-1.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary": "shopify://shop_images/CS-Lite-1.png",
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_UXYfEp": {
-          "type": "card",
-          "settings": {
-            "product": "universal-light-adapter",
-            "title": "Universal Adapter",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_4tXmyB": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-slide-adapter",
-            "title": "Slide Adapter",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_3hhmLR": {
-          "type": "card",
-          "settings": {
-            "product": "tonecarrier-35-mm-dust-brush",
-            "title": "Dust Brush",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_Mkyytr",
-        "card_4PLAat",
-        "card_8Ln7Cq",
-        "card_KAVBFq",
-        "card_c6jEVE",
-        "card_UXYfEp",
-        "card_4tXmyB",
-        "card_3hhmLR"
-      ],
-      "settings": {
-        "content_alignment": "center",
-        "color_scheme": "scheme-4",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "cards_per_row": 3,
-        "border_radius": 0
-      }
-    },
     "tc_product_image_cards_y89fiL": {
       "type": "tc-product-image-cards",
       "blocks": {
@@ -557,11 +393,11 @@
           "type": "card",
           "settings": {
             "product": "",
-            "title": "toneCarrier 35 mm",
+            "title": "toneCarrier 120",
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify://shop_images/Holder-35-isolated.png",
+            "image_primary": "shopify://shop_images/Holder-120-1-isolated_Large_238ea2bc-7590-4e39-ae22-af68a524aad3.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -805,7 +641,6 @@
     "main",
     "bento_bQfpWa",
     "sample_scan_MgcCXN",
-    "tc_product_image_cards_EAhQeJ",
     "tc_product_image_cards_y89fiL",
     "multicolumn_3pQacX",
     "collapsible_content_HLXaFc",
