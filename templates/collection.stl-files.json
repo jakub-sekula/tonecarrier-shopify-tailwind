@@ -1,20 +1,44 @@
 /*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "banner": {
       "type": "main-collection-banner",
+      "disabled": true,
       "settings": {
         "show_collection_description": true,
         "show_collection_image": false,
         "color_scheme": "scheme-1"
+      }
+    },
+    "rich_text_bM43UE": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_TUax9Y": {
+          "type": "heading",
+          "settings": {
+            "heading": "Get 3D print files",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_TUax9Y"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 0
       }
     },
     "product-grid": {
@@ -22,20 +46,155 @@
       "settings": {
         "products_per_page": 16,
         "columns_desktop": 4,
+        "color_scheme": "",
         "image_ratio": "adapt",
+        "image_shape": "default",
         "show_secondary_image": false,
         "show_vendor": false,
         "show_rating": false,
-        "enable_filtering": true,
-        "enable_sorting": true,
+        "quick_add": "none",
+        "enable_filtering": false,
+        "filter_type": "horizontal",
+        "enable_sorting": false,
         "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "image_with_text_bB4kgG": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_azKE9y": {
+          "type": "heading",
+          "settings": {
+            "heading": "High quality manuals included",
+            "heading_size": "h2"
+          }
+        },
+        "text_RiNWVP": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Detailed, illustrated printing and assembly instructions will make the process quick and easy even for 3D printing beginners.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_MnE3pA": {
+          "type": "button",
+          "settings": {
+            "button_label": "View sample",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_azKE9y",
+        "text_RiNWVP",
+        "button_MnE3pA"
+      ],
+      "settings": {
+        "height": "small",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_EwEzzq": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_XJETz3": {
+          "type": "heading",
+          "settings": {
+            "heading": "Additional hardware is required for DIY kits",
+            "heading_size": "h2"
+          }
+        },
+        "text_EArbff": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Avoid the hassle of bulk orders and buying from multiple vendors with our ready-made hardware kits, which include all necessary parts for a quick and easy assembly.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_XJETz3",
+        "text_EArbff"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "scheme-4",
+        "full_width": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_product_gLYCBp": {
+      "type": "featured-product",
+      "blocks": {
+        "title_YfBqQi": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h2"
+          }
+        },
+        "price_mG4bhN": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "variant_picker_W3AxTE": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "buy_buttons_fTmw6i": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        }
+      },
+      "block_order": [
+        "title_YfBqQi",
+        "price_mG4bhN",
+        "variant_picker_W3AxTE",
+        "buy_buttons_fTmw6i"
+      ],
+      "settings": {
+        "product": "tonecarrier-hardware-kit",
+        "color_scheme": "scheme-4",
+        "secondary_background": false,
+        "media_size": "small",
+        "constrain_to_viewport": true,
+        "media_fit": "cover",
+        "media_position": "right",
+        "image_zoom": "none",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "text_to_filter": "(for self-printed products)"
       }
     }
   },
   "order": [
     "banner",
-    "product-grid"
+    "rich_text_bM43UE",
+    "product-grid",
+    "image_with_text_bB4kgG",
+    "rich_text_EwEzzq",
+    "featured_product_gLYCBp"
   ]
 }

@@ -96,7 +96,7 @@
               {%- when 'title' -%}
                 <h2 class='product__title {{ block.settings.heading_size }}' {{ block.shopify_attributes }}>
                   {%- if product.title != blank -%}
-                    {{ product.title | escape }}
+                    {{ product.title | replace: section.settings.text_to_filter, '' | escape}}
                   {%- else -%}
                     {{ 'onboarding.product_title' | t }}
                   {%- endif -%}
@@ -1479,7 +1479,10 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
-    }
+    },
+    {"type": "text",
+  "id": "text_to_filter",
+"label": "Text to filter from title"}
   ],
   "presets": [
     {
