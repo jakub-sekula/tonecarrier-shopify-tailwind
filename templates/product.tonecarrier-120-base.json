@@ -349,55 +349,16 @@
             "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours. Click or tap on any image in the gallery below to zoom in and view the film grain.</p>"
           }
         },
-        "image_jiPpg4": {
+        "scan_image_mhe6jY": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0210.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0210-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "raw_download_url": ""
-          }
-        },
-        "image_TbQebX": {
-          "type": "scan_image",
-          "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0509.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0509-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "raw_download_url": ""
-          }
-        },
-        "image_Kx6XCj": {
-          "type": "scan_image",
-          "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0312.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0312-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Colorplus 200",
-            "raw_download_url": ""
-          }
-        },
-        "image_tm4y3y": {
-          "type": "scan_image",
-          "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0514.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0514-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Lomography Color Negative 800",
+            "sample_scan_positive": "shopify://shop_images/DSCF3116-2.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF3116.jpg",
+            "camera": "",
+            "lens": "",
+            "light_source": "",
+            "converted_with": "",
+            "film_stock": "",
             "raw_download_url": ""
           }
         }
@@ -406,10 +367,7 @@
         "caption_QbEeLW",
         "heading_qtaYNL",
         "text_yywqAL",
-        "image_jiPpg4",
-        "image_TbQebX",
-        "image_Kx6XCj",
-        "image_tm4y3y"
+        "scan_image_mhe6jY"
       ],
       "settings": {
         "content_alignment": "center",
