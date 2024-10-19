@@ -21,11 +21,9 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
+        "judge_me_reviews_preview_badge_Yk7PHA": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
           }
         },
         "title": {
@@ -66,7 +64,7 @@
         }
       },
       "block_order": [
-        "vendor",
+        "judge_me_reviews_preview_badge_Yk7PHA",
         "title",
         "caption",
         "price",
@@ -109,9 +107,9 @@
         "tile_bXxXKL": {
           "type": "Tile",
           "settings": {
-            "title": "92 mm wide film window",
-            "description": "<p>Scan all popular 120 frame formats from 645 all the way up to 6x9 - with frame masks to match each one.</p>",
-            "image": "shopify://shop_images/DSCF0432-Edit.jpg",
+            "title": "72 mm wide film window",
+            "description": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)</p>",
+            "image": "shopify://shop_images/Hero-props-1.png",
             "link": "",
             "link_label": "",
             "product": "",
@@ -130,9 +128,9 @@
         "tile_FM3LRx": {
           "type": "Tile",
           "settings": {
-            "title": "Scratch proof",
-            "description": "<p>Only film contact is along the edge, far away from the image area. </p>",
-            "image": "shopify://shop_images/DSCF0764-Edit.jpg",
+            "title": "Super smooth belt drive",
+            "description": "<p>A unique film advance mechanism grabs negatives from both sides, ensuring smooth and gentle motion even when scanning short strips of 4 or more frames.</p>",
+            "image": "shopify://shop_images/Pulley_1.6.1.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -153,13 +151,13 @@
           "settings": {
             "title": "Large ergonomic knobs",
             "description": "<p>Easily advance and precisely adjust film position. </p>",
-            "image": "shopify://shop_images/DSCF0777.jpg",
+            "image": "shopify://shop_images/Knob_1.12.1.jpg",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
+            "width": 5,
             "start_column": 1,
             "start_row": 2,
             "fade_color": "",
@@ -172,7 +170,7 @@
         "tile_mcaT8F": {
           "type": "Tile",
           "settings": {
-            "title": "????",
+            "title": "Scan with sprocket holes",
             "description": "<p>Nearly the full image area is available to scan</p>",
             "image": "shopify://shop_images/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
             "link": "",
@@ -180,8 +178,8 @@
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 8,
-            "start_column": 5,
+            "width": 7,
+            "start_column": 6,
             "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
@@ -216,6 +214,7 @@
           "settings": {
             "title": "Dual S-curve film path",
             "description": "<p>The film channel geometry uses tension to keep the film flat and straight</p>",
+            "image": "shopify://shop_images/DSCF0764-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -242,7 +241,7 @@
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
+            "width": 5,
             "start_column": 1,
             "start_row": 4,
             "fade_color": "",
@@ -263,8 +262,8 @@
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
-            "start_column": 5,
+            "width": 7,
+            "start_column": 6,
             "start_row": 4,
             "fade_color": "",
             "fade_height": 50,
@@ -278,14 +277,36 @@
           "settings": {
             "title": "Film safe by design",
             "description": "<p>Soft silicone rollers gently grab the film without scratching or scuffing it.</p>",
+            "image": "shopify://shop_images/Stills_1.7.1.jpg",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 4,
-            "start_column": 9,
-            "start_row": 4,
+            "width": 7,
+            "start_column": 1,
+            "start_row": 5,
+            "fade_color": "",
+            "fade_height": 50,
+            "text_color": "",
+            "use_custom_text_color": false,
+            "use_custom_fade_color": false
+          }
+        },
+        "tile_4ip4Rx": {
+          "type": "Tile",
+          "settings": {
+            "title": "High quality fit and finish",
+            "description": "<p>Carefully engineered and meticulously constructed from premium materials and metal hardware.</p>",
+            "image": "shopify://shop_images/Hardware_1.29.1.jpg",
+            "link": "",
+            "link_label": "",
+            "product": "",
+            "extended_description": "",
+            "height": 1,
+            "width": 5,
+            "start_column": 8,
+            "start_row": 5,
             "fade_color": "",
             "fade_height": 50,
             "text_color": "",
@@ -305,7 +326,8 @@
         "tile_9LgFNP",
         "tile_3Rdz4H",
         "tile_e6drQG",
-        "tile_wxG86T"
+        "tile_wxG86T",
+        "tile_4ip4Rx"
       ],
       "settings": {
         "background_blur": 3,
@@ -440,6 +462,50 @@
         "padding_bottom": 36,
         "cards_per_row": 4,
         "border_radius": 0
+      }
+    },
+    "featured_collection_YFFVb6": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Optional accessories",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "tonecarrier-120-accessories",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "enable_desktop_slider": true,
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "17293654332c84c855": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_xncFx3": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_xncFx3"
+      ],
+      "settings": {
+        "include_margins": true
       }
     },
     "multicolumn_3pQacX": {
@@ -618,13 +684,12 @@
     },
     "related-products": {
       "type": "related-products",
-      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "products_to_show": 6,
+        "columns_desktop": 6,
+        "color_scheme": "scheme-3",
         "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
@@ -642,6 +707,8 @@
     "bento_bQfpWa",
     "sample_scan_MgcCXN",
     "tc_product_image_cards_y89fiL",
+    "featured_collection_YFFVb6",
+    "17293654332c84c855",
     "multicolumn_3pQacX",
     "collapsible_content_HLXaFc",
     "related-products"

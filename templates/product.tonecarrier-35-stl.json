@@ -12,6 +12,11 @@
     "main": {
       "type": "digital-product",
       "blocks": {
+        "judge_me_reviews_preview_badge_ULBdp3": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+          }
+        },
         "title": {
           "type": "title",
           "settings": {
@@ -43,6 +48,7 @@
         }
       },
       "block_order": [
+        "judge_me_reviews_preview_badge_ULBdp3",
         "title",
         "caption",
         "price",
@@ -553,6 +559,7 @@
             "description": "PDF file",
             "badge": "Digital file",
             "badge_color": "",
+            "image_primary": "shopify://shop_images/Manual_mockup.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -586,13 +593,13 @@
           "type": "heading",
           "settings": {
             "heading": "Extra hardware required",
-            "heading_size": "h1"
+            "heading_size": "h2"
           }
         },
         "text_6YzLya": {
           "type": "text",
           "settings": {
-            "text": "<p>The toneCarrier is built with some off-the-shelf hardware for smooth and reliable performance.</p><p>You will need to source those extra items to assemble the holder.</p>"
+            "text": "<p>The toneCarrier is built with some off-the-shelf hardware for smooth and reliable performance. You will need to source those extra items to assemble the holder.</p>"
           }
         },
         "card_nphB4M": {
@@ -729,7 +736,7 @@
         "heading_XJETz3": {
           "type": "heading",
           "settings": {
-            "heading": "Does it seem like too much effort to source this all yourself?",
+            "heading": "Don't want to bulk buy parts?",
             "heading_size": "h2"
           }
         },
@@ -745,8 +752,8 @@
         "text_EArbff"
       ],
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
+        "desktop_content_position": "left",
+        "content_alignment": "left",
         "color_scheme": "scheme-4",
         "full_width": true,
         "padding_top": 36,
@@ -800,7 +807,24 @@
         "hide_variants": true,
         "enable_video_looping": false,
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "text_to_filter": ""
+      }
+    },
+    "17293656077cc2b668": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_3zF9kr": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_3zF9kr"
+      ],
+      "settings": {
+        "include_margins": true
       }
     },
     "multicolumn_3pQacX": {
@@ -1006,6 +1030,7 @@
     "tc_product_image_cards_eQzRBC",
     "rich_text_EwEzzq",
     "featured_product_gLYCBp",
+    "17293656077cc2b668",
     "multicolumn_3pQacX",
     "collapsible_content_HLXaFc",
     "related-products"
