@@ -82,7 +82,7 @@
           "type": "button",
           "settings": {
             "button_label": "View sample",
-            "button_link": "",
+            "button_link": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/toneCarrier_manual_sample.pdf?v=1729363691",
             "button_style_secondary": false
           }
         }
@@ -93,14 +93,15 @@
         "button_MnE3pA"
       ],
       "settings": {
-        "height": "small",
+        "image": "shopify://shop_images/Manual_mockup.jpg",
+        "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "text_first",
         "desktop_content_position": "top",
         "desktop_content_alignment": "left",
         "content_layout": "overlap",
-        "section_color_scheme": "scheme-2",
-        "color_scheme": "scheme-1",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-4",
         "image_behavior": "none",
         "mobile_content_alignment": "center",
         "padding_top": 36,
