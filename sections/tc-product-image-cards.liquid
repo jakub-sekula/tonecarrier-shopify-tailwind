@@ -50,6 +50,9 @@
     padding: 3rem;
     text-align: center
   }
+   .swiper-button-next, .swiper-button-prev {
+    z-index: 999
+  }
 
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
@@ -64,6 +67,16 @@
     .card-image-container-{{ section.id }} {
       aspect-ratio: 1;
     }
+
+
+  .swiper-wrapper-{{ section.id }} {
+    justify-content: center
+  }
+
+  .swiper-button-next, .swiper-button-prev {
+    display: none!important
+  }
+
 
   }
 {%- endstyle -%}
@@ -142,7 +155,7 @@
     </div>
   </div>
 
-  <div class="page-width !tw-pr-24 md:!tw-pr-0 tw-relative">
+  <div class="page-width tw-relative">
     <div id="right-mask-{{section.id}}" class="tw-absolute md:tw-hidden tw-top-0 tw-right-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }} tc-fade-to-left"></div>
   <div id="left-mask-{{section.id}}" class="tw-absolute md:tw-hidden hidden tw-top-0 tw-left-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }} tc-fade-to-right"></div>
     <div
@@ -150,7 +163,6 @@
       init="false"
       class="swiper swiper-{{ section.id }} tw-w-full md:tw-h-full">
       <ul class="swiper-wrapper swiper-wrapper-{{ section.id }}">
-
         {% for block in section.blocks %}
           {% if block.type == 'card' %}
             <li class="swiper-slide swiper-slide-{{block-id}} swiper-slide-{{ section.id }}">
@@ -257,6 +269,8 @@
           {% endif %}
         {% endfor %}
       </ul>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
     </div>
   </div>
 </section>
@@ -268,10 +282,14 @@
     const swiper = new Swiper(".swiper-{{section.id}}", {
       slidesPerView: 1,
       spaceBetween: 16,
-      observer: true,
+      // observer: true,
       keyboard: {
         enabled: true,
       },
+      navigation: {
+      nextEl: "#next-slidee",
+      prevEl: "#prev-slidee",
+    },
       lazy: {
         loadPrevNext: true, // Lazy load nearby slides
         loadPrevNextAmount: 5,
@@ -382,7 +400,7 @@
         "step": 1,
         "unit": "px",
         "label": "Tile border radius"
-      },
+      }
     ],
     "blocks": [
       {
