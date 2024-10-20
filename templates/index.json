@@ -29,7 +29,7 @@
           "type": "button",
           "settings": {
             "button_label": "Shop film carriers",
-            "button_link": "shopify://collections/all",
+            "button_link": "shopify://collections/all-film-holders",
             "button_style_secondary": false,
             "button_label_2": "",
             "button_link_2": "",
