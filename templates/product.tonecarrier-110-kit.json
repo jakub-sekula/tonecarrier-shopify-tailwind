@@ -109,17 +109,17 @@
         "tile_bXxXKL": {
           "type": "Tile",
           "settings": {
-            "title": "72 mm wide film window",
-            "description": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)</p>",
-            "image": "shopify://shop_images/Hero-props-1.png",
+            "title": "Deeply recessed film window",
+            "description": "<p>Reduce glare and stray light thanks to the 4 cm (1.6 inch) recess</p>",
+            "image": "shopify://shop_images/DSCF3202-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 6,
-            "start_column": 1,
-            "start_row": 1,
+            "width": 7,
+            "start_column": 6,
+            "start_row": 2,
             "fade_color": "",
             "fade_height": 50,
             "text_color": "",
@@ -151,7 +151,7 @@
         "tile_3GPDez": {
           "type": "Tile",
           "settings": {
-            "title": "Large ergonomic knobs",
+            "title": "Large ergonomic dial",
             "description": "<p>Easily advance and precisely adjust film position. </p>",
             "image": "shopify://shop_images/Knob_1.12.1.jpg",
             "link": "",
@@ -172,17 +172,17 @@
         "tile_mcaT8F": {
           "type": "Tile",
           "settings": {
-            "title": "Scan with sprocket holes",
-            "description": "<p>Nearly the full image area is available to scan</p>",
-            "image": "shopify://shop_images/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
+            "title": "Full film border visibility",
+            "description": "<p>Scan with border text for archival or aesthetic reasons - the full negative area is exposed.</p>",
+            "image": "shopify://shop_images/DSCF3202-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 7,
-            "start_column": 6,
-            "start_row": 2,
+            "width": 6,
+            "start_column": 1,
+            "start_row": 1,
             "fade_color": "",
             "fade_height": 50,
             "text_color": "",
@@ -193,9 +193,9 @@
         "tile_gerTnQ": {
           "type": "Tile",
           "settings": {
-            "title": "Modular and extensible",
-            "description": "<p>Full system of accessories that will make you actually enjoy scanning</p>",
-            "image": "shopify://shop_images/Full_kit-1.png",
+            "title": "Works with any light",
+            "description": "<p>Place the toneCarrier over any light source - even your smartphone! Or use a dedicated scanning light e.g. CS-Lite.</p>",
+            "image": "shopify://shop_images/DSCF3218-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -214,9 +214,9 @@
         "tile_9LgFNP": {
           "type": "Tile",
           "settings": {
-            "title": "Dual S-curve film path",
-            "description": "<p>The film channel geometry uses tension to keep the film flat and straight</p>",
-            "image": "shopify://shop_images/DSCF0764-Edit.jpg",
+            "title": "Easy film loading",
+            "description": "<p>The film entrance features smooth lead-in chamfers that make film insertion effortless.</p>",
+            "image": "shopify://shop_images/DSCF3196-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -225,48 +225,6 @@
             "width": 5,
             "start_column": 8,
             "start_row": 3,
-            "fade_color": "",
-            "fade_height": 50,
-            "text_color": "",
-            "use_custom_text_color": false,
-            "use_custom_fade_color": false
-          }
-        },
-        "tile_3Rdz4H": {
-          "type": "Tile",
-          "settings": {
-            "title": "Interchangeable frame masks",
-            "description": "<p>Block stray light for the best scan quality</p>",
-            "image": "shopify://shop_images/DSCF0681-Edit_Large_dfaf5657-ba92-4dc7-a7e5-768faf15d307.jpg",
-            "link": "",
-            "link_label": "",
-            "product": "",
-            "extended_description": "",
-            "height": 1,
-            "width": 7,
-            "start_column": 1,
-            "start_row": 4,
-            "fade_color": "",
-            "fade_height": 50,
-            "text_color": "",
-            "use_custom_text_color": false,
-            "use_custom_fade_color": false
-          }
-        },
-        "tile_e6drQG": {
-          "type": "Tile",
-          "settings": {
-            "title": "Works with any light",
-            "description": "<p>Place the toneCarrier over any light source - even your smartphone! Or use a dedicated scanning light e.g. CS-Lite.</p>",
-            "image": "shopify://shop_images/CS-Lite-1.jpg",
-            "link": "",
-            "link_label": "",
-            "product": "",
-            "extended_description": "",
-            "height": 1,
-            "width": 5,
-            "start_column": 8,
-            "start_row": 4,
             "fade_color": "",
             "fade_height": 50,
             "text_color": "",
@@ -287,7 +245,7 @@
             "height": 1,
             "width": 5,
             "start_column": 1,
-            "start_row": 5,
+            "start_row": 4,
             "fade_color": "",
             "fade_height": 50,
             "text_color": "",
@@ -308,7 +266,7 @@
             "height": 1,
             "width": 7,
             "start_column": 6,
-            "start_row": 5,
+            "start_row": 4,
             "fade_color": "",
             "fade_height": 50,
             "text_color": "",
@@ -326,8 +284,6 @@
         "tile_mcaT8F",
         "tile_gerTnQ",
         "tile_9LgFNP",
-        "tile_3Rdz4H",
-        "tile_e6drQG",
         "tile_wxG86T",
         "tile_4ip4Rx"
       ],
@@ -370,82 +326,6 @@
         "full_width": true,
         "padding_top": 40,
         "padding_bottom": 52
-      }
-    },
-    "image_with_text_9KBEhE": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_wmdqgn": {
-          "type": "heading",
-          "settings": {
-            "heading": "Easyloader tray",
-            "heading_size": "h2"
-          }
-        },
-        "text_MnHyUV": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Protect your film from dust and scratches by feeding it through our easyloader tray. It gently guides the negative into the carrier while keeping it safe and tidy.</p>",
-            "text_style": "body"
-          }
-        }
-      },
-      "block_order": [
-        "heading_wmdqgn",
-        "text_MnHyUV"
-      ],
-      "settings": {
-        "image": "shopify://shop_images/35_mm_Easyloader-1-2.jpg",
-        "height": "small",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "desktop_content_position": "top",
-        "desktop_content_alignment": "left",
-        "content_layout": "no-overlap",
-        "section_color_scheme": "",
-        "color_scheme": "",
-        "image_behavior": "none",
-        "mobile_content_alignment": "left",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "image_with_text_Mh4T97": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_cNnPYn": {
-          "type": "heading",
-          "settings": {
-            "heading": "Self-spooling tray",
-            "heading_size": "h2"
-          }
-        },
-        "text_YjBMUr": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Keep your scanning station tidy with the automatic rewinding feature. A hinged lid protects the rolled up negative until you're ready to remove it - simply lift the magnetic hinge.</p>",
-            "text_style": "body"
-          }
-        }
-      },
-      "block_order": [
-        "heading_cNnPYn",
-        "text_YjBMUr"
-      ],
-      "settings": {
-        "image": "shopify://shop_images/Catchtray-1.jpg",
-        "height": "small",
-        "desktop_image_width": "medium",
-        "layout": "text_first",
-        "desktop_content_position": "top",
-        "desktop_content_alignment": "left",
-        "content_layout": "no-overlap",
-        "section_color_scheme": "",
-        "color_scheme": "",
-        "image_behavior": "none",
-        "mobile_content_alignment": "left",
-        "padding_top": 36,
-        "padding_bottom": 36
       }
     },
     "image_with_text_8cbpEt": {
@@ -493,7 +373,7 @@
           "type": "heading",
           "settings": {
             "heading": "CS-Lite Adapter",
-            "heading_size": "h1"
+            "heading_size": "h2"
           }
         },
         "text_hFetfM": {
@@ -548,63 +428,55 @@
             "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours. Click or tap on any image in the gallery below to zoom in and view the film grain.</p>"
           }
         },
-        "image_jiPpg4": {
+        "scan_image_YdLGV3": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0210.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0210-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "shot_on": "",
-            "film_format": "",
+            "sample_scan_positive": "shopify://shop_images/DSCF2935.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF2935-2.jpg",
+            "camera": "",
+            "lens": "",
+            "light_source": "",
+            "converted_with": "",
+            "film_stock": "",
             "raw_download_url": ""
           }
         },
-        "image_TbQebX": {
+        "scan_image_jJhCzK": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0509.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0509-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "shot_on": "",
-            "film_format": "",
+            "sample_scan_positive": "shopify://shop_images/DSCF2953.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF2953-2.jpg",
+            "camera": "",
+            "lens": "",
+            "light_source": "",
+            "converted_with": "",
+            "film_stock": "",
             "raw_download_url": ""
           }
         },
-        "image_Kx6XCj": {
+        "scan_image_W4VPyd": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0312.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0312-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Colorplus 200",
-            "shot_on": "",
-            "film_format": "",
+            "sample_scan_positive": "shopify://shop_images/DSCF2947.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF2947-2.jpg",
+            "camera": "",
+            "lens": "",
+            "light_source": "",
+            "converted_with": "",
+            "film_stock": "",
             "raw_download_url": ""
           }
         },
-        "image_tm4y3y": {
+        "scan_image_LmVCrz": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0514.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0514-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Lomography Color Negative 800",
-            "shot_on": "",
-            "film_format": "",
+            "sample_scan_positive": "shopify://shop_images/DSCF2949.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF2949-2.jpg",
+            "camera": "",
+            "lens": "",
+            "light_source": "",
+            "converted_with": "",
+            "film_stock": "",
             "raw_download_url": ""
           }
         }
@@ -613,10 +485,10 @@
         "caption_QbEeLW",
         "heading_qtaYNL",
         "text_yywqAL",
-        "image_jiPpg4",
-        "image_TbQebX",
-        "image_Kx6XCj",
-        "image_tm4y3y"
+        "scan_image_YdLGV3",
+        "scan_image_jJhCzK",
+        "scan_image_W4VPyd",
+        "scan_image_LmVCrz"
       ],
       "settings": {
         "content_alignment": "center",
@@ -647,63 +519,6 @@
             "badge": "",
             "badge_color": "",
             "image_primary": "shopify://shop_images/Holder-35-isolated.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_rNwAgE": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "title": "Frame mask kit",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary": "shopify://shop_images/1-isolated_449259aa-cf9f-455b-8664-2cd040c9e1ef.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_9UUMM3": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "title": "Easyloader tray",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary": "shopify://shop_images/1-isolated_acc4c041-6899-4a05-aac1-abfdc678d84d.png",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_pX3AaJ": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "title": "Self-spooling tray",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
-            "image_primary": "shopify://shop_images/Catchtray-1.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -756,9 +571,6 @@
       "block_order": [
         "heading_pbcyCV",
         "card_TVhPiM",
-        "card_rNwAgE",
-        "card_9UUMM3",
-        "card_pX3AaJ",
         "card_X7fXxW",
         "card_4Ej7Q4"
       ],
@@ -971,8 +783,6 @@
     "main",
     "bento_bQfpWa",
     "rich_text_pxnAbA",
-    "image_with_text_9KBEhE",
-    "image_with_text_Mh4T97",
     "image_with_text_8cbpEt",
     "image_with_text_63gQNY",
     "sample_scan_MgcCXN",
