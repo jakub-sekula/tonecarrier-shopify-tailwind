@@ -12,6 +12,11 @@
     "main": {
       "type": "digital-product",
       "blocks": {
+        "judge_me_reviews_preview_badge_bmMViD": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+          }
+        },
         "title": {
           "type": "title",
           "settings": {
@@ -43,6 +48,7 @@
         }
       },
       "block_order": [
+        "judge_me_reviews_preview_badge_bmMViD",
         "title",
         "caption",
         "price",
@@ -85,9 +91,9 @@
         "tile_bXxXKL": {
           "type": "Tile",
           "settings": {
-            "title": "72 mm wide film window",
-            "description": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)</p>",
-            "image": "shopify://shop_images/Hero-props-1.png",
+            "title": "92 mm wide film window",
+            "description": "<p>Scan all popular medium format frame sizes from 645 to 6x9.</p>",
+            "image": "shopify://shop_images/DSCF0422-Edit_a717fe7a-105c-4a06-95c6-b89205bf5ef5.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -148,9 +154,9 @@
         "tile_mcaT8F": {
           "type": "Tile",
           "settings": {
-            "title": "Scan with sprocket holes",
-            "description": "<p>Nearly the full image area is available to scan</p>",
-            "image": "shopify://shop_images/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
+            "title": "Excelent film flatness",
+            "description": "<p>Thanks to the dual S-curve film path, the negatives are kept straight and flat with minimal film contact.</p>",
+            "image": "shopify://shop_images/DSCF0649-HDR-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -171,7 +177,7 @@
           "settings": {
             "title": "Modular and extensible",
             "description": "<p>Full system of accessories that will make you actually enjoy scanning</p>",
-            "image": "shopify://shop_images/Full_kit-1.png",
+            "image": "shopify://shop_images/DSCF0662-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -213,7 +219,7 @@
           "settings": {
             "title": "Interchangeable frame masks",
             "description": "<p>Block stray light for the best scan quality</p>",
-            "image": "shopify://shop_images/DSCF0681-Edit_Large_dfaf5657-ba92-4dc7-a7e5-768faf15d307.jpg",
+            "image": "shopify://shop_images/DSCF0680-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -234,7 +240,7 @@
           "settings": {
             "title": "Works with any light",
             "description": "<p>Place the toneCarrier over any light source - even your smartphone! Or use a dedicated scanning light e.g. CS-Lite.</p>",
-            "image": "shopify://shop_images/CS-Lite-1.jpg",
+            "image": "shopify://shop_images/DSCF3218-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -255,7 +261,7 @@
           "settings": {
             "title": "Film safe by design",
             "description": "<p>Soft silicone rollers gently grab the film without scratching or scuffing it.</p>",
-            "image": "shopify://shop_images/Stills_1.7.1.jpg",
+            "image": "shopify://shop_images/Stills_1.7.1_f4abf547-74fb-4d38-87e8-e0e0d6a30f5a.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -435,6 +441,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Gold 200",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         },
@@ -448,6 +456,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Gold 200",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         },
@@ -461,6 +471,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Colorplus 200",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         },
@@ -474,6 +486,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Lomography Color Negative 800",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         }
@@ -800,7 +814,24 @@
         "hide_variants": true,
         "enable_video_looping": false,
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 36,
+        "text_to_filter": ""
+      }
+    },
+    "1729441812d390a722": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_FmGzpN": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_FmGzpN"
+      ],
+      "settings": {
+        "include_margins": true
       }
     },
     "multicolumn_3pQacX": {
@@ -979,13 +1010,12 @@
     },
     "related-products": {
       "type": "related-products",
-      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "products_to_show": 6,
+        "columns_desktop": 6,
+        "color_scheme": "scheme-3",
         "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
@@ -1006,6 +1036,7 @@
     "tc_product_image_cards_eQzRBC",
     "rich_text_EwEzzq",
     "featured_product_gLYCBp",
+    "1729441812d390a722",
     "multicolumn_3pQacX",
     "collapsible_content_HLXaFc",
     "related-products"

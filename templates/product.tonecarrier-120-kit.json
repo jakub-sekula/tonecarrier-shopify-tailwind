@@ -21,11 +21,9 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
+        "judge_me_reviews_preview_badge_gfayPh": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
           }
         },
         "title": {
@@ -66,7 +64,7 @@
         }
       },
       "block_order": [
-        "vendor",
+        "judge_me_reviews_preview_badge_gfayPh",
         "title",
         "caption",
         "price",
@@ -109,9 +107,9 @@
         "tile_bXxXKL": {
           "type": "Tile",
           "settings": {
-            "title": "72 mm wide film window",
-            "description": "<p>Scan all popular frame formats from half frame to panoramic (X-Pan, Lomography Sprocket Rocket etc.)</p>",
-            "image": "shopify://shop_images/Hero-props-1.png",
+            "title": "92 mm wide film window",
+            "description": "<p>Scan all popular medium format frame sizes from 645 to 6x9.</p>",
+            "image": "shopify://shop_images/DSCF0422-Edit_a717fe7a-105c-4a06-95c6-b89205bf5ef5.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -172,9 +170,9 @@
         "tile_mcaT8F": {
           "type": "Tile",
           "settings": {
-            "title": "Scan with sprocket holes",
-            "description": "<p>Nearly the full image area is available to scan</p>",
-            "image": "shopify://shop_images/DSCF0613-Edit_Large_a4fd0a81-258e-4c67-89e5-8ea37164eeee.jpg",
+            "title": "Excelent film flatness",
+            "description": "<p>Thanks to the dual S-curve film path, the negatives are kept straight and flat with minimal film contact.</p>",
+            "image": "shopify://shop_images/DSCF0649-HDR-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -195,7 +193,7 @@
           "settings": {
             "title": "Modular and extensible",
             "description": "<p>Full system of accessories that will make you actually enjoy scanning</p>",
-            "image": "shopify://shop_images/Full_kit-1.png",
+            "image": "shopify://shop_images/DSCF0662-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -237,13 +235,13 @@
           "settings": {
             "title": "Interchangeable frame masks",
             "description": "<p>Block stray light for the best scan quality</p>",
-            "image": "shopify://shop_images/DSCF0681-Edit_Large_dfaf5657-ba92-4dc7-a7e5-768faf15d307.jpg",
+            "image": "shopify://shop_images/DSCF0680-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 7,
+            "width": 5,
             "start_column": 1,
             "start_row": 4,
             "fade_color": "",
@@ -258,14 +256,14 @@
           "settings": {
             "title": "Works with any light",
             "description": "<p>Place the toneCarrier over any light source - even your smartphone! Or use a dedicated scanning light e.g. CS-Lite.</p>",
-            "image": "shopify://shop_images/CS-Lite-1.jpg",
+            "image": "shopify://shop_images/DSCF3218-Edit.jpg",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 5,
-            "start_column": 8,
+            "width": 7,
+            "start_column": 6,
             "start_row": 4,
             "fade_color": "",
             "fade_height": 50,
@@ -279,13 +277,13 @@
           "settings": {
             "title": "Film safe by design",
             "description": "<p>Soft silicone rollers gently grab the film without scratching or scuffing it.</p>",
-            "image": "shopify://shop_images/Stills_1.7.1.jpg",
+            "image": "shopify://shop_images/Stills_1.7.1_f4abf547-74fb-4d38-87e8-e0e0d6a30f5a.jpg",
             "link": "",
             "link_label": "",
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 5,
+            "width": 7,
             "start_column": 1,
             "start_row": 5,
             "fade_color": "",
@@ -306,8 +304,8 @@
             "product": "",
             "extended_description": "",
             "height": 1,
-            "width": 7,
-            "start_column": 6,
+            "width": 5,
+            "start_column": 8,
             "start_row": 5,
             "fade_color": "",
             "fade_height": 50,
@@ -548,55 +546,78 @@
             "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours. Click or tap on any image in the gallery below to zoom in and view the film grain.</p>"
           }
         },
-        "image_jiPpg4": {
+        "scan_image_mhe6jY": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0210.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0210-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF3116-2.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF3116.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
             "raw_download_url": ""
           }
         },
-        "image_TbQebX": {
+        "scan_image_adpCAF": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0509.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0509-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF0273.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0273-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
             "raw_download_url": ""
           }
         },
-        "image_Kx6XCj": {
+        "scan_image_a9C8RN": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0312.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0312-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF3111.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF3111-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Colorplus 200",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
             "raw_download_url": ""
           }
         },
-        "image_tm4y3y": {
+        "scan_image_7RK3jm": {
           "type": "scan_image",
           "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0514.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0514-2.jpg",
+            "sample_scan_positive": "shopify://shop_images/DSCF0272.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0272-2.jpg",
             "camera": "Fujifilm X-T5",
             "lens": "Helios 44-2",
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Lomography Color Negative 800",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
+            "raw_download_url": ""
+          }
+        },
+        "scan_image_HUt6Dc": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF3121.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF3121-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
             "raw_download_url": ""
           }
         }
@@ -605,10 +626,11 @@
         "caption_QbEeLW",
         "heading_qtaYNL",
         "text_yywqAL",
-        "image_jiPpg4",
-        "image_TbQebX",
-        "image_Kx6XCj",
-        "image_tm4y3y"
+        "scan_image_mhe6jY",
+        "scan_image_adpCAF",
+        "scan_image_a9C8RN",
+        "scan_image_7RK3jm",
+        "scan_image_HUt6Dc"
       ],
       "settings": {
         "content_alignment": "center",
@@ -634,11 +656,11 @@
           "type": "card",
           "settings": {
             "product": "",
-            "title": "toneCarrier 35 mm",
+            "title": "toneCarrier 120",
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify://shop_images/Holder-35-isolated.png",
+            "image_primary": "shopify://shop_images/Holder-120-1-isolated_Large_238ea2bc-7590-4e39-ae22-af68a524aad3.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -657,7 +679,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify://shop_images/1-isolated_449259aa-cf9f-455b-8664-2cd040c9e1ef.png",
+            "image_primary": "shopify://shop_images/DSCF0383-Edit.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -676,7 +698,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify://shop_images/1-isolated_acc4c041-6899-4a05-aac1-abfdc678d84d.png",
+            "image_primary": "shopify://shop_images/DSCF3156.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -695,7 +717,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify://shop_images/Catchtray-1.jpg",
+            "image_primary": "shopify://shop_images/DSCF3152.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -714,6 +736,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
+            "image_primary": "shopify://shop_images/DSCF0738-Edit.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -732,7 +755,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify://shop_images/DSCF0387.jpg",
+            "image_primary": "shopify://shop_images/Square-4.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -759,7 +782,24 @@
         "padding_top": 36,
         "padding_bottom": 36,
         "cards_per_row": 4,
-        "border_radius": 0
+        "border_radius": 0,
+        "center_slides": false
+      }
+    },
+    "1729441692d35ae9b1": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_GPdLCC": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_GPdLCC"
+      ],
+      "settings": {
+        "include_margins": true
       }
     },
     "multicolumn_3pQacX": {
@@ -938,13 +978,12 @@
     },
     "related-products": {
       "type": "related-products",
-      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "products_to_show": 6,
+        "columns_desktop": 6,
+        "color_scheme": "scheme-3",
         "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
@@ -967,6 +1006,7 @@
     "image_with_text_63gQNY",
     "sample_scan_MgcCXN",
     "tc_product_image_cards_y89fiL",
+    "1729441692d35ae9b1",
     "multicolumn_3pQacX",
     "collapsible_content_HLXaFc",
     "related-products"

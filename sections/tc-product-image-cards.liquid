@@ -74,7 +74,7 @@ display: none
     }
 
   .swiper-wrapper-{{ section.id }} {
-    justify-content: center
+    justify-content: {% if section.settings.center_slides %} center {% else %} inherit {% endif %}
   }
 
 
@@ -399,6 +399,12 @@ display: none
         "step": 1,
         "unit": "px",
         "label": "Tile border radius"
+      },
+      {
+        "type": "checkbox",
+        "id": "center_slides",
+        "default": true,
+        "label": "Center slides"
       }
     ],
     "blocks": [

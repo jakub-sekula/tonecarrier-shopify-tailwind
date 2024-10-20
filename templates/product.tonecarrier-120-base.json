@@ -277,7 +277,7 @@
           "settings": {
             "title": "Film safe by design",
             "description": "<p>Soft silicone rollers gently grab the film without scratching or scuffing it.</p>",
-            "image": "shopify://shop_images/Stills_1.7.1.jpg",
+            "image": "shopify://shop_images/Stills_1.7.1_f4abf547-74fb-4d38-87e8-e0e0d6a30f5a.jpg",
             "link": "",
             "link_label": "",
             "product": "",
@@ -376,11 +376,13 @@
           "settings": {
             "sample_scan_positive": "shopify://shop_images/DSCF3116-2.jpg",
             "sample_scan_negative": "shopify://shop_images/DSCF3116.jpg",
-            "camera": "",
-            "lens": "",
-            "light_source": "",
-            "converted_with": "",
-            "film_stock": "",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
             "raw_download_url": ""
           }
         },
@@ -389,11 +391,13 @@
           "settings": {
             "sample_scan_positive": "shopify://shop_images/DSCF0273.jpg",
             "sample_scan_negative": "shopify://shop_images/DSCF0273-2.jpg",
-            "camera": "",
-            "lens": "",
-            "light_source": "",
-            "converted_with": "",
-            "film_stock": "",
+           "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
             "raw_download_url": ""
           }
         },
@@ -402,11 +406,13 @@
           "settings": {
             "sample_scan_positive": "shopify://shop_images/DSCF3111.jpg",
             "sample_scan_negative": "shopify://shop_images/DSCF3111-2.jpg",
-            "camera": "",
-            "lens": "",
-            "light_source": "",
-            "converted_with": "",
-            "film_stock": "",
+           "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
             "raw_download_url": ""
           }
         },
@@ -415,11 +421,13 @@
           "settings": {
             "sample_scan_positive": "shopify://shop_images/DSCF0272.jpg",
             "sample_scan_negative": "shopify://shop_images/DSCF0272-2.jpg",
-            "camera": "",
-            "lens": "",
-            "light_source": "",
-            "converted_with": "",
-            "film_stock": "",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
             "raw_download_url": ""
           }
         },
@@ -428,11 +436,13 @@
           "settings": {
             "sample_scan_positive": "shopify://shop_images/DSCF3121.jpg",
             "sample_scan_negative": "shopify://shop_images/DSCF3121-2.jpg",
-            "camera": "",
-            "lens": "",
-            "light_source": "",
-            "converted_with": "",
-            "film_stock": "",
+           "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
             "raw_download_url": ""
           }
         }
