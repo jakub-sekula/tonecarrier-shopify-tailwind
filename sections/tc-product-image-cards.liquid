@@ -9,6 +9,12 @@
     --swiper-navigation-size: 2rem
   }
 
+  .swiper-slide-{{ section.id }} .digital-product-badge {
+    top: 0;
+    left: 0;
+    bottom: unset;
+  }
+
   .cards-container-{{ section.id }} {
     display: grid;
     gap: 1.5rem;
@@ -76,6 +82,10 @@ display: none
   .swiper-wrapper-{{ section.id }} {
     justify-content: {% if section.settings.center_slides %} center {% else %} inherit {% endif %}
   }
+
+  .swiper-wrapper-{{ section.id }} .swiper-slide:last-child {
+      margin-right: 0;
+    }
 
 
 
@@ -175,7 +185,9 @@ display: none
                 {% endif %}
                 {{ block.shopify_attributes }}>
                 {% unless block.settings.badge == blank %} 
-                  <div style="color: {{block.settings.badge_color}}; border-color: {{block.settings.badge_color}}" class="tw-absolute tw-left-6 tw-top-6 tw-px-6 tw-py-3 tw-text-lg tw-rounded tw-font-bold tw-border">{{block.settings.badge}}</div>
+                    <span class="digital-product-badge">{% render 'tc-lucide-icon'
+                      , icon_name: "lucide-arrow-down-to-line" %} DIGITAL CONTENT</span>
+                  {% comment %} <div style="color: {{block.settings.badge_color}}; border-color: {{block.settings.badge_color}}" class="tw-absolute tw-left-6 tw-top-6 tw-px-6 tw-py-3 tw-text-lg tw-rounded tw-font-bold tw-border">{{block.settings.badge}}</div> {% endcomment %}
                 {% endunless %}
               {%if block.settings.product != blank%}<a href="{{ shop.url }}{{ block.settings.product.url }}" class="card-image-container-{{ section.id }} tw-cursor-grab">{% else %}<div class="card-image-container-{{ section.id }}">{% endif %}
                   {% unless  block.settings.image_primary == blank %} 

@@ -441,6 +441,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Gold 200",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         },
@@ -454,6 +456,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Gold 200",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         },
@@ -467,6 +471,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Colorplus 200",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         },
@@ -480,6 +486,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Lomography Color Negative 800",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         }
@@ -559,7 +567,7 @@
             "description": "PDF file",
             "badge": "Digital file",
             "badge_color": "",
-            "image_primary": "shopify://shop_images/Manual_mockup.jpg",
+            "image_primary": "shopify://shop_images/Manual_mockup_isolated.png",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -583,7 +591,8 @@
         "padding_top": 36,
         "padding_bottom": 36,
         "cards_per_row": 4,
-        "border_radius": 0
+        "border_radius": 0,
+        "center_slides": true
       }
     },
     "tc_product_image_cards_eQzRBC": {
@@ -727,7 +736,8 @@
         "padding_top": 36,
         "padding_bottom": 36,
         "cards_per_row": 3,
-        "border_radius": 0
+        "border_radius": 0,
+        "center_slides": true
       }
     },
     "rich_text_EwEzzq": {

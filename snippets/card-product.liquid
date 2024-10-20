@@ -562,8 +562,9 @@
           class="card__media {% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}"
         >
         {% if card_product.tags contains 'Digital download' %}
-          <span class="digital-product-badge">hello</span>
-        {% endif %}
+          <span class="digital-product-badge">{% render 'tc-lucide-icon'
+            , icon_name: "lucide-arrow-down-to-line" %} DIGITAL CONTENT</span>
+        {% endif %}  
           <div
             class="media media--transparent"
           >
