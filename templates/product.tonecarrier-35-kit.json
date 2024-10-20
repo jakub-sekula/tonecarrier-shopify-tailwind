@@ -396,7 +396,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/35_mm_Easyloader-1-2.jpg",
-        "height": "adapt",
+        "height": "small",
         "desktop_image_width": "medium",
         "layout": "image_first",
         "desktop_content_position": "top",
@@ -434,7 +434,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/Catchtray-1.jpg",
-        "height": "adapt",
+        "height": "small",
         "desktop_image_width": "medium",
         "layout": "text_first",
         "desktop_content_position": "top",
@@ -472,7 +472,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/DSCF0749-Edit-2.jpg",
-        "height": "adapt",
+        "height": "small",
         "desktop_image_width": "medium",
         "layout": "image_first",
         "desktop_content_position": "top",
@@ -509,8 +509,8 @@
         "text_hFetfM"
       ],
       "settings": {
-        "image": "shopify://shop_images/DSCF0387.jpg",
-        "height": "adapt",
+        "image": "shopify://shop_images/Square-5.jpg",
+        "height": "small",
         "desktop_image_width": "medium",
         "layout": "text_first",
         "desktop_content_position": "top",
@@ -558,6 +558,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Gold 200",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         },
@@ -571,6 +573,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Gold 200",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         },
@@ -584,6 +588,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Colorplus 200",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         },
@@ -597,6 +603,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Lomography Color Negative 800",
+            "shot_on": "",
+            "film_format": "",
             "raw_download_url": ""
           }
         }
@@ -714,6 +722,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
+            "image_primary": "shopify://shop_images/DSCF0749-Edit_23b66614-5534-4821-9c52-3e0ba62f168d.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -732,7 +741,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary": "shopify://shop_images/DSCF0387.jpg",
+            "image_primary": "shopify://shop_images/Square-4.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -759,7 +768,8 @@
         "padding_top": 36,
         "padding_bottom": 36,
         "cards_per_row": 4,
-        "border_radius": 0
+        "border_radius": 0,
+        "center_slides": true
       }
     },
     "multicolumn_3pQacX": {
