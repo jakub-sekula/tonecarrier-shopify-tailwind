@@ -106,7 +106,7 @@
         if (triggerPosition <= 0) {
             // Add the active class to make the product header visible
             const header = document.querySelector('.section-header');
-            const headerHeight = header.getBoundingClientRect().height; // Calculate the header height once
+            const headerHeight = header.getBoundingClientRect().height - 2; // Calculate the header height once
             productHeader.classList.add('active');
         
         // Adjust the position of the product header to account for the header height
