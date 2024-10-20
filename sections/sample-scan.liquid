@@ -28,6 +28,11 @@
     width: 100%;
   }
 
+  .swiper-slide.swiper-slide-{{ section.id }} {
+    justify-content: center;
+    display:flex
+  }
+
   .swiper-{{ section.id }}
   .swiper-slide-next .scan-info-block
   , .swiper-{{ section.id }}
@@ -43,12 +48,14 @@
 
   .image-container-{{ section.id }} {
     width: 100%;
-    height:650px;
+    height: 100%;
+    max-height:650px;
   }
 
   .image-container-{{ section.id }}
   img {
     object-fit: contain;
+    max-height:650px
   }
 
 
@@ -201,11 +208,11 @@
               <img
                 srcset="{{ block.settings.sample_scan_positive | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_positive | image_url: width: 3840 }} 4x"
                 sizes="1400px, 3840px"
-                class="positive-{{block.id}}  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
+                class="positive-{{block.id}}" />
               <img
                 srcset="{{ block.settings.sample_scan_negative | image_url: width: 1400 }} 1x, {{ block.settings.sample_scan_negative | image_url: width: 3840 }} 4x"
                 sizes="1400px, 3840px"
-                class="negative-{{block.id}} hidden  tw-origin-center tw-object-cover tw-w-full tw-h-full" />
+                class="negative-{{block.id}} hidden" />
               <div class="md:tw-hidden tw-p-6 tw-pb-0">
                 {% unless block.settings.camera == blank and block.settings.lens == blank and block.settings.light_source == blank and block.settings.converted_with == blank and block.settings.film_stock == blank %}
                   <div class="tw-z-10 tw-grid tw-grid-cols-2 tw-gap-x-2 tw-gap-y-4">
@@ -366,7 +373,7 @@
     slidesPerView: 1,
     spaceBetween: 128,
     loop: true,
-    autoplay: true,
+    // autoplay: true,
     initialSlide: 1,
     delay: 5000,
     navigation: {

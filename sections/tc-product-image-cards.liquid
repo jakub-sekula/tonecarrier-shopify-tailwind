@@ -4,8 +4,9 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
-  .swiper {
-    overflow: visible
+  .swiper-{{ section.id }} {
+    overflow: visible;
+    --swiper-navigation-size: 2rem
   }
 
   .cards-container-{{ section.id }} {
@@ -50,10 +51,10 @@
     padding: 3rem;
     text-align: center
   }
-   .swiper-button-next, .swiper-button-prev {
-    z-index: 999
-  }
 
+  .swiper-button-next-{{section.id}}.swiper-button-disabled, .swiper-button-prev-{{section.id}}.swiper-button-disabled {
+display: none  
+}
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
@@ -68,14 +69,14 @@
       aspect-ratio: 1;
     }
 
+    .swiper-button-next-{{section.id}}, .swiper-button-prev-{{section.id}} {
+      /* display: none!important */
+    }
 
   .swiper-wrapper-{{ section.id }} {
     justify-content: center
   }
 
-  .swiper-button-next, .swiper-button-prev {
-    display: none!important
-  }
 
 
   }
@@ -156,8 +157,8 @@
   </div>
 
   <div class="page-width tw-relative">
-    <div id="right-mask-{{section.id}}" class="tw-absolute md:tw-hidden tw-top-0 tw-right-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }} tc-fade-to-left"></div>
-  <div id="left-mask-{{section.id}}" class="tw-absolute md:tw-hidden hidden tw-top-0 tw-left-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }} tc-fade-to-right"></div>
+    {% comment %} <div id="right-mask-{{section.id}}" class="tw-absolute md:tw-hidden tw-top-0 tw-right-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }} tc-fade-to-left"></div>
+  <div id="left-mask-{{section.id}}" class="tw-absolute md:tw-hidden hidden tw-top-0 tw-left-0 tw-h-full tw-w-24 tw-z-50 color-{{ section.settings.color_scheme }} tc-fade-to-right"></div> {% endcomment %}
     <div
       id="swiper-{{section.id}}"
       init="false"
@@ -269,8 +270,9 @@
           {% endif %}
         {% endfor %}
       </ul>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next swiper-button-next-{{section.id}}"></div>
+      <div class="swiper-button-prev swiper-button-prev-{{section.id}}"></div>
+      <div class="swiper-pagination-{{section.id}}"></div>
     </div>
   </div>
 </section>
@@ -279,20 +281,15 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const swiper = new Swiper(".swiper-{{section.id}}", {
-      slidesPerView: 1,
-      spaceBetween: 16,
-      // observer: true,
-      keyboard: {
-        enabled: true,
-      },
+    const swiper = new Swiper(".swiper-{{section.id}}", {      slidesPerView: 1,
+    spaceBetween: 16,
       navigation: {
-      nextEl: "#next-slidee",
-      prevEl: "#prev-slidee",
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
     },
-      lazy: {
-        loadPrevNext: true, // Lazy load nearby slides
-        loadPrevNextAmount: 5,
+    pagination: {
+        el: ".swiper-pagination",
+        dynamicBullets: true
       },
       breakpoints: {
         320: {
@@ -307,21 +304,23 @@
       }
     });
 
-    const leftMask = document.querySelector('#left-mask-{{section.id}}');
+    const prevSlide = document.querySelector("#{{}}")
 
-    // Listen to swiper progress event
-    swiper.on('progress', (progress) => {
-      if (progress !== 0) {
-        leftMask.classList.remove("hidden");
-      } else {
-        leftMask.classList.add("hidden");
-      }
-    });
+    // const leftMask = document.querySelector('#left-mask-{{section.id}}');
 
-    // Listen to swiper slide change event
-    swiper.on('slideChange', () => {
-      console.log('slide changed');
-    });
+    // // Listen to swiper progress event
+    // swiper.on('progress', (progress) => {
+    //   if (progress !== 0) {
+    //     leftMask.classList.remove("hidden");
+    //   } else {
+    //     leftMask.classList.add("hidden");
+    //   }
+    // });
+
+    // // Listen to swiper slide change event
+    // swiper.on('slideChange', () => {
+    //   console.log('slide changed');
+    // });
   });
 </script>
 
