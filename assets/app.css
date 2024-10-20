@@ -2743,6 +2743,51 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.shopify-policy__container {
+  padding-top: 72px;
+  padding-bottom: 72px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem
+}
+
+.shopify-policy__title {
+  text-align: left;
+}
+
+.shopify-policy__container p {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  margin-bottom: 1.6rem;
+}
+
+.shopify-policy__container p strong {
+  font-weight: bold;
+}
+
+.shopify-policy__container p i {
+  font-style: italic;
+}
+
+.shopify-policy__container ul, .shopify-policy__container ol {
+  margin-bottom: 1.6rem;
+  padding-left: 2.4rem;
+  list-style:disc
+}
+
+.shopify-policy__container li {
+  margin-bottom: 0.8rem;
+  font-size: 1.6rem;
+}
+
+.shopify-policy__container a {
+  font-size: 1.6rem;
+  color: inherit;
+  /* You can set a specific colour here if needed */
+  text-decoration: underline;
+}
+
 .digital-product-badge {
   font-size: 0.675em;
   color: white;
