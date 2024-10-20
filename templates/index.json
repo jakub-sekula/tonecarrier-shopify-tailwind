@@ -824,6 +824,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Lomography Tiger 200",
+            "shot_on": "Lomomatic 110",
+            "film_format": "110",
             "raw_download_url": ""
           }
         },
@@ -837,6 +839,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Colorplus 200",
+            "shot_on": "Canon AE-1P",
+            "film_format": "135",
             "raw_download_url": ""
           }
         },
@@ -850,6 +854,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Colorplus 200",
+            "shot_on": "Canon AE-1P",
+            "film_format": "135",
             "raw_download_url": ""
           }
         },
@@ -863,6 +869,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Colorplus 200",
+            "shot_on": "Canon AE-1P",
+            "film_format": "135",
             "raw_download_url": ""
           }
         },
@@ -876,6 +884,8 @@
             "light_source": "Cinestill CS-Lite",
             "converted_with": "Negative Lab Pro v2.3",
             "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
             "raw_download_url": ""
           }
         }
