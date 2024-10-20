@@ -611,6 +611,22 @@
         "center_slides": true
       }
     },
+    "1729441812d390a722": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_FmGzpN": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_FmGzpN"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
     "tc_product_image_cards_eQzRBC": {
       "type": "tc-product-image-cards",
       "blocks": {
@@ -762,7 +778,7 @@
         "heading_XJETz3": {
           "type": "heading",
           "settings": {
-            "heading": "Does it seem like too much effort to source this all yourself?",
+            "heading": "Don't want to bulk buy parts?",
             "heading_size": "h2"
           }
         },
@@ -778,8 +794,8 @@
         "text_EArbff"
       ],
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
+        "desktop_content_position": "left",
+        "content_alignment": "left",
         "color_scheme": "scheme-4",
         "full_width": true,
         "padding_top": 36,
@@ -835,22 +851,6 @@
         "padding_top": 36,
         "padding_bottom": 36,
         "text_to_filter": ""
-      }
-    },
-    "1729441812d390a722": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_FmGzpN": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_FmGzpN"
-      ],
-      "settings": {
-        "include_margins": true
       }
     },
     "multicolumn_3pQacX": {
@@ -1052,10 +1052,10 @@
     "bento_eVw3LP",
     "sample_scan_MgcCXN",
     "tc_product_image_cards_y89fiL",
+    "1729441812d390a722",
     "tc_product_image_cards_eQzRBC",
     "rich_text_EwEzzq",
     "featured_product_gLYCBp",
-    "1729441812d390a722",
     "multicolumn_3pQacX",
     "collapsible_content_HLXaFc",
     "related-products"

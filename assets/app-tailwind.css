@@ -5,6 +5,86 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+.sdd-download {
+  display: flex!important;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: start!important;
+  text-align: left!important;
+  max-width: 400px!important;
+  margin: 0!important;
+  padding:2rem!important;
+  width: 100%!important;
+}
+
+
+
+#digital-downloads-proxy {
+  max-width: var(--page-width)!important;
+  margin: 0 auto!important;
+  display: grid!important;
+  place-items: center!important;
+  padding: 0!important
+}
+
+
+.sdd-download-image {
+  max-width: unset!important;
+  max-height: unset!important;
+  aspect-ratio: 3/2;
+  object-fit: cover
+}
+
+.sdd-download::before {
+  content: "Download your files";
+  color: black;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.sdd-download-product {
+ font-size: 1.6rem!important;
+ display: flex!important;
+ flex-direction: column;
+ line-height: unset!important;
+
+}
+.sdd-download-product::before {
+  content: "Product: ";
+  font-weight: bold;
+ }
+
+ .sdd-download-file {
+  font-size: 1.4rem!important;
+  display: flex!important;
+  flex-direction: column;
+  line-height: unset!important;
+}
+
+.sdd-download-file::before {
+  content: "File name: ";
+  font-weight: bold;
+}
+
+.sdd-download button {
+  background-color: black!important;
+  font-size: 1.4rem!important;
+  width: fit-content!important;
+  color:white!important;
+  padding: 1rem 2rem !important;
+}
+
+
+@media screen and (min-width:768px) {
+  .sdd-download {
+    border: 1px solid rgba(0,0,0);
+  }
+  
+  #digital-downloads-proxy {
+    padding: 72px!important
+  }
+}
+
 .shopify-policy__container {
   padding-top: 72px;
   padding-bottom: 72px;
