@@ -407,6 +407,53 @@
         "spacing": 24
       }
     },
+    "image_with_text_bB4kgG": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_azKE9y": {
+          "type": "heading",
+          "settings": {
+            "heading": "High quality manuals included",
+            "heading_size": "h2"
+          }
+        },
+        "text_RiNWVP": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Detailed, illustrated printing and assembly instructions will make the process quick and easy even for 3D printing beginners.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_MnE3pA": {
+          "type": "button",
+          "settings": {
+            "button_label": "View sample",
+            "button_link": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/toneCarrier_manual_sample.pdf?v=1729363691",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_azKE9y",
+        "text_RiNWVP",
+        "button_MnE3pA"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Manual_mockup.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "sample_scan_MgcCXN": {
       "type": "sample-scan",
       "blocks": {
@@ -1036,6 +1083,7 @@
     "main",
     "bento_bQfpWa",
     "bento_eVw3LP",
+     "image_with_text_bB4kgG",
     "sample_scan_MgcCXN",
     "tc_product_image_cards_y89fiL",
     "1729441812d390a722",
