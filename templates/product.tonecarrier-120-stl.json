@@ -634,41 +634,24 @@
           "type": "heading",
           "settings": {
             "heading": "Extra hardware required",
-            "heading_size": "h1"
+            "heading_size": "h2"
           }
         },
         "text_6YzLya": {
           "type": "text",
           "settings": {
-            "text": "<p>The toneCarrier is built with some off-the-shelf hardware for smooth and reliable performance.</p><p>You will need to source those extra items to assemble the holder.</p>"
+            "text": "<p>The toneCarrier is built with some off-the-shelf hardware for smooth and reliable performance. You will need to source those extra items to assemble the holder.</p>"
           }
         },
         "card_nphB4M": {
           "type": "card",
           "settings": {
             "product": "",
-            "title": "M5 screws & nuts",
+            "title": "Screws & nuts",
             "description": "",
             "badge": "",
             "badge_color": "",
-            "image_primary_offset_x": 0,
-            "image_primary_offset_y": 0,
-            "image_primary_offset_x_flip": false,
-            "image_primary_offset_y_flip": false,
-            "image_secondary_offset_x": 0,
-            "image_secondary_offset_y": 0,
-            "image_secondary_offset_x_flip": false,
-            "image_secondary_offset_y_flip": false
-          }
-        },
-        "card_yWa8pf": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "title": "M3 screws & nuts",
-            "description": "",
-            "badge": "",
-            "badge_color": "",
+            "image_primary": "shopify://shop_images/DSCF3240.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -687,6 +670,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
+            "image_primary": "shopify://shop_images/DSCF3231.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -705,6 +689,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
+            "image_primary": "shopify://shop_images/DSCF3235.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -723,6 +708,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
+            "image_primary": "shopify://shop_images/DSCF3248.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -741,6 +727,7 @@
             "description": "",
             "badge": "",
             "badge_color": "",
+            "image_primary": "shopify://shop_images/DSCF3228.jpg",
             "image_primary_offset_x": 0,
             "image_primary_offset_y": 0,
             "image_primary_offset_x_flip": false,
@@ -756,7 +743,6 @@
         "heading_BztjdW",
         "text_6YzLya",
         "card_nphB4M",
-        "card_yWa8pf",
         "card_hUzLhY",
         "card_XUBkRX",
         "card_kQnCjX",
