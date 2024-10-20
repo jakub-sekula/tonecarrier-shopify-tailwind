@@ -161,7 +161,7 @@
     </div>
   </div>
   <div class="image-container-{{ section.id }} tw-mx-auto tw-relative" {{ block.shopify_attributes }}>
-    <div id="swiper-positive-{{section.id}}" class="swiper swiper-{{section.id}}">
+    <div id="swiper-positive-{{section.id}}" class="swiper swiper--eager swiper-{{section.id}}">
       <ul class="swiper-wrapper swiper-wrapper-{{section.id}}">
         {% for block in section.blocks %}
           {% if block.type == "scan_image" %}
@@ -270,7 +270,7 @@
         {%- endfor -%}
       </ul>
     </div>
-    <div id="swiper-negative-{{section.id}}" class="negative swiper swiper-{{section.id}}">
+    <div id="swiper-negative-{{section.id}}" class="negative swiper swiper--eager swiper-{{section.id}}">
       <ul class="swiper-wrapper swiper-wrapper-{{section.id}}">
         {% for block in section.blocks %}
           {% if block.type == "scan_image" %}
@@ -389,6 +389,8 @@
     loop: true,
     autoplay: true,
     initialSlide: 1,
+    lazyPreloadPrevNext: 3,
+    loadOnTransitionStart: true,
     delay: 5000,
     navigation: {
       nextEl: "#next-slide",
