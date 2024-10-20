@@ -138,7 +138,7 @@
 }
 
 .hero-media-container video {
-  /* border-radius: 0.5rem; */
+  border-radius: 0.5rem;
   z-index: 2;
 }
 
@@ -216,7 +216,7 @@
 }
 
 .hero-media-container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin-top: 3rem;
   box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px
   , rgba(0, 0, 0, 0.3) 0 30px 60px -30px;
@@ -341,12 +341,14 @@
         style="--animation-order: 5;"
         {% endif %}>
         <div class="hero-media-glow"></div>
-        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "1000px", poster: section.settings.hero_image }}
+        {% assign hero_poster = section.settings.hero_image | img_url: 'master' %}
+        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: true, image_size: "1000px", poster: hero_poster }}
       </div>
   </div>
   {% if section.settings.background_video != blank %}
     <div class="homepage-hero-background">
-      {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "1200px", poster: section.settings.background_image }}
+      {% assign bg_poster = section.settings.background_image | img_url: 'master' %}
+      {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "1200px", poster: bg_poster }}
     </div>
   {% endif %}
   {% if section.settings.background_image != blank %}
