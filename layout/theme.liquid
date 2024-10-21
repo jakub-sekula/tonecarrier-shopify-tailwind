@@ -454,8 +454,6 @@ body {
       observer.disconnect();
       const shadow = form.shadowRoot;
 
-      console.log(shadow);
-
       // Create a <style> element to inject styles
       const style = document.createElement('style');
       style.textContent = `
@@ -525,7 +523,6 @@ textarea {
       shadow.appendChild(style);
 
       formContainer.classList.add('loaded');
-      console.log("gowno"); // This should now fire
     }
   });
 

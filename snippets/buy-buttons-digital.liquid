@@ -120,13 +120,9 @@
 
 <script defer>
   async function checkQuantityInCart() {
-  console.log("Checking quantity in cart...");
     const variantId = {{ product.selected_or_first_available_variant.id }};
     const productId = {{ product.id }};
     const tags = {{ product.tags | json }};
-
-    console.log(variantId, productId, tags);
-
 
     if (!tags.includes("Digital download")) return;
 
@@ -138,9 +134,6 @@
         item => item.variant_id === variantId && item.product_id === productId
       );
 
-
-    console.log(cartContents, alreadyInCart);
-
       const form = document.querySelector(".product-form");
       const submitButton = form.querySelector(".product-form__submit");
       const confirmationInput = document.querySelector("input#confirmation");
@@ -150,7 +143,6 @@
         const val = confirmationInput.value;
         const text = submitButton.innerText;
 
-        console.log("Submit button text:", text);
         if (!val && !["Already in cart"].includes(submitButton.innerText)) {
           submitButton.disabled = true;
           const buttonText = submitButton.querySelector("span");
@@ -189,7 +181,6 @@
   document.addEventListener("DOMContentLoaded", () => {
     checkQuantityInCart();
     const subscriber = subscribe(PUB_SUB_EVENTS.cartUpdate, (event) => {
-      console.log("Cart updated:", event);
       checkQuantityInCart();
     });
   });

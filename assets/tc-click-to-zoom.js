@@ -1,6 +1,4 @@
 const containers = document.querySelectorAll(".click-zoom-container");
-console.log("Click to zoom initializing...")
-
 containers.forEach((container) => {
   const img = container.querySelector("img");
 
