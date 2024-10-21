@@ -341,8 +341,8 @@
         style="--animation-order: 5;"
         {% endif %}>
         <div class="hero-media-glow"></div>
-        {% assign hero_poster = section.settings.hero_image | img_url: 'master' %}
-        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: true, preload: "auto",  image_size: "1000px", poster: hero_poster }}
+        {% assign hero_poster = section.settings.hero_image | img_url: width: 1200 %}
+        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: true,  image_size: "1000px", poster: hero_poster }}
       </div>
   </div>
   <div class="homepage-hero-background">
