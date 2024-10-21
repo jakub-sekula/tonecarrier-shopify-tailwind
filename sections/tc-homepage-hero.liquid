@@ -32,7 +32,7 @@
   height: 80%;
 }
 
-.homepage-hero-background video {
+.homepage-hero-background video, .homepage-hero-background img {
   background: black;
   position: absolute;
   top: 0;
@@ -345,15 +345,15 @@
         {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: true, image_size: "1000px", poster: hero_poster }}
       </div>
   </div>
+  <div class="homepage-hero-background">
   {% if section.settings.background_video != blank %}
-    <div class="homepage-hero-background">
-      {% assign bg_poster = section.settings.background_image | img_url: 'master' %}
+      {% assign bg_poster = section.settings.background_image | img_url: width: 1500 %}
       {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "1200px", poster: bg_poster }}
+    {% endif %}
+      {% if section.settings.background_video == blank and section.settings.background_image != blank %}
+        {{ section.settings.background_image | image_url: width: 1500 | image_tag: class: "homepage-hero-background" }}
+      {% endif %}
     </div>
-  {% endif %}
-  {% if section.settings.background_image != blank %}
-    {{ section.settings.background_image | image_url: width: 1500 | image_tag: class: "homepage-hero-background" }}
-  {% endif %}
 </section>
 
 <script>
