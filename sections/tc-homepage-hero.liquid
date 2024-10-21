@@ -342,16 +342,17 @@
         {% endif %}>
         <div class="hero-media-glow"></div>
         {% assign hero_poster = section.settings.hero_image | img_url: 'master' %}
-        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: true, image_size: "1000px", poster: hero_poster }}
+        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: true, preload: "auto",  image_size: "1000px", poster: hero_poster }}
       </div>
   </div>
   <div class="homepage-hero-background">
   {% if section.settings.background_video != blank %}
-      {% assign bg_poster = section.settings.background_image | img_url: width: 1500 %}
-      {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: "1200px", poster: bg_poster }}
+      {% assign bg_poster = section.settings.background_image | img_url: width: 1200 %}
+      {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, preload: "auto", image_size: "1200px", poster: bg_poster }}
+  
     {% endif %}
       {% if section.settings.background_video == blank and section.settings.background_image != blank %}
-        {{ section.settings.background_image | image_url: width: 1500 | image_tag: class: "homepage-hero-background" }}
+        {{ section.settings.background_image | image_url: width: 1200 | image_tag: class: "homepage-hero-background" }}
       {% endif %}
     </div>
 </section>
