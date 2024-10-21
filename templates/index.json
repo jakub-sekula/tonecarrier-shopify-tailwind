@@ -605,7 +605,7 @@
           "type": "button",
           "settings": {
             "button_label": "Shipping details",
-            "button_link": "shopify://pages/shipping",
+            "button_link": "shopify://policies/shipping-policy",
             "button_style_secondary": true
           }
         }
