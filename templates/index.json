@@ -219,7 +219,7 @@
           "type": "button",
           "settings": {
             "button_label": "Shop 35 mm",
-            "button_link": "shopify://products/tonecarrier-35-mm-variants",
+            "button_link": "shopify://collections/35-mm-scanning",
             "button_style_secondary": false
           }
         }
@@ -342,7 +342,7 @@
           "type": "button",
           "settings": {
             "button_label": "Shop 120",
-            "button_link": "shopify://products/tonecarrier-120",
+            "button_link": "shopify://collections/120-scanning",
             "button_style_secondary": false
           }
         }
