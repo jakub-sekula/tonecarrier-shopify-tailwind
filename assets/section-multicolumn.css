@@ -14,6 +14,10 @@
   .multicolumn .title-wrapper-with-link {
     margin-bottom: 3rem;
   }
+
+  .multicolumn-list__item:first-child div.multicolumn-card__info {
+    padding-left: inherit;
+  }
 }
 
 @media screen and (min-width: 750px) and (max-width: 989px) {
@@ -249,3 +253,9 @@
     display: list-item;
   }
 }
+
+/* Fix weird padding on mobile */
+.multicolumn-list__item:first-child div.multicolumn-card__info {
+  padding-left: 2rem;
+}
+
