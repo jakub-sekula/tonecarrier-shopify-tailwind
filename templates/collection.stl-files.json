@@ -45,9 +45,9 @@
     "featured_collection_dF6K87": {
       "type": "featured-collection",
       "settings": {
-        "title": "Get 3D printing files",
+        "title": "Self-printed film carriers",
         "heading_size": "h2",
-        "description": "",
+        "description": "<p>Includes STL and 3MF files for the film carrier only. For accessories, see additional listings below.</p>",
         "show_description": false,
         "description_style": "body",
         "collection": "film-holders-stl",
