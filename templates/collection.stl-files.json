@@ -75,7 +75,7 @@
       "settings": {
         "title": "35 mm accessories",
         "heading_size": "h2",
-        "description": "<p>Automatic 15% discount applies when purchasing the full set</p>",
+        "description": "<p>Automatic 15% discount applies when purchasing 3 or more STL file kits.</p>",
         "show_description": false,
         "description_style": "body",
         "collection": "35-mm-accessories-stl",
@@ -103,7 +103,7 @@
       "settings": {
         "title": "120 accessories",
         "heading_size": "h2",
-        "description": "<p>Automatic 15% discount applies when purchasing the full set</p>",
+        "description": "<p>Automatic 15% discount applies when purchasing 3 or more STL file kits.</p>",
         "show_description": false,
         "description_style": "body",
         "collection": "120-accessories-stl",
