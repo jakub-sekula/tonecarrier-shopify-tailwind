@@ -69,7 +69,7 @@
         "announcement_Xb8JCB"
       ],
       "custom_css": [
-        ".announcement-bar-section {z-index: 999;}"
+        ".announcement-bar-section {z-index: 2;}"
       ],
       "settings": {
         "color_scheme": "scheme-5",

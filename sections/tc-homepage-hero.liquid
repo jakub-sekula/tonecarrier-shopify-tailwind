@@ -359,10 +359,12 @@
 
 <script>
         const header = document.querySelector('sticky-header');
+        const announcementBar = document.querySelector('.announcement-bar-section');
 
         function updateHeaderHeight() {
             const headerHeight = header.offsetHeight;
-            document.documentElement.style.setProperty('--dynamic-header-height', `${headerHeight}px`);
+            const announcementHeight = announcementBar ? announcementBar.offsetHeight : 0;
+            document.documentElement.style.setProperty('--dynamic-header-height', `${headerHeight + announcementHeight}px`);
         }
 
         function setTransparentHeader() {
