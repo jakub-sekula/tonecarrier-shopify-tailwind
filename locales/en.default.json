@@ -184,7 +184,7 @@
       "xr_button": "View in your space",
       "xr_button_label": "View in your space, loads item in augmented reality window",
       "include_taxes": "Tax included.",
-      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.<br>For international orders, import fees and other charges may apply."
+      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout."
     },
     "modal": {
       "label": "Media gallery"
@@ -299,8 +299,8 @@
       "cart_error": "There was an error while updating your cart. Please try again.",
       "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your cart.",
       "taxes_and_shipping_policy_at_checkout_html": "Taxes, Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout",
-      "taxes_included_but_shipping_at_checkout": "Tax included for UK customers only. Shipping and discounts calculated at checkout",
-      "taxes_included_and_shipping_policy_html": "Tax included for UK customers only. <a href=\"{{ link }}\">Shipping</a> and discounts calculated at checkout.",
+      "taxes_included_but_shipping_at_checkout": "Shipping and discounts calculated at checkout. <br>For international orders, import fees and other charges may apply.",
+      "taxes_included_and_shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> and discounts calculated at checkout.<br>For international orders, import fees and other charges may apply.",
       "taxes_and_shipping_at_checkout": "Taxes, discounts and shipping calculated at checkout",
       "headings": {
         "product": "Product",
