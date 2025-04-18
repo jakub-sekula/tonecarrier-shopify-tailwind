@@ -60,7 +60,7 @@
         "announcement_Xb8JCB": {
           "type": "announcement",
           "settings": {
-            "text": "Christmas break: All orders placed after 20 December will be shipped after 5 January 2025.",
+            "text": "Easter break: All physical items oredered after Friday 18 April will be shipped after 11 May. Digital downloads are delivered immediately as usual.",
             "link": ""
           }
         }
@@ -68,7 +68,6 @@
       "block_order": [
         "announcement_Xb8JCB"
       ],
-      "disabled": true,
       "custom_css": [
         ".announcement-bar-section {z-index: 2;}"
       ],
