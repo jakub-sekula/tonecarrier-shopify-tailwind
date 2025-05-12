@@ -68,6 +68,7 @@
       "block_order": [
         "announcement_Xb8JCB"
       ],
+      "disabled": true,
       "custom_css": [
         ".announcement-bar-section {z-index: 2;}"
       ],
