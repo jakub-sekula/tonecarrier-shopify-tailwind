@@ -60,7 +60,7 @@
         "announcement_Xb8JCB": {
           "type": "announcement",
           "settings": {
-            "text": "Backorder: All physical items ordered after April 18 will be shipped around May 11. Digital downloads are delivered immediately.",
+            "text": "Backorder: All assembled kits ordered after July 9 will be shipped around July 27. Digital downloads and hardware kits are not affected.",
             "link": ""
           }
         }
@@ -68,7 +68,6 @@
       "block_order": [
         "announcement_Xb8JCB"
       ],
-      "disabled": true,
       "custom_css": [
         ".announcement-bar-section {z-index: 2;}"
       ],
