@@ -14,13 +14,11 @@
       "blocks": {
         "judge_me_reviews_preview_badge_bmMViD": {
           "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-          }
+          "settings": {}
         },
         "title": {
           "type": "title",
-          "settings": {
-          }
+          "settings": {}
         },
         "caption": {
           "type": "text",
@@ -31,8 +29,7 @@
         },
         "price": {
           "type": "price",
-          "settings": {
-          }
+          "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -43,8 +40,7 @@
         },
         "description_3V4Q6Y": {
           "type": "description",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -454,126 +450,6 @@
         "padding_bottom": 36
       }
     },
-    "sample_scan_MgcCXN": {
-      "type": "sample-scan",
-      "blocks": {
-        "caption_QbEeLW": {
-          "type": "caption",
-          "settings": {
-            "caption": "Sample scans",
-            "text_style": "caption-with-letter-spacing",
-            "text_size": "medium"
-          }
-        },
-        "heading_qtaYNL": {
-          "type": "heading",
-          "settings": {
-            "heading": "Capture every detail",
-            "heading_size": "h1"
-          }
-        },
-        "text_yywqAL": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours. Click or tap on any image in the gallery below to zoom in and view the film grain.</p>"
-          }
-        },
-        "scan_image_mhe6jY": {
-          "type": "scan_image",
-          "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF3116-2.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF3116.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "shot_on": "Mamiya 645",
-            "film_format": "120",
-            "raw_download_url": ""
-          }
-        },
-        "scan_image_adpCAF": {
-          "type": "scan_image",
-          "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0273.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0273-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "shot_on": "Mamiya 645",
-            "film_format": "120",
-            "raw_download_url": ""
-          }
-        },
-        "scan_image_a9C8RN": {
-          "type": "scan_image",
-          "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF3111.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF3111-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "shot_on": "Mamiya 645",
-            "film_format": "120",
-            "raw_download_url": ""
-          }
-        },
-        "scan_image_7RK3jm": {
-          "type": "scan_image",
-          "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF0272.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF0272-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "shot_on": "Mamiya 645",
-            "film_format": "120",
-            "raw_download_url": ""
-          }
-        },
-        "scan_image_HUt6Dc": {
-          "type": "scan_image",
-          "settings": {
-            "sample_scan_positive": "shopify://shop_images/DSCF3121.jpg",
-            "sample_scan_negative": "shopify://shop_images/DSCF3121-2.jpg",
-            "camera": "Fujifilm X-T5",
-            "lens": "Helios 44-2",
-            "light_source": "Cinestill CS-Lite",
-            "converted_with": "Negative Lab Pro v2.3",
-            "film_stock": "Kodak Gold 200",
-            "shot_on": "Mamiya 645",
-            "film_format": "120",
-            "raw_download_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "caption_QbEeLW",
-        "heading_qtaYNL",
-        "text_yywqAL",
-        "scan_image_mhe6jY",
-        "scan_image_adpCAF",
-        "scan_image_a9C8RN",
-        "scan_image_7RK3jm",
-        "scan_image_HUt6Dc"
-      ],
-      "settings": {
-        "content_alignment": "center",
-        "background_color": "",
-        "color_scheme": "scheme-1",
-        "color_scheme_dark": "",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "content_height": 700
-      }
-    },
     "tc_product_image_cards_y89fiL": {
       "type": "tc-product-image-cards",
       "blocks": {
@@ -830,8 +706,7 @@
         },
         "price_mG4bhN": {
           "type": "price",
-          "settings": {
-          }
+          "settings": {}
         },
         "variant_picker_W3AxTE": {
           "type": "variant_picker",
@@ -854,6 +729,9 @@
         "variant_picker_W3AxTE",
         "buy_buttons_fTmw6i"
       ],
+      "custom_css": [
+        ".product__tax{display:noen}"
+      ],
       "settings": {
         "product": "tonecarrier-hardware-kit",
         "color_scheme": "scheme-4",
@@ -870,13 +748,132 @@
         "text_to_filter": ""
       }
     },
+    "sample_scan_MgcCXN": {
+      "type": "sample-scan",
+      "blocks": {
+        "caption_QbEeLW": {
+          "type": "caption",
+          "settings": {
+            "caption": "Sample scans",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_qtaYNL": {
+          "type": "heading",
+          "settings": {
+            "heading": "Capture every detail",
+            "heading_size": "h1"
+          }
+        },
+        "text_yywqAL": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Camera scanning is the best way to get sharp, high quality results in minutes, not hours. Click or tap on any image in the gallery below to zoom in and view the film grain.</p>"
+          }
+        },
+        "scan_image_mhe6jY": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF3116-2.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF3116.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
+            "raw_download_url": ""
+          }
+        },
+        "scan_image_adpCAF": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0273.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0273-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
+            "raw_download_url": ""
+          }
+        },
+        "scan_image_a9C8RN": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF3111.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF3111-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
+            "raw_download_url": ""
+          }
+        },
+        "scan_image_7RK3jm": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0272.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0272-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
+            "raw_download_url": ""
+          }
+        },
+        "scan_image_HUt6Dc": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF3121.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF3121-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "Mamiya 645",
+            "film_format": "120",
+            "raw_download_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "caption_QbEeLW",
+        "heading_qtaYNL",
+        "text_yywqAL",
+        "scan_image_mhe6jY",
+        "scan_image_adpCAF",
+        "scan_image_a9C8RN",
+        "scan_image_7RK3jm",
+        "scan_image_HUt6Dc"
+      ],
+      "settings": {
+        "content_alignment": "center",
+        "background_color": "",
+        "color_scheme": "scheme-1",
+        "color_scheme_dark": "",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "content_height": 700
+      }
+    },
     "1729441812d390a722": {
       "type": "apps",
       "blocks": {
         "judge_me_reviews_review_widget_FmGzpN": {
           "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [
