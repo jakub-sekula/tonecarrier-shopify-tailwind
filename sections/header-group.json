@@ -60,17 +60,18 @@
         "announcement_Xb8JCB": {
           "type": "announcement",
           "settings": {
-            "text": "Backorder: All assembled kits and hardware kits ordered after July 9 will be shipped around July 27. Digital downloads are not affected.",
-            "link": ""
+            "text": "🇺🇸 Important shipping update for our USA customers - click to learn more",
+            "link": "shopify://pages/usa-shipping-update"
           }
         }
       },
       "block_order": [
         "announcement_Xb8JCB"
       ],
-      "disabled": true,
       "custom_css": [
-        ".announcement-bar-section {z-index: 2;}"
+        ".announcement-bar-section {z-index: 2;}",
+        ".utility-bar {background: red !important;}",
+        "* {color:white}"
       ],
       "settings": {
         "color_scheme": "scheme-5",
