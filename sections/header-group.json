@@ -60,7 +60,7 @@
         "announcement_Xb8JCB": {
           "type": "announcement",
           "settings": {
-            "text": "🇺🇸 Important shipping update for our USA customers - click to learn more",
+            "text": "🇺🇸 Important shipping update for our USA customers",
             "link": "shopify://pages/usa-shipping-update"
           }
         }
@@ -71,7 +71,7 @@
       "custom_css": [
         ".announcement-bar-section {z-index: 2;}",
         ".utility-bar {background: red !important;}",
-        "* {color:white}"
+        "* {color: white;}"
       ],
       "settings": {
         "color_scheme": "scheme-5",
