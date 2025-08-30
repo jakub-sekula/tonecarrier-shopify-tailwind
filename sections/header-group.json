@@ -69,9 +69,7 @@
         "announcement_Xb8JCB"
       ],
       "custom_css": [
-        ".announcement-bar-section {z-index: 2;}",
-        ".utility-bar {background: red !important;}",
-        "* {color: white;}"
+        ".announcement-bar-section {z-index: 2;}"
       ],
       "settings": {
         "color_scheme": "scheme-5",
