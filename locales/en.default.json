@@ -298,10 +298,10 @@
       "empty": "Your cart is empty",
       "cart_error": "There was an error while updating your cart. Please try again.",
       "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your cart.",
-      "taxes_and_shipping_policy_at_checkout_html": "Taxes, Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout",
+      "taxes_and_shipping_policy_at_checkout_html": "<strong><a href=\"{{ link }}\">Shipping</a></strong> and discounts calculated at checkout.<br>For international orders, import fees, taxes/tariffs and/or other charges may apply.",
       "taxes_included_but_shipping_at_checkout": "Shipping and discounts calculated at checkout. <br>For international orders, import fees and other charges may apply.",
       "taxes_included_and_shipping_policy_html": "<strong><a href=\"{{ link }}\">Shipping</a></strong> and discounts calculated at checkout.<br>For international orders, import fees, taxes/tariffs and/or other charges may apply.",
-      "taxes_and_shipping_at_checkout": "Taxes, discounts and shipping calculated at checkout",
+      "taxes_and_shipping_at_checkout": "<strong><a href=\"{{ link }}\">Shipping</a></strong> and discounts calculated at checkout.<br>For international orders, import fees, taxes/tariffs and/or other charges may apply.",
       "headings": {
         "product": "Product",
         "price": "Price",
