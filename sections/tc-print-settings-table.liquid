@@ -39,8 +39,8 @@
   }
 {%- endstyle -%}
 
-<section class="isolate tw-overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
-  <div class="page-width !tw-pr-24 md:!tw-pr-0 tw-relative">
+<section class="isolate tw:overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
+  <div class="page-width tw:pr-24! tw:md:pr-0! tw:relative">
 
     {% assign print_info = product.metafields.custom.print_information %}
     {% if print_info != blank %}

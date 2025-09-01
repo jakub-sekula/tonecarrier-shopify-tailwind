@@ -48,7 +48,7 @@
           %}
         </fieldset>
       {%- elsif picker_type == 'button' -%}
-        <fieldset class='{%- if product.metafields.product.option_images -%} tw-grid tw-grid-cols-2 tw-gap-4 md:tw-gap-2 {%-endif -%} js product-form__input product-form__input--pill'>
+        <fieldset class='{%- if product.metafields.product.option_images -%} tw:grid tw:grid-cols-2 tw:gap-4 tw:md:gap-2 {%-endif -%} js product-form__input product-form__input--pill'>
           <legend class='form__label'>{{ option.name }}</legend>
           {% render 'product-variant-options',
             product: product,

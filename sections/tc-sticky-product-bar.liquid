@@ -34,15 +34,15 @@
     }
   {%- endstyle -%}
   
-  <section class="tw-hidden md:tw-block product-header product-bar-container color-{{ section.settings.color_scheme }}">
+  <section class="tw:hidden tw:md:block product-header product-bar-container color-{{ section.settings.color_scheme }}">
     <div class="page-width product-bar section-{{ section.id }}-padding">
       {%- if product.featured_media != blank -%}
         <img
-          class="tw-size-16 tw-aspect-square tw-rounde-lg"
+          class="tw:size-16 tw:aspect-square tw-rounde-lg"
           src="{{ product.featured_media | image_url: width: 150 }}"
           alt="{{ product.featured_media.alt }}">
       {%- endif -%}
-      <h3 class="tw-mr-auto">{{ product.title }}</h3>
+      <h3 class="tw:mr-auto">{{ product.title }}</h3>
       <p>{{ product.price | money }}</p>
       {% assign product_form_id = section.id %}
       <product-form data-section-id="{{ section.id }}">

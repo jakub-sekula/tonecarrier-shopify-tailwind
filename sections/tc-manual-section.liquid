@@ -158,7 +158,7 @@
   class="isolate section-{{ section.id }} section-padding-{{ section.id }} color-{{ section.settings.color_scheme }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
   {% if section.settings.background_image != blank %}
     {% assign bg_image_class = "background-image-" | append: section.id %}
-    <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-full tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: bg_image_class }}</div>
+    <div class="tw:absolute tw:w-full tw:top-0 tw:left-0 tw:h-full tw:overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: bg_image_class }}</div>
   {% endif %}
   <div class="manual-step__heading page-width">
     <h2>
@@ -186,7 +186,7 @@
                 {% else %}
                   {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}"
                 target="_blank"
-                class="swiper-slide swiper-slide-{{ section.id }} swiper-slide-{{ block.id }} click-zoom-container tw-overflow-hidden">
+                class="swiper-slide swiper-slide-{{ section.id }} swiper-slide-{{ block.id }} click-zoom-container tw:overflow-hidden">
                 {% if block.settings.image != blank %}
                   {{ block.settings.image | image_url: width: 1000 | image_tag }}
                 {% else %}
@@ -217,7 +217,7 @@
                 <!-- You can handle any unexpected cases here if needed -->
                 {% endcase %}
               </div>
-              <div class="tw-w-full">
+              <div class="tw:w-full">
                 {{ block.settings.text }}
               </div>
             </li>

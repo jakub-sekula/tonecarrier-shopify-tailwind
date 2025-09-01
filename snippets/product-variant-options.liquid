@@ -107,7 +107,7 @@
     >
     <label
       for='{{ input_id }}'
-      class='{%- if product.metafields.product.option_images.length > 0 -%} tw-w-full md:tw-w-auto {%-endif -%}'
+      class='{%- if product.metafields.product.option_images.length > 0 -%} tw:w-full tw:md:w-auto {%-endif -%}'
     >
       {%- assign option_handle = value | split: '?' | last | strip -%}
       {%- for obj in product.metafields.product.option_images.value -%}
@@ -116,7 +116,7 @@
             src='{{ obj.image | image_url: width: 200 }}'
             width='full'
             height='full'
-            class='tw-w-full tw-aspect-[3/2] tw-block tw-object-contain'
+            class='tw:w-full tw:aspect-3/2 tw:block tw:object-contain'
           >
         {%- endif -%}
       {%- endfor -%}

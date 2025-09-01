@@ -113,10 +113,10 @@
   {% if section.settings.anchor != blank %}
   id="{{section.settings.anchor}}"
   {% endif %}
-  class="isolate section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }} tw-relative">
+  class="isolate section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }} tw:relative">
   {% if section.settings.background_image != blank %}
     {% assign bg_image_class = "bento-background-image-" | append: section.id %}
-    <div class="tw-absolute tw-w-full tw-top-0 tw-left-0 tw-h-full tw-overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: bg_image_class }}</div>
+    <div class="tw:absolute tw:w-full tw:top-0 tw:left-0 tw:h-full tw:overflow-hidden">{{ section.settings.background_image | image_url: width: 1500 | image_tag: class: bg_image_class }}</div>
   {% endif %}
   <div class="{% unless section.settings.full_width %} page-width{% endunless %}">
 
@@ -127,7 +127,7 @@
       {% endif %}
     {% endfor %}
     {% if has_desired_block %}
-      <div style="padding-bottom: {{section.settings.padding_bottom}}px" class="tw-mx-auto  rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
+      <div style="padding-bottom: {{section.settings.padding_bottom}}px" class="tw:mx-auto  rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
         <div class="rich-text__blocks {{ section.settings.content_alignment }}">
           {%- for block in section.blocks -%}
             {%- case block.type -%}
@@ -203,7 +203,7 @@
       {% for block in section.blocks %}
         {% if block.type == 'Tile' %}
           <li
-            class="bento-tile-{{section.id}} bento-tile-{{ block.id }} tw-group {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            class="bento-tile-{{section.id}} bento-tile-{{ block.id }} tw:group {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             {% if settings.animations_reveal_on_scroll %}
             data-cascade
             {% endif %}
@@ -212,20 +212,20 @@
               <a
                 href="{{ block.settings.link }}"
                 role="link"
-                class="tw-absolute tw-z-10 tw-inset-0"></a>
+                class="tw:absolute tw:z-10 tw:inset-0"></a>
             {% endif %}
 
             {% unless block.settings.link == blank and block.settings.product == blank and block.settings.extended_description == blank %}
-              <div class="tw-absolute tw-bottom-0 tw-right-0 tw-w-full tw-px-6 tw-pb-6 tw-flex tw-z-20 tw-items-center tw-justify-end tw-gap-6">
+              <div class="tw:absolute tw:bottom-0 tw:right-0 tw:w-full tw:px-6 tw:pb-6 tw:flex tw:z-20 tw:items-center tw:justify-end tw:gap-6">
 
                 {% if block.settings.product != blank %}
-                  <p class="tw-hidden md:tw-block bento-product-price tw-mr-auto">{{ block.settings.product.selected_or_first_available_variant.price | money }}</p>
+                  <p class="tw:hidden tw:md:block bento-product-price tw:mr-auto">{{ block.settings.product.selected_or_first_available_variant.price | money }}</p>
                   {% assign product_form_id = block.id %}
-                  <product-form data-section-id="{{ section.id }}" class="tw-w-full tw-flex tw-justify-end">
+                  <product-form data-section-id="{{ section.id }}" class="tw:w-full tw:flex tw:justify-end">
                     {%- form 'product'
                       , block.settings.product
                       , id: product_form_id
-                      , class: 'form tw-w-full tw-flex'
+                      , class: 'form tw:w-full tw:flex'
                       , novalidate: 'novalidate'
                       , data-type: 'add-to-cart-form'
                     -%}
@@ -241,7 +241,7 @@
                         id="{{ product_form_id }}-submit"
                         type="submit"
                         name="add"
-                        class="button button--secondary bento-add-to-cart-button tw-w-full md:tw-w-fit tw-ml-auto"
+                        class="button button--secondary bento-add-to-cart-button tw:w-full tw:md:w-fit tw:ml-auto"
                         aria-haspopup="dialog"
                         aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ block.settings.product.id }}"
                         aria-live="polite"
@@ -263,7 +263,7 @@
                 {% endif %}
 
                 {% if block.settings.link != blank %}
-                  <a href="{{block.settings.link}}" class="tw-whitespace-nowrap tw-inline-flex tw-h-16 tw-pl-6 tw-pr-4 tw-items-center tw-gap-2 color-{{ section.settings.color_scheme }}">
+                  <a href="{{block.settings.link}}" class="tw:whitespace-nowrap tw:inline-flex tw:h-16 tw:pl-6 tw:pr-4 tw:items-center tw:gap-2 color-{{ section.settings.color_scheme }}">
 
                     {% if block.settings.link_label == blank %}
                       View more
@@ -279,34 +279,34 @@
                     data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasExample"
                     aria-controls="offcanvasExample"
-                    class="tw-w-16 tw-h-16 tw-rounded-full tw-grid tw-place-items-center color-{{ section.settings.color_scheme }}">
+                    class="tw:w-16 tw:h-16 tw:rounded-full tw:grid tw:place-items-center color-{{ section.settings.color_scheme }}">
                     {{ 'lucide-plus.svg' | inline_asset_content }}
                   </button>
                 {% endif %}
               </div>
 
             {% endunless %}
-            <div class="tw-z-10 bento-text-container-{{ block.id }}">
+            <div class="tw:z-10 bento-text-container-{{ block.id }}">
               <h3 class="{{ section.settings.heading_size }}">{{ block.settings.title }}</h3>
               {% if block.settings.product != blank %}
-                <p class="tw-w-full md:tw-hidden tw-border-b tw-mb-2 tw-pb-2">{{ block.settings.product.selected_or_first_available_variant.price | money }}</p>
+                <p class="tw:w-full tw:md:hidden tw:border-b tw:mb-2 tw:pb-2">{{ block.settings.product.selected_or_first_available_variant.price | money }}</p>
               {% endif %}
               <div style="z-index: 10; font-size: {{section.settings.caption_size}}px">{{ block.settings.description }}</div>
             </div>
             {% unless block.settings.image == blank %}
               <div class="tc-fade-to-bottom {%if block.settings.fade_color == blank%}color-{{ section.settings.color_scheme }}{% else %}bento-tile-fade-color-{{block.id}}{% endif %} bento-tile-fade-{{ block.id }}"></div>
-              {{ block.settings.image | image_url: width: 1200 | image_tag: widths: '300, 600, 900, 1200, 1600', class: "tw-z-1 tw-inset-0 tw-absolute tw-object-cover tw-w-full tw-h-full group-hover:tw-scale-105 tw-duration-500 tw-transition-all" }}
+              {{ block.settings.image | image_url: width: 1200 | image_tag: widths: '300, 600, 900, 1200, 1600', class: "tw:z-1 tw:inset-0 tw:absolute tw:object-cover tw:w-full tw:h-full tw:group-hover:scale-105 tw:duration-500 tw:transition-all" }}
             {% endunless %}
           </li>
 
           {% if block.settings.extended_description != blank %}
             <div
-              class="offcanvas offcanvas-end tw-p-8 tw-text-black tw-flex tw-flex-col tw-gap-6"
+              class="offcanvas offcanvas-end tw:p-8 tw:text-black tw:flex tw:flex-col tw:gap-6"
               tabindex="-1"
               id="offcanvasExample"
               aria-labelledby="offcanvasExampleLabel">
-              <div class="tw-flex tw-w-full tw-justify-between tw-items-center">
-                <h5 class="h3 !tw-text-black tw-font-bold" id="offcanvasExampleLabel">{{ block.settings.title }}</h5>
+              <div class="tw:flex tw:w-full tw:justify-between tw:items-center">
+                <h5 class="h3 tw:text-black! tw:font-bold" id="offcanvasExampleLabel">{{ block.settings.title }}</h5>
                 <button
                   type="button"
                   class="btn-close text-reset"
@@ -315,7 +315,7 @@
                   {{ 'lucide-x.svg' | inline_asset_content }}
                 </button>
               </div>
-              <div class="tw-bg-red-500">
+              <div class="tw:bg-red-500">
                 {{ block.settings.extended_description }}
               </div>
             </div>
