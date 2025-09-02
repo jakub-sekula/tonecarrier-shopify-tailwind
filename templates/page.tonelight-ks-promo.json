@@ -19,52 +19,9 @@
         "padding_bottom": 28
       }
     },
-    "rich_text_PAq9WV": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_QDx8cQ": {
-          "type": "heading",
-          "settings": {
-            "heading": "Hello gowno jebane",
-            "heading_size": "h1"
-          }
-        },
-        "text_NnQFBa": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
-          }
-        },
-        "button_XRcFNR": {
-          "type": "button",
-          "settings": {
-            "button_label": "Button label",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_QDx8cQ",
-        "text_NnQFBa",
-        "button_XRcFNR"
-      ],
-      "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
-      }
-    },
-    "tc_tonelight_ks_hero_TYGAHL": {
+    "tc_tonelight_ks_hero_Khy4Di": {
       "type": "tc-tonelight-ks-hero",
-      "name": "Hero section with form",
+      "name": "toneLight KS Hero se",
       "settings": {
         "background_blur": 0,
         "background_opacity": 10,
@@ -75,7 +32,6 @@
   },
   "order": [
     "main",
-    "tc_tonelight_ks_hero_TYGAHL",
-    "rich_text_PAq9WV"
+    "tc_tonelight_ks_hero_Khy4Di"
   ]
 }

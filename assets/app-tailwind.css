@@ -28,7 +28,6 @@ layer(utilities);
 .sdd-download {
   display: flex!important;
   flex-direction: column;
-  /* align-items: center; */
   justify-content: start!important;
   text-align: left!important;
   max-width: 400px!important;

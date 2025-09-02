@@ -1,6 +1,6 @@
 {%- style -%}
 
-  .homepage-hero-section-{{ section.id }} {
+  .hero-section-{{ section.id }} {
     z-index: 1;
     height: 100%;
     position: relative;
@@ -11,239 +11,239 @@
     display: flex;
     flex-direction: column;
     overflow: visible;
-}
+  }
 
-.hero-blocks {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  margin: 6rem auto 10rem auto;
-}
-
-
-.homepage-hero-background {
-  background: black;
-  position: absolute;
-  z-index: -10;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 80%;
-}
-
-.homepage-hero-background video, .homepage-hero-background img {
-  background: black;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: calc({{ section.settings.background_opacity }} / 100);
-  filter: blur({{ section.settings.background_blur }}px)
-}
+  .hero-blocks {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin: 6rem auto 10rem;
+  }
 
 
-.hero-heading {
-  font-family: "Inter Tight"
-  , sans-serif;
-  font-weight: 500;
-  color: white;
-  font-size: 3.25rem;
-  line-height: 1.2em;
-  letter-spacing: -0.02em;
-}
+  .hero-background {
+    background: black;
+    position: absolute;
+    z-index: -10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80%;
+  }
 
-.hero-heading strong {
-  background-image: linear-gradient(to right, #f59e0b, #f87171);
-  background-clip: text;
-  color: transparent;
-  font-optical-sizing: auto;
-  font-weight: 800;
-  font-style: normal;
-}
+  .hero-background video,
+  .hero-background img {
+    background: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: calc({{ section.settings.background_opacity }} / 100);
+    filter: blur({{ section.settings.background_blur }}px)
+  }
 
-.hero-text {
-  font-size: 1.4rem;
-  line-height: 1.5em;
-  margin: 0 auto;
-  margin-bottom: 2rem;
-  font-weight: 200;
-}
 
-@media (max-width: 330px) {
-  .hero-heading * {
+  .hero-heading {
+    font-family: "Inter Display"
+    , sans-serif;
+    font-weight: 300;
+    color: white;
+    font-size: 3.25rem;
+    line-height: 1.2em;
+    letter-spacing: -0.02em;
+
+  }
+
+  .hero-heading strong {
+    background-image: linear-gradient(to right, #f59e0b, #f87171);
+    background-clip: text;
+    color: transparent;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  .hero-text {
+    font-size: 1.4rem;
+    line-height: 1.5em;
+    font-weight: 100;
+    font-family: 'Inter'
+  }
+
+  @media (max-width: 330px) {
+    .hero-heading * {
+      display: inline
+    }
+
+    .hero-heading p:not(:last-child) {
+      margin-right: 0.5ch;
+    }
+  }
+
+  .hero-text p {
     display: inline
   }
 
-  .hero-heading p:not(:last-child) {
+  .hero-text p:not(:last-child) {
+    /* margin-bottom: 1rem; */
     margin-right: 0.5ch;
   }
-}
 
-.hero-text p {
-  display: inline
-}
+  .hero-content-wrapper {
+    margin: 0 auto;
+    width: 100%;
+  }
 
-.hero-text p:not(:last-child) {
-  /* margin-bottom: 1rem; */
-  margin-right: 0.5ch;
-}
+  .hero-button-container {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    gap: 2rem;
+    margin: 0 auto;
+  }
 
-.hero-content-wrapper {
-  margin: 0 auto;
-  width: 100%;
-}
+  .hero-button-container .button {
+    flex-shrink: 0;
+    background: var(--tw-color-orange-500);
+    color: white;
+    /* letter-spacing: inherit; */
+    font-size: 1.6rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-weight: 400;
+    font-family: "Inter Tight"
+    , sans-serif;
+  }
 
-.hero-button-container {
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-  gap: 2rem;
-  margin: 0 auto;
-}
+  .hero-button-container .button--secondary {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--tw-color-white);
+    color: var(--tw-color-white);
+  }
 
-.hero-button-container .button {
-  flex-shrink: 0;
-  background: var(--tw-color-orange-500);
-  color: white;
-  /* letter-spacing: inherit; */
-  font-size: 1.6rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  font-weight: 400;
-  font-family: "Inter Tight"
-  , sans-serif;
-}
+  .hero-media-container {
+    width: 100%;
+    max-width: 800px;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    margin: 0 auto;
+    box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px
+    , rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+    border-radius: 0.5rem;
+    position: relative;
+  }
 
-.hero-button-container .button--secondary {
-  flex-shrink: 0;
-  background: transparent;
-  border: 1px solid var(--tw-color-white);
-  color: var(--tw-color-white);
-}
-
-.hero-media-container {
-  width: 100%;
-  max-width: 800px;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 16 / 9;
-  margin: 0 auto;
-  box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px
-  , rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-  border-radius: 0.5rem;
-  position: relative;
-}
-
-.hero-media-container video {
-  border-radius: 0.5rem;
-  z-index: 2;
-}
+  .hero-media-container video {
+    border-radius: 0.5rem;
+    z-index: 2;
+  }
 
 
-.hero-media-glow {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 30%;
-  z-index: 1;
-  box-shadow: 0 0 160px 6px rgba(255, 140, 0, 0.15);
-}
+  .hero-media-glow {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 30%;
+    z-index: 1;
+    box-shadow: 0 0 160px 6px rgba(255, 140, 0, 0.15);
+  }
 
-@media (min-width: 450px) {
+  @media (min-width: 450px) {
+    .hero-blocks {
+      text-align: center;
+    }
+
+    .hero-heading {
+      font-size: 4rem;
+    }
+
+
+  }
+
+
+  @media (min-width: 540px) {
+
+    .hero-button-container {
+      flex-direction: row;
+      width: 100%;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+
+  }
+
+
+  @media (min-width: 600px) {
+    .hero-text p {
+      display: inherit
+    }
+  }
+
+  /* md (min-width: 768px) */
+
+  @media (min-width: 768px) {
+
+    .hero-background {
+      height: 85%;
+    }
+
+
+    .hero-section-{{ section.id }} {
+      padding-top: calc(6rem + var(--dynamic-header-height));
+      margin-top: calc(-1 * var(--dynamic-header-height));
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem
+    }
+
+    .hero-heading {
+      font-size: 5rem;
+      margin-top:5rem;
+      margin-bottom: 2rem
+    }
+
+    .hero-text {
+      font-size: 2.0rem;
+      margin-bottom: 6rem
+    }
+
+    .hero-content-wrapper {}
+
   .hero-blocks {
     text-align: center;
   }
 
-  .hero-heading {
-    font-size: 4rem;
+  .hero-media-container {
+    max-width: 1200px;
+    margin-top: 3rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px
+    , rgba(0, 0, 0, 0.3) 0 30px 60px -30px;
   }
 
-
-}
-
-@media (min-width: 540px) {
-
   .hero-button-container {
-    flex-direction: row;
-    width: 100%;
-    justify-content: center;
+    margin-top: 1rem;
     gap: 2rem;
   }
 
-
-}
-
-@media (min-width: 600px){
-  .hero-text p {
-    display: inherit
-  }
-}
-
-/* md (min-width: 768px) */
-@media (min-width: 768px) {
-
-  .homepage-hero-background {
-    height: 85%;
-  }
-
-
-  
-
-  .homepage-hero-section-{{ section.id }} {
-    padding-top: calc(6rem + var(--dynamic-header-height));
-    margin-top: calc(-1 * var(--dynamic-header-height));
-    flex-direction: column;
-    align-items: center;
-    gap: 3rem
-  }
-
-  .hero-heading {
-    font-size: 5rem
-  }
-
-  .hero-text {
+  .hero-button-container .button {
     font-size: 1.6rem;
+    padding-top: inherit;
+    padding-bottom: inherit;
   }
-
-  .hero-content-wrapper {}
-
-.hero-blocks {
-  text-align: center;
-}
-
-.hero-media-container {
-  max-width: 1200px;
-  margin-top: 3rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px
-  , rgba(0, 0, 0, 0.3) 0 30px 60px -30px;
-}
-
-.hero-text {}
-
-
-.hero-button-container {
-  margin-top: 1rem;
-  gap: 2rem;
-}
-
-.hero-button-container .button {
-  font-size: 1.6rem;
-  padding-top: inherit;
-  padding-bottom: inherit;
-}
-
-
 }
 
 /* lg (min-width: 1024px) */
 @media (min-width: 1024px) {
 
   .hero-heading {
-    font-size: 7rem
+    font-size: 4.8rem
   }
 
   .hero-text {
@@ -264,97 +264,74 @@
 ;
 /* Add your '2xl' styles here */
 }
-
-
 {%- endstyle -%}
 
-<section class="isolate homepage-hero-section-{{section.id}} tw:overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
-  <div class="hero-content-wrapper {% unless section.settings.full_width %} page-width{% endunless %}">
-    <div class="hero-blocks">
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'heading' -%}
-            <h1
-              class="hero-heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-              {{ block.shopify_attributes }}
-              {% if settings.animations_reveal_on_scroll %}
-              data-cascade
-              style="--animation-order: {{ forloop.index }};"
-              {% endif %}>
-              {{ block.settings.heading }}
-            </h1>
-          {%- when 'caption' -%}
-            <p
-              class="hero-caption hero-richtext {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-              {{ block.shopify_attributes }}
-              {% if settings.animations_reveal_on_scroll %}
-              data-cascade
-              style="--animation-order: {{ forloop.index }};"
-              {% endif %}>
-              {{ block.settings.caption | escape }}
-            </p>
-          {%- when 'text' -%}
-            <div
-              class="hero-text hero-richtext rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-              {{ block.shopify_attributes }}
-              {% if settings.animations_reveal_on_scroll %}
-              data-cascade
-              style="--animation-order: {{ forloop.index }};"
-              {% endif %}>
-              {{ block.settings.text }}
-            </div>
-          {%- when 'button' -%}
-            <div
-              class="hero-button-container {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-              {{ block.shopify_attributes }}
-              {% if settings.animations_reveal_on_scroll %}
-              data-cascade
-              style="--animation-order: {{ forloop.index }};"
-              {% endif %}>
-              {%- if block.settings.button_label != blank -%}
-                {% comment %} {% render 'tc-button'
-                                                                                                                                                                                                                        , type: "link"
-                                                                                                                                                                                                                        , url: block.settings.button_link
-                                                                                                                                                                                                  , text: block.settings.button_label %}  {% endcomment %}
+<section class="isolate hero-section-{{section.id}} tw:overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
+  <div class="hero-content-wrapper tw:min-h-screen {% unless section.settings.full_width %} page-width{% endunless %}">
+    <div class="tw:flex">
+      <div class="tw:flex tw:flex-col tw:w-7/12 tw:pr-8 tw:pt-10">
 
-                <a href="{{block.settings.button_link}}" class="button">
-                  {{ block.settings.button_label }}
-                </a>
-              {%- endif -%}
-              {%- if block.settings.button_label_2 != blank -%}
-                {% comment %} {% render 'tc-button'
-                                                                                                                                                                                                      , type: "link"
-                                                                                                                                                                                                      , url: block.settings.button_link_2
-                                                                                                                                                                                  , text: block.settings.button_label_2 %} {% endcomment %}
-                <a href="{{block.settings.button_link_2}}" class="button button--secondary">
-                  {{ block.settings.button_label_2 }}
-                </a>
-              {%- endif -%}
-            </div>
-        {%- endcase -%}
-      {%- endfor -%}
+        <div class="tw:flex tw:flex-row tw:h-8 tw:gap-6 tw:items-center tw:max-w-fit">
+          Coming soon to
+          <img src="{{'kickstarter-logo.svg' |  asset_url}}" class="tw:h-full" />
+        </div>
+        <h1 class="hero-heading">Turn your digital camera into a precision film scanner</h1>
+        <p class="hero-text">Meet toneLight, the smart RGB scanning light that delivers clean colours,  
+improved dynamic range, and a professional workflow that just makes sense.</p>
+        <div class="form">
+          {% render 'tc-kickstarter-prelaunch-form' %}
+        </div>
       </div>
-      <div
-        class="hero-media-container {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-        {% if settings.animations_reveal_on_scroll %}
-        data-cascade
-        style="--animation-order: 5;"
-        {% endif %}>
-        <div class="hero-media-glow"></div>
-        {% assign hero_poster = section.settings.hero_image | img_url: width: 1200 %}
-        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: true,  image_size: "1000px", poster: hero_poster }}
-      </div>
+      <div class="tw:flex tw:flex-col tw:w-5/12 tw:h-full tw:bg-purple-800 tw:aspect-square"></div>
+    </div>
+  {% comment %} <div class="hero-blocks">
+            
+                  {%- for block in section.blocks -%}
+                    {%- case block.type -%}
+                      {%- when 'heading' -%}
+                        <h1
+                          class="hero-heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                          {{ block.shopify_attributes }}
+                          {% if settings.animations_reveal_on_scroll %}
+                          data-cascade
+                          style="--animation-order: {{ forloop.index }};"
+                          {% endif %}>
+                          {{ block.settings.heading }}
+                        </h1>
+                      {%- when 'caption' -%}
+                        <p
+                          class="hero-caption hero-richtext {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                          {{ block.shopify_attributes }}
+                          {% if settings.animations_reveal_on_scroll %}
+                          data-cascade
+                          style="--animation-order: {{ forloop.index }};"
+                          {% endif %}>
+                          {{ block.settings.caption | escape }}
+                        </p>
+                      {%- when 'text' -%}
+                        <div
+                          class="hero-text hero-richtext rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                          {{ block.shopify_attributes }}
+                          {% if settings.animations_reveal_on_scroll %}
+                          data-cascade
+                          style="--animation-order: {{ forloop.index }};"
+                          {% endif %}>
+                          {{ block.settings.text }}
+                        </div>
+                    {%- endcase -%}
+                  {%- endfor -%}
+          </div> {% endcomment %}
   </div>
-  <div class="homepage-hero-background">
-  {% if section.settings.background_video != blank %}
+  <div class="hero-background">
+    {% if section.settings.background_video != blank %}
       {% assign bg_poster = section.settings.background_image | img_url: width: 1200 %}
       {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, preload: "auto", image_size: "1200px", poster: bg_poster }}
-  
+
     {% endif %}
-      {% if section.settings.background_video == blank and section.settings.background_image != blank %}
-        {{ section.settings.background_image | image_url: width: 1200 | image_tag: class: "homepage-hero-background" }}
-      {% endif %}
-    </div>
+    {% if section.settings.background_video == blank and section.settings.background_image != blank %}
+      {{ section.settings.background_image | image_url: width: 1200 | image_tag: class: "hero-background" }}
+    {% endif %}
+  </div>
 </section>
 
 <script>
