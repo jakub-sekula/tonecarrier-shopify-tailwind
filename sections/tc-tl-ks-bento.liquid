@@ -1,0 +1,112 @@
+{%- style -%}
+  .section-{{ section.id }} h3 {
+    color: unset;
+    font-family: unset;
+    font-style: unset;
+    font-weight: unset;
+    letter-spacing: unset;
+    line-height: unset;
+    word-break: unset;
+  }
+
+{%- endstyle -%}
+
+<section class="isolate tw:overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding tw:w-full tw:mb-24">
+  <div class="page-width">
+    <div
+      class="tw:grid tw:grid-cols-3 tw:grid-rows-4 tw:gap-4"
+      {% if settings.animations_reveal_on_scroll %}data-cascade{% endif %}
+    >
+{% for i in (1..12) %}
+  <div class="tw:bg-neutral-200 tw:min-h-48 tw:flex tw:flex-col tw:rounded-md tw:w-full tw:h-full tw:p-4{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+       {% if settings.animations_reveal_on_scroll %}style="--animation-order: {{ forloop.index }};"{% endif %}>
+    bentooo
+  </div>
+{% endfor %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Kickstarter Bento Grid",
+    "tag": "section",
+    "class": "section",
+    "disabled_on": {
+      "groups": ["header", "footer"]
+    },
+    "blocks": [
+      {
+        "type": "heading",
+        "name": "t:sections.rich-text.blocks.heading.name",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "heading",
+            "label": "t:sections.rich-text.blocks.heading.settings.heading.label"
+          },
+          {
+            "type": "select",
+            "id": "heading_size",
+            "options": [
+              {
+                "value": "h2",
+                "label": "t:sections.all.heading_size.options__1.label"
+              },
+              {
+                "value": "h1",
+                "label": "t:sections.all.heading_size.options__2.label"
+              },
+              {
+                "value": "h0",
+                "label": "t:sections.all.heading_size.options__3.label"
+              },
+              {
+                "value": "hxl",
+                "label": "t:sections.all.heading_size.options__4.label"
+              }
+            ],
+            "default": "h1",
+            "label": "t:sections.all.heading_size.label"
+          }
+        ]
+      },
+      {
+        "type": "caption",
+        "name": "t:sections.rich-text.blocks.caption.name",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "text",
+            "id": "caption",
+            "default": "Add a tagline",
+            "label": "t:sections.rich-text.blocks.caption.settings.text.label"
+          },
+          {
+            "type": "select",
+            "id": "text_style",
+            "options": [
+              {
+                "value": "subtitle",
+                "label": "t:sections.rich-text.blocks.caption.settings.text_style.options__1.label"
+              },
+              {
+                "value": "caption-with-letter-spacing",
+                "label": "t:sections.rich-text.blocks.caption.settings.text_style.options__2.label"
+              }
+            ],
+            "default": "caption-with-letter-spacing",
+            "label": "t:sections.rich-text.blocks.caption.settings.text_style.label"
+          }
+        ]
+      }
+
+    ],
+    "presets": [
+      {
+        "name": "Kickstarter Bento Grid",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

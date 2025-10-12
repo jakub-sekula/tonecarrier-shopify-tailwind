@@ -2375,7 +2375,7 @@ product-info .loading__spinner:not(.hidden) ~ *,
   transition: top 0.15s ease-out;
 }
 
-.shopify-section-group-header-group {
+.shopify-section-group-header-group, .shopify-section-group-tc-tl-ks-header-group {
   z-index: 4;
 }
 

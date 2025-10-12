@@ -1,0 +1,115 @@
+{% schema %}
+{
+  "name": "Feature scroller",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        { "id": "title", "type": "text", "label": "Title" },
+        { "id": "caption", "type": "text", "label": "Caption" },
+        { "id": "image", "type": "image_picker", "label": "Image" },
+        { "id": "color", "type": "color", "label": "Background colour", "default": "#2563eb" }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [{ "name": "Feature scroller" }]
+}
+{% endschema %}
+
+
+{% assign features = '' %}
+{% for block in section.blocks %}
+  {% capture item %}
+  {
+    "title": {{ block.settings.title | json }},
+    "caption": {{ block.settings.caption | json }},
+    "color": {{ block.settings.color | json }}
+  }
+  {% endcapture %}
+  {% assign features = features | append: item %}
+  {% unless forloop.last %}{% assign features = features | append: ',' %}{% endunless %}
+{% endfor %}
+{% assign features_json = '[' | append: features | append: ']' %}
+
+<section id="feature-scroller" class="tw:relative tw:px-8 tw:py-24 page-width">
+  <div class="tw:relative tw:h-[{{ section.blocks.size | times: 100 }}vh]">
+    <!-- Sticky wrapper -->
+    <div id="feature-sticky"
+         class="tw:sticky tw:top-[125px] tw:h-[75vh] tw:transition-colors tw:duration-700 tw:rounded-xl tw:flex tw:gap-12 tw:items-center tw:justify-between tw:px-8 tw:overflow-hidden"
+         style="background-color: {{ section.blocks.first.settings.color }};">
+      <!-- LEFT column -->
+      <div id="feature-text" class="tw:w-1/2 tw:flex tw:flex-col tw:gap-4 tw:text-white">
+        {% for block in section.blocks %}
+          <div class="feature-card tw-transition-all tw-duration-500 tw-opacity-60 tw:bg-white/10 tw:overflow-hidden" data-index="{{ forloop.index0 }}">
+            <h2 class="tw:text-6xl tw-font-semibold">{{ block.settings.title }}</h2>
+            <div class="feature-caption tw:max-h-0 tw-overflow-hidden tw-transition-all tw-duration-500">
+              <p class="tw:mt-2 tw:text-base">{{ block.settings.caption }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- RIGHT column -->
+      <div class="tw:w-1/2 tw:relative tw:aspect-square tw:rounded-xl tw:overflow-hidden">
+        {% for block in section.blocks %}
+          <img class="feature-img tw:absolute tw:inset-0 tw:w-full tw:h-full tw:object-cover tw:transition-opacity tw:duration-700 {% if forloop.first %}tw:opacity-100{% else %}tw:opacity-0{% endif %}"
+               src="{{ block.settings.image | img_url: '800x' }}"
+               alt="{{ block.settings.title | escape }}">
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Invisible triggers -->
+    <div class="tw:absolute tw:inset-0 tw:flex tw:flex-col tw:justify-between">
+      {% for block in section.blocks %}
+        <div class="feature-trigger" data-index="{{ forloop.index0 }}" style="height:{{ 100 | divided_by: section.blocks.size }}%;"></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const features = {{ features_json | raw }};
+  const triggers = document.querySelectorAll("#feature-scroller .feature-trigger");
+  const images = document.querySelectorAll("#feature-scroller .feature-img");
+  const cards = document.querySelectorAll("#feature-scroller .feature-card");
+  const captions = document.querySelectorAll("#feature-scroller .feature-caption");
+  const sticky = document.querySelector("#feature-sticky");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const i = parseInt(entry.target.dataset.index, 10);
+        const f = features[i];
+
+        sticky.style.backgroundColor = f.color || "#2563eb";
+
+        cards.forEach((card, idx) => {
+          const caption = captions[idx];
+          if (idx === i) {
+            card.classList.add("tw:bg-white", "tw:text-neutral-900", "tw-opacity-100");
+            card.classList.remove("tw:bg-white/10", "tw-text-white", "tw-opacity-60");
+            caption.style.maxHeight = caption.scrollHeight + "px";
+            caption.style.opacity = "1";
+          } else {
+            card.classList.remove("tw:bg-white", "tw:text-neutral-900", "tw-opacity-100");
+            card.classList.add("tw:bg-white/10", "tw-text-white", "tw-opacity-60");
+            caption.style.maxHeight = "0";
+            caption.style.opacity = "0";
+          }
+        });
+
+        images.forEach((img, idx) => {
+          img.style.opacity = idx === i ? "1" : "0";
+        });
+      }
+    });
+  }, { threshold: 0.6 });
+
+  triggers.forEach((t) => observer.observe(t));
+});
+</script>

@@ -29,7 +29,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 80%;
+    height: 100%;
   }
 
   .hero-background video,
@@ -57,19 +57,53 @@
 
   }
 
-  .hero-heading strong {
-    background-image: linear-gradient(to right, #f59e0b, #f87171);
-    background-clip: text;
-    color: transparent;
-    font-optical-sizing: auto;
-    font-weight: 800;
-    font-style: normal;
+/* Perceptually uniform RGB sweep in OKLCH, with fallback */
+.hero-heading strong {
+  /* Fallback for older browsers */
+  background-image: linear-gradient(90deg, #d32, #2a5, #26c, #d32);
+  background-size: 100% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 600;
+  animation: gradientSlide 10s linear infinite;
+}
+@supports (color: oklch(0.7 0.25 29)) {
+  :root {
+    --l: 0.7;   /* brightness */
+    --c: 0.25;  /* crank chroma for vibrancy */
+    --r: 29;    /* red hue */
+    --g: 142;   /* green hue */
+    --b: 265;   /* blue hue */
   }
 
-  .hero-text {
+
+  .hero-heading strong {
+    background-image: linear-gradient(
+      90deg,
+      oklch(var(--l) var(--c) var(--r)) 0%,
+      oklch(var(--l) var(--c) var(--g)) 33.333%,
+      oklch(var(--l) var(--c) var(--b)) 66.666%,
+      oklch(var(--l) var(--c) var(--r)) 100%
+    );
+    background-size: 300% 100%;
+  }
+}
+
+@keyframes gradientSlide {
+  0%   { background-position:   0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Optional: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-heading strong { animation: none; background-position: 50% 50%; }
+}
+
+.hero-text {
     font-size: 1.4rem;
     line-height: 1.5em;
-    font-weight: 100;
+    font-weight: 200;
     font-family: 'Inter'
   }
 
@@ -190,11 +224,6 @@
 
   @media (min-width: 768px) {
 
-    .hero-background {
-      height: 85%;
-    }
-
-
     .hero-section-{{ section.id }} {
       padding-top: calc(6rem + var(--dynamic-header-height));
       margin-top: calc(-1 * var(--dynamic-header-height));
@@ -266,61 +295,24 @@
 }
 {%- endstyle -%}
 
-<section class="isolate hero-section-{{section.id}} tw:overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
-  <div class="hero-content-wrapper tw:min-h-screen {% unless section.settings.full_width %} page-width{% endunless %}">
-    <div class="tw:flex">
-      <div class="tw:flex tw:flex-col tw:w-7/12 tw:pr-8 tw:pt-10">
+<section class="tw:py-24 isolate hero-section-{{section.id}} tw:overflow-hidden section-{{ section.id }} section-{{ section.id }}-padding ">
+  <div class="hero-content-wrapper  {% unless section.settings.full_width %} page-width{% endunless %}">
+    <div class="tw:flex tw:flex-col tw:md:flex-row tw:justify-center">
+      <div class="tw:flex tw:flex-col tw:text-center tw:md:text-left tw:items-center tw:md:items-start tw:md:w-7/12 tw:pr-8 tw:pt-10">
 
         <div class="tw:flex tw:flex-row tw:h-8 tw:gap-6 tw:items-center tw:max-w-fit">
           Coming soon to
           <img src="{{'kickstarter-logo.svg' |  asset_url}}" class="tw:h-full" />
         </div>
-        <h1 class="hero-heading">Turn your digital camera into a precision film scanner</h1>
+        <h1 class="hero-heading">Turn your digital camera into a <strong>precision film scanner.</strong></h1>
         <p class="hero-text">Meet toneLight, the smart RGB scanning light that delivers clean colours,  
 improved dynamic range, and a professional workflow that just makes sense.</p>
-        <div class="form">
+        <div class="form tw:w-full">
           {% render 'tc-kickstarter-prelaunch-form' %}
         </div>
       </div>
-      <div class="tw:flex tw:flex-col tw:w-5/12 tw:h-full tw:bg-purple-800 tw:aspect-square"></div>
+      <div class="tw:flex tw:flex-col tw:md:w-5/12 tw:h-full tw:bg-neutral-900 tw:aspect-square"></div>
     </div>
-  {% comment %} <div class="hero-blocks">
-            
-                  {%- for block in section.blocks -%}
-                    {%- case block.type -%}
-                      {%- when 'heading' -%}
-                        <h1
-                          class="hero-heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                          {{ block.shopify_attributes }}
-                          {% if settings.animations_reveal_on_scroll %}
-                          data-cascade
-                          style="--animation-order: {{ forloop.index }};"
-                          {% endif %}>
-                          {{ block.settings.heading }}
-                        </h1>
-                      {%- when 'caption' -%}
-                        <p
-                          class="hero-caption hero-richtext {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                          {{ block.shopify_attributes }}
-                          {% if settings.animations_reveal_on_scroll %}
-                          data-cascade
-                          style="--animation-order: {{ forloop.index }};"
-                          {% endif %}>
-                          {{ block.settings.caption | escape }}
-                        </p>
-                      {%- when 'text' -%}
-                        <div
-                          class="hero-text hero-richtext rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                          {{ block.shopify_attributes }}
-                          {% if settings.animations_reveal_on_scroll %}
-                          data-cascade
-                          style="--animation-order: {{ forloop.index }};"
-                          {% endif %}>
-                          {{ block.settings.text }}
-                        </div>
-                    {%- endcase -%}
-                  {%- endfor -%}
-          </div> {% endcomment %}
   </div>
   <div class="hero-background">
     {% if section.settings.background_video != blank %}
@@ -335,8 +327,10 @@ improved dynamic range, and a professional workflow that just makes sense.</p>
 </section>
 
 <script>
-        const header = document.querySelector('sticky-header');
+        const header = document.querySelector('.ks-header');
         const announcementBar = document.querySelector('.announcement-bar-section');
+        
+        console.log(header)
 
         function updateHeaderHeight() {
             const headerHeight = header.offsetHeight;
@@ -367,7 +361,7 @@ improved dynamic range, and a professional workflow that just makes sense.</p>
 
 {% schema %}
   {
-    "name": "Hero section",
+    "name": "Kickstarter hero section",
     "tag": "section",
     "class": "section",
     "disabled_on": {
@@ -413,12 +407,6 @@ improved dynamic range, and a professional workflow that just makes sense.</p>
         "type": "image_picker",
         "id": "hero_image",
         "label": "Hero image"
-      },
-      {
-        "type": "color_scheme",
-        "id": "color_scheme",
-        "label": "t:sections.all.colors.label",
-        "default": "scheme-1"
       },
       {
         "type": "range",

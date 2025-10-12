@@ -19,19 +19,61 @@
         "padding_bottom": 28
       }
     },
-    "tc_tonelight_ks_hero_Khy4Di": {
-      "type": "tc-tonelight-ks-hero",
-      "name": "toneLight KS Hero se",
+    "tc_tl_ks_hero_Khy4Di": {
+      "type": "tc-tl-ks-hero",
+      "name": "toneLight KS Hero",
       "settings": {
         "background_blur": 0,
         "background_opacity": 10,
-        "color_scheme": "",
         "margin_bottom": 60
       }
+    },
+    "tc_tl_ks_bento_YJiNcG": {
+      "type": "tc-tl-ks-bento",
+      "name": "Kickstarter Bento Grid",
+      "settings": {}
+    },
+    "tc_tl_ks_feature_highlight_bbRQbb": {
+      "type": "tc-tl-ks-feature-highlight",
+      "blocks": {
+        "feature_f8wrMB": {
+          "type": "feature",
+          "settings": {
+            "title": "keke",
+            "caption": "fdsfds",
+            "image": "shopify://shop_images/DSCF4457_triplet_edited_small_901b33ab-b83d-4f15-a382-e3cfe7c64dad.jpg"
+          }
+        },
+        "feature_FMiJeQ": {
+          "type": "feature",
+          "settings": {
+            "title": "feature 2",
+            "caption": "hello world",
+            "image": "shopify://shop_images/APC_0936-Edit.jpg"
+          }
+        },
+        "feature_etb4WL": {
+          "type": "feature",
+          "settings": {
+            "title": "feature 3",
+            "caption": "gowno sranie",
+            "image": "shopify://shop_images/tone-black-square_00d47796-611e-405b-a7ec-163fe1e77d89.png"
+          }
+        }
+      },
+      "block_order": [
+        "feature_f8wrMB",
+        "feature_FMiJeQ",
+        "feature_etb4WL"
+      ],
+      "name": "Feature Scroller",
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "tc_tonelight_ks_hero_Khy4Di"
+    "tc_tl_ks_hero_Khy4Di",
+    "tc_tl_ks_bento_YJiNcG",
+    "tc_tl_ks_feature_highlight_bbRQbb"
   ]
 }
