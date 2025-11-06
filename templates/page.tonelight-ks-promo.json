@@ -32,7 +32,7 @@
         "caption_f73gnc": {
           "type": "caption",
           "settings": {
-            "caption": "toneLight is a smart RGB scanning light that delivers clean colours, improved dynamic range, and a professional DSLR scanning workflow like never seen before.",
+            "caption": "toneLight is a smart RGB scanning light that delivers clean colours, improved dynamic range, and a DSLR scanning workflow like never seen before.",
             "text_style": "caption-with-letter-spacing",
             "text_size": "medium"
           }
