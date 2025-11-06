@@ -532,7 +532,7 @@
     "checkout": {
       "contact": {
         "phone_label": "Phone (required)",
-        "phone_tooltip": "Provide a phone number so customs can contact you in case of import charges - this can reduce delays for international orders "
+        "phone_tooltip": "Provide a number for customs to contact you to reduce shipping delays and inconvenience"
       }
     }
   }
