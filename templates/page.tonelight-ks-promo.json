@@ -21,15 +21,53 @@
     },
     "tc_tl_ks_hero_Khy4Di": {
       "type": "tc-tl-ks-hero",
+      "blocks": {
+        "heading_b6WqKq": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p>Turn your digital camera into a<strong>&nbsp;precision film scanner.</strong></p>",
+            "heading_size": "h1"
+          }
+        },
+        "caption_f73gnc": {
+          "type": "caption",
+          "settings": {
+            "caption": "toneLight is a smart RGB scanning light that delivers clean colours, improved dynamic range, and a professional DSLR scanning workflow like never seen before.",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "button_B8KPEP": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_b6WqKq",
+        "caption_f73gnc",
+        "button_B8KPEP"
+      ],
       "name": "toneLight KS Hero",
       "settings": {
+        "background_image": "shopify://shop_images/APC_0936-Edit.jpg",
         "background_blur": 0,
         "background_opacity": 10,
-        "margin_bottom": 60
+        "hero_video": "shopify://files/videos/Website promo.mov",
+        "hero_image": "shopify://shop_images/DSCF4457_triplet_edited_small_901b33ab-b83d-4f15-a382-e3cfe7c64dad.jpg",
+        "color_scheme": "",
+        "margin_bottom": 0
       }
     },
     "tc_tl_ks_bento_YJiNcG": {
       "type": "tc-tl-ks-bento",
+      "disabled": true,
       "name": "Kickstarter Bento Grid",
       "settings": {}
     },
@@ -41,7 +79,8 @@
           "settings": {
             "title": "keke",
             "caption": "fdsfds",
-            "image": "shopify://shop_images/DSCF4457_triplet_edited_small_901b33ab-b83d-4f15-a382-e3cfe7c64dad.jpg"
+            "image": "shopify://shop_images/DSCF4457_triplet_edited_small_901b33ab-b83d-4f15-a382-e3cfe7c64dad.jpg",
+            "color": "#2563eb"
           }
         },
         "feature_FMiJeQ": {
@@ -49,7 +88,8 @@
           "settings": {
             "title": "feature 2",
             "caption": "hello world",
-            "image": "shopify://shop_images/APC_0936-Edit.jpg"
+            "image": "shopify://shop_images/APC_0936-Edit.jpg",
+            "color": "#2563eb"
           }
         },
         "feature_etb4WL": {
@@ -57,7 +97,8 @@
           "settings": {
             "title": "feature 3",
             "caption": "gowno sranie",
-            "image": "shopify://shop_images/tone-black-square_00d47796-611e-405b-a7ec-163fe1e77d89.png"
+            "image": "shopify://shop_images/tone-black-square_00d47796-611e-405b-a7ec-163fe1e77d89.png",
+            "color": "#2563eb"
           }
         }
       },
@@ -66,6 +107,7 @@
         "feature_FMiJeQ",
         "feature_etb4WL"
       ],
+      "disabled": true,
       "name": "Feature Scroller",
       "settings": {}
     }

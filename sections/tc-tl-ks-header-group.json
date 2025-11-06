@@ -39,8 +39,8 @@
     "header": {
       "type": "tc-tl-ks-header",
       "settings": {
-        "logo_position": "middle-left",
-        "menu": "ks-landing-page-menu",
+        "logo_position": "top-center",
+        "menu": "",
         "menu_type_desktop": "dropdown",
         "sticky_header_type": "reduce-logo-size",
         "show_line_separator": true,
