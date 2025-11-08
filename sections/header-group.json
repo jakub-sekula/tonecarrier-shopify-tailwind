@@ -60,15 +60,14 @@
         "announcement_Xb8JCB": {
           "type": "announcement",
           "settings": {
-            "text": "🇺🇸 Shipping delays for orders to the USA",
-            "link": "shopify://pages/usa-shipping-update"
+            "text": "Sign up here for updates about our RGB film scanning light!",
+            "link": "shopify://pages/tonelight-kickstarter-pre-launch-page"
           }
         }
       },
       "block_order": [
         "announcement_Xb8JCB"
       ],
-      "disabled": true,
       "custom_css": [
         ".announcement-bar-section {z-index: 2;}"
       ],
