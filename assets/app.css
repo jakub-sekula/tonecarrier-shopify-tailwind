@@ -1243,8 +1243,8 @@
   padding: 0 !important;
 }
 .sdd-download-image {
-  max-width: unset !important;
-  max-height: unset !important;
+  /* max-width: unset !important;
+  max-height: unset !important; */
   aspect-ratio: 3/2;
   object-fit: cover;
 }
