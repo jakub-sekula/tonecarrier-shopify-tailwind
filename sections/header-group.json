@@ -57,16 +57,16 @@
     "announcement_bar_c4whVU": {
       "type": "announcement-bar",
       "blocks": {
-        "announcement_Xb8JCB": {
+        "announcement_gEhrF8": {
           "type": "announcement",
           "settings": {
-            "text": "RGB scanning light announcement coming soon - sign up for updates!",
-            "link": "shopify://pages/tonelight-kickstarter-pre-launch-page"
+            "text": "Use code BFCM2025 for 15% off all orders above £100",
+            "link": ""
           }
         }
       },
       "block_order": [
-        "announcement_Xb8JCB"
+        "announcement_gEhrF8"
       ],
       "custom_css": [
         ".announcement-bar-section {z-index: 2;}"
