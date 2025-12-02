@@ -60,8 +60,8 @@
         "announcement_gEhrF8": {
           "type": "announcement",
           "settings": {
-            "text": "Use code BFCM2025 for 15% off all orders above £100",
-            "link": ""
+            "text": "View demo of our upcoming RGB scanning light and motorized carrier!",
+            "link": "shopify://pages/tonelight-kickstarter-pre-launch-page"
           }
         }
       },
