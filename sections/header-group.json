@@ -57,6 +57,13 @@
     "announcement_bar_c4whVU": {
       "type": "announcement-bar",
       "blocks": {
+        "announcement_QdWc63": {
+          "type": "announcement",
+          "settings": {
+            "text": "🎄 Christmas break - all orders placed after 19.12 will be shipped after 6.01 - digital downloads unaffected! 🎄",
+            "link": ""
+          }
+        },
         "announcement_gEhrF8": {
           "type": "announcement",
           "settings": {
@@ -66,16 +73,17 @@
         }
       },
       "block_order": [
+        "announcement_QdWc63",
         "announcement_gEhrF8"
       ],
       "custom_css": [
         ".announcement-bar-section {z-index: 2;}"
       ],
       "settings": {
-        "color_scheme": "scheme-5",
+        "color_scheme": "scheme-96b2bb21-d262-4d71-9c5f-40cdf390418c",
         "show_line_separator": true,
         "show_social": false,
-        "auto_rotate": false,
+        "auto_rotate": true,
         "change_slides_speed": 5,
         "enable_country_selector": false,
         "enable_language_selector": false
