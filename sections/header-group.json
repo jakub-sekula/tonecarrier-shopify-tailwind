@@ -57,13 +57,6 @@
     "announcement_bar_c4whVU": {
       "type": "announcement-bar",
       "blocks": {
-        "announcement_QdWc63": {
-          "type": "announcement",
-          "settings": {
-            "text": "🎄 Christmas break - all orders placed after 19.12 will be shipped after 9.01.2026 - digital downloads unaffected! 🎄",
-            "link": ""
-          }
-        },
         "announcement_gEhrF8": {
           "type": "announcement",
           "settings": {
@@ -73,7 +66,6 @@
         }
       },
       "block_order": [
-        "announcement_QdWc63",
         "announcement_gEhrF8"
       ],
       "custom_css": [
