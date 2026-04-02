@@ -57,6 +57,13 @@
     "announcement_bar_c4whVU": {
       "type": "announcement-bar",
       "blocks": {
+        "announcement_tFyVFz": {
+          "type": "announcement",
+          "settings": {
+            "text": "🐣 Easter break - all physical items ordered after 3 Apr will be shipped after 17 Apr. Digital downloads unaffected.",
+            "link": ""
+          }
+        },
         "announcement_gEhrF8": {
           "type": "announcement",
           "settings": {
@@ -66,6 +73,7 @@
         }
       },
       "block_order": [
+        "announcement_tFyVFz",
         "announcement_gEhrF8"
       ],
       "custom_css": [
