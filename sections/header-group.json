@@ -59,6 +59,7 @@
       "blocks": {
         "announcement_tFyVFz": {
           "type": "announcement",
+          "disabled": true,
           "settings": {
             "text": "🐣 Easter break - all physical items ordered after 3 Apr will be shipped after 17 Apr. Digital downloads unaffected.",
             "link": ""
