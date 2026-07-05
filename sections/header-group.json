@@ -59,6 +59,7 @@
       "blocks": {
         "announcement_tFyVFz": {
           "type": "announcement",
+          "disabled": true,
           "settings": {
             "text": "Summer break - all physical items ordered after 25 Jun will be shipped after 4 July. Digital downloads unaffected.",
             "link": ""
