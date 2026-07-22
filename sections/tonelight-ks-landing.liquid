@@ -532,6 +532,7 @@
     var G = [0,0.0033,0.0116,0.0199,0.0411,0.0652,0.0868,0.1132,0.156,0.2665,0.4036,0.4831,0.6423,0.817,0.919,1,0.9362,0.8976,0.7554,0.6453,0.4866,0.3511,0.2023,0.1153,0.0657,0.0477,0.0351,0.0252,0.0177,0.0135,0.0079,0.004,0.0019,0.0012,0.001];
     var B = [0,0,0.0589,0.151,0.4235,0.7212,0.8276,0.9565,1,0.9871,0.9267,0.7706,0.5878,0.4025,0.2297,0.1412,0.0914,0.0621,0.0387,0.0299,0.0246,0.0206,0.0149,0.0116,0.0102,0.0099,0.0089,0.0095,0.0077,0.0059,0.0027,0.0008,0.0005,0.0004,0.0003];
     var WL0 = 380, STEP = 10, N = R.length;
+    var SPD = [0.4242,0.4639,0.7024,0.7765,0.7931,0.7358,0.8901,0.9932,1,0.975,0.984,0.9236,0.9282,0.915,0.8895,0.9141,0.8862,0.8832,0.8488,0.8177,0.8131,0.7528,0.764,0.7605,0.7444,0.707,0.7104,0.6793,0.6809,0.6984,0.6645,0.5918,0.6078,0.6311,0.5229];
     var COL = { r: '#f2555a', g: '#4ade80', b: '#5a9cf0' };
     var LEDS = [{ c: 460, col: COL.b }, { c: 540, col: COL.g }, { c: 660, col: COL.r }];
     var SIGMA = 20 / (2 * Math.sqrt(2 * Math.log(2)));
@@ -539,7 +540,7 @@
     function ledData(c) { var d = []; for (var w = 380; w <= 720; w += 2) d.push([w, +(0.98 * Math.exp(-0.5 * Math.pow((w - c) / SIGMA, 2))).toFixed(4)]); return d; }
 
     var caps = {
-      white: "Under white light, all three sensor channels respond at once — and they overlap. The sensor can't cleanly separate the film's dye layers, and that mixing is crosstalk.",
+      white: "Under white light — the dashed spectrum — all three sensor channels respond at once, and they overlap. The sensor can't cleanly separate the film's dye layers, and that mixing is crosstalk.",
       rgb: "toneLight fires narrowband red, green and blue at 660, 540 and 460 nm — each lands where one channel dominates, so every exposure reads essentially one dye layer cleanly."
     };
     var sub = root.querySelector('[data-cap]');
@@ -555,7 +556,10 @@
       var op = mode === 'rgb' ? 0.05 : 0.26;
       var s = [sensor('Blue', COL.b, pair(B), op), sensor('Green', COL.g, pair(G), op), sensor('Red', COL.r, pair(R), op)];
       if (mode === 'white') {
-        s[1].markArea = { silent: true, itemStyle: { color: 'rgba(255,255,255,0.07)' },
+        s.unshift({ name: 'White light', type: 'line', smooth: 0.3, symbol: 'none', showSymbol: false,
+          data: pair(SPD), lineStyle: { color: '#d0d0d0', width: 1.5, type: 'dashed' },
+          areaStyle: { color: '#ffffff', opacity: 0.05 }, emphasis: { disabled: true }, tooltip: { show: false }, z: 1 });
+        s[2].markArea = { silent: true, itemStyle: { color: 'rgba(255,255,255,0.07)' },
           label: { show: true, position: 'insideTop', color: '#9a9a9a', fontSize: 11, formatter: 'overlap' },
           data: [[{ xAxis: 480 }, { xAxis: 520 }], [{ xAxis: 558 }, { xAxis: 602 }]] };
       } else {
@@ -575,10 +579,18 @@
           textStyle: { color: '#e5e5e5', fontSize: 12 }, axisPointer: { type: 'line', lineStyle: { color: 'rgba(255,255,255,.25)' } },
           formatter: function (ps) { var out = Math.round(ps[0].axisValue) + ' nm'; ps.forEach(function (p) { if (p.seriesName.indexOf('nm') < 0) out += '<br>' + p.marker + p.seriesName + ': ' + Math.round(p.value[1] * 100) + '%'; }); return out; } },
         xAxis: { type: 'value', min: 380, max: 720, interval: 100,
-          name: 'Wavelength (nm)', nameLocation: 'middle', nameGap: 30, nameTextStyle: { color: '#7a7a7a', fontSize: 12 },
-          axisLine: { lineStyle: { color: 'rgba(255,255,255,.18)' } }, axisTick: { show: false },
-          axisLabel: { color: '#7a7a7a', fontSize: 11 }, splitLine: { show: false } },
-        yAxis: { type: 'value', min: 0, max: 1.06, axisLine: { show: false }, axisTick: { show: false }, axisLabel: { show: false }, splitLine: { show: false } },
+          name: 'Wavelength (nm)', nameLocation: 'middle', nameGap: 32, nameTextStyle: { color: '#8a8a8a', fontSize: 12 },
+          axisLine: { lineStyle: { color: 'rgba(255,255,255,.25)' } },
+          axisTick: { show: true, lineStyle: { color: 'rgba(255,255,255,.25)' } },
+          minorTick: { show: true, splitNumber: 2, lineStyle: { color: 'rgba(255,255,255,.15)' } },
+          axisLabel: { color: '#8a8a8a', fontSize: 11 },
+          splitLine: { show: true, lineStyle: { color: 'rgba(255,255,255,.05)' } },
+          minorSplitLine: { show: true, lineStyle: { color: 'rgba(255,255,255,.025)' } } },
+        yAxis: { type: 'value', min: 0, max: 1.08, interval: 0.25,
+          name: 'Relative response', nameLocation: 'middle', nameGap: 42, nameTextStyle: { color: '#8a8a8a', fontSize: 12 },
+          axisLine: { show: false }, axisTick: { show: false },
+          axisLabel: { show: true, color: '#8a8a8a', fontSize: 11, formatter: function (v) { return Math.round(v * 100) + '%'; } },
+          splitLine: { show: true, lineStyle: { color: 'rgba(255,255,255,.05)' } } },
         series: seriesFor(mode)
       };
     }
@@ -605,7 +617,6 @@
       chart = echarts.init(mount, null, { renderer: 'canvas' });
       chart.setOption(option('white'));
       window.addEventListener('resize', function () { chart.resize(); });
-      if (!reduce) setTimeout(function () { setMode('rgb'); }, 1900);
     }
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { ensure(boot); io.disconnect(); } }); }, { threshold: 0.35 });
