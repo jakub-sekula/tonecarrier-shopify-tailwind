@@ -562,17 +562,17 @@
   }
 
   /* ---- rgb merge + invert ---- */
-  .ts-rgb { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #08080a; cursor: pointer; }
+  .ts-rgb { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #08080a; cursor: pointer; }
   .ts-rgb:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
   .ts-rgb__stage { position: absolute; inset: 0; background: #000; isolation: isolate; transition: filter .5s ease; }
-  .ts-rgb__ch { position: absolute; inset: 8%; mix-blend-mode: screen; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
-  .ts-rgb__ch--r { background: radial-gradient(120% 110% at 32% 30%, #ff4d4d 0%, #2a0000 62%); transform: translate(-16%, -9%); }
-  .ts-rgb__ch--g { background: radial-gradient(120% 110% at 68% 42%, #49ff6b 0%, #002a12 62%); transform: translate(0, 10%); }
-  .ts-rgb__ch--b { background: radial-gradient(120% 110% at 50% 78%, #4d8cff 0%, #00152a 62%); transform: translate(16%, -9%); }
+  .ts-rgb__ch { position: absolute; inset: 8%; mix-blend-mode: screen; background-size: cover; background-position: center; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+  .ts-rgb__ch--r { background-image: url('{{ 'raw-red.jpg' | asset_url }}'); transform: translate(-15%, -9%) rotate(-2deg); }
+  .ts-rgb__ch--g { background-image: url('{{ 'raw-green.jpg' | asset_url }}'); transform: translate(0, 10%); }
+  .ts-rgb__ch--b { background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); transform: translate(15%, -9%) rotate(2deg); }
   .ts-rgb.is-merged .ts-rgb__ch { transform: none; }
   /* real converted output — crossfades in over the merged channels */
   .ts-rgb__result { position: absolute; inset: 8%; z-index: 1; opacity: 0; transition: opacity .6s ease; background-size: cover; background-position: center;
-    background-image: linear-gradient(160deg, #93b7dd 0%, #cfe0c2 42%, #b79366 100%); }
+    background-image: url('{{ 'converted.jpg' | asset_url }}'); }
   .ts-rgb.is-result .ts-rgb__result { opacity: 1; }
   .ts-rgb__result img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .ts-rgb__cap { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 5px 10px; font-size: 12px; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; }
