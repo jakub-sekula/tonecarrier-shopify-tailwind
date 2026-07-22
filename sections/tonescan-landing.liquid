@@ -662,8 +662,7 @@
   /* ---- hero scroll: image grows slightly (no fade); floats scatter, converge into the
          screenshot centre and rack into focus (blur->0, scale->1) as --p goes 0->1 ---- */
   .ts-hero { --p: 0; }
-  .ts-hero-img { animation: ts-hero-grow-in .8s cubic-bezier(.2,.7,.2,1) both; transform-origin: center 34%; will-change: transform; }
-  @keyframes ts-hero-grow-in { from { transform: scale(.84); } to { transform: scale(1); } }
+  .ts-hero-img { transform: scale(var(--hs, 0.8)); transform-origin: center; will-change: transform; }
   .hero-floats { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
   .hero-float { position: absolute; left: 50%; top: 34%; width: var(--w, 160px); aspect-ratio: 3 / 2; border-radius: 2px; border: 1px solid rgba(255,255,255,.08); background-size: cover; background-position: center;
     transform: translate(-50%, -50%)
@@ -683,7 +682,7 @@
   .hero-float--7 { --x: -38vw; --y: 26vh;  --blur: 11px; --s: .50; --r: 6deg;  --w: 156px; background-image: url('{{ 'raw-green.jpg' | asset_url }}'); }
   @media (prefers-reduced-motion: reduce) {
     .hero-floats { display: none; }
-    .ts-hero-img { animation: none; transform: none; }
+    .ts-hero-img { transform: none; }
   }
 {%- endstyle -%}
 
@@ -837,12 +836,21 @@
     var frame = document.querySelector('.tonescan-landing .ts-hero');
     if (!frame) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var img = frame.querySelector('.ts-hero-img');
     var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
     var ticking = false;
     function update() {
       var vh = window.innerHeight || document.documentElement.clientHeight;
       var p = clamp(window.pageYOffset / (vh * 0.85));
       frame.style.setProperty('--p', p.toFixed(3));
+      if (img) {
+        // scale 0.8 -> 1.0, reaching full size once 70% of the image is in the viewport
+        var r = img.getBoundingClientRect();
+        var visible = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+        var f = r.height > 0 ? clamp(visible / r.height, 0, 1) : 0;
+        var hs = 0.8 + 0.2 * clamp(f / 0.7, 0, 1);
+        img.style.setProperty('--hs', hs.toFixed(3));
+      }
     }
     function onScroll() {
       if (ticking) return;
