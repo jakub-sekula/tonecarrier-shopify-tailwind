@@ -608,9 +608,6 @@
   .tw\:aspect-\[4\/3\] {
     aspect-ratio: 4/3;
   }
-  .tw\:aspect-\[16\/10\] {
-    aspect-ratio: 16/10;
-  }
   .tw\:aspect-square {
     aspect-ratio: 1 / 1;
   }
@@ -629,9 +626,6 @@
   }
   .tw\:h-\[7px\] {
     height: 7px;
-  }
-  .tw\:h-\[11px\] {
-    height: 11px;
   }
   .tw\:h-\[16px\] {
     height: 16px;
@@ -681,9 +675,6 @@
   .tw\:w-\[7px\] {
     width: 7px;
   }
-  .tw\:w-\[11px\] {
-    width: 11px;
-  }
   .tw\:w-\[16px\] {
     width: 16px;
   }
@@ -732,8 +723,8 @@
   .tw\:max-w-\[920px\] {
     max-width: 920px;
   }
-  .tw\:max-w-\[1000px\] {
-    max-width: 1000px;
+  .tw\:max-w-\[1080px\] {
+    max-width: 1080px;
   }
   .tw\:max-w-\[1400px\] {
     max-width: 1400px;
@@ -898,6 +889,9 @@
   .tw\:rounded-\[2px\] {
     border-radius: 2px;
   }
+  .tw\:rounded-\[4px\] {
+    border-radius: 4px;
+  }
   .tw\:rounded-full {
     border-radius: calc(infinity * 1px);
   }
@@ -993,12 +987,6 @@
     background-color: var(--tw-color-white);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--tw-color-white) 10%, transparent);
-    }
-  }
-  .tw\:bg-white\/20 {
-    background-color: var(--tw-color-white);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--tw-color-white) 20%, transparent);
     }
   }
   .tw\:bg-white\/25 {
@@ -1138,9 +1126,6 @@
   }
   .tw\:py-\[10px\] {
     padding-block: 10px;
-  }
-  .tw\:py-\[12px\] {
-    padding-block: 12px;
   }
   .tw\:py-\[13px\] {
     padding-block: 13px;
@@ -1379,8 +1364,8 @@
   .tw\:opacity-100 {
     opacity: 100%;
   }
-  .tw\:shadow-\[0_30px_80px_-30px_rgba\(0\,0\,0\,0\.8\)\] {
-    --tw-shadow: 0 30px 80px -30px var(--tw-shadow-color, rgba(0,0,0,0.8));
+  .tw\:shadow-\[0_30px_90px_-30px_rgba\(0\,0\,0\,0\.85\)\] {
+    --tw-shadow: 0 30px 90px -30px var(--tw-shadow-color, rgba(0,0,0,0.85));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
   .tw\:shadow-orange-glow-dark {

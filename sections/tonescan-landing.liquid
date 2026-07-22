@@ -56,16 +56,17 @@
         <p class="tw:text-[13px] tw:text-neutral-500">Free during the beta · Mac, Windows &amp; Linux (soon)</p>
       </div>
 
-      <div class="ts-hero-frame tw:mx-auto tw:mt-[56px] tw:max-w-[1000px] tw:md:mt-[72px]">
-        <div class="tw:overflow-hidden tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
-          <div class="tw:flex tw:items-center tw:gap-[8px] tw:border-b tw:border-white/10 tw:bg-white/[0.03] tw:px-[16px] tw:py-[12px]">
-            <span class="tw:h-[11px] tw:w-[11px] tw:rounded-full tw:bg-white/20"></span>
-            <span class="tw:h-[11px] tw:w-[11px] tw:rounded-full tw:bg-white/20"></span>
-            <span class="tw:h-[11px] tw:w-[11px] tw:rounded-full tw:bg-white/20"></span>
-          </div>
-          <div class="tw:flex tw:aspect-[16/10] tw:w-full tw:items-center tw:justify-center tw:text-[13px] tw:text-neutral-600">
-            [ tonescan app screenshot / demo video ]
-          </div>
+      <div class="ts-hero-frame tw:mx-auto tw:mt-[56px] tw:max-w-[1080px] tw:md:mt-[72px]">
+        {%- comment -%} Save the app screenshot as assets/tonescan-hero.png (its own window chrome is included). {%- endcomment -%}
+        <div class="tw:overflow-hidden tw:rounded-[4px] tw:border tw:border-white/10 tw:shadow-[0_30px_90px_-30px_rgba(0,0,0,0.85)]">
+          <img
+            src="{{ 'tonescan-hero.png' | asset_url }}"
+            alt="toneScan Develop view converting an RGB triplet scan"
+            width="2000"
+            height="1180"
+            class="tw:block tw:h-auto tw:w-full"
+            loading="eager"
+          >
         </div>
       </div>
     </div>
@@ -284,7 +285,16 @@
         <p class="tw:mt-[16px] tw:text-[17px] tw:leading-[1.6] tw:text-neutral-400">RGB trichromatic scanning captures red, green and blue as separate exposures, then combines them for colour separation that white-light scanning simply can't match. Very few tools support it properly — tonescan makes it a first-class, seamless part of the workflow.</p>
       </div>
       <div>
-        <div class="tw:flex tw:aspect-[4/3] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ RGB workflow screenshot ]</div>
+        {%- comment -%} R/G/B channels merge then invert on click. Swap the 3 .ts-rgb__ch backgrounds for real channel images later. {%- endcomment -%}
+        <div class="ts-rgb" role="button" tabindex="0" aria-label="Combine the RGB channel captures, then invert">
+          <div class="ts-rgb__stage">
+            <div class="ts-rgb__ch ts-rgb__ch--r"></div>
+            <div class="ts-rgb__ch ts-rgb__ch--g"></div>
+            <div class="ts-rgb__ch ts-rgb__ch--b"></div>
+          </div>
+          <span class="ts-rgb__cap">Three RGB channel captures</span>
+          <span class="ts-rgb__hint">Click</span>
+        </div>
       </div>
     </div>
     <div class="tw:grid tw:grid-cols-1 tw:items-center tw:gap-[40px] tw:md:grid-cols-2">
@@ -543,6 +553,21 @@
     .ts-lb__panel { flex-direction: row; }
     .ts-lb__meta { width: 300px; flex-shrink: 0; border-top: 0; border-left: 1px solid rgba(255,255,255,.10); padding: 24px; }
   }
+
+  /* ---- rgb merge + invert ---- */
+  .ts-rgb { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #08080a; cursor: pointer; }
+  .ts-rgb:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-rgb__stage { position: absolute; inset: 0; background: #000; isolation: isolate; transition: filter .5s ease; }
+  .ts-rgb__ch { position: absolute; inset: 8%; mix-blend-mode: screen; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+  .ts-rgb__ch--r { background: radial-gradient(120% 110% at 32% 30%, #ff4d4d 0%, #2a0000 62%); transform: translate(-16%, -9%); }
+  .ts-rgb__ch--g { background: radial-gradient(120% 110% at 68% 42%, #49ff6b 0%, #002a12 62%); transform: translate(0, 10%); }
+  .ts-rgb__ch--b { background: radial-gradient(120% 110% at 50% 78%, #4d8cff 0%, #00152a 62%); transform: translate(16%, -9%); }
+  .ts-rgb.is-merged .ts-rgb__ch { transform: none; }
+  .ts-rgb.is-inverted .ts-rgb__stage { filter: invert(1); }
+  .ts-rgb__cap { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 5px 10px; font-size: 12px; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; }
+  .ts-rgb__hint { position: absolute; right: 12px; top: 12px; z-index: 2; padding: 4px 8px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #cfe0f5; background: rgba(59,130,246,.18); border: 1px solid rgba(59,130,246,.4); border-radius: 2px; transition: opacity .3s ease; }
+  .ts-rgb.is-merged .ts-rgb__hint { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) { .ts-rgb__ch, .ts-rgb__stage { transition: none; } }
 {%- endstyle -%}
 
 <script>
@@ -602,6 +627,31 @@
       if (e.key === 'Escape') close();
       else if (e.key === 'ArrowLeft') render(idx - 1);
       else if (e.key === 'ArrowRight') render(idx + 1);
+    });
+  })();
+
+  /* rgb merge + invert */
+  (function () {
+    document.querySelectorAll('.tonescan-landing .ts-rgb').forEach(function (el) {
+      var cap = el.querySelector('.ts-rgb__cap');
+      var texts = ['Three RGB channel captures', 'Combined into full colour', 'Inverted to a positive'];
+      var state = 0, timer;
+      function set(s) {
+        state = s;
+        el.classList.toggle('is-merged', s >= 1);
+        el.classList.toggle('is-inverted', s >= 2);
+        if (cap) cap.textContent = texts[s];
+      }
+      function advance() {
+        clearTimeout(timer);
+        if (state === 0) { set(1); timer = setTimeout(function () { set(2); }, 850); }
+        else { set(0); }
+      }
+      el.addEventListener('click', advance);
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); advance(); }
+      });
+      set(0);
     });
   })();
 </script>
