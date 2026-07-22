@@ -533,6 +533,9 @@
   .tw\:mt-\[20px\] {
     margin-top: 20px;
   }
+  .tw\:mt-\[22px\] {
+    margin-top: 22px;
+  }
   .tw\:mt-\[24px\] {
     margin-top: 24px;
   }
@@ -725,6 +728,9 @@
   }
   .tw\:w-\[720px\] {
     width: 720px;
+  }
+  .tw\:w-auto {
+    width: auto;
   }
   .tw\:w-fit {
     width: fit-content;
@@ -1538,12 +1544,20 @@
       --tw-scale-z: 105%;
       scale: var(--tw-scale-x) var(--tw-scale-y);
     }
+  }
+  .tw\:placeholder\:text-neutral-500::placeholder {
+    color: var(--tw-color-neutral-500);
+  }
+  @media (hover: hover) {
     .tw\:hover\:-translate-y-\[1px\]:hover {
       --tw-translate-y: calc(1px * -1);
       translate: var(--tw-translate-x) var(--tw-translate-y);
     }
     .tw\:hover\:bg-\[\#1be48d\]:hover {
       background-color: #1be48d;
+    }
+    .tw\:hover\:bg-\[\#2f6fd6\]:hover {
+      background-color: #2f6fd6;
     }
     .tw\:hover\:bg-white\/\[0\.08\]:hover {
       background-color: var(--tw-color-white);
@@ -1559,6 +1573,13 @@
     .tw\:hover\:opacity-0:hover {
       opacity: 0%;
     }
+  }
+  .tw\:focus\:border-\[\#3b82f6\]:focus {
+    border-color: #3b82f6;
+  }
+  .tw\:focus\:outline-none:focus {
+    --tw-outline-style: none;
+    outline-style: none;
   }
   .tw\:active\:translate-y-\[2px\]:active {
     --tw-translate-y: 2px;
