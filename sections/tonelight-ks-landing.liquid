@@ -110,6 +110,26 @@
       </div>
     </div>
 
+    {%- comment -%} spectral crosstalk chart (data from tonelight_project) {%- endcomment -%}
+    <div class="ks-spectral" data-mode="white">
+      <div class="ks-spectral__head">
+        <div>
+          <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">See the overlap</h3>
+          <p class="ks-spectral__sub" data-cap>Under white light, all three sensor channels respond at once — and they overlap. The sensor can't cleanly separate the film's dye layers, and that mixing is crosstalk.</p>
+        </div>
+        <div class="ks-spectral__toggle" role="tablist" aria-label="Illumination">
+          <button type="button" data-mode-btn="white" class="is-active" role="tab" aria-selected="true">White light</button>
+          <button type="button" data-mode-btn="rgb" role="tab" aria-selected="false">toneLight RGB</button>
+        </div>
+      </div>
+      <svg class="ks-spectral__svg" viewBox="0 0 760 360" role="img" aria-label="Camera sensor red, green and blue spectral response across wavelength, comparing broadband white light against narrowband RGB illumination at 460, 540 and 660 nanometres."></svg>
+      <div class="ks-spectral__legend">
+        <span><i style="background:#f2555a"></i>Red channel</span>
+        <span><i style="background:#4ade80"></i>Green channel</span>
+        <span><i style="background:#5a9cf0"></i>Blue channel</span>
+      </div>
+    </div>
+
     {%- comment -%} benefits of RGB {%- endcomment -%}
     <div class="tw:mt-[56px] tw:grid tw:grid-cols-1 tw:gap-[20px] tw:md:grid-cols-3">
       <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
@@ -417,6 +437,29 @@
   .ks-timeline li.is-launch::before { background: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,.2); }
   .ks-timeline__date { display: block; font-size: 13px; font-weight: 600; color: #60a5fa; }
   .ks-timeline__event { display: block; margin-top: 2px; font-size: 15px; line-height: 1.5; color: #d4d4d4; }
+
+  /* ---- spectral crosstalk chart ---- */
+  .ks-spectral { margin-top: 56px; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: rgba(255,255,255,.02); padding: 24px; }
+  .ks-spectral__head { display: flex; flex-direction: column; gap: 16px; margin-bottom: 8px; }
+  @media (min-width: 750px) { .ks-spectral__head { flex-direction: row; align-items: flex-start; justify-content: space-between; } }
+  .ks-spectral__sub { margin-top: 8px; max-width: 560px; font-size: 15px; line-height: 1.6; color: #a3a3a3; transition: opacity .3s ease; }
+  .ks-spectral__toggle { display: inline-flex; flex-shrink: 0; padding: 3px; border: 1px solid rgba(255,255,255,.12); border-radius: 2px; background: rgba(0,0,0,.3); }
+  .ks-spectral__toggle button { padding: 8px 14px; font-size: 13px; font-weight: 600; color: #a3a3a3; background: transparent; border: 0; border-radius: 2px; cursor: pointer; transition: color .2s ease, background .2s ease; white-space: nowrap; }
+  .ks-spectral__toggle button.is-active { color: #fff; background: rgba(255,255,255,.10); }
+  .ks-spectral__toggle button:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ks-spectral__svg { display: block; width: 100%; height: auto; margin-top: 16px; }
+  .ks-spectral__legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 6px; font-size: 13px; color: #a3a3a3; }
+  .ks-spectral__legend i { display: inline-block; width: 20px; height: 3px; margin-right: 7px; vertical-align: middle; border-radius: 2px; }
+  /* animated layers inside the svg */
+  .ks-spectral .sp-white { transition: opacity .55s ease; }
+  .ks-spectral .sp-led { transition: opacity .55s ease; opacity: 0; }
+  .ks-spectral .sp-sensor-fill { transition: opacity .55s ease; }
+  .ks-spectral[data-mode="rgb"] .sp-white { opacity: 0; }
+  .ks-spectral[data-mode="rgb"] .sp-led { opacity: 1; }
+  .ks-spectral[data-mode="rgb"] .sp-sensor-fill { opacity: .1; }
+  .ks-spectral__axis { stroke: rgba(255,255,255,.18); stroke-width: 1; }
+  .ks-spectral__tick { fill: #7a7a7a; font-size: 11px; }
+  .ks-spectral__clabel { font-size: 13px; font-weight: 700; }
 {%- endstyle -%}
 
 <script>
@@ -482,6 +525,113 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     update();
+  })();
+
+  /* spectral crosstalk chart — real Fujifilm sensor QE + toneLight narrowband LEDs */
+  (function () {
+    var root = document.querySelector('.tonelight-ks .ks-spectral');
+    if (!root) return;
+    var svg = root.querySelector('.ks-spectral__svg');
+    var NS = 'http://www.w3.org/2000/svg';
+
+    // Fujifilm X-Trans sensor QE, normalised per channel (380–720 nm, 10 nm).
+    var R = [0,0.0066,0.0143,0.022,0.037,0.041,0.0319,0.0286,0.0287,0.0371,0.0466,0.0498,0.0608,0.0865,0.1255,0.1655,0.1516,0.1493,0.1786,0.3118,0.672,1,0.9997,0.903,0.7654,0.6715,0.5411,0.4241,0.2959,0.1854,0.081,0.0272,0.0111,0.0069,0.0044];
+    var G = [0,0.0033,0.0116,0.0199,0.0411,0.0652,0.0868,0.1132,0.156,0.2665,0.4036,0.4831,0.6423,0.817,0.919,1,0.9362,0.8976,0.7554,0.6453,0.4866,0.3511,0.2023,0.1153,0.0657,0.0477,0.0351,0.0252,0.0177,0.0135,0.0079,0.004,0.0019,0.0012,0.001];
+    var B = [0,0,0.0589,0.151,0.4235,0.7212,0.8276,0.9565,1,0.9871,0.9267,0.7706,0.5878,0.4025,0.2297,0.1412,0.0914,0.0621,0.0387,0.0299,0.0246,0.0206,0.0149,0.0116,0.0102,0.0099,0.0089,0.0095,0.0077,0.0059,0.0027,0.0008,0.0005,0.0004,0.0003];
+    var WL0 = 380, STEP = 10, N = R.length, WL1 = WL0 + STEP * (N - 1);
+    var COL = { r: '#f2555a', g: '#4ade80', b: '#5a9cf0' };
+    var LEDS = [{ c: 460, col: COL.b }, { c: 540, col: COL.g }, { c: 660, col: COL.r }];
+    var SIGMA = 20 / (2 * Math.sqrt(2 * Math.log(2)));
+
+    var padL = 46, padR = 18, padT = 28, padB = 42, W = 760, H = 360;
+    var plotW = W - padL - padR, baseY = H - padB, topY = padT, plotH = baseY - topY;
+    function xw(wl) { return padL + (wl - WL0) / (WL1 - WL0) * plotW; }
+    function yv(v) { return baseY - v * plotH; }
+    function el(t, a) { var e = document.createElementNS(NS, t); for (var k in a) e.setAttribute(k, a[k]); return e; }
+    function line(arr) { var d = ''; for (var i = 0; i < arr.length; i++) d += (i ? 'L' : 'M') + xw(WL0 + i * STEP).toFixed(1) + ' ' + yv(arr[i]).toFixed(1) + ' '; return d; }
+    function area(arr) { return line(arr) + 'L' + xw(WL1).toFixed(1) + ' ' + baseY + ' L' + xw(WL0).toFixed(1) + ' ' + baseY + ' Z'; }
+
+    // visible-spectrum gradient (context strip under the axis)
+    var defs = el('defs', {});
+    var grad = el('linearGradient', { id: 'ks-spec-grad', x1: '0', y1: '0', x2: '1', y2: '0' });
+    var stops = [[380,'#5b12b0'],[430,'#2436f0'],[470,'#1470ff'],[490,'#00c8c8'],[520,'#22c722'],[560,'#c8d400'],[590,'#f0a000'],[620,'#f05a20'],[700,'#e01818'],[720,'#c01010']];
+    stops.forEach(function (s) { grad.appendChild(el('stop', { offset: ((s[0]-WL0)/(WL1-WL0)*100).toFixed(1) + '%', 'stop-color': s[1] })); });
+    defs.appendChild(grad); svg.appendChild(defs);
+
+    // white-light wash (broadband illumination)
+    svg.appendChild(el('rect', { class: 'sp-white', x: padL, y: topY, width: plotW, height: plotH, fill: '#ffffff', 'fill-opacity': '0.07' }));
+
+    // sensor curves (fill + line)
+    [['b', B], ['g', G], ['r', R]].forEach(function (ch) {
+      svg.appendChild(el('path', { class: 'sp-sensor-fill', d: area(ch[1]), fill: COL[ch[0]], 'fill-opacity': '0.22' }));
+      svg.appendChild(el('path', { d: line(ch[1]), fill: 'none', stroke: COL[ch[0]], 'stroke-width': '2', 'stroke-linejoin': 'round' }));
+    });
+
+    // narrowband LED bands (shown in RGB mode)
+    LEDS.forEach(function (led) {
+      var pts = [], step = 2;
+      for (var wl = WL0; wl <= WL1; wl += step) pts.push([wl, 0.98 * Math.exp(-0.5 * Math.pow((wl - led.c) / SIGMA, 2))]);
+      var d = '';
+      pts.forEach(function (p, i) { d += (i ? 'L' : 'M') + xw(p[0]).toFixed(1) + ' ' + yv(p[1]).toFixed(1) + ' '; });
+      d += 'L' + xw(WL1).toFixed(1) + ' ' + baseY + ' L' + xw(WL0).toFixed(1) + ' ' + baseY + ' Z';
+      var g = el('g', { class: 'sp-led' });
+      g.appendChild(el('path', { d: d, fill: led.col, 'fill-opacity': '0.35' }));
+      g.appendChild(el('line', { x1: xw(led.c), y1: yv(0.98), x2: xw(led.c), y2: baseY, stroke: led.col, 'stroke-width': '1.5' }));
+      var lbl = el('text', { x: xw(led.c), y: topY - 8, 'text-anchor': 'middle', fill: led.col, 'font-size': '11', 'font-weight': '600' });
+      lbl.textContent = led.c + ' nm';
+      g.appendChild(lbl);
+      svg.appendChild(g);
+    });
+
+    // axes
+    svg.appendChild(el('line', { class: 'ks-spectral__axis', x1: padL, y1: baseY, x2: padL + plotW, y2: baseY }));
+    svg.appendChild(el('line', { class: 'ks-spectral__axis', x1: padL, y1: topY, x2: padL, y2: baseY }));
+    // spectrum reference strip
+    svg.appendChild(el('rect', { x: padL, y: baseY + 4, width: plotW, height: 5, fill: 'url(#ks-spec-grad)', 'fill-opacity': '0.6', rx: 1 }));
+    // x ticks
+    [400, 500, 600, 700].forEach(function (t) {
+      var tx = el('text', { class: 'ks-spectral__tick', x: xw(t), y: baseY + 24, 'text-anchor': 'middle' });
+      tx.textContent = t;
+      svg.appendChild(tx);
+    });
+    var xtitle = el('text', { class: 'ks-spectral__tick', x: padL + plotW, y: baseY + 24, 'text-anchor': 'end' });
+    xtitle.textContent = 'Wavelength (nm)';
+    svg.appendChild(xtitle);
+    // direct channel labels
+    [['R', 590, COL.r], ['G', 530, COL.g], ['B', 460, COL.b]].forEach(function (c) {
+      var t = el('text', { class: 'ks-spectral__clabel', x: xw(c[1]), y: yv(1) - 8, 'text-anchor': 'middle', fill: c[2] });
+      t.textContent = c[0];
+      svg.appendChild(t);
+    });
+
+    // toggle + captions
+    var caps = {
+      white: "Under white light, all three sensor channels respond at once — and they overlap. The sensor can't cleanly separate the film's dye layers, and that mixing is crosstalk.",
+      rgb: 'toneLight fires narrowband red, green and blue — 660, 540 and 460 nm. Each lands where one channel dominates, so every exposure reads essentially one dye layer cleanly.'
+    };
+    var sub = root.querySelector('[data-cap]');
+    var btns = root.querySelectorAll('[data-mode-btn]');
+    function setMode(m) {
+      root.setAttribute('data-mode', m);
+      if (sub) sub.textContent = caps[m];
+      btns.forEach(function (b) {
+        var on = b.getAttribute('data-mode-btn') === m;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { setMode(b.getAttribute('data-mode-btn')); }); });
+
+    // auto-demo: switch to RGB once, shortly after it scrolls into view
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var done = false;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !done) { done = true; setTimeout(function () { setMode('rgb'); }, 1300); io.disconnect(); }
+        });
+      }, { threshold: 0.5 });
+      io.observe(root);
+    }
   })();
 </script>
 
