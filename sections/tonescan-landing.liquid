@@ -299,7 +299,67 @@
     </div>
   </section>
 
-  {%- comment -%} ==================== 8 · TESTIMONIALS (placeholder) ==================== {%- endcomment -%}
+  {%- comment -%} ==================== 8 · SAMPLE SCANS (gallery + lightbox) ====================
+       Placeholder gradients + example metadata. To use real scans: set data-img="<url>" on
+       each .ts-scan button (the lightbox will render an <img>), and update the data-* fields.
+  {%- endcomment -%}
+  <section id="gallery" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Sample scans</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Real scans, real detail.</h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">Every image below was converted with tonescan. Click any scan to view it full-screen with the capture details.</p>
+    </div>
+
+    <div class="ts-gallery tw:mt-[48px] tw:grid tw:grid-cols-2 tw:gap-[16px] tw:md:grid-cols-3">
+      <button type="button" class="ts-scan" style="--h:0deg" data-camera="Fujifilm X-T5" data-lens="Helios 44-2" data-light="Cinestill CS-Lite" data-film="Kodak Gold 200" data-shot="Mamiya 645" data-format="120" data-img="">
+        <span class="ts-scan__img"></span>
+        <span class="ts-scan__cap"><span>Kodak Gold 200</span><span class="ts-scan__fmt">120</span></span>
+      </button>
+      <button type="button" class="ts-scan" style="--h:40deg" data-camera="Fujifilm X-T5" data-lens="Helios 44-2" data-light="Cinestill CS-Lite" data-film="Kodak ColorPlus 200" data-shot="Canon AE-1P" data-format="135" data-img="">
+        <span class="ts-scan__img"></span>
+        <span class="ts-scan__cap"><span>Kodak ColorPlus 200</span><span class="ts-scan__fmt">135</span></span>
+      </button>
+      <button type="button" class="ts-scan" style="--h:320deg" data-camera="Fujifilm X-T5" data-lens="Helios 44-2" data-light="Cinestill CS-Lite" data-film="Lomography Tiger 200" data-shot="Lomomatic 110" data-format="110" data-img="">
+        <span class="ts-scan__img"></span>
+        <span class="ts-scan__cap"><span>Lomography Tiger 200</span><span class="ts-scan__fmt">110</span></span>
+      </button>
+      <button type="button" class="ts-scan" style="--h:85deg" data-camera="Sony A7 IV" data-lens="Nikon Micro 60mm" data-light="Kaiser Slimlite" data-film="Kodak Portra 400" data-shot="Nikon FM2" data-format="135" data-img="">
+        <span class="ts-scan__img"></span>
+        <span class="ts-scan__cap"><span>Kodak Portra 400</span><span class="ts-scan__fmt">135</span></span>
+      </button>
+      <button type="button" class="ts-scan" style="--h:210deg" data-camera="Fujifilm X-T5" data-lens="Sigma 70mm Macro" data-light="Cinestill CS-Lite" data-film="CineStill 800T" data-shot="Leica M6" data-format="135" data-img="">
+        <span class="ts-scan__img"></span>
+        <span class="ts-scan__cap"><span>CineStill 800T</span><span class="ts-scan__fmt">135</span></span>
+      </button>
+      <button type="button" class="ts-scan" style="--h:160deg" data-camera="Sony A7 IV" data-lens="Nikon Micro 60mm" data-light="Kaiser Slimlite" data-film="Ilford HP5 Plus" data-shot="Hasselblad 500C/M" data-format="120" data-img="">
+        <span class="ts-scan__img"></span>
+        <span class="ts-scan__cap"><span>Ilford HP5 Plus</span><span class="ts-scan__fmt">120</span></span>
+      </button>
+    </div>
+
+    {%- comment -%} lightbox {%- endcomment -%}
+    <div class="ts-lb" hidden>
+      <div class="ts-lb__backdrop" data-close></div>
+      <div class="ts-lb__panel" role="dialog" aria-modal="true" aria-label="Scan details">
+        <button class="ts-lb__close" type="button" aria-label="Close" data-close>&times;</button>
+        <div class="ts-lb__stage">
+          <button class="ts-lb__nav ts-lb__prev" type="button" aria-label="Previous scan">&lsaquo;</button>
+          <div class="ts-lb__imgwrap"></div>
+          <button class="ts-lb__nav ts-lb__next" type="button" aria-label="Next scan">&rsaquo;</button>
+        </div>
+        <dl class="ts-lb__meta">
+          <div class="ts-lb__row"><dt>Scanning camera</dt><dd data-k="camera"></dd></div>
+          <div class="ts-lb__row"><dt>Lens</dt><dd data-k="lens"></dd></div>
+          <div class="ts-lb__row"><dt>Light source</dt><dd data-k="light"></dd></div>
+          <div class="ts-lb__row"><dt>Film stock</dt><dd data-k="film"></dd></div>
+          <div class="ts-lb__row"><dt>Shot on</dt><dd data-k="shot"></dd></div>
+          <div class="ts-lb__row"><dt>Format</dt><dd data-k="format"></dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 9 · TESTIMONIALS (placeholder) ==================== {%- endcomment -%}
   <section class="tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
     <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
       <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
@@ -446,6 +506,43 @@
   .ts-ba__tag--r { right: 12px; }
   .ts-ba__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
   .ts-ba__range:focus-visible { outline: 2px solid #3b82f6; outline-offset: -2px; }
+
+  /* ---- scan gallery ---- */
+  .ts-scan { position: relative; display: block; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; padding: 0; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #0f0f10; cursor: zoom-in; }
+  .ts-scan__img { position: absolute; inset: 0; display: block;
+    background:
+      radial-gradient(120% 80% at 18% 12%, #7fb1dc 0%, transparent 55%),
+      radial-gradient(130% 90% at 88% 100%, #223a52 0%, transparent 60%),
+      linear-gradient(135deg, #13324f 0%, #27512f 55%, #3f5a26 100%);
+    filter: hue-rotate(var(--h, 0deg)); transition: transform .45s ease; }
+  .ts-scan:hover .ts-scan__img { transform: scale(1.04); }
+  .ts-scan__cap { position: absolute; inset: auto 0 0 0; display: flex; justify-content: space-between; gap: 8px; padding: 10px 12px; font-size: 12px; color: #fff; background: linear-gradient(to top, rgba(0,0,0,.72), transparent); opacity: 0; transition: opacity .25s ease; }
+  .ts-scan:hover .ts-scan__cap, .ts-scan:focus-visible .ts-scan__cap { opacity: 1; }
+  .ts-scan__fmt { color: #9db7d6; }
+  .ts-scan:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+  /* ---- lightbox ---- */
+  .ts-lb { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .ts-lb[hidden] { display: none; }
+  .ts-lb__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.85); backdrop-filter: blur(4px); }
+  .ts-lb__panel { position: relative; z-index: 1; display: flex; flex-direction: column; width: min(1100px, 100%); max-height: 90vh; overflow: hidden; background: #0f0f10; border: 1px solid rgba(255,255,255,.12); border-radius: 2px; }
+  .ts-lb__stage { position: relative; flex: 1; min-height: 300px; background: #0f0f10; }
+  .ts-lb__imgwrap { position: absolute; inset: 0; }
+  .ts-lb__imgwrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .ts-lb__meta { width: 100%; margin: 0; padding: 16px 24px; border-top: 1px solid rgba(255,255,255,.10); }
+  .ts-lb__row { display: flex; flex-direction: column; gap: 2px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .ts-lb__row:last-child { border-bottom: 0; }
+  .ts-lb__row dt { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8a8a8a; }
+  .ts-lb__row dd { margin: 0; font-size: 15px; color: #fff; }
+  .ts-lb__close { position: absolute; top: 10px; right: 10px; z-index: 3; width: 34px; height: 34px; border-radius: 2px; background: rgba(0,0,0,.5); border: 1px solid rgba(255,255,255,.15); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; }
+  .ts-lb__nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 40px; height: 40px; border-radius: 9999px; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); color: #fff; font-size: 22px; line-height: 1; cursor: pointer; }
+  .ts-lb__prev { left: 12px; }
+  .ts-lb__next { right: 12px; }
+  .ts-lb__close:focus-visible, .ts-lb__nav:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  @media (min-width: 900px) {
+    .ts-lb__panel { flex-direction: row; }
+    .ts-lb__meta { width: 300px; flex-shrink: 0; border-top: 0; border-left: 1px solid rgba(255,255,255,.10); padding: 24px; }
+  }
 {%- endstyle -%}
 
 <script>
@@ -456,6 +553,55 @@
       var update = function () { el.style.setProperty('--pos', range.value + '%'); };
       range.addEventListener('input', update);
       update();
+    });
+  })();
+
+  /* scan gallery lightbox */
+  (function () {
+    var lb = document.querySelector('.tonescan-landing .ts-lb');
+    var scans = Array.prototype.slice.call(document.querySelectorAll('.tonescan-landing .ts-scan'));
+    if (!lb || !scans.length) return;
+
+    var wrap = lb.querySelector('.ts-lb__imgwrap');
+    var keys = ['camera', 'lens', 'light', 'film', 'shot', 'format'];
+    var idx = 0;
+    var lastFocus = null;
+
+    function render(i) {
+      idx = (i + scans.length) % scans.length;
+      var el = scans[idx];
+      keys.forEach(function (k) {
+        var dd = lb.querySelector('[data-k="' + k + '"]');
+        if (dd) dd.textContent = el.getAttribute('data-' + k) || '—';
+      });
+      var img = el.getAttribute('data-img');
+      var h = el.style.getPropertyValue('--h') || '0deg';
+      wrap.innerHTML = img
+        ? '<img src="' + img + '" alt="">'
+        : '<span class="ts-scan__img" style="--h:' + h + '"></span>';
+    }
+    function open(i) {
+      lastFocus = document.activeElement;
+      render(i);
+      lb.hidden = false;
+      document.body.style.overflow = 'hidden';
+      lb.querySelector('.ts-lb__close').focus();
+    }
+    function close() {
+      lb.hidden = true;
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    scans.forEach(function (el, i) { el.addEventListener('click', function () { open(i); }); });
+    lb.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', close); });
+    lb.querySelector('.ts-lb__prev').addEventListener('click', function () { render(idx - 1); });
+    lb.querySelector('.ts-lb__next').addEventListener('click', function () { render(idx + 1); });
+    document.addEventListener('keydown', function (e) {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') render(idx - 1);
+      else if (e.key === 'ArrowRight') render(idx + 1);
     });
   })();
 </script>
