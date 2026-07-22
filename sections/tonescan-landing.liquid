@@ -26,7 +26,21 @@
   <section class="tw:relative tw:overflow-hidden">
     <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-[#3b82f6]/10 tw:blur-[130px]"></div>
 
-    <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[80px] tw:pb-[64px] tw:md:px-[50px] tw:md:pt-[120px] tw:md:pb-[88px]">
+    <div class="ts-hero tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[80px] tw:pb-[64px] tw:md:px-[50px] tw:md:pt-[120px] tw:md:pb-[88px]">
+      {%- comment -%}
+        Floating sample images — scattered around the hero (clicky-style), converging inward on
+        scroll. Placeholder gradients per .hero-float--N; swap for real sample scans later
+        (set a background-image, or drop an <img> inside each).
+      {%- endcomment -%}
+      <div class="hero-floats tw:hidden tw:md:block" aria-hidden="true">
+        <div class="hero-float hero-float--1"></div>
+        <div class="hero-float hero-float--2"></div>
+        <div class="hero-float hero-float--3"></div>
+        <div class="hero-float hero-float--4"></div>
+        <div class="hero-float hero-float--5"></div>
+        <div class="hero-float hero-float--6"></div>
+        <div class="hero-float hero-float--7"></div>
+      </div>
       <div class="tw:mx-auto tw:flex tw:max-w-[860px] tw:flex-col tw:items-center tw:gap-[26px] tw:text-center">
         <span class="tw:inline-flex tw:items-center tw:gap-[8px] tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.04] tw:px-[12px] tw:py-[6px] tw:text-[13px] tw:font-medium tw:text-neutral-300">
           <span class="tw:h-[6px] tw:w-[6px] tw:rounded-full tw:bg-[#3b82f6]"></span>
@@ -57,19 +71,6 @@
       </div>
 
       <div class="ts-hero-frame tw:relative tw:mx-auto tw:mt-[56px] tw:max-w-[1320px] tw:md:mt-[72px]">
-        {%- comment -%}
-          Floating sample images — exploded out at the top of the page, converge into the hero
-          as you scroll down. Placeholder gradients (per .hero-float--N); swap for real sample
-          scans later (set a background-image on each, or drop an <img> inside).
-        {%- endcomment -%}
-        <div class="hero-floats tw:hidden tw:md:block" aria-hidden="true">
-          <div class="hero-float hero-float--1"></div>
-          <div class="hero-float hero-float--2"></div>
-          <div class="hero-float hero-float--3"></div>
-          <div class="hero-float hero-float--4"></div>
-          <div class="hero-float hero-float--5"></div>
-          <div class="hero-float hero-float--6"></div>
-        </div>
         <img
           src="{{ 'tonescan-hero.png' | asset_url }}"
           alt="toneScan Develop view converting an RGB triplet scan"
@@ -658,24 +659,25 @@
     .ts-story__title { font-size: 32px; }
   }
 
-  /* ---- hero scroll: image grows + fades; floats explode/converge (driven by --p on frame) ---- */
-  .ts-hero-frame { --p: 0; }
-  .ts-hero-img { transform: scale(calc(1 + var(--p) * 0.07)); transform-origin: center 32%; opacity: calc(1 - var(--p)); will-change: transform, opacity; }
+  /* ---- hero scroll: image grows slightly (no fade); small floats scattered -> converge (--p on .ts-hero) ---- */
+  .ts-hero { --p: 0; }
+  .ts-hero-img { transform: scale(calc(1 + var(--p) * 0.05)); transform-origin: center 30%; will-change: transform; }
   .hero-floats { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-  .hero-float { position: absolute; left: 50%; top: 50%; width: var(--w, 200px); aspect-ratio: 4 / 5; border-radius: 2px; border: 1px solid rgba(255,255,255,.08); background-size: cover; background-position: center;
+  .hero-float { position: absolute; left: 50%; top: 34%; width: var(--w, 130px); aspect-ratio: 4 / 5; border-radius: 2px; border: 1px solid rgba(255,255,255,.08); background-size: cover; background-position: center;
     transform: translate(-50%, -50%) translate(calc(var(--x) * (1 - var(--p))), calc(var(--y) * (1 - var(--p)))) rotate(calc(var(--r, 0deg) * (1 - var(--p)))) scale(var(--s, 1));
     filter: blur(var(--blur, 0px));
-    opacity: calc(1 - var(--p) * 0.85);
+    opacity: calc(1 - var(--p) * 0.9);
     will-change: transform, opacity; }
-  .hero-float--1 { --x: -40vw; --y: -12vh; --blur: 11px; --s: .68; --r: -8deg; --w: 180px; background-image: linear-gradient(135deg, #2b3a4d, #46331f); }
-  .hero-float--2 { --x: 38vw;  --y: -16vh; --blur: 4px;  --s: .92; --r: 6deg;  --w: 230px; background-image: linear-gradient(135deg, #3a2b4d, #1f4640); }
-  .hero-float--3 { --x: -32vw; --y: 12vh;  --blur: 2px;  --s: 1;   --r: -4deg; --w: 250px; background-image: linear-gradient(135deg, #1f3a46, #463a1f); }
-  .hero-float--4 { --x: 44vw;  --y: 16vh;  --blur: 13px; --s: .60; --r: 10deg; --w: 165px; background-image: linear-gradient(135deg, #463a2b, #2b3a4d); }
-  .hero-float--5 { --x: -20vw; --y: 26vh;  --blur: 6px;  --s: .82; --r: 5deg;  --w: 200px; background-image: linear-gradient(135deg, #2b464d, #3a1f46); }
-  .hero-float--6 { --x: 24vw;  --y: 28vh;  --blur: 8px;  --s: .74; --r: -6deg; --w: 185px; background-image: linear-gradient(135deg, #463a1f, #1f463a); }
+  .hero-float--1 { --x: -42vw; --y: -8vh;  --blur: 7px;  --s: .62; --r: -6deg; --w: 118px; background-image: linear-gradient(135deg, #2b3a4d, #46331f); }
+  .hero-float--2 { --x: -30vw; --y: 10vh;  --blur: 2px;  --s: .90; --r: -3deg; --w: 150px; background-image: linear-gradient(135deg, #3a2b4d, #1f4640); }
+  .hero-float--3 { --x: -14vw; --y: -20vh; --blur: 9px;  --s: .55; --r: 4deg;  --w: 100px; background-image: linear-gradient(135deg, #1f3a46, #463a1f); }
+  .hero-float--4 { --x: 15vw;  --y: -22vh; --blur: 8px;  --s: .58; --r: -4deg; --w: 104px; background-image: linear-gradient(135deg, #463a2b, #2b3a4d); }
+  .hero-float--5 { --x: 32vw;  --y: -4vh;  --blur: 3px;  --s: .88; --r: 5deg;  --w: 146px; background-image: linear-gradient(135deg, #2b464d, #3a1f46); }
+  .hero-float--6 { --x: 44vw;  --y: 12vh;  --blur: 7px;  --s: .64; --r: 7deg;  --w: 120px; background-image: linear-gradient(135deg, #463a1f, #1f463a); }
+  .hero-float--7 { --x: -38vw; --y: 26vh;  --blur: 11px; --s: .50; --r: 6deg;  --w: 92px;  background-image: linear-gradient(135deg, #241a3a, #17302b); }
   @media (prefers-reduced-motion: reduce) {
     .hero-floats { display: none; }
-    .ts-hero-img { transform: none; opacity: 1; }
+    .ts-hero-img { transform: none; }
   }
 {%- endstyle -%}
 
@@ -824,9 +826,9 @@
     });
   })();
 
-  /* hero scroll — screenshot grows + fades; floats converge into it (--p on the frame) */
+  /* hero scroll — screenshot grows slightly; scattered floats converge inward (--p on .ts-hero) */
   (function () {
-    var frame = document.querySelector('.tonescan-landing .ts-hero-frame');
+    var frame = document.querySelector('.tonescan-landing .ts-hero');
     if (!frame) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
