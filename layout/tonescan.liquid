@@ -1,0 +1,168 @@
+<!doctype html>
+<html class="js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#0a0a0b">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_body_font.system? and settings.type_header_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+    <title>{{ page_title }}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+
+    {{ 'app.css' | asset_url | stylesheet_tag }}
+
+    {%- style -%}
+      {%- comment -%} Load the SAME fonts as the main site so the header matches {%- endcomment -%}
+      {{ settings.type_body_font | font_face: font_display: 'swap' }}
+      {{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+      :root {
+        color-scheme: dark;
+        --ts-accent: #3b82f6;
+        --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --font-body-weight: {{ settings.type_body_font.weight | default: 400 }};
+        --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+      }
+      html { scroll-behavior: smooth; }
+      body.tonescan-body {
+        margin: 0;
+        background-color: #0a0a0b;
+        color: #e5e5e5;
+        font-family: var(--font-body-family);
+        font-weight: var(--font-body-weight);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      /* scroll-reveal (JS adds .reveal, then .in). If JS/IO absent, nothing hides. */
+      .tonescan-landing .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity .7s cubic-bezier(.2,.6,.2,1), transform .7s cubic-bezier(.2,.6,.2,1);
+        will-change: opacity, transform;
+      }
+      .tonescan-landing .reveal.in { opacity: 1; transform: none; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .tonescan-landing .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      }
+    {%- endstyle -%}
+  </head>
+
+  <body class="tonescan-body">
+    <a class="tw:sr-only" href="#MainContent">Skip to content</a>
+
+    {%- comment -%} ===== minimal sticky header (matches main-site width + fonts) ===== {%- endcomment -%}
+    <header class="tw:sticky tw:top-0 tw:z-50 tw:border-b tw:border-white/10 tw:bg-[#0a0a0b]/80 tw:backdrop-blur-[12px]">
+      <div class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:items-center tw:justify-between tw:px-[15px] tw:py-[10px] tw:md:px-[50px]">
+        <a href="/" class="tw:flex tw:items-center focus-inset" aria-label="{{ shop.name }}">
+          {%- if settings.logo != blank -%}
+            {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+            {{
+              settings.logo
+              | image_url: width: 600
+              | image_tag:
+                class: 'tw:block tw:h-auto',
+                width: settings.logo_width,
+                height: logo_height,
+                widths: '110, 165, 220',
+                alt: shop.name,
+                loading: 'eager'
+            }}
+          {%- else -%}
+            <span class="tw:text-[17px] tw:font-semibold tw:text-white">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+
+        <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
+          <a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>
+          <a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">How it works</a>
+          <a href="#pricing" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Pricing</a>
+          <a href="#faq" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">FAQ</a>
+        </nav>
+
+        <a href="#pricing" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[var(--ts-accent)] tw:px-[16px] tw:py-[9px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
+          Download
+        </a>
+      </div>
+    </header>
+
+    <main id="MainContent">
+      {{ content_for_layout }}
+    </main>
+
+    {%- comment -%} ===== minimal footer ===== {%- endcomment -%}
+    <footer class="tw:border-t tw:border-white/10">
+      <div class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:flex-col tw:items-center tw:justify-between tw:gap-[16px] tw:px-[15px] tw:py-[32px] tw:md:flex-row tw:md:px-[50px]">
+        <p class="tw:text-[13px] tw:text-neutral-500">© {{ 'now' | date: '%Y' }} Tone Photographic. All rights reserved.</p>
+        <div class="tw:flex tw:items-center tw:gap-[24px]">
+          <a href="/" class="tw:text-[13px] tw:text-neutral-500 tw:transition-colors tw:hover:text-white">toneCarrier store</a>
+          <a href="/policies/privacy-policy" class="tw:text-[13px] tw:text-neutral-500 tw:transition-colors tw:hover:text-white">Privacy</a>
+          <a href="/pages/contact" class="tw:text-[13px] tw:text-neutral-500 tw:transition-colors tw:hover:text-white">Support</a>
+        </div>
+      </div>
+    </footer>
+
+    {%- comment -%} ===== scroll animations: reveal-on-scroll + subtle parallax ===== {%- endcomment -%}
+    <script>
+      (function () {
+        if (!('IntersectionObserver' in window)) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var root = document.querySelector('.tonescan-landing');
+        if (!root) return;
+
+        // Elements to reveal: headings, grid items (cards/steps), testimonials, faq rows.
+        var targets = root.querySelectorAll('h1, h2, [class*="grid"] > *, figure, details');
+        targets.forEach(function (el) { el.classList.add('reveal'); });
+
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            var el = e.target;
+            var delay = 0;
+            var parent = el.parentElement;
+            if (parent && /grid/.test(parent.className)) {
+              var idx = Array.prototype.indexOf.call(parent.children, el);
+              delay = Math.min(idx, 5) * 60; // stagger grid children
+            }
+            el.style.transitionDelay = delay + 'ms';
+            el.classList.add('in');
+            io.unobserve(el);
+          });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+
+        targets.forEach(function (el) { io.observe(el); });
+
+        // Subtle parallax on the hero frame only (avoids fighting the reveal transforms).
+        var frame = document.querySelector('.ts-hero-frame');
+        if (frame) {
+          var ticking = false;
+          window.addEventListener('scroll', function () {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(function () {
+              frame.style.transform = 'translateY(' + (window.scrollY * 0.035) + 'px)';
+              ticking = false;
+            });
+          }, { passive: true });
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,423 @@
+{%- comment -%}
+  tonescan-landing
+  ----------------
+  Code-first, dark, professional SaaS landing page for the tonescan app.
+  Rendered via templates/page.tonescan.liquid using layout/tonescan.liquid
+  (real shop logo + theme fonts; no shop header/footer).
+
+  CONVENTIONS:
+  - Tailwind v4, prefix-first: tw:flex, tw:md:grid, tw:hover:opacity-90.
+  - Dark theme. Accent = BLUE: #3b82f6 (buttons/dots/borders), #60a5fa (eyebrow text).
+  - MINIMAL corner radius: tw:rounded-[2px] on cards/frames/buttons/tiles/badges (pro-software vibe).
+    rounded-full ONLY on tiny indicator dots.
+  - Container matches the main site: max-w-[1400px], px-[15px] md:px-[50px] (logo click doesn't jump).
+  - Arbitrary PX for type/spacing (theme root is 62.5%). Layout utils (flex/grid) are safe.
+  - COPY RULE: sell tangible benefits, never the tech stack. RGB trichromatic support is the
+    key differentiator — it leads.
+  - Content is plain inline HTML — edit copy directly.
+  - Status: OPEN BETA (free now; perpetual + subscription at launch). "(soon)" = not shipped.
+  - Scroll reveal + hero parallax wired in layout/tonescan.liquid (fails safe).
+  - Placeholders in [ brackets ] / grey boxes: screenshots, testimonials, prices, real social proof.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+
+  {%- comment -%} ============================ 1 · HERO ============================ {%- endcomment -%}
+  <section class="tw:relative tw:overflow-hidden">
+    <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-[#3b82f6]/10 tw:blur-[130px]"></div>
+
+    <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[80px] tw:pb-[64px] tw:md:px-[50px] tw:md:pt-[120px] tw:md:pb-[88px]">
+      <div class="tw:mx-auto tw:flex tw:max-w-[860px] tw:flex-col tw:items-center tw:gap-[26px] tw:text-center">
+        <span class="tw:inline-flex tw:items-center tw:gap-[8px] tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.04] tw:px-[12px] tw:py-[6px] tw:text-[13px] tw:font-medium tw:text-neutral-300">
+          <span class="tw:h-[6px] tw:w-[6px] tw:rounded-full tw:bg-[#3b82f6]"></span>
+          Now in open beta
+        </span>
+
+        <h1 class="tw:text-[42px] tw:font-semibold tw:leading-[1.03] tw:tracking-[-0.03em] tw:md:text-[72px]">
+          <span class="tw:bg-[linear-gradient(180deg,#ffffff,#a3a3a3)] tw:bg-clip-text tw:text-transparent">
+            Film negatives to finished photos, in seconds.
+          </span>
+        </h1>
+
+        <p class="tw:max-w-[600px] tw:text-[18px] tw:leading-[1.55] tw:text-neutral-400 tw:md:text-[20px]">
+          tonescan turns your camera-scanned negatives into gallery-ready images — with
+          physically accurate inversions, clean RGB colour, and a workflow built to fly
+          through whole rolls.
+        </p>
+
+        <div class="tw:mt-[6px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
+          <a href="#pricing" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[26px] tw:py-[14px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
+            Download the beta
+          </a>
+          <a href="#how-it-works" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[26px] tw:py-[14px] tw:text-[15px] tw:font-medium tw:text-white tw:transition-colors tw:hover:bg-white/[0.08]">
+            See how it works
+          </a>
+        </div>
+        <p class="tw:text-[13px] tw:text-neutral-500">Free during the beta · Mac, Windows &amp; Linux (soon)</p>
+      </div>
+
+      <div class="ts-hero-frame tw:mx-auto tw:mt-[56px] tw:max-w-[1000px] tw:md:mt-[72px]">
+        <div class="tw:overflow-hidden tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
+          <div class="tw:flex tw:items-center tw:gap-[8px] tw:border-b tw:border-white/10 tw:bg-white/[0.03] tw:px-[16px] tw:py-[12px]">
+            <span class="tw:h-[11px] tw:w-[11px] tw:rounded-full tw:bg-white/20"></span>
+            <span class="tw:h-[11px] tw:w-[11px] tw:rounded-full tw:bg-white/20"></span>
+            <span class="tw:h-[11px] tw:w-[11px] tw:rounded-full tw:bg-white/20"></span>
+          </div>
+          <div class="tw:flex tw:aspect-[16/10] tw:w-full tw:items-center tw:justify-center tw:text-[13px] tw:text-neutral-600">
+            [ tonescan app screenshot / demo video ]
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 2 · SOCIAL PROOF STRIP ==================== {%- endcomment -%}
+  <section class="tw:border-y tw:border-white/10">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[28px] tw:md:px-[50px]">
+      <p class="tw:text-center tw:text-[14px] tw:text-neutral-500">
+        From the team behind <span class="tw:text-neutral-300">toneCarrier</span> — trusted by hundreds of film photographers worldwide.
+      </p>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 3 · PROBLEM / AGITATION ==================== {%- endcomment -%}
+  <section class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">The problem</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">
+        Converting film shouldn't be the hard part.
+      </h2>
+      <p class="tw:mx-auto tw:mt-[20px] tw:max-w-[560px] tw:text-[17px] tw:leading-[1.6] tw:text-neutral-400">
+        You shot the roll. You scanned it. Then the fun stops — wrestling with clunky
+        tools, chasing accurate colour, and fighting for consistency frame to frame.
+      </p>
+    </div>
+    <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[16px] tw:md:grid-cols-3">
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="tw:mb-[14px] tw:h-[36px] tw:w-[36px] tw:rounded-[2px] tw:bg-white/10"></div>
+        <h3 class="tw:mb-[8px] tw:text-[18px] tw:font-semibold tw:text-white">Slow and fiddly</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Endless sliders and plugins just to get one frame looking right.</p>
+      </div>
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="tw:mb-[14px] tw:h-[36px] tw:w-[36px] tw:rounded-[2px] tw:bg-white/10"></div>
+        <h3 class="tw:mb-[8px] tw:text-[18px] tw:font-semibold tw:text-white">Inconsistent results</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Every frame comes out looking different from the last.</p>
+      </div>
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="tw:mb-[14px] tw:h-[36px] tw:w-[36px] tw:rounded-[2px] tw:bg-white/10"></div>
+        <h3 class="tw:mb-[8px] tw:text-[18px] tw:font-semibold tw:text-white">Hours per roll</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Manual tweaking and exporting turns a hobby into a chore.</p>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 4 · INTERACTIVE DEMO ==================== {%- endcomment -%}
+  <section class="tw:relative tw:overflow-hidden tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">See it work</p>
+      <h2 class="tw:mx-auto tw:max-w-[720px] tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">
+        Drag to reveal the conversion.
+      </h2>
+      <div class="tw:mx-auto tw:mt-[40px] tw:max-w-[920px]">
+        <div class="tw:flex tw:aspect-[16/9] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">
+          [ before / after slider — negative ↔ converted positive ]
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 5 · PLATFORM (bento) ====================
+       Framer-style "full platform" bento. RGB is the hero tile.
+  {%- endcomment -%}
+  <section id="features" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">The platform</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">
+        A complete film workflow — not a plugin.
+      </h2>
+    </div>
+
+    <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[16px] tw:md:grid-cols-3 tw:md:auto-rows-[210px]">
+      {%- comment -%} HERO tile: RGB {%- endcomment -%}
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px] tw:md:col-span-2 tw:md:row-span-2">
+        <div class="tw:mb-[22px] tw:flex tw:min-h-[180px] tw:flex-1 tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ RGB channel visual ]</div>
+        <h3 class="tw:text-[22px] tw:font-semibold tw:text-white">Seamless RGB scanning</h3>
+        <p class="tw:mt-[8px] tw:max-w-[460px] tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">One of the only apps with clean, first-class support for RGB trichromatic capture — separate red, green and blue exposures combined for purer colour and none of the crosstalk of white light.</p>
+      </div>
+
+      {%- comment -%} small tiles {%- endcomment -%}
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[24px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[40px] tw:w-[40px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[16px] tw:w-[16px] tw:rounded-[1px] tw:bg-[#3b82f6]"></div></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Instant previews</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Real-time GPU viewport — what you see is what you export.</p>
+        </div>
+      </div>
+
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[24px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[40px] tw:w-[40px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[16px] tw:w-[16px] tw:rounded-[1px] tw:bg-[#3b82f6]"></div></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Automatic batch</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Drag in a whole roll and convert every frame in one pass.</p>
+        </div>
+      </div>
+
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[24px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[40px] tw:w-[40px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[16px] tw:w-[16px] tw:rounded-[1px] tw:bg-[#3b82f6]"></div></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Physically accurate inversion</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Natural, true colour — consistent across the whole roll.</p>
+        </div>
+      </div>
+
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[24px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[40px] tw:w-[40px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[16px] tw:w-[16px] tw:rounded-[1px] tw:bg-[#3b82f6]"></div></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">True exposure from raw</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Calibrated from real raw signal, not the histogram.</p>
+        </div>
+      </div>
+
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[24px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[40px] tw:w-[40px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[16px] tw:w-[16px] tw:rounded-[1px] tw:bg-[#3b82f6]"></div></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Rich metadata</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Film stock, camera and dev info tagged into every file.</p>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} secondary "and more" grid {%- endcomment -%}
+    <div class="tw:mt-[16px] tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.015] tw:p-[32px] tw:md:p-[40px]">
+      <h3 class="tw:mb-[28px] tw:text-center tw:text-[20px] tw:font-semibold tw:text-white">Plus everything a serious workflow needs</h3>
+      <div class="tw:grid tw:grid-cols-1 tw:gap-x-[40px] tw:gap-y-[20px] tw:sm:grid-cols-2 tw:md:grid-cols-3">
+        <div class="tw:flex tw:gap-[12px]">
+          <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span>
+          <div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Hardware control</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Drives your light source and advances the film carrier for you.</p></div>
+        </div>
+        <div class="tw:flex tw:gap-[12px]">
+          <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span>
+          <div><p class="tw:text-[15px] tw:font-semibold tw:text-white">White-light scan support</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Prefer a single-shot light source? Fully supported too.</p></div>
+        </div>
+        <div class="tw:flex tw:gap-[12px]">
+          <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span>
+          <div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Smart auto white balance</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Neutral, accurate colour without manual picking.</p></div>
+        </div>
+        <div class="tw:flex tw:gap-[12px]">
+          <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span>
+          <div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Flat-field correction</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Even illumination edge to edge across every frame.</p></div>
+        </div>
+        <div class="tw:flex tw:gap-[12px]">
+          <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span>
+          <div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Keyboard-driven</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Shortcuts for everything, so you can fly through a roll.</p></div>
+        </div>
+        <div class="tw:flex tw:gap-[12px]">
+          <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span>
+          <div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Fully standalone</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">No Lightroom, no plugins, no host app required.</p></div>
+        </div>
+        <div class="tw:flex tw:gap-[12px]">
+          <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span>
+          <div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Flexible licensing</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Own it outright or subscribe — your choice.</p></div>
+        </div>
+        <div class="tw:flex tw:gap-[12px]">
+          <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-white/25"></span>
+          <div><p class="tw:flex tw:items-center tw:gap-[8px] tw:text-[15px] tw:font-semibold tw:text-white">Linux support <span class="tw:rounded-[2px] tw:border tw:border-white/15 tw:px-[8px] tw:py-[1px] tw:text-[11px] tw:font-medium tw:uppercase tw:tracking-[0.08em] tw:text-neutral-500">Soon</span></p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Native on Mac and Windows today; Linux on the way.</p></div>
+        </div>
+        <div class="tw:flex tw:gap-[12px]">
+          <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-white/25"></span>
+          <div><p class="tw:flex tw:items-center tw:gap-[8px] tw:text-[15px] tw:font-semibold tw:text-white">AI auto-crop <span class="tw:rounded-[2px] tw:border tw:border-white/15 tw:px-[8px] tw:py-[1px] tw:text-[11px] tw:font-medium tw:uppercase tw:tracking-[0.08em] tw:text-neutral-500">Soon</span></p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Automatic frame detection and cropping, powered by machine learning.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 6 · HOW IT WORKS ==================== {%- endcomment -%}
+  <section id="how-it-works" class="tw:scroll-mt-[84px] tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">How it works</p>
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">
+          From roll to gallery in three steps.
+        </h2>
+      </div>
+      <div class="tw:mt-[52px] tw:grid tw:grid-cols-1 tw:gap-[32px] tw:md:grid-cols-3">
+        <div class="tw:flex tw:flex-col tw:gap-[14px]">
+          <div class="tw:flex tw:h-[42px] tw:w-[42px] tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.04] tw:text-[15px] tw:font-semibold tw:text-white">1</div>
+          <h3 class="tw:text-[19px] tw:font-semibold tw:text-white">Import your scans</h3>
+          <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Drag in the raw files you shot on your camera — or scan straight from your toneCarrier setup.</p>
+        </div>
+        <div class="tw:flex tw:flex-col tw:gap-[14px]">
+          <div class="tw:flex tw:h-[42px] tw:w-[42px] tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.04] tw:text-[15px] tw:font-semibold tw:text-white">2</div>
+          <h3 class="tw:text-[19px] tw:font-semibold tw:text-white">Let tonescan convert</h3>
+          <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Every frame is ingested and converted automatically, with accurate colour and instant previews.</p>
+        </div>
+        <div class="tw:flex tw:flex-col tw:gap-[14px]">
+          <div class="tw:flex tw:h-[42px] tw:w-[42px] tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.04] tw:text-[15px] tw:font-semibold tw:text-white">3</div>
+          <h3 class="tw:text-[19px] tw:font-semibold tw:text-white">Fine-tune &amp; export</h3>
+          <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Nudge to taste and export gallery-ready images ready to share or print.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 7 · FEATURE DEEP-DIVES (RGB leads) ==================== {%- endcomment -%}
+  <section class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:flex-col tw:gap-[80px] tw:px-[15px] tw:py-[80px] tw:md:gap-[120px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:grid tw:grid-cols-1 tw:items-center tw:gap-[40px] tw:md:grid-cols-2">
+      <div>
+        <p class="tw:mb-[14px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">RGB workflow</p>
+        <h2 class="tw:text-[28px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[38px]">The cleanest RGB workflow around</h2>
+        <p class="tw:mt-[16px] tw:text-[17px] tw:leading-[1.6] tw:text-neutral-400">RGB trichromatic scanning captures red, green and blue as separate exposures, then combines them for colour separation that white-light scanning simply can't match. Very few tools support it properly — tonescan makes it a first-class, seamless part of the workflow.</p>
+      </div>
+      <div>
+        <div class="tw:flex tw:aspect-[4/3] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ RGB workflow screenshot ]</div>
+      </div>
+    </div>
+    <div class="tw:grid tw:grid-cols-1 tw:items-center tw:gap-[40px] tw:md:grid-cols-2">
+      <div class="tw:md:order-2">
+        <p class="tw:mb-[14px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Real-time editing</p>
+        <h2 class="tw:text-[28px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[38px]">Edit at the speed of thought</h2>
+        <p class="tw:mt-[16px] tw:text-[17px] tw:leading-[1.6] tw:text-neutral-400">Every slider, every tweak — reflected the instant you make it. A GPU-accelerated viewport renders pixel-perfect previews in real time, so the result on screen is exactly what you export.</p>
+      </div>
+      <div class="tw:md:order-1">
+        <div class="tw:flex tw:aspect-[4/3] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ viewport screenshot ]</div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 8 · TESTIMONIALS (placeholder) ==================== {%- endcomment -%}
+  <section class="tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Loved by film shooters.</h2>
+      </div>
+      <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[16px] tw:md:grid-cols-3">
+        {%- for i in (1..3) -%}
+          <figure class="tw:flex tw:flex-col tw:gap-[16px] tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+            <blockquote class="tw:text-[16px] tw:leading-[1.6] tw:text-neutral-200">"[ Real testimonial {{ i }} goes here. ]"</blockquote>
+            <figcaption class="tw:flex tw:items-center tw:gap-[12px]">
+              <div class="tw:h-[40px] tw:w-[40px] tw:rounded-[2px] tw:bg-white/10"></div>
+              <div>
+                <p class="tw:text-[14px] tw:font-semibold tw:text-white">[ Name ]</p>
+                <p class="tw:text-[13px] tw:text-neutral-500">[ Detail ]</p>
+              </div>
+            </figcaption>
+          </figure>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 9 · PRICING ==================== {%- endcomment -%}
+  <section id="pricing" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Pricing</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Free while in beta. Flexible licensing at launch.</h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[520px] tw:text-[16px] tw:text-neutral-400">tonescan is free to use during the open beta. When we launch, pick the licence that fits — own it forever, or subscribe.</p>
+    </div>
+    <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[16px] tw:md:grid-cols-3">
+
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[32px]">
+        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Open beta</h3>
+        <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+          <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">Free</span>
+          <span class="tw:text-[14px] tw:text-neutral-500">right now</span>
+        </div>
+        <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Every feature unlocked while we're in beta.</p>
+        <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Full conversion &amp; editing</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Mac &amp; Windows</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Help shape what ships</span></li>
+        </ul>
+        <a href="#" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Download the beta</a>
+      </div>
+
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-[#3b82f6]/60 tw:bg-[#3b82f6]/[0.06] tw:p-[32px]">
+        <span class="tw:mb-[16px] tw:inline-flex tw:w-fit tw:items-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[12px] tw:py-[4px] tw:text-[12px] tw:font-semibold tw:uppercase tw:tracking-[0.08em] tw:text-white">Best value</span>
+        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Perpetual</h3>
+        <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+          <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">[ $ ]</span>
+          <span class="tw:text-[14px] tw:text-neutral-500">one-time · at launch</span>
+        </div>
+        <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Own it forever. Yours to keep.</p>
+        <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 1 ]</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 2 ]</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 3 ]</span></li>
+        </ul>
+        <a href="#" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Get perpetual</a>
+      </div>
+
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[32px]">
+        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Subscription</h3>
+        <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+          <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">[ $ ]</span>
+          <span class="tw:text-[14px] tw:text-neutral-500">per month · at launch</span>
+        </div>
+        <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Always up to date, cancel anytime.</p>
+        <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 1 ]</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 2 ]</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 3 ]</span></li>
+        </ul>
+        <a href="#" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Get subscription</a>
+      </div>
+
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 10 · FAQ ==================== {%- endcomment -%}
+  <section id="faq" class="tw:scroll-mt-[84px] tw:border-t tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[760px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <h2 class="tw:mb-[40px] tw:text-center tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Frequently asked questions</h2>
+      <div class="tw:flex tw:flex-col tw:gap-[12px]">
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Is it really free right now?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Yes — tonescan is completely free to use during the open beta, with every feature unlocked. Paid licences (perpetual or subscription) arrive at launch.</p>
+        </details>
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Do I need special hardware?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">No — tonescan works with raw scans from any digital camera. It pairs perfectly with a toneCarrier setup and can even drive its light and carrier, but that isn't required.</p>
+        </details>
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">What film can I convert?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Colour negatives, black &amp; white, and slides — across common formats.</p>
+        </details>
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Does it run on my computer?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Yes — tonescan runs natively on Mac and Windows today, with Linux support coming soon.</p>
+        </details>
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">What's the difference between perpetual and subscription?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Perpetual is a one-time purchase you own forever. Subscription keeps you on the latest version and can be cancelled anytime.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== 11 · FINAL CTA ==================== {%- endcomment -%}
+  <section class="tw:relative tw:overflow-hidden">
+    <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:bottom-[-180px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-[#3b82f6]/10 tw:blur-[130px]"></div>
+    <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[96px] tw:md:px-[50px] tw:md:py-[140px] tw:text-center">
+      <h2 class="tw:mx-auto tw:max-w-[720px] tw:text-[34px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.02em] tw:text-white tw:md:text-[56px]">
+        Join the tonescan open beta.
+      </h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[520px] tw:text-[17px] tw:text-neutral-400">Free while in beta. Mac, Windows &amp; Linux (soon).</p>
+      <div class="tw:mt-[32px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
+        <a href="#" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[28px] tw:py-[15px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
+          Download the beta
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "tonescan landing",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [{ "name": "tonescan landing" }]
+}
+{% endschema %}
