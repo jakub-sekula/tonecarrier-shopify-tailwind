@@ -148,20 +148,7 @@
         }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
 
         targets.forEach(function (el) { io.observe(el); });
-
-        // Subtle parallax on the hero frame only (avoids fighting the reveal transforms).
-        var frame = document.querySelector('.ts-hero-frame');
-        if (frame) {
-          var ticking = false;
-          window.addEventListener('scroll', function () {
-            if (ticking) return;
-            ticking = true;
-            requestAnimationFrame(function () {
-              frame.style.transform = 'translateY(' + (window.scrollY * 0.035) + 'px)';
-              ticking = false;
-            });
-          }, { passive: true });
-        }
+        // (Hero scroll effects live in the section's own script.)
       })();
     </script>
   </body>

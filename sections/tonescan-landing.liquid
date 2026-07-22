@@ -56,13 +56,26 @@
         <p class="tw:text-[13px] tw:text-neutral-500">Free during the beta · Mac, Windows &amp; Linux (soon)</p>
       </div>
 
-      <div class="ts-hero-frame tw:mx-auto tw:mt-[56px] tw:max-w-[1320px] tw:md:mt-[72px]">
+      <div class="ts-hero-frame tw:relative tw:mx-auto tw:mt-[56px] tw:max-w-[1320px] tw:md:mt-[72px]">
+        {%- comment -%}
+          Floating sample images — exploded out at the top of the page, converge into the hero
+          as you scroll down. Placeholder gradients (per .hero-float--N); swap for real sample
+          scans later (set a background-image on each, or drop an <img> inside).
+        {%- endcomment -%}
+        <div class="hero-floats tw:hidden tw:md:block" aria-hidden="true">
+          <div class="hero-float hero-float--1"></div>
+          <div class="hero-float hero-float--2"></div>
+          <div class="hero-float hero-float--3"></div>
+          <div class="hero-float hero-float--4"></div>
+          <div class="hero-float hero-float--5"></div>
+          <div class="hero-float hero-float--6"></div>
+        </div>
         <img
           src="{{ 'tonescan-hero.png' | asset_url }}"
           alt="toneScan Develop view converting an RGB triplet scan"
           width="2000"
           height="1180"
-          class="tw:block tw:h-auto tw:w-full"
+          class="ts-hero-img tw:relative tw:block tw:h-auto tw:w-full"
           loading="eager"
         >
       </div>
@@ -644,6 +657,26 @@
     .ts-story__panel { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
     .ts-story__title { font-size: 32px; }
   }
+
+  /* ---- hero scroll: image grows + fades; floats explode/converge (driven by --p on frame) ---- */
+  .ts-hero-frame { --p: 0; }
+  .ts-hero-img { transform: scale(calc(1 + var(--p) * 0.07)); transform-origin: center 32%; opacity: calc(1 - var(--p)); will-change: transform, opacity; }
+  .hero-floats { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .hero-float { position: absolute; left: 50%; top: 50%; width: var(--w, 200px); aspect-ratio: 4 / 5; border-radius: 2px; border: 1px solid rgba(255,255,255,.08); background-size: cover; background-position: center;
+    transform: translate(-50%, -50%) translate(calc(var(--x) * (1 - var(--p))), calc(var(--y) * (1 - var(--p)))) rotate(calc(var(--r, 0deg) * (1 - var(--p)))) scale(var(--s, 1));
+    filter: blur(var(--blur, 0px));
+    opacity: calc(1 - var(--p) * 0.85);
+    will-change: transform, opacity; }
+  .hero-float--1 { --x: -40vw; --y: -12vh; --blur: 11px; --s: .68; --r: -8deg; --w: 180px; background-image: linear-gradient(135deg, #2b3a4d, #46331f); }
+  .hero-float--2 { --x: 38vw;  --y: -16vh; --blur: 4px;  --s: .92; --r: 6deg;  --w: 230px; background-image: linear-gradient(135deg, #3a2b4d, #1f4640); }
+  .hero-float--3 { --x: -32vw; --y: 12vh;  --blur: 2px;  --s: 1;   --r: -4deg; --w: 250px; background-image: linear-gradient(135deg, #1f3a46, #463a1f); }
+  .hero-float--4 { --x: 44vw;  --y: 16vh;  --blur: 13px; --s: .60; --r: 10deg; --w: 165px; background-image: linear-gradient(135deg, #463a2b, #2b3a4d); }
+  .hero-float--5 { --x: -20vw; --y: 26vh;  --blur: 6px;  --s: .82; --r: 5deg;  --w: 200px; background-image: linear-gradient(135deg, #2b464d, #3a1f46); }
+  .hero-float--6 { --x: 24vw;  --y: 28vh;  --blur: 8px;  --s: .74; --r: -6deg; --w: 185px; background-image: linear-gradient(135deg, #463a1f, #1f463a); }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-floats { display: none; }
+    .ts-hero-img { transform: none; opacity: 1; }
+  }
 {%- endstyle -%}
 
 <script>
@@ -789,6 +822,28 @@
       }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
       panels.forEach(function (p) { io.observe(p); });
     });
+  })();
+
+  /* hero scroll — screenshot grows + fades; floats converge into it (--p on the frame) */
+  (function () {
+    var frame = document.querySelector('.tonescan-landing .ts-hero-frame');
+    if (!frame) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
+    var ticking = false;
+    function update() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var p = clamp(window.pageYOffset / (vh * 0.85));
+      frame.style.setProperty('--p', p.toFixed(3));
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { update(); ticking = false; });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
   })();
 </script>
 
