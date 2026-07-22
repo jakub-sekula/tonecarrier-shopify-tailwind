@@ -521,8 +521,14 @@
   .tw\:mt-\[12px\] {
     margin-top: 12px;
   }
+  .tw\:mt-\[14px\] {
+    margin-top: 14px;
+  }
   .tw\:mt-\[16px\] {
     margin-top: 16px;
+  }
+  .tw\:mt-\[18px\] {
+    margin-top: 18px;
   }
   .tw\:mt-\[20px\] {
     margin-top: 20px;
@@ -572,6 +578,9 @@
   .tw\:mb-\[16px\] {
     margin-bottom: 16px;
   }
+  .tw\:mb-\[20px\] {
+    margin-bottom: 20px;
+  }
   .tw\:mb-\[22px\] {
     margin-bottom: 22px;
   }
@@ -608,11 +617,17 @@
   .tw\:aspect-3\/2 {
     aspect-ratio: 3/2;
   }
+  .tw\:aspect-\[3\/2\] {
+    aspect-ratio: 3/2;
+  }
   .tw\:aspect-\[4\/3\] {
     aspect-ratio: 4/3;
   }
   .tw\:aspect-\[16\/9\] {
     aspect-ratio: 16/9;
+  }
+  .tw\:aspect-\[16\/10\] {
+    aspect-ratio: 16/10;
   }
   .tw\:aspect-square {
     aspect-ratio: 1 / 1;
@@ -938,6 +953,9 @@
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
   }
+  .tw\:border-\[\#3b82f6\]\/40 {
+    border-color: color-mix(in oklab, #3b82f6 40%, transparent);
+  }
   .tw\:border-\[\#3b82f6\]\/60 {
     border-color: color-mix(in oklab, #3b82f6 60%, transparent);
   }
@@ -1106,6 +1124,9 @@
   .tw\:px-\[8px\] {
     padding-inline: 8px;
   }
+  .tw\:px-\[10px\] {
+    padding-inline: 10px;
+  }
   .tw\:px-\[12px\] {
     padding-inline: 12px;
   }
@@ -1114,6 +1135,9 @@
   }
   .tw\:px-\[16px\] {
     padding-inline: 16px;
+  }
+  .tw\:px-\[20px\] {
+    padding-inline: 20px;
   }
   .tw\:px-\[24px\] {
     padding-inline: 24px;
@@ -1136,6 +1160,9 @@
   .tw\:py-\[1px\] {
     padding-block: 1px;
   }
+  .tw\:py-\[3px\] {
+    padding-block: 3px;
+  }
   .tw\:py-\[4px\] {
     padding-block: 4px;
   }
@@ -1147,6 +1174,9 @@
   }
   .tw\:py-\[10px\] {
     padding-block: 10px;
+  }
+  .tw\:py-\[12px\] {
+    padding-block: 12px;
   }
   .tw\:py-\[13px\] {
     padding-block: 13px;
@@ -1639,6 +1669,9 @@
     .tw\:md\:text-\[38px\] {
       font-size: 38px;
     }
+    .tw\:md\:text-\[40px\] {
+      font-size: 40px;
+    }
     .tw\:md\:text-\[46px\] {
       font-size: 46px;
     }
@@ -1664,6 +1697,11 @@
     }
     .tw\:md\:disabled\:hidden:disabled {
       display: none;
+    }
+  }
+  @media (width >= 1440px) {
+    .tw\:xlg\:grid-cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 }

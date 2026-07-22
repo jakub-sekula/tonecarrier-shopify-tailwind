@@ -130,16 +130,146 @@
     </div>
   </section>
 
+  {%- comment -%} ==================== THE SYSTEM (3 pillars) ==================== {%- endcomment -%}
+  <section id="system" class="tw:scroll-mt-[84px] tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">The system</p>
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Three parts, built to work as one.</h2>
+        <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">A narrowband RGB light, a motorised film carrier, and desktop software — designed together so capture, transport and conversion feel like a single tool.</p>
+      </div>
+      <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[20px] tw:md:grid-cols-3">
+        <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <div class="tw:mb-[20px] tw:flex tw:aspect-[3/2] tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ toneLight ]</div>
+          <h3 class="tw:mb-[8px] tw:text-[20px] tw:font-semibold tw:text-white">toneLight</h3>
+          <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Narrowband RGB light source for clean colour separation on any digital camera.</p>
+        </div>
+        <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <div class="tw:mb-[20px] tw:flex tw:aspect-[3/2] tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ toneCarrier ]</div>
+          <h3 class="tw:mb-[8px] tw:text-[20px] tw:font-semibold tw:text-white">toneCarrier</h3>
+          <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Motorised film carrier that advances even short strips quickly and precisely.</p>
+        </div>
+        <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <div class="tw:mb-[20px] tw:flex tw:aspect-[3/2] tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ toneScan Studio ]</div>
+          <h3 class="tw:mb-[8px] tw:text-[20px] tw:font-semibold tw:text-white">toneScan Studio</h3>
+          <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Desktop software that automates capture, merges the channels and inverts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== toneLight (hardware deep-dive) ==================== {%- endcomment -%}
+  <section class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:grid tw:grid-cols-1 tw:items-center tw:gap-[48px] tw:md:grid-cols-2">
+      <div>
+        <p class="tw:mb-[14px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">toneLight</p>
+        <h2 class="tw:text-[28px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[40px]">The RGB light that does the hard part in hardware.</h2>
+        <p class="tw:mt-[18px] tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">toneLight is our RGB light panel engineered specifically for scanning film with a digital camera. It achieves excellent colour separation on any camera by automatically triggering red, green and blue exposures of every frame. Shoot slides or black &amp; white? A high-quality white LED panel has you covered too.</p>
+        <p class="tw:mt-[16px] tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">Large physical controls make it easy to use in the dark, and an injection-moulded enclosure stands up to years of daily use.</p>
+      </div>
+      <div>
+        <div class="tw:flex tw:aspect-[4/3] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ toneLight product shot ]</div>
+      </div>
+    </div>
+
+    <div class="tw:mt-[40px] tw:grid tw:grid-cols-1 tw:gap-x-[40px] tw:gap-y-[20px] tw:sm:grid-cols-2 tw:md:grid-cols-3">
+      <div class="tw:flex tw:gap-[12px]"><span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Purpose-built RGB illumination</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Narrowband LED array for sequential trichromatic capture, coordinated with the camera automatically.</p></div></div>
+      <div class="tw:flex tw:gap-[12px]"><span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><div><p class="tw:flex tw:items-center tw:gap-[8px] tw:text-[15px] tw:font-semibold tw:text-white">White &amp; infrared too <span class="tw:rounded-[2px] tw:border tw:border-white/15 tw:px-[8px] tw:py-[1px] tw:text-[11px] tw:font-medium tw:uppercase tw:tracking-[0.08em] tw:text-neutral-500">IR soon</span></p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">High-CRI white for slide and B&amp;W; an IR channel for dust and defect capture.</p></div></div>
+      <div class="tw:flex tw:gap-[12px]"><span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Capture control built in</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Stepper-motor film advance, direct shutter release, and a serial API for automation.</p></div></div>
+      <div class="tw:flex tw:gap-[12px]"><span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Simple to run</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Tactile physical controls and a clear GUI — minimal interaction once it's configured.</p></div></div>
+      <div class="tw:flex tw:gap-[12px]"><span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Built for real use</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Durable injection-moulded enclosure with mounting points top and bottom for copy stands and custom rigs.</p></div></div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== toneCarrier + motor ==================== {%- endcomment -%}
+  <section class="tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:grid tw:grid-cols-1 tw:items-center tw:gap-[48px] tw:md:grid-cols-2">
+        <div class="tw:md:order-2">
+          <p class="tw:mb-[14px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">toneCarrier</p>
+          <h2 class="tw:text-[28px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[40px]">Motorised film transport, frame after frame.</h2>
+          <p class="tw:mt-[18px] tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">toneCarrier keeps film flat and secure during scanning, in 35 mm and 120 formats, with a belt-drive system that smoothly advances even short strips. A quiet stepper motor makes the transport fast and precise — driven by a jog dial on toneLight for fine control, or from the toneScan Studio GUI for automated capture.</p>
+          <div class="tw:mt-[20px] tw:rounded-[2px] tw:border tw:border-[#3b82f6]/40 tw:bg-[#3b82f6]/[0.06] tw:p-[20px]">
+            <p class="tw:text-[15px] tw:font-semibold tw:text-white">Already own a toneCarrier?</p>
+            <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.55] tw:text-neutral-300">Upgrade it to motorised in about 5 minutes. Our motor conversion kit attaches to the back of your existing carrier — no disassembly required.</p>
+          </div>
+        </div>
+        <div class="tw:md:order-1">
+          <div class="tw:flex tw:aspect-[4/3] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ motorised toneCarrier shot ]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== toneScan Studio (short + link out) ==================== {%- endcomment -%}
+  <section class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:grid tw:grid-cols-1 tw:items-center tw:gap-[48px] tw:md:grid-cols-2">
+      <div>
+        <p class="tw:mb-[14px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">toneScan Studio</p>
+        <h2 class="tw:text-[28px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[40px]">The software that ties it all together.</h2>
+        <p class="tw:mt-[18px] tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">toneScan Studio drives the light and carrier, then automatically combines and inverts your scans with an engine built on real film physics. Point it at a hot folder and scans appear, merge and invert as they land — batch-edit and export a full roll in minutes.</p>
+        <p class="tw:mt-[16px] tw:text-[15px] tw:text-neutral-500">Every backer gets a lifetime toneScan Studio licence, free.</p>
+        <a href="/pages/tonescan-landing" class="tw:mt-[24px] tw:inline-flex tw:items-center tw:gap-[8px] tw:text-[15px] tw:font-semibold tw:text-[#60a5fa] tw:transition-colors tw:hover:text-white">
+          Explore toneScan Studio
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+      <div>
+        <div class="tw:flex tw:aspect-[16/10] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ toneScan Studio screenshot ]</div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== REWARDS (pledge tiers) ==================== {%- endcomment -%}
+  <section id="rewards" class="tw:scroll-mt-[84px] tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Rewards</p>
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Back it at launch, save the most.</h2>
+        <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">Early-bird tiers are limited and go live on launch day. Most people already camera-scan — if that's you, the light is the only part you're missing. You'll need a copy stand or sturdy tripod to mount your camera.</p>
+      </div>
+      <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[20px] tw:md:grid-cols-2 tw:xlg:grid-cols-4">
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">toneLight RGB Panel</h3>
+          <div class="tw:mt-[14px] tw:flex tw:items-baseline tw:gap-[8px]"><span class="tw:text-[32px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">£340</span><span class="tw:text-[13px] tw:text-[#60a5fa]">super early bird</span></div>
+          <p class="tw:mt-[4px] tw:text-[13px] tw:text-neutral-500">then £360 early bird · £400 regular</p>
+          <p class="tw:mt-[14px] tw:flex-1 tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">The light on its own. Drops into any carrier with a standard 35 mm aperture and adds trichromatic RGB capture. The one most of you want.</p>
+          <a href="#waitlist" class="tw:mt-[24px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[20px] tw:py-[12px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Notify me at launch</a>
+        </div>
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-[#3b82f6]/60 tw:bg-[#3b82f6]/[0.06] tw:p-[28px]">
+          <span class="tw:mb-[14px] tw:inline-flex tw:w-fit tw:items-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[10px] tw:py-[3px] tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.08em] tw:text-white">Most popular</span>
+          <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">toneLight + Motorised Carrier</h3>
+          <div class="tw:mt-[14px] tw:flex tw:items-baseline tw:gap-[8px]"><span class="tw:text-[32px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">£375</span><span class="tw:text-[13px] tw:text-[#60a5fa]">super early bird</span></div>
+          <p class="tw:mt-[4px] tw:text-[13px] tw:text-neutral-500">then £400 early bird · £450 regular</p>
+          <p class="tw:mt-[14px] tw:flex-1 tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">A complete RGB setup with automated transport, ready for your camera and copy stand. Choose 35 mm or 120.</p>
+          <a href="#waitlist" class="tw:mt-[24px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[20px] tw:py-[12px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Notify me at launch</a>
+        </div>
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">toneLight + Motor Upgrade Kit</h3>
+          <div class="tw:mt-[14px] tw:flex tw:items-baseline tw:gap-[8px]"><span class="tw:text-[32px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">£375</span><span class="tw:text-[13px] tw:text-[#60a5fa]">super early bird</span></div>
+          <p class="tw:mt-[4px] tw:text-[13px] tw:text-neutral-500">then £400 early bird · £450 regular</p>
+          <p class="tw:mt-[14px] tw:flex-1 tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">The light plus a motor kit that retrofits onto your current toneCarrier (35 mm or 120) for automated scanning.</p>
+          <a href="#waitlist" class="tw:mt-[24px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[20px] tw:py-[12px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Notify me at launch</a>
+        </div>
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">Full scanning kit</h3>
+          <div class="tw:mt-[14px] tw:flex tw:items-baseline tw:gap-[8px]"><span class="tw:text-[32px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">£470</span><span class="tw:text-[13px] tw:text-[#60a5fa]">super early bird</span></div>
+          <p class="tw:mt-[4px] tw:text-[13px] tw:text-neutral-500">then £495 early bird · £550 regular</p>
+          <p class="tw:mt-[14px] tw:flex-1 tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">Motorised carrier plus the full accessory set — easyloader tray, catch tray, chimney, frame masks. Best if you're building a rig from scratch.</p>
+          <a href="#waitlist" class="tw:mt-[24px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[20px] tw:py-[12px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Notify me at launch</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   {%- comment -%}
     ============================ STUBS (build next) ============================
-    2 · marquee "scanned with the tone system"
-    4 · #system — toneLight / toneCarrier / toneScan Studio overview
-    5 · benefits bento (reuse bento component)
-    6 · how it works (sticky scrollytelling)
-    7 · team (Jakub + Nico)
-    8 · #rewards — pledge tiers
-    9 · #faq
-    10 · final waitlist CTA
+    · team (Jakub + Nico)  · trusted-by (toneCarrier testimonials)  · timeline/risks  · #faq  · final CTA
   {%- endcomment -%}
 
 </div>
