@@ -274,7 +274,7 @@
   </section>
 
   {%- comment -%} ==================== 7 · FEATURE DEEP-DIVES (RGB leads) ==================== {%- endcomment -%}
-  <section class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:flex-col tw:gap-[80px] tw:px-[15px] tw:py-[80px] tw:md:gap-[120px] tw:md:px-[50px] tw:md:py-[120px]">
+  <section class="ts-clip-x tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:flex-col tw:gap-[80px] tw:px-[15px] tw:py-[80px] tw:md:gap-[120px] tw:md:px-[50px] tw:md:py-[120px]">
     <div class="tw:grid tw:grid-cols-1 tw:items-center tw:gap-[40px] tw:md:grid-cols-2">
       <div>
         <p class="tw:mb-[14px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">RGB workflow</p>
@@ -557,9 +557,12 @@
     .ts-lb__meta { width: 300px; flex-shrink: 0; border-top: 0; border-left: 1px solid rgba(255,255,255,.10); padding: 24px; }
   }
 
+  /* let the splayed channels overflow their frame without causing horizontal page scroll */
+  .ts-clip-x { overflow-x: clip; }
+
   /* ---- rgb merge (scroll-linked --s spread; .is-converted crossfades the result) ---- */
-  .ts-rgb { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #08080a; }
-  .ts-rgb__stage { position: absolute; inset: 0; background: #000; isolation: isolate; }
+  .ts-rgb { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: visible; }
+  .ts-rgb__stage { position: absolute; inset: 0; isolation: isolate; }
   .ts-rgb__ch { position: absolute; inset: 8%; mix-blend-mode: screen; background-size: cover; background-position: center; transform-origin: center; will-change: transform; }
   .ts-rgb__ch--r { background-image: url('{{ 'raw-red.jpg' | asset_url }}'); transform: translate(calc(-15% * var(--s, 1)), calc(-9% * var(--s, 1))) rotate(calc(-2deg * var(--s, 1))); }
   .ts-rgb__ch--g { background-image: url('{{ 'raw-green.jpg' | asset_url }}'); transform: translateY(calc(10% * var(--s, 1))); }
@@ -666,14 +669,34 @@
       });
     }
 
-    var ticking = false;
+    // When scrolling settles near the merge point, snap so it never rests half-merged.
+    function maybeSnap() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var best = null, bestDist = 1;
+      items.forEach(function (it) {
+        var r = it.el.getBoundingClientRect();
+        var p = clamp((vh - r.top) / (vh + r.height));
+        var d = Math.abs(p - 0.5);
+        if (d < 0.08 && d < bestDist) { bestDist = d; best = { top: r.top, h: r.height }; }
+      });
+      if (best && bestDist > 0.006) {
+        var targetY = Math.round(window.pageYOffset + best.top - (vh - best.h) / 2);
+        try { window.scrollTo({ top: targetY, behavior: 'smooth' }); }
+        catch (e) { window.scrollTo(0, targetY); }
+      }
+    }
+
+    var ticking = false, snapTimer;
     function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () { update(); ticking = false; });
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function () { update(); ticking = false; });
+      }
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(maybeSnap, 160);
     }
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('resize', function () { clearTimeout(snapTimer); update(); }, { passive: true });
     update();
   })();
 </script>
