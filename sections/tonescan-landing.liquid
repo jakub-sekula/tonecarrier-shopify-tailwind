@@ -662,9 +662,9 @@
   /* ---- hero scroll: image grows slightly (no fade); floats scatter, converge into the
          screenshot centre and rack into focus (blur->0, scale->1) as --p goes 0->1 ---- */
   .ts-hero { --p: 0; }
-  .ts-hero-img { transform: scale(calc(1 + var(--p) * 0.05)); transform-origin: center 30%; will-change: transform; }
+  .ts-hero-img { transform: scale(calc(0.94 + var(--p) * 0.06)); transform-origin: center 30%; will-change: transform; }
   .hero-floats { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-  .hero-float { position: absolute; left: 50%; top: 34%; width: var(--w, 130px); aspect-ratio: 4 / 5; border-radius: 2px; border: 1px solid rgba(255,255,255,.08); background-size: cover; background-position: center;
+  .hero-float { position: absolute; left: 50%; top: 34%; width: var(--w, 160px); aspect-ratio: 3 / 2; border-radius: 2px; border: 1px solid rgba(255,255,255,.08); background-size: cover; background-position: center;
     transform: translate(-50%, -50%)
       translate(calc(var(--x) * (1 - var(--p))), calc(var(--y) * (1 - var(--p))))
       translate(0, calc(var(--drop, 48vh) * var(--p)))
@@ -673,13 +673,13 @@
     filter: blur(calc(var(--blur, 0px) * (1 - var(--p))));
     opacity: calc(0.6 + 0.4 * var(--p));
     will-change: transform, filter, opacity; }
-  .hero-float--1 { --x: -42vw; --y: -8vh;  --blur: 7px;  --s: .62; --r: -6deg; --w: 118px; background-image: linear-gradient(135deg, #2b3a4d, #46331f); }
-  .hero-float--2 { --x: -30vw; --y: 10vh;  --blur: 2px;  --s: .90; --r: -3deg; --w: 150px; background-image: linear-gradient(135deg, #3a2b4d, #1f4640); }
-  .hero-float--3 { --x: -14vw; --y: -20vh; --blur: 9px;  --s: .55; --r: 4deg;  --w: 100px; background-image: linear-gradient(135deg, #1f3a46, #463a1f); }
-  .hero-float--4 { --x: 15vw;  --y: -22vh; --blur: 8px;  --s: .58; --r: -4deg; --w: 104px; background-image: linear-gradient(135deg, #463a2b, #2b3a4d); }
-  .hero-float--5 { --x: 32vw;  --y: -4vh;  --blur: 3px;  --s: .88; --r: 5deg;  --w: 146px; background-image: linear-gradient(135deg, #2b464d, #3a1f46); }
-  .hero-float--6 { --x: 44vw;  --y: 12vh;  --blur: 7px;  --s: .64; --r: 7deg;  --w: 120px; background-image: linear-gradient(135deg, #463a1f, #1f463a); }
-  .hero-float--7 { --x: -38vw; --y: 26vh;  --blur: 11px; --s: .50; --r: 6deg;  --w: 92px;  background-image: linear-gradient(135deg, #241a3a, #17302b); }
+  .hero-float--1 { --x: -42vw; --y: -8vh;  --blur: 7px;  --s: .62; --r: -6deg; --w: 200px; background-image: url('{{ 'raw-red.jpg' | asset_url }}'); }
+  .hero-float--2 { --x: -30vw; --y: 10vh;  --blur: 2px;  --s: .90; --r: -3deg; --w: 240px; background-image: url('{{ 'converted.jpg' | asset_url }}'); }
+  .hero-float--3 { --x: -14vw; --y: -20vh; --blur: 9px;  --s: .55; --r: 4deg;  --w: 170px; background-image: url('{{ 'raw-green.jpg' | asset_url }}'); }
+  .hero-float--4 { --x: 15vw;  --y: -22vh; --blur: 8px;  --s: .58; --r: -4deg; --w: 176px; background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); }
+  .hero-float--5 { --x: 32vw;  --y: -4vh;  --blur: 3px;  --s: .88; --r: 5deg;  --w: 236px; background-image: url('{{ 'converted.jpg' | asset_url }}'); }
+  .hero-float--6 { --x: 44vw;  --y: 12vh;  --blur: 7px;  --s: .64; --r: 7deg;  --w: 200px; background-image: url('{{ 'raw-red.jpg' | asset_url }}'); }
+  .hero-float--7 { --x: -38vw; --y: 26vh;  --blur: 11px; --s: .50; --r: 6deg;  --w: 156px; background-image: url('{{ 'raw-green.jpg' | asset_url }}'); }
   @media (prefers-reduced-motion: reduce) {
     .hero-floats { display: none; }
     .ts-hero-img { transform: none; }
