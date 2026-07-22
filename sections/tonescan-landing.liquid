@@ -56,18 +56,15 @@
         <p class="tw:text-[13px] tw:text-neutral-500">Free during the beta · Mac, Windows &amp; Linux (soon)</p>
       </div>
 
-      <div class="ts-hero-frame tw:mx-auto tw:mt-[56px] tw:max-w-[1080px] tw:md:mt-[72px]">
-        {%- comment -%} Save the app screenshot as assets/tonescan-hero.png (its own window chrome is included). {%- endcomment -%}
-        <div class="tw:overflow-hidden tw:rounded-[4px] tw:border tw:border-white/10 tw:shadow-[0_30px_90px_-30px_rgba(0,0,0,0.85)]">
-          <img
-            src="{{ 'tonescan-hero.png' | asset_url }}"
-            alt="toneScan Develop view converting an RGB triplet scan"
-            width="2000"
-            height="1180"
-            class="tw:block tw:h-auto tw:w-full"
-            loading="eager"
-          >
-        </div>
+      <div class="ts-hero-frame tw:mx-auto tw:mt-[56px] tw:max-w-[1320px] tw:md:mt-[72px]">
+        <img
+          src="{{ 'tonescan-hero.png' | asset_url }}"
+          alt="toneScan Develop view converting an RGB triplet scan"
+          width="2000"
+          height="1180"
+          class="tw:block tw:h-auto tw:w-full"
+          loading="eager"
+        >
       </div>
     </div>
   </section>
@@ -286,7 +283,7 @@
       </div>
       <div>
         {%- comment -%} R/G/B channels merge then invert on click. Swap the 3 .ts-rgb__ch backgrounds for real channel images later. {%- endcomment -%}
-        <div class="ts-rgb" role="button" tabindex="0" aria-label="Combine the RGB channel captures, then invert">
+        <div class="ts-rgb">
           <div class="ts-rgb__stage">
             <div class="ts-rgb__ch ts-rgb__ch--r"></div>
             <div class="ts-rgb__ch ts-rgb__ch--g"></div>
@@ -300,7 +297,6 @@
             <div class="ts-rgb__result"></div>
           </div>
           <span class="ts-rgb__cap">Three RGB channel captures</span>
-          <span class="ts-rgb__hint">Click</span>
         </div>
       </div>
     </div>
@@ -561,24 +557,17 @@
     .ts-lb__meta { width: 300px; flex-shrink: 0; border-top: 0; border-left: 1px solid rgba(255,255,255,.10); padding: 24px; }
   }
 
-  /* ---- rgb merge + invert ---- */
-  .ts-rgb { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #08080a; cursor: pointer; }
-  .ts-rgb:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
-  .ts-rgb__stage { position: absolute; inset: 0; background: #000; isolation: isolate; transition: filter .5s ease; }
-  .ts-rgb__ch { position: absolute; inset: 8%; mix-blend-mode: screen; background-size: cover; background-position: center; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
-  .ts-rgb__ch--r { background-image: url('{{ 'raw-red.jpg' | asset_url }}'); transform: translate(-15%, -9%) rotate(-2deg); }
-  .ts-rgb__ch--g { background-image: url('{{ 'raw-green.jpg' | asset_url }}'); transform: translate(0, 10%); }
-  .ts-rgb__ch--b { background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); transform: translate(15%, -9%) rotate(2deg); }
-  .ts-rgb.is-merged .ts-rgb__ch { transform: none; }
-  /* real converted output — crossfades in over the merged channels */
-  .ts-rgb__result { position: absolute; inset: 8%; z-index: 1; opacity: 0; transition: opacity .6s ease; background-size: cover; background-position: center;
+  /* ---- rgb merge (scroll-linked via --s spread / --o result opacity) ---- */
+  .ts-rgb { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #08080a; }
+  .ts-rgb__stage { position: absolute; inset: 0; background: #000; isolation: isolate; }
+  .ts-rgb__ch { position: absolute; inset: 8%; mix-blend-mode: screen; background-size: cover; background-position: center; transform-origin: center; will-change: transform; }
+  .ts-rgb__ch--r { background-image: url('{{ 'raw-red.jpg' | asset_url }}'); transform: translate(calc(-15% * var(--s, 1)), calc(-9% * var(--s, 1))) rotate(calc(-2deg * var(--s, 1))); }
+  .ts-rgb__ch--g { background-image: url('{{ 'raw-green.jpg' | asset_url }}'); transform: translateY(calc(10% * var(--s, 1))); }
+  .ts-rgb__ch--b { background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); transform: translate(calc(15% * var(--s, 1)), calc(-9% * var(--s, 1))) rotate(calc(2deg * var(--s, 1))); }
+  /* real converted output — crossfades in as you scroll past the merge point */
+  .ts-rgb__result { position: absolute; inset: 8%; z-index: 1; opacity: var(--o, 0); background-size: cover; background-position: center; will-change: opacity;
     background-image: url('{{ 'converted.jpg' | asset_url }}'); }
-  .ts-rgb.is-result .ts-rgb__result { opacity: 1; }
-  .ts-rgb__result img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .ts-rgb__cap { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 5px 10px; font-size: 12px; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; }
-  .ts-rgb__hint { position: absolute; right: 12px; top: 12px; z-index: 2; padding: 4px 8px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #cfe0f5; background: rgba(59,130,246,.18); border: 1px solid rgba(59,130,246,.4); border-radius: 2px; transition: opacity .3s ease; }
-  .ts-rgb.is-merged .ts-rgb__hint { opacity: 0; }
-  @media (prefers-reduced-motion: reduce) { .ts-rgb__ch, .ts-rgb__stage { transition: none; } }
 {%- endstyle -%}
 
 <script>
@@ -641,29 +630,50 @@
     });
   })();
 
-  /* rgb merge + invert */
+  /* rgb merge — scroll-linked: channels split when centred low, combine + reveal result as they scroll up */
   (function () {
-    document.querySelectorAll('.tonescan-landing .ts-rgb').forEach(function (el) {
-      var cap = el.querySelector('.ts-rgb__cap');
-      var texts = ['Three RGB channel captures', 'Channels aligned & combined', 'Converted with tonescan'];
-      var state = 0, timer;
-      function set(s) {
-        state = s;
-        el.classList.toggle('is-merged', s >= 1);
-        el.classList.toggle('is-result', s >= 2);
-        if (cap) cap.textContent = texts[s];
-      }
-      function advance() {
-        clearTimeout(timer);
-        if (state === 0) { set(1); timer = setTimeout(function () { set(2); }, 850); }
-        else { set(0); }
-      }
-      el.addEventListener('click', advance);
-      el.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); advance(); }
+    var els = document.querySelectorAll('.tonescan-landing .ts-rgb');
+    if (!els.length) return;
+    var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
+    var texts = ['Three RGB channel captures', 'Channels aligned & combined', 'Converted with tonescan'];
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach(function (el) {
+        el.style.setProperty('--s', 0);
+        el.style.setProperty('--o', 1);
+        var c = el.querySelector('.ts-rgb__cap'); if (c) c.textContent = texts[2];
       });
-      set(0);
-    });
+      return;
+    }
+
+    var items = [];
+    els.forEach(function (el) { items.push({ el: el, cap: el.querySelector('.ts-rgb__cap'), last: -1 }); });
+
+    function update() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      items.forEach(function (it) {
+        var r = it.el.getBoundingClientRect();
+        var p = clamp((vh - r.top) / (vh + r.height)); // 0 entering bottom -> 1 leaving top
+        var s = 1 - clamp(p * 2);                        // spread 1..0 over first half
+        var o = clamp((p - 0.5) * 2);                    // result 0..1 over second half
+        it.el.style.setProperty('--s', s.toFixed(3));
+        it.el.style.setProperty('--o', o.toFixed(3));
+        if (it.cap) {
+          var ti = p < 0.42 ? 0 : (p < 0.72 ? 1 : 2);
+          if (ti !== it.last) { it.cap.textContent = texts[ti]; it.last = ti; }
+        }
+      });
+    }
+
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { update(); ticking = false; });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
   })();
 </script>
 
