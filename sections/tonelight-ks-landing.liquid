@@ -1,0 +1,152 @@
+{%- comment -%}
+  tonelight-ks-landing
+  --------------------
+  Code-first, dark landing page for the toneLight Kickstarter campaign.
+  Rendered via templates/page.tonelight-ks-promo.liquid using layout/tonelight-ks.liquid.
+
+  CONVENTIONS: same system as the tonescan landing page.
+  - Tailwind v4, prefix-first (tw:). Dark theme, blue accent #3b82f6 / #60a5fa, minimal 2px radius.
+  - Container: max-w-[1400px], px-[15px] md:px-[50px]. Arbitrary px for type/spacing.
+  - Keeps the hero copy from the old KS page; campaign video is a placeholder.
+  - The waitlist form is the existing snippet (rendered as-is).
+
+  BUILD ORDER (stubs below): 1 hero+countdown  2 marquee  3 why-RGB/crosstalk
+    4 the system (toneLight/toneCarrier/toneStudio)  5 benefits bento  6 how it works
+    7 team  8 rewards/tiers  9 faq  10 waitlist CTA
+{%- endcomment -%}
+
+{%- liquid
+  # Kickstarter launch target (edit this). ISO 8601, UTC.
+  assign ks_launch = '2026-08-19T16:00:00Z'
+-%}
+
+<div class="tonelight-ks tw:text-neutral-200">
+
+  {%- comment -%} ============================ 1 · HERO + COUNTDOWN ============================ {%- endcomment -%}
+  <section class="tw:relative tw:overflow-hidden">
+    <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-[#3b82f6]/10 tw:blur-[130px]"></div>
+
+    <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[72px] tw:pb-[56px] tw:md:px-[50px] tw:md:pt-[104px] tw:md:pb-[80px]">
+      <div class="tw:mx-auto tw:flex tw:max-w-[880px] tw:flex-col tw:items-center tw:gap-[24px] tw:text-center">
+        <span class="tw:inline-flex tw:items-center tw:gap-[8px] tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.04] tw:px-[12px] tw:py-[6px] tw:text-[13px] tw:font-medium tw:text-neutral-300">
+          <span class="tw:h-[6px] tw:w-[6px] tw:rounded-full tw:bg-[#3b82f6]"></span>
+          Coming soon on Kickstarter
+        </span>
+
+        <h1 class="tw:text-[40px] tw:font-semibold tw:leading-[1.04] tw:tracking-[-0.03em] tw:md:text-[66px]">
+          <span class="tw:bg-[linear-gradient(180deg,#ffffff,#a3a3a3)] tw:bg-clip-text tw:text-transparent">
+            Turn your digital camera into a precision film scanner.
+          </span>
+        </h1>
+
+        <p class="tw:max-w-[620px] tw:text-[18px] tw:leading-[1.55] tw:text-neutral-400 tw:md:text-[20px]">
+          toneLight is a smart RGB scanning light that delivers clean colours, improved dynamic
+          range, and a DSLR scanning workflow like never seen before.
+        </p>
+
+        {%- comment -%} countdown {%- endcomment -%}
+        <div class="ks-countdown" data-launch="{{ ks_launch }}" role="timer" aria-label="Time until Kickstarter launch">
+          <div class="ks-countdown__unit"><span class="ks-countdown__num" data-cd="days">--</span><span class="ks-countdown__label">days</span></div>
+          <div class="ks-countdown__sep">:</div>
+          <div class="ks-countdown__unit"><span class="ks-countdown__num" data-cd="hours">--</span><span class="ks-countdown__label">hrs</span></div>
+          <div class="ks-countdown__sep">:</div>
+          <div class="ks-countdown__unit"><span class="ks-countdown__num" data-cd="mins">--</span><span class="ks-countdown__label">min</span></div>
+          <div class="ks-countdown__sep">:</div>
+          <div class="ks-countdown__unit"><span class="ks-countdown__num" data-cd="secs">--</span><span class="ks-countdown__label">sec</span></div>
+        </div>
+
+        <div class="tw:mt-[4px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
+          <a href="#waitlist" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[26px] tw:py-[14px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
+            Join the waitlist
+          </a>
+          <a href="#why-rgb" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[26px] tw:py-[14px] tw:text-[15px] tw:font-medium tw:text-white tw:transition-colors tw:hover:bg-white/[0.08]">
+            See how it works
+          </a>
+        </div>
+        <p class="tw:text-[13px] tw:text-neutral-500">Every backer gets a lifetime toneStudio licence, free.</p>
+      </div>
+
+      {%- comment -%} campaign video placeholder {%- endcomment -%}
+      <div class="tw:mx-auto tw:mt-[48px] tw:max-w-[960px] tw:md:mt-[64px]">
+        <div class="tw:flex tw:aspect-[16/9] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600 tw:shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
+          [ campaign video ]
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== WAITLIST (kit form) ==================== {%- endcomment -%}
+  <section id="waitlist" class="tw:scroll-mt-[84px] tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[720px] tw:px-[15px] tw:py-[56px] tw:md:px-[50px] tw:md:py-[72px] tw:text-center">
+      <h2 class="tw:text-[26px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[34px]">Be first when we launch.</h2>
+      <p class="tw:mx-auto tw:mt-[12px] tw:mb-[28px] tw:max-w-[480px] tw:text-[16px] tw:text-neutral-400">Join the waitlist for early-bird pricing and launch-day access. No spam — just the campaign.</p>
+      {% render 'tc-kickstarter-prelaunch-form' %}
+    </div>
+  </section>
+
+  {%- comment -%}
+    ============================ STUBS (build next) ============================
+    2 · marquee "scanned with the tone system"
+    3 · #why-rgb — crosstalk / trichromatic explainer (+ 3x3 matrix), reuse tonescan copy
+    4 · #system — toneLight / toneCarrier / toneStudio overview
+    5 · benefits bento (reuse bento component)
+    6 · how it works (sticky scrollytelling)
+    7 · team (Jakub + Nico)
+    8 · #rewards — pledge tiers
+    9 · #faq
+    10 · final waitlist CTA
+  {%- endcomment -%}
+
+</div>
+
+{%- comment -%} ===== countdown styles + init ===== {%- endcomment -%}
+{%- style -%}
+  .ks-countdown { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+  .ks-countdown__unit { display: flex; flex-direction: column; align-items: center; min-width: 58px; padding: 10px 6px; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: rgba(255,255,255,.03); }
+  .ks-countdown__num { font-size: 26px; font-weight: 600; line-height: 1; color: #fff; font-variant-numeric: tabular-nums; }
+  .ks-countdown__label { margin-top: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8a8a8a; }
+  .ks-countdown__sep { color: #3b82f6; font-weight: 600; }
+  .ks-countdown.is-live .ks-countdown__num { color: #3b82f6; }
+{%- endstyle -%}
+
+<script>
+  (function () {
+    document.querySelectorAll('.tonelight-ks .ks-countdown').forEach(function (el) {
+      var target = new Date(el.getAttribute('data-launch')).getTime();
+      if (isNaN(target)) return;
+      var out = {
+        days: el.querySelector('[data-cd="days"]'),
+        hours: el.querySelector('[data-cd="hours"]'),
+        mins: el.querySelector('[data-cd="mins"]'),
+        secs: el.querySelector('[data-cd="secs"]')
+      };
+      var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+      function tick() {
+        var diff = target - Date.now();
+        if (diff <= 0) {
+          el.classList.add('is-live');
+          out.days.textContent = out.hours.textContent = out.mins.textContent = out.secs.textContent = '00';
+          clearInterval(timer);
+          return;
+        }
+        var s = Math.floor(diff / 1000);
+        out.days.textContent = Math.floor(s / 86400);
+        out.hours.textContent = pad(Math.floor(s % 86400 / 3600));
+        out.mins.textContent = pad(Math.floor(s % 3600 / 60));
+        out.secs.textContent = pad(s % 60);
+      }
+      tick();
+      var timer = setInterval(tick, 1000);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "tonelight ks landing",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [{ "name": "tonelight ks landing" }]
+}
+{% endschema %}
