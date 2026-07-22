@@ -844,12 +844,11 @@
       var p = clamp(window.pageYOffset / (vh * 0.85));
       frame.style.setProperty('--p', p.toFixed(3));
       if (img) {
-        // scale 0.8 -> 1.0, reaching full size once 70% of the image is in the viewport
+        // scale 0.8 -> 1.0 as the image enters from the bottom; full size once 70% has
+        // entered, then HOLD (monotonic on the way down — doesn't shrink as it exits the top)
         var r = img.getBoundingClientRect();
-        var visible = Math.min(r.bottom, vh) - Math.max(r.top, 0);
-        var f = r.height > 0 ? clamp(visible / r.height, 0, 1) : 0;
-        var hs = 0.8 + 0.2 * clamp(f / 0.7, 0, 1);
-        img.style.setProperty('--hs', hs.toFixed(3));
+        var g = r.height > 0 ? clamp((vh - r.top) / (0.7 * r.height), 0, 1) : 1;
+        img.style.setProperty('--hs', (0.8 + 0.2 * g).toFixed(3));
       }
     }
     function onScroll() {
