@@ -572,6 +572,9 @@
   .tw\:mb-\[22px\] {
     margin-bottom: 22px;
   }
+  .tw\:mb-\[24px\] {
+    margin-bottom: 24px;
+  }
   .tw\:mb-\[28px\] {
     margin-bottom: 28px;
   }
@@ -1124,6 +1127,9 @@
   .tw\:py-\[32px\] {
     padding-block: 32px;
   }
+  .tw\:py-\[36px\] {
+    padding-block: 36px;
+  }
   .tw\:py-\[80px\] {
     padding-block: 80px;
   }
@@ -1530,6 +1536,9 @@
     }
     .tw\:md\:py-3 {
       padding-block: calc(var(--tw-spacing) * 3);
+    }
+    .tw\:md\:py-\[44px\] {
+      padding-block: 44px;
     }
     .tw\:md\:py-\[120px\] {
       padding-block: 120px;

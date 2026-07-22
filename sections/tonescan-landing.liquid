@@ -83,6 +83,24 @@
     </div>
   </section>
 
+  {%- comment -%} ==================== MARQUEE (scanned with tonescan) ====================
+       Auto-scrolling strip of sample scans. Placeholders reuse existing images — swap
+       scan_imgs for real converted scans later.
+  {%- endcomment -%}
+  <section class="tw:overflow-hidden tw:border-b tw:border-white/10 tw:py-[36px] tw:md:py-[44px]">
+    <p class="tw:mb-[24px] tw:text-center tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Scanned with tonescan</p>
+    <div class="ts-marquee">
+      <div class="ts-marquee__track">
+        {%- assign scan_imgs = 'converted.jpg,raw-red.jpg,raw-green.jpg,converted.jpg,raw-blue.jpg,raw-green.jpg' | split: ',' -%}
+        {%- for pass in (1..2) -%}
+          {%- for f in scan_imgs -%}
+            <div class="ts-marquee__item" style="background-image:url('{{ f | asset_url }}')"{% if pass == 2 %} aria-hidden="true"{% endif %}></div>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
   {%- comment -%} ==================== 2 · SOCIAL PROOF STRIP ==================== {%- endcomment -%}
   <section class="tw:border-y tw:border-white/10">
     <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[28px] tw:md:px-[50px]">
@@ -221,6 +239,10 @@
         <div class="tw:flex tw:gap-[12px]">
           <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span>
           <div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Hardware control</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Drives your light source and advances the film carrier for you.</p></div>
+        </div>
+        <div class="tw:flex tw:gap-[12px]">
+          <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span>
+          <div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Hot folder support</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Point tonescan at a folder and new scans are ingested and converted the moment they land.</p></div>
         </div>
         <div class="tw:flex tw:gap-[12px]">
           <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span>
@@ -684,6 +706,14 @@
     .hero-floats { display: none; }
     .ts-hero-img { transform: none; }
   }
+
+  /* ---- marquee ---- */
+  .ts-marquee { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent); }
+  .ts-marquee__track { display: flex; width: max-content; animation: ts-marquee 50s linear infinite; }
+  .ts-marquee:hover .ts-marquee__track { animation-play-state: paused; }
+  .ts-marquee__item { flex: 0 0 auto; width: 300px; margin-right: 16px; aspect-ratio: 3 / 2; border-radius: 2px; border: 1px solid rgba(255,255,255,.10); background-size: cover; background-position: center; }
+  @keyframes ts-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .ts-marquee__track { animation: none; } }
 {%- endstyle -%}
 
 <script>
