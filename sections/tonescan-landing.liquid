@@ -119,9 +119,24 @@
         Drag to reveal the conversion.
       </h2>
       <div class="tw:mx-auto tw:mt-[40px] tw:max-w-[920px]">
-        <div class="tw:flex tw:aspect-[16/9] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">
-          [ before / after slider — negative ↔ converted positive ]
+        {%- comment -%}
+          Before/after slider. Placeholder gradients now; drop real scans in later by
+          replacing the two .ts-ba__img divs with <img> (after = positive, before = negative)
+          and removing .ts-ba__img--neg. Driven by a hidden range input (keyboard-accessible).
+        {%- endcomment -%}
+        <div class="ts-ba" style="--pos:50%">
+          <div class="ts-ba__layer ts-ba__after"><div class="ts-ba__img"></div></div>
+          <div class="ts-ba__layer ts-ba__before"><div class="ts-ba__img ts-ba__img--neg"></div></div>
+          <div class="ts-ba__divider">
+            <div class="ts-ba__handle" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 3 12l6 6M15 6l6 6-6 6"/></svg>
+            </div>
+          </div>
+          <span class="ts-ba__tag ts-ba__tag--l">Negative</span>
+          <span class="ts-ba__tag ts-ba__tag--r">Converted</span>
+          <input class="ts-ba__range" type="range" min="0" max="100" value="50" aria-label="Reveal the converted image">
         </div>
+        <p class="tw:mt-[16px] tw:text-[13px] tw:text-neutral-500">Drag the handle to compare.</p>
       </div>
     </div>
   </section>
@@ -411,6 +426,39 @@
   </section>
 
 </div>
+
+{%- comment -%} ===== before/after slider: styles + init ===== {%- endcomment -%}
+{%- style -%}
+  .ts-ba { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #0f0f10; touch-action: none; user-select: none; }
+  .ts-ba__layer { position: absolute; inset: 0; }
+  .ts-ba__before { clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
+  .ts-ba__img { width: 100%; height: 100%;
+    background:
+      radial-gradient(120% 80% at 18% 12%, #7fb1dc 0%, transparent 55%),
+      radial-gradient(130% 90% at 88% 100%, #223a52 0%, transparent 60%),
+      linear-gradient(135deg, #13324f 0%, #27512f 55%, #3f5a26 100%); }
+  .ts-ba__img--neg { filter: invert(1) hue-rotate(180deg) saturate(1.25) contrast(.95); }
+  .ts-ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ts-ba__divider { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; margin-left: -1px; background: rgba(255,255,255,.92); pointer-events: none; }
+  .ts-ba__handle { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; border-radius: 9999px; background: #3b82f6; color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 12px rgba(0,0,0,.45); }
+  .ts-ba__tag { position: absolute; top: 12px; padding: 4px 8px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; pointer-events: none; }
+  .ts-ba__tag--l { left: 12px; }
+  .ts-ba__tag--r { right: 12px; }
+  .ts-ba__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+  .ts-ba__range:focus-visible { outline: 2px solid #3b82f6; outline-offset: -2px; }
+{%- endstyle -%}
+
+<script>
+  (function () {
+    document.querySelectorAll('.tonescan-landing .ts-ba').forEach(function (el) {
+      var range = el.querySelector('.ts-ba__range');
+      if (!range) return;
+      var update = function () { el.style.setProperty('--pos', range.value + '%'); };
+      range.addEventListener('input', update);
+      update();
+    });
+  })();
+</script>
 
 {% schema %}
 {
