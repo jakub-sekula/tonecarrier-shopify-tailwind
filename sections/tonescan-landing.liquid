@@ -291,6 +291,13 @@
             <div class="ts-rgb__ch ts-rgb__ch--r"></div>
             <div class="ts-rgb__ch ts-rgb__ch--g"></div>
             <div class="ts-rgb__ch ts-rgb__ch--b"></div>
+            {%- comment -%}
+              The REAL converted output crossfades in at the end (screen-blend is only a
+              transition — the engine is the point). Placeholder gradient for now; swap to the
+              real image: replace this div with <img class="ts-rgb__result" src="..."> OR set
+              its background-image to the converted DSCF0032_RGB result.
+            {%- endcomment -%}
+            <div class="ts-rgb__result"></div>
           </div>
           <span class="ts-rgb__cap">Three RGB channel captures</span>
           <span class="ts-rgb__hint">Click</span>
@@ -563,7 +570,11 @@
   .ts-rgb__ch--g { background: radial-gradient(120% 110% at 68% 42%, #49ff6b 0%, #002a12 62%); transform: translate(0, 10%); }
   .ts-rgb__ch--b { background: radial-gradient(120% 110% at 50% 78%, #4d8cff 0%, #00152a 62%); transform: translate(16%, -9%); }
   .ts-rgb.is-merged .ts-rgb__ch { transform: none; }
-  .ts-rgb.is-inverted .ts-rgb__stage { filter: invert(1); }
+  /* real converted output — crossfades in over the merged channels */
+  .ts-rgb__result { position: absolute; inset: 8%; z-index: 1; opacity: 0; transition: opacity .6s ease; background-size: cover; background-position: center;
+    background-image: linear-gradient(160deg, #93b7dd 0%, #cfe0c2 42%, #b79366 100%); }
+  .ts-rgb.is-result .ts-rgb__result { opacity: 1; }
+  .ts-rgb__result img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .ts-rgb__cap { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 5px 10px; font-size: 12px; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; }
   .ts-rgb__hint { position: absolute; right: 12px; top: 12px; z-index: 2; padding: 4px 8px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #cfe0f5; background: rgba(59,130,246,.18); border: 1px solid rgba(59,130,246,.4); border-radius: 2px; transition: opacity .3s ease; }
   .ts-rgb.is-merged .ts-rgb__hint { opacity: 0; }
@@ -634,12 +645,12 @@
   (function () {
     document.querySelectorAll('.tonescan-landing .ts-rgb').forEach(function (el) {
       var cap = el.querySelector('.ts-rgb__cap');
-      var texts = ['Three RGB channel captures', 'Combined into full colour', 'Inverted to a positive'];
+      var texts = ['Three RGB channel captures', 'Channels aligned & combined', 'Converted with tonescan'];
       var state = 0, timer;
       function set(s) {
         state = s;
         el.classList.toggle('is-merged', s >= 1);
-        el.classList.toggle('is-inverted', s >= 2);
+        el.classList.toggle('is-result', s >= 2);
         if (cap) cap.textContent = texts[s];
       }
       function advance() {
