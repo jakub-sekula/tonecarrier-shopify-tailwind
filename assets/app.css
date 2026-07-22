@@ -21,14 +21,17 @@
     --tw-color-blue-800: oklch(42.4% 0.199 265.638);
     --tw-color-slate-100: oklch(96.8% 0.007 247.896);
     --tw-color-slate-500: oklch(55.4% 0.046 257.417);
+    --tw-color-neutral-50: oklch(98.5% 0 0);
     --tw-color-neutral-100: oklch(97% 0 0);
     --tw-color-neutral-200: oklch(92.2% 0 0);
     --tw-color-neutral-300: oklch(87% 0 0);
     --tw-color-neutral-400: oklch(70.8% 0 0);
     --tw-color-neutral-500: oklch(55.6% 0 0);
     --tw-color-neutral-600: oklch(43.9% 0 0);
+    --tw-color-neutral-700: oklch(37.1% 0 0);
     --tw-color-neutral-800: oklch(26.9% 0 0);
     --tw-color-neutral-900: oklch(20.5% 0 0);
+    --tw-color-neutral-950: oklch(14.5% 0 0);
     --tw-color-black: #000;
     --tw-color-white: #fff;
     --tw-spacing: 0.25rem;

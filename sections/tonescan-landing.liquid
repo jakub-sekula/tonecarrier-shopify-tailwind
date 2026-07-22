@@ -662,7 +662,8 @@
   /* ---- hero scroll: image grows slightly (no fade); floats scatter, converge into the
          screenshot centre and rack into focus (blur->0, scale->1) as --p goes 0->1 ---- */
   .ts-hero { --p: 0; }
-  .ts-hero-img { transform: scale(calc(0.94 + var(--p) * 0.06)); transform-origin: center 30%; will-change: transform; }
+  .ts-hero-img { animation: ts-hero-grow-in .8s cubic-bezier(.2,.7,.2,1) both; transform-origin: center 34%; will-change: transform; }
+  @keyframes ts-hero-grow-in { from { transform: scale(.84); } to { transform: scale(1); } }
   .hero-floats { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
   .hero-float { position: absolute; left: 50%; top: 34%; width: var(--w, 160px); aspect-ratio: 3 / 2; border-radius: 2px; border: 1px solid rgba(255,255,255,.08); background-size: cover; background-position: center;
     transform: translate(-50%, -50%)
@@ -682,7 +683,7 @@
   .hero-float--7 { --x: -38vw; --y: 26vh;  --blur: 11px; --s: .50; --r: 6deg;  --w: 156px; background-image: url('{{ 'raw-green.jpg' | asset_url }}'); }
   @media (prefers-reduced-motion: reduce) {
     .hero-floats { display: none; }
-    .ts-hero-img { transform: none; }
+    .ts-hero-img { animation: none; transform: none; }
   }
 {%- endstyle -%}
 
