@@ -63,7 +63,7 @@
             See how it works
           </a>
         </div>
-        <p class="tw:text-[13px] tw:text-neutral-500">Every backer gets a lifetime toneStudio licence, free.</p>
+        <p class="tw:text-[13px] tw:text-neutral-500">Every backer gets a lifetime toneScan Studio licence, free.</p>
       </div>
 
       {%- comment -%} campaign video placeholder {%- endcomment -%}
@@ -84,11 +84,56 @@
     </div>
   </section>
 
+  {%- comment -%} ==================== WHY RGB (crosstalk explainer) ==================== {%- endcomment -%}
+  <section id="why-rgb" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Why RGB</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">The problem isn't your camera — it's the light.</h2>
+    </div>
+
+    <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:items-center tw:gap-[48px] tw:md:grid-cols-2">
+      <div>
+        <p class="tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">Colour negatives aren't made to be viewed under white light. They're three stacked dye layers — cyan, magenta and yellow — built to be printed onto paper that reads light in three narrow bands. Scan them with white light and your sensor records all three layers at once. That blending is called <span class="tw:text-neutral-200">crosstalk</span>, and it's what causes cyan skies, magenta shadows and skin tones that never look quite right.</p>
+        <p class="tw:mt-[20px] tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">toneLight fixes it at the source. It takes three exposures through narrowband red, green and blue light — one per dye layer — so each channel is read cleanly. Inversions get easier, colours more predictable, and the look holds across the whole roll. It's how lab and cinema scanners have worked for decades; now your existing rig can too.</p>
+      </div>
+      <div>
+        {%- comment -%} R/G/B channels merge then convert on scroll (reused component; assets already in /assets) {%- endcomment -%}
+        <div class="ts-rgb">
+          <div class="ts-rgb__stage">
+            <div class="ts-rgb__ch ts-rgb__ch--r"></div>
+            <div class="ts-rgb__ch ts-rgb__ch--g"></div>
+            <div class="ts-rgb__ch ts-rgb__ch--b"></div>
+            <div class="ts-rgb__result"></div>
+          </div>
+          <span class="ts-rgb__cap">Three RGB channel captures</span>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} benefits of RGB {%- endcomment -%}
+    <div class="tw:mt-[56px] tw:grid tw:grid-cols-1 tw:gap-[20px] tw:md:grid-cols-3">
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[44px] tw:w-[44px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[18px] tw:w-[18px] tw:rounded-[2px] tw:bg-[#3b82f6]"></div></div>
+        <h3 class="tw:mb-[8px] tw:text-[19px] tw:font-semibold tw:text-white">Colour separated at the source</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Each exposure reads essentially one dye layer on its own, making any camera sensor behave like photographic paper.</p>
+      </div>
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[44px] tw:w-[44px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[18px] tw:w-[18px] tw:rounded-[2px] tw:bg-[#3b82f6]"></div></div>
+        <h3 class="tw:mb-[8px] tw:text-[19px] tw:font-semibold tw:text-white">Consistent across a roll</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Clean input means clean scans. Shadows stay clean, skin tones look natural, and the look doesn't drift frame to frame — set it once, apply it to the whole roll.</p>
+      </div>
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[44px] tw:w-[44px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[18px] tw:w-[18px] tw:rounded-[2px] tw:bg-[#3b82f6]"></div></div>
+        <h3 class="tw:mb-[8px] tw:text-[19px] tw:font-semibold tw:text-white">Fast and effortless</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">toneLight sequences the colours, fires the shutter and advances the film; toneScan Studio merges the captures on the fly. First shot to export in a couple of minutes.</p>
+      </div>
+    </div>
+  </section>
+
   {%- comment -%}
     ============================ STUBS (build next) ============================
     2 · marquee "scanned with the tone system"
-    3 · #why-rgb — crosstalk / trichromatic explainer (+ 3x3 matrix), reuse tonescan copy
-    4 · #system — toneLight / toneCarrier / toneStudio overview
+    4 · #system — toneLight / toneCarrier / toneScan Studio overview
     5 · benefits bento (reuse bento component)
     6 · how it works (sticky scrollytelling)
     7 · team (Jakub + Nico)
@@ -107,6 +152,17 @@
   .ks-countdown__label { margin-top: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8a8a8a; }
   .ks-countdown__sep { color: #3b82f6; font-weight: 600; }
   .ks-countdown.is-live .ks-countdown__num { color: #3b82f6; }
+
+  /* ---- rgb merge (scroll-linked --s spread; .is-converted crossfades the result) ---- */
+  .ts-rgb { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #08080a; }
+  .ts-rgb__stage { position: absolute; inset: 0; background: #000; isolation: isolate; }
+  .ts-rgb__ch { position: absolute; inset: 6%; mix-blend-mode: screen; background-size: cover; background-position: center; will-change: transform; }
+  .ts-rgb__ch--r { background-image: url('{{ 'raw-red.jpg' | asset_url }}'); transform: translate(calc(-12% * var(--s, 1)), calc(-7% * var(--s, 1))) rotate(calc(-2deg * var(--s, 1))); }
+  .ts-rgb__ch--g { background-image: url('{{ 'raw-green.jpg' | asset_url }}'); transform: translateY(calc(8% * var(--s, 1))); }
+  .ts-rgb__ch--b { background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); transform: translate(calc(12% * var(--s, 1)), calc(-7% * var(--s, 1))) rotate(calc(2deg * var(--s, 1))); }
+  .ts-rgb__result { position: absolute; inset: 6%; z-index: 1; opacity: 0; transition: opacity .55s ease; background-size: cover; background-position: center; will-change: opacity; background-image: url('{{ 'converted.jpg' | asset_url }}'); }
+  .ts-rgb.is-converted .ts-rgb__result { opacity: 1; }
+  .ts-rgb__cap { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 5px 10px; font-size: 12px; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; }
 {%- endstyle -%}
 
 <script>
@@ -138,6 +194,40 @@
       tick();
       var timer = setInterval(tick, 1000);
     });
+  })();
+
+  /* rgb merge — scroll-linked (mirrors the tonescan component) */
+  (function () {
+    var els = document.querySelectorAll('.tonelight-ks .ts-rgb');
+    if (!els.length) return;
+    var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
+    var texts = ['Three RGB channel captures', 'Channels aligned & combined', 'Converted with toneScan Studio'];
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach(function (el) {
+        el.style.setProperty('--s', 0);
+        el.classList.add('is-converted');
+        var c = el.querySelector('.ts-rgb__cap'); if (c) c.textContent = texts[2];
+      });
+      return;
+    }
+    var items = [];
+    els.forEach(function (el) { items.push({ el: el, cap: el.querySelector('.ts-rgb__cap'), last: -1 }); });
+    function update() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      items.forEach(function (it) {
+        var r = it.el.getBoundingClientRect();
+        var p = clamp((vh - r.top) / (vh + r.height));
+        it.el.style.setProperty('--s', (1 - clamp(p * 2)).toFixed(3));
+        var converted = p >= 0.5;
+        it.el.classList.toggle('is-converted', converted);
+        if (it.cap) { var ti = converted ? 2 : (p < 0.3 ? 0 : 1); if (ti !== it.last) { it.cap.textContent = texts[ti]; it.last = ti; } }
+      });
+    }
+    var ticking = false;
+    function onScroll() { if (ticking) return; ticking = true; requestAnimationFrame(function () { update(); ticking = false; }); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
   })();
 </script>
 
