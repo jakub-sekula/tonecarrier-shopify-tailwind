@@ -564,9 +564,10 @@
   .ts-rgb__ch--r { background-image: url('{{ 'raw-red.jpg' | asset_url }}'); transform: translate(calc(-15% * var(--s, 1)), calc(-9% * var(--s, 1))) rotate(calc(-2deg * var(--s, 1))); }
   .ts-rgb__ch--g { background-image: url('{{ 'raw-green.jpg' | asset_url }}'); transform: translateY(calc(10% * var(--s, 1))); }
   .ts-rgb__ch--b { background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); transform: translate(calc(15% * var(--s, 1)), calc(-9% * var(--s, 1))) rotate(calc(2deg * var(--s, 1))); }
-  /* real converted output — crossfades in as you scroll past the merge point */
-  .ts-rgb__result { position: absolute; inset: 8%; z-index: 1; opacity: var(--o, 0); background-size: cover; background-position: center; will-change: opacity;
+  /* real converted output — crossfades in all at once once the merge completes */
+  .ts-rgb__result { position: absolute; inset: 8%; z-index: 1; opacity: 0; transition: opacity .55s ease; background-size: cover; background-position: center; will-change: opacity;
     background-image: url('{{ 'converted.jpg' | asset_url }}'); }
+  .ts-rgb.is-converted .ts-rgb__result { opacity: 1; }
   .ts-rgb__cap { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 5px 10px; font-size: 12px; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; }
 {%- endstyle -%}
 
@@ -640,7 +641,7 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       els.forEach(function (el) {
         el.style.setProperty('--s', 0);
-        el.style.setProperty('--o', 1);
+        el.classList.add('is-converted');
         var c = el.querySelector('.ts-rgb__cap'); if (c) c.textContent = texts[2];
       });
       return;
@@ -654,12 +655,12 @@
       items.forEach(function (it) {
         var r = it.el.getBoundingClientRect();
         var p = clamp((vh - r.top) / (vh + r.height)); // 0 entering bottom -> 1 leaving top
-        var s = 1 - clamp(p * 2);                        // spread 1..0 over first half
-        var o = clamp((p - 0.5) * 2);                    // result 0..1 over second half
+        var s = 1 - clamp(p * 2);                        // spread 1..0 over first half (scrubbed)
         it.el.style.setProperty('--s', s.toFixed(3));
-        it.el.style.setProperty('--o', o.toFixed(3));
+        var converted = p >= 0.5;                        // merge complete -> crossfade all at once
+        it.el.classList.toggle('is-converted', converted);
         if (it.cap) {
-          var ti = p < 0.42 ? 0 : (p < 0.72 ? 1 : 2);
+          var ti = converted ? 2 : (p < 0.3 ? 0 : 1);
           if (ti !== it.last) { it.cap.textContent = texts[ti]; it.last = ti; }
         }
       });
