@@ -244,9 +244,10 @@
     </div>
   </section>
 
-  {%- comment -%} ==================== 6 · WORKFLOW (sticky scrollytelling) ====================
-       Desktop: sticky media crossfades as steps scroll. Mobile: stacked with inline visuals.
-       Swap .ts-story__v0/v3 placeholder gradients for real capture/export screenshots.
+  {%- comment -%} ==================== 6 · WORKFLOW (sticky text, scrolling media) ====================
+       Desktop: text pinned + vertically centred on the left, crossfading as the media panels
+       scroll on the right. Mobile: stacked (media + inline text per step).
+       Swap .ts-story__v0 / .ts-story__v3 gradients for real capture / export screenshots.
   {%- endcomment -%}
   <section id="how-it-works" class="tw:scroll-mt-[84px] tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
     <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
@@ -255,40 +256,68 @@
         <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">One workflow, from capture to export.</h2>
       </div>
 
-      <div class="ts-story tw:mt-[56px]">
-        <div class="ts-story__sticky tw:hidden tw:md:block">
-          <div class="ts-story__frame">
-            <div class="ts-story__layer ts-story__v0 is-active"><span class="ts-story__tag">Capture</span></div>
-            <div class="ts-story__layer ts-story__v1"><span class="ts-story__tag">Convert</span></div>
-            <div class="ts-story__layer ts-story__v2"><span class="ts-story__tag">Refine</span></div>
-            <div class="ts-story__layer ts-story__v3"><span class="ts-story__tag">Export</span></div>
+      <div class="ts-story tw:mt-[40px] tw:md:mt-[56px]">
+        {%- comment -%} LEFT: pinned, vertically-centred text that crossfades (desktop) {%- endcomment -%}
+        <div class="ts-story__textcol tw:hidden tw:md:block">
+          <div class="ts-story__sticky">
+            <div class="ts-story__textwrap">
+              <div class="ts-story__text is-active" data-i="0">
+                <span class="ts-story__num">01 — Capture</span>
+                <h3 class="ts-story__title">Capture your roll, hands-free</h3>
+                <p class="ts-story__body">Capture in seamless RGB or single-shot white light. tonescan can drive your light source and advance the film carrier, so an entire roll flows through without touching a thing.</p>
+              </div>
+              <div class="ts-story__text" data-i="1">
+                <span class="ts-story__num">02 — Convert</span>
+                <h3 class="ts-story__title">Physically accurate conversion</h3>
+                <p class="ts-story__body">Physically-based inversion reconstructs natural, faithful colour from your channels — the same look from the first frame to the last.</p>
+              </div>
+              <div class="ts-story__text" data-i="2">
+                <span class="ts-story__num">03 — Refine</span>
+                <h3 class="ts-story__title">Refine in real time</h3>
+                <p class="ts-story__body">A GPU-accelerated viewport shows pixel-perfect previews the instant you adjust exposure, white balance and flat-field correction.</p>
+              </div>
+              <div class="ts-story__text" data-i="3">
+                <span class="ts-story__num">04 — Export</span>
+                <h3 class="ts-story__title">Export, catalogue-ready</h3>
+                <p class="ts-story__body">Export gallery-ready images, automatically tagged with film stock, camera and development details — organised and ready for your catalogue.</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="ts-story__steps">
-          <div class="ts-story__step is-active" data-i="0">
-            <div class="ts-story__frame ts-story__frame--inline tw:md:hidden"><div class="ts-story__layer ts-story__v0 is-active"></div></div>
-            <span class="ts-story__num">01 — Capture</span>
-            <h3 class="ts-story__title">Capture your roll, hands-free</h3>
-            <p class="ts-story__body">Capture in seamless RGB or single-shot white light. tonescan can drive your light source and advance the film carrier, so an entire roll flows through without touching a thing.</p>
+        {%- comment -%} RIGHT: scrolling media panels (each drives the active text) {%- endcomment -%}
+        <div class="ts-story__mediacol">
+          <div class="ts-story__panel" data-i="0">
+            <div class="ts-story__frame ts-story__v0"><span class="ts-story__tag">Capture</span></div>
+            <div class="ts-story__text ts-story__text--inline tw:md:hidden">
+              <span class="ts-story__num">01 — Capture</span>
+              <h3 class="ts-story__title">Capture your roll, hands-free</h3>
+              <p class="ts-story__body">Capture in seamless RGB or single-shot white light. tonescan can drive your light source and advance the film carrier, so an entire roll flows through without touching a thing.</p>
+            </div>
           </div>
-          <div class="ts-story__step" data-i="1">
-            <div class="ts-story__frame ts-story__frame--inline tw:md:hidden"><div class="ts-story__layer ts-story__v1 is-active"></div></div>
-            <span class="ts-story__num">02 — Convert</span>
-            <h3 class="ts-story__title">Physically accurate conversion</h3>
-            <p class="ts-story__body">Physically-based inversion reconstructs natural, faithful colour from your channels — the same look from the first frame to the last.</p>
+          <div class="ts-story__panel" data-i="1">
+            <div class="ts-story__frame ts-story__v1"><span class="ts-story__tag">Convert</span></div>
+            <div class="ts-story__text ts-story__text--inline tw:md:hidden">
+              <span class="ts-story__num">02 — Convert</span>
+              <h3 class="ts-story__title">Physically accurate conversion</h3>
+              <p class="ts-story__body">Physically-based inversion reconstructs natural, faithful colour from your channels — the same look from the first frame to the last.</p>
+            </div>
           </div>
-          <div class="ts-story__step" data-i="2">
-            <div class="ts-story__frame ts-story__frame--inline tw:md:hidden"><div class="ts-story__layer ts-story__v2 is-active"></div></div>
-            <span class="ts-story__num">03 — Refine</span>
-            <h3 class="ts-story__title">Refine in real time</h3>
-            <p class="ts-story__body">A GPU-accelerated viewport shows pixel-perfect previews the instant you adjust exposure, white balance and flat-field correction.</p>
+          <div class="ts-story__panel" data-i="2">
+            <div class="ts-story__frame ts-story__v2"><span class="ts-story__tag">Refine</span></div>
+            <div class="ts-story__text ts-story__text--inline tw:md:hidden">
+              <span class="ts-story__num">03 — Refine</span>
+              <h3 class="ts-story__title">Refine in real time</h3>
+              <p class="ts-story__body">A GPU-accelerated viewport shows pixel-perfect previews the instant you adjust exposure, white balance and flat-field correction.</p>
+            </div>
           </div>
-          <div class="ts-story__step" data-i="3">
-            <div class="ts-story__frame ts-story__frame--inline tw:md:hidden"><div class="ts-story__layer ts-story__v3 is-active"></div></div>
-            <span class="ts-story__num">04 — Export</span>
-            <h3 class="ts-story__title">Export, catalogue-ready</h3>
-            <p class="ts-story__body">Export gallery-ready images, automatically tagged with film stock, camera and development details — organised and ready for your catalogue.</p>
+          <div class="ts-story__panel" data-i="3">
+            <div class="ts-story__frame ts-story__v3"><span class="ts-story__tag">Export</span></div>
+            <div class="ts-story__text ts-story__text--inline tw:md:hidden">
+              <span class="ts-story__num">04 — Export</span>
+              <h3 class="ts-story__title">Export, catalogue-ready</h3>
+              <p class="ts-story__body">Export gallery-ready images, automatically tagged with film stock, camera and development details — organised and ready for your catalogue.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -595,10 +624,8 @@
   .ts-rgb.is-converted .ts-rgb__result { opacity: 1; }
   .ts-rgb__cap { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 5px 10px; font-size: 12px; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; }
 
-  /* ---- sticky workflow story ---- */
-  .ts-story__frame { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #0f0f10; }
-  .ts-story__layer { position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease; background-size: cover; background-position: center; }
-  .ts-story__layer.is-active { opacity: 1; }
+  /* ---- workflow story: sticky centred text (left) + scrolling media (right) ---- */
+  .ts-story__frame { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #0f0f10; background-size: cover; background-position: center; }
   .ts-story__v0 { background-image: linear-gradient(140deg, #16263a 0%, #3a2f1c 100%); }
   .ts-story__v1 { background-image: url('{{ 'converted.jpg' | asset_url }}'); }
   .ts-story__v2 { background-image: url('{{ 'tonescan-hero.png' | asset_url }}'); }
@@ -606,15 +633,16 @@
   .ts-story__tag { position: absolute; left: 12px; bottom: 12px; padding: 5px 10px; font-size: 12px; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; }
   .ts-story__num { display: block; margin-bottom: 12px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #60a5fa; }
   .ts-story__title { font-size: 24px; line-height: 1.15; font-weight: 600; letter-spacing: -.01em; color: #fff; }
-  .ts-story__body { margin-top: 12px; max-width: 460px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
-  .ts-story__frame--inline { margin-bottom: 20px; }
+  .ts-story__body { margin-top: 12px; max-width: 440px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
+  .ts-story__text--inline { margin-top: 20px; }
   @media (min-width: 750px) {
-    .ts-story { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-    .ts-story__sticky { position: sticky; top: 84px; }
-    .ts-story__step { min-height: 72vh; display: flex; flex-direction: column; justify-content: center; opacity: .32; transition: opacity .4s ease; }
-    .ts-story__step:first-child { min-height: 58vh; }
-    .ts-story__step.is-active { opacity: 1; }
-    .ts-story__title { font-size: 30px; }
+    .ts-story { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+    .ts-story__sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
+    .ts-story__textwrap { display: grid; }
+    .ts-story__text { grid-area: 1 / 1; opacity: 0; transition: opacity .5s ease; }
+    .ts-story__text.is-active { opacity: 1; }
+    .ts-story__panel { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+    .ts-story__title { font-size: 32px; }
   }
 {%- endstyle -%}
 
@@ -744,26 +772,22 @@
     update();
   })();
 
-  /* sticky workflow story — active step drives the pinned media crossfade */
+  /* workflow story — the centred media panel drives which pinned text is shown */
   (function () {
     document.querySelectorAll('.tonescan-landing .ts-story').forEach(function (story) {
-      var steps = story.querySelectorAll('.ts-story__step');
-      var layers = story.querySelectorAll('.ts-story__sticky .ts-story__layer');
-      if (!steps.length) return;
+      var panels = story.querySelectorAll('.ts-story__panel');
+      var texts = story.querySelectorAll('.ts-story__textcol .ts-story__text');
+      if (!panels.length || !texts.length) return;
       function activate(i) {
-        steps.forEach(function (s, si) { s.classList.toggle('is-active', si === i); });
-        layers.forEach(function (l, li) { l.classList.toggle('is-active', li === i); });
+        texts.forEach(function (t, ti) { t.classList.toggle('is-active', ti === i); });
       }
-      if (!('IntersectionObserver' in window)) {
-        steps.forEach(function (s) { s.classList.add('is-active'); });
-        return;
-      }
+      if (!('IntersectionObserver' in window)) { texts[0].classList.add('is-active'); return; }
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           if (e.isIntersecting) activate(parseInt(e.target.getAttribute('data-i'), 10) || 0);
         });
       }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-      steps.forEach(function (s) { io.observe(s); });
+      panels.forEach(function (p) { io.observe(p); });
     });
   })();
 </script>

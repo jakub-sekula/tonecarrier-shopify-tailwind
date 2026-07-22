@@ -1468,6 +1468,9 @@
     .tw\:md\:row-span-2 {
       grid-row: span 2 / span 2;
     }
+    .tw\:md\:mt-\[56px\] {
+      margin-top: 56px;
+    }
     .tw\:md\:mt-\[72px\] {
       margin-top: 72px;
     }
