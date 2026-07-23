@@ -23,62 +23,92 @@
 <div class="tonescan-landing tw:text-neutral-200">
 
   {%- comment -%} ============================ 1 · HERO ============================ {%- endcomment -%}
-  <section class="tw:relative tw:overflow-hidden">
-    <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-[#3b82f6]/10 tw:blur-[130px]"></div>
+  {%- comment -%}
+    GitHub-style hero: a COLOURFUL region (.ts-hero-color, blue gradient) whose bottom edge is a
+    SHARP CUT to the page's black (#0a0a0b). The framed screenshot dips past that cut so its dark
+    bottom melts into black ("cut off"), and the feature SELECTOR (.ts-hero-selectbar) sits on the
+    black part below. Desktop = tab pills; mobile = a <select> + pagination dots, screenshot bleeds
+    off-screen wider than the viewport, and no grow-on-scroll.
+    overflow-clip (not hidden) so the sticky hero text still pins while floats / wide image stay clipped.
+  {%- endcomment -%}
+  <section class="tw:relative tw:overflow-clip">
+    <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-white/[0.04] tw:blur-[130px]"></div>
 
-    <div class="ts-hero tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[80px] tw:pb-[64px] tw:md:px-[50px] tw:md:pt-[120px] tw:md:pb-[88px]">
-      {%- comment -%}
-        Floating sample images — scattered high around the headline, then drift DOWN and inward
-        to the screenshot centre (rack into focus) on scroll. --drop tunes how far down they
-        travel to reach the hero centre. Swap gradients for real sample scans later.
-      {%- endcomment -%}
-      <div class="hero-floats tw:hidden tw:md:block" aria-hidden="true">
-        <div class="hero-float hero-float--1"></div>
-        <div class="hero-float hero-float--2"></div>
-        <div class="hero-float hero-float--3"></div>
-        <div class="hero-float hero-float--4"></div>
-        <div class="hero-float hero-float--5"></div>
-        <div class="hero-float hero-float--6"></div>
-        <div class="hero-float hero-float--7"></div>
-      </div>
-      <div class="tw:mx-auto tw:flex tw:max-w-[860px] tw:flex-col tw:items-center tw:gap-[26px] tw:text-center">
-        <span class="tw:inline-flex tw:items-center tw:gap-[8px] tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.04] tw:px-[12px] tw:py-[6px] tw:text-[13px] tw:font-medium tw:text-neutral-300">
-          <span class="tw:h-[6px] tw:w-[6px] tw:rounded-full tw:bg-[#3b82f6]"></span>
-          Now in open beta
-        </span>
-
-        <h1 class="tw:text-[42px] tw:font-semibold tw:leading-[1.03] tw:tracking-[-0.03em] tw:md:text-[72px]">
-          <span class="tw:bg-[linear-gradient(180deg,#ffffff,#a3a3a3)] tw:bg-clip-text tw:text-transparent">
-            Film negatives to finished photos, in seconds.
-          </span>
-        </h1>
-
-        <p class="tw:max-w-[600px] tw:text-[18px] tw:leading-[1.55] tw:text-neutral-400 tw:md:text-[20px]">
-          tonescan turns your camera-scanned negatives into gallery-ready images — with
-          physically accurate inversions, clean RGB colour, and a workflow built to fly
-          through whole rolls.
-        </p>
-
-        <div class="tw:mt-[6px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
-          <a href="#pricing" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[26px] tw:py-[14px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
-            Download the beta
-          </a>
-          <a href="#how-it-works" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[26px] tw:py-[14px] tw:text-[15px] tw:font-medium tw:text-white tw:transition-colors tw:hover:bg-white/[0.08]">
-            See how it works
-          </a>
+    <div class="ts-hero-color">
+      <div class="ts-hero tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[80px] tw:pb-0 tw:md:px-[50px] tw:md:pt-[120px]">
+        {%- comment -%}
+          Floating sample images — scattered high around the headline, then drift DOWN and inward
+          to the screenshot centre (rack into focus) on scroll. --drop tunes how far down they
+          travel to reach the hero centre. Swap gradients for real sample scans later.
+        {%- endcomment -%}
+        <div class="hero-floats tw:hidden tw:md:block" aria-hidden="true">
+          <div class="hero-float hero-float--1"></div>
+          <div class="hero-float hero-float--2"></div>
+          <div class="hero-float hero-float--3"></div>
+          <div class="hero-float hero-float--4"></div>
+          <div class="hero-float hero-float--5"></div>
+          <div class="hero-float hero-float--6"></div>
+          <div class="hero-float hero-float--7"></div>
         </div>
-        <p class="tw:text-[13px] tw:text-neutral-500">Free during the beta · Mac, Windows &amp; Linux (soon)</p>
-      </div>
+        <div class="ts-hero-text tw:mx-auto tw:flex tw:max-w-[860px] tw:flex-col tw:items-center tw:gap-[26px] tw:text-center">
+          <h1 class="tw:text-[42px] tw:font-semibold tw:leading-[1.03] tw:tracking-[-0.03em] tw:text-white tw:md:text-[72px]">
+            Pro-grade film colour, effortless workflow.
+          </h1>
 
-      <div class="ts-hero-frame tw:relative tw:mx-auto tw:mt-[56px] tw:max-w-[1320px] tw:md:mt-[72px]">
-        <img
-          src="{{ 'tonescan-hero.png' | asset_url }}"
-          alt="toneScan Develop view converting an RGB triplet scan"
-          width="2000"
-          height="1180"
-          class="ts-hero-img tw:relative tw:block tw:h-auto tw:w-full"
-          loading="eager"
-        >
+          <p class="tw:max-w-[600px] tw:text-[18px] tw:leading-[1.55] tw:text-neutral-400 tw:md:text-[20px]">
+            Turn whole rolls of camera-scanned negatives into gallery-ready photos —
+            with lab-accurate colour, effortlessly.
+          </p>
+
+          <div class="tw:mt-[6px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
+            <a href="#signup" class="ts-dl-btn tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[26px] tw:py-[14px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
+              Join the beta
+            </a>
+          </div>
+        </div>
+
+        <div class="ts-hero-frame tw:relative tw:mx-auto tw:mt-[120px] tw:max-w-[1320px] tw:md:mt-[180px]">
+          <div class="ts-hero-glow" aria-hidden="true"></div>
+          {%- comment -%} glass frame + stacked feature shots (crossfaded by the selector below).
+             Bottom is open (no bottom border) and dips past the colour cut so the dark image
+             melts into black. {%- endcomment -%}
+          <div class="ts-hero-glass">
+            <div class="ts-hero-stage">
+              <img class="ts-hero-shot is-active" data-shot="0" src="{{ 'tonescan-hero.png' | asset_url }}" alt="toneScan Develop view converting an RGB triplet scan" width="2000" height="1180" loading="eager">
+              <div class="ts-hero-shot" data-shot="1"><span>[ RGB workflow ]</span></div>
+              <div class="ts-hero-shot" data-shot="2"><span>[ Real-time editing ]</span></div>
+              <div class="ts-hero-shot" data-shot="3"><span>[ Batch &amp; export ]</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} SELECTOR — sits on the black region below the cut. Desktop: tab pills.
+       Mobile: pagination dots + a native <select>. {%- endcomment -%}
+    <div class="ts-hero-selectbar tw:relative tw:z-[2] tw:mx-auto tw:w-full tw:max-w-[1320px] tw:px-[15px] tw:md:px-[50px]">
+      <div class="ts-hero-tabs" role="tablist" aria-label="Features">
+        <button type="button" class="ts-hero-tab is-active" data-tab="0" role="tab" aria-selected="true">Develop</button>
+        <button type="button" class="ts-hero-tab" data-tab="1" role="tab" aria-selected="false">RGB workflow</button>
+        <button type="button" class="ts-hero-tab" data-tab="2" role="tab" aria-selected="false">Real-time editing</button>
+        <button type="button" class="ts-hero-tab" data-tab="3" role="tab" aria-selected="false">Batch &amp; export</button>
+      </div>
+      <div class="ts-hero-mobsel">
+        <div class="ts-hero-dots" aria-hidden="true">
+          <span class="ts-hero-dot is-active" data-dot="0"></span>
+          <span class="ts-hero-dot" data-dot="1"></span>
+          <span class="ts-hero-dot" data-dot="2"></span>
+          <span class="ts-hero-dot" data-dot="3"></span>
+        </div>
+        <div class="ts-hero-selectwrap">
+          <select class="ts-hero-select" aria-label="Choose a feature to preview">
+            <option value="0">Develop</option>
+            <option value="1">RGB workflow</option>
+            <option value="2">Real-time editing</option>
+            <option value="3">Batch &amp; export</option>
+          </select>
+          <svg class="ts-hero-selectcaret" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
       </div>
     </div>
   </section>
@@ -503,7 +533,7 @@
           <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Mac &amp; Windows</span></li>
           <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Help shape what ships</span></li>
         </ul>
-        <a href="#" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Download the beta</a>
+        <a href="#signup" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Join the beta</a>
       </div>
 
       <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-[#3b82f6]/60 tw:bg-[#3b82f6]/[0.06] tw:p-[32px]">
@@ -569,19 +599,37 @@
     </div>
   </section>
 
-  {%- comment -%} ==================== 11 · FINAL CTA ==================== {%- endcomment -%}
-  <section class="tw:relative tw:overflow-hidden">
+  {%- comment -%} ==================== 11 · SIGNUP / FINAL CTA ====================
+       Beta signup form. POSTs the email to the Cloudflare Worker (double opt-in): the Worker
+       sends a confirmation email, then — once confirmed — issues a Keygen licence key + download
+       link. This form ONLY sends the email address; it never handles keys/secrets. Wired in the
+       <script> block below. Endpoint CORS is locked to https://tonephotographic.com, so the
+       success path only works from that live origin (dev/theme-preview will hit a CORS error).
+  {%- endcomment -%}
+  <section id="signup" class="tw:relative tw:overflow-hidden tw:scroll-mt-[84px]">
     <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:bottom-[-180px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-[#3b82f6]/10 tw:blur-[130px]"></div>
     <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[96px] tw:md:px-[50px] tw:md:py-[140px] tw:text-center">
       <h2 class="tw:mx-auto tw:max-w-[720px] tw:text-[34px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.02em] tw:text-white tw:md:text-[56px]">
         Join the tonescan open beta.
       </h2>
-      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[520px] tw:text-[17px] tw:text-neutral-400">Free while in beta. Mac, Windows &amp; Linux (soon).</p>
-      <div class="tw:mt-[32px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
-        <a href="#" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[28px] tw:py-[15px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
-          Download the beta
-        </a>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[540px] tw:text-[17px] tw:text-neutral-400">
+        Free while in beta. Enter your email and we'll send a confirmation link, then your
+        licence key and download.
+      </p>
+
+      <div class="ts-signup tw:mx-auto tw:mt-[32px]">
+        <form class="ts-form" novalidate>
+          <input class="ts-email" type="email" name="email" required
+                 placeholder="you@example.com" autocomplete="email" aria-label="Email address">
+          <button class="ts-btn" type="submit">Get my beta key</button>
+        </form>
+        <p class="ts-msg" role="status" aria-live="polite"></p>
       </div>
+
+      <p class="tw:mx-auto tw:mt-[20px] tw:max-w-[480px] tw:text-[13px] tw:leading-[1.5] tw:text-neutral-500">
+        toneScan is an early beta — expect the occasional rough edge and bug. Runs on Mac &amp;
+        Windows today, Linux soon. No spam; your email is only used for your beta key.
+      </p>
     </div>
   </section>
 
@@ -684,27 +732,89 @@
   /* ---- hero scroll: image grows slightly (no fade); floats scatter, converge into the
          screenshot centre and rack into focus (blur->0, scale->1) as --p goes 0->1 ---- */
   .ts-hero { --p: 0; }
-  .ts-hero-img { transform: scale(var(--hs, 0.8)); transform-origin: center; will-change: transform; }
-  .hero-floats { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-  .hero-float { position: absolute; left: 50%; top: 34%; width: var(--w, 160px); aspect-ratio: 3 / 2; border-radius: 2px; border: 1px solid rgba(255,255,255,.08); background-size: cover; background-position: center;
+  /* COLOURFUL hero region — its bottom edge is the SHARP CUT to the page black (#0a0a0b). */
+  .ts-hero-color {
+    position: relative;
+    background:
+      radial-gradient(46% 42% at 18% 16%, rgba(239,68,68,.20) 0%, transparent 62%),   /* red blob */
+      radial-gradient(44% 40% at 84% 20%, rgba(34,197,94,.16) 0%, transparent 62%),    /* green blob */
+      radial-gradient(56% 48% at 55% 40%, rgba(59,130,246,.22) 0%, transparent 64%),   /* blue blob */
+      linear-gradient(180deg, #17171b 0%, #141416 55%, #0f0f11 100%);                  /* dark grey base */
+  }
+  /* hero text/CTAs pin (sticky), then the frame scrolls up OVER them and hides them (GitHub-style).
+     z-order: floats (-1) < text (0) < frame (1). Fade is a safety net so the text can't reappear
+     after the frame passes above it. */
+  /* pinned from the top (JS sets `top` to the text's natural offset so it doesn't scroll before
+     sticking — GitHub-style). Shrinks + fades as --p grows and the frame rises to cover it. */
+  .ts-hero-text { position: sticky; top: 80px; z-index: 0; opacity: calc(1 - var(--p) * 1.35); transform: scale(calc(1 - var(--p) * 0.08)); transform-origin: center top; will-change: opacity, transform; }
+  /* frame dips PAST the colour cut (negative bottom margin) so the dark screenshot bottom melts
+     into black — the "cut off" look. Bottom of the glass is open (no border/radius). */
+  .ts-hero-frame { position: relative; z-index: 1; margin-bottom: -104px; }
+  .ts-hero-glow { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .ts-hero-glow::before, .ts-hero-glow::after { content: ''; position: absolute; border-radius: 50%; aspect-ratio: 1; filter: blur(90px); }
+  .ts-hero-glow::before { left: 30%; top: 46%; width: 52%; transform: translate(-50%, -50%); background: rgba(59,130,246,.30); }
+  .ts-hero-glow::after { left: 70%; top: 56%; width: 44%; transform: translate(-50%, -50%); background: rgba(56,189,248,.18); }
+  .ts-hero-glass { position: relative; z-index: 1; padding: 16px 16px 0; border: 1px solid rgba(255,255,255,.16); border-bottom: 0; border-radius: 10px 10px 0 0; background: rgba(255,255,255,.05); box-shadow: 0 30px 90px -30px rgba(0,0,0,.85); transform: scale(var(--hs, 0.8)); transform-origin: center bottom; will-change: transform; }
+  /* stage crops the screenshot bottom (object-position top) so the bottom edge is a clean cut */
+  .ts-hero-stage { position: relative; width: 100%; aspect-ratio: 2000 / 980; overflow: hidden; border-radius: 3px 3px 0 0; background: #0f0f10; }
+  .ts-hero-shot { position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease; }
+  .ts-hero-shot.is-active { opacity: 1; }
+  img.ts-hero-shot { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  div.ts-hero-shot { display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; font-size: 13px; color: #6a6a6a; }
+  .ts-hero-shot[data-shot="1"] { background-image: linear-gradient(135deg, #16263a, #2d3a1e); }
+  .ts-hero-shot[data-shot="2"] { background-image: linear-gradient(135deg, #241a3a, #17302b); }
+  .ts-hero-shot[data-shot="3"] { background-image: linear-gradient(135deg, #3a2a16, #1a2a3a); }
+  /* SELECTOR bar — on the black region below the cut; clears the dipped image with top padding */
+  .ts-hero-selectbar { padding-top: 140px; padding-bottom: 8px; }
+  .ts-hero-tabs { position: relative; z-index: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .ts-hero-tab { padding: 8px 16px; font-size: 14px; font-weight: 500; color: #a3a3a3; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.10); border-radius: 2px; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease; }
+  .ts-hero-tab.is-active { color: #fff; background: rgba(59,130,246,.14); border-color: rgba(59,130,246,.5); }
+  .ts-hero-tab:hover:not(.is-active) { color: #fff; background: rgba(255,255,255,.06); }
+  .ts-hero-tab:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  /* mobile selector (dots + native select) — hidden on desktop */
+  .ts-hero-mobsel { display: none; flex-direction: column; align-items: center; gap: 16px; }
+  .ts-hero-dots { display: flex; gap: 8px; }
+  .ts-hero-dot { width: 8px; height: 8px; border-radius: 9999px; background: rgba(255,255,255,.22); transition: background .2s ease, width .2s ease; }
+  .ts-hero-dot.is-active { width: 22px; border-radius: 9999px; background: #e5e5e5; }
+  .ts-hero-selectwrap { position: relative; width: 100%; max-width: 320px; }
+  .ts-hero-select { -webkit-appearance: none; appearance: none; width: 100%; padding: 14px 44px 14px 20px; font-size: 16px; font-weight: 600; color: #fff; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.14); border-radius: 3px; cursor: pointer; }
+  .ts-hero-select:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-hero-select option { color: #111; }
+  .ts-hero-selectcaret { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); width: 12px; height: 8px; color: #a3a3a3; pointer-events: none; }
+  @media (max-width: 749px) {
+    /* no grow-on-scroll; screenshot bleeds wider than the viewport ("cut off / off-screen") */
+    .ts-hero-glass { transform: none; }
+    .ts-hero-frame { width: 132%; max-width: none; margin-left: -16%; margin-right: -16%; margin-bottom: -64px; }
+    .ts-hero-selectbar { padding-top: 92px; }
+    .ts-hero-tabs { display: none; }
+    .ts-hero-mobsel { display: flex; }
+  }
+  /* z-index 0 (not -1) so the "explosion" floats sit ABOVE the colour bg but behind text/frame.
+     At rest they scatter below the headline (anchor top:44%); on scroll (--p) they converge
+     inward to centre AND downward (--drop, set by JS to the frame's lower edge) so they slide
+     BEHIND the screenshot's bottom instead of collapsing to the middle of the page. */
+  .hero-floats { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hero-float { position: absolute; left: 50%; top: 44%; width: var(--w, 160px); aspect-ratio: 3 / 2; border-radius: 2px; border: 1px solid rgba(255,255,255,.08); background-size: cover; background-position: center;
     transform: translate(-50%, -50%)
       translate(calc(var(--x) * (1 - var(--p))), calc(var(--y) * (1 - var(--p))))
-      translate(0, calc(var(--drop, 48vh) * var(--p)))
+      translate(0, calc(var(--drop, 55vh) * var(--p)))
       rotate(calc(var(--r, 0deg) * (1 - var(--p))))
       scale(calc(var(--s, 1) + (1 - var(--s, 1)) * var(--p)));
     filter: blur(calc(var(--blur, 0px) * (1 - var(--p))));
     opacity: calc(0.6 + 0.4 * var(--p));
     will-change: transform, filter, opacity; }
-  .hero-float--1 { --x: -42vw; --y: -8vh;  --blur: 7px;  --s: .62; --r: -6deg; --w: 200px; background-image: url('{{ 'raw-red.jpg' | asset_url }}'); }
-  .hero-float--2 { --x: -30vw; --y: 10vh;  --blur: 2px;  --s: .90; --r: -3deg; --w: 240px; background-image: url('{{ 'converted.jpg' | asset_url }}'); }
-  .hero-float--3 { --x: -14vw; --y: -20vh; --blur: 9px;  --s: .55; --r: 4deg;  --w: 170px; background-image: url('{{ 'raw-green.jpg' | asset_url }}'); }
-  .hero-float--4 { --x: 15vw;  --y: -22vh; --blur: 8px;  --s: .58; --r: -4deg; --w: 176px; background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); }
-  .hero-float--5 { --x: 32vw;  --y: -4vh;  --blur: 3px;  --s: .88; --r: 5deg;  --w: 236px; background-image: url('{{ 'converted.jpg' | asset_url }}'); }
-  .hero-float--6 { --x: 44vw;  --y: 12vh;  --blur: 7px;  --s: .64; --r: 7deg;  --w: 200px; background-image: url('{{ 'raw-red.jpg' | asset_url }}'); }
-  .hero-float--7 { --x: -38vw; --y: 26vh;  --blur: 11px; --s: .50; --r: 6deg;  --w: 156px; background-image: url('{{ 'raw-green.jpg' | asset_url }}'); }
+  .hero-float--1 { --x: -40vw; --y: -6vh;  --blur: 7px;  --s: .62; --r: -6deg; --w: 200px; background-image: url('{{ 'raw-red.jpg' | asset_url }}'); }
+  .hero-float--2 { --x: -28vw; --y: 12vh;  --blur: 2px;  --s: .90; --r: -3deg; --w: 240px; background-image: url('{{ 'converted.jpg' | asset_url }}'); }
+  .hero-float--3 { --x: -20vw; --y: -14vh; --blur: 9px;  --s: .55; --r: 4deg;  --w: 170px; background-image: url('{{ 'raw-green.jpg' | asset_url }}'); }
+  .hero-float--4 { --x: 20vw;  --y: -14vh; --blur: 8px;  --s: .58; --r: -4deg; --w: 176px; background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); }
+  .hero-float--5 { --x: 30vw;  --y: 6vh;   --blur: 3px;  --s: .88; --r: 5deg;  --w: 236px; background-image: url('{{ 'converted.jpg' | asset_url }}'); }
+  .hero-float--6 { --x: 42vw;  --y: 16vh;  --blur: 7px;  --s: .64; --r: 7deg;  --w: 200px; background-image: url('{{ 'raw-red.jpg' | asset_url }}'); }
+  .hero-float--7 { --x: -36vw; --y: 22vh;  --blur: 11px; --s: .50; --r: 6deg;  --w: 156px; background-image: url('{{ 'raw-green.jpg' | asset_url }}'); }
   @media (prefers-reduced-motion: reduce) {
     .hero-floats { display: none; }
-    .ts-hero-img { transform: none; }
+    .ts-hero-text { position: static; opacity: 1; }
+    .ts-hero-glass { transform: none; }
+    .ts-hero-shot { transition: none; }
   }
 
   /* ---- marquee ---- */
@@ -714,6 +824,20 @@
   .ts-marquee__item { flex: 0 0 auto; width: 300px; margin-right: 16px; aspect-ratio: 3 / 2; border-radius: 2px; border: 1px solid rgba(255,255,255,.10); background-size: cover; background-position: center; }
   @keyframes ts-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .ts-marquee__track { animation: none; } }
+
+  /* ---- beta signup form (dark, matches the page; POSTs to the Cloudflare Worker) ---- */
+  .ts-signup { width: 100%; max-width: 480px; }
+  .ts-form { display: flex; gap: 10px; flex-wrap: wrap; }
+  .ts-email { flex: 1; min-width: 220px; height: 50px; padding: 0 16px; font-size: 15px; color: #fff; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.14); border-radius: 2px; outline: none; }
+  .ts-email::placeholder { color: #6a6a6a; }
+  .ts-email:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.25); }
+  .ts-btn { height: 50px; padding: 0 24px; font-size: 15px; font-weight: 600; color: #fff; cursor: pointer; background: #3b82f6; border: 0; border-radius: 2px; white-space: nowrap; transition: transform .15s ease, background .15s ease; }
+  .ts-btn:hover { background: #2f6fed; transform: translateY(-1px); }
+  .ts-btn:disabled { opacity: .6; cursor: default; transform: none; }
+  .ts-btn:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+  .ts-msg { min-height: 20px; margin: 14px 2px 0; font-size: 14px; line-height: 1.5; color: #a3a3a3; }
+  .ts-msg.ok { color: #4ade80; }
+  .ts-msg.err { color: #f87171; }
 {%- endstyle -%}
 
 <script>
@@ -866,19 +990,41 @@
     var frame = document.querySelector('.tonescan-landing .ts-hero');
     if (!frame) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var img = frame.querySelector('.ts-hero-img');
+    var scaler = frame.querySelector('.ts-hero-glass');
+    var text = frame.querySelector('.ts-hero-text');
     var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
     var ticking = false;
+    // pin the text at its natural top so it stays put from scroll 0 (no pre-stick drift) — GitHub-style
+    function pin() {
+      if (!text) return;
+      if ((window.pageYOffset || 0) > 2) return; // rect.top is only the natural offset while at the top
+      text.style.top = Math.round(text.getBoundingClientRect().top) + 'px';
+    }
+    pin();
+    // set --drop so floats converge onto the frame's lower edge (hide behind the screenshot),
+    // not the middle of the page — robust across viewport heights.
+    var glassFrame = frame.querySelector('.ts-hero-frame');
+    function setDrop() {
+      if (!glassFrame) return;
+      var heroH = frame.offsetHeight;
+      var anchorY = 0.44 * heroH;                                   // matches .hero-float top:44%
+      var target = glassFrame.offsetTop + glassFrame.offsetHeight * 0.86; // ~lower edge of the frame
+      frame.style.setProperty('--drop', Math.max(0, Math.round(target - anchorY)) + 'px');
+    }
+    setDrop();
+    function onLayout() { pin(); setDrop(); }
+    window.addEventListener('load', onLayout);
+    window.addEventListener('resize', onLayout);
     function update() {
       var vh = window.innerHeight || document.documentElement.clientHeight;
       var p = clamp(window.pageYOffset / (vh * 0.85));
       frame.style.setProperty('--p', p.toFixed(3));
-      if (img) {
-        // scale 0.8 -> 1.0 as the image enters from the bottom; full size once 70% has
+      if (scaler) {
+        // scale 0.8 -> 1.0 as the frame enters from the bottom; full size once 70% has
         // entered, then HOLD (monotonic on the way down — doesn't shrink as it exits the top)
-        var r = img.getBoundingClientRect();
+        var r = scaler.getBoundingClientRect();
         var g = r.height > 0 ? clamp((vh - r.top) / (0.7 * r.height), 0, 1) : 1;
-        img.style.setProperty('--hs', (0.8 + 0.2 * g).toFixed(3));
+        scaler.style.setProperty('--hs', (0.8 + 0.2 * g).toFixed(3));
       }
     }
     function onScroll() {
@@ -889,6 +1035,64 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     update();
+  })();
+
+  /* hero feature selector — crossfade the framed shot. Desktop = tab pills, mobile = <select> + dots. */
+  (function () {
+    var hero = document.querySelector('.tonescan-landing .ts-hero-color');
+    var bar = document.querySelector('.tonescan-landing .ts-hero-selectbar');
+    if (!hero || !bar) return;
+    var shots = hero.querySelectorAll('.ts-hero-shot');
+    var tabs = bar.querySelectorAll('.ts-hero-tab');
+    var dots = bar.querySelectorAll('.ts-hero-dot');
+    var select = bar.querySelector('.ts-hero-select');
+    function show(i) {
+      tabs.forEach(function (t, ti) { var on = ti === i; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
+      dots.forEach(function (d, di) { d.classList.toggle('is-active', di === i); });
+      shots.forEach(function (s, si) { s.classList.toggle('is-active', si === i); });
+      if (select && +select.value !== i) select.value = i;
+    }
+    tabs.forEach(function (t, ti) { t.addEventListener('click', function () { show(ti); }); });
+    if (select) select.addEventListener('change', function () { show(+select.value); });
+  })();
+
+  /* beta signup — POST the email to the Cloudflare Worker (double opt-in; the Worker owns all
+     key/confirm logic). Do NOT change the fetch URL, the { email } body, or the status handling. */
+  (function () {
+    var TS_SIGNUP_URL = "https://tonescan-beta-signup.little-pond-7bea.workers.dev/signup";
+    var forms = document.querySelectorAll('.tonescan-landing .ts-signup');
+    if (!forms.length) return;
+    forms.forEach(function (root) {
+      var form = root.querySelector('.ts-form');
+      var email = root.querySelector('.ts-email');
+      var btn = root.querySelector('.ts-btn');
+      var msg = root.querySelector('.ts-msg');
+      if (!form) return;
+      function say(text, kind) { msg.textContent = text; msg.className = 'ts-msg ' + (kind || ''); }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var value = (email.value || '').trim();
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)) { say('Please enter a valid email.', 'err'); return; }
+        btn.disabled = true;
+        say('Sending…');
+        fetch(TS_SIGNUP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: value })
+        })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+          .then(function (res) {
+            if (!res.ok) throw new Error(res.d && res.d.error);
+            if (res.d.status === 'already_issued')
+              say("You've already got a key — check your inbox (and spam).", 'ok');
+            else
+              say("Almost there! Check your email to confirm and we'll send your key.", 'ok');
+            form.reset();
+          })
+          .catch(function () { say('Something went wrong. Please try again.', 'err'); })
+          .finally(function () { btn.disabled = false; });
+      });
+    });
   })();
 </script>
 

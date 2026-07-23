@@ -21,17 +21,14 @@
     --tw-color-blue-800: oklch(42.4% 0.199 265.638);
     --tw-color-slate-100: oklch(96.8% 0.007 247.896);
     --tw-color-slate-500: oklch(55.4% 0.046 257.417);
-    --tw-color-neutral-50: oklch(98.5% 0 0);
     --tw-color-neutral-100: oklch(97% 0 0);
     --tw-color-neutral-200: oklch(92.2% 0 0);
     --tw-color-neutral-300: oklch(87% 0 0);
     --tw-color-neutral-400: oklch(70.8% 0 0);
     --tw-color-neutral-500: oklch(55.6% 0 0);
     --tw-color-neutral-600: oklch(43.9% 0 0);
-    --tw-color-neutral-700: oklch(37.1% 0 0);
     --tw-color-neutral-800: oklch(26.9% 0 0);
     --tw-color-neutral-900: oklch(20.5% 0 0);
-    --tw-color-neutral-950: oklch(14.5% 0 0);
     --tw-color-black: #000;
     --tw-color-white: #fff;
     --tw-spacing: 0.25rem;
@@ -295,6 +292,9 @@
   .tw\:z-50 {
     z-index: 50;
   }
+  .tw\:z-\[2\] {
+    z-index: 2;
+  }
   .tw\:mx-auto {
     margin-inline: auto;
   }
@@ -539,8 +539,8 @@
   .tw\:mt-\[48px\] {
     margin-top: 48px;
   }
-  .tw\:mt-\[56px\] {
-    margin-top: 56px;
+  .tw\:mt-\[120px\] {
+    margin-top: 120px;
   }
   .tw\:mt-auto {
     margin-top: auto;
@@ -696,8 +696,14 @@
   .tw\:max-w-\[460px\] {
     max-width: 460px;
   }
+  .tw\:max-w-\[480px\] {
+    max-width: 480px;
+  }
   .tw\:max-w-\[520px\] {
     max-width: 520px;
+  }
+  .tw\:max-w-\[540px\] {
+    max-width: 540px;
   }
   .tw\:max-w-\[560px\] {
     max-width: 560px;
@@ -865,6 +871,9 @@
   .tw\:gap-y-\[20px\] {
     row-gap: 20px;
   }
+  .tw\:overflow-clip {
+    overflow: clip;
+  }
   .tw\:overflow-hidden {
     overflow: hidden;
   }
@@ -1011,9 +1020,6 @@
     }
     background-image: linear-gradient(var(--tw-gradient-stops));
   }
-  .tw\:bg-\[linear-gradient\(180deg\,\#ffffff\,\#a3a3a3\)\] {
-    background-image: linear-gradient(180deg,#ffffff,#a3a3a3);
-  }
   .tw\:from-orange-400 {
     --tw-gradient-from: var(--tw-color-orange-400);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
@@ -1021,9 +1027,6 @@
   .tw\:to-orange-500 {
     --tw-gradient-to: var(--tw-color-orange-500);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
-  .tw\:bg-clip-text {
-    background-clip: text;
   }
   .tw\:object-contain {
     object-fit: contain;
@@ -1085,9 +1088,6 @@
   .tw\:px-\[26px\] {
     padding-inline: 26px;
   }
-  .tw\:px-\[28px\] {
-    padding-inline: 28px;
-  }
   .tw\:py-2 {
     padding-block: calc(var(--tw-spacing) * 2);
   }
@@ -1103,9 +1103,6 @@
   .tw\:py-\[4px\] {
     padding-block: 4px;
   }
-  .tw\:py-\[6px\] {
-    padding-block: 6px;
-  }
   .tw\:py-\[9px\] {
     padding-block: 9px;
   }
@@ -1117,9 +1114,6 @@
   }
   .tw\:py-\[14px\] {
     padding-block: 14px;
-  }
-  .tw\:py-\[15px\] {
-    padding-block: 15px;
   }
   .tw\:py-\[28px\] {
     padding-block: 28px;
@@ -1153,9 +1147,6 @@
   }
   .tw\:pb-6 {
     padding-bottom: calc(var(--tw-spacing) * 6);
-  }
-  .tw\:pb-\[64px\] {
-    padding-bottom: 64px;
   }
   .tw\:pl-6 {
     padding-left: calc(var(--tw-spacing) * 6);
@@ -1331,9 +1322,6 @@
   .tw\:text-neutral-900 {
     color: var(--tw-color-neutral-900);
   }
-  .tw\:text-transparent {
-    color: transparent;
-  }
   .tw\:text-white {
     color: var(--tw-color-white);
   }
@@ -1437,14 +1425,6 @@
     .tw\:hover\:bg-\[\#1be48d\]:hover {
       background-color: #1be48d;
     }
-    .tw\:hover\:bg-white\/\[0\.08\]:hover {
-      background-color: var(--tw-color-white);
-    }
-    @supports (color: color-mix(in lab, red, red)) {
-      .tw\:hover\:bg-white\/\[0\.08\]:hover {
-        background-color: color-mix(in oklab, var(--tw-color-white) 8%, transparent);
-      }
-    }
     .tw\:hover\:text-white:hover {
       color: var(--tw-color-white);
     }
@@ -1477,8 +1457,8 @@
     .tw\:md\:mt-\[56px\] {
       margin-top: 56px;
     }
-    .tw\:md\:mt-\[72px\] {
-      margin-top: 72px;
+    .tw\:md\:mt-\[180px\] {
+      margin-top: 180px;
     }
     .tw\:md\:block {
       display: block;
@@ -1551,9 +1531,6 @@
     }
     .tw\:md\:pr-0\! {
       padding-right: 0px !important;
-    }
-    .tw\:md\:pb-\[88px\] {
-      padding-bottom: 88px;
     }
     .tw\:md\:text-\[20px\] {
       font-size: 20px;

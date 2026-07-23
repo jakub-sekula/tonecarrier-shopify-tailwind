@@ -25,6 +25,64 @@
     </a>
   </div>
 
+  {%- comment -%}
+    toneScan licences. Reads a key from each order's `license.key` metafield
+    (namespace: license, key: key). Set that metafield from your fulfilment
+    automation (Zapier/Keygen) when a key is issued, and create a matching
+    Order metafield definition under Settings > Custom data > Orders.
+  {%- endcomment -%}
+  {%- assign has_licences = false -%}
+  {%- for order in customer.orders -%}
+    {%- if order.metafields.license.key.value != blank -%}
+      {%- assign has_licences = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if has_licences -%}
+    {%- style -%}
+      .customer-licences { margin: 2rem 0 4rem; }
+      .licence-list { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: 1rem; }
+      .licence-item { border: 1px solid rgba(var(--color-foreground), 0.15); padding: 1.5rem 2rem; }
+      .licence-item__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1rem; margin-bottom: 1rem; }
+      .licence-item__name { font-weight: 600; }
+      .licence-item__key { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+      .licence-item__key code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.4rem; padding: 0.6rem 1rem; background: rgba(var(--color-foreground), 0.05); border: 1px solid rgba(var(--color-foreground), 0.12); word-break: break-all; }
+      .licence-copy { padding: 0.6rem 1.2rem; font-size: 1.2rem; cursor: pointer; color: inherit; background: transparent; border: 1px solid rgba(var(--color-foreground), 0.25); }
+      .licence-copy:hover { background: rgba(var(--color-foreground), 0.06); }
+      .licence-note { margin-top: 1rem; font-size: 1.3rem; opacity: 0.7; }
+    {%- endstyle -%}
+    <div class="customer-licences">
+      <h2>Your licences</h2>
+      <ul class="licence-list" role="list">
+        {%- for order in customer.orders -%}
+          {%- assign lk = order.metafields.license.key.value -%}
+          {%- if lk != blank -%}
+            <li class="licence-item">
+              <div class="licence-item__head">
+                <span class="licence-item__name">toneScan Studio</span>
+                <a href="{{ order.customer_url }}">{{ 'customer.orders.order_number' | t }} {{ order.name }}</a>
+              </div>
+              <div class="licence-item__key">
+                <code>{{ lk }}</code>
+                <button type="button" class="licence-copy" data-key="{{ lk | escape }}">Copy</button>
+              </div>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      <p class="licence-note">Your key was also emailed to you at the time of purchase.</p>
+    </div>
+    <script>
+      document.querySelectorAll('.licence-copy').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var k = b.getAttribute('data-key');
+          if (navigator.clipboard) { navigator.clipboard.writeText(k); }
+          var prev = b.textContent; b.textContent = 'Copied'; setTimeout(function () { b.textContent = prev; }, 1500);
+        });
+      });
+    </script>
+  {%- endif -%}
+
   <div>
     <div>
       <h2>{{ 'customer.orders.title' | t }}</h2>
