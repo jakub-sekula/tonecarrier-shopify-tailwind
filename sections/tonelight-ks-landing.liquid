@@ -88,6 +88,40 @@
     </div>
   </section>
 
+  {%- comment -%} ==================== RESULTS (3-way comparison) ====================
+       Prepared image slots. Set white/rgb/lab URLs per frame in the SAMPLES array (JS below).
+  {%- endcomment -%}
+  <section id="results" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">The results</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Same frame, three ways. Judge for yourself.</h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">The same negative under white light, with toneLight RGB, and from a professional lab scanner. No theory — just the colour you get.</p>
+    </div>
+
+    <div class="ks-compare tw:mt-[48px]">
+      <div class="ks-compare__col">
+        <div class="ks-compare__label">White light</div>
+        <div class="ks-compare__img" data-slot="white">[ white light ]</div>
+      </div>
+      <div class="ks-compare__col ks-compare__col--feat">
+        <div class="ks-compare__label"><span class="ks-compare__dot"></span>toneLight RGB</div>
+        <div class="ks-compare__img" data-slot="rgb">[ toneLight RGB ]</div>
+      </div>
+      <div class="ks-compare__col">
+        <div class="ks-compare__label">Pro lab scan</div>
+        <div class="ks-compare__img" data-slot="lab">[ pro lab scan ]</div>
+      </div>
+    </div>
+
+    <div class="ks-compare__thumbs" role="tablist" aria-label="Sample frames">
+      <button type="button" class="ks-compare__thumb is-active" data-sample="0" aria-label="Sample 1"></button>
+      <button type="button" class="ks-compare__thumb" data-sample="1" aria-label="Sample 2"></button>
+      <button type="button" class="ks-compare__thumb" data-sample="2" aria-label="Sample 3"></button>
+      <button type="button" class="ks-compare__thumb" data-sample="3" aria-label="Sample 4"></button>
+    </div>
+    <p class="tw:mt-[16px] tw:text-center tw:text-[13px] tw:text-neutral-600">Pick a frame to compare · real comparison scans drop into these slots</p>
+  </section>
+
   {%- comment -%} ==================== WHY RGB (crosstalk explainer) ==================== {%- endcomment -%}
   <section id="why-rgb" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
     <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
@@ -115,23 +149,18 @@
     </div>
 
     {%- comment -%} spectral crosstalk chart (data from tonelight_project) {%- endcomment -%}
-    <div class="ks-spectral" data-mode="white">
+    <div class="ks-spectral">
       <div class="ks-spectral__head">
-        <div>
-          <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">See the overlap</h3>
-          <p class="ks-spectral__sub" data-cap>Under white light, all three sensor channels respond at once — and they overlap. The sensor can't cleanly separate the film's dye layers, and that mixing is crosstalk.</p>
-        </div>
-        <div class="ks-spectral__toggle" role="tablist" aria-label="Illumination">
-          <button type="button" data-mode-btn="white" class="is-active" role="tab" aria-selected="true">White light</button>
-          <button type="button" data-mode-btn="rgb" role="tab" aria-selected="false">toneLight RGB</button>
-        </div>
+        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">The spectral picture</h3>
+        <p class="ks-spectral__sub">Toggle each set of curves. Camera channels overlap and spill under white light; narrowband RGB peaks land cleanly where each channel dominates — matching the film's dye layers.</p>
       </div>
-      <div class="ks-spectral__chart" role="img" aria-label="Camera sensor red, green and blue spectral response across wavelength, comparing broadband white light against narrowband RGB illumination at 460, 540 and 660 nanometres."></div>
-      <div class="ks-spectral__legend">
-        <span><i style="background:#f2555a"></i>Red channel</span>
-        <span><i style="background:#4ade80"></i>Green channel</span>
-        <span><i style="background:#5a9cf0"></i>Blue channel</span>
+      <div class="ks-spectral__chips">
+        <button type="button" class="ks-spectral__chip is-active" data-group="sensor" aria-pressed="true"><span class="ks-spectral__sw" style="background:linear-gradient(90deg,#5a9cf0,#4ade80,#f2555a)"></span>Camera sensitivity</button>
+        <button type="button" class="ks-spectral__chip" data-group="film" aria-pressed="false"><span class="ks-spectral__sw" style="background:linear-gradient(90deg,#facc15,#e879f9,#22d3ee)"></span>Film dye density</button>
+        <button type="button" class="ks-spectral__chip" data-group="narrow" aria-pressed="false"><span class="ks-spectral__sw" style="background:linear-gradient(90deg,#5a9cf0,#4ade80,#f2555a)"></span>Narrowband RGB</button>
+        <button type="button" class="ks-spectral__chip is-active" data-group="broad" aria-pressed="true"><span class="ks-spectral__sw ks-spectral__sw--dash"></span>White light</button>
       </div>
+      <div class="ks-spectral__chart" role="img" aria-label="Spectral curves across wavelength — camera sensor sensitivity, film dye density, narrowband RGB and broadband white-light spectra."></div>
     </div>
 
     {%- comment -%} benefits of RGB {%- endcomment -%}
@@ -447,13 +476,28 @@
   .ks-spectral__head { display: flex; flex-direction: column; gap: 16px; margin-bottom: 8px; }
   @media (min-width: 750px) { .ks-spectral__head { flex-direction: row; align-items: flex-start; justify-content: space-between; } }
   .ks-spectral__sub { margin-top: 8px; max-width: 560px; font-size: 15px; line-height: 1.6; color: #a3a3a3; transition: opacity .3s ease; }
-  .ks-spectral__toggle { display: inline-flex; flex-shrink: 0; padding: 3px; border: 1px solid rgba(255,255,255,.12); border-radius: 2px; background: rgba(0,0,0,.3); }
-  .ks-spectral__toggle button { padding: 8px 14px; font-size: 13px; font-weight: 600; color: #a3a3a3; background: transparent; border: 0; border-radius: 2px; cursor: pointer; transition: color .2s ease, background .2s ease; white-space: nowrap; }
-  .ks-spectral__toggle button.is-active { color: #fff; background: rgba(255,255,255,.10); }
-  .ks-spectral__toggle button:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ks-spectral__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .ks-spectral__chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; font-size: 13px; font-weight: 600; color: #8a8a8a; background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.12); border-radius: 2px; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease; }
+  .ks-spectral__chip.is-active { color: #fff; background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.25); }
+  .ks-spectral__chip:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ks-spectral__sw { width: 20px; height: 8px; border-radius: 2px; flex-shrink: 0; opacity: .45; transition: opacity .2s ease; }
+  .ks-spectral__chip.is-active .ks-spectral__sw { opacity: 1; }
+  .ks-spectral__sw--dash { background: repeating-linear-gradient(90deg, #d0d0d0 0 4px, transparent 4px 7px); }
   .ks-spectral__chart { width: 100%; height: 380px; margin-top: 16px; }
-  .ks-spectral__legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 6px; font-size: 13px; color: #a3a3a3; }
-  .ks-spectral__legend i { display: inline-block; width: 20px; height: 3px; margin-right: 7px; vertical-align: middle; border-radius: 2px; }
+
+  /* ---- results 3-way comparison ---- */
+  .ks-compare { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 750px) { .ks-compare { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+  .ks-compare__col { display: flex; flex-direction: column; }
+  .ks-compare__label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; font-weight: 600; color: #a3a3a3; }
+  .ks-compare__col--feat .ks-compare__label { color: #fff; }
+  .ks-compare__dot { width: 7px; height: 7px; border-radius: 9999px; background: #3b82f6; }
+  .ks-compare__img { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 3 / 2; padding: 8px; text-align: center; font-size: 12px; color: #6a6a6a; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #0f0f10; background-size: cover; background-position: center; }
+  .ks-compare__col--feat .ks-compare__img { border-color: rgba(59,130,246,.55); box-shadow: 0 0 0 1px rgba(59,130,246,.25); }
+  .ks-compare__thumbs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
+  .ks-compare__thumb { width: 88px; aspect-ratio: 3 / 2; padding: 0; overflow: hidden; cursor: pointer; border: 1px solid rgba(255,255,255,.12); border-radius: 2px; background: #14161c; background-size: cover; background-position: center; opacity: .55; transition: opacity .2s ease, border-color .2s ease; }
+  .ks-compare__thumb.is-active { opacity: 1; border-color: #3b82f6; }
+  .ks-compare__thumb:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
 {%- endstyle -%}
 
 <script>
@@ -521,7 +565,7 @@
     update();
   })();
 
-  /* spectral crosstalk chart — real Fujifilm sensor QE + toneLight LEDs (ECharts, lazy-loaded) */
+  /* spectral chart — toggleable curve groups (camera sensitivity, film dye density, narrowband RGB, broadband white). ECharts, lazy-loaded. */
   (function () {
     var root = document.querySelector('.tonelight-ks .ks-spectral');
     if (!root) return;
@@ -531,53 +575,42 @@
     var R = [0,0.0066,0.0143,0.022,0.037,0.041,0.0319,0.0286,0.0287,0.0371,0.0466,0.0498,0.0608,0.0865,0.1255,0.1655,0.1516,0.1493,0.1786,0.3118,0.672,1,0.9997,0.903,0.7654,0.6715,0.5411,0.4241,0.2959,0.1854,0.081,0.0272,0.0111,0.0069,0.0044];
     var G = [0,0.0033,0.0116,0.0199,0.0411,0.0652,0.0868,0.1132,0.156,0.2665,0.4036,0.4831,0.6423,0.817,0.919,1,0.9362,0.8976,0.7554,0.6453,0.4866,0.3511,0.2023,0.1153,0.0657,0.0477,0.0351,0.0252,0.0177,0.0135,0.0079,0.004,0.0019,0.0012,0.001];
     var B = [0,0,0.0589,0.151,0.4235,0.7212,0.8276,0.9565,1,0.9871,0.9267,0.7706,0.5878,0.4025,0.2297,0.1412,0.0914,0.0621,0.0387,0.0299,0.0246,0.0206,0.0149,0.0116,0.0102,0.0099,0.0089,0.0095,0.0077,0.0059,0.0027,0.0008,0.0005,0.0004,0.0003];
-    var WL0 = 380, STEP = 10, N = R.length;
     var SPD = [0.4242,0.4639,0.7024,0.7765,0.7931,0.7358,0.8901,0.9932,1,0.975,0.984,0.9236,0.9282,0.915,0.8895,0.9141,0.8862,0.8832,0.8488,0.8177,0.8131,0.7528,0.764,0.7605,0.7444,0.707,0.7104,0.6793,0.6809,0.6984,0.6645,0.5918,0.6078,0.6311,0.5229];
-    var COL = { r: '#f2555a', g: '#4ade80', b: '#5a9cf0' };
-    var LEDS = [{ c: 460, col: COL.b }, { c: 540, col: COL.g }, { c: 660, col: COL.r }];
-    var SIGMA = 20 / (2 * Math.sqrt(2 * Math.log(2)));
-    function pair(a) { var d = []; for (var i = 0; i < N; i++) d.push([WL0 + i * STEP, a[i]]); return d; }
-    function ledData(c) { var d = []; for (var w = 380; w <= 720; w += 2) d.push([w, +(0.98 * Math.exp(-0.5 * Math.pow((w - c) / SIGMA, 2))).toFixed(4)]); return d; }
+    var WL0 = 380, STEP = 10, N = R.length;
+    var COL = { r: '#f2555a', g: '#4ade80', b: '#5a9cf0', cy: '#22d3ee', mg: '#e879f9', yr: '#facc15', wht: '#d0d0d0' };
+    var LED_SIG = 20 / (2 * Math.sqrt(2 * Math.log(2)));
+    var FILM = [['Cyan dye', COL.cy, 680.6, 50.9], ['Magenta dye', COL.mg, 536.6, 27.8], ['Yellow dye', COL.yr, 445.3, 29.5]];
+    var LEDS = [['Blue LED (460 nm)', COL.b, 460], ['Green LED (540 nm)', COL.g, 540], ['Red LED (660 nm)', COL.r, 660]];
 
-    var caps = {
-      white: "Under white light — the dashed spectrum — all three sensor channels respond at once, and they overlap. The sensor can't cleanly separate the film's dye layers, and that mixing is crosstalk.",
-      rgb: "toneLight fires narrowband red, green and blue at 660, 540 and 460 nm — each lands where one channel dominates, so every exposure reads essentially one dye layer cleanly."
-    };
-    var sub = root.querySelector('[data-cap]');
-    var btns = root.querySelectorAll('[data-mode-btn]');
+    function pair(a) { var d = []; for (var i = 0; i < N; i++) d.push([WL0 + i * STEP, a[i]]); return d; }
+    function gauss(mu, sig, amp) { amp = amp || 1; var d = []; for (var w = 380; w <= 720; w += 2) d.push([w, +(amp * Math.exp(-0.5 * Math.pow((w - mu) / sig, 2))).toFixed(4)]); return d; }
+    function ls(name, color, data, o) {
+      o = o || {};
+      return { name: name, type: 'line', smooth: (o.smooth !== undefined ? o.smooth : 0.45), symbol: 'none', showSymbol: false,
+        data: data, lineStyle: { color: color, width: 2, type: (o.dash ? 'dashed' : 'solid') },
+        areaStyle: { color: color, opacity: (o.fill !== undefined ? o.fill : 0.16) }, emphasis: { disabled: true }, z: (o.z || 2) };
+    }
+
+    var active = { sensor: true, film: false, narrow: false, broad: true };
     var chart = null;
 
-    function sensor(name, color, data, areaOp) {
-      return { name: name, type: 'line', smooth: 0.45, symbol: 'none', showSymbol: false,
-        data: data, lineStyle: { color: color, width: 2 }, areaStyle: { color: color, opacity: areaOp },
-        emphasis: { disabled: true }, z: 2 };
-    }
-    function seriesFor(mode) {
-      var op = mode === 'rgb' ? 0.05 : 0.26;
-      var s = [sensor('Blue', COL.b, pair(B), op), sensor('Green', COL.g, pair(G), op), sensor('Red', COL.r, pair(R), op)];
-      if (mode === 'white') {
-        s.unshift({ name: 'White light', type: 'line', smooth: 0.3, symbol: 'none', showSymbol: false,
-          data: pair(SPD), lineStyle: { color: '#d0d0d0', width: 1.5, type: 'dashed' },
-          areaStyle: { color: '#ffffff', opacity: 0.05 }, emphasis: { disabled: true }, tooltip: { show: false }, z: 1 });
-        s[2].markArea = { silent: true, itemStyle: { color: 'rgba(255,255,255,0.07)' },
-          label: { show: true, position: 'insideTop', color: '#9a9a9a', fontSize: 11, formatter: 'overlap' },
-          data: [[{ xAxis: 480 }, { xAxis: 520 }], [{ xAxis: 558 }, { xAxis: 602 }]] };
-      } else {
-        LEDS.forEach(function (led) {
-          s.push({ name: led.c + ' nm', type: 'line', smooth: false, symbol: 'none', showSymbol: false,
-            data: ledData(led.c), lineStyle: { color: led.col, width: 1.5 },
-            areaStyle: { color: led.col, opacity: 0.35 }, emphasis: { disabled: true }, tooltip: { show: false }, z: 3 });
-        });
-      }
+    function buildSeries() {
+      var s = [];
+      if (active.broad) s.push(ls('White light', COL.wht, pair(SPD), { smooth: 0.3, fill: 0.04, dash: true, z: 1 }));
+      if (active.sensor) { s.push(ls('Red channel', COL.r, pair(R))); s.push(ls('Green channel', COL.g, pair(G))); s.push(ls('Blue channel', COL.b, pair(B))); }
+      if (active.film) FILM.forEach(function (f) { s.push(ls(f[0], f[1], gauss(f[2], f[3]), { smooth: 0.25, fill: 0.10 })); });
+      if (active.narrow) LEDS.forEach(function (l) { s.push(ls(l[0], l[1], gauss(l[2], LED_SIG, 0.98), { smooth: false, fill: 0.3, z: 3 })); });
+      if (!s.length) s.push({ name: '', type: 'line', data: [] });
       return s;
     }
-    function option(mode) {
+    function option() {
       return {
-        animationDuration: reduce ? 0 : 1100, animationEasing: 'cubicOut',
-        grid: { left: 6, right: 14, top: 26, bottom: 52, containLabel: true },
-        tooltip: { trigger: 'axis', backgroundColor: '#141416', borderColor: 'rgba(255,255,255,.12)',
-          textStyle: { color: '#e5e5e5', fontSize: 12 }, axisPointer: { type: 'line', lineStyle: { color: 'rgba(255,255,255,.25)' } },
-          formatter: function (ps) { var out = Math.round(ps[0].axisValue) + ' nm'; ps.forEach(function (p) { if (p.seriesName.indexOf('nm') < 0) out += '<br>' + p.marker + p.seriesName + ': ' + Math.round(p.value[1] * 100) + '%'; }); return out; } },
+        animationDuration: reduce ? 0 : 900, animationEasing: 'cubicOut',
+        grid: { left: 6, right: 16, top: 22, bottom: 52, containLabel: true },
+        legend: { show: false },
+        tooltip: { trigger: 'axis', backgroundColor: '#141416', borderColor: 'rgba(255,255,255,.12)', textStyle: { color: '#e5e5e5', fontSize: 12 },
+          axisPointer: { type: 'line', lineStyle: { color: 'rgba(255,255,255,.25)' } },
+          formatter: function (ps) { var out = Math.round(ps[0].axisValue) + ' nm'; ps.forEach(function (p) { if (p.seriesName) out += '<br>' + p.marker + p.seriesName + ': ' + Math.round(p.value[1] * 100) + '%'; }); return out; } },
         xAxis: { type: 'value', min: 380, max: 720, interval: 100,
           name: 'Wavelength (nm)', nameLocation: 'middle', nameGap: 32, nameTextStyle: { color: '#8a8a8a', fontSize: 12 },
           axisLine: { lineStyle: { color: 'rgba(255,255,255,.25)' } },
@@ -587,20 +620,24 @@
           splitLine: { show: true, lineStyle: { color: 'rgba(255,255,255,.05)' } },
           minorSplitLine: { show: true, lineStyle: { color: 'rgba(255,255,255,.025)' } } },
         yAxis: { type: 'value', min: 0, max: 1.08, interval: 0.25,
-          name: 'Relative response', nameLocation: 'middle', nameGap: 42, nameTextStyle: { color: '#8a8a8a', fontSize: 12 },
+          name: 'Relative (normalised)', nameLocation: 'middle', nameGap: 42, nameTextStyle: { color: '#8a8a8a', fontSize: 12 },
           axisLine: { show: false }, axisTick: { show: false },
           axisLabel: { show: true, color: '#8a8a8a', fontSize: 11, formatter: function (v) { return Math.round(v * 100) + '%'; } },
           splitLine: { show: true, lineStyle: { color: 'rgba(255,255,255,.05)' } } },
-        series: seriesFor(mode)
+        series: buildSeries()
       };
     }
-    function setMode(mode) {
-      root.setAttribute('data-mode', mode);
-      if (sub) sub.textContent = caps[mode];
-      btns.forEach(function (b) { var on = b.getAttribute('data-mode-btn') === mode; b.classList.toggle('is-active', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); });
-      if (chart) chart.setOption(option(mode), { replaceMerge: ['series'] });
-    }
-    btns.forEach(function (b) { b.addEventListener('click', function () { setMode(b.getAttribute('data-mode-btn')); }); });
+    function render() { if (chart) chart.setOption(option(), { replaceMerge: ['series'] }); }
+
+    root.querySelectorAll('.ks-spectral__chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var gn = chip.getAttribute('data-group');
+        active[gn] = !active[gn];
+        chip.classList.toggle('is-active', active[gn]);
+        chip.setAttribute('aria-pressed', active[gn] ? 'true' : 'false');
+        render();
+      });
+    });
 
     var libLoading = false;
     function ensure(cb) {
@@ -612,16 +649,39 @@
       sc.async = true; sc.onload = cb;
       document.head.appendChild(sc);
     }
-    function boot() {
-      if (!window.echarts || chart) return;
-      chart = echarts.init(mount, null, { renderer: 'canvas' });
-      chart.setOption(option('white'));
-      window.addEventListener('resize', function () { chart.resize(); });
+    function boot() { if (!window.echarts || chart) return; chart = echarts.init(mount, null, { renderer: 'canvas' }); chart.setOption(option()); window.addEventListener('resize', function () { chart.resize(); }); }
+    if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { ensure(boot); io.disconnect(); } }); }, { threshold: 0.35 }); io.observe(root); }
+    else ensure(boot);
+  })();
+
+  /* results — 3-way comparison sample switcher */
+  (function () {
+    var sec = document.querySelector('.tonelight-ks #results');
+    if (!sec) return;
+    var slots = { white: sec.querySelector('[data-slot="white"]'), rgb: sec.querySelector('[data-slot="rgb"]'), lab: sec.querySelector('[data-slot="lab"]') };
+    var thumbs = sec.querySelectorAll('.ks-compare__thumb');
+    var LBL = { white: 'white light', rgb: 'toneLight RGB', lab: 'pro lab scan' };
+    // Placeholder frames — set white/rgb/lab image URLs per frame (assets or CDN) when ready.
+    var SAMPLES = [
+      { name: 'Portra 400', white: '', rgb: '', lab: '' },
+      { name: 'CineStill 800T', white: '', rgb: '', lab: '' },
+      { name: 'Gold 200', white: '', rgb: '', lab: '' },
+      { name: 'Ektar 100', white: '', rgb: '', lab: '' }
+    ];
+    function show(i) {
+      var sm = SAMPLES[i] || SAMPLES[0];
+      Object.keys(slots).forEach(function (k) {
+        var el = slots[k]; if (!el) return;
+        if (sm[k]) { el.style.backgroundImage = 'url(' + sm[k] + ')'; el.textContent = ''; }
+        else { el.style.backgroundImage = ''; el.textContent = '[ ' + LBL[k] + ' — ' + sm.name + ' ]'; }
+      });
+      thumbs.forEach(function (t, ti) { t.classList.toggle('is-active', ti === i); });
     }
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { ensure(boot); io.disconnect(); } }); }, { threshold: 0.35 });
-      io.observe(root);
-    } else { ensure(boot); }
+    thumbs.forEach(function (t, ti) {
+      if (SAMPLES[ti]) t.setAttribute('aria-label', SAMPLES[ti].name);
+      t.addEventListener('click', function () { show(ti); });
+    });
+    show(0);
   })();
 </script>
 
