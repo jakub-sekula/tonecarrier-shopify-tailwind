@@ -21,6 +21,14 @@
 {%- endcomment -%}
 
 <div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%}
+    MINIMAL variant for early testers — the `page.tonescan-lite` template renders ONLY the hero
+    and the beta signup; everything in between is hidden. Detected from the template suffix, so
+    the full hero (and its CSS/JS) is shared, not duplicated. The header nav is trimmed to match
+    in layout/tonescan.liquid via the same check.
+  {%- endcomment -%}
+  {%- assign ts_minimal = false -%}
+  {%- if template.suffix == 'tonescan-lite' -%}{%- assign ts_minimal = true -%}{%- endif -%}
 
   {%- comment -%} ============================ 1 · HERO ============================ {%- endcomment -%}
   {%- comment -%}
@@ -35,7 +43,7 @@
     <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-white/[0.04] tw:blur-[130px]"></div>
 
     <div class="ts-hero-color">
-      <div class="ts-hero tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[80px] tw:pb-0 tw:md:px-[50px] tw:md:pt-[120px]">
+      <div class="ts-hero tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[80px] tw:pb-0 tw:md:px-[50px] tw:md:pt-[175px]">
         {%- comment -%}
           Floating sample images — scattered high around the headline, then drift DOWN and inward
           to the screenshot centre (rack into focus) on scroll. --drop tunes how far down they
@@ -65,19 +73,22 @@
               Join the beta
             </a>
           </div>
+          <p class="tw:text-[13px] tw:text-neutral-500">macOS (Apple&nbsp;Silicon) only for now · Windows coming soon</p>
         </div>
 
-        <div class="ts-hero-frame tw:relative tw:mx-auto tw:mt-[120px] tw:max-w-[1320px] tw:md:mt-[180px]">
+        <div class="ts-hero-frame tw:relative tw:mx-auto tw:mt-[120px] tw:max-w-[1320px]">
           <div class="ts-hero-glow" aria-hidden="true"></div>
           {%- comment -%} glass frame + stacked feature shots (crossfaded by the selector below).
              Bottom is open (no bottom border) and dips past the colour cut so the dark image
              melts into black. {%- endcomment -%}
           <div class="ts-hero-glass">
             <div class="ts-hero-stage">
-              <img class="ts-hero-shot is-active" data-shot="0" src="{{ 'tonescan-hero.png' | asset_url }}" alt="toneScan Develop view converting an RGB triplet scan" width="2000" height="1180" loading="eager">
-              <div class="ts-hero-shot" data-shot="1"><span>[ RGB workflow ]</span></div>
-              <div class="ts-hero-shot" data-shot="2"><span>[ Real-time editing ]</span></div>
-              <div class="ts-hero-shot" data-shot="3"><span>[ Batch &amp; export ]</span></div>
+              <img class="ts-hero-shot is-active" data-shot="0" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011" alt="toneScan Develop view" loading="eager">
+              <img class="ts-hero-shot" data-shot="1" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png?v=1784862011" alt="Merging red, green and blue channel scans" loading="lazy">
+              <img class="ts-hero-shot" data-shot="2" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png?v=1784862008" alt="Channel crosstalk calibration" loading="lazy">
+              <img class="ts-hero-shot" data-shot="3" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png?v=1784862011" alt="Pixel-level preview" loading="lazy">
+              <img class="ts-hero-shot" data-shot="4" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png?v=1784862011" alt="Organising a roll of scans" loading="lazy">
+              <img class="ts-hero-shot" data-shot="5" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png?v=1784862010" alt="Batch export" loading="lazy">
             </div>
           </div>
         </div>
@@ -89,9 +100,11 @@
     <div class="ts-hero-selectbar tw:relative tw:z-[2] tw:mx-auto tw:w-full tw:max-w-[1320px] tw:px-[15px] tw:md:px-[50px]">
       <div class="ts-hero-tabs" role="tablist" aria-label="Features">
         <button type="button" class="ts-hero-tab is-active" data-tab="0" role="tab" aria-selected="true">Develop</button>
-        <button type="button" class="ts-hero-tab" data-tab="1" role="tab" aria-selected="false">RGB workflow</button>
-        <button type="button" class="ts-hero-tab" data-tab="2" role="tab" aria-selected="false">Real-time editing</button>
-        <button type="button" class="ts-hero-tab" data-tab="3" role="tab" aria-selected="false">Batch &amp; export</button>
+        <button type="button" class="ts-hero-tab" data-tab="1" role="tab" aria-selected="false">RGB merge</button>
+        <button type="button" class="ts-hero-tab" data-tab="2" role="tab" aria-selected="false">Calibration</button>
+        <button type="button" class="ts-hero-tab" data-tab="3" role="tab" aria-selected="false">Pixel preview</button>
+        <button type="button" class="ts-hero-tab" data-tab="4" role="tab" aria-selected="false">Organise</button>
+        <button type="button" class="ts-hero-tab" data-tab="5" role="tab" aria-selected="false">Batch export</button>
       </div>
       <div class="ts-hero-mobsel">
         <div class="ts-hero-dots" aria-hidden="true">
@@ -99,19 +112,26 @@
           <span class="ts-hero-dot" data-dot="1"></span>
           <span class="ts-hero-dot" data-dot="2"></span>
           <span class="ts-hero-dot" data-dot="3"></span>
+          <span class="ts-hero-dot" data-dot="4"></span>
+          <span class="ts-hero-dot" data-dot="5"></span>
         </div>
         <div class="ts-hero-selectwrap">
           <select class="ts-hero-select" aria-label="Choose a feature to preview">
             <option value="0">Develop</option>
-            <option value="1">RGB workflow</option>
-            <option value="2">Real-time editing</option>
-            <option value="3">Batch &amp; export</option>
+            <option value="1">RGB merge</option>
+            <option value="2">Calibration</option>
+            <option value="3">Pixel preview</option>
+            <option value="4">Organise</option>
+            <option value="5">Batch export</option>
           </select>
           <svg class="ts-hero-selectcaret" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
       </div>
     </div>
   </section>
+
+  {%- comment -%} ↓↓↓ hidden in the minimal (tonescan-lite) variant — hero + signup only ↓↓↓ {%- endcomment -%}
+  {%- unless ts_minimal -%}
 
   {%- comment -%} ==================== MARQUEE (scanned with tonescan) ====================
        Auto-scrolling strip of sample scans. Placeholders reuse existing images — swap
@@ -300,7 +320,7 @@
         </div>
         <div class="tw:flex tw:gap-[12px]">
           <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-white/25"></span>
-          <div><p class="tw:flex tw:items-center tw:gap-[8px] tw:text-[15px] tw:font-semibold tw:text-white">Linux support <span class="tw:rounded-[2px] tw:border tw:border-white/15 tw:px-[8px] tw:py-[1px] tw:text-[11px] tw:font-medium tw:uppercase tw:tracking-[0.08em] tw:text-neutral-500">Soon</span></p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Native on Mac and Windows today; Linux on the way.</p></div>
+          <div><p class="tw:flex tw:items-center tw:gap-[8px] tw:text-[15px] tw:font-semibold tw:text-white">More platforms <span class="tw:rounded-[2px] tw:border tw:border-white/15 tw:px-[8px] tw:py-[1px] tw:text-[11px] tw:font-medium tw:uppercase tw:tracking-[0.08em] tw:text-neutral-500">Soon</span></p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Native on macOS (Apple Silicon) today; Windows next, Linux to follow.</p></div>
         </div>
         <div class="tw:flex tw:gap-[12px]">
           <span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-white/25"></span>
@@ -530,7 +550,7 @@
         <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Every feature unlocked while we're in beta.</p>
         <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
           <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Full conversion &amp; editing</span></li>
-          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Mac &amp; Windows</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>macOS (Apple Silicon)</span></li>
           <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Help shape what ships</span></li>
         </ul>
         <a href="#signup" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Join the beta</a>
@@ -589,7 +609,7 @@
         </details>
         <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
           <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Does it run on my computer?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Yes — tonescan runs natively on Mac and Windows today, with Linux support coming soon.</p>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Right now toneScan runs natively on macOS (Apple Silicon). Windows support is coming soon, with Linux to follow.</p>
         </details>
         <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
           <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">What's the difference between perpetual and subscription?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
@@ -598,6 +618,9 @@
       </div>
     </div>
   </section>
+
+  {%- endunless -%}
+  {%- comment -%} ↑↑↑ end minimal-hidden block ↑↑↑ {%- endcomment -%}
 
   {%- comment -%} ==================== 11 · SIGNUP / FINAL CTA ====================
        Beta signup form. POSTs the email to the Cloudflare Worker (double opt-in): the Worker
@@ -627,8 +650,8 @@
       </div>
 
       <p class="tw:mx-auto tw:mt-[20px] tw:max-w-[480px] tw:text-[13px] tw:leading-[1.5] tw:text-neutral-500">
-        toneScan is an early beta — expect the occasional rough edge and bug. Runs on Mac &amp;
-        Windows today, Linux soon. No spam; your email is only used for your beta key.
+        toneScan is an early beta — expect the occasional rough edge and bug. macOS (Apple&nbsp;Silicon)
+        only for now, Windows coming soon. No spam; your email is only used for your beta key.
       </p>
     </div>
   </section>
@@ -746,7 +769,7 @@
      after the frame passes above it. */
   /* pinned from the top (JS sets `top` to the text's natural offset so it doesn't scroll before
      sticking — GitHub-style). Shrinks + fades as --p grows and the frame rises to cover it. */
-  .ts-hero-text { position: sticky; top: 80px; z-index: 0; opacity: calc(1 - var(--p) * 1.35); transform: scale(calc(1 - var(--p) * 0.08)); transform-origin: center top; will-change: opacity, transform; }
+  .ts-hero-text { position: sticky; top: 80px; z-index: 0; opacity: calc(1 - var(--p) * 0.45); transform: scale(calc(1 - var(--p) * 0.08)); transform-origin: center top; will-change: opacity, transform; }
   /* frame dips PAST the colour cut (negative bottom margin) so the dark screenshot bottom melts
      into black — the "cut off" look. Bottom of the glass is open (no border/radius). */
   .ts-hero-frame { position: relative; z-index: 1; margin-bottom: -104px; }
@@ -760,10 +783,6 @@
   .ts-hero-shot { position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease; }
   .ts-hero-shot.is-active { opacity: 1; }
   img.ts-hero-shot { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-  div.ts-hero-shot { display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; font-size: 13px; color: #6a6a6a; }
-  .ts-hero-shot[data-shot="1"] { background-image: linear-gradient(135deg, #16263a, #2d3a1e); }
-  .ts-hero-shot[data-shot="2"] { background-image: linear-gradient(135deg, #241a3a, #17302b); }
-  .ts-hero-shot[data-shot="3"] { background-image: linear-gradient(135deg, #3a2a16, #1a2a3a); }
   /* SELECTOR bar — on the black region below the cut; clears the dipped image with top padding */
   .ts-hero-selectbar { padding-top: 140px; padding-bottom: 8px; }
   .ts-hero-tabs { position: relative; z-index: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
@@ -782,10 +801,14 @@
   .ts-hero-select option { color: #111; }
   .ts-hero-selectcaret { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); width: 12px; height: 8px; color: #a3a3a3; pointer-events: none; }
   @media (max-width: 749px) {
-    /* no grow-on-scroll; screenshot bleeds wider than the viewport ("cut off / off-screen") */
+    /* GitHub-style mobile: text is STATIC (no pin / fade / shrink); the screenshot is enlarged and
+       pushed right so only its LEFT side shows, and cropped tall so it fills more of the screen. */
+    .ts-hero-text { position: static; opacity: 1; transform: none; }
     .ts-hero-glass { transform: none; }
-    .ts-hero-frame { width: 132%; max-width: none; margin-left: -16%; margin-right: -16%; margin-bottom: -64px; }
-    .ts-hero-selectbar { padding-top: 92px; }
+    .ts-hero-frame { width: 200%; max-width: none; margin-left: -5%; margin-right: -95%; margin-bottom: -56px; }
+    .ts-hero-stage { aspect-ratio: 4 / 3; }
+    img.ts-hero-shot { object-position: left top; }
+    .ts-hero-selectbar { padding-top: 88px; }
     .ts-hero-tabs { display: none; }
     .ts-hero-mobsel { display: flex; }
   }
@@ -803,13 +826,13 @@
     filter: blur(calc(var(--blur, 0px) * (1 - var(--p))));
     opacity: calc(0.6 + 0.4 * var(--p));
     will-change: transform, filter, opacity; }
-  .hero-float--1 { --x: -40vw; --y: -6vh;  --blur: 7px;  --s: .62; --r: -6deg; --w: 200px; background-image: url('{{ 'raw-red.jpg' | asset_url }}'); }
-  .hero-float--2 { --x: -28vw; --y: 12vh;  --blur: 2px;  --s: .90; --r: -3deg; --w: 240px; background-image: url('{{ 'converted.jpg' | asset_url }}'); }
-  .hero-float--3 { --x: -20vw; --y: -14vh; --blur: 9px;  --s: .55; --r: 4deg;  --w: 170px; background-image: url('{{ 'raw-green.jpg' | asset_url }}'); }
-  .hero-float--4 { --x: 20vw;  --y: -14vh; --blur: 8px;  --s: .58; --r: -4deg; --w: 176px; background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); }
-  .hero-float--5 { --x: 30vw;  --y: 6vh;   --blur: 3px;  --s: .88; --r: 5deg;  --w: 236px; background-image: url('{{ 'converted.jpg' | asset_url }}'); }
-  .hero-float--6 { --x: 42vw;  --y: 16vh;  --blur: 7px;  --s: .64; --r: 7deg;  --w: 200px; background-image: url('{{ 'raw-red.jpg' | asset_url }}'); }
-  .hero-float--7 { --x: -36vw; --y: 22vh;  --blur: 11px; --s: .50; --r: 6deg;  --w: 156px; background-image: url('{{ 'raw-green.jpg' | asset_url }}'); }
+  .hero-float--1 { --x: -40vw; --y: -6vh;  --blur: 7px;  --s: .62; --r: -6deg; --w: 200px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0049_RGB-neg.jpg?v=1784861626'); }
+  .hero-float--2 { --x: -28vw; --y: 12vh;  --blur: 2px;  --s: .90; --r: -3deg; --w: 240px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0049_RGB-pos.jpg?v=1784861626'); }
+  .hero-float--3 { --x: -20vw; --y: -14vh; --blur: 9px;  --s: .55; --r: 4deg;  --w: 170px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0025_RGB-neg.jpg?v=1784861626'); }
+  .hero-float--4 { --x: 20vw;  --y: -14vh; --blur: 8px;  --s: .58; --r: -4deg; --w: 176px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0079_RGB-neg.jpg?v=1784861626'); }
+  .hero-float--5 { --x: 30vw;  --y: 6vh;   --blur: 3px;  --s: .88; --r: 5deg;  --w: 236px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0079_RGB-pos.jpg?v=1784861626'); }
+  .hero-float--6 { --x: 42vw;  --y: 16vh;  --blur: 7px;  --s: .64; --r: 7deg;  --w: 200px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0028_RGB-neg.jpg?v=1784861626'); }
+  .hero-float--7 { --x: -36vw; --y: 22vh;  --blur: 11px; --s: .50; --r: 6deg;  --w: 156px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0061_RGB-pos.jpg?v=1784861626'); }
   @media (prefers-reduced-motion: reduce) {
     .hero-floats { display: none; }
     .ts-hero-text { position: static; opacity: 1; }

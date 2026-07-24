@@ -1457,9 +1457,6 @@
     .tw\:md\:mt-\[56px\] {
       margin-top: 56px;
     }
-    .tw\:md\:mt-\[180px\] {
-      margin-top: 180px;
-    }
     .tw\:md\:block {
       display: block;
     }
@@ -1526,8 +1523,8 @@
     .tw\:md\:py-\[140px\] {
       padding-block: 140px;
     }
-    .tw\:md\:pt-\[120px\] {
-      padding-top: 120px;
+    .tw\:md\:pt-\[175px\] {
+      padding-top: 175px;
     }
     .tw\:md\:pr-0\! {
       padding-right: 0px !important;

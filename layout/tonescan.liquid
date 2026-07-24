@@ -90,12 +90,15 @@
           {%- endif -%}
         </a>
 
+        {%- comment -%} nav links point to sections that don't exist in the minimal (tonescan-lite) variant, so hide them there {%- endcomment -%}
+        {%- unless template.suffix == 'tonescan-lite' -%}
         <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
           <a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>
           <a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">How it works</a>
           <a href="#pricing" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Pricing</a>
           <a href="#faq" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">FAQ</a>
         </nav>
+        {%- endunless -%}
 
         <a href="#signup" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[var(--ts-accent)] tw:px-[16px] tw:py-[9px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
           Become a tester
