@@ -83,7 +83,16 @@
              melts into black. {%- endcomment -%}
           <div class="ts-hero-glass">
             <div class="ts-hero-stage">
-              <img class="ts-hero-shot is-active" data-shot="0" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011" alt="toneScan Develop view" loading="eager">
+              {%- comment -%} slot 0 (Develop) is a video — autoplays muted when the hero enters view; replay button on end {%- endcomment -%}
+              <div class="ts-hero-shot ts-hero-vslot is-active" data-shot="0">
+                <video class="ts-hero-video" muted playsinline preload="auto" poster="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011">
+                  <source src="https://cdn.shopify.com/videos/c/o/v/b65600e0d21a4c62a9bc7beeea2ea761.mp4" type="video/mp4">
+                </video>
+                <button type="button" class="ts-hero-replay" aria-label="Replay video">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>
+                  <span class="ts-hero-replay__label">Replay</span>
+                </button>
+              </div>
               <img class="ts-hero-shot" data-shot="1" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png?v=1784862011" alt="Merging red, green and blue channel scans" loading="lazy">
               <img class="ts-hero-shot" data-shot="2" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png?v=1784862008" alt="Channel crosstalk calibration" loading="lazy">
               <img class="ts-hero-shot" data-shot="3" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png?v=1784862011" alt="Pixel-level preview" loading="lazy">
@@ -783,6 +792,13 @@
   .ts-hero-shot { position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease; }
   .ts-hero-shot.is-active { opacity: 1; }
   img.ts-hero-shot { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  /* video slot (Develop) */
+  .ts-hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; background: #0f0f10; }
+  .ts-hero-replay { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; display: none; align-items: center; gap: 8px; padding: 11px 18px; font-size: 14px; font-weight: 600; color: #fff; background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.28); border-radius: 3px; cursor: pointer; transition: background .15s ease; }
+  .ts-hero-replay.is-shown { display: inline-flex; }
+  .ts-hero-replay:hover { background: rgba(0,0,0,.78); }
+  .ts-hero-replay:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-hero-replay svg { width: 16px; height: 16px; fill: currentColor; }
   /* SELECTOR bar — on the black region below the cut; clears the dipped image with top padding */
   .ts-hero-selectbar { padding-top: 140px; padding-bottom: 8px; }
   .ts-hero-tabs { position: relative; z-index: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
@@ -807,7 +823,7 @@
     .ts-hero-glass { transform: none; }
     .ts-hero-frame { width: 200%; max-width: none; margin-left: -5%; margin-right: -95%; margin-bottom: -56px; }
     .ts-hero-stage { aspect-ratio: 4 / 3; }
-    img.ts-hero-shot { object-position: left top; }
+    img.ts-hero-shot, .ts-hero-video { object-position: left top; }
     .ts-hero-selectbar { padding-top: 88px; }
     .ts-hero-tabs { display: none; }
     .ts-hero-mobsel { display: flex; }
@@ -1074,9 +1090,34 @@
       dots.forEach(function (d, di) { d.classList.toggle('is-active', di === i); });
       shots.forEach(function (s, si) { s.classList.toggle('is-active', si === i); });
       if (select && +select.value !== i) select.value = i;
+      if (window.__tsHeroVideoSync) window.__tsHeroVideoSync(); // play/pause the Develop video with its slot
     }
     tabs.forEach(function (t, ti) { t.addEventListener('click', function () { show(ti); }); });
     if (select) select.addEventListener('change', function () { show(+select.value); });
+  })();
+
+  /* hero Develop video — autoplay (muted) when the hero is in view AND its slot is active;
+     replay button overlays when it ends. Honours reduced-motion (no autoplay; shows Play). */
+  (function () {
+    var video = document.querySelector('.tonescan-landing .ts-hero-video');
+    if (!video) return;
+    var slot = video.closest('.ts-hero-shot');
+    var replay = document.querySelector('.tonescan-landing .ts-hero-replay');
+    var label = replay ? replay.querySelector('.ts-hero-replay__label') : null;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var inView = false, ended = false;
+    function activeSlot() { return slot && slot.classList.contains('is-active'); }
+    function sync() {
+      if (!reduce && inView && activeSlot() && !ended) { var p = video.play(); if (p && p.catch) p.catch(function () {}); }
+      else { video.pause(); }
+    }
+    video.addEventListener('ended', function () { ended = true; if (label) label.textContent = 'Replay'; if (replay) replay.classList.add('is-shown'); });
+    if (replay) replay.addEventListener('click', function () { ended = false; replay.classList.remove('is-shown'); video.currentTime = 0; var p = video.play(); if (p && p.catch) p.catch(function () {}); });
+    if (reduce && replay) { if (label) label.textContent = 'Play'; replay.classList.add('is-shown'); } // opt-in under reduced motion
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { es.forEach(function (e) { inView = e.isIntersecting; sync(); }); }, { threshold: 0.3 }).observe(video);
+    } else { inView = true; sync(); }
+    window.__tsHeroVideoSync = sync;
   })();
 
   /* beta signup — POST the email to the Cloudflare Worker (double opt-in; the Worker owns all
