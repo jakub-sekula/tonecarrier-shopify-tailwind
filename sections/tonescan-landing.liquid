@@ -85,7 +85,8 @@
             <div class="ts-hero-stage">
               {%- comment -%} slot 0 (Develop) is a video — autoplays muted when the hero enters view; replay button on end {%- endcomment -%}
               <div class="ts-hero-shot ts-hero-vslot is-active" data-shot="0">
-                <video class="ts-hero-video" muted playsinline preload="auto" poster="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011">
+                {%- comment -%} no poster — the video's own first frame is the placeholder (preload=auto buffers it) {%- endcomment -%}
+                <video class="ts-hero-video" muted playsinline preload="auto">
                   <source src="https://cdn.shopify.com/videos/c/o/v/b65600e0d21a4c62a9bc7beeea2ea761.mp4" type="video/mp4">
                 </video>
                 <button type="button" class="ts-hero-replay" aria-label="Replay video">
