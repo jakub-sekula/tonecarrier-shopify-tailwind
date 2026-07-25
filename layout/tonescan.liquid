@@ -15,13 +15,42 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
-    <title>{{ page_title }}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+    {%- comment -%}
+      Social preview (Open Graph / Twitter) for the tonescan landing pages. Explicit here because
+      Dawn's meta-tags snippet emits no og:image for pages without a featured image. Admin SEO
+      fields (page title / meta description / a page featured image) override the defaults below.
+    {%- endcomment -%}
+    {%- liquid
+      assign ts_title = page_title | default: shop.name
+      assign ts_desc = page_description | default: 'Turn whole rolls of camera-scanned negatives into gallery-ready photos — lab-accurate colour and an effortless, professional workflow. Now in open beta for macOS (Apple Silicon).'
+      # og:image precedence: page File(image) metafield custom.social_image → page featured image → default screenshot
+      assign ts_image = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011'
+      assign ts_social = page.metafields.custom.social_image.value
+      if ts_social != blank
+        assign ts_image = ts_social | image_url: width: 1200 | prepend: 'https:'
+      elsif page_image
+        assign ts_image = page_image | image_url: width: 1200 | prepend: 'https:'
+      endif
+    -%}
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
+    <title>{{ ts_title }}{% unless ts_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+    <meta name="description" content="{{ ts_desc | escape }}">
 
-    {% render 'meta-tags' %}
+    <meta property="og:site_name" content="{{ shop.name }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url | default: request.origin }}">
+    <meta property="og:title" content="{{ ts_title | escape }}">
+    <meta property="og:description" content="{{ ts_desc | escape }}">
+    <meta property="og:image" content="{{ ts_image }}">
+    <meta property="og:image:secure_url" content="{{ ts_image }}">
+    <meta property="og:image:alt" content="toneScan — film scanning software">
+    {%- if settings.social_twitter_link != blank -%}
+      <meta name="twitter:site" content="{{ settings.social_twitter_link | split: 'twitter.com/' | last | prepend: '@' }}">
+    {%- endif -%}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ ts_title | escape }}">
+    <meta name="twitter:description" content="{{ ts_desc | escape }}">
+    <meta name="twitter:image" content="{{ ts_image }}">
 
     {{ content_for_header }}
 
