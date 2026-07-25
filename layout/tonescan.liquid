@@ -23,11 +23,17 @@
     {%- liquid
       assign ts_title = page_title | default: shop.name
       assign ts_desc = page_description | default: 'Turn whole rolls of camera-scanned negatives into gallery-ready photos — lab-accurate colour and an effortless, professional workflow. Now in open beta for macOS (Apple Silicon).'
-      # og:image precedence: page File(image) metafield custom.social_image → page featured image → default screenshot
+      # og:image precedence: page metafield custom.social_image → page featured image → default screenshot.
+      # Works whether the metafield is a File(image) reference or a plain URL string.
       assign ts_image = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011'
-      assign ts_social = page.metafields.custom.social_image.value
-      if ts_social != blank
-        assign ts_image = ts_social | image_url: width: 1200 | prepend: 'https:'
+      assign ts_mf = page.metafields.custom.social_image
+      if ts_mf.value != blank
+        assign ts_mf_url = ts_mf.value | image_url: width: 1200
+        if ts_mf_url != blank
+          assign ts_image = ts_mf_url | prepend: 'https:'
+        else
+          assign ts_image = ts_mf.value
+        endif
       elsif page_image
         assign ts_image = page_image | image_url: width: 1200 | prepend: 'https:'
       endif
