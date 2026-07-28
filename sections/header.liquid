@@ -133,12 +133,20 @@
 </svg>
 
 {%- liquid
+  assign tc_nav_blocks = 0
   for block in section.blocks
     if block.type == '@app'
       assign has_app_block = true
+    else
+      assign tc_nav_blocks = tc_nav_blocks | plus: 1
     endif
   endfor
 -%}
+
+{%- if tc_nav_blocks > 0 -%}
+  {{ 'component-tc-mega-menu.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'tc-mega-menu.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 <{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}"{% else %}div{% endif %} class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}">
   {%- liquid
@@ -155,7 +163,9 @@
   -%}
   <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
     {%- liquid
-      if section.settings.menu != blank
+      if tc_nav_blocks > 0
+        render 'tc-mega-drawer', section: section
+      elsif section.settings.menu != blank
         render 'header-drawer'
       endif
 
@@ -195,7 +205,9 @@
     {%- endif -%}
 
     {%- liquid
-      if section.settings.menu != blank
+      if tc_nav_blocks > 0
+        render 'tc-mega-menu', section: section
+      elsif section.settings.menu != blank
         if section.settings.menu_type_desktop == 'dropdown'
           render 'header-dropdown-menu'
         elsif section.settings.menu_type_desktop != 'drawer'
@@ -470,7 +482,7 @@
 {
   "name": "t:sections.header.name",
   "class": "section-header",
-  "max_blocks": 3,
+  "max_blocks": 40,
   "settings": [
     {
       "type": "select",
@@ -654,6 +666,117 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "menu_link",
+      "name": "Nav: plain link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Examples" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "badge", "label": "Badge (optional)", "info": "Small blue chip next to the label, e.g. \"New\"" }
+      ]
+    },
+    {
+      "type": "panel_cards",
+      "name": "Nav: card panel",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Hardware" },
+        { "type": "text", "id": "badge", "label": "Badge (optional)" },
+        { "type": "text", "id": "lead", "label": "Lead line (optional)" },
+        { "type": "text", "id": "lead_sub", "label": "Lead sub-line (optional)" },
+        { "type": "paragraph", "content": "Card and card-group blocks placed AFTER this block belong to this panel." }
+      ]
+    },
+    {
+      "type": "card_group",
+      "name": "└ Card group heading",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Film transport systems" },
+        { "type": "range", "id": "span", "label": "Width (columns)", "min": 1, "max": 4, "step": 1, "default": 1, "info": "How many card columns this group spans." }
+      ]
+    },
+    {
+      "type": "card",
+      "name": "└ Card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Scan 35 mm" },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "badge", "label": "Badge (optional)", "info": "e.g. \"Coming soon\" or \"Digital\"" },
+        {
+          "type": "select",
+          "id": "badge_style",
+          "label": "Badge style",
+          "options": [
+            { "value": "accent", "label": "Accent (orange pill)" },
+            { "value": "muted", "label": "Muted (grey pill)" },
+            { "value": "digital", "label": "Digital (dark, download icon)" }
+          ],
+          "default": "accent"
+        },
+        { "type": "checkbox", "id": "show_ks_logo", "label": "Show Kickstarter logo", "default": false },
+        { "type": "checkbox", "id": "inactive", "label": "Inactive (dimmed, not clickable)", "default": false },
+        { "type": "checkbox", "id": "featured_mobile", "label": "Featured in mobile menu (full-width with caption)", "default": false }
+      ]
+    },
+    {
+      "type": "panel_feature",
+      "name": "Nav: feature panel",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Software" },
+        { "type": "text", "id": "badge", "label": "Nav badge (optional)", "default": "New" },
+        { "type": "text", "id": "title", "label": "Title", "default": "toneScan Studio" },
+        { "type": "text", "id": "title_badge", "label": "Title badge (optional)", "default": "Beta" },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "text", "id": "bullet_1", "label": "Bullet 1" },
+        { "type": "text", "id": "bullet_2", "label": "Bullet 2" },
+        { "type": "text", "id": "bullet_3", "label": "Bullet 3" },
+        { "type": "text", "id": "bullet_4", "label": "Bullet 4" },
+        { "type": "text", "id": "bullet_5", "label": "Bullet 5" },
+        { "type": "text", "id": "cta_label", "label": "Button label", "default": "Learn more" },
+        { "type": "url", "id": "cta_link", "label": "Button link" },
+        { "type": "textarea", "id": "mobile_summary", "label": "Mobile menu summary", "info": "Short description shown under the screenshot in the mobile menu." },
+        { "type": "paragraph", "content": "Slide blocks placed AFTER this block become the screenshot carousel." }
+      ]
+    },
+    {
+      "type": "slide",
+      "name": "└ Screenshot slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use the bundled toneScan hero screenshot." },
+        { "type": "text", "id": "caption", "label": "Caption" }
+      ]
+    },
+    {
+      "type": "panel_links",
+      "name": "Nav: link list panel",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Guides" },
+        { "type": "paragraph", "content": "Link item blocks placed AFTER this block belong to this panel." }
+      ]
+    },
+    {
+      "type": "link_item",
+      "name": "└ Link item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "book", "label": "Book" },
+            { "value": "play", "label": "Play" },
+            { "value": "camera", "label": "Camera" },
+            { "value": "tools", "label": "Tools" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "book"
+        },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
     }
   ]
 }

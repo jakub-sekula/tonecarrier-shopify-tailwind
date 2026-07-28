@@ -38,6 +38,302 @@
     },
     "header": {
       "type": "header",
+      "blocks": {
+        "hw_panel": {
+          "type": "panel_cards",
+          "settings": {
+            "label": "Hardware",
+            "badge": "",
+            "lead": "",
+            "lead_sub": ""
+          }
+        },
+        "hw_group_transport": {
+          "type": "card_group",
+          "settings": {
+            "heading": "Film transport systems",
+            "span": 3
+          }
+        },
+        "hw_card_35": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0549-Edit.jpg",
+            "title": "Scan 35 mm",
+            "caption": "Carriers & accessories for 135 film — full rolls or short strips.",
+            "link": "shopify://collections/35-mm-scanning",
+            "badge": "",
+            "badge_style": "accent",
+            "show_ks_logo": false,
+            "inactive": false,
+            "featured_mobile": false
+          }
+        },
+        "hw_card_120": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0422-Edit_a717fe7a-105c-4a06-95c6-b89205bf5ef5.jpg",
+            "title": "Scan 120",
+            "caption": "Medium format from 645 to 6×9, kept perfectly flat.",
+            "link": "shopify://collections/120-scanning",
+            "badge": "",
+            "badge_style": "accent",
+            "show_ks_logo": false,
+            "inactive": false,
+            "featured_mobile": false
+          }
+        },
+        "hw_card_110": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/DSCF3181-Edit.jpg",
+            "title": "Scan 110",
+            "caption": "Bring your pocket-format memories back to life.",
+            "link": "shopify://collections/110-scanning",
+            "badge": "",
+            "badge_style": "accent",
+            "show_ks_logo": false,
+            "inactive": false,
+            "featured_mobile": false
+          }
+        },
+        "hw_group_lighting": {
+          "type": "card_group",
+          "settings": {
+            "heading": "Lighting",
+            "span": 1
+          }
+        },
+        "hw_card_tonelight": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Still_2026-07-28_232546_1.10.1.jpg",
+            "title": "toneLight",
+            "caption": "Smart RGB scanning light, launching soon on Kickstarter",
+            "link": "shopify://pages/tonelight-kickstarter-pre-launch-page",
+            "badge": "Coming soon",
+            "badge_style": "muted",
+            "show_ks_logo": false,
+            "inactive": false,
+            "featured_mobile": true
+          }
+        },
+        "sw_panel": {
+          "type": "panel_feature",
+          "disabled": true,
+          "settings": {
+            "label": "Software",
+            "badge": "New",
+            "title": "toneScan Studio",
+            "title_badge": "Now in Beta",
+            "description": "Our desktop app built from the ground up for camera scanning. Accurate, intuitive, and fast enough for lab use.",
+            "bullet_1": "Beautiful colours from a physics-based engine",
+            "bullet_2": "Auto crop and rotate, batch export in seconds",
+            "bullet_3": "First class support for trichromatic RGB scans",
+            "bullet_4": "Integrates with your light source and camera",
+            "bullet_5": "",
+            "cta_label": "Learn more",
+            "cta_link": "shopify://pages/tonescan",
+            "mobile_summary": "Our desktop app built from the ground up for camera scanning. Accurate, intuitive, and fast enough for lab use."
+          }
+        },
+        "sw_slide_organise": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/organise.png",
+            "caption": "Organise — browse and rate whole rolls at a glance"
+          }
+        },
+        "sw_slide_batch": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/batch-export.png",
+            "caption": "Batch export — process entire rolls in one go"
+          }
+        },
+        "sw_slide_rgb": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/rgb-merge.png",
+            "caption": "RGB merge — first class trichromatic scanning"
+          }
+        },
+        "sw_slide_pixel": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/pixel-preview.png",
+            "caption": "Pixel preview — inspect grain at 100% before export"
+          }
+        },
+        "pf_panel": {
+          "type": "panel_cards",
+          "settings": {
+            "label": "3D print files",
+            "badge": "",
+            "lead": "If you have a 3D printer, you can easily build the toneCarrier yourself.",
+            "lead_sub": "Full print settings, build guides and parts lists are provided."
+          }
+        },
+        "pf_card_35": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Square.png",
+            "title": "Print 35 mm",
+            "caption": "STL files + printed-parts build guide.",
+            "link": "/collections/35-mm-print-files",
+            "badge": "Digital",
+            "badge_style": "digital",
+            "show_ks_logo": false,
+            "inactive": false,
+            "featured_mobile": false
+          }
+        },
+        "pf_card_120": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0422-Edit_a717fe7a-105c-4a06-95c6-b89205bf5ef5.jpg",
+            "title": "Print 120",
+            "caption": "Full medium-format carrier, printable on a 220 mm bed.",
+            "link": "/collections/120-print-files",
+            "badge": "Digital",
+            "badge_style": "digital",
+            "show_ks_logo": false,
+            "inactive": false,
+            "featured_mobile": false
+          }
+        },
+        "pf_card_110": {
+          "type": "card",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/DSCF3181-Edit.jpg",
+            "title": "Print 110",
+            "caption": "Pocket format, printable soon.",
+            "link": "",
+            "badge": "Coming soon",
+            "badge_style": "muted",
+            "show_ks_logo": false,
+            "inactive": true,
+            "featured_mobile": false
+          }
+        },
+        "pf_card_kit": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/DSCF3203.jpg",
+            "title": "Assembly hardware kits",
+            "caption": "All the hardware you need to complete your DIY build.",
+            "link": "shopify://products/tonecarrier-hardware-kit",
+            "badge": "",
+            "badge_style": "accent",
+            "show_ks_logo": false,
+            "inactive": false,
+            "featured_mobile": false
+          }
+        },
+        "gd_panel": {
+          "type": "panel_links",
+          "settings": {
+            "label": "Guides"
+          }
+        },
+        "gd_intro": {
+          "type": "link_item",
+          "settings": {
+            "icon": "book",
+            "title": "What is camera scanning?",
+            "caption": "Learn the basics of the modern way to digitize flm",
+            "link": "shopify://pages/introduction-to-camera-scanninng"
+          }
+        },
+        "gd_start": {
+          "type": "link_item",
+          "disabled": true,
+          "settings": {
+            "icon": "play",
+            "title": "Get started",
+            "caption": "Your first scanning session, step by step.",
+            "link": ""
+          }
+        },
+        "gd_gear": {
+          "type": "link_item",
+          "disabled": true,
+          "settings": {
+            "icon": "camera",
+            "title": "Gear recommendations",
+            "caption": "Proven macro lenses, lights and copy stands.",
+            "link": ""
+          }
+        },
+        "gd_build": {
+          "type": "link_item",
+          "disabled": true,
+          "settings": {
+            "icon": "tools",
+            "title": "Build guides",
+            "caption": "Step-by-step build guides for the DIY kits.",
+            "link": ""
+          }
+        },
+        "menu_link_g8Rzga": {
+          "type": "menu_link",
+          "settings": {
+            "label": "Shipping",
+            "link": "shopify://policies/shipping-policy",
+            "badge": ""
+          }
+        },
+        "ln_examples": {
+          "type": "menu_link",
+          "disabled": true,
+          "settings": {
+            "label": "Examples",
+            "link": "",
+            "badge": ""
+          }
+        },
+        "ln_reviews": {
+          "type": "menu_link",
+          "disabled": true,
+          "settings": {
+            "label": "Reviews",
+            "link": "",
+            "badge": ""
+          }
+        }
+      },
+      "block_order": [
+        "hw_panel",
+        "hw_group_transport",
+        "hw_card_35",
+        "hw_card_120",
+        "hw_card_110",
+        "hw_group_lighting",
+        "hw_card_tonelight",
+        "sw_panel",
+        "sw_slide_organise",
+        "sw_slide_batch",
+        "sw_slide_rgb",
+        "sw_slide_pixel",
+        "pf_panel",
+        "pf_card_35",
+        "pf_card_120",
+        "pf_card_110",
+        "pf_card_kit",
+        "gd_panel",
+        "gd_intro",
+        "gd_start",
+        "gd_gear",
+        "gd_build",
+        "menu_link_g8Rzga",
+        "ln_examples",
+        "ln_reviews"
+      ],
       "settings": {
         "logo_position": "middle-left",
         "menu": "main-menu",
