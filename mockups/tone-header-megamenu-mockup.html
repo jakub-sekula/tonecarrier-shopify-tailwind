@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tone — header megamenu mockup</title>
+<style>
+  /* ------- site look-alike base (Dawn + Inter) ------- */
+  :root {
+    --bg: #0d0d0d;
+    --panel-bg: #111214;
+    --panel-border: rgba(255, 255, 255, 0.09);
+    --txt: #f5f5f4;
+    --txt-dim: rgba(245, 245, 244, 0.62);
+    --accent: #f57c1f;
+    --announce: #e8442e;
+    --card-radius: 0;
+    --shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.55);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: #f6f5f3;
+    color: #121212;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
+  button { font: inherit; background: none; border: none; color: inherit; cursor: pointer; }
+
+  /* ------- mockup control bar ------- */
+  .mock-bar {
+    position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
+    z-index: 200;
+    background: rgba(255, 255, 250, 0.95);
+    border: 1.5px dashed #b3592c;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 11.5px;
+    display: flex; gap: 8px; align-items: center;
+    color: #6b3416;
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  }
+  .mock-bar strong { letter-spacing: .08em; }
+  .mock-bar button {
+    border: 1px solid #c98753; border-radius: 5px; padding: 2px 7px;
+    background: #fff; color: #6b3416; font-size: 11px;
+  }
+  .mock-bar button.active { background: #f0c9a6; }
+
+  /* ------- header ------- */
+  .site-header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg);
+    color: var(--txt);
+  }
+  .header-inner {
+    max-width: 1440px; margin: 0 auto;
+    display: flex; align-items: center; gap: 30px;
+    padding: 0 40px;
+    height: 64px;
+  }
+  .logo img { height: 30px; display: block; }
+  nav.main-nav { display: flex; align-items: center; gap: 4px; height: 100%; }
+  .nav-item { height: 100%; display: flex; align-items: center; }
+  .nav-link {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 13px;
+    font-size: 15px; font-weight: 450;
+    color: var(--txt-dim);
+    border-radius: 0;
+    transition: color .15s, background .15s;
+  }
+  .nav-item:hover > .nav-link, .nav-item.open > .nav-link { color: var(--txt); background: rgba(255,255,255,.07); }
+  .nav-badge {
+    font-size: 9.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+    color: #fff; background: #3b82f6;
+    padding: 2px 6px; margin-left: 2px;
+    position: relative; top: -1px;
+  }
+  .nav-link .caret { width: 9px; height: 9px; transition: transform .18s ease; opacity: .55; }
+  .nav-item.open .caret { transform: rotate(180deg); }
+  .header-icons { margin-left: auto; display: flex; gap: 6px; }
+  .header-icons button { padding: 9px; border-radius: 0; display: flex; }
+  .header-icons button:hover { background: rgba(255,255,255,.08); }
+  .header-icons svg { width: 21px; height: 21px; stroke: var(--txt); }
+
+  /* ------- announcement ------- */
+  .announce {
+    background: var(--announce); color: #fff;
+    text-align: center; font-size: 13.5px; font-weight: 550;
+    padding: 9px 16px; letter-spacing: .015em;
+  }
+  .announce a { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ------- shared megamenu shell: background stays, content slides ------- */
+  .mega-shell {
+    position: absolute; left: 0; right: 0; top: 100%;
+    background: var(--panel-bg);
+    border-top: 1px solid var(--panel-border);
+    border-bottom: 1px solid var(--panel-border);
+    box-shadow: var(--shadow);
+    height: 0;
+    overflow: hidden;
+    opacity: 0; visibility: hidden;
+    transition: height .3s cubic-bezier(.4, 0, .2, 1), opacity .18s ease, visibility 0s .18s;
+  }
+  .site-header.mega-open .mega-shell {
+    opacity: 1; visibility: visible;
+    transition: height .3s cubic-bezier(.4, 0, .2, 1), opacity .18s ease;
+  }
+  .mega-pane {
+    position: absolute; top: 0; left: 0; right: 0;
+    opacity: 0; pointer-events: none;
+    transition: opacity .24s ease, transform .24s ease;
+  }
+  .mega-pane.active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+  .mega-inner { max-width: 1200px; margin: 0 auto; padding: 30px 40px 32px; }
+  .mega-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .mega-head h3 { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-dim); }
+  .mega-head a { font-size: 13.5px; color: var(--accent); font-weight: 550; flex: none; }
+  .mega-head.no-title { justify-content: flex-end; margin-bottom: 14px; }
+  .mega-lead { font-size: 14.5px; color: var(--txt); }
+  .mega-lead--sub { color: var(--txt-dim); font-size: 13px; margin-top: 3px; }
+  .mega-head a:hover { text-decoration: underline; }
+
+  /* image card grid (hardware / print files) */
+  .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .group-head {
+    font-size: 12px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--txt-dim);
+    margin-bottom: -6px;
+  }
+  .mcard {
+    display: block; border-radius: var(--card-radius); overflow: hidden;
+    background: #1a1b1e; border: 1px solid var(--panel-border);
+    transition: transform .16s ease, border-color .16s ease;
+    position: relative;
+  }
+  .mcard:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.28); }
+  .mcard .thumb { aspect-ratio: 4 / 3; overflow: hidden; background: #232428; }
+  .mcard .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s ease; }
+  img.lift-dark { filter: brightness(1.8) contrast(1.05); }
+  .mcard:hover .thumb img { transform: scale(1.045); }
+  .mcard .meta { padding: 13px 15px 15px; }
+  .mcard .meta h4 { font-size: 15.5px; font-weight: 600; color: var(--txt); margin-bottom: 3px; }
+  .mcard .meta p { font-size: 12.8px; line-height: 1.45; color: var(--txt-dim); }
+  .badge {
+    position: absolute; top: 10px; left: 10px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+    background: var(--accent); color: #17130e;
+    padding: 3px 8px; border-radius: 99px;
+    z-index: 1;
+  }
+  .badge.soon { background: #3b3d42; color: #d3d4d8; }
+  .badge.digital {
+    background: #101114; color: #fff; border: 1px solid rgba(255,255,255,.28);
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .badge.digital svg { width: 11px; height: 11px; stroke: #fff; }
+  .mcard.disabled { opacity: .55; pointer-events: none; }
+  .ks-logo { height: 13px; width: auto; display: block; margin-top: 7px; }
+  .drawer .ks-logo { margin-top: 6px; }
+
+  /* software feature panel */
+  .soft-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 40px; align-items: center; }
+  .soft-panel .soft-carousel { order: 2; }
+  .soft-panel .soft-copy { order: 1; }
+  .soft-shot {
+    border-radius: var(--card-radius); overflow: hidden;
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 0 44px rgba(59, 130, 246, .30), 0 18px 40px -18px rgba(0,0,0,.7);
+    background: #000;
+  }
+  .soft-shot { position: relative; aspect-ratio: 16 / 10.3; overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .soft-shot.dragging { cursor: grabbing; }
+  .cs-track { display: flex; height: 100%; transition: transform .35s cubic-bezier(.3, 0, .2, 1); }
+  .soft-shot.dragging .cs-track { transition: none; }
+  .cs-track img.cs-slide { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; }
+  .cs-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 32px; height: 32px; border-radius: 0;
+    background: rgba(10, 10, 12, .62); color: #fff;
+    font-size: 22px; line-height: 1; display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .18s ease, background .18s ease;
+    z-index: 2;
+  }
+  .cs-prev { left: 10px; }
+  .cs-next { right: 10px; }
+  .soft-shot:hover .cs-arrow { opacity: 1; }
+  .cs-arrow:hover { background: rgba(10, 10, 12, .85); }
+  .cs-caption {
+    margin-top: 12px; text-align: center;
+    font-size: 13px; color: var(--txt-dim);
+    transition: opacity .3s ease;
+  }
+  .cs-dots { display: flex; gap: 7px; justify-content: center; margin-top: 10px; }
+  .cs-dots button {
+    width: 6px; height: 6px; border-radius: 99px;
+    background: rgba(255,255,255,.22); transition: background .2s, width .2s;
+    padding: 0;
+  }
+  .cs-dots button.active { background: #60a5fa; width: 18px; }
+  .beta-badge {
+    display: inline-block; vertical-align: 4px; margin-left: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+    color: #fff; background: #3b82f6;
+    padding: 3px 8px;
+  }
+  .drawer .beta-badge { font-size: 9.5px; vertical-align: 2px; padding: 2px 6px; }
+  .platforms {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: rgba(245, 245, 244, 0.38);
+    margin-bottom: 10px;
+  }
+  .platforms svg { width: 13px; height: 13px; fill: currentColor; }
+  .soft-copy h4 { font-size: 26px; font-weight: 650; color: var(--txt); letter-spacing: -.01em; margin-bottom: 8px; }
+  .soft-copy > p { font-size: 14.5px; line-height: 1.55; color: var(--txt-dim); margin-bottom: 16px; }
+  .soft-feats { display: grid; gap: 9px; margin-bottom: 20px; }
+  .soft-feats li { display: flex; gap: 9px; align-items: flex-start; font-size: 14px; color: var(--txt); }
+  .soft-feats svg { width: 16px; height: 16px; stroke: #60a5fa; flex: none; margin-top: 2px; }
+  .btn-row { display: flex; gap: 12px; align-items: center; }
+  .btn-primary {
+    display: inline-block; background: var(--accent); color: #17130e;
+    font-size: 14.5px; font-weight: 650; padding: 11px 22px; border-radius: 0;
+  }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-blue { background: #3b82f6; color: #fff; }
+  .btn-ghost { font-size: 14px; color: var(--txt-dim); }
+  .btn-ghost:hover { color: var(--txt); }
+
+  /* guides panel */
+  .guides-panel { display: block; max-width: 860px; }
+  .guide-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; }
+  .guide-item {
+    display: flex; gap: 14px; padding: 13px 14px; border-radius: 0;
+    transition: background .14s;
+  }
+  .guide-item:hover { background: rgba(255,255,255,.06); }
+  .guide-item .g-icon {
+    flex: none; width: 38px; height: 38px; border-radius: 0;
+    background: rgba(245, 124, 31, .13); border: 1px solid rgba(245, 124, 31, .25);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .guide-item .g-icon svg { width: 18px; height: 18px; stroke: var(--accent); }
+  .guide-item h4 { font-size: 14.5px; font-weight: 600; color: var(--txt); margin-bottom: 2px; display: flex; gap: 8px; align-items: center; }
+  .guide-item p { font-size: 12.5px; line-height: 1.45; color: var(--txt-dim); }
+  
+  .guides-promo {
+    border-radius: var(--card-radius); border: 1px solid var(--panel-border);
+    background: linear-gradient(140deg, #1c1d21 0%, #141519 100%);
+    padding: 22px 24px; display: flex; flex-direction: column; justify-content: center; gap: 8px;
+  }
+  .guides-promo h5 { font-size: 15.5px; font-weight: 650; color: var(--txt); }
+  .guides-promo p { font-size: 13px; line-height: 1.5; color: var(--txt-dim); }
+  .guides-promo a { font-size: 13.5px; color: var(--accent); font-weight: 600; margin-top: 4px; }
+  .guides-promo a:hover { text-decoration: underline; }
+
+  /* ------- fake page under header ------- */
+  .fake-hero {
+    min-height: 90vh; display: flex; align-items: center; justify-content: center;
+    background:
+      radial-gradient(1200px 500px at 50% -10%, rgba(245, 124, 31, .08), transparent 60%),
+      #101010;
+    color: #fff; text-align: center; padding: 60px 20px;
+  }
+  .fake-hero h1 { font-size: clamp(30px, 5vw, 56px); font-weight: 650; letter-spacing: -.02em; line-height: 1.12; }
+  .fake-hero h1 span { background: linear-gradient(90deg, #f5a623, #ef6c4d); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .fake-hero p { margin-top: 16px; color: rgba(255,255,255,.65); font-size: 16px; }
+
+  /* ------- mobile drawer ------- */
+  .burger { display: none; }
+  @media (max-width: 920px) {
+    .header-inner { padding: 0 16px; gap: 14px; height: 58px; }
+    nav.main-nav { display: none; }
+    .mega-shell { display: none; }
+    .burger { display: flex; padding: 9px; border-radius: 0; }
+    .burger svg { width: 22px; height: 22px; stroke: var(--txt); }
+    .logo { position: absolute; left: 50%; transform: translateX(-50%); }
+    .logo img { height: 26px; }
+  }
+  .drawer-scrim {
+    position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 110;
+    opacity: 0; visibility: hidden; transition: opacity .2s;
+  }
+  .drawer {
+    position: fixed; top: 0; bottom: 0; left: 0; width: min(88vw, 360px); z-index: 120;
+    background: var(--panel-bg); color: var(--txt);
+    transform: translateX(-102%); transition: transform .24s ease;
+    display: flex; flex-direction: column; overflow-y: auto;
+  }
+  body.drawer-open .drawer { transform: translateX(0); }
+  body.drawer-open .drawer-scrim { opacity: 1; visibility: visible; }
+  .drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--panel-border); }
+  .drawer-head img { height: 24px; }
+  .drawer-head button svg { width: 20px; height: 20px; stroke: var(--txt); }
+  .drawer-group { border-bottom: 1px solid var(--panel-border); }
+  .drawer-group > button {
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    padding: 15px 18px; font-size: 15.5px; font-weight: 550; color: var(--txt);
+  }
+  .drawer-group > button .caret { width: 10px; height: 10px; opacity: .5; transition: transform .18s; }
+  .drawer-group.open > button .caret { transform: rotate(180deg); }
+  .drawer-sub { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .22s ease; }
+  .drawer-group.open .drawer-sub { grid-template-rows: 1fr; }
+  .drawer-sub > div { overflow: hidden; }
+  .drawer-sub a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 18px 10px 26px; font-size: 14.5px; color: var(--txt-dim);
+  }
+  .drawer-sub a:hover { color: var(--txt); }
+  .drawer-sub .d-thumb { width: 44px; height: 34px; border-radius: 0; object-fit: cover; flex: none; border: 1px solid var(--panel-border); }
+  .drawer-sub .d-cap { display: block; font-size: 11.5px; color: var(--txt-dim); margin-top: 2px; line-height: 1.4; }
+  .drawer-sub .d-feature { display: block; padding: 12px 18px 14px 26px; }
+  .drawer-sub .d-feature img {
+    width: 100%; display: block; border-radius: 0;
+    border: 1px solid var(--panel-border); margin-bottom: 10px;
+    box-shadow: 0 0 24px rgba(59, 130, 246, .22);
+  }
+  .drawer-sub .d-feature .d-title { display: block; font-size: 15px; }
+  .drawer-sub .d-feature--plain img { box-shadow: none; }
+  .drawer-sub .d-title { color: var(--txt); font-weight: 550; }
+  .drawer-sub .pad-b { height: 10px; }
+</style>
+</head>
+<body>
+
+<div class="mock-bar">
+  <strong>MOCKUP</strong>
+  <button data-open="hardware">hardware</button>
+  <button data-open="software">software</button>
+  <button data-open="print">print files</button>
+  <button data-open="guides">guides</button>
+  <button id="mockAnnounce" class="active">announce bar</button>
+  <a href="#" id="mockReset" style="text-decoration:underline">reset</a>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <button class="burger" id="burgerBtn" aria-label="Menu">
+      <svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+    </button>
+
+    <a class="logo" href="#"><img src="https://tonephotographic.com/cdn/shop/files/tone-logo-white.png" alt="tone"></a>
+
+    <nav class="main-nav" aria-label="Main">
+      <div class="nav-item" data-menu="hardware">
+        <a class="nav-link" href="#">Hardware
+          <svg class="caret" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+        </a>
+      </div>
+      <div class="nav-item" data-menu="software">
+        <a class="nav-link" href="#">Software
+          <span class="nav-badge">New</span>
+          <svg class="caret" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+        </a>
+      </div>
+      <div class="nav-item" data-menu="print">
+        <a class="nav-link" href="#">3D print files
+          <svg class="caret" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+        </a>
+      </div>
+      <div class="nav-item" data-menu="guides">
+        <a class="nav-link" href="#">Guides
+          <svg class="caret" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+        </a>
+      </div>
+      <div class="nav-item"><a class="nav-link" href="#">Examples</a></div>
+      <div class="nav-item"><a class="nav-link" href="#">Reviews</a></div>
+    </nav>
+
+    <div class="header-icons">
+      <button aria-label="Search"><svg fill="none" stroke-width="1.7" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg></button>
+      <button aria-label="Account"><svg fill="none" stroke-width="1.7" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg></button>
+      <button aria-label="Cart"><svg fill="none" stroke-width="1.7" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></svg></button>
+    </div>
+  </div>
+
+  <!-- single shared panel: background/borders live here and never blink -->
+  <div class="mega-shell" id="megaShell">
+    <div class="mega-pane" data-pane="hardware" role="region" aria-label="Scanning hardware">
+      <div class="mega-inner">
+        <div class="card-grid">
+          <h3 class="group-head" style="grid-column: span 3;">Film transport systems</h3>
+          <h3 class="group-head">Lighting</h3>
+          <a class="mcard" href="#">
+            <div class="thumb"><img src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0549-Edit.jpg?v=1727906158&width=600" alt=""></div>
+            <div class="meta"><h4>Scan 35 mm</h4><p>Carriers &amp; accessories for 135 film — full rolls or short strips.</p></div>
+          </a>
+          <a class="mcard" href="#">
+            <div class="thumb"><img src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0422-Edit_a717fe7a-105c-4a06-95c6-b89205bf5ef5.jpg?v=1727897298&width=600" alt=""></div>
+            <div class="meta"><h4>Scan 120</h4><p>Medium format from 645 to 6x9, kept perfectly flat.</p></div>
+          </a>
+          <a class="mcard" href="#">
+            <div class="thumb"><img src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF3181-Edit.jpg?v=1729210895&width=600" alt=""></div>
+            <div class="meta"><h4>Scan 110</h4><p>Bring your pocket-format memories back to life.</p></div>
+          </a>
+          <a class="mcard" href="#">
+            <span class="badge">Coming soon</span>
+            <div class="thumb"><img src="https://tonephotographic.com/cdn/shop/files/preview_images/3cf4f2b9a1e647b0af03b88868030e86.thumbnail.0000000000.jpg?width=600" alt=""></div>
+            <div class="meta"><h4>toneLight</h4><p>Smart RGB scanning light, launching soon on</p>
+              <img class="ks-logo" src="tone-header-kickstarter-logo.svg" alt="Kickstarter"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mega-pane" data-pane="software" role="region" aria-label="Software">
+      <div class="mega-inner">
+        <div class="soft-panel">
+          <div class="soft-carousel" id="softCarousel">
+                <div class="soft-shot">
+                  <div class="cs-track" id="csTrack">
+                    <img class="cs-slide" src="tone-header-tonescan-hero.png" alt="">
+                    <img class="cs-slide" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png?width=900" alt="">
+                    <img class="cs-slide" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png?width=900" alt="">
+                    <img class="cs-slide" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png?width=900" alt="">
+                    <img class="cs-slide" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png?width=900" alt="">
+                  </div>
+                  <button class="cs-arrow cs-prev" aria-label="Previous">&#8249;</button>
+                  <button class="cs-arrow cs-next" aria-label="Next">&#8250;</button>
+                </div>
+                <p class="cs-caption" id="csCaption">Develop — one-click conversions with full manual control</p>
+                <div class="cs-dots" id="csDots"></div>
+              </div>
+          <div class="soft-copy">
+                <h4>toneScan Studio <span class="beta-badge">Beta</span></h4>
+            <p>Our desktop app built from the ground up for camera scanning. Accurate, intuitive, and fast enough for lab use.</p>
+            <ul class="soft-feats">
+              <li><svg fill="none" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Beautiful colours from a physics-based engine</li>
+              <li><svg fill="none" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Auto crop and rotate, batch export in seconds</li>
+              <li><svg fill="none" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>First class support for trichromatic RGB scans</li>
+              <li><svg fill="none" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Integrates with your light source and camera</li>
+            </ul>
+            <div class="btn-row">
+                  <a class="btn-primary btn-blue" href="#">Learn more</a>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mega-pane" data-pane="print" role="region" aria-label="3D print files">
+      <div class="mega-inner">
+        <div class="mega-head">
+          <div>
+            <p class="mega-lead">If you have a 3D printer, you can easily build the toneCarrier yourself.</p>
+            <p class="mega-lead mega-lead--sub">Full print settings, build guides and parts lists are provided.</p>
+          </div>
+          <a href="#">All STL files &rarr;</a>
+        </div>
+        <div class="card-grid">
+          <a class="mcard" href="#">
+            <span class="badge digital"><svg fill="none" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>Digital</span>
+            <div class="thumb"><img src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/Square.png?v=1726762973&width=600" alt=""></div>
+            <div class="meta"><h4>Print 35 mm</h4><p>STL files + printed-parts build guide.</p></div>
+          </a>
+          <a class="mcard" href="#">
+            <span class="badge digital"><svg fill="none" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>Digital</span>
+            <div class="thumb"><img src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0422-Edit_a717fe7a-105c-4a06-95c6-b89205bf5ef5.jpg?v=1727897298&width=600" alt=""></div>
+            <div class="meta"><h4>Print 120</h4><p>Full medium-format carrier, printable on a 220 mm bed.</p></div>
+          </a>
+          <a class="mcard disabled" href="#">
+            <span class="badge soon">Coming soon</span>
+            <div class="thumb"><img src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF3181-Edit.jpg?v=1729210895&width=600" alt=""></div>
+            <div class="meta"><h4>Print 110</h4><p>Pocket format, printable soon.</p></div>
+          </a>
+          <a class="mcard" href="#">
+            <div class="thumb"><img src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF3203.jpg?v=1729289845&width=600" alt=""></div>
+            <div class="meta"><h4>Assembly hardware kits</h4><p>All the hardware you need to complete your DIY build.</p></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mega-pane" data-pane="guides" role="region" aria-label="Guides">
+      <div class="mega-inner">
+        <div class="guides-panel">
+          <div class="guide-list">
+            <a class="guide-item" href="#">
+              <span class="g-icon"><svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg></span>
+              <div><h4>What is camera scanning?</h4><p>The modern way to digitize film, explained from scratch.</p></div>
+            </a>
+            <a class="guide-item" href="#">
+              <span class="g-icon"><svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"/></svg></span>
+              <div><h4>Get started</h4><p>Your first scanning session, step by step.</p></div>
+            </a>
+            <a class="guide-item" href="#">
+              <span class="g-icon"><svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"/></svg></span>
+              <div><h4>Gear recommendations</h4><p>Proven macro lenses, lights and copy stands.</p></div>
+            </a>
+            <a class="guide-item" href="#">
+              <span class="g-icon"><svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085"/></svg></span>
+              <div><h4>Build guides</h4><p>Step-by-step build guides for the DIY kits.</p></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="announce" id="announceBar">View demo of our upcoming RGB scanning light and motorized carrier! <a href="#">See toneLight &rarr;</a></div>
+
+<main>
+  <section class="fake-hero">
+    <div>
+      <h1>The easy way to digitize<br><span>your film memories</span></h1>
+      <p>(page content below the header — for context only)</p>
+    </div>
+  </section>
+</main>
+
+<!-- mobile drawer -->
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="drawer" id="drawer" aria-label="Mobile menu">
+  <div class="drawer-head">
+    <img src="https://tonephotographic.com/cdn/shop/files/tone-logo-white.png" alt="tone">
+    <button id="drawerClose" aria-label="Close"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg></button>
+  </div>
+  <div class="drawer-group">
+    <button>Hardware <svg class="caret" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg></button>
+    <div class="drawer-sub"><div>
+      <a href="#"><img class="d-thumb" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0549-Edit.jpg?v=1727906158&width=200" alt="">Scan 35 mm</a>
+      <a href="#"><img class="d-thumb" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0422-Edit_a717fe7a-105c-4a06-95c6-b89205bf5ef5.jpg?v=1727897298&width=200" alt="">Scan 120</a>
+      <a href="#"><img class="d-thumb" src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF3181-Edit.jpg?v=1729210895&width=200" alt="">Scan 110</a>
+      <a href="#" class="d-feature d-feature--plain"><img src="https://tonephotographic.com/cdn/shop/files/preview_images/3cf4f2b9a1e647b0af03b88868030e86.thumbnail.0000000000.jpg?width=600" alt="toneLight"><span class="d-title">toneLight</span><span class="d-cap">Smart RGB scanning light — launching soon on</span><img class="ks-logo" src="tone-header-kickstarter-logo.svg" alt="Kickstarter"></a>
+      <div class="pad-b"></div>
+    </div></div>
+  </div>
+  <div class="drawer-group">
+    <button><span>Software <span class="nav-badge">New</span></span> <svg class="caret" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg></button>
+    <div class="drawer-sub"><div>
+      <a href="#" class="d-feature"><img src="tone-header-tonescan-hero.png" alt="toneScan Studio"><span class="d-title">toneScan Studio <span class="beta-badge">Beta</span></span><span class="d-cap">Desktop film scanning app. Fast, intuitive conversion with beautiful colours, first class trichromatic RGB support, and light + camera integration.</span></a>
+      <div class="pad-b"></div>
+    </div></div>
+  </div>
+  <div class="drawer-group">
+    <button>3D print files <svg class="caret" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg></button>
+    <div class="drawer-sub"><div>
+      <a href="#">Print 35 mm</a>
+      <a href="#">Print 120</a>
+      <a href="#">Print 110 (coming soon)</a>
+      <a href="#">Assembly hardware kits</a>
+      <div class="pad-b"></div>
+    </div></div>
+  </div>
+  <div class="drawer-group">
+    <button>Guides <svg class="caret" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg></button>
+    <div class="drawer-sub"><div>
+      <a href="#">What is camera scanning?</a>
+      <a href="#">Get started</a>
+      <a href="#">Gear recommendations</a>
+      <a href="#">Assembly guides</a>
+      <div class="pad-b"></div>
+    </div></div>
+  </div>
+  <div class="drawer-group"><button>Examples</button></div>
+  <div class="drawer-group"><button>Reviews</button></div>
+</aside>
+
+<script>
+  // ---- shared-shell megamenu: bg stays put, panes slide horizontally ----
+  const header = document.getElementById('siteHeader');
+  const shell = document.getElementById('megaShell');
+  const order = ['hardware', 'software', 'print', 'guides'];
+  const navItems = {};
+  order.forEach(k => { navItems[k] = document.querySelector(`.nav-item[data-menu="${k}"]`); });
+  let current = null;
+  let closeTimer = null;
+
+  function pane(key) { return shell.querySelector(`.mega-pane[data-pane="${key}"]`); }
+
+  function openPane(key) {
+    clearTimeout(closeTimer);
+    if (current === key) return;
+    const next = pane(key);
+    const prevKey = current;
+    current = key;
+
+    Object.entries(navItems).forEach(([k, el]) => el.classList.toggle('open', k === key));
+    header.classList.add('mega-open');
+
+    if (prevKey) {
+      // slide: bg shell stays, outgoing pane exits one way, incoming enters from the other
+      const prev = pane(prevKey);
+      const dir = order.indexOf(key) > order.indexOf(prevKey) ? 1 : -1;
+      prev.classList.remove('active');
+      prev.style.transform = `translateX(${-42 * dir}px)`;
+
+      next.style.transition = 'none';
+      next.style.transform = `translateX(${42 * dir}px)`;
+      void next.offsetWidth; // reflow so the entry position applies before animating
+      next.style.transition = '';
+      next.classList.add('active');
+      next.style.transform = '';
+    } else {
+      next.classList.add('active');
+      next.style.transform = '';
+    }
+    shell.style.height = next.offsetHeight + 'px';
+  }
+
+  function closeAll() {
+    if (!current) return;
+    pane(current).classList.remove('active');
+    Object.values(navItems).forEach(el => el.classList.remove('open'));
+    header.classList.remove('mega-open');
+    shell.style.height = '0px';
+    current = null;
+  }
+
+  function scheduleClose() {
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(closeAll, 160);
+  }
+
+  order.forEach(key => {
+    const item = navItems[key];
+    item.addEventListener('mouseenter', () => openPane(key));
+    item.addEventListener('mouseleave', scheduleClose);
+    item.querySelector('.nav-link').addEventListener('click', e => {
+      e.preventDefault();
+      current === key ? closeAll() : openPane(key);
+    });
+  });
+  shell.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+  shell.addEventListener('mouseleave', scheduleClose);
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAll(); document.body.classList.remove('drawer-open'); } });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.nav-item') && !e.target.closest('.mega-shell') && !e.target.closest('.mock-bar')) closeAll();
+  });
+  // keep the open pane's height honest if the viewport changes
+  window.addEventListener('resize', () => { if (current) shell.style.height = pane(current).offsetHeight + 'px'; });
+
+  // ---- tonescan screenshot slider ----
+  const csCaptions = [
+    'Develop — one-click conversions with full manual control',
+    'Organise — browse and rate whole rolls at a glance',
+    'Batch export — process entire rolls in one go',
+    'RGB merge — first-class trichromatic scanning workflow',
+    'Pixel preview — inspect grain at 100% before export',
+  ];
+  const csRoot = document.getElementById('softCarousel');
+  const csShot = csRoot.querySelector('.soft-shot');
+  const csTrack = document.getElementById('csTrack');
+  const csSlides = csTrack.querySelectorAll('.cs-slide');
+  const csCaption = document.getElementById('csCaption');
+  const csDots = document.getElementById('csDots');
+  let csIdx = 0, csTimer = null;
+  csSlides.forEach((img, i) => {
+    img.draggable = false;
+    const d = document.createElement('button');
+    d.addEventListener('click', () => { csGo(i); csRestart(); });
+    csDots.appendChild(d);
+  });
+  function csGo(i) {
+    csIdx = (i + csSlides.length) % csSlides.length;
+    csTrack.style.transform = `translateX(${-csIdx * 100}%)`;
+    csDots.querySelectorAll('button').forEach((el, n) => el.classList.toggle('active', n === csIdx));
+    csCaption.style.opacity = '0';
+    setTimeout(() => { csCaption.textContent = csCaptions[csIdx]; csCaption.style.opacity = '1'; }, 160);
+  }
+  function csRestart() {
+    clearInterval(csTimer);
+    csTimer = setInterval(() => csGo(csIdx + 1), 4000);
+  }
+  csRoot.querySelector('.cs-prev').addEventListener('click', () => { csGo(csIdx - 1); csRestart(); });
+  csRoot.querySelector('.cs-next').addEventListener('click', () => { csGo(csIdx + 1); csRestart(); });
+  csRoot.addEventListener('mouseenter', () => clearInterval(csTimer));
+  csRoot.addEventListener('mouseleave', csRestart);
+  csGo(0); csRestart();
+  // drag like a real slider: track follows the pointer, snaps on release
+  let csDragX = null, csDx = 0;
+  csShot.addEventListener('pointerdown', e => {
+    if (e.target.closest('.cs-arrow')) return;
+    csDragX = e.clientX; csDx = 0;
+    csShot.classList.add('dragging');
+    csShot.setPointerCapture(e.pointerId);
+    clearInterval(csTimer);
+  });
+  csShot.addEventListener('pointermove', e => {
+    if (csDragX === null) return;
+    csDx = e.clientX - csDragX;
+    csTrack.style.transform = `translateX(calc(${-csIdx * 100}% + ${csDx}px))`;
+  });
+  function csEndDrag() {
+    if (csDragX === null) return;
+    csShot.classList.remove('dragging');
+    const w = csShot.clientWidth;
+    if (Math.abs(csDx) > w * 0.15) csGo(csIdx + (csDx < 0 ? 1 : -1));
+    else csGo(csIdx);
+    csDragX = null;
+    csRestart();
+  }
+  csShot.addEventListener('pointerup', csEndDrag);
+  csShot.addEventListener('pointercancel', csEndDrag);
+
+  // ---- mockup bar ----
+  document.querySelectorAll('.mock-bar [data-open]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      current === btn.dataset.open ? closeAll() : openPane(btn.dataset.open);
+    });
+  });
+  document.getElementById('mockAnnounce').addEventListener('click', e => {
+    const bar = document.getElementById('announceBar');
+    const hidden = bar.style.display === 'none';
+    bar.style.display = hidden ? '' : 'none';
+    e.target.classList.toggle('active', hidden);
+  });
+  document.getElementById('mockReset').addEventListener('click', e => { e.preventDefault(); location.reload(); });
+
+  // ---- mobile drawer ----
+  document.getElementById('burgerBtn').addEventListener('click', () => document.body.classList.add('drawer-open'));
+  document.getElementById('drawerClose').addEventListener('click', () => document.body.classList.remove('drawer-open'));
+  document.getElementById('drawerScrim').addEventListener('click', () => document.body.classList.remove('drawer-open'));
+  document.querySelectorAll('.drawer-group > button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const g = btn.parentElement;
+      if (!g.querySelector('.drawer-sub')) return;
+      g.classList.toggle('open');
+    });
+  });
+</script>
+</body>
+</html>

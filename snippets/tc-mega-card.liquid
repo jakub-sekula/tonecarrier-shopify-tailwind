@@ -1,0 +1,39 @@
+{% comment %}
+  tc-mega-card — one image card inside a tc-mega-menu card panel.
+  Accepts:
+  - block: {Object} a 'card' block
+  - dl_icon: {String} download icon svg for the "digital" badge style
+{% endcomment %}
+
+{%- liquid
+  assign tc_tag = 'a'
+  if block.settings.inactive or block.settings.link == blank
+    assign tc_tag = 'div'
+  endif
+-%}
+<{{ tc_tag }}
+  class="tc-card{% if block.settings.inactive %} tc-card--inactive{% endif %}"
+  {% if tc_tag == 'a' %}href="{{ block.settings.link }}"{% endif %}
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.badge != blank -%}
+    <span class="tc-badge tc-badge--{{ block.settings.badge_style }}">
+      {%- if block.settings.badge_style == 'digital' -%}{{ dl_icon }}{%- endif -%}
+      {{ block.settings.badge | escape }}
+    </span>
+  {%- endif -%}
+  <div class="tc-card__thumb">
+    {%- if block.settings.image -%}
+      {{ block.settings.image | image_url: width: 900 | image_tag: widths: '400, 600, 900', sizes: '(min-width: 990px) 300px, 50vw', loading: 'lazy', alt: block.settings.title }}
+    {%- else -%}
+      <div class="tc-card__img--empty"></div>
+    {%- endif -%}
+  </div>
+  <div class="tc-card__meta">
+    <span class="tc-card__title">{{ block.settings.title | escape }}</span>
+    <p class="tc-card__caption">{{ block.settings.caption | escape }}</p>
+    {%- if block.settings.show_ks_logo -%}
+      <img class="tc-card__ks" src="{{ 'kickstarter-logo.svg' | asset_url }}" alt="Kickstarter" loading="lazy" width="252" height="26">
+    {%- endif -%}
+  </div>
+</{{ tc_tag }}>
