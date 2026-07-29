@@ -1,192 +1,202 @@
 {
   "sections": {
-    "banner": {
-      "type": "main-collection-banner",
+    "hero": {
+      "type": "tc-pf-hero",
       "settings": {
-        "show_collection_description": true,
-        "show_collection_image": false,
-        "color_scheme": "scheme-1"
+        "caption": "Print the toneCarrier at home",
+        "heading": "120 Print Files",
+        "text": "<p>If you have a 3D printer, you can easily build the toneCarrier 120 yourself. Full print settings, build guides and parts lists are provided with every download.</p>",
+        "bundle_badge": "Save 14%",
+        "bundle_text": "The Scanning Kit bundle includes the carrier and every accessory below for \u00a354.99 \u2014 less than buying the files individually.",
+        "cross_label": "Looking to scan 35 mm instead?",
+        "cross_link": "/collections/35-mm-print-files",
+        "bundle_product": "tonecarrier-120-scanning-kit-stl-only",
+        "savings_badge": "Bundle \u2014 save \u00a38.96",
+        "reviews_heading": "",
+        "autoplay_seconds": 6,
+        "load_live": true,
+        "review_product": "tonecarrier-120",
+        "review_product_2": "tonecarrier-120-holder-only",
+        "show_photos": true,
+        "min_stars": 4,
+        "reviews_link": "/products/tonecarrier-120-stl",
+        "review_product_3": "tonecarrier-35-mm",
+        "review_product_4": "tonecarrier-35-mm-holder-only"
       }
     },
-    "intro": {
-      "type": "rich-text",
+    "grid": {
+      "type": "tc-pf-grid",
+      "settings": {
+        "heading": "Individual print files",
+        "products_to_show": 12,
+        "skip_first": true
+      }
+    },
+    "hardware_kit": {
+      "type": "tc-pf-kit",
+      "settings": {
+        "heading": "Complete your build",
+        "text": "Printed parts are only half the story \u2014 the assembly hardware kit has all the screws, rollers and metal hardware you need to finish your DIY build, ready to ship worldwide.",
+        "product": "tonecarrier-hardware-kit"
+      }
+    },
+    "sample_scans": {
+      "type": "sample-scan",
       "blocks": {
-        "caption": {
+        "caption_QbEeLW": {
           "type": "caption",
           "settings": {
-            "caption": "Print the toneCarrier at home",
+            "caption": "Sample scans",
             "text_style": "caption-with-letter-spacing",
             "text_size": "medium"
           }
         },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>If you have a 3D printer, you can easily build the toneCarrier 120 yourself. Full print settings, build guides and parts lists are provided with every download.</p><p><strong>Save with the bundle:</strong> the Scanning Kit includes the carrier and every accessory below for £54.99 — around 14% less than buying the files individually.</p>"
-          }
-        },
-        "button": {
-          "type": "button",
-          "settings": {
-            "button_label": "Printing for 35 mm film instead?",
-            "button_link": "/collections/35-mm-print-files",
-            "button_style_secondary": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": ["caption", "text", "button"],
-      "settings": {
-        "desktop_content_position": "left",
-        "content_alignment": "left",
-        "color_scheme": "scheme-1",
-        "full_width": true,
-        "padding_top": 24,
-        "padding_bottom": 8
-      }
-    },
-    "product_grid": {
-      "type": "main-collection-product-grid",
-      "settings": {
-        "products_per_page": 12,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "standard",
-        "enable_filtering": false,
-        "filter_type": "horizontal",
-        "enable_sorting": false,
-        "columns_mobile": "2",
-        "padding_top": 16,
-        "padding_bottom": 24
-      }
-    },
-    "hardware_intro": {
-      "type": "rich-text",
-      "blocks": {
-        "heading": {
+        "heading_qtaYNL": {
           "type": "heading",
           "settings": {
-            "heading": "Complete your build",
-            "heading_size": "h2"
+            "heading": "Capture every detail",
+            "heading_size": "h1"
           }
         },
-        "text": {
+        "text_yywqAL": {
           "type": "text",
           "settings": {
-            "text": "<p>Printed parts are only half the story — the assembly hardware kit has all the screws, rollers and metal hardware you need to finish your DIY build, ready to ship worldwide.</p>"
+            "text": "<p>Every print file is the same design we ship \u2014 here's what it scans like. Click or tap any image to zoom in and view the film grain.</p>"
+          }
+        },
+        "image_jiPpg4": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0210.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0210-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "",
+            "film_format": "",
+            "raw_download_url": ""
+          }
+        },
+        "image_TbQebX": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0509.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0509-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "",
+            "film_format": "",
+            "raw_download_url": ""
+          }
+        },
+        "image_Kx6XCj": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0312.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0312-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Colorplus 200",
+            "shot_on": "",
+            "film_format": "",
+            "raw_download_url": ""
+          }
+        },
+        "image_tm4y3y": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0514.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0514-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Lomography Color Negative 800",
+            "shot_on": "",
+            "film_format": "",
+            "raw_download_url": ""
           }
         }
       },
-      "block_order": ["heading", "text"],
+      "block_order": [
+        "caption_QbEeLW",
+        "heading_qtaYNL",
+        "text_yywqAL",
+        "image_jiPpg4",
+        "image_TbQebX",
+        "image_Kx6XCj",
+        "image_tm4y3y"
+      ],
       "settings": {
-        "desktop_content_position": "left",
-        "content_alignment": "left",
+        "content_alignment": "center",
+        "background_color": "",
         "color_scheme": "scheme-1",
-        "full_width": true,
-        "padding_top": 24,
-        "padding_bottom": 0
-      }
-    },
-    "hardware_kit": {
-      "type": "featured-product",
-      "blocks": {
-        "title": {
-          "type": "title",
-          "settings": {
-            "heading_size": "h2"
-          }
-        },
-        "price": {
-          "type": "price",
-          "settings": {}
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": false,
-            "show_gift_card_recipient": false
-          }
-        }
-      },
-      "block_order": ["title", "price", "variant_picker", "buy_buttons"],
-      "settings": {
-        "product": "tonecarrier-hardware-kit",
-        "color_scheme": "scheme-1",
-        "secondary_background": false,
-        "media_size": "small",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": false,
-        "enable_video_looping": false,
-        "padding_top": 8,
-        "padding_bottom": 24
+        "color_scheme_dark": "",
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "content_height": 700
       }
     },
     "manuals": {
-      "type": "multicolumn",
+      "type": "image-with-text",
       "blocks": {
-        "col_build": {
-          "type": "column",
+        "heading_azKE9y": {
+          "type": "heading",
           "settings": {
-            "title": "Build guide",
-            "text": "<p>Step-by-step assembly instructions with photos, included with your download.</p>",
-            "link_label": "",
-            "link": ""
+            "heading": "High quality manuals included",
+            "heading_size": "h2"
           }
         },
-        "col_print": {
-          "type": "column",
+        "text_RiNWVP": {
+          "type": "text",
           "settings": {
-            "title": "Print settings",
-            "text": "<p>Tested slicer profiles and material recommendations for reliable prints.</p>",
-            "link_label": "",
-            "link": ""
+            "text": "<p>Detailed, illustrated printing and assembly instructions will make the process quick and easy even for 3D printing beginners.</p>",
+            "text_style": "body"
           }
         },
-        "col_help": {
-          "type": "column",
+        "button_MnE3pA": {
+          "type": "button",
           "settings": {
-            "title": "Stuck on something?",
-            "text": "<p>We're happy to help with printing or assembly questions.</p>",
-            "link_label": "Contact us",
-            "link": "/policies/contact-information"
+            "button_label": "View sample",
+            "button_link": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/toneCarrier_manual_sample.pdf?v=1729363691",
+            "button_style_secondary": false
           }
         }
       },
-      "block_order": ["col_build", "col_print", "col_help"],
+      "block_order": [
+        "heading_azKE9y",
+        "text_RiNWVP",
+        "button_MnE3pA"
+      ],
       "settings": {
-        "title": "Manuals & guides",
-        "heading_size": "h2",
-        "image_width": "third",
-        "image_ratio": "adapt",
-        "columns_desktop": 3,
-        "column_alignment": "left",
-        "background_style": "primary",
-        "button_label": "",
-        "button_link": "",
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 24,
+        "image": "shopify://shop_images/Manual_mockup.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-4",
+        "color_scheme": "scheme-3",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "padding_top": 36,
         "padding_bottom": 36
       }
     }
   },
-  "order": ["banner", "intro", "product_grid", "hardware_intro", "hardware_kit", "manuals"]
+  "order": [
+    "hero",
+    "grid",
+    "sample_scans",
+    "manuals",
+    "hardware_kit"
+  ]
 }
