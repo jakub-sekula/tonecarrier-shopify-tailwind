@@ -1,0 +1,227 @@
+{% comment %}
+  tc-pf-review-carousel — one review at a time, sliding + fading between them.
+
+  Blocks of type "review" on the calling section render server-side (SEO +
+  no-JS fallback). When live loading is on, the latest Judge.me reviews for
+  the chosen products replace them, including customer photos.
+
+  Accepts (all from section.settings of the caller):
+  - heading, load_live, review_product, review_product_2, show_photos,
+    min_stars, autoplay_seconds
+{% endcomment %}
+
+{%- capture tc_star -%}
+  <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L10 14.9l-5.3 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z"/></svg>
+{%- endcapture -%}
+
+{%- capture tc_arrow -%}
+  <svg class="tc-pf-rev__cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H18v4.5M17.5 6.5 11 13M16 14v3.5A1.5 1.5 0 0 1 14.5 19h-8A1.5 1.5 0 0 1 5 17.5v-8A1.5 1.5 0 0 1 6.5 8H10"/></svg>
+{%- endcapture -%}
+
+{%- liquid
+  assign review_blocks = section.blocks | where: 'type', 'review'
+  assign live_ids = ''
+  if section.settings.review_product != blank
+    assign live_ids = section.settings.review_product.id | append: ','
+  endif
+  if section.settings.review_product_2 != blank
+    assign live_ids = live_ids | append: section.settings.review_product_2.id | append: ','
+  endif
+  if section.settings.review_product_3 != blank
+    assign live_ids = live_ids | append: section.settings.review_product_3.id | append: ','
+  endif
+  if section.settings.review_product_4 != blank
+    assign live_ids = live_ids | append: section.settings.review_product_4.id
+  endif
+  assign live_ids = live_ids | split: ',' | join: ','
+-%}
+
+{%- if review_blocks.size > 0 or live_ids != blank -%}
+  <tc-reviews
+    class="tc-pf-rev"
+    data-autoplay="{{ section.settings.autoplay_seconds | default: 6 | times: 1000 }}"
+    {% if section.settings.reviews_link != blank %}data-link="{{ section.settings.reviews_link }}"{% endif %}
+    {% if section.settings.load_live and live_ids != blank %}
+      data-live
+      data-ids="{{ live_ids }}"
+      data-shop="{{ shop.permanent_domain }}"
+      data-photos="{{ section.settings.show_photos }}"
+      data-min="{{ section.settings.min_stars | default: 4 }}"
+    {% endif %}
+  >
+    {%- if section.settings.reviews_heading != blank -%}
+      <p class="tc-pf-rev__head">{{ section.settings.reviews_heading | escape }}</p>
+    {%- endif -%}
+
+    <div class="tc-pf-rev__stack" data-tc-rev-stack aria-live="polite">
+      {%- for block in review_blocks -%}
+        <figure class="tc-pf-rev__item{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+          <a class="tc-pf-rev__link" href="{{ section.settings.reviews_link | default: block.settings.link | default: '#' }}">
+            {%- if block.settings.stars > 0 -%}
+              <div class="tc-pf-review__stars" role="img" aria-label="{{ block.settings.stars }} out of 5 stars">
+                {%- for i in (1..block.settings.stars) -%}{{ tc_star }}{%- endfor -%}
+              </div>
+            {%- endif -%}
+            <blockquote class="tc-pf-review__quote">{{ block.settings.quote | escape }}</blockquote>
+            <figcaption class="tc-pf-review__meta">
+              <span class="tc-pf-review__author">{{ block.settings.author | escape }}</span>
+              {%- if block.settings.source != blank -%}
+                <span class="tc-pf-review__source">{{ block.settings.source | escape }}</span>
+              {%- endif -%}
+              <span class="tc-pf-rev__cta">Read review{{ tc_arrow }}</span>
+            </figcaption>
+          </a>
+        </figure>
+      {%- endfor -%}
+    </div>
+
+  </tc-reviews>
+{%- endif -%}
+
+<script>
+  (() => {
+    if (customElements.get('tc-reviews')) return;
+
+    const ARROW = "<svg class='tc-pf-rev__cta-icon' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' aria-hidden='true'><path stroke-linecap='round' stroke-linejoin='round' d='M13.5 6H18v4.5M17.5 6.5 11 13M16 14v3.5A1.5 1.5 0 0 1 14.5 19h-8A1.5 1.5 0 0 1 5 17.5v-8A1.5 1.5 0 0 1 6.5 8H10'/></svg>";
+    const STAR = "<svg viewBox='0 0 20 20' fill='currentColor' aria-hidden='true'><path d='M10 1.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L10 14.9l-5.3 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z'/></svg>";
+
+    function esc(str) {
+      const d = document.createElement('div');
+      d.textContent = str == null ? '' : str;
+      return d.innerHTML;
+    }
+
+    async function fetchReviews(shop, ids, minStars) {
+      const out = [];
+      for (const id of ids) {
+        for (let page = 1; page <= 3; page++) {
+          let data;
+          try {
+            data = await fetch(
+              `https://judge.me/reviews/reviews_for_widget?url=${shop}&shop_domain=${shop}&platform=shopify&product_id=${id}&page=${page}`
+            ).then((r) => r.json());
+          } catch (e) {
+            return out;
+          }
+          const nodes = new DOMParser()
+            .parseFromString(data.html || '', 'text/html')
+            .querySelectorAll('.jdgm-rev');
+          if (!nodes.length) break;
+          nodes.forEach((n) => {
+            const stars = parseInt(n.querySelector('[data-score]')?.getAttribute('data-score') || '5', 10);
+            if (stars < minStars) return;
+            const body = (n.querySelector('.jdgm-rev__body')?.textContent || '').trim();
+            const title = (n.querySelector('.jdgm-rev__title')?.textContent || '').trim();
+            if (!body && !title) return;
+            const author = (n.querySelector('.jdgm-rev__author')?.textContent || '').trim();
+            if (!author || /^anonymous$/i.test(author)) return; // named reviewers only
+            const productUrl = n.getAttribute('data-product-url') || '';
+            out.push({
+              stars,
+              body: body || title,
+              author,
+              pics: [...n.querySelectorAll('.jdgm-rev__pic-img')]
+                .map((img) => img.getAttribute('data-src') || img.getAttribute('src'))
+                .filter(Boolean),
+              verified: n.getAttribute('data-verified-buyer') === 'true',
+              url: productUrl ? productUrl + '#judgeme_product_reviews' : '',
+              product: n.getAttribute('data-product-title') || '',
+            });
+          });
+          if (nodes.length < 5) break;
+        }
+      }
+      // photos first, then the meatier reviews
+      return out.sort(
+        (a, b) => (b.pics.length ? 1 : 0) - (a.pics.length ? 1 : 0) || b.body.length - a.body.length
+      );
+    }
+
+    class TcReviews extends HTMLElement {
+      connectedCallback() {
+        this.stack = this.querySelector('[data-tc-rev-stack]');
+        if (!this.stack) return;
+        this.index = 0;
+        this.timer = null;
+        this.autoplayMs = parseInt(this.dataset.autoplay || '0', 10);
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) this.autoplayMs = 0;
+
+        this.addEventListener('mouseenter', () => this.pause());
+        this.addEventListener('mouseleave', () => this.restart());
+        this.addEventListener('focusin', () => this.pause());
+        this.addEventListener('focusout', () => this.restart());
+
+        this.build();
+        if (this.hasAttribute('data-live')) this.loadLive();
+      }
+
+      async loadLive() {
+        const reviews = await fetchReviews(
+          this.dataset.shop,
+          (this.dataset.ids || '').split(',').filter(Boolean),
+          parseInt(this.dataset.min || '4', 10)
+        );
+        if (!reviews.length) return; // keep the server-rendered fallback
+        const showPhotos = this.dataset.photos === 'true';
+        this.stack.innerHTML = reviews
+          .map(
+            (r, i) => `<figure class="tc-pf-rev__item${i === 0 ? ' is-active' : ''}">
+              <a class="tc-pf-rev__link" href="${esc(this.dataset.link || r.url || '#')}">
+                ${
+                  showPhotos && r.pics.length
+                    ? `<img class="tc-pf-review__photo" src="${esc(r.pics[0]).replace(/width=\d+/, 'width=560')}" alt="" loading="lazy">`
+                    : ''
+                }
+                <div class="tc-pf-review__stars" role="img" aria-label="${r.stars} out of 5 stars">${STAR.repeat(
+                  Math.max(0, Math.min(5, r.stars))
+                )}</div>
+                <blockquote class="tc-pf-review__quote">${esc(r.body)}</blockquote>
+                <figcaption class="tc-pf-review__meta">
+                  <span class="tc-pf-review__author">${esc(r.author)}</span>
+                  ${r.verified ? '<span class="tc-pf-review__source">Verified purchase</span>' : ''}
+                  ${r.url ? `<span class="tc-pf-rev__cta">Read review${ARROW}</span>` : ''}
+                </figcaption>
+              </a>
+            </figure>`
+          )
+          .join('');
+        this.index = 0;
+        this.build();
+      }
+
+      build() {
+        this.items = [...this.stack.children];
+        this.go(0, true);
+        this.restart();
+      }
+
+      go(next, immediate) {
+        if (!this.items || !this.items.length) return;
+        const target = (next + this.items.length) % this.items.length;
+        this.items.forEach((el, i) => {
+          el.classList.remove('is-active', 'is-leaving');
+          if (i === target) el.classList.add('is-active');
+          else if (i === this.index && !immediate) el.classList.add('is-leaving');
+          el.setAttribute('aria-hidden', i === target ? 'false' : 'true');
+        });
+        this.index = target;
+      }
+
+      pause() {
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+
+
+      restart() {
+        this.pause();
+        if (!this.autoplayMs || !this.items || this.items.length < 2) return;
+        this.timer = setInterval(() => {
+          if (this.offsetParent === null) return;
+          this.go(this.index + 1);
+        }, this.autoplayMs);
+      }
+    }
+    customElements.define('tc-reviews', TcReviews);
+  })();
+</script>

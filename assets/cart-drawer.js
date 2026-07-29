@@ -84,6 +84,10 @@ class CartDrawer extends HTMLElement {
   }
 
   renderContents(parsedState) {
+    // `is-empty` is rendered on the <cart-drawer> host (see snippets/cart-drawer.liquid),
+    // so it must be cleared here or the drawer stays in its empty state after an
+    // async add when the cart started empty.
+    this.classList.remove('is-empty');
     this.querySelector('.drawer__inner').classList.contains('is-empty') &&
       this.querySelector('.drawer__inner').classList.remove('is-empty');
     this.productId = parsedState.id;
