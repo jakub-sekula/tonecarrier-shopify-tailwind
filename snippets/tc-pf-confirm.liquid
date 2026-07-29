@@ -1,0 +1,192 @@
+{% comment %}
+  tc-pf-confirm — shared quick-add machinery for tc-pf sections.
+  Renders the digital-purchase confirmation dialog (same terms + typed
+  initials acknowledgement as the digital product page; submitted as the
+  "Confirmation" line-item property) and defines <tc-pf-add>.
+  Safe to render from multiple sections: the first dialog in the DOM is
+  used and the custom element registers once.
+{% endcomment %}
+
+{%- capture tc_dl_icon -%}
+  <svg fill="none" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+{%- endcapture -%}
+
+<div class="tc-pf tc-pf-confirm" data-tc-confirm hidden>
+  <div class="tc-pf-confirm__scrim" data-tc-confirm-cancel></div>
+  <div class="tc-pf-confirm__box" role="dialog" aria-modal="true" aria-label="Digital purchase confirmation">
+    <span class="tc-pf-badge">{{ tc_dl_icon }}Digital content only</span>
+    <p class="tc-pf-confirm__title" data-tc-confirm-title></p>
+    <div class="tc-pf-confirm__body">
+      <p>This is a digital download. You need access to a 3D printer, as well as additional tools and hardware to assemble this product yourself.</p>
+      <p>By placing an order, you acknowledge that no physical goods will be shipped. Due to the nature of digital goods, all 3D print file <strong>sales are final, with no refunds.</strong></p>
+      <p>After purchasing, you will receive an email with all files and instructions.</p>
+    </div>
+    <input
+      class="tc-pf-confirm__input"
+      data-tc-confirm-input
+      type="text"
+      maxlength="5"
+      placeholder="Type your initials to acknowledge"
+      aria-label="Type your initials to acknowledge"
+      name="tc-acknowledgement"
+      autocomplete="off"
+      data-bwignore
+      data-bwignoreautofill
+      data-dashlane-ignore="true"
+      autocorrect="off"
+      autocapitalize="characters"
+      spellcheck="false"
+      data-1p-ignore
+      data-lpignore="true"
+      data-form-type="other"
+    >
+    <div class="tc-pf-confirm__actions">
+      <button type="button" class="tc-pf-card__atc tc-pf-confirm__add" data-tc-confirm-add disabled>{{ 'products.product.add_to_cart' | t }}</button>
+      <button type="button" class="tc-pf-confirm__cancel" data-tc-confirm-cancel>Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    // several tc-pf sections may render this snippet; keep only the first dialog
+    const dialogs = document.querySelectorAll('[data-tc-confirm]');
+    for (let i = 1; i < dialogs.length; i++) dialogs[i].remove();
+    if (customElements.get('tc-pf-add')) return;
+
+    async function cartHasVariant(variantId) {
+      const cart = await fetch(window.Shopify.routes.root + 'cart.js').then((r) => r.json());
+      return cart.items.some((item) => String(item.variant_id) === String(variantId));
+    }
+
+    async function addToCart(variantId, properties) {
+      const cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+      const body = new FormData();
+      body.append('id', variantId);
+      body.append('quantity', '1');
+      if (properties) {
+        for (const [k, v] of Object.entries(properties)) body.append(`properties[${k}]`, v);
+      }
+      if (cart && cart.getSectionsToRender) {
+        body.append('sections', cart.getSectionsToRender().map((s) => s.id).join(','));
+        body.append('sections_url', window.location.pathname);
+        cart.setActiveElement && cart.setActiveElement(document.activeElement);
+      }
+      const res = await fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: { Accept: 'application/javascript', 'X-Requested-With': 'XMLHttpRequest' },
+        body,
+      });
+      const data = await res.json();
+      if (res.ok && cart && cart.renderContents) cart.renderContents(data);
+      else if (res.ok) window.location.href = window.Shopify.routes.root + 'cart';
+      if (res.ok && typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+        publish(PUB_SUB_EVENTS.cartUpdate, { source: 'tc-pf-add', cartData: data });
+      }
+      return res.ok;
+    }
+
+    const ADD_LABEL = {{ 'products.product.add_to_cart' | t | json }};
+
+    async function refreshAll() {
+      const nodes = document.querySelectorAll('tc-pf-add');
+      if (!nodes.length) return;
+      try {
+        const cart = await fetch(window.Shopify.routes.root + 'cart.js').then((r) => r.json());
+        const ids = cart.items.map((i) => String(i.variant_id));
+        nodes.forEach((el) => el.setState(ids.includes(String(el.dataset.variantId))));
+      } catch (e) {
+        /* leave buttons as-is */
+      }
+    }
+
+    // pubsub.js is deferred, so wire up only once the document is ready
+    function wireCartSync() {
+      // cart drawer / cart page changes (incl. removing a line) publish cartUpdate
+      if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+        subscribe(PUB_SUB_EVENTS.cartUpdate, () => refreshAll());
+      }
+      refreshAll();
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wireCartSync);
+    } else {
+      wireCartSync();
+    }
+
+    class TcPfAdd extends HTMLElement {
+      connectedCallback() {
+        this.button = this.querySelector('button');
+        this.button.addEventListener('click', () => this.start());
+      }
+
+      setState(inCart) {
+        if (!this.button) return;
+        this.button.disabled = inCart;
+        this.button.textContent = inCart ? 'Already in cart' : ADD_LABEL;
+      }
+
+      markInCart() {
+        this.setState(true);
+      }
+
+      async start() {
+        this.button.disabled = true;
+        try {
+          if (await cartHasVariant(this.dataset.variantId)) {
+            this.markInCart();
+            return;
+          }
+          if (this.hasAttribute('data-digital')) {
+            this.openConfirm();
+          } else {
+            const ok = await addToCart(this.dataset.variantId);
+            if (ok) this.markInCart();
+            else this.button.disabled = false;
+          }
+        } catch (e) {
+          this.button.disabled = false;
+        }
+      }
+
+      openConfirm() {
+        const root = document.querySelector('[data-tc-confirm]');
+        if (!root) return;
+        const input = root.querySelector('[data-tc-confirm-input]');
+        const addBtn = root.querySelector('[data-tc-confirm-add]');
+        root.querySelector('[data-tc-confirm-title]').textContent = this.dataset.productTitle;
+        input.value = '';
+        addBtn.disabled = true;
+        root.hidden = false;
+        input.focus();
+
+        const onInput = () => { addBtn.disabled = input.value.trim() === ''; };
+        const close = () => {
+          root.hidden = true;
+          input.removeEventListener('input', onInput);
+          addBtn.removeEventListener('click', onAdd);
+          root.querySelectorAll('[data-tc-confirm-cancel]').forEach((el) => el.removeEventListener('click', close));
+          document.removeEventListener('keydown', onKey);
+          this.button.disabled = false;
+          this.button.focus();
+        };
+        const onKey = (e) => { if (e.key === 'Escape') close(); };
+        const onAdd = async () => {
+          addBtn.disabled = true;
+          const ok = await addToCart(this.dataset.variantId, { Confirmation: input.value.trim() });
+          if (ok) {
+            close();
+            this.markInCart();
+          } else {
+            addBtn.disabled = false;
+          }
+        };
+        input.addEventListener('input', onInput);
+        addBtn.addEventListener('click', onAdd);
+        root.querySelectorAll('[data-tc-confirm-cancel]').forEach((el) => el.addEventListener('click', close));
+        document.addEventListener('keydown', onKey);
+      }
+    }
+    customElements.define('tc-pf-add', TcPfAdd);
+  })();
+</script>

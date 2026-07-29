@@ -1,0 +1,202 @@
+{
+  "sections": {
+    "hero": {
+      "type": "tc-pf-hero",
+      "settings": {
+        "caption": "Print the toneCarrier at home",
+        "heading": "120 Print Files",
+        "text": "<p>If you have a 3D printer, you can easily build the toneCarrier 120 yourself. Full print settings, build guides and parts lists are provided with every download.</p>",
+        "bundle_badge": "Save 14%",
+        "bundle_text": "The Scanning Kit bundle includes the carrier and every accessory below for \u00a354.99 \u2014 less than buying the files individually.",
+        "cross_label": "Looking to scan 35 mm instead?",
+        "cross_link": "/collections/35-mm-print-files",
+        "bundle_product": "tonecarrier-120-scanning-kit-stl-only",
+        "savings_badge": "Bundle \u2014 save \u00a38.96",
+        "reviews_heading": "",
+        "autoplay_seconds": 6,
+        "load_live": true,
+        "review_product": "tonecarrier-120",
+        "review_product_2": "tonecarrier-120-holder-only",
+        "show_photos": true,
+        "min_stars": 4,
+        "reviews_link": "/products/tonecarrier-120-stl",
+        "review_product_3": "tonecarrier-35-mm",
+        "review_product_4": "tonecarrier-35-mm-holder-only"
+      }
+    },
+    "grid": {
+      "type": "tc-pf-grid",
+      "settings": {
+        "heading": "Individual print files",
+        "products_to_show": 12,
+        "skip_first": true
+      }
+    },
+    "hardware_kit": {
+      "type": "tc-pf-kit",
+      "settings": {
+        "heading": "Complete your build",
+        "text": "Printed parts are only half the story \u2014 the assembly hardware kit has all the screws, rollers and metal hardware you need to finish your DIY build, ready to ship worldwide.",
+        "product": "tonecarrier-hardware-kit"
+      }
+    },
+    "sample_scans": {
+      "type": "sample-scan",
+      "blocks": {
+        "caption_QbEeLW": {
+          "type": "caption",
+          "settings": {
+            "caption": "Sample scans",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_qtaYNL": {
+          "type": "heading",
+          "settings": {
+            "heading": "Capture every detail",
+            "heading_size": "h1"
+          }
+        },
+        "text_yywqAL": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Every print file is the same design we ship \u2014 here's what it scans like. Click or tap any image to zoom in and view the film grain.</p>"
+          }
+        },
+        "image_jiPpg4": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0210.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0210-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "",
+            "film_format": "",
+            "raw_download_url": ""
+          }
+        },
+        "image_TbQebX": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0509.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0509-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Gold 200",
+            "shot_on": "",
+            "film_format": "",
+            "raw_download_url": ""
+          }
+        },
+        "image_Kx6XCj": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0312.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0312-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Kodak Colorplus 200",
+            "shot_on": "",
+            "film_format": "",
+            "raw_download_url": ""
+          }
+        },
+        "image_tm4y3y": {
+          "type": "scan_image",
+          "settings": {
+            "sample_scan_positive": "shopify://shop_images/DSCF0514.jpg",
+            "sample_scan_negative": "shopify://shop_images/DSCF0514-2.jpg",
+            "camera": "Fujifilm X-T5",
+            "lens": "Helios 44-2",
+            "light_source": "Cinestill CS-Lite",
+            "converted_with": "Negative Lab Pro v2.3",
+            "film_stock": "Lomography Color Negative 800",
+            "shot_on": "",
+            "film_format": "",
+            "raw_download_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "caption_QbEeLW",
+        "heading_qtaYNL",
+        "text_yywqAL",
+        "image_jiPpg4",
+        "image_TbQebX",
+        "image_Kx6XCj",
+        "image_tm4y3y"
+      ],
+      "settings": {
+        "content_alignment": "center",
+        "background_color": "",
+        "color_scheme": "scheme-1",
+        "color_scheme_dark": "",
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "content_height": 700
+      }
+    },
+    "manuals": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_azKE9y": {
+          "type": "heading",
+          "settings": {
+            "heading": "High quality manuals included",
+            "heading_size": "h2"
+          }
+        },
+        "text_RiNWVP": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Detailed, illustrated printing and assembly instructions will make the process quick and easy even for 3D printing beginners.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_MnE3pA": {
+          "type": "button",
+          "settings": {
+            "button_label": "View sample",
+            "button_link": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/toneCarrier_manual_sample.pdf?v=1729363691",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_azKE9y",
+        "text_RiNWVP",
+        "button_MnE3pA"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Manual_mockup.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-4",
+        "color_scheme": "scheme-3",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "grid",
+    "sample_scans",
+    "manuals",
+    "hardware_kit"
+  ]
+}
