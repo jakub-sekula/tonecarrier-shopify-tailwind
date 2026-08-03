@@ -147,7 +147,7 @@
         {%- endcomment -%}
         {%- assign ts_minimal = false -%}
         {%- if template.suffix == 'tonescan-lite' -%}{%- assign ts_minimal = true -%}{%- endif -%}
-        {%- assign ts_lite_blocks = 'conversion,faq' | split: ',' -%}
+        {%- assign ts_lite_blocks = 'faq' | split: ',' -%}
         <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
           {%- if ts_minimal == false or ts_lite_blocks contains 'features' -%}<a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>{%- endif -%}
           {%- if ts_minimal == false or ts_lite_blocks contains 'workflow' -%}<a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">How it works</a>{%- endif -%}
@@ -182,13 +182,14 @@
       (function () {
         if (!('IntersectionObserver' in window)) return;
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        var root = document.querySelector('.tonescan-landing');
-        if (!root) return;
+        // The page is split across several sections, each with its own .tonescan-landing
+        // wrapper, so this has to sweep all of them: a single root only ever saw the hero.
+        if (!document.querySelector('.tonescan-landing')) return;
 
         // Elements to reveal: headings, grid items (cards/steps), testimonials, faq rows.
         // .ts-conv__item is excluded: every film frame is a <figure>, so the reveal was holding
         // each one 22px low until it intersected, which read as frames sliding up into the strip.
-        var targets = root.querySelectorAll('h1, h2, [class*="grid"] > *, figure:not(.ts-conv__item), details');
+        var targets = document.querySelectorAll('.tonescan-landing :is(h1, h2, [class*="grid"] > *, figure:not(.ts-conv__item), details)');
         targets.forEach(function (el) { el.classList.add('reveal'); });
 
         var io = new IntersectionObserver(function (entries) {

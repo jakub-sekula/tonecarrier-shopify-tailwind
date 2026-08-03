@@ -949,9 +949,8 @@
      data-video is empty until the clips are recorded, so fall back to the poster plus a note
      rather than opening an empty player. Adding the URL is the only change needed later. */
   (function () {
-    var root = document.querySelector('.tonescan-landing');
     var modal = document.querySelector('.tonescan-landing .ts-vid');
-    if (!root || !modal) return;
+    if (!modal) return;
     var stage = modal.querySelector('.ts-vid__stage');
     var title = modal.querySelector('.ts-vid__title');
     var lastFocus = null;
@@ -982,7 +981,7 @@
 
     // The whole card is the target, the "+" is only an affordance (and the keyboard handle,
     // since its click bubbles up to the card listener below).
-    root.querySelectorAll('.ts-bento').forEach(function (card) {
+    document.querySelectorAll('.tonescan-landing .ts-bento').forEach(function (card) {
       var btn = card.querySelector('.ts-feature-more');
       if (!btn) return;
       var downX = null, downY = null;
