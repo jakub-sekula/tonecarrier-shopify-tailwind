@@ -31,6 +31,18 @@
   {%- if template.suffix == 'tonescan-lite' -%}{%- assign ts_minimal = true -%}{%- endif -%}
 
   {%- comment -%}
+    Which blocks the lite variant renders, on top of the hero and the signup, which it always
+    gets. Promote a block by adding its name here once it is finished; that is the only edit
+    needed. Names, in page order:
+      problem  conversion  features  more  workflow  rgb  hardware  gallery  quote  pricing
+      faq  video
+    'video' is the lightbox the features grid opens, so it travels with 'features'.
+    Keep this in step with the nav links in layout/tonescan.liquid, which gates each anchor
+    against the same names.
+  {%- endcomment -%}
+  {%- assign ts_lite_blocks = 'conversion,features,workflow,rgb,faq,video' | split: ',' -%}
+
+  {%- comment -%}
     ASSETS, everything below points at real files in Shopify Files (Content > Files), not
     placeholders. Keep the base here so a re-upload is a one-line change.
       App screenshots (3200x2000, .png):
@@ -186,10 +198,9 @@
     </div>
   </section>
 
-  {%- comment -%} ↓↓↓ hidden in the minimal (tonescan-lite) variant, hero + signup only ↓↓↓ {%- endcomment -%}
-  {%- unless ts_minimal -%}
 
   {%- comment -%} ==================== 3 · PROBLEM / AGITATION ==================== {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'problem' -%}
   <section class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
     <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
       <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">The problem</p>
@@ -219,6 +230,7 @@
       </div>
     </div>
   </section>
+  {%- endif -%}
 
   {%- comment -%} ==================== 4 · CONVERSION STRIP ====================
        A strip of frames stepping leftward. Everything right of the middle is still a negative,
@@ -226,6 +238,7 @@
        a white flash, then the strip steps on. Motion is deliberately not continuous: step,
        settle, convert, settle. Placeholder pairs for now, cycling four real frames.
   {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'conversion' -%}
   <section class="ts-conv-sec tw:relative tw:overflow-hidden tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
     <div class="ts-conv-head tw:relative tw:z-[1] tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[80px] tw:md:px-[50px] tw:md:pt-[120px] tw:text-left">
       <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-[#111114] tw:md:text-[46px]">
@@ -276,10 +289,12 @@
     {%- endcomment -%}
     <span class="ts-conv-dot" aria-hidden="true"><i></i></span>
   </section>
+  {%- endif -%}
 
   {%- comment -%} ==================== 5 · PLATFORM (bento) ====================
        Framer-style "full platform" bento. RGB is the hero tile.
   {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'features' -%}
   <section id="features" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
     <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
       <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">
@@ -529,6 +544,7 @@
       </div>
     </div>
   </section>
+  {%- endif -%}
 
 
 
@@ -541,6 +557,7 @@
        two sections don't repeat each other.
        data-video on each item is empty for now; the poster is what shows until clips exist.
   {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'more' -%}
   <section class="ts-acc-sec tw:border-y tw:border-white/10">
     <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
       <div class="tw:mx-auto tw:mb-[48px] tw:max-w-[720px] tw:text-center">
@@ -611,6 +628,7 @@
       </div>
     </div>
   </section>
+  {%- endif -%}
 
   {%- comment -%} ==================== 6 · WORKFLOW (scrolling text, pinned media) ====================
        Reverse of the usual pattern: the TEXT panels scroll and the MEDIA is pinned, swapping
@@ -621,6 +639,7 @@
        Gradient blobs behind it are driven by --sp (0->1 scroll progress through the section),
        so the background keeps moving while you're between steps.
   {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'workflow' -%}
   <section id="how-it-works" class="ts-story-sec tw:scroll-mt-[84px] tw:border-y tw:border-white/10">
     <div class="ts-story-sec__blobs" aria-hidden="true">
       <span class="ts-story-blob ts-story-blob--1"></span>
@@ -693,12 +712,14 @@
       </div>
     </div>
   </section>
+  {%- endif -%}
 
   {%- comment -%} ==================== 7 · FEATURE DEEP-DIVES ====================
        One row per feature, alternating background (black / dark grey) so each reads as its own
        block. The media is deliberately oversized and bleeds off the near edge, full app
        screenshots are worthless at half-column width. Rows alternate side via .ts-dive--flip.
   {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'rgb' -%}
   <div class="ts-dives">
 
     {%- comment -%}
@@ -873,6 +894,7 @@
     </section>
 
   </div>
+  {%- endif -%}
 
   {%- comment -%} ==================== 7b · HARDWARE CONTROL / toneLight ====================
        toneScan Studio drives the rig, and toneLight is the light it is built around.
@@ -885,6 +907,7 @@
   {%- endcomment -%}
   {%- assign ts_tonelight_url = '/pages/tonelight-kickstarter-pre-launch-page' -%}
 
+  {%- if ts_minimal == false or ts_lite_blocks contains 'hardware' -%}
   <section class="ts-hw">
     <div class="ts-hw__inner">
       {%- comment -%} same shape as the RGB cards above: centred head, one big piece of media,
@@ -922,6 +945,7 @@
       </div>
     </div>
   </section>
+  {%- endif -%}
 
   {%- comment -%} ==================== 8 · SAMPLE SCANS (gallery + lightbox) ====================
        Real converted frames. data-img is the full-size URL the lightbox renders; the tile
@@ -929,6 +953,7 @@
        list. A field left EMPTY has its row hidden, so it is safe to leave one blank rather
        than guess. See the note above the buttons before editing these.
   {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'gallery' -%}
   <section id="gallery" class="ts-clip-x tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
     <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
       <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Sample scans</p>
@@ -992,6 +1017,7 @@
       [{% for it in ts_scan_items %}{% assign pp = it | split: ',' %}{% unless forloop.first %},{% endunless %}{"src":{{ pp[0] | json }},"width":{{ pp[1] }},"height":{{ pp[2] }},"alt":"A film frame converted with toneScan Studio"}{% endfor %}]
     </script>
   </section>
+  {%- endif -%}
 
   {%- comment -%} ==================== 9 · TESTIMONIAL ====================
        Two-column feature quote: copy and attribution on the left, portrait on the right.
@@ -1001,6 +1027,7 @@
        real headshot in .ts-quote__avatar.
        For a second quote, duplicate the whole .ts-quote block, the layout doesn't care.
   {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'quote' -%}
   <section class="ts-quote-sec">
     <div class="ts-quote">
 
@@ -1036,8 +1063,10 @@
 
     </div>
   </section>
+  {%- endif -%}
 
   {%- comment -%} ==================== 9 · PRICING ==================== {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'pricing' -%}
   <section id="pricing" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
     <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
       <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Pricing</p>
@@ -1094,8 +1123,10 @@
 
     </div>
   </section>
+  {%- endif -%}
 
   {%- comment -%} ==================== 10 · FAQ ==================== {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'faq' -%}
   <section id="faq" class="tw:scroll-mt-[84px] tw:border-t tw:border-white/10 tw:bg-white/[0.015]">
     <div class="tw:mx-auto tw:w-full tw:max-w-[760px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
       <h2 class="tw:mb-[40px] tw:text-center tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Frequently asked questions</h2>
@@ -1139,8 +1170,10 @@
       </div>
     </div>
   </section>
+  {%- endif -%}
 
   {%- comment -%} ===== feature video modal (opened by the "+" on each headline bento tile) ===== {%- endcomment -%}
+  {%- if ts_minimal == false or ts_lite_blocks contains 'video' -%}
   <div class="ts-vid" hidden>
     <div class="ts-vid__backdrop" data-close></div>
     <div class="ts-vid__panel" role="dialog" aria-modal="true" aria-label="Feature video">
@@ -1149,9 +1182,8 @@
       <p class="ts-vid__title"></p>
     </div>
   </div>
+  {%- endif -%}
 
-  {%- endunless -%}
-  {%- comment -%} ↑↑↑ end minimal-hidden block ↑↑↑ {%- endcomment -%}
 
   {%- comment -%} ==================== 11 · SIGNUP / FINAL CTA ====================
        Beta signup form. POSTs the email to the Cloudflare Worker (double opt-in): the Worker

@@ -140,15 +140,20 @@
           {%- endif -%}
         </a>
 
-        {%- comment -%} nav links point to sections that don't exist in the minimal (tonescan-lite) variant, so hide them there {%- endcomment -%}
-        {%- unless template.suffix == 'tonescan-lite' -%}
+        {%- comment -%}
+          A nav anchor is only valid if its block is actually rendered. The lite variant gates
+          blocks by name in sections/tonescan-landing.liquid; this list has to stay in step with
+          the one there. An anchor with no target scrolls nowhere, which reads as a broken page.
+        {%- endcomment -%}
+        {%- assign ts_minimal = false -%}
+        {%- if template.suffix == 'tonescan-lite' -%}{%- assign ts_minimal = true -%}{%- endif -%}
+        {%- assign ts_lite_blocks = 'conversion,features,workflow,rgb,faq,video' | split: ',' -%}
         <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
-          <a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>
-          <a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">How it works</a>
-          <a href="#pricing" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Pricing</a>
-          <a href="#faq" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">FAQ</a>
+          {%- if ts_minimal == false or ts_lite_blocks contains 'features' -%}<a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>{%- endif -%}
+          {%- if ts_minimal == false or ts_lite_blocks contains 'workflow' -%}<a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">How it works</a>{%- endif -%}
+          {%- if ts_minimal == false or ts_lite_blocks contains 'pricing' -%}<a href="#pricing" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Pricing</a>{%- endif -%}
+          {%- if ts_minimal == false or ts_lite_blocks contains 'faq' -%}<a href="#faq" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">FAQ</a>{%- endif -%}
         </nav>
-        {%- endunless -%}
 
         <a href="#signup" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[var(--ts-accent)] tw:px-[16px] tw:py-[9px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
           Become a tester
