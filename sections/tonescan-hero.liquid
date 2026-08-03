@@ -197,11 +197,13 @@
   {%- endunless -%}
 </div>
 
-{%- comment -%} Styles and behaviour for the WHOLE page, rendered once here. They were extracted
-   when the landing file hit Shopify's 256 KB template ceiling; snippets are counted separately.
-   render isolates scope, hence the explicit passes. {%- endcomment -%}
-{% render 'tonescan-styles', ts_cdn: ts_cdn, bg_opacity: section.settings.background_opacity, bg_blur: section.settings.background_blur %}
-{% render 'tonescan-scripts' %}
+{%- comment -%} Page-wide CSS and JS are rendered once by layout/tonescan.liquid. Only the two
+   values that are settings on THIS section are emitted here. {%- endcomment -%}
+{%- style -%}
+  .ts-hero-bg video, .ts-hero-bg img {
+    opacity: calc({{ section.settings.background_opacity | default: 8 }} / 100);
+    filter: blur({{ section.settings.background_blur | default: 5 }}px); }
+{%- endstyle -%}
 
 {% schema %}
 {

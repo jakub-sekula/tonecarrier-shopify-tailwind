@@ -1,0 +1,90 @@
+{%- comment -%}
+  Sample scans, click to open full screen.
+
+  Split out of tonescan-landing so the page composes from real sections in a JSON
+  template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
+  file carries markup only and can be reordered or removed without taking them with it.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%} Screenshots live in Shopify Files (Content > Files). {%- endcomment -%}
+  {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+
+  <section id="gallery" class="ts-clip-x tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Sample scans</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Real scans, real detail.</h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">Every frame below was converted with toneScan Studio. Click any one to see it full-screen.</p>
+    </div>
+
+    {%- comment -%}
+      ⚠️ BEFORE LAUNCH, TWO THINGS.
+      1. ADD MORE FRAMES. ts_scan_list below is the single source for the marquee: one URL per
+         line, any number. There are only FIVE real converted frames available right now, so
+         across 30 tiles each one repeats about six times, visibly. Aim for ~30 unique frames.
+      2. FILL IN THE CAPTURE DETAILS. The data-camera / data-lens / data-light / data-film /
+         data-shot / data-format values are intentionally EMPTY: the originals were invented
+         placeholders and this page is public, so nothing unverified ships. Empty renders as a
+         hidden row, and the whole metadata panel stays hidden until at least one is filled.
+    {%- endcomment -%}
+    {%- comment -%}
+      One line per frame: URL,width,height, PhotoSwipe needs the real pixel size up front to
+      size the zoomed view, so the dimensions have to travel with the URL.
+    {%- endcomment -%}
+    {%- capture ts_scan_data -%}
+{{ ts_cdn }}/DSCF0079_RGB-pos.jpg,2400,1626;{{ ts_cdn }}/DSCF0025_RGB-pos.jpg,2400,1626;{{ ts_cdn }}/DSCF0049_RGB-pos.jpg,2400,1626;{{ ts_cdn }}/DSCF0028_RGB-pos.jpg,2400,1626;{{ 'converted.jpg' | asset_url }},1500,1017
+    {%- endcapture -%}
+    {%- assign ts_scan_items = ts_scan_data | strip | split: ';' -%}
+    {%- assign ts_rows = 2 -%}
+    {%- assign ts_per_row = 12 -%}
+
+    {%- comment -%}
+      Two rows running in opposite directions. Each track is rendered TWICE and shifted
+      -50%, so the loop is seamless, that means the two passes must stay identical, and tile
+      width has to come from margin-right rather than gap or the halves don't line up.
+      Frames are dealt out round-robin so a short source list still varies row to row.
+      data-scan-index points at the entry in the JSON below; duplicated tiles reuse it, so the
+      viewer shows each frame once no matter how many times it appears on screen.
+    {%- endcomment -%}
+    <div class="ts-gallery tw:mt-[48px]">
+      {%- for row in (1..ts_rows) -%}
+        {%- assign row_i = row | minus: 1 -%}
+        <div class="ts-mq {% cycle 'ts-mq--l', 'ts-mq--r' %}">
+          <div class="ts-mq__track">
+            {%- for pass in (1..2) -%}
+              {%- for n in (1..ts_per_row) -%}
+                {%- assign slot = n | minus: 1 | times: ts_rows | plus: row_i -%}
+                {%- assign pick = slot | modulo: ts_scan_items.size -%}
+                {%- assign ts_parts = ts_scan_items[pick] | split: ',' -%}
+                <a class="ts-scan" href="{{ ts_parts[0] }}" data-scan-index="{{ pick }}"
+                   {% if pass == 2 %}aria-hidden="true" tabindex="-1"{% endif %}
+                   aria-label="View this frame full-screen">
+                  <span class="ts-scan__img" style="background-image:url('{{ ts_parts[0] }}')"></span>
+                </a>
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} slide list for PhotoSwipe, one entry per unique frame {%- endcomment -%}
+    <script type="application/json" class="ts-gallery-data">
+      [{% for it in ts_scan_items %}{% assign pp = it | split: ',' %}{% unless forloop.first %},{% endunless %}{"src":{{ pp[0] | json }},"width":{{ pp[1] }},"height":{{ pp[2] }},"alt":"A film frame converted with toneScan Studio"}{% endfor %}]
+    </script>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan gallery",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "toneScan gallery"
+    }
+  ]
+}
+{% endschema %}

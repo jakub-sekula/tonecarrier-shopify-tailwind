@@ -1,0 +1,244 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "tonescan",
+  "sections": {
+    "hero": {
+      "type": "tonescan-hero",
+      "settings": {
+        "background_opacity": 8,
+        "background_blur": 5
+      }
+    },
+    "conversion-strip": {
+      "type": "tonescan-conversion-strip",
+      "blocks": {
+        "frame_K4z3YY": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF5539_RGB.jpg"
+          }
+        },
+        "frame_Ge7xie": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0061_RGB.jpg"
+          }
+        },
+        "frame_A4iH76": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0199_RGB.jpg"
+          }
+        },
+        "frame_NWTtMy": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0250_RGB.jpg"
+          }
+        },
+        "frame_eXt7GU": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0019_RGB-2.jpg"
+          }
+        },
+        "frame_9H7Bd9": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0031_RGB.jpg"
+          }
+        },
+        "frame_7RTbBj": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2300.jpg"
+          }
+        },
+        "frame_AGK8zb": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF5551_RGB.jpg"
+          }
+        },
+        "frame_Ewzw3X": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/IMG_0007.jpg"
+          }
+        },
+        "frame_wkJ3Td": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0277_RGB.jpg"
+          }
+        },
+        "frame_xWxzLK": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/IMG_9979.jpg"
+          }
+        },
+        "frame_w3qzDi": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0001_RGB.jpg"
+          }
+        },
+        "frame_FLbLGY": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0115_RGB.jpg"
+          }
+        },
+        "frame_WayVUg": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF5536_RGB.jpg"
+          }
+        },
+        "frame_Uydprc": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0054_RGB.jpg"
+          }
+        },
+        "frame_TapKf3": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0028_RGB.jpg"
+          }
+        },
+        "frame_aUy8Ld": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0032_RGB.jpg"
+          }
+        },
+        "frame_aKFVyw": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2311.jpg"
+          }
+        },
+        "frame_t8KCGc": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0211_RGB.jpg"
+          }
+        },
+        "frame_JCqzFk": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0253_RGB.jpg"
+          }
+        },
+        "frame_FjN8tn": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0214_RGB.jpg"
+          }
+        },
+        "frame_BxTc8B": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/DSCF0031_RGB.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "frame_K4z3YY",
+        "frame_Ge7xie",
+        "frame_A4iH76",
+        "frame_NWTtMy",
+        "frame_eXt7GU",
+        "frame_9H7Bd9",
+        "frame_7RTbBj",
+        "frame_AGK8zb",
+        "frame_Ewzw3X",
+        "frame_wkJ3Td",
+        "frame_xWxzLK",
+        "frame_w3qzDi",
+        "frame_FLbLGY",
+        "frame_WayVUg",
+        "frame_Uydprc",
+        "frame_TapKf3",
+        "frame_aUy8Ld",
+        "frame_aKFVyw",
+        "frame_t8KCGc",
+        "frame_JCqzFk",
+        "frame_FjN8tn",
+        "frame_BxTc8B"
+      ],
+      "settings": {
+        "heading": "Negatives in, photographs out.",
+        "subheading": "toneScan converts a whole roll automatically and keeps it consistent, the way a lab scanner does. You fine-tune the few that need it.",
+        "note": "<p>All photos converted with with toneScan Studio, using automatic settings with minor exposure and white balance tweaks.</p><p>Scanned with Fujifilm and Canon cameras.</p>",
+        "show_scans_cta": false,
+        "cta_text": "See sample scans",
+        "cta_link": "#gallery"
+      }
+    },
+    "features": {
+      "type": "tonescan-features",
+      "settings": {}
+    },
+    "highlights": {
+      "type": "tonescan-highlights",
+      "settings": {}
+    },
+    "workflow": {
+      "type": "tonescan-workflow",
+      "settings": {}
+    },
+    "rgb": {
+      "type": "tonescan-rgb",
+      "settings": {}
+    },
+    "hardware": {
+      "type": "tonescan-hardware",
+      "settings": {}
+    },
+    "gallery": {
+      "type": "tonescan-gallery",
+      "settings": {}
+    },
+    "testimonial": {
+      "type": "tonescan-testimonial",
+      "settings": {}
+    },
+    "pricing": {
+      "type": "tonescan-pricing",
+      "settings": {}
+    },
+    "faq": {
+      "type": "tonescan-faq",
+      "settings": {}
+    },
+    "signup": {
+      "type": "tonescan-signup",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "conversion-strip",
+    "features",
+    "highlights",
+    "workflow",
+    "rgb",
+    "hardware",
+    "gallery",
+    "testimonial",
+    "pricing",
+    "faq",
+    "signup"
+  ]
+}

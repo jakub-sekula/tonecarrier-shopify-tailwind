@@ -1,0 +1,64 @@
+{%- comment -%}
+  toneLight and carrier control.
+
+  Split out of tonescan-landing so the page composes from real sections in a JSON
+  template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
+  file carries markup only and can be reordered or removed without taking them with it.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%} Screenshots live in Shopify Files (Content > Files). {%- endcomment -%}
+  {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+
+  <section class="ts-hw">
+    <div class="ts-hw__inner">
+      {%- comment -%} same shape as the RGB cards above: centred head, one big piece of media,
+         then the detail in columns underneath {%- endcomment -%}
+      <div class="ts-hw__head">
+        <div class="ts-tile-icon ts-hw__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></svg></div>
+        <p class="ts-hw__eyebrow">Hardware control</p>
+        <h2 class="ts-hw__title">It drives the rig, not just the files</h2>
+        <p class="ts-hw__sub">toneScan Studio talks to your light source and film carrier directly, so a whole roll can run through without you touching the camera.</p>
+      </div>
+
+      <div class="ts-hw__media">
+        <div class="ts-shot">
+          <img src="{{ ts_cdn }}/calibration-crosstalk.png" alt="The calibrate screen setting per-channel exposure for a connected light" loading="lazy" width="3200" height="2000">
+        </div>
+      </div>
+
+      <div class="ts-hw__cols">
+        <div class="ts-hw__col">
+          <p class="ts-hw__lead"><strong>Set the exposures once.</strong> From there the light changes, the carrier advances and the frames land in the right roll already merged, one channel at a time.</p>
+        </div>
+        <div class="ts-hw__col">
+          <p class="ts-hw__lead"><strong>Works with the light you already have.</strong> And seamlessly with toneLight, our own RGB light source built for exactly this.</p>
+          <div class="ts-hw__cta">
+            <a class="ts-hw__btn" href="{{ ts_tonelight_url }}">
+              See toneLight
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <span class="ts-hw__ks">
+              <span class="ts-hw__kslabel">Launching on</span>
+              {{ 'kickstarter-logo.svg' | inline_asset_content }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan hardware",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "toneScan hardware"
+    }
+  ]
+}
+{% endschema %}

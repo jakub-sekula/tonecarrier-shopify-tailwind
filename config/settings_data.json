@@ -327,10 +327,6 @@
           "cta_text": "See sample scans",
           "cta_link": "#gallery"
         }
-      },
-      "tonescan-landing": {
-        "type": "tonescan-landing",
-        "settings": {}
       }
     },
     "content_for_index": [],

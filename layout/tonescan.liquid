@@ -162,7 +162,15 @@
     </header>
 
     <main id="MainContent">
-      {{ content_for_layout }}
+      {%- comment -%} Page-wide CSS and JS for every toneScan template. Rendered here rather than from a
+   section so that sections can be added, removed or reordered in the editor without taking the
+   stylesheet with them. render isolates scope, hence the explicit ts_cdn pass. {%- endcomment -%}
+{%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+{% render 'tonescan-styles', ts_cdn: ts_cdn %}
+
+{{ content_for_layout }}
+
+{% render 'tonescan-scripts' %}
     </main>
 
     {%- comment -%} ===== minimal footer ===== {%- endcomment -%}

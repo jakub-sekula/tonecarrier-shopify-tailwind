@@ -1,0 +1,285 @@
+{%- comment -%}
+  The platform bento, its detail accordion, and the video lightbox those tiles open.
+
+  Split out of tonescan-landing so the page composes from real sections in a JSON
+  template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
+  file carries markup only and can be reordered or removed without taking them with it.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%} Screenshots live in Shopify Files (Content > Files). {%- endcomment -%}
+  {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+
+  <section id="features" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">
+        Everything a film scan needs
+      </h2>
+      <p class="tw:mx-auto tw:mt-[18px] tw:max-w-[720px] tw:text-[17px] tw:leading-[1.6] tw:text-neutral-400">
+        Capture, calibration, conversion, culling and export.<br class="tw:hidden tw:md:inline">
+        A complete suite built for film photographers.
+      </p>
+    </div>
+
+    {%- comment -%}
+      HEADLINE FEATURES, these nine, in this order, are the ones the page leads on. Anything
+      that isn't one of them belongs in the "Plus everything" list below, not here.
+      Every tile carries a "+" that opens a short video of the feature (.ts-feature-more):
+        data-video  = mp4 URL. EMPTY FOR NOW, the modal falls back to the poster plus a
+                      "video coming soon" line, so tiles stay clickable until the clips exist.
+        data-poster = still shown before playback / instead of it
+        data-title  = heading inside the modal
+      Filling in data-video is the only change needed when a clip is ready.
+    {%- endcomment -%}
+    {%- comment -%}
+      Nine cards, two of them large. Placement is explicit per position in the CSS below, so
+      SOURCE ORDER IS VISUAL ORDER, move an <article> and update its nth-child rule together.
+        1 engine (2x2)  2 RGB        3 GPU viewport
+        4 flat-field    5 batch edit 6 speed (2x2)
+        7 standalone    8 auto-crop  9 hardware control
+    {%- endcomment -%}
+    <div class="ts-bento-grid tw:mt-[48px]">
+      <article class="ts-bento ts-bento--lg">
+        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/pixel-preview.png" data-title="Rich inversion engine" aria-label="Watch: Rich inversion engine"><span aria-hidden="true">+</span></button>
+        <div class="ts-bento__media">
+          <div class="ts-shot">
+            <img src="{{ ts_cdn }}/pixel-preview.png" alt="A converted frame beside the live RGB histogram and the develop controls" loading="lazy" width="3200" height="2000">
+          </div>
+        </div>
+        <div class="ts-bento__text">
+          <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M4 20c5 0 4-6 8-6s4-8 8-8"/><circle cx="9.4" cy="15.2" r="1.1" fill="currentColor" stroke="none"/><circle cx="14.6" cy="8.8" r="1.1" fill="currentColor" stroke="none"/></svg></div>
+          <h3 class="tw:text-[22px] tw:font-semibold tw:text-white">Rich inversion engine</h3>
+          <p class="tw:mt-[10px] tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Rendering modelled on real film physics and the way darkroom paper responds to light. The starting point already looks like a print, so you are adjusting to taste rather than rescuing a file.</p>
+          <a class="ts-bento__cta" href="#gallery">See samples <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </article>
+
+      <article class="ts-bento">
+        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/rgb-merge.png" data-title="Seamless RGB scanning" aria-label="Watch: Seamless RGB scanning"><span aria-hidden="true">+</span></button>
+        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/rgb-merge.png')" aria-hidden="true"></span>
+        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9.5" r="5"/><circle cx="15" cy="9.5" r="5"/><circle cx="12" cy="15" r="5"/></svg></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Seamless RGB scanning</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Trichromatic capture from any camera, mono sensors included. Triplets merged for you.</p>
+        </div>
+      </article>
+
+      <article class="ts-bento">
+        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/pixel-preview.png" data-title="GPU viewport, 1:1 previews" aria-label="Watch: GPU viewport, 1:1 previews"><span aria-hidden="true">+</span></button>
+        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/pixel-preview.png')" aria-hidden="true"></span>
+        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v13H3z"/><path d="M8 21h8M12 17v4M6 13l3.5-4 2.5 3 2-2.5L20 13"/></svg></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">GPU viewport, 1:1 previews</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Every slider lands on a full-resolution preview instantly. No proxy, no wait.</p>
+        </div>
+      </article>
+
+      <article class="ts-bento">
+        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/develop.png" data-title="Flat-field correction" aria-label="Watch: Flat-field correction"><span aria-hidden="true">+</span></button>
+        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/develop.png')" aria-hidden="true"></span>
+        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><ellipse cx="12" cy="12" rx="6" ry="4"/></svg></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Flat-field correction</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Cancels uneven light and lens falloff, so corners match the centre.</p>
+        </div>
+      </article>
+
+      <article class="ts-bento">
+        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/organise.png" data-title="Batch editing" aria-label="Watch: Batch editing"><span aria-hidden="true">+</span></button>
+        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/organise.png')" aria-hidden="true"></span>
+        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9a8 8 0 0 1 13.5-4.5L20 7M20 15a8 8 0 0 1-13.5 4.5L4 17"/><path d="M20 3v4h-4M4 21v-4h4"/></svg></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Batch editing</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Get one frame right and the whole roll follows, matched from first frame to last.</p>
+        </div>
+      </article>
+
+      <article class="ts-bento ts-bento--lg">
+        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/batch-export.png" data-title="Properly fast" aria-label="Watch: Properly fast"><span aria-hidden="true">+</span></button>
+        <div class="ts-bento__media">
+          <div class="ts-shot">
+            <img src="{{ ts_cdn }}/batch-export.png" alt="Exporting sixteen selected frames at once while the roll stays browsable" loading="lazy" width="3200" height="2000">
+          </div>
+        </div>
+        <div class="ts-bento__text">
+          <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
+          <h3 class="tw:text-[22px] tw:font-semibold tw:text-white">Properly fast</h3>
+          <p class="tw:mt-[10px] tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Smooth, instant previews of every edit, and a keyboard shortcut for everything so you can fly through a roll. Whole rolls convert and export in the background while you carry on working.</p>
+        </div>
+      </article>
+
+      <article class="ts-bento">
+        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/organise.png" data-title="Standalone software" aria-label="Watch: Standalone software"><span aria-hidden="true">+</span></button>
+        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/organise.png')" aria-hidden="true"></span>
+        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16"/><path d="M3 9h18M6.5 6.5h.01M9 6.5h.01"/></svg></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Standalone software</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">No Lightroom, no plugins, no host app. One program you own.</p>
+        </div>
+      </article>
+
+      <article class="ts-bento">
+        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/develop.png" data-title="Smart auto-crop" aria-label="Watch: Smart auto-crop"><span aria-hidden="true">+</span></button>
+        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/develop.png')" aria-hidden="true"></span>
+        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2v16h16M2 6h16v16"/><path d="M19.2 2.6l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z" fill="currentColor" stroke="none"/></svg></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Smart auto-crop</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Frame edges found and squared up for you, on every shot.</p>
+        </div>
+      </article>
+
+      <article class="ts-bento">
+        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/calibration-crosstalk.png" data-title="Hardware control" aria-label="Watch: Hardware control"><span aria-hidden="true">+</span></button>
+        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/calibration-crosstalk.png')" aria-hidden="true"></span>
+        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.4"/></svg></div>
+        <div class="tw:mt-auto">
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Hardware control</h3>
+          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Drives your light source and advances the film carrier as you shoot.</p>
+        </div>
+      </article>
+    </div>
+
+    {%- comment -%}
+      SECONDARY features, everything that is NOT one of the headline tiles above.
+      Shown ONE GROUP AT A TIME behind tabs: as a single flat grid this ran to ~30 items and
+      read as a wall. Panels are stacked in one grid cell and crossfaded, same pattern as the
+      hero selector, so the block height doesn't jump between tabs.
+    {%- endcomment -%}
+    <div class="ts-more tw:mt-[64px] tw:md:mt-[88px]">
+      <h3 class="tw:mb-[28px] tw:text-center tw:text-[20px] tw:font-semibold tw:text-white">Plus everything a serious workflow needs</h3>
+
+      <div class="ts-more__acc">
+        <div class="ts-more__item is-open" data-i="0">
+          <button type="button" class="ts-more__trigger" aria-expanded="true">
+            <span class="ts-more__cat">
+              <span class="ts-more__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h3.5l1.5-2h8l1.5 2H21v12H3z"/><circle cx="12" cy="12.5" r="3.6"/></svg></span>Capture &amp; calibration
+            </span>
+            <span class="ts-more__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="ts-more__panel">
+            <div class="ts-more__panelinner">
+              <ul class="ts-morelist">
+                <li><b>Hardware control</b>: drives your light source and advances the film carrier</li>
+                <li><b>Tethered capture</b> straight into the current roll</li>
+                <li><b>Light presets</b> read from a connected light</li>
+                <li><b>Scan profiles</b>: calibrate once, reuse on every roll</li>
+                <li><b>Per-channel exposure targets</b> with an EV meter</li>
+                <li><b>Crosstalk correction</b> measured from your own setup</li>
+                <li><b>Linearity calibration</b></li>
+                <li><b>White-light scanning</b>: single-shot works too</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ts-more__item" data-i="1">
+          <button type="button" class="ts-more__trigger" aria-expanded="false">
+            <span class="ts-more__cat">
+              <span class="ts-more__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5A1.5 1.5 0 0 1 19.5 20h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></span>Project management
+            </span>
+            <span class="ts-more__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="ts-more__panel">
+            <div class="ts-more__panelinner">
+              <ul class="ts-morelist">
+                <li><b>Roll-based library</b> with live frame counts</li>
+                <li><b>Watch folders</b> that ingest new scans as they land</li>
+                <li><b>Automatic triplet detection</b> and merge</li>
+                <li><b>Markers and colour labels</b> for fast culling</li>
+                <li><b>Per-channel inspection</b>: view R, G or B alone</li>
+                <li><b>Undo and redo</b> throughout</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ts-more__item" data-i="2">
+          <button type="button" class="ts-more__trigger" aria-expanded="false">
+            <span class="ts-more__cat">
+              <span class="ts-more__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h9M17 17h3"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="15" cy="17" r="2"/></svg></span>Rich editing experience
+            </span>
+            <span class="ts-more__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="ts-more__panel">
+            <div class="ts-more__panelinner">
+              <ul class="ts-morelist">
+                <li><b>Three process modes</b>: colour negative, B&amp;W negative, slide</li>
+                <li><b>Live RGB histogram</b></li>
+                <li><b>Exposure, contrast, density,</b> highlight rolloff and shadow lift</li>
+                <li><b>Auto density</b></li>
+                <li><b>Smart auto white balance</b>, or pick your own neutral</li>
+                <li><b>Levels, tone trims and sharpening</b></li>
+                <li><b>Crop, rotate and flip</b></li>
+                <li><b>Pixel loupe</b> with a live density readout</li>
+                <li><b>True exposure from raw</b>: read from signal, not the histogram</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ts-more__item" data-i="3">
+          <button type="button" class="ts-more__trigger" aria-expanded="false">
+            <span class="ts-more__cat">
+              <span class="ts-more__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v11M8 10.5l4 4 4-4"/><path d="M4 16v3.5h16V16"/></svg></span>Professional exports
+            </span>
+            <span class="ts-more__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="ts-more__panel">
+            <div class="ts-more__panelinner">
+              <ul class="ts-morelist">
+                <li><b>Colour-managed viewport and export</b>: sRGB, Adobe RGB, Display-P3 or Rec.2020, with the matching ICC profile embedded on the way out</li>
+                <li><b>TIFF or JPG</b>, your quality and long edge</li>
+                <li><b>Cineon log export</b> for grading downstream</li>
+                <li><b>Filename patterns</b> from name, date, project or sequence</li>
+                <li><b>Batch export</b> a selection or a whole roll</li>
+                <li><b>Rich metadata</b>: film stock, camera and dev info on every file</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ts-more__item" data-i="4">
+          <button type="button" class="ts-more__trigger" aria-expanded="false">
+            <span class="ts-more__cat">
+              <span class="ts-more__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M6.5 6.5h.01M9 6.5h.01"/></svg></span>Platform
+            </span>
+            <span class="ts-more__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="ts-more__panel">
+            <div class="ts-more__panelinner">
+              <ul class="ts-morelist">
+                <li><b>macOS and Windows</b>: native builds for both</li>
+                <li><b>Keyboard-driven</b>: shortcuts for everything</li>
+                <li><b>Fully standalone</b>: no host app, no plugin bridge</li>
+                <li><b>Flexible licensing</b>: own it outright or subscribe</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ts-vid" hidden>
+    <div class="ts-vid__backdrop" data-close></div>
+    <div class="ts-vid__panel" role="dialog" aria-modal="true" aria-label="Feature video">
+      <button class="ts-vid__close" type="button" aria-label="Close" data-close>&times;</button>
+      <div class="ts-vid__stage"></div>
+      <p class="ts-vid__title"></p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan features",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "toneScan features"
+    }
+  ]
+}
+{% endschema %}
