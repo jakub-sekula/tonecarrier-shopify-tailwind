@@ -321,8 +321,8 @@
         ],
         "settings": {
           "heading": "Negatives in, photographs out.",
-          "subheading": "toneScan converts a whole roll automatically and keeps it consistent, the way a lab scanner does. You fine-tune the few that need it.",
-          "note": "<p>All photos converted with with toneScan Studio, using automatic settings with minor exposure and white balance tweaks.</p><p>Scanned with Fujifilm and Canon cameras.</p>",
+          "subheading": "toneScan applies automatic, uniform conversions across your whole roll. Let the app handle the heavy lifting while you just step in to fine-tune the tricky shots.",
+          "note": "<p>All photos converted with toneScan Studio, using automatic settings with minor exposure and white balance tweaks.</p><p>Scanned with Fujifilm and Canon cameras.</p>",
           "show_scans_cta": false,
           "cta_text": "See sample scans",
           "cta_link": "#gallery"
