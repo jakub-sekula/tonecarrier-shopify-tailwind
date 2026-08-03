@@ -1,0 +1,1303 @@
+{%- comment -%}
+  Extracted from sections/tonescan-landing.liquid: that file hit Shopify's 256 KB
+  template limit. Rendered with {% render %}, which isolates scope, so anything this
+  needs from the section has to be passed in explicitly.
+{%- endcomment -%}
+{%- style -%}
+  /* ---- conversion section: CTA, copy width, backdrop ---- */
+  .ts-conv-cta { display: inline-flex; align-items: center; gap: 7px; margin-top: 24px;
+    height: 40px; padding: 0 17px; font-size: 14px; font-weight: 600; color: #fff;
+    background: #121215; border-radius: 2px; transition: background .15s ease, transform .15s ease; }
+  .ts-conv-cta:hover { background: #2a2a30; transform: translateY(-1px); }
+  .ts-conv-cta:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+
+  /* The copy runs from the page gutter to just short of the changeover, rather than to a fixed
+     width: --cut is measured from the viewport edge, so subtract whatever the centred 1400px
+     container is offset by, its padding, and a little breathing room. */
+  @media (min-width: 768px) {
+    .ts-conv-head h2, .ts-conv-head p {
+      max-width: calc(var(--cut) - max(0px, (100vw - 1400px) / 2) - 50px - 56px); }
+  }
+
+  /* Shooting notes. Small and muted so it reads as a footnote, never as second-tier body copy.
+     In flow under the CTA on phones; on desktop it moves into the converted column, which is
+     otherwise empty above the strip. Offsets are from the head's padding box, so the left edge
+     uses the same container-offset arithmetic as the copy max-width above. */
+  .ts-conv-note { margin-top: 26px; font-size: 13px; line-height: 1.65; color: rgba(255,255,255,.55); }
+  .ts-conv-note p { margin: 0; }
+  .ts-conv-note p + p { margin-top: 12px; }
+  @media (min-width: 768px) {
+    .ts-conv-note { position: absolute; top: 128px; margin-top: 0; max-width: 34em;
+      left: calc(var(--cut) - max(0px, (100vw - 1400px) / 2) + 56px); right: 50px; }
+  }
+
+  /* Grabbable along its whole length. pan-y leaves vertical page scroll to the browser, so a
+     touch drag down the page still scrolls and only sideways movement reaches the driver. */
+  .ts-conv, .ts-conv * { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;
+    user-select: none; -webkit-touch-callout: none; }
+  .ts-conv { cursor: grab; touch-action: pan-y; }
+  .ts-conv.is-dragging { cursor: grabbing; }
+  /* the dot replaces the pointer rather than sitting under it, but only once the driver has
+     confirmed a real pointer: if the script never runs, the grab cursor stays */
+  .ts-conv.has-dot, .ts-conv.has-dot.is-dragging { cursor: none; }
+
+  /* Outer element carries position only, inner carries the look, so the press scale cannot fight
+     the trailing translate. Sits above the bloom on z-3. */
+  .ts-conv-dot { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none;
+    transform: translate3d(-200px, -200px, 0); transition: transform .1s cubic-bezier(.22,.61,.36,1); }
+  .ts-conv-dot i { display: block; width: 30px; height: 30px; margin: -15px 0 0 -15px;
+    border-radius: 50%; opacity: 0; transform: scale(.55);
+    background: rgba(255,255,255,.13); box-shadow: inset 0 0 0 1px rgba(255,255,255,.32);
+    transition: opacity .2s ease, transform .2s cubic-bezier(.22,.61,.36,1),
+                background .2s ease, box-shadow .2s ease; }
+  .ts-conv-dot.is-on i { opacity: 1; transform: scale(1); }
+  .ts-conv-dot.is-down i { transform: scale(.66); background: rgba(255,255,255,.22); }
+  /* the strip is two-tone, so the dot has to swap contrast as it crosses the changeover */
+  .ts-conv-dot.on-light i { background: rgba(18,18,21,.09); box-shadow: inset 0 0 0 1px rgba(18,18,21,.24); }
+  .ts-conv-dot.on-light.is-down i { background: rgba(18,18,21,.16); }
+  @media (prefers-reduced-motion: reduce) { .ts-conv-dot { transition: none; } }
+  /* without this the browser lifts its own translucent copy of the frame on drag */
+  .ts-conv img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; user-drag: none;
+    pointer-events: none; }
+
+  /* backdrop for the conversion strip */
+  .ts-conv-bg { --bg-1: #0e1013; --bg-2: #0a0c0f; --cutw: 0.5px; --strip-mid: 47%;
+    position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    background:
+      /* white side, covering everything below it beyond the changeover */
+      linear-gradient(to right, #f2f1ee calc(var(--cut) - var(--cutw)), transparent calc(var(--cut) + var(--cutw))),
+      /* blue sits low on the converted side and stays muted: it is atmosphere, not a spotlight */
+      radial-gradient(88% 92% at 76% 106%, rgba(52,80,132,.17) 0%, rgba(40,58,96,.08) 46%, transparent 80%),
+      linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 55%, var(--bg-1) 100%); }
+  .ts-conv-bg .ts-hero-particles { opacity: .7; }
+
+  /* Bloom off the negative. It sits ABOVE the strip rather than behind it, so the light carries
+     across the film AND the background around it instead of stopping dead at the film edge.
+     Plain alpha, since screen is a no-op on the near-white half. clip-path keeps every bit of it
+     left of the changeover, which lets the shape stay a true radial. --strip-mid is published by
+     the driver: a percentage down the backdrop would land above the film, not on it. */
+  .ts-conv-glow { position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: radial-gradient(820px 520px at calc(var(--cut) - 70px) var(--strip-mid, 47%),
+      rgba(238,150,72,.30) 0%, rgba(243,176,116,.17) 40%, rgba(247,201,158,.07) 64%, transparent 78%);
+    clip-path: inset(0 calc(100% - var(--cut)) 0 0); }
+
+  /* Hero Patterns "Texture" (heropatterns.com, MIT), on its own layer so it can be masked:
+     strongest at the changeover and gone 700px to the left of it. It stops AT the changeover;
+     on the converted side the blue does the work. */
+  .ts-conv-bg::before { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23000' fill-opacity='.18' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23fff' fill-opacity='.15' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'/%3E%3C/svg%3E");
+    background-size: 4px 4px, 4px 4px;
+    -webkit-mask-image: linear-gradient(to right, transparent calc(var(--cut) - 700px),
+                        #000 calc(var(--cut) - 2px), transparent var(--cut));
+            mask-image: linear-gradient(to right, transparent calc(var(--cut) - 700px),
+                        #000 calc(var(--cut) - 2px), transparent var(--cut)); }
+
+  /* ---- conversion strip: 35mm film, drawn to scale ----
+     Real millimetres off 135 film against --mm, so --fh (the film's 35mm width, vertical here)
+     is the only thing to change when resizing.
+
+       film width   35mm              image area   24 x 36mm
+       perforation  1.981 x 2.794mm, r 0.508mm     pitch 4.7498mm   (KS-1870)
+       frame pitch  8 perfs = 37.9984mm  ->  36mm image + 1.9984mm between frames
+       perf inset   (5.5mm margin - 2.794mm perf) / 2 = 1.353mm from the film edge
+
+     Two complete strips are stacked and moved by one transform. Their masks are complements,
+     so the negative owns the right, the positive owns the left, and they cross through each
+     other in the middle: a frame converts by travelling rather than flipping at a moment.
+     Each frame is one full pitch with the picture in its first 36mm, so bases abut and the
+     perforation pattern (8 tiles per frame) stays in phase the whole way along. */
+  .ts-conv { --fh: 240px; --mm: calc(var(--fh) / 35); --ring: none;
+    --dx: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 10' preserveAspectRatio='none'%3E%3Cg fill='%23fff'%3E%3Crect x='4' y='0' width='1.5' height='10'/%3E%3Crect x='7' y='4.5' width='1.5' height='5.5'/%3E%3Crect x='10' y='0' width='2.6' height='10'/%3E%3Crect x='13.8' y='4.5' width='1.5' height='5.5'/%3E%3Crect x='16.8' y='0' width='1.5' height='10'/%3E%3Crect x='19.8' y='4.5' width='2.6' height='5.5'/%3E%3Crect x='23.6' y='0' width='1.5' height='10'/%3E%3Crect x='26.6' y='4.5' width='1.5' height='5.5'/%3E%3Crect x='29.6' y='0' width='2.2' height='10'/%3E%3C/g%3E%3C/svg%3E");
+    /* opaque tile with the perforation punched out of it, for masking the film base */
+    --hole: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4.7498 2.794' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' fill='%23000' d='M0 0H4.7498V2.794H0Z M1.8924 0H2.8574A0.508 0.508 0 0 1 3.3654 0.508V2.286A0.508 0.508 0 0 1 2.8574 2.794H1.8924A0.508 0.508 0 0 1 1.3844 2.286V0.508A0.508 0.508 0 0 1 1.8924 0Z'/%3E%3C/svg%3E");
+    --page-neg: #eceae4;                       /* page behind the un-converted half */
+    --page-pos: #121214;                       /* page behind the converted half */
+    --cut: 50%; --cutw: 0.5px;      /* hairline, so the changeover is a hard edge not a fade */
+    position: relative; z-index: 1; overflow: hidden; height: var(--fh); margin: 56px 0 80px; }
+  @media (min-width: 768px) { .ts-conv { --fh: 380px; } }
+  /* Edge fade only on genuinely large displays, and capped in PIXELS rather than as a share of
+     the viewport. A flat 50vw shrank the strip as soon as the window grew, which is backwards:
+     the strip should keep a constant generous width and simply stop growing. 1800px of visible
+     span happens to BE 50vw at about 5120px, so it only reads as "half the screen" on a really
+     large display. Below 2560px there is no room for the fade, so it self-disables. */
+  @media (min-width: 2100px) {
+    .ts-conv {
+      -webkit-mask-image: linear-gradient(to right, transparent calc(50% - 1280px), #000 calc(50% - 700px),
+                                          #000 calc(50% + 700px), transparent calc(50% + 1280px));
+              mask-image: linear-gradient(to right, transparent calc(50% - 1280px), #000 calc(50% - 700px),
+                                          #000 calc(50% + 700px), transparent calc(50% + 1280px)); }
+  }
+  @media (min-width: 900px) { .ts-conv { margin: 72px 0 120px; } }
+  /* No backing panel behind the film. Anything painted there is what you would see through
+     the punched perforations, which is exactly what made them read as filled in. With nothing
+     behind, the holes show the section itself. */
+
+  /* complementary masks: each layer is fully absent where the other is fully present, so the
+     punched perforations always reveal the page rather than the strip underneath */
+  .ts-conv__layer { position: absolute; inset: 0; z-index: 1; }
+  /* --cut is set by JS to the middle of the gap FOLLOWING the centred frame, so when the strip
+     is at rest the changeover falls between two frames and none is ever left half converted.
+     --cutw is the softness: about one interframe gap, so it reads as a line, not a fade. */
+  .ts-conv__layer--pos {
+    -webkit-mask-image: linear-gradient(to right, transparent calc(var(--cut) - var(--cutw)), #000 calc(var(--cut) + var(--cutw)));
+            mask-image: linear-gradient(to right, transparent calc(var(--cut) - var(--cutw)), #000 calc(var(--cut) + var(--cutw))); }
+  .ts-conv__layer--neg { z-index: 2;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(var(--cut) - var(--cutw)), transparent calc(var(--cut) + var(--cutw)));
+            mask-image: linear-gradient(to right, #000 calc(var(--cut) - var(--cutw)), transparent calc(var(--cut) + var(--cutw))); }
+
+  /* The film base is ONE element per layer, not one per frame. Per-frame bases left hairline
+     seams between them at fractional pixel widths, and any hairline showed the page straight
+     through. The perforation mask is applied here too, so it runs continuously. */
+  .ts-conv__track { position: relative; display: flex; align-items: center; gap: 0;
+    width: max-content; height: var(--fh); box-sizing: border-box; will-change: transform; }
+
+  /* The film itself: base colour, edge rules, and the perforations punched out of it. It is a
+     separate layer purely so the MASK stops here. Anything above it (frames, edge printing) is
+     unmasked, which is what lets the barcode glow spill across a hole and off the film edge
+     instead of being cut flat at the boundary. */
+  .ts-conv__film { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-color: var(--base);
+    /* Two rules run the length of both perforation bands: a thin constant red and a thicker
+       broken green. They are listed under the perforation mask, so the holes interrupt them.
+       The negative side carries the complements of those colours, multiplied onto the stock,
+       which is what they actually look like before conversion. */
+    background-image: var(--ring), var(--ring);
+    background-repeat: repeat-x, repeat-x;
+    background-size: calc(4.7498 * var(--mm)) calc(3.1 * var(--mm)),
+                     calc(4.7498 * var(--mm)) calc(3.1 * var(--mm));
+    background-position: 0 calc(1.2 * var(--mm)), 0 calc(100% - 1.2 * var(--mm));
+    -webkit-mask-image: var(--hole), var(--hole), var(--band);
+            mask-image: var(--hole), var(--hole), var(--band);
+    -webkit-mask-repeat: repeat-x, repeat-x, no-repeat;
+            mask-repeat: repeat-x, repeat-x, no-repeat;
+    -webkit-mask-size: calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)),
+                       calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)), 100% 100%;
+            mask-size: calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)),
+                       calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)), 100% 100%;
+    -webkit-mask-position: 0 calc(1.353 * var(--mm)), 0 calc(100% - 1.353 * var(--mm)), 0 0;
+            mask-position: 0 calc(1.353 * var(--mm)), 0 calc(100% - 1.353 * var(--mm)), 0 0;
+    --band: linear-gradient(to bottom, #000 0 calc(1.353 * var(--mm)),
+                            transparent calc(1.353 * var(--mm)) calc(4.147 * var(--mm)),
+                            #000 calc(4.147 * var(--mm)) calc(100% - 4.147 * var(--mm)),
+                            transparent calc(100% - 4.147 * var(--mm)) calc(100% - 1.353 * var(--mm)),
+                            #000 calc(100% - 1.353 * var(--mm)) 100%); }
+
+  /* Edge rules. Same split as the barcode: the outer element carries the glow and is NOT
+     masked, so light spills across the perforations; the inner one carries the colour and the
+     perforation mask, so the rule itself is interrupted by the holes.
+       green  thin, constant, outboard at 1.72mm
+       red    1mm, broken, inboard at 2.5mm
+     Both periods divide the 37.9984mm frame pitch exactly, or they drift on every recycle. */
+  .ts-conv__rules { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .ts-conv__rules--g { filter: drop-shadow(0 0 calc(0.3 * var(--mm)) var(--rule-glow-g))
+                               drop-shadow(0 0 calc(0.9 * var(--mm)) var(--rule-glow-g)); }
+  .ts-conv__rules--r { filter: drop-shadow(0 0 calc(0.3 * var(--mm)) var(--rule-glow-r))
+                               drop-shadow(0 0 calc(1.1 * var(--mm)) var(--rule-glow-r)); }
+  .ts-conv__rules i { display: block; position: absolute; inset: 0;
+    background-repeat: repeat-x, repeat-x;
+    /* hole tiles only. They already span just the perforation rows, and mask layers union, so
+       adding any band across those rows would make them solid and cover the holes. */
+    -webkit-mask-image: var(--hole), var(--hole);
+            mask-image: var(--hole), var(--hole);
+    -webkit-mask-repeat: repeat-x, repeat-x; mask-repeat: repeat-x, repeat-x;
+    -webkit-mask-size: calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)),
+                       calc(4.7498 * var(--mm)) calc(2.794 * var(--mm));
+            mask-size: calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)),
+                       calc(4.7498 * var(--mm)) calc(2.794 * var(--mm));
+    -webkit-mask-position: 0 calc(1.353 * var(--mm)), 0 calc(100% - 1.353 * var(--mm));
+            mask-position: 0 calc(1.353 * var(--mm)), 0 calc(100% - 1.353 * var(--mm)); }
+
+  /* Un-converted side: the rules are dye in the film, not light coming through it. No glow,
+     and multiplied into the stock so they sit in the orange rather than on top of it. The
+     converted side keeps its glow, where the edge printing is a lit latent image. */
+  .ts-conv__layer--neg .ts-conv__rules { filter: none; mix-blend-mode: multiply; }
+
+  /* the barcode band reaches 1.72mm in from the film edge, so green starts 0.5mm clear of it */
+  .ts-conv__rules--g i { background-image: var(--rule-g), var(--rule-g);
+    background-size: 100% calc(0.18 * var(--mm)), 100% calc(0.18 * var(--mm));
+    background-position: 0 calc(2.22 * var(--mm)), 0 calc(100% - 2.22 * var(--mm)); }
+  .ts-conv__rules--r i { background-image: var(--rule-r), var(--rule-r);
+    background-size: 100% calc(0.75 * var(--mm)), 100% calc(0.75 * var(--mm));
+    background-position: 0 calc(2.85 * var(--mm)), 0 calc(100% - 2.85 * var(--mm)); }
+
+  /* Grain sits on the film layer and on the frames, never on the track. On the track it was
+     above the mask and so painted straight over the punched holes. On the film it is masked
+     with everything else, so the holes stay clean. Identical blend modes and opacities in both
+     places, which is what keeps a thin negative (which multiplies to exactly the base colour)
+     matching the stock around it. The converted side takes no grain at all. */
+  .ts-conv__film::before, .ts-conv__film::after,
+  .ts-conv__win::before, .ts-conv__win::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image: var(--grain-fine), var(--grain-coarse);
+    /* both grain scales divide the frame pitch exactly (12 and 3 per frame) for the same reason */
+    background-size: calc(3.16653 * var(--mm)) calc(3.16653 * var(--mm)),
+                     calc(12.66613 * var(--mm)) calc(12.66613 * var(--mm)); }
+  .ts-conv__film::before, .ts-conv__win::before { z-index: 2; mix-blend-mode: multiply; opacity: .26; }
+  .ts-conv__film::after,  .ts-conv__win::after  { z-index: 3; mix-blend-mode: overlay;  opacity: .32; }
+  .ts-conv__layer--pos .ts-conv__film::before, .ts-conv__layer--pos .ts-conv__film::after,
+  .ts-conv__layer--pos .ts-conv__win::before,  .ts-conv__layer--pos .ts-conv__win::after { content: none; }
+
+  /* a frame is now just a transparent slot on that film: picture plus its edge printing */
+  /* z-index deliberately left auto. The rules inside multiply onto the film base, and a
+     stacking context here would trap that blend inside the frame. Positioned children still
+     paint over the film by DOM order, which is all the old z-index: 1 was buying. */
+  .ts-conv__item { position: relative; flex: 0 0 auto;
+    width: calc(37.9984 * var(--mm)); height: var(--fh); background: none; }
+
+  /* the un-converted stock is film, not card: you see the backdrop through it, softened the
+     way a negative diffuses whatever is behind it. The punched holes stay clear, so the
+     backdrop reads sharp through them and blurred through the base. */
+  /* Denser stock, matching the reference. This is also the multiply ceiling, so frames get
+     correspondingly denser with it: one value drives the base, the gaps and the frame interiors,
+     which is what keeps them indistinguishable where a negative is thin. */
+  .ts-conv__layer--neg { --base: #b4612d; --ink: #3a1c07;
+    /* complements of the developed colours, multiplied into the stock */
+    /* complements of the developed colours, pushed vivid: a negative reads far more saturated
+       than the print it makes */
+    --rule-r: repeating-linear-gradient(to right, transparent 0 calc(10.687 * var(--mm)),
+                                        #23c3d6 calc(10.687 * var(--mm)) calc(27.3113 * var(--mm)),
+                                        transparent calc(27.3113 * var(--mm)) calc(37.9984 * var(--mm)));
+    --rule-g: linear-gradient(#c364e0, #c364e0);
+    --rule-glow-r: rgba(35,195,214,.6); --rule-glow-g: rgba(195,100,224,.55); }
+
+  /* converted: neutral base, but the edge printing is a latent image on the film, so it stays amber */
+  .ts-conv__layer--pos { --base: #000; --ink: #e8b23c;
+    --rule-r: repeating-linear-gradient(to right, transparent 0 calc(10.687 * var(--mm)),
+                                        #c0392b calc(10.687 * var(--mm)) calc(27.3113 * var(--mm)),
+                                        transparent calc(27.3113 * var(--mm)) calc(37.9984 * var(--mm)));
+    --rule-g: linear-gradient(#4e7d2a, #4e7d2a);
+    --rule-glow-r: rgba(192,57,43,.7); --rule-glow-g: rgba(78,125,42,.6);
+    /* pure black on a dark page loses its silhouette, so the converted stock gets a hairline
+       rim along its edges and around every perforation. The mask punches the hole out of the
+       middle of each ring, leaving just the outline. */
+    --ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4.7498 3.1' preserveAspectRatio='none'%3E%3Crect x='1.3094' y='0.073' width='2.131' height='2.954' rx='0.583' ry='0.583' fill='none' stroke='rgba(255,255,255,0.13)' stroke-width='0.14'/%3E%3C/svg%3E"); }
+  .ts-conv__layer--pos .ts-conv__film {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(255,255,255,.10); }
+  .ts-conv__layer--pos .ts-conv__edge { text-shadow: 0 0 calc(0.45 * var(--mm)) rgba(232,178,60,.8),
+                                                     0 0 calc(1.6 * var(--mm)) rgba(232,178,60,.4),
+                                                     0 0 calc(3.4 * var(--mm)) rgba(232,178,60,.22); }
+  .ts-conv__layer--pos .ts-conv__code { filter: drop-shadow(0 0 calc(0.45 * var(--mm)) rgba(232,178,60,.8))
+                                                drop-shadow(0 0 calc(1.6 * var(--mm)) rgba(232,178,60,.4))
+                                                drop-shadow(0 0 calc(3.4 * var(--mm)) rgba(232,178,60,.22)); }
+
+  /* the picture occupies the first 36mm of the pitch. It takes the film base so transparent
+     negative PNGs composite straight onto the stock, and its edge is softened into the base
+     rather than being a hard cut, the way a latent image actually sits on film. */
+  /* The gate edge is an SVG mask rather than a border-radius: a hand-drawn rectangle whose
+     sides bow slightly, blurred inside the SVG so the boundary is soft the way emulsion is.
+     Masking the window exposes the track underneath, which carries the same --base colour, so
+     the feathered edge resolves into the stock with no seam. Four gates, cycled per frame. */
+  .ts-conv__win { position: absolute; left: 0; top: calc(4.647 * var(--mm));
+    width: calc(36 * var(--mm)); height: calc(25.706 * var(--mm));
+    overflow: hidden; display: block; background-color: var(--base);
+    -webkit-mask-image: var(--gate); mask-image: var(--gate);
+    -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+  .ts-conv { --gate: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 257' preserveAspectRatio='none'%3E%3Cfilter id='b' x='-4%' y='-4%' width='108%' height='108%'%3E%3CfeGaussianBlur stdDeviation='0.7'/%3E%3C/filter%3E%3Cpath d='M0,0%20Q180,1.8%20360,0%20Q358.2,128.5%20360,257%20Q180,255.2%200,257%20Q1.8,128.5%200,0%20Z' fill='%23fff' filter='url(%23b)'/%3E%3C/svg%3E"); }
+  .ts-gate-2 .ts-conv__win { --gate: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 257' preserveAspectRatio='none'%3E%3Cfilter id='b' x='-4%' y='-4%' width='108%' height='108%'%3E%3CfeGaussianBlur stdDeviation='0.9'/%3E%3C/filter%3E%3Cpath d='M0,0%20Q180,2.4%20360,0%20Q357.6,128.5%20360,257%20Q180,254.6%200,257%20Q2.4,128.5%200,0%20Z' fill='%23fff' filter='url(%23b)'/%3E%3C/svg%3E"); }
+  .ts-gate-3 .ts-conv__win { --gate: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 257' preserveAspectRatio='none'%3E%3Cfilter id='b' x='-4%' y='-4%' width='108%' height='108%'%3E%3CfeGaussianBlur stdDeviation='0.75'/%3E%3C/filter%3E%3Cpath d='M0,0%20Q180,2.0%20360,0%20Q358.0,128.5%20360,257%20Q180,255.0%200,257%20Q2.0,128.5%200,0%20Z' fill='%23fff' filter='url(%23b)'/%3E%3C/svg%3E"); }
+  .ts-gate-4 .ts-conv__win { --gate: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 257' preserveAspectRatio='none'%3E%3Cfilter id='b' x='-4%' y='-4%' width='108%' height='108%'%3E%3CfeGaussianBlur stdDeviation='0.85'/%3E%3C/filter%3E%3Cpath d='M0,0%20Q180,2.6%20360,0%20Q357.4,128.5%20360,257%20Q180,254.4%200,257%20Q2.6,128.5%200,0%20Z' fill='%23fff' filter='url(%23b)'/%3E%3C/svg%3E"); }
+
+  .ts-conv__win img { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* The un-converted side renders the SAME files as the converted one: inverted, then
+     multiplied onto the orange base. That is what actually produces the mask, rather than
+     approximating it. isolation: isolate keeps the blend inside the frame so it multiplies
+     against the stock and nothing else; the backing has to be opaque for the same reason. */
+  .ts-conv__layer--neg .ts-conv__win { isolation: isolate; background-color: var(--base); }
+  .ts-conv__layer--neg .ts-conv__win img { filter: invert(1); mix-blend-mode: multiply; }
+  /* The pictures sit on top of the film, so they need their own pass. Everything here is inside
+     the frame, which means the holes punched out of the track are never touched by it, which is
+     what was making them read brighter than the section behind. */
+  /* edge printing, in the band between the film edge and the perforations */
+  .ts-conv__edge { position: absolute; left: 0; width: calc(36 * var(--mm));
+    height: calc(1.353 * var(--mm)); display: flex; align-items: center;
+    gap: calc(1.4 * var(--mm)); padding: 0 calc(1.2 * var(--mm));
+    font-size: calc(1.2 * var(--mm)); line-height: 1; letter-spacing: .04em;
+    /* Inter named explicitly: the theme body face is a merchant setting, and edge printing
+       wants a consistent extrabold grotesque regardless of what that is set to. */
+    font-family: Inter, 'Inter Tight', var(--font-body-family), system-ui, sans-serif;
+    font-weight: 800; color: var(--ink); white-space: nowrap; overflow: hidden; }
+  /* overflow visible for the same reason as the bottom edge: hidden clips the text-shadow flat
+     against the perforation row instead of letting it spill across the holes */
+  .ts-conv__edge--top { top: 0; justify-content: space-between; overflow: visible; }
+  .ts-conv__batch { opacity: .9; letter-spacing: .06em; }
+  .ts-conv__edge--top .ts-conv__num { position: absolute; left: calc(18 * var(--mm));
+    transform: translateX(-50%); }
+  .ts-conv__edge--bot { bottom: 0; padding: 0; align-items: flex-end; overflow: visible;
+    height: calc(1.72 * var(--mm)); }
+  .ts-conv__stock { font-weight: 800; letter-spacing: .1em; }
+  /* The number sits in a gap in the printing, not on a patch over it. No background, so it
+     never covers a perforation and never blocks the glow spilling off the bars either side. */
+  .ts-conv__edge--bot .ts-conv__num { position: absolute; bottom: 0; left: calc(18 * var(--mm));
+    transform: translateX(-50%); }
+  /* DX edge barcode. Decorative: a real one encodes manufacturer, emulsion and frame number. */
+  /* The bars are masked on the inner element and the glow is filtered on the outer one. Both
+     on the same element does not work: CSS applies filter BEFORE mask, so the drop-shadow was
+     being clipped away by the very mask that cuts the bars. */
+  .ts-conv__code { flex: 1 1 auto; height: calc(1.72 * var(--mm)); display: block; }
+  /* Three nested elements, each doing one job, because a single element cannot carry two masks
+     and a filter without them interfering:
+       .ts-conv__code   the glow. No mask, so the drop-shadow spills over holes and off the film.
+       .ts-conv__holes  punches the perforations out of the bars. A code cannot be printed over
+                        a hole, but the light from the bars beside it still falls across one.
+       .ts-conv__bars   the DX pattern itself.
+     The hole tile is offset so its lower edge meets the top of this band, and a second mask
+     layer keeps everything below that fully opaque. */
+  .ts-conv__holes { display: block; width: 100%; height: 100%;
+    -webkit-mask-image: var(--hole), linear-gradient(to bottom, transparent 0 calc(0.367 * var(--mm)), #000 calc(0.367 * var(--mm)) 100%);
+            mask-image: var(--hole), linear-gradient(to bottom, transparent 0 calc(0.367 * var(--mm)), #000 calc(0.367 * var(--mm)) 100%);
+    -webkit-mask-repeat: repeat-x, no-repeat; mask-repeat: repeat-x, no-repeat;
+    -webkit-mask-size: calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)), 100% 100%;
+            mask-size: calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)), 100% 100%;
+    -webkit-mask-position: 0 calc(-2.427 * var(--mm)), 0 0;
+            mask-position: 0 calc(-2.427 * var(--mm)), 0 0; }
+  .ts-conv__bars { display: block; width: 100%; height: 100%; background-color: currentColor;
+    -webkit-mask-image: var(--dx); mask-image: var(--dx);
+    -webkit-mask-repeat: repeat-x; mask-repeat: repeat-x;
+    -webkit-mask-size: calc(18 * var(--mm)) 100%; mask-size: calc(18 * var(--mm)) 100%; }
+
+  /* Film grain over the whole strip, both sides, in two passes over the top of everything:
+     one MULTIPLY pass for the dark specks and one OVERLAY pass for the sparkle. A single
+     overlay pass sat too close to mid-grey to register against the flat orange. Both are
+     driven by --grain-fine / --grain-coarse so the two passes stay identical in shape. */
+  .ts-conv { --grain-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23f)'/%3E%3C/svg%3E");
+    --grain-coarse: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23c)' opacity='0.6'/%3E%3C/svg%3E"); }
+
+  @media (prefers-reduced-motion: reduce) { .ts-conv__track { transform: none !important; } }
+
+  .ts-ba { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #0f0f10; touch-action: none; user-select: none; }
+  .ts-ba__layer { position: absolute; inset: 0; }
+  .ts-ba__before { clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
+  .ts-ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ts-ba__divider { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; margin-left: -1px; background: rgba(255,255,255,.92); pointer-events: none; }
+  .ts-ba__handle { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; border-radius: 9999px; background: #3b82f6; color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 12px rgba(0,0,0,.45); }
+  .ts-ba__tag { position: absolute; top: 12px; padding: 4px 8px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; pointer-events: none; }
+  .ts-ba__tag--l { left: 12px; }
+  .ts-ba__tag--r { right: 12px; }
+  .ts-ba__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+  .ts-ba__range:focus-visible { outline: 2px solid #3b82f6; outline-offset: -2px; }
+
+  /* ---- shared bits: icons, framed screenshots, feature bullets ----
+     Icons are inline <svg viewBox="0 0 24 24"> with no presentation attributes, the stroke
+     styling lives here, so a new icon only needs its <path>. Add fill="currentColor"
+     stroke="none" on a path that should be solid. */
+  .ts-icon, .ts-tile-icon { display: flex; align-items: center; justify-content: center; border-radius: 2px; }
+  .ts-icon svg, .ts-tile-icon svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .ts-icon { width: 36px; height: 36px; margin-bottom: 14px; background: rgba(255,255,255,.06); color: #d4d4d4; }
+  .ts-icon svg { width: 20px; height: 20px; }
+  .ts-tile-icon { width: 40px; height: 40px; margin-bottom: 16px; background: rgba(255,255,255,.07); color: #fff; }
+  .ts-tile-icon svg { width: 22px; height: 22px; }
+
+  /* framed screenshot, fills its box, so give the wrapper the aspect ratio or let it flex.
+     Default crop is from the TOP so the app's title bar and toolbar stay in frame; add
+     .ts-shot--center when the interesting part sits in the middle of the screenshot. */
+  .ts-shot { position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #0f0f10; }
+  .ts-shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+  .ts-shot--center img { object-position: center; }
+
+  .ts-bullets { margin: 20px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .ts-bullets li { position: relative; padding-left: 20px; font-size: 15px; line-height: 1.55; color: #a3a3a3; }
+  .ts-bullets li::before { content: ''; position: absolute; left: 0; top: 9px; width: 7px; height: 7px; border-radius: 9999px; background: #3b82f6; }
+
+  /* ---- platform badges (Apple / Windows marks) ---- */
+  /* .ts-hero-text is a flex column with gap:26px, and .ts-msg reserves a status line under
+     the form, so this sat ~60px below the CTA. Trim both to land on roughly 1rem. */
+  .ts-os-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px; margin: -16px 0 0; }
+  .ts-hero-text .ts-msg { margin: 6px 0 0; min-height: 0; }
+  .ts-os { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; color: #a3a3a3; }
+  .ts-os__icon { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+  /* it is the only supporting line on a phone, so it can carry more weight there */
+  @media (min-width: 750px) {
+    .ts-os { font-size: 13px; gap: 7px; }
+    .ts-os__icon { width: 14px; height: 14px; }
+  }
+  .ts-morelist .ts-os { font-size: inherit; color: inherit; }
+
+  /* ---- bento grid ----
+     Two large cards anchor it: the engine top-left, speed in the middle-right. Everything
+     else is a single cell. Positions are explicit, so source order must match the numbering
+     in the markup comment.
+       r1: [ 1 engine  ][ 2 RGB   ]
+       r2: [ 1 engine  ][ 3 GPU   ]
+       r3: [ 4 ffc ][ 6 speed     ]
+       r4: [ 5 batch ][ 6 speed   ]
+       r5: [ 7 standalone ][ 8 crop ][ 9 hardware ]
+  */
+  .ts-bento-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 900px) {
+    .ts-bento-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 210px; }
+    .ts-bento-grid > :nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 3; }
+    .ts-bento-grid > :nth-child(2) { grid-column: 3;     grid-row: 1; }
+    .ts-bento-grid > :nth-child(3) { grid-column: 3;     grid-row: 2; }
+    .ts-bento-grid > :nth-child(4) { grid-column: 1;     grid-row: 3; }
+    .ts-bento-grid > :nth-child(5) { grid-column: 1;     grid-row: 4; }
+    .ts-bento-grid > :nth-child(6) { grid-column: 2 / 4; grid-row: 3 / 5; }
+    .ts-bento-grid > :nth-child(7) { grid-column: 1;     grid-row: 5; }
+    .ts-bento-grid > :nth-child(8) { grid-column: 2;     grid-row: 5; }
+    .ts-bento-grid > :nth-child(9) { grid-column: 3;     grid-row: 5; }
+  }
+
+  /* ---- bento tiles + the "+" that opens a feature video ---- */
+  .ts-bento { position: relative; display: flex; flex-direction: column; padding: 24px; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: rgba(255,255,255,.02); transition: border-color .2s ease, background .2s ease; }
+  .ts-bento { cursor: pointer; }
+  .ts-bento:hover { border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.035); }
+  /* Glow tracks the cursor along the BORDER only, a 1px ring, not a wash across the card.
+     The two masks cancel everything but the padding ring, so the gradient shows on the edge. */
+  .ts-bento::before { content: ''; position: absolute; inset: 0; z-index: 0; border-radius: inherit; padding: 1px;
+    opacity: 0; pointer-events: none; transition: opacity .25s ease;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(190,214,255,.85) 0%, rgba(150,185,255,.30) 45%, transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; }
+  .ts-bento:hover::before { opacity: 1; }
+  /* keep card content above the glow layer */
+  .ts-bento > * { position: relative; z-index: 1; }
+  /* Large cards: the screenshot runs edge to edge (no card padding on its side) while the
+     copy keeps its own padding. overflow:hidden clips the image to the card's corner. */
+  .ts-bento--lg { padding: 0; overflow: hidden; }
+  .ts-bento--lg .ts-bento__media { margin: 0; }
+  .ts-bento--lg .ts-bento__media .ts-shot { border: 0; border-radius: 0; min-height: 0; height: 100%; }
+  .ts-bento--lg .ts-bento__text { padding: 24px; }
+  .ts-bento h3 { padding-right: 34px; }   /* keep headings clear of the + */
+  .ts-feature-more { position: absolute; top: 12px; right: 12px; z-index: 2; display: flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; padding: 0; font-size: 19px; line-height: 1; color: rgba(255,255,255,.38);
+    background: none; border: 0; cursor: pointer; transition: color .18s ease, transform .18s ease; }
+  .ts-bento:hover .ts-feature-more { color: #fff; }
+  .ts-feature-more:hover { transform: scale(1.12); }
+  .ts-feature-more:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+  /* Wide cards lay out horizontally, stacking media above copy in a two-column-wide card
+     leaves a long thin column of text and a lot of dead space. */
+  .ts-bento__media { margin-bottom: 22px; }
+  .ts-bento__media .ts-shot { min-height: 180px; height: 100%; }
+  @media (min-width: 750px) {
+    /* half and half, no gutter, the image owns its side completely */
+    .ts-bento--lg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; align-items: stretch; }
+    .ts-bento--lg .ts-bento__media { margin-bottom: 0; align-self: stretch; }
+    /* copy starts at the top; the CTA is pushed to the bottom-right of the column */
+    .ts-bento--lg .ts-bento__text { display: flex; flex-direction: column; justify-content: flex-start; padding: 32px; }
+    .ts-bento--lg .ts-bento__cta { margin-top: auto; align-self: flex-end; }
+  }
+
+  /* Faded screenshot behind the icon cards, full strength at the top, gone by the bottom,
+     so it reads as texture and never competes with the copy sitting over it. */
+  .ts-bento > .ts-bento__bg { position: absolute; inset: 0; z-index: 0; border-radius: inherit; pointer-events: none;
+    background-image: var(--bg); background-size: cover; background-position: top center; opacity: .13;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 88%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 88%);
+    transition: opacity .25s ease; }
+  .ts-bento:hover > .ts-bento__bg { opacity: .2; }
+
+  /* align-self stops it stretching once .ts-bento__text becomes a flex column */
+  .ts-bento__cta { display: inline-flex; align-self: flex-start; align-items: center; gap: 8px; width: auto;
+    margin-top: 22px; padding: 10px 18px; font-size: 14px; font-weight: 600; color: #fff; background: none;
+    border: 1px solid rgba(255,255,255,.28); border-radius: 2px; text-decoration: none;
+    transition: background .18s ease, border-color .18s ease; }
+  .ts-bento__cta svg { width: 15px; height: 15px; flex-shrink: 0; transition: transform .18s ease; }
+  .ts-bento__cta:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.55); }
+  .ts-bento__cta:hover svg { transform: translateX(3px); }
+  .ts-bento__cta:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+  /* ---- feature video modal ---- */
+  .ts-vid { position: fixed; inset: 0; z-index: 110; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .ts-vid[hidden] { display: none; }
+  .ts-vid__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.88); backdrop-filter: blur(4px); }
+  .ts-vid__panel { position: relative; z-index: 1; width: min(1100px, 100%); background: #0f0f10; border: 1px solid rgba(255,255,255,.12); border-radius: 3px; overflow: hidden; }
+  .ts-vid__stage { position: relative; aspect-ratio: 16 / 10; background: #0a0a0b; }
+  .ts-vid__stage video, .ts-vid__stage img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ts-vid__soon { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); margin: 0; padding: 7px 14px; font-size: 13px; color: #e5e5e5; background: rgba(0,0,0,.72); border: 1px solid rgba(255,255,255,.18); border-radius: 2px; }
+  .ts-vid__title { margin: 0; padding: 14px 20px; font-size: 15px; font-weight: 600; color: #fff; border-top: 1px solid rgba(255,255,255,.10); }
+  .ts-vid__close { position: absolute; top: 10px; right: 10px; z-index: 3; width: 34px; height: 34px; border-radius: 2px; background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.18); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; }
+  .ts-vid__close:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+  /* ---- secondary feature list: accordion rows, same language as the showcase above ----
+     Was tab pills over a three-column grid; at that column width nearly every item wrapped
+     mid-phrase. One category at a time, two columns max, so lines stay whole. */
+  .ts-more__item { border-top: 1px solid rgba(255,255,255,.10); }
+  .ts-more__item:last-child { border-bottom: 1px solid rgba(255,255,255,.10); }
+  .ts-more__trigger { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 2px; background: none; border: 0; text-align: left; cursor: pointer; }
+  .ts-more__cat { display: inline-flex; align-items: center; gap: 14px; font-size: 17px; font-weight: 600; color: #a3a3a3; transition: color .2s ease; }
+  .ts-more__ico { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; flex-shrink: 0;
+    border-radius: 2px; background: rgba(255,255,255,.06); color: #fff; }
+  .ts-more__ico svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .ts-more__item.is-open .ts-more__cat, .ts-more__trigger:hover .ts-more__cat { color: #fff; }
+  .ts-more__icon { flex-shrink: 0; font-size: 20px; line-height: 1; color: #60a5fa; transition: transform .45s cubic-bezier(.16,.84,.28,1); }
+  .ts-more__item.is-open .ts-more__icon { transform: rotate(45deg); }
+  .ts-more__trigger:focus-visible { outline: 2px solid #3b82f6; outline-offset: -2px; }
+  .ts-more__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s cubic-bezier(.16,.84,.28,1); }
+  .ts-more__item.is-open .ts-more__panel { grid-template-rows: 1fr; }
+  .ts-more__panelinner { overflow: hidden; }
+  .ts-more__panelinner .ts-morelist { padding-bottom: 26px; }
+  @media (prefers-reduced-motion: reduce) { .ts-more__panel, .ts-more__icon { transition: none; } }
+
+  /* ---- secondary feature list (grouped, under the bento) ---- */
+  .ts-morelist__head { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #60a5fa; }
+  .ts-morelist { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px 56px; }
+  @media (min-width: 820px) { .ts-morelist { grid-template-columns: 1fr 1fr; } }
+  .ts-morelist li { position: relative; padding-left: 16px; font-size: 15px; line-height: 1.55; color: #8f8f8f; }
+  .ts-morelist li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 9999px; background: rgba(59,130,246,.75); }
+  .ts-morelist b { font-weight: 600; color: #e5e5e5; }
+  .ts-soon { display: inline-block; margin-left: 2px; padding: 1px 6px; font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: #a3a3a3; border: 1px solid rgba(255,255,255,.16); border-radius: 2px; vertical-align: 1px; }
+
+  .ts-hw__inner { display: flex; flex-direction: column; gap: 0; max-width: 1400px; margin: 0 auto; padding: 72px 15px; }
+  .ts-hw__head { max-width: 760px; margin: 0 auto 48px; text-align: center; }
+  .ts-hw__icon { margin: 0 auto 18px; }
+  .ts-hw__eyebrow { margin-bottom: 14px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .16em; color: #60a5fa; }
+  .ts-hw__title { font-size: 28px; font-weight: 600; line-height: 1.15; letter-spacing: -.02em; color: #fff; }
+  .ts-hw__sub { margin: 18px auto 0; max-width: 620px; font-size: 17px; line-height: 1.6; color: #a3a3a3; }
+
+  /* Rounded at the top, cut flat at the bottom, with the columns starting straight off that
+     line. object-position: top means the crop takes from the bottom of the shot, so the cut
+     reads as deliberate rather than as a short image. */
+  /* Same glass shell as the hero and the merged RGB frame: hairline light edge, faint fill,
+     generous inner padding. Open at the bottom so it meets the columns on a hard cut. */
+  .ts-hw__media { position: relative; box-sizing: border-box; padding: 14px 14px 0;
+    border: 1px solid rgba(255,255,255,.16); border-bottom: 0; border-radius: 12px 12px 0 0;
+    background: rgba(255,255,255,.05); }
+  .ts-hw__media .ts-shot { overflow: hidden; aspect-ratio: 16 / 9;
+    border: 0; border-radius: 4px 4px 0 0; box-shadow: none; background: #0f0f10; }
+  .ts-hw__media .ts-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+
+  .ts-hw__cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0;
+    border: 1px solid rgba(255,255,255,.10); border-top-color: rgba(255,255,255,.10); }
+  .ts-hw__col { padding: 28px 24px; }
+  .ts-hw__col + .ts-hw__col { border-top: 1px solid rgba(255,255,255,.10); }
+  .ts-hw__lead { font-size: 16px; line-height: 1.6; color: #a3a3a3; }
+  .ts-hw__lead strong { font-weight: 600; color: #fff; }
+  .ts-hw__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 28px; margin-top: 24px; }
+  .ts-hw__btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; font-size: 15px; font-weight: 600;
+    color: #0a0a0b; background: #fff; border-radius: 2px; transition: background .18s ease; }
+  .ts-hw__btn svg { width: 15px; height: 15px; transition: transform .18s ease; }
+  .ts-hw__btn:hover { background: #e4e4e4; }
+  .ts-hw__btn:hover svg { transform: translateX(3px); }
+  .ts-hw__ks { display: inline-flex; align-items: center; gap: 10px; }
+  .ts-hw__kslabel { font-size: 13px; color: #8f8f8f; }
+  .ts-hw__ks svg { width: 108px; height: auto; }
+  .ts-hw__ks svg path { fill: #d4d4d4; }
+
+  @media (min-width: 900px) {
+    .ts-hw__inner { padding: 110px 50px; }
+    .ts-hw__head { margin-bottom: 56px; }
+    .ts-hw__title { font-size: 38px; }
+    /* side by side, split by a rule, flush against the cut above */
+    .ts-hw__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ts-hw__col { padding: 40px 48px; }
+    .ts-hw__col + .ts-hw__col { border-top: 0; border-left: 1px solid rgba(255,255,255,.10); }
+    .ts-hw__lead { font-size: 17px; }
+  }
+
+  /* ---- featured testimonial: copy left, portrait right ---- */
+  /* ---- hardware control / toneLight ---- */
+  .ts-hw { position: relative; overflow-x: clip; background: #131316; border-top: 1px solid rgba(255,255,255,.10); border-bottom: 1px solid rgba(255,255,255,.10); }
+  .ts-hw__body { margin-top: 16px; max-width: 520px; font-size: 17px; line-height: 1.6; color: #a3a3a3; }
+  .ts-hw__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 28px; margin-top: 30px; }
+  .ts-hw__btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; font-size: 15px; font-weight: 600;
+    color: #0a0a0b; background: #fff; border-radius: 2px; text-decoration: none; transition: background .18s ease; }
+  .ts-hw__btn svg { width: 15px; height: 15px; transition: transform .18s ease; }
+  .ts-hw__btn:hover { background: #e4e4e4; }
+  .ts-hw__btn:hover svg { transform: translateX(3px); }
+  .ts-hw__ks { display: inline-flex; align-items: center; gap: 10px; }
+  .ts-hw__kslabel { font-size: 13px; color: #8f8f8f; }
+  .ts-hw__ks svg { width: 108px; height: auto; }
+  .ts-hw__ks svg path { fill: #d4d4d4; }
+
+  /* ---- featured testimonial: full-bleed split, copy left, portrait right ----
+     The left column's padding matches the site container, so the copy lines up with every
+     other section; the right column runs all the way to the viewport edge. */
+  .ts-quote-sec { border-top: 1px solid rgba(255,255,255,.10); border-bottom: 1px solid rgba(255,255,255,.10); }
+  .ts-quote { display: flex; flex-direction: column; }
+  .ts-quote__body { background: #131316; padding: 56px 15px; }
+  .ts-quote__text { margin: 0; font-size: 21px; line-height: 1.45; letter-spacing: -.01em; color: #e5e5e5; }
+  .ts-quote__by { display: flex; align-items: center; gap: 14px; margin-top: 32px; }
+  .ts-quote__avatar { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0;
+    border-radius: 9999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); }
+  .ts-quote__avatar svg { width: 24px; height: 24px; fill: none; stroke: #6a6a6a; stroke-width: 1.6; stroke-linecap: round; }
+  .ts-quote__name { margin: 0; font-size: 15px; font-weight: 600; color: #fff; }
+  .ts-quote__org { margin: 2px 0 0; font-size: 14px; color: #8f8f8f; }
+
+  /* borderless and full height: swap .ts-quote__ph for an <img class="ts-quote__img"> */
+  .ts-quote__media { position: relative; background: #0a0a0b; min-height: 360px; }
+  .ts-quote__ph, .ts-quote__media img { position: absolute; inset: 0; }
+  .ts-quote__ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    color: #4f4f4f; font-size: 13px; letter-spacing: .06em; }
+  .ts-quote__ph svg { width: 40px; height: 40px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  .ts-quote__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  @media (min-width: 900px) {
+    .ts-quote { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; min-height: 560px; }
+    .ts-quote__body { display: flex; flex-direction: column; justify-content: center;
+      padding: 96px 72px 96px max(50px, calc((100vw - 1400px) / 2 + 50px)); }
+    .ts-quote__text { font-size: 26px; }
+  }
+
+  /* ---- scan gallery: three counter-scrolling marquee rows ----
+     Tile width comes from margin-right, not gap: the track holds two identical passes and is
+     shifted -50%, and a trailing gap between the passes would throw that half off. */
+  .ts-mq { overflow: hidden; }
+  .ts-mq + .ts-mq { margin-top: 16px; }
+  .ts-mq__track { display: flex; width: max-content; }
+  .ts-mq .ts-scan { flex: 0 0 auto; width: 280px; margin-right: 16px; }
+  @media (min-width: 1400px) { .ts-mq .ts-scan { width: 320px; } }
+  .ts-mq--l .ts-mq__track { animation: ts-mq-left 220s linear infinite; }
+  .ts-mq--r .ts-mq__track { animation: ts-mq-right 260s linear infinite; }
+  @keyframes ts-mq-left  { from { transform: translateX(0); }     to { transform: translateX(-50%); } }
+  @keyframes ts-mq-right { from { transform: translateX(-50%); }  to { transform: translateX(0); } }
+  /* Laptop and below: break out of the 1400px container and run edge to edge, no fade -
+     there isn't enough width for a fade to look like anything but wasted space. */
+  .ts-gallery { margin-inline: calc(50% - 50vw); }
+  /* Wide desktop: pull back inside the page width and fade both ends instead. */
+  @media (min-width: 1600px) {
+    .ts-gallery { margin-inline: 0;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+              mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%); }
+  }
+  @media (prefers-reduced-motion: reduce) { .ts-mq__track { animation: none; } }
+
+  .ts-scan { position: relative; display: block; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; padding: 0; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #0f0f10; cursor: zoom-in; }
+  .ts-scan__img { position: absolute; inset: 0; display: block; background-size: cover; background-position: center; transition: transform .45s ease; }
+  .ts-scan:hover .ts-scan__img { transform: scale(1.04); }
+  .ts-scan:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+  /* ---- PhotoSwipe skin (loaded in layout/tonescan.liquid) ---- */
+  .pswp { --pswp-bg: #08080a; --pswp-icon-color: #e5e5e5; --pswp-icon-color-secondary: #111; }
+  .pswp__caption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 10; padding: 14px 20px; text-align: center; font-size: 13px; color: #cfcfcf; background: linear-gradient(to top, rgba(0,0,0,.72), transparent); pointer-events: none; }
+  .pswp__caption:empty { display: none; }
+
+  /* ---- headline showcase accordion ----
+     Panels animate via grid-template-rows 0fr -> 1fr, which transitions height without a
+     hard-coded max-height. The media background is fixed; only .ts-acc__shot changes. */
+  .ts-acc { display: flex; flex-direction: column; gap: 28px; }
+  /* dividers span the full width; the copy stays padded */
+  .ts-acc__item { border-top: 1px solid rgba(255,255,255,.10); margin-inline: -15px; padding-inline: 15px; }
+  .ts-acc__item:last-child { border-bottom: 1px solid rgba(255,255,255,.10); }
+  .ts-acc__item:last-child.is-open .ts-acc__panelinner { padding-bottom: 4px; }
+  .ts-acc__trigger { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 2px; background: none; border: 0; text-align: left; cursor: pointer; }
+  .ts-acc__title { font-size: 19px; font-weight: 600; color: #a3a3a3; transition: color .2s ease; }
+  .ts-acc__item.is-open .ts-acc__title, .ts-acc__trigger:hover .ts-acc__title { color: #fff; }
+  .ts-acc__icon { flex-shrink: 0; font-size: 20px; line-height: 1; color: #60a5fa; transition: transform .45s cubic-bezier(.16,.84,.28,1); }
+  .ts-acc__item.is-open .ts-acc__icon { transform: rotate(45deg); }
+  .ts-acc__trigger:focus-visible { outline: 2px solid #3b82f6; outline-offset: -2px; }
+  .ts-acc__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s cubic-bezier(.16,.84,.28,1); }
+  .ts-acc__item.is-open .ts-acc__panel { grid-template-rows: 1fr; }
+  .ts-acc__panelinner { overflow: hidden; }
+  .ts-acc__panelinner > p { margin: 0 0 16px; padding-right: 12px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
+  .ts-acc__panelinner > p + p { margin-top: -2px; }
+  .ts-acc__link { display: inline-block; margin-bottom: 24px; font-size: 15px; font-weight: 600; color: #60a5fa; text-decoration: none; }
+  .ts-acc__link:hover { text-decoration: underline; }
+
+  .ts-acc__media { position: relative; order: -1; margin-inline: -15px; overflow: hidden; }
+  /* static, deliberately does NOT change with the selected item */
+  .ts-acc__bg { position: absolute; inset: 0;
+    background:
+      radial-gradient(60% 50% at 30% 12%, rgba(139,92,246,.42) 0%, transparent 66%),
+      radial-gradient(55% 45% at 78% 30%, rgba(59,130,246,.34) 0%, transparent 66%),
+      radial-gradient(70% 55% at 50% 100%, rgba(20,184,166,.26) 0%, transparent 68%),
+      linear-gradient(180deg, #131318 0%, #0d0d10 100%); }
+  /* bare positioning box, the frame (border, radius, shadow) rides on each shot, so the
+     whole panel eases down rather than the picture zooming inside a static border */
+  .ts-acc__frame { position: relative; margin: 20px; aspect-ratio: 16 / 10; }
+  .ts-acc__shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+    border: 1px solid rgba(255,255,255,.16); border-radius: 4px; background: #0f0f10;
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,.9);
+    opacity: 0; transform: scale(1.05);
+    /* slow, heavily front-loaded ease so the panel drifts to rest rather than snapping */
+    transition: opacity .7s cubic-bezier(.33,.85,.35,1), transform 1.15s cubic-bezier(.16,.84,.28,1); }
+  .ts-acc__shot.is-active { opacity: 1; transform: scale(1); }
+
+  @media (min-width: 900px) {
+    /* media on the left, titles on the right */
+    .ts-acc--reverse { grid-template-columns: minmax(320px, 40%) minmax(0, 60%); }
+    .ts-acc--reverse .ts-acc__list { order: 2; }
+    .ts-acc--reverse .ts-acc__media { order: 1; }
+  }
+
+  @media (min-width: 900px) {
+    .ts-acc { display: grid; grid-template-columns: minmax(320px, 40%) minmax(0, 60%); gap: 56px; align-items: start; }
+    .ts-acc__item { margin-inline: 0; padding-inline: 0; }
+    .ts-acc__media { position: sticky; top: 96px; order: 0; margin-inline: 0; border-radius: 3px; }
+    .ts-acc__frame { margin: 34px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ts-acc__panel, .ts-acc__shot, .ts-acc__icon { transition: none; }
+    .ts-acc__shot { transform: none; }
+  }
+
+  /* ---- HERO deep-dive: centred header, one big screenshot on a glow, detail grid below ---- */
+  .ts-hdive { position: relative; overflow-x: clip; background: #0a0a0b; padding: 96px 0 0; }
+  .ts-hdive__head { max-width: 760px; margin: 0 auto; padding: 0 15px; text-align: center; }
+  .ts-hdive__title { font-size: 34px; font-weight: 600; line-height: 1.1; letter-spacing: -.02em; color: #fff; }
+  .ts-hdive__sub { margin: 18px auto 0; max-width: 620px; font-size: 17px; line-height: 1.6; color: #a3a3a3; }
+  /* the same head, but sitting in the sidebar: left aligned and sized for a narrow column */
+  .ts-hdive__panel .ts-hdive__title { text-align: left; font-size: 30px; letter-spacing: -.025em; }
+  .ts-hdive__panel .ts-hdive__sub { text-align: left; margin: 16px 0 0; max-width: 100%; }
+
+  .ts-hdive__stage { position: relative; margin: 64px auto 0; padding: 0; max-width: 1300px; }
+  @media (min-width: 900px) { .ts-hdive__stage { padding: 0 50px; } }
+  /* sits mostly ABOVE the frame, the frame is opaque, so only the part that clears its top
+     edge is visible. Push it up and oversize it or the glow reads as nothing. */
+  .ts-hdive__glow { position: absolute; left: 50%; top: -190px; width: 92%; height: 420px; transform: translateX(-50%);
+    border-radius: 50%; filter: blur(100px); pointer-events: none;
+    background:
+      radial-gradient(44% 64% at 13% 55%, rgba(255,16,48,.85) 0%, transparent 70%),   /* R */
+      radial-gradient(56% 74% at 50% 58%, rgba(0,235,90,.78) 0%, transparent 72%),    /* G */
+      radial-gradient(44% 64% at 87% 55%, rgba(34,86,255,.92) 0%, transparent 70%); } /* B */
+  .ts-hdive__frame { position: relative; z-index: 1; overflow: hidden;
+    border: 1px solid rgba(255,255,255,.16); border-radius: 8px 8px 0 0; border-bottom: 0;
+    background: #0f0f10; box-shadow: 0 40px 110px -40px rgba(0,0,0,.95); }
+  .ts-hdive__frame img { display: block; width: 100%; height: auto; }
+
+  /* detail grid, sits under the shot, divider between the two columns */
+  .ts-hdive__grid { position: relative; z-index: 2; max-width: 1300px; margin: 0 auto; padding: 0 15px;
+    display: grid; grid-template-columns: 1fr; gap: 32px; border-top: 1px solid rgba(255,255,255,.10); }
+  .ts-hdive__col { padding: 40px 0; }
+  .ts-hdive__lead { margin: 0; font-size: 17px; line-height: 1.6; color: #8f8f8f; }
+  .ts-hdive__lead b { font-weight: 600; color: #fff; }
+  .ts-hdive__link { display: inline-block; margin-top: 20px; font-size: 15px; font-weight: 600; color: #60a5fa; text-decoration: none; }
+  .ts-hdive__link:hover { text-decoration: underline; }
+
+  @media (min-width: 900px) {
+    .ts-hdive { padding-top: 130px; }
+    .ts-hdive__title { font-size: 52px; }
+    .ts-hdive__stage { padding: 0 50px; }
+    .ts-hdive__grid { grid-template-columns: 1fr 1fr; gap: 0; padding: 0 50px; }
+    .ts-hdive__col { padding: 48px 56px; }
+    .ts-hdive__col:first-child { padding-left: 0; }
+    .ts-hdive__col:last-child { padding-right: 0; border-left: 1px solid rgba(255,255,255,.10); }
+  }
+
+  /* the channel merge sits on the glow with no frame; the splayed channels overflow, which
+     .ts-hdive's overflow-x: clip already contains */
+  .ts-hdive__stage .ts-rgb { position: relative; z-index: 1; }
+  @media (max-width: 899px) {
+    /* the merge is the point of this section, so give it the width the hero gets */
+    .ts-hdive__stage .ts-rgb { aspect-ratio: 1500 / 1017; }
+    .ts-rgb__frame { margin: 0; padding: 9px; border-radius: 9px; }
+    .ts-rgb__ch { left: 10px; right: 10px; bottom: 10px; }
+  }
+  /* ---- pinned media, scrolling copy ---- */
+  .ts-hdive__pin { position: relative; }
+  .ts-hdive__ptitle { font-size: 22px; font-weight: 600; line-height: 1.15; letter-spacing: -.015em; color: #fff; margin-bottom: 14px; }
+  .ts-hdive__ptitle--sub { margin-top: 30px; font-size: 20px; color: #fff; }
+  .ts-hdive__panel > .ts-hdive__lead { margin-bottom: 16px; }
+
+  @media (min-width: 900px) {
+    /* the sticky panel and the copy share one grid row, so the copy column starts level with
+       the top of the pinned region instead of a viewport late */
+    .ts-hdive__pin { display: grid; grid-template-columns: 50% 50%; }
+    .ts-hdive__sticky { grid-column: 1 / -1; grid-row: 1; align-self: start;
+      position: sticky; top: 0; height: 100vh; display: flex; align-items: center;
+      z-index: 2; pointer-events: none; }
+    .ts-hdive__stage { margin: 0 auto; width: 100%; will-change: transform; }
+    /* one-shot: as soon as the panel is pinned it runs all the way left */
+    /* scroll-linked: --t runs 0 to 1 once the merge is done. At 1 the stage's right edge is
+       on the centreline; the +50px cancels the stage padding so it is the photo's edge that
+       lands there, not the box around it */
+    .ts-hdive__stage { transform: translateX(calc((-50% + 50px) * var(--t, 0))); }
+
+    /* behind the panel where the two overlap */
+    /* column two starts on the centreline, exactly where the photo's right edge lands */
+    .ts-hdive__rail { display: block; grid-column: 2; grid-row: 1; z-index: 3;
+      width: 0; margin-left: -34px; pointer-events: auto; }
+    /* one viewport of lead-in: the merge plays and the panel slides left over this stretch,
+       so the first copy block only reaches the middle once the photo has finished moving */
+    /* 700px is half the 1400px page container, so the copy stops where the page does
+       rather than running out to the window edge on a wide display */
+    .ts-hdive__textcol { grid-column: 2; grid-row: 1; z-index: 1; max-width: 700px;
+      /* tail on the last block: the photo stays pinned while the closing copy travels up,
+         so the section does not let go the instant that block reaches the middle */
+      padding: 75vh 50px 45vh 60px; }
+    .ts-hdive__panel > * { max-width: 560px; }
+    .ts-hdive__panel { min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+      will-change: opacity;
+      opacity: var(--pv, 0);
+    }
+    .ts-hdive__ptitle { font-size: 26px; }
+    .ts-hdive__ptitle--sub { margin-top: 38px; font-size: 22px; }
+    .ts-hdive__panel .ts-hdive__title { font-size: 40px; line-height: 1.08; }
+  }
+
+  /* mobile: no pinning, media then copy */
+  @media (max-width: 899px) {
+    .ts-hdive__textcol { padding: 0 15px; }
+    .ts-hdive__panel { padding: 40px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ts-hdive__sticky { position: static; height: auto; }
+    .ts-hdive__stage { transform: none; }
+    .ts-hdive__pin { display: block; }
+    .ts-hdive__textcol { padding-right: 0; }
+    .ts-hdive__panel { min-height: 0; opacity: 1; transform: none; }
+  }
+
+  /* Screenshot layers riding over the merged frame, sharing its box so only the picture
+     inside changes. Same motion as the story section: travel, fade and scale together. */
+  .ts-hdive__shot { position: absolute; inset: 0; margin: 0 8%; box-sizing: border-box;
+    padding: 14px; border: 1px solid rgba(255,255,255,.16); border-radius: 12px;
+    background: rgba(255,255,255,.05); box-shadow: 0 34px 90px -28px rgba(0,0,0,.92);
+    opacity: 0; z-index: 2; pointer-events: none;
+    transform: translateY(20%) scale(.94);
+    transition: opacity .8s ease, transform 1.05s cubic-bezier(.22,.61,.24,1); }
+  .ts-hdive__shot.is-active { opacity: 1; transform: translateY(0) scale(1); z-index: 3; }
+  .ts-hdive__shot.is-leaving { opacity: 0; transform: translateY(-20%) scale(.94); z-index: 2; }
+  /* scrolling up: layers wait above and leave downward, so they arrive from where you came from */
+  .ts-rgb__stage.is-up .ts-hdive__shot { transform: translateY(-20%) scale(.94); }
+  .ts-rgb__stage.is-up .ts-hdive__shot.is-active { transform: translateY(0) scale(1); }
+  .ts-rgb__stage.is-up .ts-hdive__shot.is-leaving { transform: translateY(20%) scale(.94); }
+  .ts-rgb__stage.ts-no-anim .ts-hdive__shot,
+  .ts-rgb__stage.ts-no-anim .ts-rgb__frame { transition: none; }
+  .ts-hdive__shotimg { width: 100%; height: 100%; border-radius: 4px; background-color: #0f0f10;
+    background-image: var(--shot); background-size: cover; background-position: center; }
+
+  /* With --s at 0 the three channel layers sit on top of each other and screen-blend into a
+     second copy of the finished photo. The opaque frame used to hide it; now that the frame
+     fades out as part of the rotation, they have to go with it. Keyed to .is-shot, not .is-rot:
+     is-rot never comes off, which left nothing to splay back apart when scrolling up through
+     the merge. */
+  .ts-rgb__stage.is-shot .ts-rgb__ch { opacity: 0; transition: opacity .4s ease; }
+
+  /* The merged frame is media 0 and joins the same rotation. Until the rotation takes over,
+     .ts-rgb.is-converted pins it visible; .is-rot hands control to the active/leaving classes
+     so it rests off-frame like the screenshots instead of reappearing underneath them. */
+  /* Every rule here carries the .ts-rgb.is-converted prefix. That rule lives further down the
+     sheet and ties on specificity, so without the prefix it wins on source order and pins the
+     frame visible; with it on only some of these, the resting rule outranked .is-active and
+     the frame never showed at all. Same prefix on all of them keeps the cascade predictable. */
+  .ts-rgb.is-converted .ts-rgb__stage.is-rot .ts-rgb__frame { opacity: 0; transform: translateY(20%) scale(.94); z-index: 1; }
+  .ts-rgb.is-converted .ts-rgb__stage.is-rot.is-up .ts-rgb__frame { transform: translateY(-20%) scale(.94); }
+  .ts-rgb.is-converted .ts-rgb__stage.is-rot .ts-rgb__frame.is-active { opacity: 1; transform: translateY(0) scale(1); z-index: 3; }
+  .ts-rgb.is-converted .ts-rgb__stage.is-rot.is-up .ts-rgb__frame.is-active { transform: translateY(0) scale(1); }
+  .ts-rgb.is-converted .ts-rgb__stage.is-rot .ts-rgb__frame.is-leaving { opacity: 0; transform: translateY(-20%) scale(.94); z-index: 2; }
+  .ts-rgb.is-converted .ts-rgb__stage.is-rot.is-up .ts-rgb__frame.is-leaving { transform: translateY(20%) scale(.94); }
+
+  /* mobile keeps the merged frame only; there is no pinned stage to swap against */
+  @media (max-width: 899px) { .ts-hdive__shot { display: none; } }
+
+  /* the rail only means something once there are blocks to track, so it arrives with them */
+  @media (max-width: 899px) { .ts-hdive__rail { display: none; } }
+  .ts-hdive__rail { opacity: 0; transition: opacity .45s ease; }
+  .ts-hdive__pin.is-copy .ts-hdive__rail { opacity: 1; }
+  .ts-hdive__dots { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 26px; }
+  .ts-hdive__dot { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 9999px;
+    background: rgba(255,255,255,.24); cursor: pointer;
+    transition: background .25s ease, transform .25s ease, box-shadow .25s ease; }
+  .ts-hdive__dot.is-active { background: #fff; transform: scale(1.3); box-shadow: 0 0 0 5px rgba(255,255,255,.10); }
+  .ts-hdive__dot:hover:not(.is-active) { background: rgba(255,255,255,.55); }
+  .ts-hdive__dot:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+
+  .ts-rgbcards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  @media (min-width: 900px) { .ts-rgbcards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; } }
+  .ts-rgbcard { position: relative; display: flex; flex-direction: column; padding: 28px;
+    border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: rgba(255,255,255,.02); }
+  .ts-rgbcard__bg { position: absolute; inset: 0; z-index: 0; border-radius: inherit; pointer-events: none;
+    background-image: var(--bg); background-size: cover; background-position: top center; opacity: .13;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 88%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 88%); }
+  .ts-rgbcard__body { position: relative; z-index: 1; margin-top: 24px; }
+  .ts-rgbcard__t { font-size: 17px; font-weight: 600; color: #fff; }
+  .ts-rgbcard__d { margin-top: 8px; font-size: 14px; line-height: 1.6; color: rgb(163,163,163); }
+
+  .ts-hdive__detail { position: relative; z-index: 2; max-width: 1300px; margin: 0 auto; padding: 56px 15px 72px; background: #0a0a0b; }
+  .ts-hdive__detailbody { margin: 0 0 26px; padding-right: 12px; max-width: 780px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
+  @media (min-width: 900px) { .ts-hdive__detail { padding: 72px 50px 104px; } }
+
+  /* ---- feature deep-dives: alternating background, media bleeding off the near edge ---- */
+  .ts-dive { position: relative; overflow-x: clip; background: #0a0a0b; }
+  .ts-dive--alt { background: #131316; }
+  .ts-dive__inner { display: flex; flex-direction: column; gap: 32px; max-width: 1400px; margin: 0 auto; padding: 72px 15px; }
+  .ts-dive__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #60a5fa; }
+  .ts-dive__title { font-size: 28px; font-weight: 600; line-height: 1.15; letter-spacing: -.02em; color: #fff; }
+  .ts-dive__body { margin-top: 16px; font-size: 17px; line-height: 1.6; color: #a3a3a3; }
+  .ts-dive__media .ts-shot { aspect-ratio: 16 / 10; }
+
+  @media (min-width: 900px) {
+    /* .ts-dive__inner is already max-width:1400 + margin:auto, so a viewport-relative padding
+       stacks on top of the centring offset and squeezes the columns. Plain 50px gutter on the
+       text side, none on the media side so the screenshot can bleed past the edge. */
+    .ts-dive__inner { display: grid; grid-template-columns: minmax(300px, 40%) minmax(0, 60%);
+      align-items: center; gap: 64px; padding: 110px 0 110px 50px; }
+    .ts-dive__title { font-size: 38px; }
+    /* run the screenshot past the right edge, on a laptop it clips, which is the intent */
+    .ts-dive__media .ts-shot { width: calc(100% + 140px); }
+
+    /* flipped rows: text on the right, media bleeding off the LEFT edge instead */
+    .ts-dive--flip .ts-dive__inner { grid-template-columns: minmax(0, 60%) minmax(300px, 40%);
+      padding: 110px 50px 110px 0; }
+    .ts-dive--flip .ts-dive__text { order: 2; }
+    .ts-dive--flip .ts-dive__media { order: 1; }
+    .ts-dive--flip .ts-dive__media .ts-shot { margin-left: -140px; }
+  }
+
+  /* let the splayed channels overflow their frame without causing horizontal page scroll */
+  .ts-clip-x { overflow-x: clip; }
+
+  /* ---- rgb merge (scroll-linked --s spread; .is-converted crossfades the result) ---- */
+  .ts-rgb { position: relative; width: 100%; overflow: visible; }
+  /* In flow, not absolute: the frame inside it is what gives .ts-rgb its height now that the
+     container has no aspect-ratio of its own. Left absolute, .ts-rgb collapsed to zero and the
+     frame overlapped everything below it. */
+  .ts-rgb__stage { position: relative; isolation: isolate; }
+  .ts-rgb__ch { position: absolute; left: calc(8% + 15px); right: calc(8% + 15px); bottom: 15px; top: auto; aspect-ratio: 1500 / 1017; border-radius: 4px; mix-blend-mode: screen; background-size: cover; background-position: center; transform-origin: center; will-change: transform, opacity;
+    opacity: calc(1 - var(--s, 1)); }
+  .ts-rgb__ch--r { background-image: url('{{ 'raw-red.jpg' | asset_url }}'); transform: translate(calc(-24% * var(--s, 1)), calc(-14% * var(--s, 1))) rotate(calc(-3.5deg * var(--s, 1))) scale(calc(1 + 0.12 * var(--s, 1))); }
+  .ts-rgb__ch--g { background-image: url('{{ 'raw-green.jpg' | asset_url }}'); transform: translateY(calc(17% * var(--s, 1))) scale(calc(1 + 0.12 * var(--s, 1))); }
+  .ts-rgb__ch--b { background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); transform: translate(calc(24% * var(--s, 1)), calc(-14% * var(--s, 1))) rotate(calc(3.5deg * var(--s, 1))) scale(calc(1 + 0.12 * var(--s, 1))); }
+  /* real converted output, crossfades in all at once once the merge completes */
+  /* the finished frame gets the same glass treatment as the hero screenshot: a hairline
+     light edge and a deep shadow, faded in with the result so the merge resolves into
+     something that reads as a real window rather than a bare image */
+  /* Glass shell in the hero's language but closed on all four sides: it slides free of the
+     section rather than sitting on an edge, so there is nothing for a cut to meet.
+     The photo sits inside at its own native ratio rather than being stretched. */
+  .ts-rgb__frame { position: relative; margin: 0 8%; z-index: 1;
+    box-sizing: border-box; padding: 14px;
+    border: 1px solid rgba(255,255,255,.16); border-radius: 12px;
+    background: rgba(255,255,255,.05);
+    opacity: 0; transition: opacity .55s ease, box-shadow .55s ease, transform 1.05s cubic-bezier(.22,.61,.24,1); }
+  .ts-rgb__result { position: relative; width: 100%; aspect-ratio: 1500 / 1017;
+    border-radius: 4px; background-size: cover; background-position: center;
+    background-image: url('{{ 'converted.jpg' | asset_url }}'); }
+  .ts-rgb.is-converted .ts-rgb__frame { opacity: 1;
+    box-shadow: 0 34px 90px -28px rgba(0,0,0,.92); }
+
+  /* ---- workflow story: scrolling text (left) + PINNED media (right) ----
+     Reverse of the earlier version. The media column is a full-height grid cell so the sticky
+     child inside it can travel the whole section; each text panel is ~100vh so there is real
+     scroll distance between swaps. */
+  .ts-story-sec { position: relative; overflow-x: clip; background: #0a0a0b; }
+  .ts-story-sec__blobs { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  /* --sp is 0 -> 1 across the section, set by JS; the blobs drift the whole way through so the
+     background is still moving while you're between two steps */
+  .ts-story-blob { position: absolute; aspect-ratio: 1; border-radius: 50%; filter: blur(120px); will-change: transform; }
+  /* all three sit in the right half, behind the pinned media, the text column stays clean */
+  .ts-story-blob--1 { width: 42vw; left: 58%; top: 0%;  background: rgba(59,130,246,.30); transform: translate3d(0, calc(var(--sp, 0) * 70vh), 0); }
+  .ts-story-blob--2 { width: 32vw; left: 50%; top: 40%; background: rgba(168,85,247,.22); transform: translate3d(calc(var(--sp, 0) * 10vw), calc(var(--sp, 0) * -34vh), 0); }
+  .ts-story-blob--3 { width: 28vw; left: 72%; top: 76%; background: rgba(34,197,94,.14);  transform: translate3d(calc(var(--sp, 0) * -12vw), calc(var(--sp, 0) * -26vh), 0); }
+
+  /* progress rail, hidden on mobile, where the panels stack with their own posters */
+  .ts-story__rail { display: none; }
+  .ts-story__dots { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; }
+  .ts-story__dot { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 9999px; background: rgba(255,255,255,.24); cursor: pointer;
+    transition: background .35s ease, transform .35s cubic-bezier(.16,.84,.28,1), box-shadow .35s ease; }
+  .ts-story__dot.is-active { background: #fff; transform: scale(1.3); box-shadow: 0 0 0 5px rgba(255,255,255,.10); }
+  .ts-story__dot:hover:not(.is-active) { background: rgba(255,255,255,.55); }
+  .ts-story__dot:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+
+  .ts-story__title { font-size: 26px; line-height: 1.12; font-weight: 600; letter-spacing: -.015em; color: #fff; }
+  .ts-story__body { margin-top: 14px; max-width: 460px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
+  .ts-story__body + .ts-story__body { margin-top: 16px; }
+
+  /* one screenshot per step; 16/10 frame matches the 3200x2000 files so nothing is cropped */
+  .ts-story__v0 { background-image: url('{{ ts_cdn }}/organise.png'); }
+  .ts-story__v1 { background-image: url('{{ ts_cdn }}/develop.png'); }
+  .ts-story__v2 { background-image: url('{{ ts_cdn }}/pixel-preview.png'); }
+  .ts-story__v3 { background-image: url('{{ ts_cdn }}/batch-export.png'); }
+
+  /* bare positioning box, the frame itself lives on each shot so the whole panel travels */
+  .ts-story__stage { position: relative; aspect-ratio: 16 / 10; }
+  /* the outgoing panel fades while sliding up and out; the incoming one rises into place */
+  .ts-story__shot { position: absolute; inset: 0; opacity: 0;
+    background-color: #0f0f10; background-size: cover; background-position: center;
+    border: 1px solid rgba(255,255,255,.12); border-radius: 3px;
+    box-shadow: 0 40px 100px -40px rgba(0,0,0,.9);
+    transform: translateY(20%) scale(.94);
+    transition: opacity .8s ease, transform 1.05s cubic-bezier(.22,.61,.24,1); }
+  /* incoming grows into place, outgoing shrinks away as it leaves */
+  .ts-story__shot.is-active { opacity: 1; transform: translateY(0) scale(1); }
+  .ts-story__shot.is-leaving { opacity: 0; transform: translateY(-20%) scale(.94); }
+  /* scrolling UP: panels wait above and leave downward, so they still arrive from the
+     direction you came from. JS adds .is-up to the stage and suppresses the transition for
+     one frame while the resting offsets flip, so nothing visibly jumps across. */
+  .ts-story__stage.is-up .ts-story__shot { transform: translateY(-20%) scale(.94); }
+  .ts-story__stage.is-up .ts-story__shot.is-active { transform: translateY(0) scale(1); }
+  .ts-story__stage.is-up .ts-story__shot.is-leaving { transform: translateY(20%) scale(.94); }
+  .ts-story__stage.ts-no-anim .ts-story__shot { transition: none; }
+
+  /* mobile: media above its own text, no pinning */
+  .ts-story__panel { padding: 0 15px 56px; }
+  .ts-story__mediacol { display: none; }
+  .ts-story__panel::before { content: ''; display: block; aspect-ratio: 16 / 10; margin-bottom: 24px; border: 1px solid rgba(255,255,255,.12); border-radius: 3px; background-color: #0f0f10; background-image: var(--shot); background-size: cover; background-position: center; }
+
+  @media (min-width: 900px) {
+    .ts-story__panel::before { display: none; }
+    .ts-story__mediacol { display: block; }
+    /* left padding tracks the site container; NO right padding, so the media runs off the edge */
+    .ts-story { position: relative; display: grid; grid-template-columns: minmax(300px, 34%) minmax(0, 66%); gap: 56px;
+      padding-left: max(50px, calc((100vw - 1400px) / 2 + 50px)); }
+    /* out of the grid: sits against the left edge of the screen, not the text column */
+    .ts-story__rail { display: block; position: absolute; left: 26px; top: 0; bottom: 0; width: 0; }
+    .ts-story__panel { display: flex; flex-direction: column; justify-content: center; min-height: 100vh; padding: 0; }
+    .ts-story__title { font-size: 34px; }
+    .ts-story__sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
+    /* oversized on purpose, pushes ~120px past the viewport edge on a laptop */
+    .ts-story__stage { width: calc(100% + 120px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ts-story-blob { transform: none !important; }
+    .ts-story__shot { transition: none; transform: none; }
+  }
+
+  /* ---- hero scroll: image grows slightly (no fade); floats scatter, converge into the
+         screenshot centre and rack into focus (blur->0, scale->1) as --p goes 0->1 ---- */
+  .ts-hero { --p: 0; }
+  /* force the headline to break after the comma on narrow screens instead of mid-phrase */
+  @media (min-width: 750px) { .ts-hero-br { display: none; } }
+  /* COLOURFUL hero region, its bottom edge is the SHARP CUT to the page black (#0a0a0b). */
+  .ts-hero-icon { width: 76px; height: 76px; margin-bottom: -8px; display: block; }
+  @media (min-width: 768px) { .ts-hero-icon { width: 104px; height: 104px; margin-bottom: -6px; } }
+  @media (prefers-reduced-motion: no-preference) { .ts-hero-icon { filter: drop-shadow(0 14px 34px rgba(0,0,0,.55)); } }
+
+  .ts-hero-color {
+    position: relative;
+    isolation: isolate;              /* keeps .ts-hero-bg's negative z-index inside the hero */
+    background:
+      radial-gradient(70% 55% at 12% 4%,  rgba(60,78,130,.22) 0%, transparent 70%),    /* cool top-left lift */
+      radial-gradient(66% 52% at 92% 8%,  rgba(48,64,112,.18) 0%, transparent 70%),    /* cool top-right lift */
+      radial-gradient(96% 76% at 50% 62%, rgba(30,86,190,.30) 0%, transparent 72%),    /* main blue pool */
+      linear-gradient(180deg, #070709 0%, #070709 55%, #08080a 100%);                  /* near-black base */
+  }
+  /* ---- hero particles: three static tiled starfield layers ----
+     Deliberately NOT animated. Drifting these by background-position repaints the whole
+     layer every frame, with this many radial-gradients that was measurably expensive for
+     what is only background texture. Three tile sizes keep the repeat from being obvious.
+     The .p3 layer keeps its brighter, larger dots for a bit of depth. */
+  /* Behind everything in the hero, including the particles. The mask fades it out before the
+     bottom edge so it never fights the hard cut into the black block below. */
+  .ts-hero-bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #070709;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 88%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 88%); }
+  .ts-hero-bg video, .ts-hero-bg img { position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    opacity: calc({{ bg_opacity | default: 8 }} / 100);
+    filter: blur({{ bg_blur | default: 5 }}px); }
+  @media (prefers-reduced-motion: reduce) { .ts-hero-bg video { display: none; } }
+
+  .ts-hero-particles { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  /* Parallax is done with transform, not background-position: transform stays on the
+     compositor so the layers slide without repainting all those gradients. */
+  .ts-hero-particles span { position: absolute; inset: -18% 0; display: block; background-repeat: repeat; will-change: transform; }
+  .ts-hero-particles .p1 {
+    background-image:
+        radial-gradient(1px 1px at 32.4% 15.1%, rgba(255,255,255,0.22) 0%, transparent 100%),
+        radial-gradient(1px 1px at 53.6% 36.6%, rgba(255,255,255,0.43) 0%, transparent 100%),
+        radial-gradient(1px 1px at 21.5% 8.6%, rgba(255,255,255,0.22) 0%, transparent 100%),
+        radial-gradient(1px 1px at 9.1% 42.5%, rgba(255,255,255,0.23) 0%, transparent 100%),
+        radial-gradient(1px 1px at 22.3% 62.7%, rgba(255,255,255,0.34) 0%, transparent 100%),
+        radial-gradient(1px 1px at 39.7% 97.6%, rgba(255,255,255,0.34) 0%, transparent 100%),
+        radial-gradient(1px 1px at 13.3% 41.9%, rgba(255,255,255,0.23) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30.8% 81.6%, rgba(255,255,255,0.23) 0%, transparent 100%),
+        radial-gradient(1px 1px at 57.1% 18.8%, rgba(255,255,255,0.34) 0%, transparent 100%),
+        radial-gradient(1px 1px at 6.3% 6.0%, rgba(255,255,255,0.32) 0%, transparent 100%),
+        radial-gradient(1px 1px at 53.2% 77.7%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45.3% 30.0%, rgba(255,255,255,0.37) 0%, transparent 100%),
+        radial-gradient(1px 1px at 24.4% 57.4%, rgba(255,255,255,0.32) 0%, transparent 100%),
+        radial-gradient(1px 1px at 34.3% 44.9%, rgba(255,255,255,0.45) 0%, transparent 100%),
+        radial-gradient(1px 1px at 11.8% 41.8%, rgba(255,255,255,0.24) 0%, transparent 100%),
+        radial-gradient(1px 1px at 48.9% 3.9%, rgba(255,255,255,0.39) 0%, transparent 100%),
+        radial-gradient(1px 1px at 57.3% 87.5%, rgba(255,255,255,0.29) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35.0% 49.7%, rgba(255,255,255,0.22) 0%, transparent 100%),
+        radial-gradient(1px 1px at 9.4% 27.0%, rgba(255,255,255,0.22) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70.1% 64.7%, rgba(255,255,255,0.27) 0%, transparent 100%),
+        radial-gradient(1px 1px at 38.6% 66.9%, rgba(255,255,255,0.44) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35.5% 61.1%, rgba(255,255,255,0.21) 0%, transparent 100%),
+        radial-gradient(1px 1px at 76.8% 12.9%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 91.7% 49.7%, rgba(255,255,255,0.31) 0%, transparent 100%),
+        radial-gradient(1px 1px at 54.9% 88.3%, rgba(255,255,255,0.42) 0%, transparent 100%),
+        radial-gradient(1px 1px at 27.8% 41.5%, rgba(255,255,255,0.37) 0%, transparent 100%);
+    background-size: 780px 620px; }
+  .ts-hero-particles .p2 {
+    background-image:
+        radial-gradient(1px 1px at 38.0% 23.1%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(2px 2px at 23.2% 23.3%, rgba(255,255,255,0.55) 0%, transparent 100%),
+        radial-gradient(1px 1px at 18.2% 28.2%, rgba(255,255,255,0.43) 0%, transparent 100%),
+        radial-gradient(1px 1px at 36.9% 56.6%, rgba(255,255,255,0.51) 0%, transparent 100%),
+        radial-gradient(1px 1px at 51.5% 61.8%, rgba(255,255,255,0.44) 0%, transparent 100%),
+        radial-gradient(2px 2px at 87.1% 95.2%, rgba(255,255,255,0.42) 0%, transparent 100%),
+        radial-gradient(2px 2px at 39.9% 10.4%, rgba(255,255,255,0.32) 0%, transparent 100%),
+        radial-gradient(1px 1px at 6.7% 20.9%, rgba(255,255,255,0.33) 0%, transparent 100%),
+        radial-gradient(2px 2px at 60.1% 10.2%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 10.1% 36.4%, rgba(255,255,255,0.32) 0%, transparent 100%),
+        radial-gradient(1px 1px at 20.8% 37.6%, rgba(255,255,255,0.59) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60.2% 47.4%, rgba(255,255,255,0.55) 0%, transparent 100%),
+        radial-gradient(2px 2px at 99.3% 46.6%, rgba(255,255,255,0.39) 0%, transparent 100%),
+        radial-gradient(1px 1px at 14.4% 75.0%, rgba(255,255,255,0.44) 0%, transparent 100%),
+        radial-gradient(1px 1px at 69.2% 51.6%, rgba(255,255,255,0.59) 0%, transparent 100%),
+        radial-gradient(2px 2px at 52.8% 14.7%, rgba(255,255,255,0.57) 0%, transparent 100%);
+    background-size: 1020px 840px; }
+  .ts-hero-particles .p3 {
+    background-image:
+        radial-gradient(1px 1px at 75.8% 29.8%, rgba(255,255,255,0.83) 0%, transparent 100%),
+        radial-gradient(1px 1px at 26.1% 36.7%, rgba(255,255,255,0.69) 0%, transparent 100%),
+        radial-gradient(2px 2px at 22.3% 54.2%, rgba(255,255,255,0.68) 0%, transparent 100%),
+        radial-gradient(1px 1px at 22.3% 81.2%, rgba(255,255,255,0.87) 0%, transparent 100%),
+        radial-gradient(1px 1px at 81.8% 74.0%, rgba(255,255,255,0.63) 0%, transparent 100%),
+        radial-gradient(1px 1px at 49.3% 73.1%, rgba(255,255,255,0.87) 0%, transparent 100%),
+        radial-gradient(3px 3px at 47.2% 19.4%, rgba(255,255,255,0.93) 0%, transparent 100%),
+        radial-gradient(1px 1px at 44.7% 93.7%, rgba(255,255,255,0.93) 0%, transparent 100%),
+        radial-gradient(1px 1px at 36.5% 22.0%, rgba(255,255,255,0.74) 0%, transparent 100%);
+    background-size: 1340px 1000px; }
+  @media (prefers-reduced-motion: reduce) { .ts-hero-particles span { } }
+
+  .ts-hero-particles .p1 { transform: translate3d(0, calc(var(--pp, 0) * 40px), 0); }
+  .ts-hero-particles .p2 { transform: translate3d(0, calc(var(--pp, 0) * 88px), 0); }
+  .ts-hero-particles .p3 { transform: translate3d(0, calc(var(--pp, 0) * 150px), 0); }
+  @media (prefers-reduced-motion: reduce) { .ts-hero-particles span { transform: none; } }
+
+  /* hero text/CTAs pin (sticky), then the frame scrolls up OVER them and hides them (GitHub-style).
+     z-order: floats (-1) < text (0) < frame (1). Fade is a safety net so the text can't reappear
+     after the frame passes above it. */
+  /* pinned from the top (JS sets `top` to the text's natural offset so it doesn't scroll before
+     sticking, GitHub-style). Shrinks + fades as --p grows and the frame rises to cover it. */
+  .ts-hero-text { position: sticky; top: 80px; z-index: 0; opacity: calc(1 - var(--p) * 2.2); transform: scale(calc(1 - var(--p) * 0.08)); transform-origin: center top; will-change: opacity, transform; }
+  /* The frame sits flush ON the colour cut rather than dipping past it: the media is shown
+     whole, and the hard bottom edge (square corners, no border) is what makes the handoff to
+     the black block below read as a deliberate cut. */
+  .ts-hero-frame { position: relative; z-index: 1; margin-bottom: 0; }
+  /* Glow discs behind the hero frame, switched off. Rules below are kept intact: drop this
+     display line to bring them back. */
+  .ts-hero-glow { display: none; }
+  .ts-hero-glow { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .ts-hero-glow::before, .ts-hero-glow::after { content: ''; position: absolute; border-radius: 50%; aspect-ratio: 1; filter: blur(90px); }
+  .ts-hero-glow::before { left: 30%; top: 46%; width: 52%; transform: translate(-50%, -50%); background: rgba(59,130,246,.30); }
+  .ts-hero-glow::after { left: 70%; top: 56%; width: 44%; transform: translate(-50%, -50%); background: rgba(56,189,248,.18); }
+  .ts-hero-glass { position: relative; z-index: 1; padding: 16px 16px 0; border: 1px solid rgba(255,255,255,.16); border-bottom: 0; border-radius: 10px 10px 0 0; background: rgba(255,255,255,.05); box-shadow: 0 30px 90px -30px rgba(0,0,0,.85); transform: scale(var(--hs, 0.8)); transform-origin: center bottom; will-change: transform; }
+  /* 16/10 matches both the screenshots (3200x2000) and the Develop video (2000x1250), so
+     nothing is cropped. Rounded on top, square on the bottom. */
+  .ts-hero-stage { position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 3px 3px 0 0; background: #0f0f10; }
+  .ts-hero-shot { position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease; }
+  .ts-hero-shot.is-active { opacity: 1; }
+  img.ts-hero-shot { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  /* video slot (Develop) */
+  .ts-hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; background: #0f0f10; }
+  .ts-hero-replay { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; display: none; align-items: center; gap: 8px; padding: 11px 18px; font-size: 14px; font-weight: 600; color: #fff; background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.28); border-radius: 3px; cursor: pointer; transition: background .15s ease; }
+  .ts-hero-replay.is-shown { display: inline-flex; }
+  .ts-hero-replay:hover { background: rgba(0,0,0,.78); }
+  .ts-hero-replay:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-hero-replay svg { width: 16px; height: 16px; fill: currentColor; }
+  /* prev/next arrows flanking the framed media. Desktop only, mobile has the dots + select. */
+  .ts-hero-nav { position: absolute; top: 50%; z-index: 4; transform: translateY(-50%);
+    display: none; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0;
+    color: #e5e5e5; background: rgba(0,0,0,.42); border: 1px solid rgba(255,255,255,.18); border-radius: 9999px;
+    cursor: pointer; backdrop-filter: blur(6px); transition: background .18s ease, border-color .18s ease, opacity .18s ease; }
+  .ts-hero-nav svg { width: 20px; height: 20px; }
+  .ts-hero-nav:hover { background: rgba(0,0,0,.68); border-color: rgba(255,255,255,.34); }
+  .ts-hero-nav:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-hero-nav--prev { left: -56px; }
+  .ts-hero-nav--next { right: -56px; }
+  @media (min-width: 750px) {
+    .ts-hero-nav { display: inline-flex; }
+    /* 64px of clear gutter each side so the arrows never sit on the screenshot */
+    .ts-hero-frame { width: calc(100% - 128px); margin-inline: auto; }
+  }
+
+  /* SELECTOR bar, on the black region below the cut; clears the dipped image with top padding */
+  .ts-hero-selectbar { padding-top: 44px; padding-bottom: 8px; }
+  .ts-hero-tabs { position: relative; z-index: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .ts-hero-tab { padding: 8px 16px; font-size: 14px; font-weight: 500; color: #a3a3a3; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.10); border-radius: 2px; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease; }
+  .ts-hero-tab.is-active { color: #fff; background: rgba(59,130,246,.14); border-color: rgba(59,130,246,.5); }
+  .ts-hero-tab:hover:not(.is-active) { color: #fff; background: rgba(255,255,255,.06); }
+  .ts-hero-tab:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  /* mobile selector (dots + native select): hidden on desktop */
+  .ts-hero-mobsel { display: none; flex-direction: column; align-items: center; gap: 16px; }
+  .ts-hero-dots { display: flex; gap: 8px; }
+  .ts-hero-dot { width: 8px; height: 8px; border-radius: 9999px; background: rgba(255,255,255,.22); transition: background .2s ease, width .2s ease; }
+  .ts-hero-dot.is-active { width: 22px; border-radius: 9999px; background: #e5e5e5; }
+  .ts-hero-selectwrap { position: relative; width: 100%; max-width: 320px; }
+  .ts-hero-select { -webkit-appearance: none; appearance: none; width: 100%; padding: 14px 44px 14px 20px; font-size: 16px; font-weight: 600; color: #fff; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.14); border-radius: 3px; cursor: pointer; }
+  .ts-hero-select:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-hero-select option { color: #111; }
+  .ts-hero-selectcaret { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); width: 12px; height: 8px; color: #a3a3a3; pointer-events: none; }
+  @media (max-width: 749px) {
+    /* Mobile: text is STATIC (no pin / fade / shrink). The screenshot used to be blown up to
+       200% and shoved right so only its left edge showed, at phone width that read as a
+       broken crop rather than a deliberate one. It now sits whole and centred, and the copy
+       above it is tightened so the product is on screen without a full page of scrolling. */
+    .ts-hero-text { position: static; opacity: 1; transform: none; }
+    .ts-hero { padding-top: 44px; }
+    .ts-hero-glass { transform: none; padding: 8px 8px 0; border-radius: 8px 8px 0 0; }
+    .ts-hero-frame { width: 100%; max-width: none; margin: 44px 0 0; }
+    .ts-hero-stage { aspect-ratio: 16 / 10; }
+    img.ts-hero-shot, .ts-hero-video { object-position: top center; }
+    .ts-hero-selectbar { padding-top: 36px; }
+    .ts-hero-tabs { display: none; }
+    .ts-hero-mobsel { display: flex; }
+    /* the blobs are sized in % of the region, at phone width that turns into a solid wash */
+    .ts-hero-color {
+      background:
+        radial-gradient(80% 40% at 8% 6%,    rgba(60,78,130,.16) 0%, transparent 70%),
+        radial-gradient(80% 40% at 96% 10%,  rgba(48,64,112,.14) 0%, transparent 70%),
+        radial-gradient(120% 58% at 50% 56%, rgba(30,86,190,.26) 0%, transparent 72%),
+        linear-gradient(180deg, #070709 0%, #070709 55%, #08080a 100%);
+    }
+  }
+  /* z-index 0 (not -1) so the "explosion" floats sit ABOVE the colour bg but behind text/frame.
+     At rest they scatter below the headline (anchor top:44%); on scroll (--p) they converge
+     inward to centre AND downward (--drop, set by JS to the frame's lower edge) so they slide
+     BEHIND the screenshot's bottom instead of collapsing to the middle of the page. */
+  /* Parked for now. Kept in the DOM with all their positioning intact: drop the display line
+     to bring them back. */
+  .hero-floats { display: none; }
+  .hero-floats { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hero-float { position: absolute; left: 50%; top: 44%; width: var(--w, 160px); aspect-ratio: 3 / 2; border-radius: 2px; border: 1px solid rgba(255,255,255,.08); background-size: cover; background-position: center;
+    transform: translate(-50%, -50%)
+      translate(calc(var(--x) * (1 - var(--p))), calc(var(--y) * (1 - var(--p))))
+      translate(0, calc(var(--drop, 55vh) * var(--p)))
+      rotate(calc(var(--r, 0deg) * (1 - var(--p))))
+      scale(calc(var(--s, 1) + (1 - var(--s, 1)) * var(--p)));
+    filter: blur(calc(var(--blur, 0px) * (1 - var(--p))));
+    opacity: calc(0.6 + 0.4 * var(--p));
+    will-change: transform, filter, opacity; }
+  .hero-float--1 { --x: -40vw; --y: -6vh;  --blur: 7px;  --s: .62; --r: -6deg; --w: 200px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0049_RGB-neg.jpg?v=1784861626'); }
+  .hero-float--2 { --x: -28vw; --y: 12vh;  --blur: 2px;  --s: .90; --r: -3deg; --w: 240px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0049_RGB-pos.jpg?v=1784861626'); }
+  .hero-float--3 { --x: -20vw; --y: -14vh; --blur: 9px;  --s: .55; --r: 4deg;  --w: 170px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0025_RGB-neg.jpg?v=1784861626'); }
+  .hero-float--4 { --x: 20vw;  --y: -14vh; --blur: 8px;  --s: .58; --r: -4deg; --w: 176px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0079_RGB-neg.jpg?v=1784861626'); }
+  .hero-float--5 { --x: 30vw;  --y: 6vh;   --blur: 3px;  --s: .88; --r: 5deg;  --w: 236px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0079_RGB-pos.jpg?v=1784861626'); }
+  .hero-float--6 { --x: 42vw;  --y: 16vh;  --blur: 7px;  --s: .64; --r: 7deg;  --w: 200px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0028_RGB-neg.jpg?v=1784861626'); }
+  .hero-float--7 { --x: -36vw; --y: 22vh;  --blur: 11px; --s: .50; --r: 6deg;  --w: 156px; background-image: url('https://cdn.shopify.com/s/files/1/0634/3199/9736/files/DSCF0061_RGB-pos.jpg?v=1784861626'); }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-floats { display: none; }
+    .ts-hero-text { position: static; opacity: 1; }
+    .ts-hero-glass { transform: none; }
+    .ts-hero-shot { transition: none; }
+  }
+
+  .ts-hero-text .ts-signup { margin-left: auto; margin-right: auto; }
+
+  /* ---- beta signup form (dark, matches the page; POSTs to the Cloudflare Worker) ---- */
+  .ts-signup { width: 100%; max-width: 480px; }
+  .ts-form { display: flex; gap: 10px; flex-wrap: wrap; }
+  .ts-email { flex: 1; min-width: 220px; height: 50px; padding: 0 16px; font-size: 15px; color: #fff; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.14); border-radius: 2px; outline: none; }
+  .ts-email::placeholder { color: #6a6a6a; }
+  .ts-email:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.25); }
+  .ts-btn { height: 50px; padding: 0 24px; font-size: 15px; font-weight: 600; color: #fff; cursor: pointer; background: #3b82f6; border: 0; border-radius: 2px; white-space: nowrap; transition: transform .15s ease, background .15s ease; }
+  .ts-btn:hover { background: #2f6fed; transform: translateY(-1px); }
+  .ts-btn:disabled { opacity: .6; cursor: default; transform: none; }
+  .ts-btn:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+  /* once the field and button wrap onto separate lines, a half-width button looks stranded */
+  @media (max-width: 520px) { .ts-form .ts-btn { width: 100%; } }
+  .ts-msg { min-height: 20px; margin: 14px 2px 0; font-size: 14px; line-height: 1.5; color: #a3a3a3; }
+  .ts-msg.ok { color: #4ade80; }
+  .ts-msg.err { color: #f87171; }
+
+  /* Phone layout for the conversion section. Last in the sheet so its .ts-conv override wins
+     over the base rule further up. */
+  @media (max-width: 767px) {
+    /* strip first: it is the thing worth seeing, and the copy reads as a caption under it */
+    .ts-conv-sec { display: flex; flex-direction: column; }
+    .ts-conv-sec .ts-conv { order: 1; }
+    /* the bloom spans the whole section at z-2, so without this it washes warm across the copy
+       block that now sits below the strip */
+    .ts-conv-sec .ts-conv-head { order: 2; padding-top: 40px; z-index: 3; }
+    /* black backing, matching the other section heads, so the copy reverts to light type */
+    .ts-conv-head { background: #0a0a0b; padding-bottom: 32px; text-align: center; }
+    .ts-conv-head h2 { color: #fff; margin-inline: auto; }
+    .ts-conv-head p { color: #a3a3a3; margin-inline: auto; }
+    .ts-conv-cta { margin-inline: auto; background: #f2f1ee; color: #121215; }
+    .ts-conv-note { margin-inline: auto; max-width: 34em; color: rgba(255,255,255,.5); }
+    .ts-conv-cta:hover { background: #fff; }
+    /* equal air above and below the strip */
+    .ts-conv { margin: 64px 0; }
+  }
+{%- endstyle -%}

@@ -13,16 +13,24 @@
 
     {%- unless settings.type_body_font.system? and settings.type_header_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- comment -%} Inter as a variable font across 400-800. Loading the 800 weight ALONE was a
+       mistake: it is the only Inter face the browser then has, so every element asking for Inter
+       at any weight got rendered at 800, which thickened the section headings. The range covers
+       body copy, semibold headings and the extrabold film-strip edge printing from one file.
+    {%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap">
     {%- endunless -%}
 
     {%- comment -%}
-      Social preview (Open Graph / Twitter) for the tonescan landing pages. Explicit here because
+      Social preview (Open Graph / Twitter) for the toneScan Studio landing pages. Explicit here because
       Dawn's meta-tags snippet emits no og:image for pages without a featured image. Admin SEO
       fields (page title / meta description / a page featured image) override the defaults below.
     {%- endcomment -%}
     {%- liquid
       assign ts_title = page_title | default: shop.name
-      assign ts_desc = page_description | default: 'Turn whole rolls of camera-scanned negatives into gallery-ready photos — lab-accurate colour and an effortless, professional workflow. Now in open beta for macOS (Apple Silicon).'
+      assign ts_desc = page_description | default: 'Standalone software for serious film scanning. Seamless RGB, a physically accurate colour engine, and real speed. Now in open beta for macOS and Windows.'
       # og:image precedence: page metafield custom.social_image → page featured image → default screenshot.
       # Works whether the metafield is a File(image) reference or a plain URL string.
       assign ts_image = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011'
@@ -49,7 +57,7 @@
     <meta property="og:description" content="{{ ts_desc | escape }}">
     <meta property="og:image" content="{{ ts_image }}">
     <meta property="og:image:secure_url" content="{{ ts_image }}">
-    <meta property="og:image:alt" content="toneScan — film scanning software">
+    <meta property="og:image:alt" content="toneScan Studio film scanning software">
     {%- if settings.social_twitter_link != blank -%}
       <meta name="twitter:site" content="{{ settings.social_twitter_link | split: 'twitter.com/' | last | prepend: '@' }}">
     {%- endif -%}
@@ -61,6 +69,13 @@
     {{ content_for_header }}
 
     {{ 'app.css' | asset_url | stylesheet_tag }}
+
+    {%- comment -%} PhotoSwipe (MIT): fullscreen sample-scan viewer with pinch/wheel zoom.
+       Already vendored in assets/ and used by the main theme; theme.liquid loads it globally,
+       but this page uses its own layout, so it has to be pulled in here too. {%- endcomment -%}
+    <link rel="stylesheet" href="{{ 'photoswipe.css' | asset_url }}">
+    <script src="{{ 'photoswipe.umd.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'photoswipe-lightbox.umd.min.js' | asset_url }}" defer></script>
 
     {%- style -%}
       {%- comment -%} Load the SAME fonts as the main site so the header matches {%- endcomment -%}
@@ -166,7 +181,9 @@
         if (!root) return;
 
         // Elements to reveal: headings, grid items (cards/steps), testimonials, faq rows.
-        var targets = root.querySelectorAll('h1, h2, [class*="grid"] > *, figure, details');
+        // .ts-conv__item is excluded: every film frame is a <figure>, so the reveal was holding
+        // each one 22px low until it intersected, which read as frames sliding up into the strip.
+        var targets = root.querySelectorAll('h1, h2, [class*="grid"] > *, figure:not(.ts-conv__item), details');
         targets.forEach(function (el) { el.classList.add('reveal'); });
 
         var io = new IntersectionObserver(function (entries) {
@@ -177,7 +194,9 @@
             var parent = el.parentElement;
             if (parent && /grid/.test(parent.className)) {
               var idx = Array.prototype.indexOf.call(parent.children, el);
-              delay = Math.min(idx, 5) * 60; // stagger grid children
+              // Cap high enough to cover the 9-card bento. At 5 the last row shared one
+              // delay and the whole row landed at once.
+              delay = Math.min(idx, 9) * 55;
             }
             el.style.transitionDelay = delay + 'ms';
             el.classList.add('in');
