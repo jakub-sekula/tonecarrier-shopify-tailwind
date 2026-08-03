@@ -4,6 +4,12 @@
   needs from the section has to be passed in explicitly.
 {%- endcomment -%}
 <script>
+/* Every driver below reaches for markup by selector. The page is split across three sections
+   now and this snippet is rendered by the first of them, so at parse time most of that markup
+   does not exist yet and each driver would quietly bail. Waiting for DOM ready makes the
+   render position irrelevant, rather than making it a rule someone has to remember. */
+(function () {
+function tsInit() {
   (function () {
     document.querySelectorAll('.tonescan-landing .ts-ba').forEach(function (el) {
       var range = el.querySelector('.ts-ba__range');
@@ -1185,4 +1191,8 @@
       });
     });
   })();
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tsInit);
+else tsInit();
+})();
 </script>
