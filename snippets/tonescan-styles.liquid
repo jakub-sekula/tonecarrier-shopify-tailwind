@@ -590,7 +590,15 @@
 
   /* ---- featured testimonial: copy left, portrait right ---- */
   /* ---- hardware control / toneLight ---- */
-  .ts-hw { position: relative; overflow-x: clip; background: #131316; border-top: 1px solid rgba(255,255,255,.10); border-bottom: 1px solid rgba(255,255,255,.10); }
+  /* Same move as the dive bands: the grey slab lifted the whole section, so it goes near-black
+     and the screenshot gets a blob behind it instead. */
+  .ts-hw { position: relative; overflow-x: clip; background: #060608; border-top: 1px solid rgba(255,255,255,.10); border-bottom: 1px solid rgba(255,255,255,.10); }
+  .ts-hw__media { position: relative; }
+  .ts-hw__media::before { content: ''; position: absolute; z-index: 0; pointer-events: none;
+    left: 50%; top: 46%; width: 116%; height: 132%; transform: translate(-50%, -50%);
+    background: radial-gradient(closest-side, rgba(72,92,140,.26) 0%, rgba(44,60,98,.12) 48%, transparent 78%);
+    filter: blur(40px); }
+  .ts-hw__media > * { position: relative; z-index: 1; }
   .ts-hw__body { margin-top: 16px; max-width: 520px; font-size: 17px; line-height: 1.6; color: #a3a3a3; }
   .ts-hw__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 28px; margin-top: 30px; }
   .ts-hw__btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; font-size: 15px; font-weight: 600;
@@ -638,8 +646,9 @@
   .ts-mq { overflow: hidden; }
   .ts-mq + .ts-mq { margin-top: 16px; }
   .ts-mq__track { display: flex; width: max-content; }
-  .ts-mq .ts-scan { flex: 0 0 auto; width: 280px; margin-right: 16px; }
-  @media (min-width: 1400px) { .ts-mq .ts-scan { width: 320px; } }
+  .ts-mq .ts-scan { flex: 0 0 auto; width: 380px; margin-right: 18px; }
+  @media (min-width: 1400px) { .ts-mq .ts-scan { width: 460px; } }
+  @media (min-width: 2100px) { .ts-mq .ts-scan { width: 520px; } }
   .ts-mq--l .ts-mq__track { animation: ts-mq-left 220s linear infinite; }
   .ts-mq--r .ts-mq__track { animation: ts-mq-right 260s linear infinite; }
   @keyframes ts-mq-left  { from { transform: translateX(0); }     to { transform: translateX(-50%); } }
@@ -647,11 +656,16 @@
   /* Laptop and below: break out of the 1400px container and run edge to edge, no fade -
      there isn't enough width for a fade to look like anything but wasted space. */
   .ts-gallery { margin-inline: calc(50% - 50vw); }
-  /* Wide desktop: pull back inside the page width and fade both ends instead. */
-  @media (min-width: 1600px) {
-    .ts-gallery { margin-inline: 0;
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
-              mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%); }
+  /* Same rule the film strip follows: nothing fades until the viewport is wider than the content
+     deserves, then both ends fall away on identical geometry, so the strip and the gallery run
+     out to the same width instead of reading as two columns of different widths. */
+  @media (min-width: 2100px) {
+    .ts-gallery {
+      -webkit-mask-image: linear-gradient(to right, transparent calc(50% - 1280px), #000 calc(50% - 700px),
+                                          #000 calc(50% + 700px), transparent calc(50% + 1280px));
+              mask-image: linear-gradient(to right, transparent calc(50% - 1280px), #000 calc(50% - 700px),
+                                          #000 calc(50% + 700px), transparent calc(50% + 1280px));
+    }
   }
   @media (prefers-reduced-motion: reduce) { .ts-mq__track { animation: none; } }
 
@@ -725,7 +739,7 @@
   }
 
   /* ---- HERO deep-dive: centred header, one big screenshot on a glow, detail grid below ---- */
-  .ts-hdive { position: relative; overflow-x: clip; background: #0a0a0b; padding: 96px 0 0; }
+  .ts-hdive { position: relative; overflow-x: clip; background: #000; padding: 96px 0 0; }
   .ts-hdive__head { max-width: 760px; margin: 0 auto; padding: 0 15px; text-align: center; }
   .ts-hdive__title { font-size: 34px; font-weight: 600; line-height: 1.1; letter-spacing: -.02em; color: #fff; }
   .ts-hdive__sub { margin: 18px auto 0; max-width: 620px; font-size: 17px; line-height: 1.6; color: #a3a3a3; }
@@ -887,25 +901,23 @@
   .ts-hdive__dot:hover:not(.is-active) { background: rgba(255,255,255,.55); }
   .ts-hdive__dot:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
 
-  .ts-rgbcards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  @media (min-width: 900px) { .ts-rgbcards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; } }
-  .ts-rgbcard { position: relative; display: flex; flex-direction: column; padding: 28px;
-    border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: rgba(255,255,255,.02); }
-  .ts-rgbcard__bg { position: absolute; inset: 0; z-index: 0; border-radius: inherit; pointer-events: none;
-    background-image: var(--bg); background-size: cover; background-position: top center; opacity: .13;
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 88%);
-            mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 88%); }
-  .ts-rgbcard__body { position: relative; z-index: 1; margin-top: 24px; }
-  .ts-rgbcard__t { font-size: 17px; font-weight: 600; color: #fff; }
-  .ts-rgbcard__d { margin-top: 8px; font-size: 14px; line-height: 1.6; color: rgb(163,163,163); }
-
   .ts-hdive__detail { position: relative; z-index: 2; max-width: 1300px; margin: 0 auto; padding: 56px 15px 72px; background: #0a0a0b; }
   .ts-hdive__detailbody { margin: 0 0 26px; padding-right: 12px; max-width: 780px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
   @media (min-width: 900px) { .ts-hdive__detail { padding: 72px 50px 104px; } }
 
   /* ---- feature deep-dives: alternating background, media bleeding off the near edge ---- */
   .ts-dive { position: relative; overflow-x: clip; background: #0a0a0b; }
-  .ts-dive--alt { background: #131316; }
+  /* Was #131316, a light grey slab under the screenshots. Near-black with a blob behind the
+     image gives the shot something to sit on without lifting the whole band. */
+  .ts-dive--alt { background: #060608; }
+  .ts-dive__media { position: relative; }
+  .ts-dive__media::before { content: ''; position: absolute; z-index: 0; pointer-events: none;
+    left: 50%; top: 50%; width: 128%; height: 150%; transform: translate(-50%, -50%);
+    background: radial-gradient(closest-side, rgba(52,80,132,.30) 0%, rgba(40,58,96,.13) 48%, transparent 78%);
+    filter: blur(36px); }
+  .ts-dive--alt .ts-dive__media::before {
+    background: radial-gradient(closest-side, rgba(72,92,140,.26) 0%, rgba(44,60,98,.12) 48%, transparent 78%); }
+  .ts-dive__media > * { position: relative; z-index: 1; }
   .ts-dive__inner { display: flex; flex-direction: column; gap: 32px; max-width: 1400px; margin: 0 auto; padding: 72px 15px; }
   .ts-dive__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #60a5fa; }
   .ts-dive__title { font-size: 28px; font-weight: 600; line-height: 1.15; letter-spacing: -.02em; color: #fff; }

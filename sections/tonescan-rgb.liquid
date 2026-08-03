@@ -91,53 +91,6 @@
         </div>
       </div>
 
-      {%- comment -%} the detail: how channel separation works and why it beats one white shot.
-         Reuses .ts-more__acc, so the existing accordion script picks it up unchanged. {%- endcomment -%}
-      {%- comment -%} the detail: how channel separation works and why it wins. Same accordion
-         as "The parts that save you hours" but with the columns swapped, so the media sits on
-         the left. The existing .ts-acc script drives it with no changes. {%- endcomment -%}
-      <div class="ts-hdive__detail">
-        <div class="ts-rgbcards">
-          <article class="ts-rgbcard">
-            <span class="ts-rgbcard__bg" style="--bg:url('{{ ts_cdn }}/rgb-merge.png')" aria-hidden="true"></span>
-            <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9.5" r="5"/><circle cx="15" cy="9.5" r="5"/><circle cx="12" cy="15" r="5"/></svg></div>
-            <div class="ts-rgbcard__body">
-              <h3 class="ts-rgbcard__t">What channel separation actually does</h3>
-              <p class="ts-rgbcard__d">Instead of one exposure under white light, the frame is photographed three times: once under red, once under green, once under blue. Each exposure reads one dye layer of the negative more or less on its own. toneScan Studio spots the three frames sitting in your capture folder, groups them into a triplet and combines them, with per-channel exposure targets so no channel lands under-exposed and crosstalk correction measured from your own setup.</p>
-            </div>
-          </article>
-
-          <article class="ts-rgbcard">
-            <span class="ts-rgbcard__bg" style="--bg:url('{{ ts_cdn }}/pixel-preview.png')" aria-hidden="true"></span>
-            <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div>
-            <div class="ts-rgbcard__body">
-              <h3 class="ts-rgbcard__t">If you would rather not</h3>
-              <p class="ts-rgbcard__d">Single-shot white light is fully supported and everything downstream behaves identically: the same inversion, the same develop controls, the same export. RGB is there when you want the cleanest possible separation, not a condition of using the app.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-
-    </section>
-
-    <section class="ts-dive ts-dive--alt ts-dive--flip">
-      <div class="ts-dive__inner">
-        <div class="ts-dive__text">
-          <p class="ts-dive__eyebrow">Real-time editing</p>
-          <h2 class="ts-dive__title">Edit at thinking speed</h2>
-          <p class="ts-dive__body">Every slider, every tweak, reflected the instant you make it. A GPU-accelerated viewport renders pixel-perfect previews in real time, and the viewport and export share one colour profile, so the result on screen is exactly what you get.</p>
-          <ul class="ts-bullets">
-            <li>Live RGB histogram that updates as you work</li>
-            <li>Exposure, density, contrast, highlight rolloff and shadow lift</li>
-            <li>Auto or pick-a-neutral white balance, with adjustable strength</li>
-            <li>Zoom past 100% to check grain, then read the density under any pixel</li>
-          </ul>
-        </div>
-        <div class="ts-dive__media">
-          <div class="ts-shot">
-            <img src="{{ ts_cdn }}/pixel-preview.png" alt="A converted portrait shown at 155% beside the live histogram and develop controls" loading="lazy" width="3200" height="2000">
-          </div>
-        </div>
       </div>
     </section>
 

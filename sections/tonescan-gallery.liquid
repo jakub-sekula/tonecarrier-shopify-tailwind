@@ -35,8 +35,32 @@
 {{ ts_cdn }}/DSCF0079_RGB-pos.jpg,2400,1626;{{ ts_cdn }}/DSCF0025_RGB-pos.jpg,2400,1626;{{ ts_cdn }}/DSCF0049_RGB-pos.jpg,2400,1626;{{ ts_cdn }}/DSCF0028_RGB-pos.jpg,2400,1626;{{ 'converted.jpg' | asset_url }},1500,1017
     {%- endcapture -%}
     {%- assign ts_scan_items = ts_scan_data | strip | split: ';' -%}
+
+    {%- comment -%} Blocks win when present: one bucket, every row and the lightbox drawing from
+       the same list. PhotoSwipe needs real pixel dimensions up front to size the zoomed view,
+       which is why each entry carries them. {%- endcomment -%}
+    {%- if section.blocks.size > 0 -%}
+      {%- capture ts_block_data -%}
+        {%- for b in section.blocks -%}
+          {%- if b.settings.image -%}{{ b.settings.image | image_url: width: 2400 }},{{ b.settings.image.width }},{{ b.settings.image.height }};{%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- assign ts_block_clean = ts_block_data | strip | replace: ';;', ';' -%}
+      {%- if ts_block_clean != '' and ts_block_clean != ';' -%}
+        {%- assign ts_scan_items = ts_block_clean | split: ';' -%}
+      {%- endif -%}
+    {%- endif -%}
+
     {%- assign ts_rows = 2 -%}
     {%- assign ts_per_row = 12 -%}
+
+    {%- comment -%} Enough tiles to fill the rows without leaving gaps, but never so many that a
+       frame repeats while another has not been shown. {%- endcomment -%}
+    {%- assign ts_needed = ts_scan_items.size | divided_by: ts_rows -%}
+    {%- if ts_needed < 6 -%}{%- assign ts_needed = 6 -%}{%- endif -%}
+    {%- if ts_needed > 14 -%}{%- assign ts_needed = 14 -%}{%- endif -%}
+    {%- assign ts_per_row = ts_needed -%}
+
 
     {%- comment -%}
       Two rows running in opposite directions. Each track is rendered TWICE and shifted
@@ -84,6 +108,24 @@
   "presets": [
     {
       "name": "toneScan gallery"
+    }
+  ],
+  "max_blocks": 40,
+  "blocks": [
+    {
+      "type": "frame",
+      "name": "Sample scan",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "paragraph",
+          "content": "One block per frame. Every row and the full-screen viewer draw from this one list, so arrow keys walk the whole set. With no blocks the built-in samples are used."
+        }
+      ]
     }
   ]
 }
