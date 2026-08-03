@@ -656,9 +656,16 @@
   /* Laptop and below: break out of the 1400px container and run edge to edge, no fade -
      there isn't enough width for a fade to look like anything but wasted space. */
   .ts-gallery { margin-inline: calc(50% - 50vw); }
-  /* Same rule the film strip follows: nothing fades until the viewport is wider than the content
-     deserves, then both ends fall away on identical geometry, so the strip and the gallery run
-     out to the same width instead of reading as two columns of different widths. */
+  /* The strip carries its fade at 2100px because a hard cut across continuous film reads fine.
+     A grid of photographs does not: the cut lands mid-image. So the gallery starts fading on any
+     real desktop, and above 2100px it lands on the strip's exact geometry so the two run out to
+     the same width. Below 1400px both still run edge to edge with no fade. */
+  @media (min-width: 1400px) {
+    .ts-gallery {
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+              mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+    }
+  }
   @media (min-width: 2100px) {
     .ts-gallery {
       -webkit-mask-image: linear-gradient(to right, transparent calc(50% - 1280px), #000 calc(50% - 700px),
