@@ -43,6 +43,17 @@
   {%- assign ts_lite_blocks = 'conversion,faq' | split: ',' -%}
 
   {%- comment -%}
+    The strip's CTA jumps to #gallery. Off by default while there are no sample scans to show,
+    and forced off whenever the gallery block is not actually rendered: a link to an anchor that
+    does not exist scrolls nowhere, same problem as the nav.
+  {%- endcomment -%}
+  {%- assign ts_gallery_on = true -%}
+  {%- if ts_minimal -%}
+    {%- assign ts_gallery_on = false -%}
+    {%- if ts_lite_blocks contains 'gallery' -%}{%- assign ts_gallery_on = true -%}{%- endif -%}
+  {%- endif -%}
+
+  {%- comment -%}
     ASSETS, everything below points at real files in Shopify Files (Content > Files), not
     placeholders. Keep the base here so a re-upload is a one-line change.
       App screenshots (3200x2000, .png):
@@ -249,7 +260,9 @@
         instead of rescuing it.
       </p>
 
+      {%- if section.settings.show_scans_cta and ts_gallery_on -%}
       <a class="ts-conv-cta" href="#gallery">See sample scans <span aria-hidden="true">&rsaquo;</span></a>
+      {%- endif -%}
 
       {%- comment -%} Shooting notes. Lives in the head so it falls under the CTA on phones, and
          gets lifted into the empty dark column on desktop. {%- endcomment -%}
@@ -1238,7 +1251,9 @@
     { "type": "video", "id": "background_video", "label": "Background video" },
     { "type": "image_picker", "id": "background_image", "label": "Background image (poster / fallback)" },
     { "type": "range", "id": "background_opacity", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Background opacity", "default": 8 },
-    { "type": "range", "id": "background_blur", "min": 0, "max": 60, "step": 1, "unit": "px", "label": "Background blur", "default": 5 }
+    { "type": "range", "id": "background_blur", "min": 0, "max": 60, "step": 1, "unit": "px", "label": "Background blur", "default": 5 },
+    { "type": "header", "content": "Conversion strip" },
+    { "type": "checkbox", "id": "show_scans_cta", "label": "Show the 'See sample scans' link", "default": false, "info": "Jumps to the gallery. Hidden automatically wherever the gallery is not on the page, such as the lite template." }
   ],
   "max_blocks": 30,
   "blocks": [
