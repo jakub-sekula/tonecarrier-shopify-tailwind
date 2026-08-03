@@ -1,0 +1,1198 @@
+{%- comment -%}
+  Extracted from sections/tonescan-landing.liquid: that file hit Shopify's 256 KB
+  template limit. Rendered with {%% render %%}, which isolates scope, so anything this
+  needs from the section has to be passed in explicitly.
+{%- endcomment -%}
+<script>
+/* Every driver below reaches for markup by selector. The page is split across three sections
+   now and this snippet is rendered by the first of them, so at parse time most of that markup
+   does not exist yet and each driver would quietly bail. Waiting for DOM ready makes the
+   render position irrelevant, rather than making it a rule someone has to remember. */
+(function () {
+function tsInit() {
+  (function () {
+    document.querySelectorAll('.tonescan-landing .ts-ba').forEach(function (el) {
+      var range = el.querySelector('.ts-ba__range');
+      if (!range) return;
+      var update = function () { el.style.setProperty('--pos', range.value + '%'); };
+      range.addEventListener('input', update);
+      update();
+    });
+  })();
+
+  /* scan gallery, PhotoSwipe (pinch / wheel / double-click zoom, keyboard, swipe).
+     Tiles are opened programmatically from a JSON dataSource rather than by scanning the DOM:
+     each marquee row renders its frames twice for a seamless loop and rows can share a frame,
+     so a DOM-driven gallery would show the same picture five or six times in a row. */
+  (function () {
+    var gallery = document.querySelector('.tonescan-landing .ts-gallery');
+    var dataEl = document.querySelector('.tonescan-landing .ts-gallery-data');
+    if (!gallery || !dataEl) return;
+
+    var slides;
+    try { slides = JSON.parse(dataEl.textContent); } catch (e) { return; }
+    if (!slides || !slides.length) return;
+
+    function start() {
+      if (typeof PhotoSwipeLightbox === 'undefined' || typeof PhotoSwipe === 'undefined') return;
+      var lightbox = new PhotoSwipeLightbox({
+        dataSource: slides,
+        pswpModule: PhotoSwipe,
+        loop: true,
+        zoom: true,
+        wheelToZoom: true,
+        showHideAnimationType: 'fade',
+        bgOpacity: 0.96,
+        padding: { top: 24, bottom: 24, left: 24, right: 24 }
+      });
+
+      // caption slot, stays empty (and hidden) until the capture details are filled in
+      lightbox.on('uiRegister', function () {
+        lightbox.pswp.ui.registerElement({
+          name: 'ts-caption', order: 9, isButton: false, appendTo: 'root',
+          html: '', className: 'pswp__caption',
+          onInit: function (el, pswp) {
+            pswp.on('change', function () {
+              el.textContent = (pswp.currSlide && pswp.currSlide.data.caption) || '';
+            });
+          }
+        });
+      });
+
+      lightbox.init();
+
+      gallery.addEventListener('click', function (e) {
+        var tile = e.target.closest('.ts-scan');
+        if (!tile) return;
+        e.preventDefault();
+        lightbox.loadAndOpen(parseInt(tile.getAttribute('data-scan-index'), 10) || 0);
+      });
+    }
+
+    // the PhotoSwipe tags are deferred, so wait for them if we got here first
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start);
+  })();
+
+  /* rgb merge, scroll-linked.
+     Progress is measured against the SNAP POSITION rather than against .ts-rgb being centred
+     in the viewport. Centring the image put the section heading off the top of the screen at
+     the moment the merge completed, and it started the animation as soon as the section
+     appeared. Anchoring to "head sits HEAD_TOP below the viewport top" means the snap target
+     and the fully merged state are the same scroll position by construction, the title and
+     subtitle are still on screen when it lands, and the channels only begin to appear over
+     the final APPROACH pixels. */
+  (function () {
+    var els = document.querySelectorAll('.tonescan-landing .ts-rgb');
+    if (!els.length) return;
+    var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach(function (el) { el.style.setProperty('--s', 0); el.classList.add('is-converted'); });
+      return;
+    }
+
+    var HEAD_TOP = 0;        // anchor is the pinned region: top at 0 centres the photo, --t still 0
+    var APPROACH = 0.72;     // fraction of a viewport the merge plays out over
+
+    var items = [];
+    els.forEach(function (el) {
+      var sec = el.closest('.ts-hdive');
+      items.push({ el: el, head: sec ? sec.querySelector('.ts-hdive__pin') : null });
+    });
+
+    // scroll position at which this item is considered "snapped"
+    function targetFor(it) {
+      var ref = it.head || it.el;
+      return window.pageYOffset + ref.getBoundingClientRect().top - HEAD_TOP;
+    }
+
+    // FIRST PASS PLAYS ITSELF.
+    // Scrub the merge purely from scroll and anyone moving quickly never sees it. The first
+    // time the section comes into view it runs on its own clock instead, so the effect always
+    // lands. After that it is scroll-linked again, so scrubbing back and forth still works.
+    // (Deliberately not capturing the wheel to force the pace: hijacking scroll to hold
+    // someone in place reads as the page being broken. Say the word if you want that instead.)
+    var PLAY_MS = 1700;
+    var played = false, playRaf = null;
+    function playOnce() {
+      if (played || playRaf) return;
+      var t0 = performance.now();
+      (function step(now) {
+        var t = Math.min(1, (now - t0) / PLAY_MS);
+        var e = 1 - Math.pow(1 - t, 3);            // ease out
+        items.forEach(function (it) {
+          it.el.style.setProperty('--s', (1 - e).toFixed(3));
+          it.el.classList.toggle('is-converted', t >= 1);
+        });
+        if (t < 1) { playRaf = requestAnimationFrame(step); }
+        else {
+          playRaf = null; played = true;
+          // explicit "the timed run finished" marker. is-converted is not enough: the
+          // scroll-linked path sets that too, before the animation has actually played.
+          items.forEach(function (it) { it.el.classList.add('is-played'); });
+        }
+      })(t0);
+    }
+    if ('IntersectionObserver' in window) {
+      var playIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { playOnce(); playIO.disconnect(); } });
+      }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+      items.forEach(function (it) { playIO.observe(it.el); });
+    } else {
+      played = true;
+      items.forEach(function (it) { it.el.classList.add('is-played'); });
+    }
+
+    function update() {
+      if (playRaf) return;                          // the timed run owns --s while it plays
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var travel = vh * APPROACH;
+      items.forEach(function (it) {
+        var target = targetFor(it);
+        // 0 while still a full approach away, 1 once we are at the snap position
+        var q = clamp(1 - (target - window.pageYOffset) / travel);
+        it.el.style.setProperty('--s', (1 - Math.pow(q, 3)).toFixed(3));
+        it.el.classList.toggle('is-converted', q >= 0.985);   // the glide lands a hair short of 1
+      });
+    }
+
+    // ---- snap, matching the story section's easing ----
+    var snapRaf = null, suppressSnapUntil = 0;
+    var lastDir = 1, lastY = window.pageYOffset;
+    function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function cancelSnap() {
+      if (snapRaf) { cancelAnimationFrame(snapRaf); snapRaf = null; }
+      suppressSnapUntil = 0;
+    }
+    ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(function (evt) {
+      window.addEventListener(evt, cancelSnap, { passive: true });
+    });
+    function glideTo(targetY, duration) {
+      cancelSnap();
+      var startY = window.pageYOffset, delta = targetY - startY;
+      if (Math.abs(delta) < 2) return;
+      var t0 = performance.now();
+      suppressSnapUntil = Date.now() + duration + 250;
+      (function step(now) {
+        var t = Math.min(1, (now - t0) / duration);
+        var y = startY + delta * easeInOutCubic(t);
+        try { window.scrollTo({ top: y, behavior: 'instant' }); }
+        catch (err) { window.scrollTo(0, y); }
+        snapRaf = t < 1 ? requestAnimationFrame(step) : null;
+      })(t0);
+    }
+
+    function maybeSnap() {
+      if (Date.now() < suppressSnapUntil) return;
+      if (lastDir !== 1) return;                  // only ever pulls forward, never back up
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var y = window.pageYOffset;
+      var best = null, bestGap = Infinity;
+      items.forEach(function (it) {
+        var target = targetFor(it);
+        var gap = target - y;                     // positive means the snap point is still below
+        // approaching from above only: once past it, leave the reader alone
+        if (gap > 8 && gap < vh * 0.55 && gap < bestGap) { bestGap = gap; best = target; }
+      });
+      if (best === null) return;
+      glideTo(best, Math.min(1500, 650 + bestGap * 0.6));
+    }
+
+    var ticking = false, snapTimer;
+    function onScroll() {
+      var y = window.pageYOffset;
+      if (y !== lastY) { lastDir = y > lastY ? 1 : -1; lastY = y; }
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function () { update(); ticking = false; });
+      }
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(maybeSnap, 240);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function () { clearTimeout(snapTimer); update(); }, { passive: true });
+    update();
+  })();
+
+  /* secondary feature list — one category open at a time; clicking the open one closes it */
+  (function () {
+    document.querySelectorAll('.tonescan-landing .ts-more__acc').forEach(function (acc) {
+      var items = acc.querySelectorAll('.ts-more__item');
+      if (!items.length) return;
+      items.forEach(function (it, i) {
+        it.querySelector('.ts-more__trigger').addEventListener('click', function () {
+          var wasOpen = it.classList.contains('is-open');
+          items.forEach(function (x, xi) {
+            var on = xi === i && !wasOpen;
+            x.classList.toggle('is-open', on);
+            x.querySelector('.ts-more__trigger').setAttribute('aria-expanded', on ? 'true' : 'false');
+          });
+        });
+      });
+    });
+  })();
+
+  /* RGB pinned region. Once the merge has played, --t drives the panel left. It is eased and
+     then damped towards its target every frame, so a fast flick still arrives smoothly instead
+     of snapping across. The copy blocks follow it in, and from block three onwards the frame's
+     contents swap for a screenshot, with the dot rail tracking whichever block is centred. */
+  (function () {
+    var pins = document.querySelectorAll('.tonescan-landing .ts-hdive__pin');
+    if (!pins.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
+    var ease = function (v) { return v < 0.5 ? 4 * v * v * v : 1 - Math.pow(-2 * v + 2, 3) / 2; };
+
+    pins.forEach(function (pin) {
+      var stage = pin.querySelector('.ts-rgb__stage');
+      var rgb = pin.querySelector('.ts-rgb');
+      var panels = pin.querySelectorAll('.ts-hdive__panel');
+      var shots = stage ? stage.querySelectorAll('[data-i]') : [];
+      var dots = pin.querySelectorAll('.ts-hdive__dot');
+      var cur = 0, target = 0, active = -1, running = false;
+      var lastY = window.pageYOffset, snapped = false, snapping = false, abort = false, snapStart = 0;
+      var isMerged = false, pinTop = 1e6, lastScrollAt = Date.now(), IDLE_MS = 4000;
+      window.addEventListener('scroll', function () { if (!snapping) lastScrollAt = Date.now(); }, { passive: true });
+
+      // once the panel is part-way left, pull the first copy block into the middle so the
+      // section title lands in place instead of drifting past. Downward scroll only, once,
+      // and never while the reader is flicking through at speed.
+      function snapToFirst(slow) {
+        var panel = panels[0];
+        if (!panel) return;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var pr = panel.getBoundingClientRect();
+        var from = window.pageYOffset;
+        var to = from + pr.top + pr.height / 2 - midOffset();
+        if (Math.abs(to - from) < 8) { snapped = true; return; }
+        // 620ms was fine for a nudge but this move is most of a viewport. Scale with the
+        // distance, and take it slower still when nothing prompted it but the idle timer.
+        var dist = Math.abs(to - from);
+        var dur = Math.min(2200, 900 + dist * 1.1);
+        if (slow) dur = Math.min(3200, dur * 1.5);
+        var t0 = 0;
+        snapping = true; abort = false; snapStart = Date.now();
+        function step(now) {
+          if (!t0) t0 = now;
+          if (abort) { snapping = false; return; }
+          var k = Math.min(1, (now - t0) / dur);
+          var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+          window.scrollTo({ top: from + (to - from) * e, behavior: 'instant' });
+          if (k < 1) requestAnimationFrame(step); else { snapping = false; snapped = true; }
+        }
+        requestAnimationFrame(step);
+      }
+      // No wheel abort: trackpad inertia keeps firing wheel events for a second or more after
+      // the gesture ends, which cancelled the snap every time. 620ms is short enough to ride out.
+      function takeOver() { if (snapping) { abort = true; snapped = true; } }
+      ['touchstart', 'keydown'].forEach(function (ev) {
+        window.addEventListener(ev, takeOver, { passive: true });
+      });
+
+      // flip the entry/exit axis without animating the resting layers across the frame
+      function setDir(up) {
+        if (!stage || stage.classList.contains('is-up') === up) return;
+        stage.classList.add('ts-no-anim');
+        stage.classList.toggle('is-up', up);
+        void stage.offsetWidth;                 // flush the new offsets before re-enabling
+        stage.classList.remove('ts-no-anim');
+      }
+
+      function setActive(i) {
+        if (i === active) return;
+        if (stage) {
+          stage.classList.add('is-rot');
+          stage.classList.toggle('is-shot', i > 0);   // channels only hide behind a screenshot
+        }
+        setDir(i < active);                     // moving to an earlier block = scrolling up
+        dots.forEach(function (d, di) { d.classList.toggle('is-active', di === i); });
+        Array.prototype.forEach.call(shots, function (sh) {
+          var si = parseInt(sh.getAttribute('data-i'), 10) || 0;
+          if (si === i) {
+            sh.classList.remove('is-leaving');
+            sh.classList.add('is-active');
+          } else if (sh.classList.contains('is-active')) {
+            // send the outgoing layer away, then park it back on the entry side for next time
+            sh.classList.remove('is-active');
+            sh.classList.add('is-leaving');
+            setTimeout(function () {
+              if (!sh.classList.contains('is-active')) sh.classList.remove('is-leaving');
+            }, 1100);
+          }
+        });
+        active = i;
+      }
+
+      function measure() {
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var r = pin.getBoundingClientRect();
+        var merged = !rgb || rgb.classList.contains('is-played');
+        isMerged = merged; pinTop = r.top;
+        target = merged ? ease(clamp(-r.top / (vh * 0.7))) : 0;
+
+        var y = window.pageYOffset;
+        var speed = Math.abs(y - lastY);
+        var down = y > lastY;
+        lastY = y;
+        if (!snapped && !snapping && merged && down && speed < 140 && cur >= 0.3) snapToFirst();
+
+        if (y !== lastY) dirY = down ? 1 : -1;
+
+        var gate = clamp((cur - 0.5) / 0.4);
+        pin.classList.toggle('is-copy', gate > 0);
+        var best = -1, bestD = Infinity;
+        panels.forEach(function (panel, i) {
+          var pr = panel.getBoundingClientRect();
+          var d = Math.abs((pr.top + pr.height / 2) - vh / 2) / vh;
+          if (d < bestD) { bestD = d; best = i; }
+          // 0.62/0.36 so neighbours overlap at the midpoint instead of both landing on zero
+          var pv = gate <= 0 ? 0 : clamp((0.62 - d) / 0.36) * gate;
+          panel.style.setProperty('--pv', (pv * pv * (3 - 2 * pv)).toFixed(3));
+        });
+        if (gate > 0 && best >= 0 && bestD < 0.3) setActive(best);
+        return r.bottom > -200 && r.top < vh + 200;
+      }
+
+      function frame() {
+        var onScreen = measure();
+        // 0.14 is a nice settle for browsing speed, but it lags badly behind a fast scroll,
+        // which read as the section dragging. Close the gap quicker when it is wide.
+        var gap = Math.abs(target - cur);
+        cur += (target - cur) * (gap > 0.25 ? 0.34 : 0.14);
+        if (Math.abs(target - cur) < 0.0005) cur = target;
+        pin.style.setProperty('--t', cur.toFixed(4));
+        if (onScreen || Math.abs(target - cur) > 0.0005) {
+          requestAnimationFrame(frame);
+        } else {
+          running = false;
+        }
+      }
+      function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+      // Gentle per-block snap, same idea as the workflow story: once scrolling settles, centre
+      // whichever copy block is nearest, so the section can't be left parked between two.
+      var blockTimer = null, suppressUntil = 0, blockRaf = null, dirY = 1;
+      function centreOf(el) { var r = el.getBoundingClientRect(); return window.pageYOffset + r.top + r.height / 2; }
+      // the sticky header covers the top of the viewport, so the optical middle sits below it
+      function midOffset() {
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var h = document.querySelector('header');
+        var hh = h ? h.getBoundingClientRect().height : 0;
+        return hh + (vh - hh) / 2;
+      }
+      function cancelBlockSnap() { if (blockRaf) { cancelAnimationFrame(blockRaf); blockRaf = null; } suppressUntil = 0; }
+      function glideBlock(targetY, duration) {
+        cancelBlockSnap();
+        var startY = window.pageYOffset, delta = targetY - startY;
+        if (Math.abs(delta) < 2) return;
+        var t0 = performance.now();
+        suppressUntil = Date.now() + duration + 250;
+        (function step(now) {
+          var k = Math.min(1, (now - t0) / duration);
+          var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+          try { window.scrollTo({ top: startY + delta * e, behavior: 'instant' }); }
+          catch (err) { window.scrollTo(0, startY + delta * e); }
+          blockRaf = k < 1 ? requestAnimationFrame(step) : null;
+        })(t0);
+      }
+      function maybeSnapBlock() {
+        if (snapping || !snapped) return;            // the intro snap owns the scroll until it has run
+        if (Date.now() < suppressUntil) return;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var mid = window.pageYOffset + midOffset(), bi = -1, best = Infinity;
+        panels.forEach(function (pnl, pi) {
+          var d = Math.abs(centreOf(pnl) - mid);
+          if (d < best) { best = d; bi = pi; }
+        });
+        // 0.6, not 0.45: blocks are a viewport apart, so the midpoint is 0.5vh from both
+        // neighbours and the old cut-off rejected precisely the state worth rescuing.
+        if (bi < 0 || best < 24 || best > vh * 0.6) return;
+        if (!pin.classList.contains('is-copy')) return;   // never during the merge
+        // never drag the reader back against the way they were going: take the next block instead
+        var target = centreOf(panels[bi]);
+        if ((target - window.pageYOffset > 0 ? 1 : -1) !== dirY) {
+          var alt = bi + dirY;
+          if (!panels[alt]) return;
+          target = centreOf(panels[alt]);
+        }
+        glideBlock(target - midOffset(), 1150);
+      }
+      // Any real input wins, and unlike the intro snap that includes the wheel: this one is a
+      // gentle settle, so trackpad momentum should defer it rather than be ridden out. Same
+      // 240ms idle as the workflow story, so it only engages once scrolling has actually stopped.
+      ['touchstart', 'keydown', 'pointerdown', 'wheel'].forEach(function (ev) {
+        window.addEventListener(ev, cancelBlockSnap, { passive: true });
+      });
+      window.addEventListener('scroll', function () {
+        clearTimeout(blockTimer);
+        blockTimer = setTimeout(maybeSnapBlock, 240);
+      }, { passive: true });
+
+      // parked on the finished merge with nothing happening: after four still seconds, move
+      // the reader on to the copy rather than leaving them looking at a static photo
+      setInterval(function () {
+        if (snapped || snapping || !isMerged) return;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        if (cur > 0.05 || Math.abs(pinTop) > vh * 0.25) return;
+        if (Date.now() - lastScrollAt < IDLE_MS) return;
+        snapToFirst(true);
+      }, 500);
+
+      dots.forEach(function (d, di) {
+        d.addEventListener('click', function () {
+          var panel = panels[di];
+          if (!panel) return;
+          var pr = panel.getBoundingClientRect();
+          glideBlock(window.pageYOffset + pr.top + pr.height / 2 - midOffset(), 1150);
+        });
+      });
+
+      window.addEventListener('scroll', kick, { passive: true });
+      window.addEventListener('resize', kick, { passive: true });
+      kick();
+    });
+  })();
+
+  /* Conversion strip. Both layers are identical and are driven by one offset, so they stay
+     locked together; the conversion is done entirely by their complementary CSS masks. Motion
+     is deliberately stepped rather than continuous: settle, slide one frame, settle. */
+  (function () {
+    var wrap = document.querySelector('.tonescan-landing .ts-conv');
+    if (!wrap) return;
+    var tracks = wrap.querySelectorAll('.ts-conv__track');
+    if (!tracks.length) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    var SLIDE_MS = 1000, SETTLE_MS = 1500;     // 1.5s standing still, then a 1s step
+    var offset = 0, lead = 0, timer = null, running = false;
+    var gen = 0;                               // bumped on stop, so in-flight slides stand down
+    var DRAG_SNAP_MS = 420, FLICK_MS = 170;
+    var dragging = false, dragId = null, startX = 0, startOff = 0, lastX = 0, lastT = 0, vel = 0;
+    var dot = null;
+
+    function each(fn) { Array.prototype.forEach.call(tracks, fn); }
+    function firstItem() { return tracks[0].querySelector('.ts-conv__item'); }
+    function step() { var it = firstItem(); return it ? it.offsetWidth : 0; }   // gap is 0
+    function wait(ms) { return new Promise(function (r) { timer = setTimeout(r, ms); }); }
+    function apply() { each(function (t) { t.style.transform = 'translateX(' + (lead - offset) + 'px)'; }); }
+
+    // 24 -> 23A -> 23 -> 22A ... the step below whatever its right-hand neighbour reads.
+    // The roll wraps at 0, back round to 39A: counting down without a floor ran the strip
+    // into negative frame numbers after enough recycles.
+    function prevLabel(label) {
+      var m = /^(\d+)(A?)$/.exec(label || '');
+      if (!m) return label;
+      if (m[2]) return m[1];
+      var n = parseInt(m[1], 10) - 1;
+      return (n < 0 ? 39 : n) + 'A';
+    }
+    function nextLabel(label) {
+      var m = /^(\d+)(A?)$/.exec(label || '');
+      if (!m) return label;
+      if (!m[2]) return m[1] + 'A';
+      var n = parseInt(m[1], 10) + 1;
+      return (n > 39 ? 0 : n) + '';
+    }
+    function renumber(frame, neighbour, forward) {
+      var ref = neighbour && neighbour.querySelector('.ts-conv__num');
+      if (!ref) return;
+      var txt = ref.textContent.trim();
+      var next = forward ? nextLabel(txt) : prevLabel(txt);
+      frame.querySelectorAll('.ts-conv__num').forEach(function (el) { el.textContent = next; });
+    }
+
+    // Wrap a frame from one end of the track to the other. Both layers must move together or
+    // they drift apart, and the gate classes ride along on the element so shapes stay put.
+    function recycle(dir) {
+      each(function (t) {
+        var items = t.querySelectorAll('.ts-conv__item');
+        if (items.length < 2) return;
+        if (dir > 0) {                       // travelling right: the last frame feeds in at the left
+          var last = items[items.length - 1];
+          t.insertBefore(last, items[0]);
+          renumber(last, items[0], false);   // it is EARLIER on the roll than its new neighbour
+        } else {                             // travelling left: the first frame feeds in at the right
+          var first = items[0];
+          t.appendChild(first);
+          renumber(first, items[items.length - 1], true);
+        }
+      });
+    }
+
+    // Keep offset inside one pitch by wrapping whole frames instead, so a drag of any length
+    // never runs the strip out of stock. Returns how far offset was shifted, because a drag in
+    // progress has to move its own origin by the same amount or the next move undoes this.
+    function normalise() {
+      var d = step();
+      if (!d) return 0;
+      var shift = 0, guard = 0;
+      while (offset <= -d && guard++ < 200) { recycle(1); offset += d; shift += d; }
+      while (offset >= d && guard++ < 200) { recycle(-1); offset -= d; shift -= d; }
+      return shift;
+    }
+
+    // ---- off-screen culling ------------------------------------------------------------------
+    // The track runs ~6x wider than the viewport, but every frame off the sides still carries a
+    // gate mask, an invert filter and a multiply blend for the compositor to honour. Hide the
+    // ones nobody can see. Driven by a stylesheet rather than per-element classes because
+    // nth-child re-evaluates itself as frames recycle, which is exactly the behaviour wanted
+    // here: the index window stays put while the elements move through it.
+    var cullSheet = null;
+    function cull() {
+      var d = step();
+      if (!d) return;
+      if (!cullSheet) { cullSheet = document.createElement('style'); document.head.appendChild(cullSheet); }
+      var items = tracks[0].querySelectorAll('.ts-conv__item');
+      var total = items.length;
+      // the film base and the two rule strips sit ahead of the frames and span the whole track,
+      // so their child indices have to be skipped or the cull would take them out too
+      var head = 0, kids = tracks[0].children;
+      while (head < kids.length && !kids[head].classList.contains('ts-conv__item')) head++;
+      var visible = Math.ceil(wrap.clientWidth / d) + 1;
+      var kLeft = Math.ceil((wrap.clientWidth / 2) / d) + 3;
+      // 4 frames of margin: enough for the frame arriving during a step plus a two-pitch flick
+      var lo = kLeft - 4, hi = kLeft + visible + 4;
+      var sel = [];
+      if (lo >= 1) sel.push('.ts-conv__item:nth-child(-n+' + (lo + head) + ')');
+      if (hi < total) sel.push('.ts-conv__item:nth-child(n+' + (hi + head + 1) + ')');
+      cullSheet.textContent = sel.length
+        ? sel.join(',') + '{content-visibility:hidden;contain-intrinsic-size:auto ' + d +
+          'px auto ' + wrap.clientHeight + 'px}'
+        : '';
+    }
+
+    // centre on the PICTURE, not the frame: the window is the first 36mm of a 37.9984mm pitch.
+    // kLeft whole frames are parked off-screen to the left so the strip never runs out that side.
+    function centreLead() {
+      var it = firstItem(), d = step();
+      if (!it || !d) return;
+      var win = it.querySelector('.ts-conv__win');
+      var winMid = win ? win.offsetLeft + win.offsetWidth / 2 : d / 2;
+      var kLeft = Math.ceil((wrap.clientWidth / 2) / d) + 3;   // headroom for a flick
+      lead = wrap.clientWidth / 2 - winMid - kLeft * d;
+      // the changeover sits in the gap FOLLOWING the centred frame, so the white side runs
+      // past the middle and the frame in the middle is still a negative
+      var winW = win ? win.offsetWidth : d;
+      // On a phone a single frame is most of the screen, so no interframe gap lands anywhere
+      // near the middle. Centre the changeover instead and accept that it crosses a frame.
+      // The backdrop spans the whole section, heading included, so a percentage down its height
+      // does not land on the film. Publish the strip's own centreline for the glow to sit on.
+      if (wrap.parentElement) {
+        wrap.parentElement.style.setProperty('--strip-mid',
+          (wrap.offsetTop + wrap.offsetHeight / 2) + 'px');
+      }
+
+      var cut = (wrap.clientWidth < 768
+        ? wrap.clientWidth / 2
+        : wrap.clientWidth / 2 + winW / 2 + (d - winW) / 2) + 'px';
+      wrap.style.setProperty('--cut', cut);
+      // the backdrop is a sibling, not a child, so it needs the value on a shared ancestor
+      if (wrap.parentElement) wrap.parentElement.style.setProperty('--cut', cut);
+      cull();
+      apply();
+    }
+
+    function slide() {
+      var d = step();
+      if (!d) return Promise.resolve();
+      var g = gen;
+      offset -= d;                                   // negative offset travels right
+      each(function (t) { t.style.transition = 'transform ' + SLIDE_MS + 'ms cubic-bezier(.4, 0, .2, 1)'; });
+      apply();
+      return wait(SLIDE_MS).then(function () {
+        // A grab during the transition invalidates this tail. Leaving offset one pitch low with
+        // the DOM untouched is still a consistent state; normalise() settles it on the next move.
+        if (g !== gen) return;
+        // travelling right, it is the LAST frame that leaves: move it to the front so the strip
+        // feeds in from that side, then take the offset back by one pitch to hide the jump
+        recycle(1);
+        offset += d;
+        each(function (t) { t.style.transition = 'none'; });
+        apply();
+        each(function (t) { void t.offsetWidth; });      // flush before the next transition
+      });
+    }
+
+    async function loop() {
+      running = true;
+      while (running) { await wait(SETTLE_MS); await slide(); }
+    }
+    function start() { if (!running && !dragging && !reduce.matches) { centreLead(); loop(); } }
+    function stop() { running = false; gen++; clearTimeout(timer); }
+
+    // ---- free drag -------------------------------------------------------------------------
+    // Grabbable anywhere along the strip. During the drag it tracks the pointer 1:1; on release
+    // it carries a little, then parks on a whole pitch, because the changeover is cut to fall in
+    // an interframe gap and a frame left straddling it reads as broken rather than free.
+
+    // Mid-transition, offset already holds the TARGET while the strip is somewhere behind it.
+    // Freeze on what is actually on screen, or the grab starts with a jump.
+    function paintedOffset() {
+      var m = getComputedStyle(tracks[0]).transform;
+      if (!m || m === 'none') return offset;
+      var nums = m.slice(m.indexOf('(') + 1, m.lastIndexOf(')')).split(',');
+      var tx = parseFloat(nums[m.indexOf('matrix3d') === 0 ? 12 : 4]);
+      return isNaN(tx) ? offset : lead - tx;
+    }
+
+    wrap.addEventListener('pointerdown', function (e) {
+      if (e.button != null && e.button > 0) return;
+      if (!step()) return;
+      stop();
+      dragging = true;
+      offset = paintedOffset();
+      each(function (t) { t.style.transition = 'none'; });
+      apply();
+      startX = lastX = e.clientX; startOff = offset; vel = 0; lastT = e.timeStamp || performance.now();
+      dragId = e.pointerId;
+      try { wrap.setPointerCapture(dragId); } catch (err) {}
+      wrap.classList.add('is-dragging');
+    });
+
+    wrap.addEventListener('pointermove', function (e) {
+      if (!dragging || e.pointerId !== dragId) return;
+      var now = e.timeStamp || performance.now();
+      var dt = now - lastT;
+      if (dt > 0) vel = (e.clientX - lastX) / dt;      // px per ms, for the flick
+      lastX = e.clientX; lastT = now;
+      offset = startOff - (e.clientX - startX);
+      startOff += normalise();                          // keep the drag origin with the wrapped strip
+      apply();
+    });
+
+    function endDrag(e) {
+      if (!dragging || (e && e.pointerId !== dragId)) return;
+      dragging = false;
+      try { wrap.releasePointerCapture(dragId); } catch (err) {}
+      wrap.classList.remove('is-dragging');
+      if (dot) {
+        dot.classList.remove('is-down');
+        var r = wrap.getBoundingClientRect();
+        if (e && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom)) {
+          dot.classList.remove('is-on');                // let go outside the strip: nothing to hint at
+        }
+      }
+      var d = step();
+      if (!d) { start(); return; }
+      // cap the throw at two pitches: beyond that the snap would outrun the frames parked off-screen
+      var carry = Math.max(-2 * d, Math.min(2 * d, vel * FLICK_MS));
+      offset = Math.round((offset - carry) / d) * d;
+      each(function (t) { t.style.transition = 'transform ' + DRAG_SNAP_MS + 'ms cubic-bezier(.22,.61,.36,1)'; });
+      apply();
+      var g = ++gen;
+      timer = setTimeout(function () {
+        if (g !== gen) return;
+        each(function (t) { t.style.transition = 'none'; });
+        normalise();                                    // pull back inside one pitch, invisibly
+        apply();
+        each(function (t) { void t.offsetWidth; });
+        start();
+      }, DRAG_SNAP_MS + 20);
+    }
+    wrap.addEventListener('pointerup', endDrag);
+    wrap.addEventListener('pointercancel', endDrag);
+    wrap.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+    // ---- hover dot -------------------------------------------------------------------------
+    dot = wrap.parentElement && wrap.parentElement.querySelector('.ts-conv-dot');
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    function dotAt(e) {
+      if (!dot || e.pointerType === 'touch') return;
+      var host = wrap.parentElement.getBoundingClientRect();
+      var strip = wrap.getBoundingClientRect();
+      dot.style.transform = 'translate3d(' + (e.clientX - host.left) + 'px,' +
+                                             (e.clientY - host.top) + 'px,0)';
+      var cut = parseFloat(getComputedStyle(wrap).getPropertyValue('--cut'));
+      dot.classList.toggle('on-light', !isNaN(cut) && e.clientX - strip.left < cut);
+    }
+    if (dot && fine.matches) {
+      wrap.classList.add('has-dot');
+      wrap.addEventListener('pointerenter', function (e) {
+        if (e.pointerType === 'touch') return;
+        dotAt(e);
+        // no trailing lag on the way in, or it flies across from wherever it was last parked
+        var t = dot.style.transition; dot.style.transition = 'none'; void dot.offsetWidth;
+        dot.style.transition = t;
+        dot.classList.add('is-on');
+      });
+      wrap.addEventListener('pointerleave', function () {
+        if (!dragging) dot.classList.remove('is-on');   // capture keeps it alive through a drag
+      });
+      wrap.addEventListener('pointermove', dotAt);
+      wrap.addEventListener('pointerdown', function (e) {
+        if (e.pointerType !== 'touch') dot.classList.add('is-down');
+      });
+    }
+
+    // Warm every frame two viewports out so nothing pops in on a cold cache. The files are
+    // already in the markup; this just makes sure the fetch has happened before they matter.
+    var warmed = false;
+    function warm() {
+      if (warmed) return;
+      warmed = true;
+      var seen = {};
+      wrap.querySelectorAll('.ts-conv__win img').forEach(function (img) {
+        var src = img.currentSrc || img.src;
+        if (!src || seen[src]) return;
+        seen[src] = 1;
+        var pre = new Image();
+        pre.decoding = 'async';
+        pre.src = src;
+      });
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) warm(); });
+      }, { rootMargin: '200% 0px' }).observe(wrap);
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { e.isIntersecting ? start() : stop(); });
+      }, { threshold: 0 }).observe(wrap);
+    } else { warm(); start(); }
+    document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+    window.addEventListener('resize', function () {
+      if (dragging) return;
+      offset = 0; each(function (t) { t.style.transition = 'none'; }); centreLead();
+    }, { passive: true });
+    centreLead();
+  })();
+
+  /* headline showcase accordion, one open at a time; the media panel follows the open item */
+  (function () {
+    document.querySelectorAll('.tonescan-landing .ts-acc').forEach(function (acc) {
+      var items = acc.querySelectorAll('.ts-acc__item');
+      var shots = acc.querySelectorAll('.ts-acc__shot');
+      if (!items.length) return;
+      function open(i) {
+        items.forEach(function (it, ii) {
+          var on = ii === i;
+          it.classList.toggle('is-open', on);
+          it.querySelector('.ts-acc__trigger').setAttribute('aria-expanded', on ? 'true' : 'false');
+        });
+        shots.forEach(function (s, si) { s.classList.toggle('is-active', si === i); });
+      }
+      items.forEach(function (it, i) {
+        it.querySelector('.ts-acc__trigger').addEventListener('click', function () {
+          // clicking the open one keeps it open, there is always a shot on screen to match
+          open(i);
+        });
+      });
+    });
+  })();
+
+  /* workflow story, REVERSED: the scrolling TEXT panel that reaches the middle of the
+     viewport drives which pinned media shot is shown. Also drives --sp (0->1 progress through
+     the section) for the background blobs, so they keep moving between steps. */
+  (function () {
+    document.querySelectorAll('.tonescan-landing .ts-story-sec').forEach(function (sec) {
+      var panels = sec.querySelectorAll('.ts-story__panel');
+      var shots = sec.querySelectorAll('.ts-story__shot');
+      if (!panels.length || !shots.length) return;
+
+      var stage = sec.querySelector('.ts-story__stage');
+      var dots = sec.querySelectorAll('.ts-story__dot');
+      var prev = 0;
+
+      dots.forEach(function (d, di) {
+        d.addEventListener('click', function () {
+          var pnl = panels[di];
+          if (!pnl) return;
+          var el = pnl.querySelector('.ts-story__panelinner') || pnl;
+          var r = el.getBoundingClientRect();
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          glideTo(window.pageYOffset + r.top + r.height / 2 - vh / 2, 950);
+        });
+      });
+
+      // flip the entry/exit axis without animating the resting panels across the frame
+      function setDir(up) {
+        if (!stage || stage.classList.contains('is-up') === up) return;
+        stage.classList.add('ts-no-anim');
+        stage.classList.toggle('is-up', up);
+        void stage.offsetWidth;                 // flush the new offsets before re-enabling
+        stage.classList.remove('ts-no-anim');
+      }
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            var panel = e.target.closest('.ts-story__panel');
+            var i = parseInt(panel && panel.getAttribute('data-i'), 10) || 0;
+            if (i === prev) return;
+            setDir(i < prev);                   // moving to an earlier step = scrolling up
+            prev = i;
+            dots.forEach(function (d, di) { d.classList.toggle('is-active', di === i); });
+            shots.forEach(function (s, si) {
+              if (si === i) {
+                s.classList.remove('is-leaving');
+                s.classList.add('is-active');
+              } else if (s.classList.contains('is-active')) {
+                // send the outgoing shot upward, then park it back below for its next turn
+                s.classList.remove('is-active');
+                s.classList.add('is-leaving');
+                setTimeout(function () {
+                  if (!s.classList.contains('is-active')) s.classList.remove('is-leaving');
+                }, 1100);
+              }
+            });
+          });
+        // Zero-height band across the middle of the viewport. We observe the TEXT block, not
+        // the 100vh panel, so the media swaps exactly as that step's copy hits centre screen.
+        }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+        panels.forEach(function (pnl) {
+          io.observe(pnl.querySelector('.ts-story__panelinner') || pnl);
+        });
+      }
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      // Snap the nearest step to centre once scrolling settles, so the section can't be left
+      // parked halfway between two slides. Deliberately JS-on-idle rather than CSS
+      // scroll-snap: scroll-snap-type has to go on the scroll container (html) and would
+      // then tug at every other section on the page.
+      var snapTimer, suppressSnapUntil = 0, snapRaf = null;
+      var lastDir = 1, lastY = window.pageYOffset;
+
+      // scrollIntoView({behavior:'smooth'}) uses the browser's own timing, which lands hard.
+      // Animate it ourselves so the section eases into place instead of yanking.
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+      function cancelSnap() {
+        if (snapRaf) { cancelAnimationFrame(snapRaf); snapRaf = null; }
+        // let a fresh snap engage once the user stops, instead of staying locked out
+        suppressSnapUntil = 0;
+      }
+      function glideTo(targetY, duration) {
+        cancelSnap();
+        var startY = window.pageYOffset;
+        var delta = targetY - startY;
+        if (Math.abs(delta) < 2) return;
+        var t0 = performance.now();
+        suppressSnapUntil = Date.now() + duration + 250;
+        (function step(now) {
+          var t = Math.min(1, (now - t0) / duration);
+          var y = startY + delta * easeInOutCubic(t);
+          try { window.scrollTo({ top: y, behavior: 'instant' }); }
+          catch (err) { window.scrollTo(0, y); }
+          snapRaf = t < 1 ? requestAnimationFrame(step) : null;
+        })(t0);
+      }
+      // any real input wins over an in-flight snap
+      ['touchstart', 'keydown', 'pointerdown'].forEach(function (evt) {
+        window.addEventListener(evt, cancelSnap, { passive: true });
+      });
+
+      // Damping. Each step is a full viewport tall, so one flick of a notched mouse wheel can
+      // clear a whole panel and land past the next step. Scale those big discrete jumps down
+      // while the section is on screen. Trackpads (deltaMode 0, many small deltas with their
+      // own momentum) are left alone on purpose, clamping those just feels laggy.
+      // Wheel damping removed. It was registered { passive: false } so it could preventDefault,
+      // which means every wheel event had to round-trip through the main thread before the
+      // compositor was allowed to scroll. With the rAF drivers already busy there, that alone
+      // produced the stutter, whichever way you scrolled and however early the handler bailed.
+      // The snap below already stops a flick leaving you between panels, so the damping was
+      // solving a problem that was handled anyway. This listener is passive and only cancels
+      // an in-flight snap, so input always wins.
+      window.addEventListener('wheel', cancelSnap, { passive: true });
+
+      function centreOf(pnl) {
+        var el = pnl.querySelector('.ts-story__panelinner') || pnl;
+        var r = el.getBoundingClientRect();
+        return window.pageYOffset + r.top + r.height / 2;
+      }
+
+      function maybeSnap() {
+        if (Date.now() < suppressSnapUntil) return;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var mid = window.pageYOffset + vh / 2;
+        var bi = -1, bestDist = Infinity;
+        panels.forEach(function (pnl, pi) {
+          var d = Math.abs(centreOf(pnl) - mid);
+          if (d < bestDist) { bestDist = d; bi = pi; }
+        });
+        // close enough already, or we're outside the section, leave the scroll alone
+        if (bi < 0 || bestDist < 24 || bestDist > vh * 0.45) return;
+
+        // If snapping would drag the page back against the way the reader was going, take the
+        // next step in their direction instead. Being pulled backwards is the jarring part.
+        var target = centreOf(panels[bi]);
+        if ((target - window.pageYOffset > 0 ? 1 : -1) !== lastDir) {
+          var alt = bi + lastDir;
+          if (!panels[alt]) return;                  // at either end: leave it where it is
+          target = centreOf(panels[alt]);
+        }
+        glideTo(target - vh / 2, 950);
+      }
+
+      var ticking = false;
+      function progress() {
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var r = sec.getBoundingClientRect();
+        // 0 as the section's top reaches the bottom of the screen, 1 as its bottom leaves the top
+        var sp = (vh - r.top) / (vh + r.height);
+        sec.style.setProperty('--sp', (sp < 0 ? 0 : sp > 1 ? 1 : sp).toFixed(4));
+        ticking = false;
+      }
+      function onScroll() {
+        var y = window.pageYOffset;
+        if (y !== lastY) { lastDir = y > lastY ? 1 : -1; lastY = y; }
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(progress);
+        }
+        clearTimeout(snapTimer);
+        snapTimer = setTimeout(maybeSnap, 240);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', function () { clearTimeout(snapTimer); onScroll(); }, { passive: true });
+      progress();
+    });
+  })();
+
+  /* feature video modal, the "+" on each headline bento tile.
+     data-video is empty until the clips are recorded, so fall back to the poster plus a note
+     rather than opening an empty player. Adding the URL is the only change needed later. */
+  (function () {
+    var modal = document.querySelector('.tonescan-landing .ts-vid');
+    if (!modal) return;
+    var stage = modal.querySelector('.ts-vid__stage');
+    var title = modal.querySelector('.ts-vid__title');
+    var lastFocus = null;
+
+    function close() {
+      modal.hidden = true;
+      stage.innerHTML = '';           // stops playback
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    function open(btn) {
+      lastFocus = btn;
+      var src = (btn.getAttribute('data-video') || '').trim();
+      var poster = btn.getAttribute('data-poster') || '';
+      var name = btn.getAttribute('data-title') || '';
+      title.textContent = name;
+      if (src) {
+        stage.innerHTML = '<video controls autoplay playsinline muted loop poster="' + poster +
+          '" src="' + src + '"></video>';
+      } else {
+        stage.innerHTML = '<img src="' + poster + '" alt="' + name + '">' +
+          '<p class="ts-vid__soon">Walkthrough video coming soon</p>';
+      }
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      modal.querySelector('.ts-vid__close').focus();
+    }
+
+    // The whole card is the target, the "+" is only an affordance (and the keyboard handle,
+    // since its click bubbles up to the card listener below).
+    document.querySelectorAll('.tonescan-landing .ts-bento').forEach(function (card) {
+      var btn = card.querySelector('.ts-feature-more');
+      if (!btn) return;
+      var downX = null, downY = null;
+      card.addEventListener('pointerdown', function (e) { downX = e.clientX; downY = e.clientY; });
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('a')) return;   // the CTA navigates; it doesn't open the overlay
+        // Releasing a text-selection drag inside the card still fires a click. Only treat it
+        // as a deliberate tap when nothing got selected and the pointer barely moved.
+        var sel = window.getSelection();
+        if (sel && !sel.isCollapsed && sel.toString().length) return;
+        if (downX !== null && (Math.abs(e.clientX - downX) > 4 || Math.abs(e.clientY - downY) > 4)) return;
+        open(btn);
+      });
+    });
+    modal.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) {
+      if (!modal.hidden && e.key === 'Escape') close();
+    });
+  })();
+
+  /* hero scroll, screenshot grows slightly; scattered floats converge inward (--p on .ts-hero) */
+  (function () {
+    var frame = document.querySelector('.tonescan-landing .ts-hero');
+    if (!frame) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var scaler = frame.querySelector('.ts-hero-glass');
+    var colour = document.querySelector('.tonescan-landing .ts-hero-color');
+    var text = frame.querySelector('.ts-hero-text');
+    var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
+    var ticking = false;
+    // Pin the text where it already sits so it never travels, it only shrinks and fades.
+    // The old version read rect.top and bailed unless we were at scroll 0, so a deep link
+    // (or any load below the fold) left the sticky offset at the CSS default and the text
+    // slid upward before catching. Measuring in DOCUMENT space works at any scroll position;
+    // position:static during the read stops a stuck element reporting its stuck offset.
+    function pin() {
+      if (!text) return;
+      var prevPos = text.style.position;
+      text.style.position = 'static';
+      var docTop = text.getBoundingClientRect().top + (window.pageYOffset || 0);
+      text.style.position = prevPos;
+      text.style.top = Math.round(docTop) + 'px';
+    }
+    pin();
+    // set --drop so floats converge onto the frame's lower edge (hide behind the screenshot),
+    // not the middle of the page, robust across viewport heights.
+    var glassFrame = frame.querySelector('.ts-hero-frame');
+    function setDrop() {
+      if (!glassFrame) return;
+      var heroH = frame.offsetHeight;
+      var anchorY = 0.44 * heroH;                                   // matches .hero-float top:44%
+      var target = glassFrame.offsetTop + glassFrame.offsetHeight * 0.86; // ~lower edge of the frame
+      frame.style.setProperty('--drop', Math.max(0, Math.round(target - anchorY)) + 'px');
+    }
+    setDrop();
+    function onLayout() { pin(); setDrop(); }
+    window.addEventListener('load', onLayout);
+    window.addEventListener('resize', onLayout);
+    function update() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var p = clamp(window.pageYOffset / (vh * 0.85));
+      frame.style.setProperty('--p', p.toFixed(3));
+      // particles live on .ts-hero-color (a parent of .ts-hero), so they can't inherit --p
+      if (colour) colour.style.setProperty('--pp', p.toFixed(3));
+      if (scaler) {
+        // scale 0.8 -> 1.0 as the frame enters from the bottom; full size once 70% has
+        // entered, then HOLD (monotonic on the way down, doesn't shrink as it exits the top)
+        var r = scaler.getBoundingClientRect();
+        var g = r.height > 0 ? clamp((vh - r.top) / (0.7 * r.height), 0, 1) : 1;
+        scaler.style.setProperty('--hs', (0.8 + 0.2 * g).toFixed(3));
+      }
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { update(); ticking = false; });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+
+  /* hero feature selector, crossfade the framed shot. Desktop = tab pills, mobile = <select> + dots. */
+  (function () {
+    var hero = document.querySelector('.tonescan-landing .ts-hero-color');
+    var bar = document.querySelector('.tonescan-landing .ts-hero-selectbar');
+    if (!hero || !bar) return;
+    var shots = hero.querySelectorAll('.ts-hero-shot');
+    var tabs = bar.querySelectorAll('.ts-hero-tab');
+    var dots = bar.querySelectorAll('.ts-hero-dot');
+    var select = bar.querySelector('.ts-hero-select');
+    var frame = document.querySelector('.tonescan-landing .ts-hero-frame');
+    var video = hero.querySelector('.ts-hero-video');
+    var current = 0;
+
+    function show(i, fromAuto) {
+      i = (i + shots.length) % shots.length;
+      current = i;
+      tabs.forEach(function (t, ti) { var on = ti === i; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
+      dots.forEach(function (d, di) { d.classList.toggle('is-active', di === i); });
+      shots.forEach(function (s, si) { s.classList.toggle('is-active', si === i); });
+      if (select && +select.value !== i) select.value = i;
+      if (window.__tsHeroVideoSync) window.__tsHeroVideoSync(); // play/pause the Develop video with its slot
+      if (fromAuto) scheduleAuto(); else stopAuto();            // any manual pick ends the rotation
+    }
+
+    // Auto-advance every 10s, until the visitor picks something themselves, carousels that
+    // keep moving after you've made a choice just fight you.
+    var AUTO_MS = 10000, autoTimer = null, autoStopped = false;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function stopAuto() { autoStopped = true; clearTimeout(autoTimer); }
+    function scheduleAuto() {
+      if (autoStopped || reduce) return;
+      clearTimeout(autoTimer);
+      autoTimer = setTimeout(tick, AUTO_MS);
+    }
+    function tick() {
+      if (autoStopped) return;
+      // don't cut the Develop clip off part-way through, wait for it to finish
+      if (video && shots[0] && shots[0].classList.contains('is-active') && !video.paused && !video.ended) {
+        autoTimer = setTimeout(tick, 1000);
+        return;
+      }
+      show(current + 1, true);
+    }
+
+    tabs.forEach(function (t, ti) { t.addEventListener('click', function () { show(ti); }); });
+    if (select) select.addEventListener('change', function () { show(+select.value); });
+    var prev = document.querySelector('.tonescan-landing .ts-hero-nav--prev');
+    var next = document.querySelector('.tonescan-landing .ts-hero-nav--next');
+    if (prev) prev.addEventListener('click', function () { show(current - 1); });
+    if (next) next.addEventListener('click', function () { show(current + 1); });
+
+    // hold while the pointer is over the media, so it can't swap out from under a reader
+    if (frame) {
+      frame.addEventListener('mouseenter', function () { clearTimeout(autoTimer); });
+      frame.addEventListener('mouseleave', scheduleAuto);
+    }
+    scheduleAuto();
+  })();
+
+  /* hero Develop video, autoplay (muted) when the hero is in view AND its slot is active;
+     replay button overlays when it ends. Honours reduced-motion (no autoplay; shows Play). */
+  (function () {
+    var video = document.querySelector('.tonescan-landing .ts-hero-video');
+    if (!video) return;
+    var slot = video.closest('.ts-hero-shot');
+    var replay = document.querySelector('.tonescan-landing .ts-hero-replay');
+    var label = replay ? replay.querySelector('.ts-hero-replay__label') : null;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var inView = false, ended = false;
+    function activeSlot() { return slot && slot.classList.contains('is-active'); }
+    function sync() {
+      if (!reduce && inView && activeSlot() && !ended) { var p = video.play(); if (p && p.catch) p.catch(function () {}); }
+      else { video.pause(); }
+    }
+    video.addEventListener('ended', function () { ended = true; if (label) label.textContent = 'Replay'; if (replay) replay.classList.add('is-shown'); });
+    if (replay) replay.addEventListener('click', function () { ended = false; replay.classList.remove('is-shown'); video.currentTime = 0; var p = video.play(); if (p && p.catch) p.catch(function () {}); });
+    if (reduce && replay) { if (label) label.textContent = 'Play'; replay.classList.add('is-shown'); } // opt-in under reduced motion
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { es.forEach(function (e) { inView = e.isIntersecting; sync(); }); }, { threshold: 0.3 }).observe(video);
+    } else { inView = true; sync(); }
+    window.__tsHeroVideoSync = sync;
+  })();
+
+  /* beta signup, POST the email to the Cloudflare Worker (double opt-in; the Worker owns all
+     key/confirm logic). Do NOT change the fetch URL, the { email } body, or the status handling. */
+  (function () {
+    var TS_SIGNUP_URL = "https://tonescan-beta-signup.little-pond-7bea.workers.dev/signup";
+    var forms = document.querySelectorAll('.tonescan-landing .ts-signup');
+    if (!forms.length) return;
+    forms.forEach(function (root) {
+      var form = root.querySelector('.ts-form');
+      var email = root.querySelector('.ts-email');
+      var btn = root.querySelector('.ts-btn');
+      var msg = root.querySelector('.ts-msg');
+      if (!form) return;
+      function say(text, kind) { msg.textContent = text; msg.className = 'ts-msg ' + (kind || ''); }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var value = (email.value || '').trim();
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)) { say('Please enter a valid email.', 'err'); return; }
+        btn.disabled = true;
+        say('Sending…');
+        fetch(TS_SIGNUP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: value })
+        })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+          .then(function (res) {
+            if (!res.ok) throw new Error(res.d && res.d.error);
+            if (res.d.status === 'already_issued')
+              say("You've already got a key, check your inbox (and spam).", 'ok');
+            else
+              say("Almost there! Check your email to confirm and we'll send your key.", 'ok');
+            form.reset();
+          })
+          .catch(function () { say('Something went wrong. Please try again.', 'err'); })
+          .finally(function () { btn.disabled = false; });
+      });
+    });
+  })();
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tsInit);
+else tsInit();
+})();
+</script>

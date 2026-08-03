@@ -1,0 +1,253 @@
+{%- comment -%}
+  Top of the toneScan Studio landing page: the hero, and the problem statement under it.
+
+  Split out of tonescan-landing so the conversion strip below could become its own section. A
+  template renders sections in order, so everything ahead of the strip had to become a section
+  too. This one also renders the page-wide CSS and JS, because it is always present and it owns
+  the hero background settings the stylesheet needs.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%} The lite template (page.tonescan-lite) is a trimmed variant for early testers.
+     Detected from the template suffix, so markup is shared rather than duplicated. {%- endcomment -%}
+  {%- assign ts_minimal = false -%}
+  {%- if template.suffix == 'tonescan-lite' -%}{%- assign ts_minimal = true -%}{%- endif -%}
+
+  {%- comment -%} App screenshots and sample scans live in Shopify Files (Content > Files). Keep
+     the base here so a re-upload is a one-line change. {%- endcomment -%}
+  {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+
+  {%- comment -%} ============================ 1 · HERO ============================ {%- endcomment -%}
+  {%- comment -%}
+    GitHub-style hero: a COLOURFUL region (.ts-hero-color, blue gradient) whose bottom edge is a
+    SHARP CUT to the page's black (#0a0a0b). The framed screenshot dips past that cut so its dark
+    bottom melts into black ("cut off"), and the feature SELECTOR (.ts-hero-selectbar) sits on the
+    black part below. Desktop = tab pills; mobile = a <select> + pagination dots, screenshot bleeds
+    off-screen wider than the viewport, and no grow-on-scroll.
+    overflow-clip (not hidden) so the sticky hero text still pins while floats / wide image stay clipped.
+  {%- endcomment -%}
+  <section class="tw:relative tw:overflow-clip">
+    <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-white/[0.04] tw:blur-[130px]"></div>
+
+    <div class="ts-hero-color">
+      {%- comment -%} Background video, same treatment as the homepage hero: blurred and held
+         well back so it reads as texture under the gradient rather than competing with the
+         copy. Defaults to the same clip the homepage uses; the theme editor can override it
+         with a Files video or a still. {%- endcomment -%}
+      {%- assign ts_hero_bg = 'https://cdn.shopify.com/videos/c/o/v/3cf4f2b9a1e647b0af03b88868030e86.mp4' -%}
+      <div class="ts-hero-bg" aria-hidden="true">
+        {%- if section.settings.background_video != blank -%}
+          {%- assign ts_bg_poster = section.settings.background_image | image_url: width: 1600 -%}
+          {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, preload: "auto", image_size: "1600px", poster: ts_bg_poster }}
+        {%- elsif section.settings.background_image != blank -%}
+          {{ section.settings.background_image | image_url: width: 1600 | image_tag: loading: 'eager', alt: '' }}
+        {%- else -%}
+          <video autoplay loop muted playsinline preload="auto">
+            <source src="{{ ts_hero_bg }}" type="video/mp4">
+          </video>
+        {%- endif -%}
+      </div>
+      <div class="ts-hero-particles" aria-hidden="true"><span class="p1"></span><span class="p2"></span><span class="p3"></span></div>
+      <div class="ts-hero tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[72px] tw:pb-0 tw:md:px-[50px] tw:md:pt-[150px]">
+        {%- comment -%}
+          Floating sample images, scattered high around the headline, then drift DOWN and inward
+          to the screenshot centre (rack into focus) on scroll. --drop tunes how far down they
+          travel to reach the hero centre. Swap gradients for real sample scans later.
+        {%- endcomment -%}
+        <div class="hero-floats tw:hidden tw:md:block" aria-hidden="true">
+          <div class="hero-float hero-float--1"></div>
+          <div class="hero-float hero-float--2"></div>
+          <div class="hero-float hero-float--3"></div>
+          <div class="hero-float hero-float--4"></div>
+          <div class="hero-float hero-float--5"></div>
+          <div class="hero-float hero-float--6"></div>
+          <div class="hero-float hero-float--7"></div>
+        </div>
+        <div class="ts-hero-text tw:mx-auto tw:flex tw:max-w-[940px] tw:flex-col tw:items-center tw:gap-[26px] tw:text-center">
+          <img class="ts-hero-icon" src="{{ 'tonescan-icon.png' | asset_url }}" alt="" width="256" height="256" fetchpriority="high">
+
+          <h1 class="tw:text-[32px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.03em] tw:text-white tw:md:text-[58px]">
+            Film scanning,<br class="ts-hero-br"> start to finish.
+          </h1>
+
+          <p class="tw:max-w-[620px] tw:text-[16px] tw:leading-[1.5] tw:text-neutral-400 tw:md:text-[20px] tw:md:leading-[1.55]">
+            toneScan Studio is standalone software for serious film scanning. Seamless RGB,
+            a physically accurate colour engine, and real speed. Now in open beta.
+          </p>
+
+          <div class="ts-signup tw:mt-[6px]">
+            <form class="ts-form" novalidate>
+              <input class="ts-email" type="email" name="email" required
+                     placeholder="you@example.com" autocomplete="email" aria-label="Email address">
+              <button class="ts-btn" type="submit">Join the beta</button>
+            </form>
+            <p class="ts-msg" role="status" aria-live="polite"></p>
+          </div>
+          <p class="ts-os-row">
+            <span class="ts-os">
+              <svg class="ts-os__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+              <svg class="ts-os__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+              Available for Mac and Windows
+            </span>
+          </p>
+        </div>
+
+        <div class="ts-hero-frame tw:relative tw:mx-auto tw:mt-[102px] tw:max-w-[1320px]">
+          <div class="ts-hero-glow" aria-hidden="true"></div>
+          {%- comment -%} glass frame + stacked feature shots (crossfaded by the selector below).
+             Bottom is open (no bottom border) and dips past the colour cut so the dark image
+             melts into black. {%- endcomment -%}
+          <button type="button" class="ts-hero-nav ts-hero-nav--prev" aria-label="Previous feature">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" class="ts-hero-nav ts-hero-nav--next" aria-label="Next feature">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="ts-hero-glass">
+            <div class="ts-hero-stage">
+              {%- comment -%} slot 0 (Develop) is a video, autoplays muted when the hero enters view; replay button on end {%- endcomment -%}
+              <div class="ts-hero-shot ts-hero-vslot is-active" data-shot="0">
+                {%- comment -%} no poster, the video's own first frame is the placeholder (preload=auto buffers it) {%- endcomment -%}
+                <video class="ts-hero-video" muted playsinline preload="auto">
+                  <source src="https://cdn.shopify.com/videos/c/o/v/b65600e0d21a4c62a9bc7beeea2ea761.mp4" type="video/mp4">
+                </video>
+                <button type="button" class="ts-hero-replay" aria-label="Replay video">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>
+                  <span class="ts-hero-replay__label">Replay</span>
+                </button>
+              </div>
+              <img class="ts-hero-shot" data-shot="1" src="{{ ts_cdn }}/rgb-merge.png" alt="Three single-channel captures selected and merged into one RGB frame" loading="lazy" width="3200" height="2000">
+              <img class="ts-hero-shot" data-shot="2" src="{{ ts_cdn }}/calibration-crosstalk.png" alt="Calibrating channel exposure and reading the crosstalk matrix" loading="lazy" width="3200" height="2000">
+              <img class="ts-hero-shot" data-shot="3" src="{{ ts_cdn }}/pixel-preview.png" alt="A converted portrait at 155% with the live RGB histogram and develop controls" loading="lazy" width="3200" height="2000">
+              <img class="ts-hero-shot" data-shot="4" src="{{ ts_cdn }}/organise.png" alt="A roll of converted frames in the organise view, with the roll list alongside" loading="lazy" width="3200" height="2000">
+              <img class="ts-hero-shot" data-shot="5" src="{{ ts_cdn }}/batch-export.png" alt="Exporting sixteen selected frames to JPG at 3500px" loading="lazy" width="3200" height="2000">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} SELECTOR, sits on the black region below the cut. Desktop: tab pills.
+       Mobile: pagination dots + a native <select>. {%- endcomment -%}
+    <div class="ts-hero-selectbar tw:relative tw:z-[2] tw:mx-auto tw:w-full tw:max-w-[1320px] tw:px-[15px] tw:md:px-[50px]">
+      <div class="ts-hero-tabs" role="tablist" aria-label="Features">
+        <button type="button" class="ts-hero-tab is-active" data-tab="0" role="tab" aria-selected="true">Develop</button>
+        <button type="button" class="ts-hero-tab" data-tab="1" role="tab" aria-selected="false">RGB merge</button>
+        <button type="button" class="ts-hero-tab" data-tab="2" role="tab" aria-selected="false">Calibration</button>
+        <button type="button" class="ts-hero-tab" data-tab="3" role="tab" aria-selected="false">Pixel preview</button>
+        <button type="button" class="ts-hero-tab" data-tab="4" role="tab" aria-selected="false">Organise</button>
+        <button type="button" class="ts-hero-tab" data-tab="5" role="tab" aria-selected="false">Batch export</button>
+      </div>
+      <div class="ts-hero-mobsel">
+        <div class="ts-hero-dots" aria-hidden="true">
+          <span class="ts-hero-dot is-active" data-dot="0"></span>
+          <span class="ts-hero-dot" data-dot="1"></span>
+          <span class="ts-hero-dot" data-dot="2"></span>
+          <span class="ts-hero-dot" data-dot="3"></span>
+          <span class="ts-hero-dot" data-dot="4"></span>
+          <span class="ts-hero-dot" data-dot="5"></span>
+        </div>
+        <div class="ts-hero-selectwrap">
+          <select class="ts-hero-select" aria-label="Choose a feature to preview">
+            <option value="0">Develop</option>
+            <option value="1">RGB merge</option>
+            <option value="2">Calibration</option>
+            <option value="3">Pixel preview</option>
+            <option value="4">Organise</option>
+            <option value="5">Batch export</option>
+          </select>
+          <svg class="ts-hero-selectcaret" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  {%- comment -%} ==================== 3 · PROBLEM / AGITATION ==================== {%- endcomment -%}
+  {%- unless ts_minimal -%}
+  <section class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">The problem</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">
+        Conversion is the hard part.
+</h2>
+      <p class="tw:mx-auto tw:mt-[20px] tw:max-w-[560px] tw:text-[17px] tw:leading-[1.6] tw:text-neutral-400">
+        You shot the roll. You scanned it. Then the fun stops. Now it is clunky
+        tools, chasing accurate colour, and fighting for consistency frame to frame.
+      </p>
+    </div>
+    <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[16px] tw:md:grid-cols-3">
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="ts-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h9M17 18h3"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="15" cy="18" r="2"/></svg></div>
+        <h3 class="tw:mb-[8px] tw:text-[18px] tw:font-semibold tw:text-white">Slow and fiddly</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Endless sliders and plugins just to get one frame looking right.</p>
+      </div>
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="ts-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h4l3 10h4M14 7h3M17 7l-2-2M17 7l-2 2M13 17h4M17 17l-2-2M17 17l-2 2"/></svg></div>
+        <h3 class="tw:mb-[8px] tw:text-[18px] tw:font-semibold tw:text-white">Inconsistent results</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Every frame comes out looking different from the last.</p>
+      </div>
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="ts-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+        <h3 class="tw:mb-[8px] tw:text-[18px] tw:font-semibold tw:text-white">Hours per roll</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Manual tweaking and exporting turns a hobby into a chore.</p>
+      </div>
+    </div>
+  </section>
+  {%- endunless -%}
+</div>
+
+{%- comment -%} Styles and behaviour for the WHOLE page, rendered once here. They were extracted
+   when the landing file hit Shopify's 256 KB template ceiling; snippets are counted separately.
+   render isolates scope, hence the explicit passes. {%- endcomment -%}
+{% render 'tonescan-styles', ts_cdn: ts_cdn, bg_opacity: section.settings.background_opacity, bg_blur: section.settings.background_blur %}
+{% render 'tonescan-scripts' %}
+
+{% schema %}
+{
+  "name": "toneScan Studio hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero background"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Background video"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image (poster / fallback)"
+    },
+    {
+      "type": "range",
+      "id": "background_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Background opacity",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "background_blur",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Background blur",
+      "default": 5
+    }
+  ],
+  "presets": [
+    {
+      "name": "toneScan Studio hero"
+    }
+  ]
+}
+{% endschema %}

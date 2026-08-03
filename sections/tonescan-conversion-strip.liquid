@@ -1,0 +1,159 @@
+{%- comment -%}
+  The 35mm conversion strip, as its own section so its photos and copy can be managed on their
+  own in the theme editor.
+
+  Photos come from 'Sample scan' blocks. The frame COUNT is fixed by how much film the driver
+  needs to cover the widest viewport without running out of stock, so it cannot follow the block
+  count: the blocks are a pool tiled across the strip. With none, it falls back to the bundled
+  ts-strip-*.jpg assets.
+
+  Its CSS and JS are still part of the page-wide bundle rendered by tonescan-hero, not a slice of
+  their own. Splitting those out is the job for when the contact sheet reuses this.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%} The lite template (page.tonescan-lite) is a trimmed variant for early testers.
+     Detected from the template suffix, so markup is shared rather than duplicated. {%- endcomment -%}
+  {%- assign ts_minimal = false -%}
+  {%- if template.suffix == 'tonescan-lite' -%}{%- assign ts_minimal = true -%}{%- endif -%}
+
+
+  {%- comment -%} ==================== 4 · CONVERSION STRIP ====================
+       A strip of frames stepping leftward. Everything right of the middle is still a negative,
+       everything past it has been converted. The frame that lands in the middle flips through
+       a white flash, then the strip steps on. Motion is deliberately not continuous: step,
+       settle, convert, settle. Placeholder pairs for now, cycling four real frames.
+  {%- endcomment -%}
+  <section class="ts-conv-sec tw:relative tw:overflow-hidden tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="ts-conv-head tw:relative tw:z-[1] tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[80px] tw:md:px-[50px] tw:md:pt-[120px] tw:text-left">
+      {%- if section.settings.heading != blank -%}
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-[#111114] tw:md:text-[46px]">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+      <p class="tw:mt-[18px] tw:text-[17px] tw:leading-[1.6] tw:text-[#55565c]">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      {%- comment -%} Forced off on lite as well as by the toggle: the gallery it points at is
+         not on that template, and an anchor with no target scrolls nowhere. {%- endcomment -%}
+      {%- if section.settings.show_scans_cta and ts_minimal == false and section.settings.cta_text != blank -%}
+      <a class="ts-conv-cta" href="{{ section.settings.cta_link | default: '#gallery' }}">{{ section.settings.cta_text }} <span aria-hidden="true">&rsaquo;</span></a>
+      {%- endif -%}
+
+      {%- comment -%} Shooting notes. Lives in the head so it falls under the CTA on phones, and
+         gets lifted into the empty dark column on desktop. {%- endcomment -%}
+      {%- if section.settings.note != blank -%}
+      <div class="ts-conv-note">{{ section.settings.note }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Two identical strips stacked and driven by one transform. Their masks are
+       complements, so the negative owns the right, the positive owns the left, and they cross
+       through each other in the middle. A frame converts by travelling, not by flipping.
+    {%- endcomment -%}
+    {%- comment -%} Two identical strips stacked and driven by one transform. Their masks are
+       complements, so the negative owns the right, the positive owns the left, and the hard
+       edge between them sits in the gap after the centred frame. Both layers MUST hold the
+       same number of frames or they drift apart. {%- endcomment -%}
+    {%- comment -%} Backdrop the film sits over. Reuses the hero's particle layers so the two
+       sections share a texture. The negative half of the strip is translucent, so this is what
+       shows through the orange base, blurred. {%- endcomment -%}
+    <div class="ts-conv-bg" aria-hidden="true">
+      <div class="ts-hero-particles"><span class="p1"></span><span class="p2"></span><span class="p3"></span></div>
+    </div>
+
+    <div class="ts-conv" role="img" aria-label="A strip of film frames converting from negative to positive as they travel">
+      {% render 'tonescan-strip-layer', kind: 'pos', pool: section.blocks %}
+      {% render 'tonescan-strip-layer', kind: 'neg', pool: section.blocks %}
+    </div>
+
+    {%- comment -%} Bloom over the film, not behind it: a glow that stops at the strip edge does
+       not read as light coming off the stock. Sits above the strip and washes both it and the
+       background around it. {%- endcomment -%}
+    <span class="ts-conv-glow" aria-hidden="true"></span>
+
+    {%- comment -%} Hover affordance for the drag. Nothing on a piece of film says "grab me", and
+       a written label would look wrong printed across it, so the cursor becomes a dot instead.
+    {%- endcomment -%}
+    <span class="ts-conv-dot" aria-hidden="true"><i></i></span>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan conversion strip",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 30,
+  "blocks": [
+    {
+      "type": "frame",
+      "name": "Sample scan",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "paragraph",
+          "content": "Any shape works, the frame crops to fit. Add one block per photo; they are tiled across the strip in order, so around 12 or more avoids a visible repeat. With no blocks the built-in set is used."
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Title",
+      "default": "Negatives in, photographs out."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subtitle",
+      "default": "One pass over the roll, no per-frame corrections. You check a roll now instead of rescuing it."
+    },
+    {
+      "type": "richtext",
+      "id": "note",
+      "label": "Right column text",
+      "default": "<p>All frames here were converted on automatic settings in toneScan Studio, with no manual corrections.</p><p>Shot on a Fujifilm X-T5 with toneLight RGB.</p>",
+      "info": "Sits in the dark column on desktop and under the button on phones."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scans_cta",
+      "label": "Show the button",
+      "default": false,
+      "info": "Hidden automatically on the lite template, where the gallery it points at is not on the page."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "See sample scans"
+    },
+    {
+      "type": "text",
+      "id": "cta_link",
+      "label": "Button link",
+      "default": "#gallery",
+      "info": "A URL, or an #anchor on this page such as #gallery."
+    }
+  ],
+  "presets": [
+    {
+      "name": "toneScan conversion strip"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,59 @@
+{%- comment -%}
+  One complete film strip: the base layer plus 22 frames.
+
+  Rendered twice from the conversion section, once as 'pos' and once as 'neg'. Both layers use
+  the SAME photo per position, the same gate shape and the same frame number: they are stacked
+  and crossfaded, so any difference between them would show as misregistration. What differs is
+  purely CSS, keyed off the layer class.
+
+  Accepts: kind ('pos' | 'neg'), frames (count), start (first frame number), batch (edge code).
+
+  Frame numbering runs 24, 24A, 25, 25A... which is how 35mm is numbered: a whole number and an
+  'A' half-step per 4 perforations. The driver renumbers on recycle, wrapping at 0/39A.
+{%- endcomment -%}
+
+{%- comment -%}
+  Photos come from the section's 'Sample scan' blocks when there are any, tiled in order to fill
+  the strip. The frame COUNT is fixed by how much film the driver needs to cover the widest
+  viewport without running out of stock, so it cannot follow the block count: a merchant adding
+  three photos gets three photos repeating, not a three-frame strip. With no blocks it falls back
+  to the bundled ts-strip-*.jpg assets, so the page is never empty.
+{%- endcomment -%}
+{%- assign pool_size = 0 -%}
+{%- if pool -%}{%- assign pool_size = pool.size -%}{%- endif -%}
+
+{%- assign frame_count = frames | default: 22 -%}
+{%- assign first_no = start | default: 24 -%}
+{%- assign edge_batch = batch | default: '2137-2' -%}
+{%- assign last = frame_count | minus: 1 -%}
+
+<div class="ts-conv__layer ts-conv__layer--{{ kind }}">
+  <div class="ts-conv__track">
+    <span class="ts-conv__film" aria-hidden="true"></span>
+    {%- for i in (0..last) -%}
+      {%- assign gate = i | modulo: 4 | plus: 1 -%}
+      {%- assign no = i | divided_by: 2 | plus: first_no -%}
+      {%- assign half = i | modulo: 2 -%}
+      {%- if half == 1 -%}{%- assign label = no | append: 'A' -%}{%- else -%}{%- assign label = no -%}{%- endif -%}
+      {%- assign idx = i | plus: 1 -%}
+      {%- if idx < 10 -%}{%- assign file = 'ts-strip-0' | append: idx | append: '.jpg' -%}
+      {%- else -%}{%- assign file = 'ts-strip-' | append: idx | append: '.jpg' -%}{%- endif -%}
+      {%- assign pic = nil -%}
+      {%- if pool_size > 0 -%}
+        {%- assign pi = i | modulo: pool_size -%}
+        {%- assign pic = pool[pi].settings.image -%}
+      {%- endif -%}
+      <figure class="ts-conv__item ts-gate-{{ gate }}">
+        {%- comment -%} The rules live per frame, not per track. Both patterns have a period that
+           divides the frame pitch exactly (red: one period per frame, holes: eight), so a
+           per-frame slice tiles seamlessly, and it keeps the drop-shadow off an element six
+           viewports wide. {%- endcomment -%}
+        <span class="ts-conv__rules ts-conv__rules--g" aria-hidden="true"><i></i></span>
+        <span class="ts-conv__rules ts-conv__rules--r" aria-hidden="true"><i></i></span>
+        <span class="ts-conv__edge ts-conv__edge--top" aria-hidden="true"><span class="ts-conv__stock">TONE 200/36-X</span><span class="ts-conv__num">{{ label }}</span><span class="ts-conv__batch">{{ edge_batch }}</span></span>
+        <span class="ts-conv__win">{%- if pic -%}<img src="{{ pic | image_url: width: 440 }}" srcset="{{ pic | image_url: width: 440 }} 1x, {{ pic | image_url: width: 880 }} 2x" alt="" draggable="false" loading="eager" decoding="async" fetchpriority="low" width="{{ pic.width }}" height="{{ pic.height }}">{%- else -%}<img src="{{ file | asset_img_url: '440x' }}" srcset="{{ file | asset_img_url: '440x' }} 1x, {{ file | asset_url }} 2x" alt="" draggable="false" loading="eager" decoding="async" fetchpriority="low" width="820" height="546">{%- endif -%}</span>
+        <span class="ts-conv__edge ts-conv__edge--bot" aria-hidden="true"><span class="ts-conv__code"><i class="ts-conv__holes"><i class="ts-conv__bars"></i></i></span><span class="ts-conv__num">{{ label }}</span></span>
+      </figure>
+    {%- endfor -%}
+  </div>
+</div>

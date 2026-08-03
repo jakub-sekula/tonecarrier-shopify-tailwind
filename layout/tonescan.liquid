@@ -13,16 +13,24 @@
 
     {%- unless settings.type_body_font.system? and settings.type_header_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- comment -%} Inter as a variable font across 400-800. Loading the 800 weight ALONE was a
+       mistake: it is the only Inter face the browser then has, so every element asking for Inter
+       at any weight got rendered at 800, which thickened the section headings. The range covers
+       body copy, semibold headings and the extrabold film-strip edge printing from one file.
+    {%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap">
     {%- endunless -%}
 
     {%- comment -%}
-      Social preview (Open Graph / Twitter) for the tonescan landing pages. Explicit here because
+      Social preview (Open Graph / Twitter) for the toneScan Studio landing pages. Explicit here because
       Dawn's meta-tags snippet emits no og:image for pages without a featured image. Admin SEO
       fields (page title / meta description / a page featured image) override the defaults below.
     {%- endcomment -%}
     {%- liquid
       assign ts_title = page_title | default: shop.name
-      assign ts_desc = page_description | default: 'Turn whole rolls of camera-scanned negatives into gallery-ready photos — lab-accurate colour and an effortless, professional workflow. Now in open beta for macOS (Apple Silicon).'
+      assign ts_desc = page_description | default: 'Standalone software for serious film scanning. Seamless RGB, a physically accurate colour engine, and real speed. Now in open beta for macOS and Windows.'
       # og:image precedence: page metafield custom.social_image → page featured image → default screenshot.
       # Works whether the metafield is a File(image) reference or a plain URL string.
       assign ts_image = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011'
@@ -49,7 +57,7 @@
     <meta property="og:description" content="{{ ts_desc | escape }}">
     <meta property="og:image" content="{{ ts_image }}">
     <meta property="og:image:secure_url" content="{{ ts_image }}">
-    <meta property="og:image:alt" content="toneScan — film scanning software">
+    <meta property="og:image:alt" content="toneScan Studio film scanning software">
     {%- if settings.social_twitter_link != blank -%}
       <meta name="twitter:site" content="{{ settings.social_twitter_link | split: 'twitter.com/' | last | prepend: '@' }}">
     {%- endif -%}
@@ -61,6 +69,13 @@
     {{ content_for_header }}
 
     {{ 'app.css' | asset_url | stylesheet_tag }}
+
+    {%- comment -%} PhotoSwipe (MIT): fullscreen sample-scan viewer with pinch/wheel zoom.
+       Already vendored in assets/ and used by the main theme; theme.liquid loads it globally,
+       but this page uses its own layout, so it has to be pulled in here too. {%- endcomment -%}
+    <link rel="stylesheet" href="{{ 'photoswipe.css' | asset_url }}">
+    <script src="{{ 'photoswipe.umd.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'photoswipe-lightbox.umd.min.js' | asset_url }}" defer></script>
 
     {%- style -%}
       {%- comment -%} Load the SAME fonts as the main site so the header matches {%- endcomment -%}
@@ -125,15 +140,20 @@
           {%- endif -%}
         </a>
 
-        {%- comment -%} nav links point to sections that don't exist in the minimal (tonescan-lite) variant, so hide them there {%- endcomment -%}
-        {%- unless template.suffix == 'tonescan-lite' -%}
+        {%- comment -%}
+          A nav anchor is only valid if its block is actually rendered. The lite variant gates
+          blocks by name in sections/tonescan-landing.liquid; this list has to stay in step with
+          the one there. An anchor with no target scrolls nowhere, which reads as a broken page.
+        {%- endcomment -%}
+        {%- assign ts_minimal = false -%}
+        {%- if template.suffix == 'tonescan-lite' -%}{%- assign ts_minimal = true -%}{%- endif -%}
+        {%- assign ts_lite_blocks = 'faq' | split: ',' -%}
         <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
-          <a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>
-          <a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">How it works</a>
-          <a href="#pricing" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Pricing</a>
-          <a href="#faq" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">FAQ</a>
+          {%- if ts_minimal == false or ts_lite_blocks contains 'features' -%}<a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>{%- endif -%}
+          {%- if ts_minimal == false or ts_lite_blocks contains 'workflow' -%}<a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">How it works</a>{%- endif -%}
+          {%- if ts_minimal == false or ts_lite_blocks contains 'pricing' -%}<a href="#pricing" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Pricing</a>{%- endif -%}
+          {%- if ts_minimal == false or ts_lite_blocks contains 'faq' -%}<a href="#faq" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">FAQ</a>{%- endif -%}
         </nav>
-        {%- endunless -%}
 
         <a href="#signup" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[var(--ts-accent)] tw:px-[16px] tw:py-[9px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
           Become a tester
@@ -162,11 +182,14 @@
       (function () {
         if (!('IntersectionObserver' in window)) return;
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        var root = document.querySelector('.tonescan-landing');
-        if (!root) return;
+        // The page is split across several sections, each with its own .tonescan-landing
+        // wrapper, so this has to sweep all of them: a single root only ever saw the hero.
+        if (!document.querySelector('.tonescan-landing')) return;
 
         // Elements to reveal: headings, grid items (cards/steps), testimonials, faq rows.
-        var targets = root.querySelectorAll('h1, h2, [class*="grid"] > *, figure, details');
+        // .ts-conv__item is excluded: every film frame is a <figure>, so the reveal was holding
+        // each one 22px low until it intersected, which read as frames sliding up into the strip.
+        var targets = document.querySelectorAll('.tonescan-landing :is(h1, h2, [class*="grid"] > *, figure:not(.ts-conv__item), details)');
         targets.forEach(function (el) { el.classList.add('reveal'); });
 
         var io = new IntersectionObserver(function (entries) {
@@ -177,7 +200,9 @@
             var parent = el.parentElement;
             if (parent && /grid/.test(parent.className)) {
               var idx = Array.prototype.indexOf.call(parent.children, el);
-              delay = Math.min(idx, 5) * 60; // stagger grid children
+              // Cap high enough to cover the 9-card bento. At 5 the last row shared one
+              // delay and the whole row landed at once.
+              delay = Math.min(idx, 9) * 55;
             }
             el.style.transitionDelay = delay + 'ms';
             el.classList.add('in');
