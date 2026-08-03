@@ -1193,7 +1193,9 @@
   }
 
   /* SELECTOR bar, on the black region below the cut; clears the dipped image with top padding */
-  .ts-hero-selectbar { padding-top: 44px; padding-bottom: 8px; }
+  /* The next section starts flush against this bar, and the conversion strip brings a white
+     background with it, so 8px left the tabs sitting on a hard colour change. */
+  .ts-hero-selectbar { padding-top: 44px; padding-bottom: 64px; }
   .ts-hero-tabs { position: relative; z-index: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
   .ts-hero-tab { padding: 8px 16px; font-size: 14px; font-weight: 500; color: #a3a3a3; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.10); border-radius: 2px; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease; }
   .ts-hero-tab.is-active { color: #fff; background: rgba(59,130,246,.14); border-color: rgba(59,130,246,.5); }
@@ -1220,7 +1222,7 @@
     .ts-hero-frame { width: 100%; max-width: none; margin: 44px 0 0; }
     .ts-hero-stage { aspect-ratio: 16 / 10; }
     img.ts-hero-shot, .ts-hero-video { object-position: top center; }
-    .ts-hero-selectbar { padding-top: 36px; }
+    .ts-hero-selectbar { padding-top: 36px; padding-bottom: 44px; }
     .ts-hero-tabs { display: none; }
     .ts-hero-mobsel { display: flex; }
     /* the blobs are sized in % of the region, at phone width that turns into a solid wash */
