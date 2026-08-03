@@ -275,8 +275,8 @@
     </div>
 
     <div class="ts-conv" role="img" aria-label="A strip of film frames converting from negative to positive as they travel">
-      {% render 'tonescan-strip-layer', kind: 'pos' %}
-      {% render 'tonescan-strip-layer', kind: 'neg' %}
+      {% render 'tonescan-strip-layer', kind: 'pos', pool: section.blocks %}
+      {% render 'tonescan-strip-layer', kind: 'neg', pool: section.blocks %}
     </div>
 
     {%- comment -%} Bloom over the film, not behind it: a glow that stops at the strip edge does
@@ -1239,6 +1239,17 @@
     { "type": "image_picker", "id": "background_image", "label": "Background image (poster / fallback)" },
     { "type": "range", "id": "background_opacity", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Background opacity", "default": 8 },
     { "type": "range", "id": "background_blur", "min": 0, "max": 60, "step": 1, "unit": "px", "label": "Background blur", "default": 5 }
+  ],
+  "max_blocks": 30,
+  "blocks": [
+    {
+      "type": "frame",
+      "name": "Sample scan",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "paragraph", "content": "Any shape works, the frame crops to fit. Add one block per photo; they are tiled across the strip in order, so around 12 or more avoids a visible repeat. With no blocks the built-in set is used." }
+      ]
+    }
   ],
   "presets": [{ "name": "toneScan Studio landing" }]
 }
