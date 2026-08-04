@@ -108,7 +108,13 @@
      other in the middle: a frame converts by travelling rather than flipping at a moment.
      Each frame is one full pitch with the picture in its first 36mm, so bases abut and the
      perforation pattern (8 tiles per frame) stays in phase the whole way along. */
-  .ts-conv { --fh: 240px; --mm: calc(var(--fh) / 35); --ring: none;
+  /* The frame PITCH is the integer, not the height. Frames are laid out one after another, so
+     any fraction in the pitch is rounded per frame and accumulates: at the old --fh: 240px the
+     pitch was 260.5605px, the driver stepped by offsetWidth (261), and the two drifted ~10px
+     apart across the strip. That showed up as the edge rules sliding out from under the
+     perforations. Deriving --mm from a whole-pixel pitch keeps every frame boundary on an exact
+     pixel, so the per-frame rules stay registered with the track-wide film mask. */
+  .ts-conv { --pitch: 261px; --mm: calc(var(--pitch) / 37.9984); --fh: calc(35 * var(--mm)); --ring: none;
     --dx: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 10' preserveAspectRatio='none'%3E%3Cg fill='%23fff'%3E%3Crect x='4' y='0' width='1.5' height='10'/%3E%3Crect x='7' y='4.5' width='1.5' height='5.5'/%3E%3Crect x='10' y='0' width='2.6' height='10'/%3E%3Crect x='13.8' y='4.5' width='1.5' height='5.5'/%3E%3Crect x='16.8' y='0' width='1.5' height='10'/%3E%3Crect x='19.8' y='4.5' width='2.6' height='5.5'/%3E%3Crect x='23.6' y='0' width='1.5' height='10'/%3E%3Crect x='26.6' y='4.5' width='1.5' height='5.5'/%3E%3Crect x='29.6' y='0' width='2.2' height='10'/%3E%3C/g%3E%3C/svg%3E");
     /* opaque tile with the perforation punched out of it, for masking the film base */
     --hole: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4.7498 2.794' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' fill='%23000' d='M0 0H4.7498V2.794H0Z M1.8924 0H2.8574A0.508 0.508 0 0 1 3.3654 0.508V2.286A0.508 0.508 0 0 1 2.8574 2.794H1.8924A0.508 0.508 0 0 1 1.3844 2.286V0.508A0.508 0.508 0 0 1 1.8924 0Z'/%3E%3C/svg%3E");
@@ -116,7 +122,7 @@
     --page-pos: #121214;                       /* page behind the converted half */
     --cut: 50%; --cutw: 0.5px;      /* hairline, so the changeover is a hard edge not a fade */
     position: relative; z-index: 1; overflow: hidden; height: var(--fh); margin: 56px 0 80px; }
-  @media (min-width: 768px) { .ts-conv { --fh: 380px; } }
+  @media (min-width: 768px) { .ts-conv { --pitch: 413px; } }
   /* Edge fade only on genuinely large displays, and capped in PIXELS rather than as a share of
      the viewport. A flat 50vw shrank the strip as soon as the window grew, which is backwards:
      the strip should keep a constant generous width and simply stop growing. 1800px of visible
@@ -244,7 +250,7 @@
      stacking context here would trap that blend inside the frame. Positioned children still
      paint over the film by DOM order, which is all the old z-index: 1 was buying. */
   .ts-conv__item { position: relative; flex: 0 0 auto;
-    width: calc(37.9984 * var(--mm)); height: var(--fh); background: none; }
+    width: var(--pitch); height: var(--fh); background: none; }
 
   /* the un-converted stock is film, not card: you see the backdrop through it, softened the
      way a negative diffuses whatever is behind it. The punched holes stay clear, so the

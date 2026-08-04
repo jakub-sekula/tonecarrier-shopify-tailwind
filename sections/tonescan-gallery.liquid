@@ -10,7 +10,7 @@
   {%- comment -%} Screenshots live in Shopify Files (Content > Files). {%- endcomment -%}
   {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
 
-  <section id="gallery" class="ts-clip-x tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+  <section id="gallery" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
     <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
       <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Sample scans</p>
       <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Real scans, real detail.</h2>
@@ -63,6 +63,11 @@
 
 
     {%- comment -%}
+      No overflow-x: clip on the section. The marquee breaks out of the 1400px container to run
+      edge to edge, and clipping here cut it back to the container, which is why the fade never
+      showed: the hard cut happened before the mask could. .ts-mq carries overflow: hidden, so
+      the long track is still contained.
+
       Two rows running in opposite directions. Each track is rendered TWICE and shifted
       -50%, so the loop is seamless, that means the two passes must stay identical, and tile
       width has to come from margin-right rather than gap or the halves don't line up.
