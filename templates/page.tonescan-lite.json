@@ -183,7 +183,9 @@
         "note": "<p>All photos converted with toneScan Studio, using automatic settings with minor exposure and white balance tweaks.</p><p>Scanned with Fujifilm and Canon cameras.</p>",
         "show_scans_cta": false,
         "cta_text": "See sample scans",
-        "cta_link": "#gallery"
+        "cta_link": "#gallery",
+        "edge_stock": "TONE PT 200/24°",
+        "edge_batch": "0-2137"
       }
     },
     "faq": {
