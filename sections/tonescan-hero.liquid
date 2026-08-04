@@ -64,22 +64,25 @@
           <div class="hero-float hero-float--7"></div>
         </div>
         <div class="ts-hero-text tw:mx-auto tw:flex tw:max-w-[940px] tw:flex-col tw:items-center tw:gap-[26px] tw:text-center">
+          {%- if section.settings.icon -%}
+          <img class="ts-hero-icon" src="{{ section.settings.icon | image_url: width: 256 }}" alt="" width="256" height="256" fetchpriority="high">
+          {%- else -%}
           <img class="ts-hero-icon" src="{{ 'tonescan-icon.png' | asset_url }}" alt="" width="256" height="256" fetchpriority="high">
+          {%- endif -%}
 
           <h1 class="tw:text-[32px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.03em] tw:text-white tw:md:text-[58px]">
-            Film scanning,<br class="ts-hero-br"> start to finish.
+            {{ section.settings.heading }}
           </h1>
 
           <p class="tw:max-w-[620px] tw:text-[16px] tw:leading-[1.5] tw:text-neutral-400 tw:md:text-[20px] tw:md:leading-[1.55]">
-            toneScan Studio is standalone software for serious film scanning. Seamless RGB,
-            a physically accurate colour engine, and real speed. Now in open beta.
+            {{ section.settings.subheading }}
           </p>
 
           <div class="ts-signup tw:mt-[6px]">
             <form class="ts-form" novalidate>
               <input class="ts-email" type="email" name="email" required
                      placeholder="you@example.com" autocomplete="email" aria-label="Email address">
-              <button class="ts-btn" type="submit">Join the beta</button>
+              <button class="ts-btn" type="submit">{{ section.settings.cta_text }}</button>
             </form>
             <p class="ts-msg" role="status" aria-live="polite"></p>
           </div>
@@ -87,7 +90,7 @@
             <span class="ts-os">
               <svg class="ts-os__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
               <svg class="ts-os__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
-              Available for Mac and Windows
+              {{ section.settings.sub_cta_text }}
             </span>
           </p>
         </div>
@@ -105,22 +108,31 @@
           </button>
           <div class="ts-hero-glass">
             <div class="ts-hero-stage">
-              {%- comment -%} slot 0 (Develop) is a video, autoplays muted when the hero enters view; replay button on end {%- endcomment -%}
-              <div class="ts-hero-shot ts-hero-vslot is-active" data-shot="0">
-                {%- comment -%} no poster, the video's own first frame is the placeholder (preload=auto buffers it) {%- endcomment -%}
-                <video class="ts-hero-video" muted playsinline preload="auto">
-                  <source src="https://cdn.shopify.com/videos/c/o/v/b65600e0d21a4c62a9bc7beeea2ea761.mp4" type="video/mp4">
-                </video>
-                <button type="button" class="ts-hero-replay" aria-label="Replay video">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>
-                  <span class="ts-hero-replay__label">Replay</span>
-                </button>
-              </div>
-              <img class="ts-hero-shot" data-shot="1" src="{{ ts_cdn }}/rgb-merge.png" alt="Three single-channel captures selected and merged into one RGB frame" loading="lazy" width="3200" height="2000">
-              <img class="ts-hero-shot" data-shot="2" src="{{ ts_cdn }}/calibration-crosstalk.png" alt="Calibrating channel exposure and reading the crosstalk matrix" loading="lazy" width="3200" height="2000">
-              <img class="ts-hero-shot" data-shot="3" src="{{ ts_cdn }}/pixel-preview.png" alt="A converted portrait at 155% with the live RGB histogram and develop controls" loading="lazy" width="3200" height="2000">
-              <img class="ts-hero-shot" data-shot="4" src="{{ ts_cdn }}/organise.png" alt="A roll of converted frames in the organise view, with the roll list alongside" loading="lazy" width="3200" height="2000">
-              <img class="ts-hero-shot" data-shot="5" src="{{ ts_cdn }}/batch-export.png" alt="Exporting sixteen selected frames to JPG at 3500px" loading="lazy" width="3200" height="2000">
+              {%- comment -%} One slot per block. A block renders as a video when it has one, which
+                 autoplays muted on entry with a replay button; otherwise as an image. The first
+                 slot is the one the hero opens on. {%- endcomment -%}
+              {%- for block in section.blocks -%}
+                {%- assign is_video = false -%}
+                {%- if block.settings.video != blank -%}{%- assign is_video = true -%}{%- endif -%}
+                {%- if block.settings.media_url contains '.mp4' -%}{%- assign is_video = true -%}{%- endif -%}
+                {%- if is_video -%}
+                <div class="ts-hero-shot ts-hero-vslot{% if forloop.first %} is-active{% endif %}" data-shot="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+                  {%- comment -%} no poster: the video's own first frame is the placeholder {%- endcomment -%}
+                  <video class="ts-hero-video" muted playsinline preload="auto">
+                    <source src="{% if block.settings.video != blank %}{{ block.settings.video.sources[1].url | default: block.settings.video.sources[0].url }}{% else %}{{ block.settings.media_url }}{% endif %}" type="video/mp4">
+                  </video>
+                  <button type="button" class="ts-hero-replay" aria-label="Replay video">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>
+                    <span class="ts-hero-replay__label">Replay</span>
+                  </button>
+                </div>
+                {%- else -%}
+                <img class="ts-hero-shot{% if forloop.first %} is-active{% endif %}" data-shot="{{ forloop.index0 }}"
+                     src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 3200 }}{% else %}{{ block.settings.media_url }}{% endif %}"
+                     alt="{{ block.settings.alt }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     width="3200" height="2000" {{ block.shopify_attributes }}>
+                {%- endif -%}
+              {%- endfor -%}
             </div>
           </div>
         </div>
@@ -131,30 +143,21 @@
        Mobile: pagination dots + a native <select>. {%- endcomment -%}
     <div class="ts-hero-selectbar tw:relative tw:z-[2] tw:mx-auto tw:w-full tw:max-w-[1320px] tw:px-[15px] tw:md:px-[50px]">
       <div class="ts-hero-tabs" role="tablist" aria-label="Features">
-        <button type="button" class="ts-hero-tab is-active" data-tab="0" role="tab" aria-selected="true">Develop</button>
-        <button type="button" class="ts-hero-tab" data-tab="1" role="tab" aria-selected="false">RGB merge</button>
-        <button type="button" class="ts-hero-tab" data-tab="2" role="tab" aria-selected="false">Calibration</button>
-        <button type="button" class="ts-hero-tab" data-tab="3" role="tab" aria-selected="false">Pixel preview</button>
-        <button type="button" class="ts-hero-tab" data-tab="4" role="tab" aria-selected="false">Organise</button>
-        <button type="button" class="ts-hero-tab" data-tab="5" role="tab" aria-selected="false">Batch export</button>
+        {%- for block in section.blocks -%}
+        <button type="button" class="ts-hero-tab{% if forloop.first %} is-active{% endif %}" data-tab="{{ forloop.index0 }}" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ block.settings.title }}</button>
+        {%- endfor -%}
       </div>
       <div class="ts-hero-mobsel">
         <div class="ts-hero-dots" aria-hidden="true">
-          <span class="ts-hero-dot is-active" data-dot="0"></span>
-          <span class="ts-hero-dot" data-dot="1"></span>
-          <span class="ts-hero-dot" data-dot="2"></span>
-          <span class="ts-hero-dot" data-dot="3"></span>
-          <span class="ts-hero-dot" data-dot="4"></span>
-          <span class="ts-hero-dot" data-dot="5"></span>
+          {%- for block in section.blocks -%}
+          <span class="ts-hero-dot{% if forloop.first %} is-active{% endif %}" data-dot="{{ forloop.index0 }}"></span>
+          {%- endfor -%}
         </div>
         <div class="ts-hero-selectwrap">
           <select class="ts-hero-select" aria-label="Choose a feature to preview">
-            <option value="0">Develop</option>
-            <option value="1">RGB merge</option>
-            <option value="2">Calibration</option>
-            <option value="3">Pixel preview</option>
-            <option value="4">Organise</option>
-            <option value="5">Batch export</option>
+            {%- for block in section.blocks -%}
+            <option value="{{ forloop.index0 }}">{{ block.settings.title }}</option>
+            {%- endfor -%}
           </select>
           <svg class="ts-hero-selectcaret" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
@@ -213,6 +216,40 @@
   "settings": [
     {
       "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "App icon",
+      "info": "Falls back to the bundled toneScan icon."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Film scanning,<br class=\"ts-hero-br\"> start to finish."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subtitle",
+      "default": "toneScan Studio is standalone software for serious film scanning. Seamless RGB, a physically accurate colour engine, and real speed. Now in open beta."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Join the beta"
+    },
+    {
+      "type": "text",
+      "id": "sub_cta_text",
+      "label": "Text under the button",
+      "default": "Available for Mac and Windows"
+    },
+    {
+      "type": "header",
       "content": "Hero background"
     },
     {
@@ -249,6 +286,45 @@
   "presets": [
     {
       "name": "toneScan Studio hero"
+    }
+  ],
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Hero media",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab label",
+          "default": "Feature",
+          "info": "Shown on the tab under the hero, and in the picker on phones."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Screenshot"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video",
+          "info": "Overrides the screenshot. Autoplays muted with a replay button."
+        },
+        {
+          "type": "text",
+          "id": "media_url",
+          "label": "Or a media URL",
+          "info": "Used when neither of the above is set. A .mp4 renders as video."
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text",
+          "info": "Describes the screenshot for screen readers. Leave empty for video."
+        }
+      ]
     }
   ]
 }

@@ -15,7 +15,65 @@
       "settings": {
         "background_opacity": 8,
         "background_blur": 5
-      }
+      },
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "title": "Develop",
+            "media_url": "https://cdn.shopify.com/videos/c/o/v/b65600e0d21a4c62a9bc7beeea2ea761.mp4",
+            "alt": ""
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "title": "RGB merge",
+            "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png",
+            "alt": "Three single-channel captures selected and merged into one RGB frame"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "title": "Calibration",
+            "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png",
+            "alt": "Calibrating channel exposure and reading the crosstalk matrix"
+          }
+        },
+        "slide_4": {
+          "type": "slide",
+          "settings": {
+            "title": "Pixel preview",
+            "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
+            "alt": "A converted portrait at 155% with the live RGB histogram and develop controls"
+          }
+        },
+        "slide_5": {
+          "type": "slide",
+          "settings": {
+            "title": "Organise",
+            "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
+            "alt": "A roll of converted frames in the organise view, with the roll list alongside"
+          }
+        },
+        "slide_6": {
+          "type": "slide",
+          "settings": {
+            "title": "Batch export",
+            "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png",
+            "alt": "Exporting sixteen selected frames to JPG at 3500px"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "slide_4",
+        "slide_5",
+        "slide_6"
+      ]
     },
     "conversion-strip": {
       "type": "tonescan-conversion-strip",
