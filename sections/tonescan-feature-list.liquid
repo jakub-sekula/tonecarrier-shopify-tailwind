@@ -15,116 +15,36 @@
     hero selector, so the block height doesn't jump between tabs.
   {%- endcomment -%}
   <div class="ts-more tw:mt-[64px] tw:md:mt-[88px]">
-    <h3 class="tw:mb-[28px] tw:text-center tw:text-[20px] tw:font-semibold tw:text-white">Plus everything a serious workflow needs</h3>
+    <h3 class="tw:mb-[28px] tw:text-center tw:text-[20px] tw:font-semibold tw:text-white">{{ section.settings.heading }}</h3>
+
+    {%- comment -%} Icons stay in code: they are a fixed set chosen per group, not content, and a
+       picker for six inline SVGs would be worse than a select. {%- endcomment -%}
+    {%- capture ts_icons -%}{"icon0": "<svg viewBox=\"0 0 24 24\"><path d=\"M3 7h3.5l1.5-2h8l1.5 2H21v12H3z\"/><circle cx=\"12\" cy=\"12.5\" r=\"3.6\"/></svg>", "icon1": "<svg viewBox=\"0 0 24 24\"><path d=\"M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5A1.5 1.5 0 0 1 19.5 20h-15A1.5 1.5 0 0 1 3 18.5z\"/></svg>", "icon2": "<svg viewBox=\"0 0 24 24\"><path d=\"M4 7h9M17 7h3M4 12h3M11 12h9M4 17h9M17 17h3\"/><circle cx=\"15\" cy=\"7\" r=\"2\"/><circle cx=\"9\" cy=\"12\" r=\"2\"/><circle cx=\"15\" cy=\"17\" r=\"2\"/></svg>", "icon3": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 3v11M8 10.5l4 4 4-4\"/><path d=\"M4 16v3.5h16V16\"/></svg>", "icon4": "<svg viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"1\"/><path d=\"M3 9h18M6.5 6.5h.01M9 6.5h.01\"/></svg>"}{%- endcapture -%}
+    {%- assign ts_icon_map = ts_icons -%}
 
     <div class="ts-more__acc">
-      <div class="ts-more__item is-open" data-i="0">
-        <button type="button" class="ts-more__trigger" aria-expanded="true">
+      {%- for block in section.blocks -%}
+      <div class="ts-more__item{% if forloop.first %} is-open{% endif %}" data-i="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        <button type="button" class="ts-more__trigger" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
           <span class="ts-more__cat">
-            <span class="ts-more__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h3.5l1.5-2h8l1.5 2H21v12H3z"/><circle cx="12" cy="12.5" r="3.6"/></svg></span>Capture &amp; calibration
+            <span class="ts-more__ico" aria-hidden="true">{% render 'tonescan-more-icon', key: block.settings.icon %}</span>{{ block.settings.title }}
           </span>
           <span class="ts-more__icon" aria-hidden="true">+</span>
         </button>
         <div class="ts-more__panel">
           <div class="ts-more__panelinner">
             <ul class="ts-morelist">
-              <li><b>Hardware control</b>: drives your light source and advances the film carrier</li>
-              <li><b>Tethered capture</b> straight into the current roll</li>
-              <li><b>Light presets</b> read from a connected light</li>
-              <li><b>Scan profiles</b>: calibrate once, reuse on every roll</li>
-              <li><b>Per-channel exposure targets</b> with an EV meter</li>
-              <li><b>Crosstalk correction</b> measured from your own setup</li>
-              <li><b>Linearity calibration</b></li>
-              <li><b>White-light scanning</b>: single-shot works too</li>
+              {%- assign lines = block.settings.items | strip | split: '
+' -%}
+              {%- for line in lines -%}
+                {%- assign t = line | strip -%}
+                {%- if t != blank -%}<li>{{ t }}</li>{%- endif -%}
+              {%- endfor -%}
             </ul>
           </div>
         </div>
       </div>
-
-      <div class="ts-more__item" data-i="1">
-        <button type="button" class="ts-more__trigger" aria-expanded="false">
-          <span class="ts-more__cat">
-            <span class="ts-more__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5A1.5 1.5 0 0 1 19.5 20h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></span>Project management
-          </span>
-          <span class="ts-more__icon" aria-hidden="true">+</span>
-        </button>
-        <div class="ts-more__panel">
-          <div class="ts-more__panelinner">
-            <ul class="ts-morelist">
-              <li><b>Roll-based library</b> with live frame counts</li>
-              <li><b>Watch folders</b> that ingest new scans as they land</li>
-              <li><b>Automatic triplet detection</b> and merge</li>
-              <li><b>Markers and colour labels</b> for fast culling</li>
-              <li><b>Per-channel inspection</b>: view R, G or B alone</li>
-              <li><b>Undo and redo</b> throughout</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="ts-more__item" data-i="2">
-        <button type="button" class="ts-more__trigger" aria-expanded="false">
-          <span class="ts-more__cat">
-            <span class="ts-more__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h9M17 17h3"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="15" cy="17" r="2"/></svg></span>Rich editing experience
-          </span>
-          <span class="ts-more__icon" aria-hidden="true">+</span>
-        </button>
-        <div class="ts-more__panel">
-          <div class="ts-more__panelinner">
-            <ul class="ts-morelist">
-              <li><b>Three process modes</b>: colour negative, B&amp;W negative, slide</li>
-              <li><b>Live RGB histogram</b></li>
-              <li><b>Exposure, contrast, density,</b> highlight rolloff and shadow lift</li>
-              <li><b>Auto density</b></li>
-              <li><b>Smart auto white balance</b>, or pick your own neutral</li>
-              <li><b>Levels, tone trims and sharpening</b></li>
-              <li><b>Crop, rotate and flip</b></li>
-              <li><b>Pixel loupe</b> with a live density readout</li>
-              <li><b>True exposure from raw</b>: read from signal, not the histogram</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="ts-more__item" data-i="3">
-        <button type="button" class="ts-more__trigger" aria-expanded="false">
-          <span class="ts-more__cat">
-            <span class="ts-more__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v11M8 10.5l4 4 4-4"/><path d="M4 16v3.5h16V16"/></svg></span>Professional exports
-          </span>
-          <span class="ts-more__icon" aria-hidden="true">+</span>
-        </button>
-        <div class="ts-more__panel">
-          <div class="ts-more__panelinner">
-            <ul class="ts-morelist">
-              <li><b>Colour-managed viewport and export</b>: sRGB, Adobe RGB, Display-P3 or Rec.2020, with the matching ICC profile embedded on the way out</li>
-              <li><b>TIFF or JPG</b>, your quality and long edge</li>
-              <li><b>Cineon log export</b> for grading downstream</li>
-              <li><b>Filename patterns</b> from name, date, project or sequence</li>
-              <li><b>Batch export</b> a selection or a whole roll</li>
-              <li><b>Rich metadata</b>: film stock, camera and dev info on every file</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="ts-more__item" data-i="4">
-        <button type="button" class="ts-more__trigger" aria-expanded="false">
-          <span class="ts-more__cat">
-            <span class="ts-more__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M6.5 6.5h.01M9 6.5h.01"/></svg></span>Platform
-          </span>
-          <span class="ts-more__icon" aria-hidden="true">+</span>
-        </button>
-        <div class="ts-more__panel">
-          <div class="ts-more__panelinner">
-            <ul class="ts-morelist">
-              <li><b>macOS and Windows</b>: native builds for both</li>
-              <li><b>Keyboard-driven</b>: shortcuts for everything</li>
-              <li><b>Fully standalone</b>: no host app, no plugin bridge</li>
-              <li><b>Flexible licensing</b>: own it outright or subscribe</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      {%- endfor -%}
     </div>
   </div>
   </section>
@@ -135,10 +55,66 @@
   "name": "toneScan feature list",
   "tag": "section",
   "class": "section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Plus everything a serious workflow needs"
+    }
+  ],
   "presets": [
     {
       "name": "toneScan feature list"
+    }
+  ],
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "group",
+      "name": "Feature group",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Group name",
+          "default": "Group"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "icon0",
+          "options": [
+            {
+              "value": "icon0",
+              "label": "Camera"
+            },
+            {
+              "value": "icon1",
+              "label": "Folders"
+            },
+            {
+              "value": "icon2",
+              "label": "Sliders"
+            },
+            {
+              "value": "icon3",
+              "label": "Export"
+            },
+            {
+              "value": "icon4",
+              "label": "Platform"
+            }
+          ]
+        },
+        {
+          "type": "textarea",
+          "id": "items",
+          "label": "Items",
+          "info": "One per line. <b>bold</b> works for the lead-in phrase."
+        }
+      ]
     }
   ]
 }

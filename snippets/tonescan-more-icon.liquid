@@ -1,0 +1,8 @@
+{%- comment -%} Inline SVGs for the feature-list groups, keyed by the block's icon select.
+   Kept in code rather than as a picker: they are a fixed decorative set, not content. {%- endcomment -%}
+{%- if key == 'icon0' -%}<svg viewBox="0 0 24 24"><path d="M3 7h3.5l1.5-2h8l1.5 2H21v12H3z"/><circle cx="12" cy="12.5" r="3.6"/></svg>{%- endif -%}
+{%- if key == 'icon1' -%}<svg viewBox="0 0 24 24"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5A1.5 1.5 0 0 1 19.5 20h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>{%- endif -%}
+{%- if key == 'icon2' -%}<svg viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h9M17 17h3"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="15" cy="17" r="2"/></svg>{%- endif -%}
+{%- if key == 'icon3' -%}<svg viewBox="0 0 24 24"><path d="M12 3v11M8 10.5l4 4 4-4"/><path d="M4 16v3.5h16V16"/></svg>{%- endif -%}
+{%- if key == 'icon4' -%}<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M6.5 6.5h.01M9 6.5h.01"/></svg>{%- endif -%}
+{%- unless key -%}<svg viewBox="0 0 24 24"><path d="M3 7h3.5l1.5-2h8l1.5 2H21v12H3z"/><circle cx="12" cy="12.5" r="3.6"/></svg>{%- endunless -%}
