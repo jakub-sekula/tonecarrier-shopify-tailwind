@@ -37,6 +37,7 @@
     user-select: none; -webkit-touch-callout: none; }
   .ts-conv { cursor: grab; touch-action: pan-y; }
   .ts-conv.is-dragging { cursor: grabbing; }
+
   /* the dot replaces the pointer rather than sitting under it, but only once the driver has
      confirmed a real pointer: if the script never runs, the grab cursor stays */
   .ts-conv.has-dot, .ts-conv.has-dot.is-dragging { cursor: none; }
@@ -230,22 +231,6 @@
     background-size: 100% calc(0.75 * var(--mm)), 100% calc(0.75 * var(--mm));
     background-position: 0 calc(2.85 * var(--mm)), 0 calc(100% - 2.85 * var(--mm)); }
 
-  /* Grain sits on the film layer and on the frames, never on the track. On the track it was
-     above the mask and so painted straight over the punched holes. On the film it is masked
-     with everything else, so the holes stay clean. Identical blend modes and opacities in both
-     places, which is what keeps a thin negative (which multiplies to exactly the base colour)
-     matching the stock around it. The converted side takes no grain at all. */
-  .ts-conv__film::before, .ts-conv__film::after,
-  .ts-conv__win::before, .ts-conv__win::after {
-    content: ''; position: absolute; inset: 0; pointer-events: none;
-    background-image: var(--grain-fine), var(--grain-coarse);
-    /* both grain scales divide the frame pitch exactly (12 and 3 per frame) for the same reason */
-    background-size: calc(3.16653 * var(--mm)) calc(3.16653 * var(--mm)),
-                     calc(12.66613 * var(--mm)) calc(12.66613 * var(--mm)); }
-  .ts-conv__film::before, .ts-conv__win::before { z-index: 2; mix-blend-mode: multiply; opacity: .26; }
-  .ts-conv__film::after,  .ts-conv__win::after  { z-index: 3; mix-blend-mode: overlay;  opacity: .32; }
-  .ts-conv__layer--pos .ts-conv__film::before, .ts-conv__layer--pos .ts-conv__film::after,
-  .ts-conv__layer--pos .ts-conv__win::before,  .ts-conv__layer--pos .ts-conv__win::after { content: none; }
 
   /* a frame is now just a transparent slot on that film: picture plus its edge printing */
   /* z-index deliberately left auto. The rules inside multiply onto the film base, and a
@@ -366,12 +351,6 @@
     -webkit-mask-repeat: repeat-x; mask-repeat: repeat-x;
     -webkit-mask-size: calc(18 * var(--mm)) 100%; mask-size: calc(18 * var(--mm)) 100%; }
 
-  /* Film grain over the whole strip, both sides, in two passes over the top of everything:
-     one MULTIPLY pass for the dark specks and one OVERLAY pass for the sparkle. A single
-     overlay pass sat too close to mid-grey to register against the flat orange. Both are
-     driven by --grain-fine / --grain-coarse so the two passes stay identical in shape. */
-  .ts-conv { --grain-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23f)'/%3E%3C/svg%3E");
-    --grain-coarse: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23c)' opacity='0.6'/%3E%3C/svg%3E"); }
 
   @media (prefers-reduced-motion: reduce) { .ts-conv__track { transform: none !important; } }
 
