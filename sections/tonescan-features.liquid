@@ -13,11 +13,10 @@
   <section id="features" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
     <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
       <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">
-        Everything a film scan needs
+        {{ section.settings.heading }}
       </h2>
       <p class="tw:mx-auto tw:mt-[18px] tw:max-w-[720px] tw:text-[17px] tw:leading-[1.6] tw:text-neutral-400">
-        Capture, calibration, conversion, culling and export.<br class="tw:hidden tw:md:inline">
-        A complete suite built for film photographers.
+        {{ section.settings.subheading }}
       </p>
     </div>
 
@@ -38,105 +37,40 @@
         4 flat-field    5 batch edit 6 speed (2x2)
         7 standalone    8 auto-crop  9 hardware control
     {%- endcomment -%}
+    {%- comment -%} One block per tile. Large tiles show a framed screenshot beside the text;
+       small ones use the image as a background wash behind it. Both carry the "+" that opens the
+       lightbox, which reads its poster and video off the same block. {%- endcomment -%}
     <div class="ts-bento-grid tw:mt-[48px]">
-      <article class="ts-bento ts-bento--lg">
-        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/pixel-preview.png" data-title="Rich inversion engine" aria-label="Watch: Rich inversion engine"><span aria-hidden="true">+</span></button>
+      {%- for block in section.blocks -%}
+        {%- assign b = block.settings -%}
+        {%- if b.image != blank -%}{%- assign src = b.image | image_url: width: 3200 -%}
+        {%- else -%}{%- assign src = b.image_url -%}{%- endif -%}
+      <article class="ts-bento{% if b.size == 'large' %} ts-bento--lg{% endif %}" {{ block.shopify_attributes }}>
+        <button type="button" class="ts-feature-more" data-video="{{ b.video_url }}" data-poster="{{ src }}" data-title="{{ b.title | escape }}" aria-label="Watch: {{ b.title | escape }}"><span aria-hidden="true">+</span></button>
+        {%- if b.size == 'large' -%}
         <div class="ts-bento__media">
           <div class="ts-shot">
-            <img src="{{ ts_cdn }}/pixel-preview.png" alt="A converted frame beside the live RGB histogram and the develop controls" loading="lazy" width="3200" height="2000">
+            <img src="{{ src }}" alt="{{ b.alt }}" loading="lazy" width="3200" height="2000">
           </div>
         </div>
         <div class="ts-bento__text">
-          <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M4 20c5 0 4-6 8-6s4-8 8-8"/><circle cx="9.4" cy="15.2" r="1.1" fill="currentColor" stroke="none"/><circle cx="14.6" cy="8.8" r="1.1" fill="currentColor" stroke="none"/></svg></div>
-          <h3 class="tw:text-[22px] tw:font-semibold tw:text-white">Rich inversion engine</h3>
-          <p class="tw:mt-[10px] tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Rendering modelled on real film physics and the way darkroom paper responds to light. The starting point already looks like a print, so you are adjusting to taste rather than rescuing a file.</p>
-          <a class="ts-bento__cta" href="#gallery">See samples <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="ts-tile-icon">{% render 'tonescan-tile-icon', key: b.icon %}</div>
+          <h3 class="tw:text-[22px] tw:font-semibold tw:text-white">{{ b.title }}</h3>
+          <p class="tw:mt-[10px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">{{ b.description }}</p>
+          {%- if b.cta_text != blank -%}
+          <a class="ts-bento__cta" href="{{ b.cta_link | default: '#gallery' }}">{{ b.cta_text }}</a>
+          {%- endif -%}
         </div>
-      </article>
-
-      <article class="ts-bento">
-        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/rgb-merge.png" data-title="Seamless RGB scanning" aria-label="Watch: Seamless RGB scanning"><span aria-hidden="true">+</span></button>
-        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/rgb-merge.png')" aria-hidden="true"></span>
-        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9.5" r="5"/><circle cx="15" cy="9.5" r="5"/><circle cx="12" cy="15" r="5"/></svg></div>
+        {%- else -%}
+        <span class="ts-bento__bg" style="--bg:url('{{ src }}')" aria-hidden="true"></span>
+        <div class="ts-tile-icon">{% render 'tonescan-tile-icon', key: b.icon %}</div>
         <div class="tw:mt-auto">
-          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Seamless RGB scanning</h3>
-          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Trichromatic capture from any camera, mono sensors included. Triplets merged for you.</p>
+          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">{{ b.title }}</h3>
+          <p class="tw:mt-[8px] tw:text-[14px] tw:leading-[1.6] tw:text-neutral-400">{{ b.description }}</p>
         </div>
+        {%- endif -%}
       </article>
-
-      <article class="ts-bento">
-        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/pixel-preview.png" data-title="GPU viewport, 1:1 previews" aria-label="Watch: GPU viewport, 1:1 previews"><span aria-hidden="true">+</span></button>
-        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/pixel-preview.png')" aria-hidden="true"></span>
-        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v13H3z"/><path d="M8 21h8M12 17v4M6 13l3.5-4 2.5 3 2-2.5L20 13"/></svg></div>
-        <div class="tw:mt-auto">
-          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">GPU viewport, 1:1 previews</h3>
-          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Every slider lands on a full-resolution preview instantly. No proxy, no wait.</p>
-        </div>
-      </article>
-
-      <article class="ts-bento">
-        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/develop.png" data-title="Flat-field correction" aria-label="Watch: Flat-field correction"><span aria-hidden="true">+</span></button>
-        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/develop.png')" aria-hidden="true"></span>
-        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><ellipse cx="12" cy="12" rx="6" ry="4"/></svg></div>
-        <div class="tw:mt-auto">
-          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Flat-field correction</h3>
-          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Cancels uneven light and lens falloff, so corners match the centre.</p>
-        </div>
-      </article>
-
-      <article class="ts-bento">
-        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/organise.png" data-title="Batch editing" aria-label="Watch: Batch editing"><span aria-hidden="true">+</span></button>
-        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/organise.png')" aria-hidden="true"></span>
-        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9a8 8 0 0 1 13.5-4.5L20 7M20 15a8 8 0 0 1-13.5 4.5L4 17"/><path d="M20 3v4h-4M4 21v-4h4"/></svg></div>
-        <div class="tw:mt-auto">
-          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Batch editing</h3>
-          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Get one frame right and the whole roll follows, matched from first frame to last.</p>
-        </div>
-      </article>
-
-      <article class="ts-bento ts-bento--lg">
-        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/batch-export.png" data-title="Properly fast" aria-label="Watch: Properly fast"><span aria-hidden="true">+</span></button>
-        <div class="ts-bento__media">
-          <div class="ts-shot">
-            <img src="{{ ts_cdn }}/batch-export.png" alt="Exporting sixteen selected frames at once while the roll stays browsable" loading="lazy" width="3200" height="2000">
-          </div>
-        </div>
-        <div class="ts-bento__text">
-          <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
-          <h3 class="tw:text-[22px] tw:font-semibold tw:text-white">Properly fast</h3>
-          <p class="tw:mt-[10px] tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Smooth, instant previews of every edit, and a keyboard shortcut for everything so you can fly through a roll. Whole rolls convert and export in the background while you carry on working.</p>
-        </div>
-      </article>
-
-      <article class="ts-bento">
-        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/organise.png" data-title="Standalone software" aria-label="Watch: Standalone software"><span aria-hidden="true">+</span></button>
-        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/organise.png')" aria-hidden="true"></span>
-        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16"/><path d="M3 9h18M6.5 6.5h.01M9 6.5h.01"/></svg></div>
-        <div class="tw:mt-auto">
-          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Standalone software</h3>
-          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">No Lightroom, no plugins, no host app. One program you own.</p>
-        </div>
-      </article>
-
-      <article class="ts-bento">
-        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/develop.png" data-title="Smart auto-crop" aria-label="Watch: Smart auto-crop"><span aria-hidden="true">+</span></button>
-        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/develop.png')" aria-hidden="true"></span>
-        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2v16h16M2 6h16v16"/><path d="M19.2 2.6l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z" fill="currentColor" stroke="none"/></svg></div>
-        <div class="tw:mt-auto">
-          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Smart auto-crop</h3>
-          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Frame edges found and squared up for you, on every shot.</p>
-        </div>
-      </article>
-
-      <article class="ts-bento">
-        <button type="button" class="ts-feature-more" data-video="" data-poster="{{ ts_cdn }}/calibration-crosstalk.png" data-title="Hardware control" aria-label="Watch: Hardware control"><span aria-hidden="true">+</span></button>
-        <span class="ts-bento__bg" style="--bg:url('{{ ts_cdn }}/calibration-crosstalk.png')" aria-hidden="true"></span>
-        <div class="ts-tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.4"/></svg></div>
-        <div class="tw:mt-auto">
-          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">Hardware control</h3>
-          <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Drives your light source and advances the film carrier as you shoot.</p>
-        </div>
-      </article>
+      {%- endfor -%}
     </div>
 
   </section>
@@ -156,10 +90,137 @@
   "name": "toneScan features",
   "tag": "section",
   "class": "section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Everything a film scan needs"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subtitle",
+      "default": "Capture, calibration, conversion, culling and export. A complete suite built for film photographers."
+    }
+  ],
   "presets": [
     {
       "name": "toneScan features"
+    }
+  ],
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Feature tile",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Size",
+          "default": "small",
+          "options": [
+            {
+              "value": "large",
+              "label": "Large (framed screenshot)"
+            },
+            {
+              "value": "small",
+              "label": "Small (background image)"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "ic1",
+          "options": [
+            {
+              "value": "ic0",
+              "label": "Icon 1"
+            },
+            {
+              "value": "ic1",
+              "label": "Icon 2"
+            },
+            {
+              "value": "ic2",
+              "label": "Icon 3"
+            },
+            {
+              "value": "ic3",
+              "label": "Icon 4"
+            },
+            {
+              "value": "ic4",
+              "label": "Icon 5"
+            },
+            {
+              "value": "ic5",
+              "label": "Icon 6"
+            },
+            {
+              "value": "ic6",
+              "label": "Icon 7"
+            },
+            {
+              "value": "ic7",
+              "label": "Icon 8"
+            },
+            {
+              "value": "ic8",
+              "label": "Icon 9"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Screenshot"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Or an image URL"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video URL",
+          "info": "Opens in the lightbox from the + button. Empty shows the screenshot with a note."
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text",
+          "info": "Large tiles only."
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Link text",
+          "info": "Optional."
+        },
+        {
+          "type": "text",
+          "id": "cta_link",
+          "label": "Link URL",
+          "default": "#gallery"
+        }
+      ]
     }
   ]
 }

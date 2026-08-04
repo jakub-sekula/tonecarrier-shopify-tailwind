@@ -246,7 +246,130 @@
     },
     "features": {
       "type": "tonescan-features",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "tile_1": {
+          "type": "tile",
+          "settings": {
+            "title": "Rich inversion engine",
+            "description": "Rendering modelled on real film physics and the way darkroom paper responds to light. The starting point already looks like a print, so you are adjusting to taste rather than rescuing a file.",
+            "size": "large",
+            "icon": "ic0",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
+            "video_url": "",
+            "alt": "A converted frame beside the live RGB histogram and the develop controls",
+            "cta_text": "See samples",
+            "cta_link": "#gallery"
+          }
+        },
+        "tile_2": {
+          "type": "tile",
+          "settings": {
+            "title": "Seamless RGB scanning",
+            "description": "Trichromatic capture from any camera, mono sensors included. Triplets merged for you.",
+            "size": "small",
+            "icon": "ic1",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_3": {
+          "type": "tile",
+          "settings": {
+            "title": "GPU viewport, 1:1 previews",
+            "description": "Every slider lands on a full-resolution preview instantly. No proxy, no wait.",
+            "size": "small",
+            "icon": "ic2",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_4": {
+          "type": "tile",
+          "settings": {
+            "title": "Flat-field correction",
+            "description": "Cancels uneven light and lens falloff, so corners match the centre.",
+            "size": "small",
+            "icon": "ic3",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_5": {
+          "type": "tile",
+          "settings": {
+            "title": "Batch editing",
+            "description": "Get one frame right and the whole roll follows, matched from first frame to last.",
+            "size": "small",
+            "icon": "ic4",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_6": {
+          "type": "tile",
+          "settings": {
+            "title": "Properly fast",
+            "description": "Smooth, instant previews of every edit, and a keyboard shortcut for everything so you can fly through a roll. Whole rolls convert and export in the background while you carry on working.",
+            "size": "large",
+            "icon": "ic5",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png",
+            "video_url": "",
+            "alt": "Exporting sixteen selected frames at once while the roll stays browsable"
+          }
+        },
+        "tile_7": {
+          "type": "tile",
+          "settings": {
+            "title": "Standalone software",
+            "description": "No Lightroom, no plugins, no host app. One program you own.",
+            "size": "small",
+            "icon": "ic6",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_8": {
+          "type": "tile",
+          "settings": {
+            "title": "Smart auto-crop",
+            "description": "Frame edges found and squared up for you, on every shot.",
+            "size": "small",
+            "icon": "ic7",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_9": {
+          "type": "tile",
+          "settings": {
+            "title": "Hardware control",
+            "description": "Drives your light source and advances the film carrier as you shoot.",
+            "size": "small",
+            "icon": "ic8",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png",
+            "video_url": "",
+            "alt": ""
+          }
+        }
+      },
+      "block_order": [
+        "tile_1",
+        "tile_2",
+        "tile_3",
+        "tile_4",
+        "tile_5",
+        "tile_6",
+        "tile_7",
+        "tile_8",
+        "tile_9"
+      ]
     },
     "highlights": {
       "type": "tonescan-highlights",
