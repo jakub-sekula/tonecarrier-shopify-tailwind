@@ -492,6 +492,8 @@ function tsInit() {
     var DRAG_SNAP_MS = 420, FLICK_MS = 170;
     var dragging = false, dragId = null, startX = 0, startOff = 0, lastX = 0, lastT = 0, vel = 0;
     var dot = null;
+    var cutPx = 0;                             // --cut in px, refreshed by centreLead
+    var mvX = 0, mvY = 0, mvTouch = false, rafId = 0;
 
     function each(fn) { Array.prototype.forEach.call(tracks, fn); }
     function firstItem() { return tracks[0].querySelector('.ts-conv__item'); }
@@ -608,6 +610,7 @@ function tsInit() {
       var cut = (wrap.clientWidth < 768
         ? wrap.clientWidth / 2
         : wrap.clientWidth / 2 + winW / 2 + (d - winW) / 2) + 'px';
+      cutPx = parseFloat(cut);
       wrap.style.setProperty('--cut', cut);
       // the backdrop is a sibling, not a child, so it needs the value on a shared ancestor
       if (wrap.parentElement) wrap.parentElement.style.setProperty('--cut', cut);
@@ -672,16 +675,41 @@ function tsInit() {
       wrap.classList.add('is-dragging');
     });
 
+    {%- comment -%} Everything a pointermove used to do now happens once per frame instead of once
+       per event. Two things were costing frames: the drag wrote a transform and the dot then read
+       two bounding rects and a computed style, forcing a synchronous layout on every single move;
+       and normalise() recycled frames per event, so a fast drag crossing several pitches did
+       several DOM moves on a 9000px track mid-gesture. Reads happen at the top of the tick while
+       layout is still clean, writes after, and recycling happens at most once a frame. {%- endcomment -%}
+    function tick() {
+      rafId = 0;
+      if (!dot && !dragging) return;
+      // reads first, before anything writes
+      var host = wrap.parentElement.getBoundingClientRect();
+      var stripLeft = wrap.getBoundingClientRect().left;
+
+      if (dragging) {
+        offset = startOff - (mvX - startX);
+        startOff += normalise();                        // keep the drag origin with the wrapped strip
+        apply();
+      }
+      if (dot && !mvTouch) {
+        dot.style.transform = 'translate3d(' + (mvX - host.left) + 'px,' + (mvY - host.top) + 'px,0)';
+        dot.classList.toggle('on-light', cutPx > 0 && mvX - stripLeft < cutPx);
+      }
+    }
+    function schedule() { if (!rafId) rafId = requestAnimationFrame(tick); }
+
     wrap.addEventListener('pointermove', function (e) {
-      if (!dragging || e.pointerId !== dragId) return;
-      var now = e.timeStamp || performance.now();
-      var dt = now - lastT;
-      if (dt > 0) vel = (e.clientX - lastX) / dt;      // px per ms, for the flick
-      lastX = e.clientX; lastT = now;
-      offset = startOff - (e.clientX - startX);
-      startOff += normalise();                          // keep the drag origin with the wrapped strip
-      apply();
-    });
+      mvX = e.clientX; mvY = e.clientY; mvTouch = e.pointerType === 'touch';
+      if (dragging && e.pointerId === dragId) {
+        var now = e.timeStamp || performance.now();
+        var dt = now - lastT;
+        if (dt > 0) vel = (e.clientX - lastX) / dt;     // px per ms, for the flick
+        lastX = e.clientX; lastT = now;
+      }
+      schedule();
+    }, { passive: true });
 
     function endDrag(e) {
       if (!dragging || (e && e.pointerId !== dragId)) return;
@@ -740,7 +768,6 @@ function tsInit() {
       wrap.addEventListener('pointerleave', function () {
         if (!dragging) dot.classList.remove('is-on');   // capture keeps it alive through a drag
       });
-      wrap.addEventListener('pointermove', dotAt);
       wrap.addEventListener('pointerdown', function (e) {
         if (e.pointerType !== 'touch') dot.classList.add('is-down');
       });
