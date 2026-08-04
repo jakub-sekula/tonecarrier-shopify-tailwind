@@ -526,7 +526,8 @@
   .ts-more__trigger { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 2px; background: none; border: 0; text-align: left; cursor: pointer; }
   .ts-more__cat { display: inline-flex; align-items: center; gap: 14px; font-size: 17px; font-weight: 600; color: #a3a3a3; transition: color .2s ease; }
   .ts-more__ico { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; flex-shrink: 0;
-    border-radius: 2px; background: rgba(255,255,255,.06); color: #fff; }
+    border-radius: 2px; background: rgba(255,255,255,.06); color: #fff;
+    transition: background .2s ease, color .2s ease, opacity .2s ease; }
   .ts-more__ico svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .ts-more__item.is-open .ts-more__cat, .ts-more__trigger:hover .ts-more__cat { color: #fff; }
   .ts-more__icon { flex-shrink: 0; font-size: 20px; line-height: 1; color: #60a5fa; transition: transform .45s cubic-bezier(.16,.84,.28,1); }
@@ -555,7 +556,23 @@
     .ts-more__item:last-child .ts-more__trigger { border-bottom: 1px solid rgba(255,255,255,.10); }
     /* the +/x belongs to an accordion, not to a list of tabs */
     .ts-more__icon { display: none; }
+    /* Selected reads as the active choice, the rest recede: the left column is a list of five
+       things where only one is live, so the contrast has to carry that rather than a marker
+       alone. Unselected rows lift on hover so they still feel clickable. */
+    .ts-more__cat { color: #6f7076; }
+    .ts-more__ico { background: rgba(255,255,255,.04); color: #8a8b91; }
+    .ts-more__trigger { position: relative; padding-left: 14px; border-radius: 3px;
+      transition: background .2s ease; }
+    .ts-more__trigger::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px;
+      width: 2px; border-radius: 2px; background: transparent; transition: background .2s ease; }
+
+    .ts-more__trigger:hover .ts-more__cat { color: #b9bac0; }
+    .ts-more__trigger:hover .ts-more__ico { background: rgba(255,255,255,.08); color: #cfd0d6; }
+
+    .ts-more__item.is-open .ts-more__trigger { background: rgba(255,255,255,.05); }
+    .ts-more__item.is-open .ts-more__trigger::before { background: #3b82f6; }
     .ts-more__item.is-open .ts-more__cat { color: #fff; }
+    .ts-more__item.is-open .ts-more__ico { background: rgba(59,130,246,.16); color: #93c5fd; }
 
     .ts-more__panel { position: absolute; top: 0; left: 356px; right: 0; display: block;
       opacity: 0; visibility: hidden; transition: opacity .28s ease, visibility .28s; }
