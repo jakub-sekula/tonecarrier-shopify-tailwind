@@ -113,16 +113,22 @@
      pitch was 260.5605px, the driver stepped by offsetWidth (261), and the two drifted ~10px
      apart across the strip. That showed up as the edge rules sliding out from under the
      perforations. Deriving --mm from a whole-pixel pitch keeps every frame boundary on an exact
-     pixel, so the per-frame rules stay registered with the track-wide film mask. */
-  .ts-conv { --pitch: 261px; --mm: calc(var(--pitch) / 37.9984); --fh: calc(35 * var(--mm)); --ring: none;
+     pixel, so the per-frame rules stay registered with the track-wide film mask.
+
+     The pitch is also a MULTIPLE OF 8, which makes the perforation pitch (8 per frame) a whole
+     pixel too. At 413 it was 51.625px, and a browser that rounds each repeated mask tile to
+     whole pixels accumulates 3px of error per frame, which chops the edge rules into irregular
+     dashes. Chromium happens to keep the fraction; Safari does not. */
+  .ts-conv { --pitch: 264px; --mm: calc(var(--pitch) / 37.9984); --fh: calc(35 * var(--mm)); --ring: none;
     --dx: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 10' preserveAspectRatio='none'%3E%3Cg fill='%23fff'%3E%3Crect x='4' y='0' width='1.5' height='10'/%3E%3Crect x='7' y='4.5' width='1.5' height='5.5'/%3E%3Crect x='10' y='0' width='2.6' height='10'/%3E%3Crect x='13.8' y='4.5' width='1.5' height='5.5'/%3E%3Crect x='16.8' y='0' width='1.5' height='10'/%3E%3Crect x='19.8' y='4.5' width='2.6' height='5.5'/%3E%3Crect x='23.6' y='0' width='1.5' height='10'/%3E%3Crect x='26.6' y='4.5' width='1.5' height='5.5'/%3E%3Crect x='29.6' y='0' width='2.2' height='10'/%3E%3C/g%3E%3C/svg%3E");
     /* opaque tile with the perforation punched out of it, for masking the film base */
+    --perfstrip: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%204.7498%2035'%20preserveAspectRatio='none'%3E%3Cpath%20fill-rule='evenodd'%20fill='%23000'%20d='M0%200H4.7498V35H0Z%20M1.8924%201.353H2.8574A0.508%200.508%200%200%201%203.3654%201.861V3.639A0.508%200.508%200%200%201%202.8574%204.147H1.8924A0.508%200.508%200%200%201%201.3844%203.639V1.861A0.508%200.508%200%200%201%201.8924%201.353Z%20M1.8924%2030.852999999999998H2.8574A0.508%200.508%200%200%201%203.3654%2031.361V33.139A0.508%200.508%200%200%201%202.8574%2033.647H1.8924A0.508%200.508%200%200%201%201.3844%2033.139V31.361A0.508%200.508%200%200%201%201.8924%2030.852999999999998Z'/%3E%3C/svg%3E");
     --hole: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4.7498 2.794' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' fill='%23000' d='M0 0H4.7498V2.794H0Z M1.8924 0H2.8574A0.508 0.508 0 0 1 3.3654 0.508V2.286A0.508 0.508 0 0 1 2.8574 2.794H1.8924A0.508 0.508 0 0 1 1.3844 2.286V0.508A0.508 0.508 0 0 1 1.8924 0Z'/%3E%3C/svg%3E");
     --page-neg: #eceae4;                       /* page behind the un-converted half */
     --page-pos: #121214;                       /* page behind the converted half */
     --cut: 50%; --cutw: 0.5px;      /* hairline, so the changeover is a hard edge not a fade */
     position: relative; z-index: 1; overflow: hidden; height: var(--fh); margin: 56px 0 80px; }
-  @media (min-width: 768px) { .ts-conv { --pitch: 413px; } }
+  @media (min-width: 768px) { .ts-conv { --pitch: 416px; } }
   /* Edge fade only on genuinely large displays, and capped in PIXELS rather than as a share of
      the viewport. A flat 50vw shrank the strip as soon as the window grew, which is backwards:
      the strip should keep a constant generous width and simply stop growing. 1800px of visible
@@ -174,21 +180,17 @@
     background-size: calc(4.7498 * var(--mm)) calc(3.1 * var(--mm)),
                      calc(4.7498 * var(--mm)) calc(3.1 * var(--mm));
     background-position: 0 calc(1.2 * var(--mm)), 0 calc(100% - 1.2 * var(--mm));
-    -webkit-mask-image: var(--hole), var(--hole), var(--band);
-            mask-image: var(--hole), var(--hole), var(--band);
-    -webkit-mask-repeat: repeat-x, repeat-x, no-repeat;
-            mask-repeat: repeat-x, repeat-x, no-repeat;
-    -webkit-mask-size: calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)),
-                       calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)), 100% 100%;
-            mask-size: calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)),
-                       calc(4.7498 * var(--mm)) calc(2.794 * var(--mm)), 100% 100%;
-    -webkit-mask-position: 0 calc(1.353 * var(--mm)), 0 calc(100% - 1.353 * var(--mm)), 0 0;
-            mask-position: 0 calc(1.353 * var(--mm)), 0 calc(100% - 1.353 * var(--mm)), 0 0;
-    --band: linear-gradient(to bottom, #000 0 calc(1.353 * var(--mm)),
-                            transparent calc(1.353 * var(--mm)) calc(4.147 * var(--mm)),
-                            #000 calc(4.147 * var(--mm)) calc(100% - 4.147 * var(--mm)),
-                            transparent calc(100% - 4.147 * var(--mm)) calc(100% - 1.353 * var(--mm)),
-                            #000 calc(100% - 1.353 * var(--mm)) 100%); }
+    {%- comment -%} ONE mask layer, not a band plus two hole rows. Those three abutted at 1.353mm
+       and 4.147mm, which at this scale are fractional pixels (14.81 and 45.40): both sides
+       antialiased and left partial alpha, a hairline that showed the page straight through the
+       film. A tile spanning the whole film height with both perforations punched has no internal
+       boundary to seam. {%- endcomment -%}
+    -webkit-mask-image: var(--perfstrip);
+            mask-image: var(--perfstrip);
+    -webkit-mask-repeat: repeat-x; mask-repeat: repeat-x;
+    -webkit-mask-size: calc(4.7498 * var(--mm)) 100%;
+            mask-size: calc(4.7498 * var(--mm)) 100%;
+    -webkit-mask-position: 0 0; mask-position: 0 0; }
 
   /* Edge rules. Same split as the barcode: the outer element carries the glow and is NOT
      masked, so light spills across the perforations; the inner one carries the colour and the
