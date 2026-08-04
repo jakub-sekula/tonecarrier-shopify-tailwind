@@ -28,9 +28,9 @@
    deliberately cleared it, so honour that and print nothing: the default filter cannot tell the
    two apart, because it treats '' as falsy. {%- endcomment -%}
 {%- assign edge_batch = batch -%}
-{%- if batch == nil -%}{%- assign edge_batch = '2137-2' -%}{%- endif -%}
+{%- if batch == nil -%}{%- assign edge_batch = '0-2137' -%}{%- endif -%}
 {%- assign edge_stock = stock -%}
-{%- if stock == nil -%}{%- assign edge_stock = 'TONE 200/36-X' -%}{%- endif -%}
+{%- if stock == nil -%}{%- assign edge_stock = 'TONE PT 200/24°' -%}{%- endif -%}
 {%- assign last = frame_count | minus: 1 -%}
 
 <div class="ts-conv__layer ts-conv__layer--{{ kind }}">
