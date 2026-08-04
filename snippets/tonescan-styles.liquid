@@ -557,7 +557,16 @@
     .ts-more__panel { grid-column: 2; grid-row: 1 / -1; grid-template-rows: 1fr;
       opacity: 0; visibility: hidden; transition: opacity .28s ease, visibility .28s; }
     .ts-more__item.is-open .ts-more__panel { opacity: 1; visibility: visible; }
-    .ts-more__panelinner .ts-morelist { padding-bottom: 0; }
+    /* one column: the right-hand side is already wide, and two columns there made the eye
+       jump back and forth across a gap instead of reading down a list */
+    .ts-more__panelinner .ts-morelist { padding-bottom: 0; grid-template-columns: 1fr; }
+    .ts-more__panel { position: relative; min-height: 320px; }
+    .ts-more__bg { position: absolute; inset: -24px -24px -24px -8px; z-index: 0; pointer-events: none;
+      background-image: var(--bg); background-size: cover; background-position: center right;
+      opacity: .16; border-radius: 6px;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 55%, #000 100%);
+              mask-image: linear-gradient(to right, transparent 0%, #000 55%, #000 100%); }
+    .ts-more__panelinner { position: relative; z-index: 1; }
   }
   @media (min-width: 900px) and (prefers-reduced-motion: reduce) {
     .ts-more__panel { transition: none; }

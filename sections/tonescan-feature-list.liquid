@@ -15,7 +15,14 @@
     hero selector, so the block height doesn't jump between tabs.
   {%- endcomment -%}
   <div class="ts-more tw:mt-[64px] tw:md:mt-[88px]">
-    <h3 class="tw:mb-[28px] tw:text-center tw:text-[20px] tw:font-semibold tw:text-white">{{ section.settings.heading }}</h3>
+    {%- comment -%} Same head treatment as every other section: centred, h2 at the shared size,
+       optional subtitle under it. {%- endcomment -%}
+    <div class="tw:mx-auto tw:mb-[48px] tw:max-w-[760px] tw:text-center">
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}
+      <p class="tw:mx-auto tw:mt-[18px] tw:max-w-[720px] tw:text-[17px] tw:leading-[1.6] tw:text-neutral-400">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
 
     {%- comment -%} Icons stay in code: they are a fixed set chosen per group, not content, and a
        picker for six inline SVGs would be worse than a select. {%- endcomment -%}
@@ -32,6 +39,13 @@
           <span class="ts-more__icon" aria-hidden="true">+</span>
         </button>
         <div class="ts-more__panel">
+          {%- comment -%} The category's own image, sat behind its list and faded out toward the
+             text so it reads as atmosphere rather than a picture. {%- endcomment -%}
+          {%- if block.settings.image != blank -%}{%- assign bg = block.settings.image | image_url: width: 2400 -%}
+          {%- else -%}{%- assign bg = block.settings.image_url -%}{%- endif -%}
+          {%- if bg != blank -%}
+          <span class="ts-more__bg" style="--bg:url('{{ bg }}')" aria-hidden="true"></span>
+          {%- endif -%}
           <div class="ts-more__panelinner">
             <ul class="ts-morelist">
               {%- assign lines = block.settings.items | strip | split: '
@@ -61,6 +75,11 @@
       "id": "heading",
       "label": "Heading",
       "default": "Plus everything a serious workflow needs"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subtitle"
     }
   ],
   "presets": [
@@ -113,6 +132,17 @@
           "id": "items",
           "label": "Items",
           "info": "One per line. <b>bold</b> works for the lead-in phrase."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background image",
+          "info": "Sits behind this category's list, faded. Placeholder screenshots for now."
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Or an image URL"
         }
       ]
     }
