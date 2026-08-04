@@ -62,8 +62,10 @@
     </div>
 
     <div class="ts-conv" role="img" aria-label="A strip of film frames converting from negative to positive as they travel">
-      {% render 'tonescan-strip-layer', kind: 'pos', pool: section.blocks %}
-      {% render 'tonescan-strip-layer', kind: 'neg', pool: section.blocks %}
+      {%- comment -%} Both layers must get identical edge printing: they are stacked and crossfaded,
+         so any difference between them would show as the text changing at the changeover. {%- endcomment -%}
+      {% render 'tonescan-strip-layer', kind: 'pos', pool: section.blocks, stock: section.settings.edge_stock, batch: section.settings.edge_batch %}
+      {% render 'tonescan-strip-layer', kind: 'neg', pool: section.blocks, stock: section.settings.edge_stock, batch: section.settings.edge_batch %}
     </div>
 
     {%- comment -%} Bloom over the film, not behind it: a glow that stops at the strip edge does
@@ -148,6 +150,24 @@
       "label": "Button link",
       "default": "#gallery",
       "info": "A URL, or an #anchor on this page such as #gallery."
+    },
+    {
+      "type": "header",
+      "content": "Film edge printing"
+    },
+    {
+      "type": "text",
+      "id": "edge_stock",
+      "label": "Stock designation",
+      "default": "TONE 200/36-X",
+      "info": "Printed along the top edge of every frame, the way a film stock and format are marked on real 35mm."
+    },
+    {
+      "type": "text",
+      "id": "edge_batch",
+      "label": "Batch code",
+      "default": "2137-2",
+      "info": "Repeats along the top edge. Kept identical across the whole strip, since one roll is one batch."
     }
   ],
   "presets": [
