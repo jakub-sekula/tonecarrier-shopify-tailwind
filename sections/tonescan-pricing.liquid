@@ -1,0 +1,80 @@
+{%- comment -%}
+  Beta / perpetual / subscription. Prices are placeholders until launch.
+
+  Split out of tonescan-landing so the page composes from real sections in a JSON
+  template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
+  file carries markup only and can be reordered or removed without taking them with it.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  <section id="pricing" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Pricing</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Free while we're in beta</h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[520px] tw:text-[16px] tw:text-neutral-400">toneScan Studio is free to use during the open beta. When we launch, pick the licence that fits: own it forever, or subscribe.</p>
+    </div>
+    <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[16px] tw:md:grid-cols-3">
+
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[32px]">
+        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Open beta</h3>
+        <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+          <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">Free</span>
+          <span class="tw:text-[14px] tw:text-neutral-500">right now</span>
+        </div>
+        <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Every feature unlocked while we're in beta.</p>
+        <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Full conversion &amp; editing</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>macOS and Windows</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Help shape what ships</span></li>
+        </ul>
+        <a href="#signup" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Join the beta</a>
+      </div>
+
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-[#3b82f6]/60 tw:bg-[#3b82f6]/[0.06] tw:p-[32px]">
+        <span class="tw:mb-[16px] tw:inline-flex tw:w-fit tw:items-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[12px] tw:py-[4px] tw:text-[12px] tw:font-semibold tw:uppercase tw:tracking-[0.08em] tw:text-white">Best value</span>
+        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Perpetual</h3>
+        <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+          <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">[ $ ]</span>
+          <span class="tw:text-[14px] tw:text-neutral-500">one-time · at launch</span>
+        </div>
+        <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Own it forever. Yours to keep.</p>
+        <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 1 ]</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 2 ]</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 3 ]</span></li>
+        </ul>
+        <a href="#" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Get perpetual</a>
+      </div>
+
+      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[32px]">
+        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Subscription</h3>
+        <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+          <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">[ $ ]</span>
+          <span class="tw:text-[14px] tw:text-neutral-500">per month · at launch</span>
+        </div>
+        <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Always up to date, cancel anytime.</p>
+        <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 1 ]</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 2 ]</span></li>
+          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 3 ]</span></li>
+        </ul>
+        <a href="#" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Get subscription</a>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan pricing",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "toneScan pricing"
+    }
+  ]
+}
+{% endschema %}

@@ -24,7 +24,13 @@
 
 {%- assign frame_count = frames | default: 22 -%}
 {%- assign first_no = start | default: 24 -%}
-{%- assign edge_batch = batch | default: '2137-2' -%}
+{%- comment -%} nil means "caller said nothing", so fall back. An empty string means the caller
+   deliberately cleared it, so honour that and print nothing: the default filter cannot tell the
+   two apart, because it treats '' as falsy. {%- endcomment -%}
+{%- assign edge_batch = batch -%}
+{%- if batch == nil -%}{%- assign edge_batch = '2137-2' -%}{%- endif -%}
+{%- assign edge_stock = stock -%}
+{%- if stock == nil -%}{%- assign edge_stock = 'TONE 200/36-X' -%}{%- endif -%}
 {%- assign last = frame_count | minus: 1 -%}
 
 <div class="ts-conv__layer ts-conv__layer--{{ kind }}">
@@ -50,7 +56,7 @@
            viewports wide. {%- endcomment -%}
         <span class="ts-conv__rules ts-conv__rules--g" aria-hidden="true"><i></i></span>
         <span class="ts-conv__rules ts-conv__rules--r" aria-hidden="true"><i></i></span>
-        <span class="ts-conv__edge ts-conv__edge--top" aria-hidden="true"><span class="ts-conv__stock">TONE 200/36-X</span><span class="ts-conv__num">{{ label }}</span><span class="ts-conv__batch">{{ edge_batch }}</span></span>
+        <span class="ts-conv__edge ts-conv__edge--top" aria-hidden="true">{%- if edge_stock != blank -%}<span class="ts-conv__stock">{{ edge_stock }}</span>{%- endif -%}<span class="ts-conv__num">{{ label }}</span>{%- if edge_batch != blank -%}<span class="ts-conv__batch">{{ edge_batch }}</span>{%- endif -%}</span>
         <span class="ts-conv__win">{%- if pic -%}<img src="{{ pic | image_url: width: 440 }}" srcset="{{ pic | image_url: width: 440 }} 1x, {{ pic | image_url: width: 880 }} 2x" alt="" draggable="false" loading="eager" decoding="async" fetchpriority="low" width="{{ pic.width }}" height="{{ pic.height }}">{%- else -%}<img src="{{ file | asset_img_url: '440x' }}" srcset="{{ file | asset_img_url: '440x' }} 1x, {{ file | asset_url }} 2x" alt="" draggable="false" loading="eager" decoding="async" fetchpriority="low" width="820" height="546">{%- endif -%}</span>
         <span class="ts-conv__edge ts-conv__edge--bot" aria-hidden="true"><span class="ts-conv__code"><i class="ts-conv__holes"><i class="ts-conv__bars"></i></i></span><span class="ts-conv__num">{{ label }}</span></span>
       </figure>

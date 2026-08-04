@@ -1,0 +1,99 @@
+{%- comment -%}
+  Capture-to-export story. Media swaps as the copy scrolls past a pinned frame.
+
+  Split out of tonescan-landing so the page composes from real sections in a JSON
+  template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
+  file carries markup only and can be reordered or removed without taking them with it.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%} Screenshots live in Shopify Files (Content > Files). {%- endcomment -%}
+  {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+
+  <section id="how-it-works" class="ts-story-sec tw:scroll-mt-[84px] tw:border-y tw:border-white/10">
+    <div class="ts-story-sec__blobs" aria-hidden="true">
+      <span class="ts-story-blob ts-story-blob--1"></span>
+      <span class="ts-story-blob ts-story-blob--2"></span>
+      <span class="ts-story-blob ts-story-blob--3"></span>
+    </div>
+
+    <div class="tw:relative tw:z-[1]">
+      <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[80px] tw:md:px-[50px] tw:md:pt-[120px]">
+        <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+          <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">The workflow</p>
+          <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">From capture to export</h2>
+        </div>
+      </div>
+
+      <div class="ts-story">
+        {%- comment -%} progress rail, shows how far through you are, and jumps on click {%- endcomment -%}
+        <div class="ts-story__rail">
+          <div class="ts-story__dots">
+            <button type="button" class="ts-story__dot is-active" data-i="0" aria-label="Go to: A roll in minutes"></button>
+            <button type="button" class="ts-story__dot" data-i="1" aria-label="Go to: Right colour, first try"></button>
+            <button type="button" class="ts-story__dot" data-i="2" aria-label="Go to: Instant feedback"></button>
+            <button type="button" class="ts-story__dot" data-i="3" aria-label="Go to: One frame, whole roll"></button>
+          </div>
+        </div>
+
+        {%- comment -%} MIDDLE: the panels that scroll. Each one activates the matching media. {%- endcomment -%}
+        <div class="ts-story__textcol">
+          <div class="ts-story__panel" data-i="0" style="--shot:url('{{ ts_cdn }}/organise.png')">
+            <div class="ts-story__panelinner">
+              <h3 class="ts-story__title">A roll in minutes</h3>
+              <p class="ts-story__body">Point toneScan Studio at your capture folder and the whole roll appears, triplets already merged and frames already inverted.</p>
+              <p class="ts-story__body">You're looking at finished pictures before you've touched a single slider.</p>
+            </div>
+          </div>
+          <div class="ts-story__panel" data-i="1" style="--shot:url('{{ ts_cdn }}/develop.png')">
+            <div class="ts-story__panelinner">
+              <h3 class="ts-story__title">Right colour, first try</h3>
+              <p class="ts-story__body">The inversion is built on how film and paper actually behave, so the first thing you see is already close.</p>
+              <p class="ts-story__body">No profile hunting, no per-frame guesswork, and no fighting an orange cast for twenty minutes.</p>
+            </div>
+          </div>
+          <div class="ts-story__panel" data-i="2" style="--shot:url('{{ ts_cdn }}/pixel-preview.png')">
+            <div class="ts-story__panelinner">
+              <h3 class="ts-story__title">Instant feedback</h3>
+              <p class="ts-story__body">Move a slider and the frame moves with it. No lag, no stand-in preview, no waiting to find out what an adjustment really did.</p>
+              <p class="ts-story__body">And what you settle on is what you get: the exported file matches the one you approved on screen.</p>
+            </div>
+          </div>
+          <div class="ts-story__panel" data-i="3" style="--shot:url('{{ ts_cdn }}/batch-export.png')">
+            <div class="ts-story__panelinner">
+              <h3 class="ts-story__title">One frame, whole roll</h3>
+              <p class="ts-story__body">Push your settings across every frame, then send the lot out in one go.</p>
+              <p class="ts-story__body">TIFF or JPG, your sizing, your filenames, with film stock and camera details already attached.</p>
+            </div>
+          </div>
+        </div>
+
+        {%- comment -%} RIGHT: pinned, oversized media. Crossfades as the panels pass. {%- endcomment -%}
+        <div class="ts-story__mediacol" aria-hidden="true">
+          <div class="ts-story__sticky">
+            <div class="ts-story__stage">
+              <div class="ts-story__shot ts-story__v0 is-active" data-i="0"></div>
+              <div class="ts-story__shot ts-story__v1" data-i="1"></div>
+              <div class="ts-story__shot ts-story__v2" data-i="2"></div>
+              <div class="ts-story__shot ts-story__v3" data-i="3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan workflow",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "toneScan workflow"
+    }
+  ]
+}
+{% endschema %}

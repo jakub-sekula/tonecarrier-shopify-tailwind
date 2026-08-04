@@ -1,0 +1,97 @@
+{%- comment -%}
+  The four things that save the most time, as an accordion.
+
+  Split out of tonescan-landing so the page composes from real sections in a JSON
+  template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
+  file carries markup only and can be reordered or removed without taking them with it.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%} Screenshots live in Shopify Files (Content > Files). {%- endcomment -%}
+  {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+
+  <section class="ts-acc-sec tw:border-y tw:border-white/10">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:mx-auto tw:mb-[48px] tw:max-w-[720px] tw:text-center">
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Built for the work</p>
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">The parts that save you hours</h2>
+      </div>
+
+      <div class="ts-acc">
+        <div class="ts-acc__list">
+          <div class="ts-acc__item is-open" data-i="0">
+            <button type="button" class="ts-acc__trigger" aria-expanded="true">
+              <span class="ts-acc__title">Batch editing</span><span class="ts-acc__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="ts-acc__panel">
+              <div class="ts-acc__panelinner">
+                <p>Get one frame looking right and every other frame on the roll follows. A thirty-six exposure roll becomes one decision instead of thirty-six, and the set comes out matching, which is the part contact sheets and client work actually depend on.</p>
+                <a class="ts-acc__link" href="#signup">Try it in the beta <span aria-hidden="true">›</span></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="ts-acc__item" data-i="1">
+            <button type="button" class="ts-acc__trigger" aria-expanded="false">
+              <span class="ts-acc__title">Flat-field correction</span><span class="ts-acc__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="ts-acc__panel">
+              <div class="ts-acc__panelinner">
+                <p>Every copy stand has uneven light and every lens falls off toward the corners. Shoot a flat-field reference once and toneScan Studio cancels both, so the corners of the frame match the middle. No more lifting shadows in one corner and crushing them in another.</p>
+                <a class="ts-acc__link" href="#signup">Try it in the beta <span aria-hidden="true">›</span></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="ts-acc__item" data-i="2">
+            <button type="button" class="ts-acc__trigger" aria-expanded="false">
+              <span class="ts-acc__title">Smart auto-crop</span><span class="ts-acc__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="ts-acc__panel">
+              <div class="ts-acc__panelinner">
+                <p>Frame edges are found and squared up for you. Instead of dragging four handles on every shot and still ending up a degree off, the roll arrives cropped and straight, ready to check rather than ready to fix.</p>
+                <a class="ts-acc__link" href="#signup">Try it in the beta <span aria-hidden="true">›</span></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="ts-acc__item" data-i="3">
+            <button type="button" class="ts-acc__trigger" aria-expanded="false">
+              <span class="ts-acc__title">Properly fast</span><span class="ts-acc__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="ts-acc__panel">
+              <div class="ts-acc__panelinner">
+                <p>Every edit previews instantly, there is a keyboard shortcut for everything so you never reach for a menu, and conversion and export run in the background. A full day on the copy stand clears in one sitting instead of over a weekend.</p>
+                <a class="ts-acc__link" href="#signup">Try it in the beta <span aria-hidden="true">›</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ts-acc__media">
+          <div class="ts-acc__bg" aria-hidden="true"></div>
+          <div class="ts-acc__frame">
+            <img class="ts-acc__shot is-active" data-i="0" src="{{ ts_cdn }}/organise.png" alt="A roll of converted frames in the organise view with the roll list alongside" loading="lazy" width="3200" height="2000">
+            <img class="ts-acc__shot" data-i="1" src="{{ ts_cdn }}/develop.png" alt="The develop screen with the flat-field correction control at the top of the panel" loading="lazy" width="3200" height="2000">
+            <img class="ts-acc__shot" data-i="2" src="{{ ts_cdn }}/pixel-preview.png" alt="A converted frame cropped square in the develop viewport" loading="lazy" width="3200" height="2000">
+            <img class="ts-acc__shot" data-i="3" src="{{ ts_cdn }}/batch-export.png" alt="Exporting sixteen selected frames at once" loading="lazy" width="3200" height="2000">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan highlights",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "toneScan highlights"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,57 @@
+{%- comment -%}
+  Beta signup. POSTs to the Cloudflare Worker; CORS is locked to the live origin, so the success path only works from tonephotographic.com.
+
+  Split out of tonescan-landing so the page composes from real sections in a JSON
+  template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
+  file carries markup only and can be reordered or removed without taking them with it.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%} ==================== 11 · SIGNUP / FINAL CTA ====================
+       Beta signup form. POSTs the email to the Cloudflare Worker (double opt-in): the Worker
+       sends a confirmation email, then, once confirmed, issues a Keygen licence key + download
+       link. This form ONLY sends the email address; it never handles keys/secrets. Wired in the
+       <script> block below. Endpoint CORS is locked to https://tonephotographic.com, so the
+       success path only works from that live origin (dev/theme-preview will hit a CORS error).
+  {%- endcomment -%}
+  <section id="signup" class="tw:relative tw:overflow-hidden tw:scroll-mt-[84px]">
+    <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:bottom-[-180px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-[#3b82f6]/10 tw:blur-[130px]"></div>
+    <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[96px] tw:md:px-[50px] tw:md:py-[140px] tw:text-center">
+      <h2 class="tw:mx-auto tw:max-w-[720px] tw:text-[34px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.02em] tw:text-white tw:md:text-[56px]">
+        Join the toneScan Studio open beta.
+      </h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[540px] tw:text-[17px] tw:text-neutral-400">
+        Free while in beta. Enter your email and we'll send a confirmation link, then your
+        licence key and download.
+      </p>
+
+      <div class="ts-signup tw:mx-auto tw:mt-[32px]">
+        <form class="ts-form" novalidate>
+          <input class="ts-email" type="email" name="email" required
+                 placeholder="you@example.com" autocomplete="email" aria-label="Email address">
+          <button class="ts-btn" type="submit">Get my beta key</button>
+        </form>
+        <p class="ts-msg" role="status" aria-live="polite"></p>
+      </div>
+
+      <p class="tw:mx-auto tw:mt-[20px] tw:max-w-[480px] tw:text-[13px] tw:leading-[1.5] tw:text-neutral-500">
+        toneScan Studio is an early beta, expect the occasional rough edge and bug. Native on macOS
+        (Apple&nbsp;Silicon) and Windows. No spam; your email is only used for your beta key.
+      </p>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan signup",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "toneScan signup"
+    }
+  ]
+}
+{% endschema %}

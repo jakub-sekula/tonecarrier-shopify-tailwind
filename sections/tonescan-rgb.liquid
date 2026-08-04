@@ -1,0 +1,154 @@
+{%- comment -%}
+  The merge animation, then a pinned frame with the explanation scrolling past it.
+
+  Split out of tonescan-landing so the page composes from real sections in a JSON
+  template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
+  file carries markup only and can be reordered or removed without taking them with it.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%} Screenshots live in Shopify Files (Content > Files). {%- endcomment -%}
+  {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+
+  <div class="ts-dives">
+
+    {%- comment -%}
+      HERO deep-dive, RGB is the flagship feature, so it gets the full-width treatment:
+      centred header, one large screenshot on a glow, then a two-column detail grid beneath.
+      The other three rows below stay side-by-side, which keeps this one clearly on top.
+    {%- endcomment -%}
+    <section class="ts-hdive">
+      {%- comment -%}
+        Scroll-linked channel merge: the three raw captures splay apart, draw together as you
+        scroll, then the real converted frame crossfades in. Driven by --s / .is-converted in
+        the script below. The organise-grid screenshot is the bento's RGB tile, so this shows
+        the idea rather than repeating that.
+      {%- endcomment -%}
+      {%- comment -%}
+        Pinned region, same idea as the workflow story but with the media on the left.
+        .ts-hdive__sticky holds the merged panel for the whole run; --t slides it left over
+        the first screen, then it stays put while .ts-hdive__textcol scrolls past on the
+        right. The text column is pulled up by one viewport so its first panel lines up with
+        the image once the slide finishes.
+      {%- endcomment -%}
+      <div class="ts-hdive__pin">
+        <div class="ts-hdive__sticky">
+          <div class="ts-hdive__stage">
+            <div class="ts-hdive__glow" aria-hidden="true"></div>
+            <div class="ts-rgb">
+              <div class="ts-rgb__stage">
+                <div class="ts-rgb__ch ts-rgb__ch--r"></div>
+                <div class="ts-rgb__ch ts-rgb__ch--g"></div>
+                <div class="ts-rgb__ch ts-rgb__ch--b"></div>
+                <div class="ts-rgb__frame" data-i="0">
+                  <div class="ts-rgb__result"></div>
+                </div>
+
+                {%- comment -%} panels 2 and 3 swap the frame's contents for a screenshot,
+                   same frame footprint so nothing about the panel jumps {%- endcomment -%}
+                <div class="ts-hdive__shot" data-i="1" aria-hidden="true">
+                  <div class="ts-hdive__shotimg" style="--shot:url('{{ ts_cdn }}/calibration-crosstalk.png')"></div>
+                </div>
+                <div class="ts-hdive__shot" data-i="2" aria-hidden="true">
+                  <div class="ts-hdive__shotimg" style="--shot:url('{{ ts_cdn }}/rgb-merge.png')"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ts-hdive__rail">
+          <div class="ts-hdive__dots">
+            <button type="button" class="ts-hdive__dot is-active" data-i="0" aria-label="Go to: RGB scanning made simple"></button>
+            <button type="button" class="ts-hdive__dot" data-i="1" aria-label="Go to: Why it beats white light"></button>
+            <button type="button" class="ts-hdive__dot" data-i="2" aria-label="Go to: What you need to shoot it"></button>
+          </div>
+        </div>
+
+        <div class="ts-hdive__textcol">
+          <div class="ts-hdive__panel">
+            <h2 class="ts-hdive__title ts-hdive__title--aside">RGB scanning made simple</h2>
+            <p class="ts-hdive__sub ts-hdive__sub--aside">The way high-end lab scanners have always got their colour, now automatic on your own camera.</p>
+
+            <h3 class="ts-hdive__ptitle ts-hdive__ptitle--sub">The best colour a camera scan can give you</h3>
+            <p class="ts-hdive__lead">What you just watched is three separate exposures of one frame coming together. The negative was photographed once under red light, once under green and once under blue, and each of those exposures read a single dye layer of the film on its own.</p>
+            <p class="ts-hdive__lead">You did not line any of it up. toneScan Studio found the three frames sitting in your capture folder, recognised them as one shot, matched their exposure channel by channel and combined them into the finished picture.</p>
+            <p class="ts-hdive__lead">It is the same principle the best lab scanners have used for years, and until now it meant lab hardware. All it takes here is a folder of RAW files and a light source that can change colour.</p>
+          </div>
+
+          <div class="ts-hdive__panel">
+            <h3 class="ts-hdive__ptitle">Why it beats white light</h3>
+            <p class="ts-hdive__lead">Under white light your sensor sees all three dye layers at once, through its own colour filters, and the channels end up bleeding into each other.</p>
+            <p class="ts-hdive__lead">Separating the exposures keeps each layer measured largely on its own, so there is far less crosstalk to unpick afterwards and far more room in the shadows before colour starts to fall apart.</p>
+          </div>
+
+          <div class="ts-hdive__panel">
+            <h3 class="ts-hdive__ptitle">What you need to shoot it</h3>
+            <p class="ts-hdive__lead">Any digital camera and a light source that can give you red, green and blue separately. Monochrome sensors gain the most, since there is no colour filter array in the way at all.</p>
+            <p class="ts-hdive__lead">A companion web app that turns your phone into the light source is on the way, so you will be able to try RGB with nothing more than the screen in your pocket.</p>
+            <a class="ts-hdive__link" href="#signup">Try it in the beta <span aria-hidden="true">›</span></a>
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </section>
+
+    <section class="ts-dive">
+      <div class="ts-dive__inner">
+        <div class="ts-dive__text">
+          <p class="ts-dive__eyebrow">Your library</p>
+          <h2 class="ts-dive__title">Every roll, in one place</h2>
+          <p class="ts-dive__body">toneScan Studio keeps your scans organised by roll, the way you actually shoot. Point it at a folder and it watches for new captures, merges the channel triplets and files everything where you expect it. No separate cataloguing step.</p>
+          <ul class="ts-bullets">
+            <li>Rolls in a sidebar with live frame counts</li>
+            <li>Watch folders that ingest new scans as they land</li>
+            <li>Markers and colour labels for fast culling</li>
+            <li>Sync one frame's settings across the whole roll</li>
+          </ul>
+        </div>
+        <div class="ts-dive__media">
+          <div class="ts-shot">
+            <img src="{{ ts_cdn }}/organise.png" alt="The organise view with a list of rolls on the left and a grid of converted frames on the right" loading="lazy" width="3200" height="2000">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ts-dive ts-dive--alt ts-dive--flip">
+      <div class="ts-dive__inner">
+        <div class="ts-dive__text">
+          <p class="ts-dive__eyebrow">Calibration</p>
+          <h2 class="ts-dive__title">Profiled to your own rig</h2>
+          <p class="ts-dive__body">Calibration tools to dial in your scan exposure before you start, so each channel lands where it should. Save the result as a profile and reuse it across rolls rather than setting up from scratch every time.</p>
+          <ul class="ts-bullets">
+            <li>Per-channel EV meter showing exactly how far off you are</li>
+            <li>Crosstalk measured from your own setup</li>
+            <li>Save a profile and reuse it across rolls</li>
+            <li>Automatic calibration when paired with toneLight</li>
+          </ul>
+        </div>
+        <div class="ts-dive__media">
+          <div class="ts-shot">
+            <img src="{{ ts_cdn }}/calibration-crosstalk.png" alt="The calibrate screen measuring red, green and blue channels with the crosstalk matrix open" loading="lazy" width="3200" height="2000">
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan RGB deep dive",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "toneScan RGB deep dive"
+    }
+  ]
+}
+{% endschema %}
