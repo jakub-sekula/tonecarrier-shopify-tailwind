@@ -719,20 +719,19 @@ function tsInit() {
     // ---- hover dot -------------------------------------------------------------------------
     dot = wrap.parentElement && wrap.parentElement.querySelector('.ts-conv-dot');
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
-    function dotAt(e) {
-      if (!dot || e.pointerType === 'touch') return;
-      var host = wrap.parentElement.getBoundingClientRect();
-      var strip = wrap.getBoundingClientRect();
-      dot.style.transform = 'translate3d(' + (e.clientX - host.left) + 'px,' +
-                                             (e.clientY - host.top) + 'px,0)';
-      var cut = parseFloat(getComputedStyle(wrap).getPropertyValue('--cut'));
-      dot.classList.toggle('on-light', !isNaN(cut) && e.clientX - strip.left < cut);
-    }
-    if (dot && fine.matches) {
+    {%- comment -%} The dot chases pointermove with a transitioned transform, composited over a
+       strip that is already carrying blends, filters and masks. Chromium keeps up; Safari does
+       not, and the lag reads as the drag itself being slow. There it keeps the native grab
+       cursor instead, which costs nothing. navigator.vendor is the reliable split: Apple on
+       Safari, Google on Chrome, even on the same machine. {%- endcomment -%}
+    var isSafari = /apple/i.test(navigator.vendor || '') &&
+                   !/chrome|chromium|edg|opr/i.test(navigator.userAgent);
+    if (dot && isSafari) dot.hidden = true;          // inert either way, but keep it out of the tree
+    if (dot && fine.matches && !isSafari) {
       wrap.classList.add('has-dot');
       wrap.addEventListener('pointerenter', function (e) {
         if (e.pointerType === 'touch') return;
-        dotAt(e);
+        mvX = e.clientX; mvY = e.clientY; mvTouch = false; tick();
         // no trailing lag on the way in, or it flies across from wherever it was last parked
         var t = dot.style.transition; dot.style.transition = 'none'; void dot.offsetWidth;
         dot.style.transition = t;
