@@ -544,8 +544,11 @@
      instead of pushing each other down. Below 900px it stays an accordion, where there is not
      enough width for two columns. */
   @media (min-width: 900px) {
-    .ts-more__acc { display: grid; grid-template-columns: minmax(230px, 300px) 1fr;
-      column-gap: 56px; align-items: start; }
+    /* Fixed left column so the panel can be positioned against it. The panels are taken out of
+       flow: as grid items they sized the row they sat in, which stretched the first category
+       button to the height of the whole list. */
+    .ts-more__acc { position: relative; display: grid; grid-template-columns: 300px 1fr;
+      column-gap: 56px; align-content: start; min-height: 360px; }
     .ts-more__item { display: contents; }
     .ts-more__trigger { grid-column: 1; padding: 16px 2px;
       border-top: 1px solid rgba(255,255,255,.10); }
@@ -554,13 +557,13 @@
     .ts-more__icon { display: none; }
     .ts-more__item.is-open .ts-more__cat { color: #fff; }
 
-    .ts-more__panel { grid-column: 2; grid-row: 1 / -1; grid-template-rows: 1fr;
+    .ts-more__panel { position: absolute; top: 0; left: 356px; right: 0; display: block;
       opacity: 0; visibility: hidden; transition: opacity .28s ease, visibility .28s; }
     .ts-more__item.is-open .ts-more__panel { opacity: 1; visibility: visible; }
     /* one column: the right-hand side is already wide, and two columns there made the eye
        jump back and forth across a gap instead of reading down a list */
     .ts-more__panelinner .ts-morelist { padding-bottom: 0; grid-template-columns: 1fr; }
-    .ts-more__panel { position: relative; min-height: 320px; }
+    .ts-more__bg { border-radius: 6px; }
     .ts-more__bg { position: absolute; inset: -24px -24px -24px -8px; z-index: 0; pointer-events: none;
       background-image: var(--bg); background-size: cover; background-position: center right;
       opacity: .16; border-radius: 6px;
