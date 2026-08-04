@@ -538,6 +538,31 @@
   .ts-more__panelinner .ts-morelist { padding-bottom: 26px; }
   @media (prefers-reduced-motion: reduce) { .ts-more__panel, .ts-more__icon { transition: none; } }
 
+  /* Desktop: the same markup laid out as categories on the left, the chosen list on the right.
+     display: contents dissolves each item so its trigger lands in column one and its panel in
+     column two; every panel is placed in the same cell (row 1 to -1) so they stack and crossfade
+     instead of pushing each other down. Below 900px it stays an accordion, where there is not
+     enough width for two columns. */
+  @media (min-width: 900px) {
+    .ts-more__acc { display: grid; grid-template-columns: minmax(230px, 300px) 1fr;
+      column-gap: 56px; align-items: start; }
+    .ts-more__item { display: contents; }
+    .ts-more__trigger { grid-column: 1; padding: 16px 2px;
+      border-top: 1px solid rgba(255,255,255,.10); }
+    .ts-more__item:last-child .ts-more__trigger { border-bottom: 1px solid rgba(255,255,255,.10); }
+    /* the +/x belongs to an accordion, not to a list of tabs */
+    .ts-more__icon { display: none; }
+    .ts-more__item.is-open .ts-more__cat { color: #fff; }
+
+    .ts-more__panel { grid-column: 2; grid-row: 1 / -1; grid-template-rows: 1fr;
+      opacity: 0; visibility: hidden; transition: opacity .28s ease, visibility .28s; }
+    .ts-more__item.is-open .ts-more__panel { opacity: 1; visibility: visible; }
+    .ts-more__panelinner .ts-morelist { padding-bottom: 0; }
+  }
+  @media (min-width: 900px) and (prefers-reduced-motion: reduce) {
+    .ts-more__panel { transition: none; }
+  }
+
   /* ---- secondary feature list (grouped, under the bento) ---- */
   .ts-morelist__head { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #60a5fa; }
   .ts-morelist { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px 56px; }

@@ -222,9 +222,11 @@ function tsInit() {
       if (!items.length) return;
       items.forEach(function (it, i) {
         it.querySelector('.ts-more__trigger').addEventListener('click', function () {
-          var wasOpen = it.classList.contains('is-open');
+          {%- comment -%} always open the one clicked, never toggle it shut: as two columns the
+             panel is the whole right-hand side, and closing it would leave the section empty
+             with no obvious way back. {%- endcomment -%}
           items.forEach(function (x, xi) {
-            var on = xi === i && !wasOpen;
+            var on = xi === i;
             x.classList.toggle('is-open', on);
             x.querySelector('.ts-more__trigger').setAttribute('aria-expanded', on ? 'true' : 'false');
           });
