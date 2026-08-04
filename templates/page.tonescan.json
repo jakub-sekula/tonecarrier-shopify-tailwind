@@ -283,12 +283,16 @@
     "signup": {
       "type": "tonescan-signup",
       "settings": {}
+    },
+    "feature-list": {
+      "type": "tonescan-feature-list"
     }
   },
   "order": [
     "hero",
     "conversion-strip",
     "features",
+    "feature-list",
     "highlights",
     "workflow",
     "rgb",
