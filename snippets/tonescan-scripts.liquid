@@ -220,6 +220,26 @@ function tsInit() {
     document.querySelectorAll('.tonescan-landing .ts-more__acc').forEach(function (acc) {
       var items = acc.querySelectorAll('.ts-more__item');
       if (!items.length) return;
+
+      {%- comment -%} In the two-column layout the panels are positioned, so they cannot grow the
+         container and a long list would spill past the section. Measure the tallest one and hold
+         the container open to it. A fixed min-height was wrong the moment the row spacing
+         changed; this follows the copy instead. {%- endcomment -%}
+      var wide = window.matchMedia('(min-width: 900px)');
+      function fit() {
+        if (!wide.matches) { acc.style.minHeight = ''; return; }
+        var tallest = 0;
+        items.forEach(function (it) {
+          var inner = it.querySelector('.ts-more__panelinner');
+          if (inner) tallest = Math.max(tallest, inner.scrollHeight);
+        });
+        // 11px lines the first list row up with the first button; leave the same clearance below
+        acc.style.minHeight = tallest ? (tallest + 22) + 'px' : '';
+      }
+      fit();
+      window.addEventListener('resize', fit, { passive: true });
+      if (window.ResizeObserver) new ResizeObserver(fit).observe(acc);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
       items.forEach(function (it, i) {
         it.querySelector('.ts-more__trigger').addEventListener('click', function () {
           {%- comment -%} always open the one clicked, never toggle it shut: as two columns the

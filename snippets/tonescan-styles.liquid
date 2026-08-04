@@ -523,6 +523,13 @@
   /* ---- secondary feature list: accordion rows, same language as the showcase above ----
      Was tab pills over a three-column grid; at that column width nearly every item wrapped
      mid-phrase. One category at a time, two columns max, so lines stay whole. */
+  /* The heading is a setting, so its length is not fixed. Balancing beats picking a width:
+     "Plus everything a serious workflow / needs" left one word stranded on line two. */
+  .ts-more-head h2 { text-wrap: balance; }
+  .ts-more__panelinner .ts-morelist { row-gap: 22px; }
+  .ts-more__panelinner .ts-morelist li::before { background: rgba(255,255,255,.8); }
+  .ts-morelist__t { display: block; font-weight: 600; color: #e5e5e5; }
+  .ts-morelist__d { display: block; margin-top: 3px; color: #8f8f8f; }
   .ts-more__item { border-top: 1px solid rgba(255,255,255,.10); }
   .ts-more__item:last-child { border-bottom: 1px solid rgba(255,255,255,.10); }
   .ts-more__trigger { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 2px; background: none; border: 0; text-align: left; cursor: pointer; }
@@ -552,46 +559,54 @@
        button to the height of the whole list. */
     .ts-more__acc { position: relative; display: grid; grid-template-columns: 300px 1fr;
       column-gap: 56px; align-content: start; min-height: 360px; }
+    /* the driver raises this to fit the tallest list; 360 is only the floor before it runs */
     .ts-more__item { display: contents; }
-    .ts-more__trigger { grid-column: 1; padding: 16px 2px;
-      border-top: 1px solid rgba(255,255,255,.10); }
-    .ts-more__item:last-child .ts-more__trigger { border-bottom: 1px solid rgba(255,255,255,.10); }
+    /* No rules between rows: with only one row live at a time the dividers read as a table,
+       and the type contrast already separates them. Growing from the left edge keeps the icons
+       in a column instead of drifting as the row scales. */
+    .ts-more__trigger { grid-column: 1; padding: 14px 2px; border: 0;
+      transform-origin: left center;
+      transition: transform .2s cubic-bezier(.22,.61,.36,1), color .2s ease; }
+    .ts-more__item.is-open .ts-more__trigger { transform: scale(1.045); }
+    /* held down, not yet released: presses in from wherever it currently sits */
+    .ts-more__trigger:active { transform: scale(.975); }
+    .ts-more__item.is-open .ts-more__trigger:active { transform: scale(1.015); }
     /* the +/x belongs to an accordion, not to a list of tabs */
     .ts-more__icon { display: none; }
-    /* Selected reads as the active choice, the rest recede: the left column is a list of five
-       things where only one is live, so the contrast has to carry that rather than a marker
-       alone. Unselected rows lift on hover so they still feel clickable. */
-    .ts-more__cat { color: #6f7076; }
-    .ts-more__ico { background: rgba(255,255,255,.04); color: #8a8b91; }
-    .ts-more__trigger { position: relative; padding-left: 14px; border-radius: 3px;
-      transition: background .2s ease; }
-    .ts-more__trigger::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px;
-      width: 2px; border-radius: 2px; background: transparent; transition: background .2s ease; }
-
-    .ts-more__trigger:hover .ts-more__cat { color: #b9bac0; }
-    .ts-more__trigger:hover .ts-more__ico { background: rgba(255,255,255,.08); color: #cfd0d6; }
-
-    .ts-more__item.is-open .ts-more__trigger { background: rgba(255,255,255,.05); }
-    .ts-more__item.is-open .ts-more__trigger::before { background: #3b82f6; }
+    /* Same language as the .ts-acc accordion above: the contrast is carried by type colour and
+       a thin rule, not by a filled row. Unselected sits a shade below .ts-acc's resting grey,
+       because here four of the five are always inactive rather than merely collapsed. */
+    .ts-more__cat { font-size: 19px; color: #74757b; }
+    .ts-more__ico { background: rgba(255,255,255,.05); color: #74757b; }
+    .ts-more__trigger:hover .ts-more__cat { color: #c9cad0; }
+    .ts-more__trigger:hover .ts-more__ico { color: #c9cad0; }
     .ts-more__item.is-open .ts-more__cat { color: #fff; }
-    .ts-more__item.is-open .ts-more__ico { background: rgba(59,130,246,.16); color: #93c5fd; }
+    .ts-more__item.is-open .ts-more__ico { background: rgba(255,255,255,.10); color: #fff; }
 
-    .ts-more__panel { position: absolute; top: 0; left: 356px; right: 0; display: block;
+    /* Full column height, not content height: the panel was only as tall as its list, so a
+       four-item category cropped its image to a strip. The list still sits at the top. */
+    .ts-more__panel { position: absolute; top: 0; bottom: 0; left: 356px; right: 0; display: block;
       opacity: 0; visibility: hidden; transition: opacity .28s ease, visibility .28s; }
     .ts-more__item.is-open .ts-more__panel { opacity: 1; visibility: visible; }
     /* one column: the right-hand side is already wide, and two columns there made the eye
        jump back and forth across a gap instead of reading down a list */
+    /* Hold the text to a readable measure so the long lines stop running under the image. */
+    .ts-more__panelinner { padding-top: 11px; max-width: 620px; }
     .ts-more__panelinner .ts-morelist { padding-bottom: 0; grid-template-columns: 1fr; }
-    .ts-more__bg { border-radius: 6px; }
-    .ts-more__bg { position: absolute; inset: -24px -24px -24px -8px; z-index: 0; pointer-events: none;
-      background-image: var(--bg); background-size: cover; background-position: center right;
-      opacity: .16; border-radius: 6px;
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 55%, #000 100%);
-              mask-image: linear-gradient(to right, transparent 0%, #000 55%, #000 100%); }
+    /* Confined to the right of the panel and faded out across its own left half, so the list
+       sits on flat black and the picture never competes with the words. */
+    .ts-more__bg { left: 34%; right: -24px; top: -24px; bottom: -24px; border-radius: 6px;
+      background-position: center right; opacity: .2;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 62%, #000 100%);
+              mask-image: linear-gradient(to right, transparent 0%, #000 62%, #000 100%); }
+    .ts-more__bg { position: absolute; z-index: 0; pointer-events: none;
+      background-image: var(--bg); background-size: cover; }
     .ts-more__panelinner { position: relative; z-index: 1; }
   }
   @media (min-width: 900px) and (prefers-reduced-motion: reduce) {
-    .ts-more__panel { transition: none; }
+    .ts-more__panel, .ts-more__trigger { transition: none; }
+    .ts-more__item.is-open .ts-more__trigger, .ts-more__trigger:active,
+    .ts-more__item.is-open .ts-more__trigger:active { transform: none; }
   }
 
   /* ---- secondary feature list (grouped, under the bento) ---- */
