@@ -11,7 +11,7 @@
   "layout": "tonescan",
   "sections": {
     "hero": {
-      "type": "tonescan-hero",
+      "type": "tonescan-hero-split",
       "settings": {
         "background_opacity": 8,
         "background_blur": 5
@@ -237,7 +237,7 @@
       ],
       "settings": {
         "heading": "Negatives in, photographs out.",
-        "subheading": "toneScan applies automatic, uniform conversions across your whole roll. <br>Let the app handle the heavy lifting while you just step in to fine-tune the tricky shots.",
+        "subheading": "toneScan applies automatic, uniform conversions across your whole roll. You only step in for the shots that need it.",
         "note": "<p>All photos converted with toneScan Studio, using automatic settings with minor exposure and white balance tweaks.</p><p>Scanned with Fujifilm and Canon cameras.</p>",
         "show_scans_cta": false,
         "cta_text": "See sample scans",
@@ -253,11 +253,197 @@
     "signup": {
       "type": "tonescan-signup",
       "settings": {}
+    },
+    "features": {
+      "type": "tonescan-features",
+      "settings": {},
+      "blocks": {
+        "tile_1": {
+          "type": "tile",
+          "settings": {
+            "title": "Rich inversion engine",
+            "description": "Rendering modelled on real film physics and the way darkroom paper responds to light. The starting point already looks like a print, so you are adjusting to taste rather than rescuing a file.",
+            "size": "large",
+            "icon": "ic0",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
+            "video_url": "",
+            "alt": "A converted frame beside the live RGB histogram and the develop controls",
+            "cta_text": "See samples",
+            "cta_link": "#gallery"
+          }
+        },
+        "tile_2": {
+          "type": "tile",
+          "settings": {
+            "title": "Seamless RGB scanning",
+            "description": "Trichromatic capture from any camera, mono sensors included. Triplets merged for you.",
+            "size": "small",
+            "icon": "ic1",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_3": {
+          "type": "tile",
+          "settings": {
+            "title": "GPU viewport, 1:1 previews",
+            "description": "Every slider lands on a full-resolution preview instantly. There is no proxy image and nothing to wait for.",
+            "size": "small",
+            "icon": "ic2",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_4": {
+          "type": "tile",
+          "settings": {
+            "title": "Flat-field correction",
+            "description": "Cancels uneven light and lens falloff, so corners match the centre.",
+            "size": "small",
+            "icon": "ic3",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_5": {
+          "type": "tile",
+          "settings": {
+            "title": "Batch editing",
+            "description": "Get one frame right and the whole roll follows, matched from first frame to last.",
+            "size": "small",
+            "icon": "ic4",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_6": {
+          "type": "tile",
+          "settings": {
+            "title": "Properly fast",
+            "description": "Smooth, instant previews of every edit, and a keyboard shortcut for everything so you can fly through a roll. Whole rolls convert and export in the background while you carry on working.",
+            "size": "large",
+            "icon": "ic5",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png",
+            "video_url": "",
+            "alt": "Exporting sixteen selected frames at once while the roll stays browsable"
+          }
+        },
+        "tile_7": {
+          "type": "tile",
+          "settings": {
+            "title": "Standalone software",
+            "description": "No Lightroom, no plugins, no host app. One program you own.",
+            "size": "small",
+            "icon": "ic6",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_8": {
+          "type": "tile",
+          "settings": {
+            "title": "Smart auto-crop",
+            "description": "Frame edges found and squared up for you, on every shot.",
+            "size": "small",
+            "icon": "ic7",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
+            "video_url": "",
+            "alt": ""
+          }
+        },
+        "tile_9": {
+          "type": "tile",
+          "settings": {
+            "title": "Hardware control",
+            "description": "Drives your light source and advances the film carrier as you shoot.",
+            "size": "small",
+            "icon": "ic8",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png",
+            "video_url": "",
+            "alt": ""
+          }
+        }
+      },
+      "block_order": [
+        "tile_1",
+        "tile_2",
+        "tile_3",
+        "tile_4",
+        "tile_5",
+        "tile_6",
+        "tile_7",
+        "tile_8",
+        "tile_9"
+      ]
+    },
+    "feature-list": {
+      "type": "tonescan-feature-list",
+      "blocks": {
+        "group_1": {
+          "type": "group",
+          "settings": {
+            "title": "Capture & calibration",
+            "icon": "icon0",
+            "items": "<b>Hardware control</b>: drives your light source and advances the film carrier\n<b>Tethered capture</b> straight into the current roll\n<b>Light presets</b> read from a connected light\n<b>Scan profiles</b>: calibrate once, reuse on every roll\n<b>Per-channel exposure targets</b> with an EV meter\n<b>Crosstalk correction</b> measured from your own setup\n<b>Linearity calibration</b>\n<b>White-light scanning</b>: single-shot works too",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png"
+          }
+        },
+        "group_2": {
+          "type": "group",
+          "settings": {
+            "title": "Project management",
+            "icon": "icon1",
+            "items": "<b>Roll-based library</b> with live frame counts\n<b>Watch folders</b> that ingest new scans as they land\n<b>Automatic triplet detection</b> and merge\n<b>Markers and colour labels</b> for fast culling\n<b>Per-channel inspection</b>: view R, G or B alone\n<b>Undo and redo</b> throughout",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png"
+          }
+        },
+        "group_3": {
+          "type": "group",
+          "settings": {
+            "title": "Rich editing experience",
+            "icon": "icon2",
+            "items": "<b>Three process modes</b>: colour negative, B&amp;W negative, slide\n<b>Live RGB histogram</b>\n<b>Exposure, contrast, density,</b> highlight rolloff and shadow lift\n<b>Auto density</b>\n<b>Smart auto white balance</b>, or pick your own neutral\n<b>Levels, tone trims and sharpening</b>\n<b>Crop, rotate and flip</b>\n<b>Pixel loupe</b> with a live density readout\n<b>True exposure from raw</b>: read from signal, not the histogram",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png"
+          }
+        },
+        "group_4": {
+          "type": "group",
+          "settings": {
+            "title": "Professional exports",
+            "icon": "icon3",
+            "items": "<b>Colour-managed viewport and export</b>: sRGB, Adobe RGB, Display-P3 or Rec.2020, with the matching ICC profile embedded on the way out\n<b>TIFF or JPG</b>, your quality and long edge\n<b>Cineon log export</b> for grading downstream\n<b>Filename patterns</b> from name, date, project or sequence\n<b>Batch export</b> a selection or a whole roll\n<b>Rich metadata</b>: film stock, camera and dev info on every file",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png"
+          }
+        },
+        "group_5": {
+          "type": "group",
+          "settings": {
+            "title": "Platform",
+            "icon": "icon4",
+            "items": "<b>macOS and Windows</b>: native builds for both\n<b>Keyboard-driven</b>: shortcuts for everything\n<b>Fully standalone</b>: no host app, no plugin bridge\n<b>Flexible licensing</b>: own it outright or subscribe",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png"
+          }
+        }
+      },
+      "block_order": [
+        "group_1",
+        "group_2",
+        "group_3",
+        "group_4",
+        "group_5"
+      ]
     }
   },
   "order": [
     "hero",
     "conversion-strip",
+    "features",
+    "feature-list",
     "faq",
     "signup"
   ]

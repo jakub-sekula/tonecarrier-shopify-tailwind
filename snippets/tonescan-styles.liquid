@@ -1270,6 +1270,48 @@
   /* SELECTOR bar, on the black region below the cut; clears the dipped image with top padding */
   /* The next section starts flush against this bar, and the conversion strip brings a white
      background with it, so 8px left the tabs sitting on a hard colour change. */
+  /* ---- split hero: copy left, media right, media running off the page edge ----
+     Everything the driver touches keeps its class names, so this is layout only. The centred
+     hero's sticky text and grow-on-scroll frame are both neutralised here: they exist to sell a
+     frame that rises into view under centred copy, which is not what this layout is doing. */
+  .ts-hero-split { overflow-x: clip; }   /* on the SECTION: the tab bar is a sibling of .ts-hero-color */
+  /* The centred hero leaves the glass open at the bottom on purpose, so the shot melts into the
+     black cut beneath it. Here there is no cut to melt into and it just reads as truncated, so
+     the frame closes. Outside the media query, and more specific than the phone override, so it
+     holds at every width. */
+  .ts-hero-split .ts-hero-glass { padding: 16px; border-bottom: 1px solid rgba(255,255,255,.16);
+    border-radius: 10px; }
+  .ts-hero-split .ts-hero-stage { border-radius: 3px; }
+  .ts-hero-split .ts-hero-selectbar { padding-bottom: 64px; }
+  @media (max-width: 767px) {
+    .ts-hero-split .ts-hero-glass { padding: 8px; border-radius: 8px; }
+  }
+  @media (min-width: 900px) {
+    .ts-hero-split .ts-hero-split__grid { display: grid; align-items: center;
+      grid-template-columns: minmax(0, 44%) minmax(0, 1fr); gap: 88px; }
+    .ts-hero-split .ts-hero-text { position: static; margin: 0; max-width: none;
+      align-items: flex-start; text-align: left; opacity: 1; transform: none; }
+    .ts-hero-split .ts-hero-text .ts-os-row { justify-content: flex-start; }
+    /* the frame overflows its column to the right, cropped by the section, the way the
+       reference lets the screenshot run past the edge rather than sitting inside a margin */
+    .ts-hero-split .ts-hero-frame { margin: 0; max-width: none; width: calc(100% + 14vw); }
+    .ts-hero-split .ts-hero-glass { transform: none; }
+    /* the tab row spans the page, so it reads better centred than hung off the copy column */
+    .ts-hero-split .ts-hero-tabs { justify-content: center; }
+
+    /* balanced rather than pinned to a width: the headline is a setting, so its length varies
+       and a fixed max-width strands a word on line two as soon as the copy changes */
+    .ts-hero-split .ts-hero-text h1 { text-wrap: balance; }
+    /* subtitle steps down from the centred hero's 20px: at this measure it was competing */
+    .ts-hero-split .ts-hero-text > p:not(.ts-os-row) { font-size: 17px; line-height: 1.6; }
+    /* form runs the full width of the copy column, matching the subtitle rather than the
+       centred hero's narrower 480px */
+    .ts-hero-split .ts-signup { max-width: 620px; margin-inline: 0; }
+    /* the tab row lives inside the coloured region now, so it needs real air above it rather
+       than the tight gap that suited sitting on the black band below the cut */
+    .ts-hero-split .ts-hero-selectbar { padding-top: 72px; padding-bottom: 96px; }
+  }
+
   .ts-hero-selectbar { padding-top: 44px; padding-bottom: 64px; }
   .ts-hero-tabs { position: relative; z-index: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
   .ts-hero-tab { padding: 8px 16px; font-size: 14px; font-weight: 500; color: #a3a3a3; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.10); border-radius: 2px; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease; }

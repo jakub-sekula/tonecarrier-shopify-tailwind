@@ -1,4 +1,8 @@
 {%- comment -%}
+  SPLIT variant of the hero: copy on the left, media on the right bleeding off the page edge,
+  stacking on phones. Same settings, same blocks and the same driver as tonescan-hero, because
+  the class names the driver binds to are unchanged. Only the layout differs.
+
   Top of the toneScan Studio landing page: the hero, and the problem statement under it.
 
   Split out of tonescan-landing so the conversion strip below could become its own section. A
@@ -26,7 +30,7 @@
     off-screen wider than the viewport, and no grow-on-scroll.
     overflow-clip (not hidden) so the sticky hero text still pins while floats / wide image stay clipped.
   {%- endcomment -%}
-  <section class="tw:relative tw:overflow-clip">
+  <section class="ts-hero-split tw:relative tw:overflow-clip">
     <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-white/[0.04] tw:blur-[130px]"></div>
 
     <div class="ts-hero-color">
@@ -63,6 +67,7 @@
           <div class="hero-float hero-float--6"></div>
           <div class="hero-float hero-float--7"></div>
         </div>
+        <div class="ts-hero-split__grid">
         <div class="ts-hero-text tw:mx-auto tw:flex tw:max-w-[940px] tw:flex-col tw:items-center tw:gap-[26px] tw:text-center">
           {%- if section.settings.icon -%}
           <img class="ts-hero-icon" src="{{ section.settings.icon | image_url: width: 256 }}" alt="" width="256" height="256" fetchpriority="high">
@@ -136,33 +141,34 @@
             </div>
           </div>
         </div>
+        </div>
+      </div>
+      {%- comment -%} SELECTOR. Inside the coloured region here, not on the black band below the cut. Desktop: tab pills.
+         Mobile: pagination dots + a native <select>. {%- endcomment -%}
+      <div class="ts-hero-selectbar tw:relative tw:z-[2] tw:mx-auto tw:w-full tw:max-w-[1320px] tw:px-[15px] tw:md:px-[50px]">
+        <div class="ts-hero-tabs" role="tablist" aria-label="Features">
+          {%- for block in section.blocks -%}
+          <button type="button" class="ts-hero-tab{% if forloop.first %} is-active{% endif %}" data-tab="{{ forloop.index0 }}" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ block.settings.title }}</button>
+          {%- endfor -%}
+        </div>
+        <div class="ts-hero-mobsel">
+          <div class="ts-hero-dots" aria-hidden="true">
+            {%- for block in section.blocks -%}
+            <span class="ts-hero-dot{% if forloop.first %} is-active{% endif %}" data-dot="{{ forloop.index0 }}"></span>
+            {%- endfor -%}
+          </div>
+          <div class="ts-hero-selectwrap">
+            <select class="ts-hero-select" aria-label="Choose a feature to preview">
+              {%- for block in section.blocks -%}
+              <option value="{{ forloop.index0 }}">{{ block.settings.title }}</option>
+              {%- endfor -%}
+            </select>
+            <svg class="ts-hero-selectcaret" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
       </div>
     </div>
 
-    {%- comment -%} SELECTOR, sits on the black region below the cut. Desktop: tab pills.
-       Mobile: pagination dots + a native <select>. {%- endcomment -%}
-    <div class="ts-hero-selectbar tw:relative tw:z-[2] tw:mx-auto tw:w-full tw:max-w-[1320px] tw:px-[15px] tw:md:px-[50px]">
-      <div class="ts-hero-tabs" role="tablist" aria-label="Features">
-        {%- for block in section.blocks -%}
-        <button type="button" class="ts-hero-tab{% if forloop.first %} is-active{% endif %}" data-tab="{{ forloop.index0 }}" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ block.settings.title }}</button>
-        {%- endfor -%}
-      </div>
-      <div class="ts-hero-mobsel">
-        <div class="ts-hero-dots" aria-hidden="true">
-          {%- for block in section.blocks -%}
-          <span class="ts-hero-dot{% if forloop.first %} is-active{% endif %}" data-dot="{{ forloop.index0 }}"></span>
-          {%- endfor -%}
-        </div>
-        <div class="ts-hero-selectwrap">
-          <select class="ts-hero-select" aria-label="Choose a feature to preview">
-            {%- for block in section.blocks -%}
-            <option value="{{ forloop.index0 }}">{{ block.settings.title }}</option>
-            {%- endfor -%}
-          </select>
-          <svg class="ts-hero-selectcaret" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-    </div>
   </section>
 
 
@@ -211,7 +217,7 @@
 
 {% schema %}
 {
-  "name": "toneScan Studio hero",
+  "name": "toneScan hero (split)",
   "tag": "section",
   "class": "section",
   "settings": [
@@ -286,7 +292,25 @@
   ],
   "presets": [
     {
-      "name": "toneScan Studio hero"
+      "name": "toneScan hero (split)",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Develop",
+            "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
+            "alt": "The develop view"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Organise",
+            "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
+            "alt": "A roll in the organise view"
+          }
+        }
+      ]
     }
   ],
   "max_blocks": 8,

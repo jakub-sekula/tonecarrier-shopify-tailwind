@@ -114,11 +114,28 @@ function tsInit() {
     // (Deliberately not capturing the wheel to force the pace: hijacking scroll to hold
     // someone in place reads as the page being broken. Say the word if you want that instead.)
     var PLAY_MS = 1700;
-    var played = false, playRaf = null;
+    var HOLD_MS = 900;          // long enough to outlast trackpad inertia, short of the full run
+    var played = false, playRaf = null, wantsPlay = false, holdY = 0, holding = false;
+
+    // Kill residual momentum for the first stretch of the run. Not a wheel-capture: by the time
+    // this starts the reader has already stopped, and what remains is inertia the browser is
+    // still feeding in. Without it the merge plays out while the page sails past the section,
+    // and the heading never gets a chance to land.
+    function releaseHold() { holding = false; }
+    ['touchstart', 'keydown', 'pointerdown'].forEach(function (ev) {
+      window.addEventListener(ev, releaseHold, { passive: true });
+    });
+
     function playOnce() {
       if (played || playRaf) return;
+      holdY = window.pageYOffset; holding = true;
+      setTimeout(releaseHold, HOLD_MS);
       var t0 = performance.now();
       (function step(now) {
+        if (holding && Math.abs(window.pageYOffset - holdY) > 1) {
+          try { window.scrollTo({ top: holdY, behavior: 'instant' }); }
+          catch (err) { window.scrollTo(0, holdY); }
+        }
         var t = Math.min(1, (now - t0) / PLAY_MS);
         var e = 1 - Math.pow(1 - t, 3);            // ease out
         items.forEach(function (it) {
@@ -135,10 +152,20 @@ function tsInit() {
       })(t0);
     }
     if ('IntersectionObserver' in window) {
+      // Arm on entry, fire once scrolling settles. Firing on entry meant a fast scroll started
+      // the run while still travelling, so the whole thing played to an empty screen.
       var playIO = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) { if (en.isIntersecting) { playOnce(); playIO.disconnect(); } });
+        entries.forEach(function (en) { if (en.isIntersecting) wantsPlay = true; });
       }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
       items.forEach(function (it) { playIO.observe(it.el); });
+      var playTimer = null;
+      window.addEventListener('scroll', function () {
+        clearTimeout(playTimer);
+        playTimer = setTimeout(function () {
+          if (wantsPlay && !played && !playRaf) { playIO.disconnect(); playOnce(); }
+        }, 180);
+      }, { passive: true });
+      setTimeout(function () { if (wantsPlay && !played && !playRaf) { playIO.disconnect(); playOnce(); } }, 700);
     } else {
       played = true;
       items.forEach(function (it) { it.el.classList.add('is-played'); });
@@ -272,9 +299,14 @@ function tsInit() {
       var panels = pin.querySelectorAll('.ts-hdive__panel');
       var shots = stage ? stage.querySelectorAll('[data-i]') : [];
       var dots = pin.querySelectorAll('.ts-hdive__dot');
-      var cur = 0, target = 0, active = -1, running = false;
+      var cur = 0, target = 0, active = -1, running = false, wantsIntro = false;
       var lastY = window.pageYOffset, snapped = false, snapping = false, abort = false, snapStart = 0;
       var isMerged = false, pinTop = 1e6, lastScrollAt = Date.now(), IDLE_MS = 4000;
+      // The merge finishing is its own cue, so it gets its own short beat rather than falling
+      // through to the 4s "nothing is happening" timer. That timer also could not start until
+      // the play-hold stopped emitting scroll events, so the real wait was the hold plus four
+      // seconds: long enough to read as the section having stalled.
+      var mergedAt = 0, POST_MERGE_MS = 850;
       window.addEventListener('scroll', function () { if (!snapping) lastScrollAt = Date.now(); }, { passive: true });
 
       // once the panel is part-way left, pull the first copy block into the middle so the
@@ -287,7 +319,9 @@ function tsInit() {
         var pr = panel.getBoundingClientRect();
         var from = window.pageYOffset;
         var to = from + pr.top + pr.height / 2 - midOffset();
-        if (Math.abs(to - from) < 8) { snapped = true; return; }
+        // forward only. Scrolled past the section and slowed down, this used to haul the
+        // reader back up to the first copy block, which is the one thing a snap must not do.
+        if (to - from < 8) { snapped = true; return; }
         // 620ms was fine for a nudge but this move is most of a viewport. Scale with the
         // distance, and take it slower still when nothing prompted it but the idle timer.
         var dist = Math.abs(to - from);
@@ -350,16 +384,23 @@ function tsInit() {
         var vh = window.innerHeight || document.documentElement.clientHeight;
         var r = pin.getBoundingClientRect();
         var merged = !rgb || rgb.classList.contains('is-played');
+        if (merged && !isMerged) mergedAt = Date.now();      // note the moment it lands
         isMerged = merged; pinTop = r.top;
         target = merged ? ease(clamp(-r.top / (vh * 0.7))) : 0;
 
         var y = window.pageYOffset;
         var speed = Math.abs(y - lastY);
         var down = y > lastY;
+        if (y !== lastY) dirY = down ? 1 : -1;   // BEFORE lastY is reassigned, or it never fires
         lastY = y;
-        if (!snapped && !snapping && merged && down && speed < 140 && cur >= 0.3) snapToFirst();
 
-        if (y !== lastY) dirY = down ? 1 : -1;
+        // Re-arm on the way out. snapped used to latch for the life of the page, so the
+        // section advanced itself once and never again: come back and it would sit merged
+        // forever with nothing to move it on.
+        if (r.bottom < -vh * 0.5 || r.top > vh * 1.5) { snapped = false; }
+
+        // armed here, fired from the idle timer once scrolling has actually stopped
+        wantsIntro = (!snapped && !snapping && merged && dirY === 1 && cur >= 0.3);
 
         var gate = clamp((cur - 0.5) / 0.4);
         pin.classList.toggle('is-copy', gate > 0);
@@ -419,8 +460,19 @@ function tsInit() {
         })(t0);
       }
       function maybeSnapBlock() {
-        if (snapping || !snapped) return;            // the intro snap owns the scroll until it has run
+        if (snapping) return;
         if (Date.now() < suppressUntil) return;
+
+        // The intro advance, now that scrolling has settled rather than mid-gesture.
+        if (wantsIntro && !snapped) { wantsIntro = false; snapToFirst(); return; }
+
+        // Between "merged" and "copy showing" nothing owned the scroll, so this stretch could
+        // be parked in forever. Resolve it to whichever end the reader was heading for.
+        if (!snapped && isMerged && cur > 0.04 && cur < 0.96 && dirY === 1) {
+          snapToFirst();
+          return;
+        }
+        if (!snapped) return;                        // the intro snap owns the scroll until it has run
         var vh = window.innerHeight || document.documentElement.clientHeight;
         var mid = window.pageYOffset + midOffset(), bi = -1, best = Infinity;
         panels.forEach(function (pnl, pi) {
@@ -438,6 +490,11 @@ function tsInit() {
           if (!panels[alt]) return;
           target = centreOf(panels[alt]);
         }
+        // Never travel backwards. Being dragged back into a section you just left is the single
+        // worst thing a scroll snap can do, and it also re-runs the merge scrub on the way in,
+        // which is what made the animation look like it was resetting itself.
+        if (dirY === 1 && target - midOffset() < window.pageYOffset - 4) return;
+        if (dirY === -1 && target - midOffset() > window.pageYOffset + 4) return;
         glideBlock(target - midOffset(), 1150);
       }
       // Any real input wins, and unlike the intro snap that includes the wheel: this one is a
@@ -457,9 +514,14 @@ function tsInit() {
         if (snapped || snapping || !isMerged) return;
         var vh = window.innerHeight || document.documentElement.clientHeight;
         if (cur > 0.05 || Math.abs(pinTop) > vh * 0.25) return;
-        if (Date.now() - lastScrollAt < IDLE_MS) return;
+        // just merged and sitting still: move on promptly. Otherwise fall back to the long
+        // idle, which exists for someone who wandered off rather than someone who just watched it.
+        var quiet = Date.now() - lastScrollAt;
+        var since = mergedAt ? Date.now() - mergedAt : 0;
+        if (mergedAt && since > POST_MERGE_MS && quiet > 300) { snapToFirst(); return; }
+        if (quiet < IDLE_MS) return;
         snapToFirst(true);
-      }, 500);
+      }, 150);
 
       dots.forEach(function (d, di) {
         d.addEventListener('click', function () {

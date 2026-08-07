@@ -147,7 +147,7 @@
         {%- endcomment -%}
         {%- assign ts_minimal = false -%}
         {%- if template.suffix == 'tonescan-lite' -%}{%- assign ts_minimal = true -%}{%- endif -%}
-        {%- assign ts_lite_blocks = 'faq' | split: ',' -%}
+        {%- assign ts_lite_blocks = 'features,faq' | split: ',' -%}
         <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
           {%- if ts_minimal == false or ts_lite_blocks contains 'features' -%}<a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>{%- endif -%}
           {%- if ts_minimal == false or ts_lite_blocks contains 'workflow' -%}<a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">How it works</a>{%- endif -%}
