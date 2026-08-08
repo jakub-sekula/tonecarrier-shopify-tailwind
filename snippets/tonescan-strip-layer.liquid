@@ -49,6 +49,13 @@
         {%- assign pi = i | modulo: pool_size -%}
         {%- assign pic = pool[pi].settings.image -%}
       {%- endif -%}
+      {%- comment -%} Full-size source for the click-to-open viewer. Capped at the original width
+         so the dimensions handed to the viewer match the file it actually gets served. {%- endcomment -%}
+      {%- if pic -%}
+        {%- assign fw = pic.width -%}
+        {%- if fw > 3000 -%}{%- assign fw = 3000 -%}{%- endif -%}
+        {%- assign fh = fw | times: pic.height | divided_by: pic.width -%}
+      {%- endif -%}
       <figure class="ts-conv__item ts-gate-{{ gate }}">
         {%- comment -%} The rules live per frame, not per track. Both patterns have a period that
            divides the frame pitch exactly (red: one period per frame, holes: eight), so a
@@ -57,7 +64,7 @@
         <span class="ts-conv__rules ts-conv__rules--g" aria-hidden="true"><i></i></span>
         <span class="ts-conv__rules ts-conv__rules--r" aria-hidden="true"><i></i></span>
         <span class="ts-conv__edge ts-conv__edge--top" aria-hidden="true">{%- if edge_stock != blank -%}<span class="ts-conv__stock">{{ edge_stock }}</span>{%- endif -%}<span class="ts-conv__num">{{ label }}</span>{%- if edge_batch != blank -%}<span class="ts-conv__batch">{{ edge_batch }}</span>{%- endif -%}</span>
-        <span class="ts-conv__win">{%- if pic -%}<img src="{{ pic | image_url: width: 440 }}" srcset="{{ pic | image_url: width: 440 }} 1x, {{ pic | image_url: width: 880 }} 2x" alt="" draggable="false" loading="eager" decoding="async" fetchpriority="low" width="{{ pic.width }}" height="{{ pic.height }}">{%- else -%}<img src="{{ file | asset_img_url: '440x' }}" srcset="{{ file | asset_img_url: '440x' }} 1x, {{ file | asset_url }} 2x" alt="" draggable="false" loading="eager" decoding="async" fetchpriority="low" width="820" height="546">{%- endif -%}</span>
+        <span class="ts-conv__win">{%- if pic -%}<img src="{{ pic | image_url: width: 440 }}" srcset="{{ pic | image_url: width: 440 }} 1x, {{ pic | image_url: width: 880 }} 2x" data-full="{{ pic | image_url: width: fw }}" data-fw="{{ fw }}" data-fh="{{ fh }}" alt="" draggable="false" loading="eager" decoding="async" fetchpriority="low" width="{{ pic.width }}" height="{{ pic.height }}">{%- else -%}<img src="{{ file | asset_img_url: '440x' }}" srcset="{{ file | asset_img_url: '440x' }} 1x, {{ file | asset_url }} 2x" data-full="{{ file | asset_url }}" data-fw="820" data-fh="546" alt="" draggable="false" loading="eager" decoding="async" fetchpriority="low" width="820" height="546">{%- endif -%}</span>
         <span class="ts-conv__edge ts-conv__edge--bot" aria-hidden="true"><span class="ts-conv__code"><i class="ts-conv__holes"><i class="ts-conv__bars"></i></i></span><span class="ts-conv__num">{{ label }}</span></span>
       </figure>
     {%- endfor -%}

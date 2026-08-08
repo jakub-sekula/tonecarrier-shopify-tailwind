@@ -74,172 +74,329 @@ function tsInit() {
     else window.addEventListener('load', start);
   })();
 
-  /* rgb merge, scroll-linked.
-     Progress is measured against the SNAP POSITION rather than against .ts-rgb being centred
-     in the viewport. Centring the image put the section heading off the top of the screen at
-     the moment the merge completed, and it started the animation as soon as the section
-     appeared. Anchoring to "head sits HEAD_TOP below the viewport top" means the snap target
-     and the fully merged state are the same scroll position by construction, the title and
-     subtitle are still on screen when it lands, and the channels only begin to appear over
-     the final APPROACH pixels. */
-  (function () {
-    var els = document.querySelectorAll('.tonescan-landing .ts-rgb');
-    if (!els.length) return;
-    var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
+  /* ---- shared machinery for the two pinned sections ------------------------------------------
+     The workflow story and the RGB deep dive are the same component: copy blocks scrolling past
+     a pinned media panel, one block active at a time, a dot rail tracking it, and a snap that
+     parks the reader on a block once they stop. They were written separately, grew the same
+     bugs independently, and were fixed independently. They share the machinery now.
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      els.forEach(function (el) { el.style.setProperty('--s', 0); el.classList.add('is-converted'); });
-      return;
+     tsPinRig owns the two hard parts and nothing else:
+       rests()   the document positions a reader is allowed to stop at
+       glide()   the ONLY code that scrolls the page
+       settle()  the ONLY code that decides to move, on scroll-idle, to the NEAREST rest
+     Anything section-specific (the merge, the drifting blobs) stays in the caller's frame hook,
+     which may write styles but must never scroll.
+  ------------------------------------------------------------------------------------------- */
+
+  // One rig may drive the page at a time. At a section boundary both can be partly on screen and
+  // both pass their own in-view test, and without this they each glide to their own rest and
+  // fight over the page.
+  var tsRigLock = { by: null, until: 0 };
+
+  function tsPinRig(opts) {
+    var el = opts.el;
+    var IDLE_MS = opts.idleMs || 180;          // scrolling counts as stopped after this
+    var self = {};
+    var glideRaf = null, gliding = false, quietUntil = 0, idle = null, running = false;
+
+    function vh() { return window.innerHeight || document.documentElement.clientHeight; }
+    function ease(v) { return v < 0.5 ? 4*v*v*v : 1 - Math.pow(-2*v + 2, 3) / 2; }
+    function release() { if (tsRigLock.by === self) { tsRigLock.by = null; tsRigLock.until = 0; } }
+
+    // ---- the ONLY thing here that scrolls the page ----
+    function stopGlide() {
+      if (glideRaf) cancelAnimationFrame(glideRaf);
+      glideRaf = null; gliding = false;
+      release();
     }
-
-    var HEAD_TOP = 0;        // anchor is the pinned region: top at 0 centres the photo, --t still 0
-    var APPROACH = 0.72;     // fraction of a viewport the merge plays out over
-
-    var items = [];
-    els.forEach(function (el) {
-      var sec = el.closest('.ts-hdive');
-      items.push({ el: el, head: sec ? sec.querySelector('.ts-hdive__pin') : null });
-    });
-
-    // scroll position at which this item is considered "snapped"
-    function targetFor(it) {
-      var ref = it.head || it.el;
-      return window.pageYOffset + ref.getBoundingClientRect().top - HEAD_TOP;
+    function glide(to, dur) {
+      stopGlide();
+      var from = window.pageYOffset, delta = to - from;
+      if (Math.abs(delta) < 3) return;
+      var t0 = performance.now();
+      gliding = true; quietUntil = Date.now() + dur + 200;
+      tsRigLock.by = self; tsRigLock.until = quietUntil;
+      // The glide records where it left the page each frame. If the page has moved somewhere
+      // else by the next one, something other than this moved it, which can only be the reader:
+      // hand back immediately. This is why the wheel is not in the cancel list below. Classifying
+      // wheel events cannot separate a real gesture from the inertia that keeps firing after it,
+      // but comparing against our own last write does not have to.
+      var expected = null;
+      (function step(now) {
+        if (expected !== null && Math.abs(window.pageYOffset - expected) > 2) {
+          glideRaf = null; gliding = false; quietUntil = 0; release(); return;
+        }
+        var k = Math.min(1, (now - t0) / dur), y = from + delta * ease(k);
+        try { window.scrollTo({ top: y, behavior: 'instant' }); } catch (e) { window.scrollTo(0, y); }
+        expected = window.pageYOffset;              // read back what actually landed
+        if (k < 1) glideRaf = requestAnimationFrame(step);
+        else { glideRaf = null; gliding = false; }
+      })(t0);
     }
-
-    // FIRST PASS PLAYS ITSELF.
-    // Scrub the merge purely from scroll and anyone moving quickly never sees it. The first
-    // time the section comes into view it runs on its own clock instead, so the effect always
-    // lands. After that it is scroll-linked again, so scrubbing back and forth still works.
-    // (Deliberately not capturing the wheel to force the pace: hijacking scroll to hold
-    // someone in place reads as the page being broken. Say the word if you want that instead.)
-    var PLAY_MS = 1700;
-    var HOLD_MS = 900;          // long enough to outlast trackpad inertia, short of the full run
-    var played = false, playRaf = null, wantsPlay = false, holdY = 0, holding = false;
-
-    // Kill residual momentum for the first stretch of the run. Not a wheel-capture: by the time
-    // this starts the reader has already stopped, and what remains is inertia the browser is
-    // still feeding in. Without it the merge plays out while the page sails past the section,
-    // and the heading never gets a chance to land.
-    function releaseHold() { holding = false; }
+    // Real input always wins. Wheel is not in this list on purpose: trackpad inertia keeps firing
+    // wheel events for a second after the fingers lift, which would cancel every glide.
     ['touchstart', 'keydown', 'pointerdown'].forEach(function (ev) {
-      window.addEventListener(ev, releaseHold, { passive: true });
-    });
-
-    function playOnce() {
-      if (played || playRaf) return;
-      holdY = window.pageYOffset; holding = true;
-      setTimeout(releaseHold, HOLD_MS);
-      var t0 = performance.now();
-      (function step(now) {
-        if (holding && Math.abs(window.pageYOffset - holdY) > 1) {
-          try { window.scrollTo({ top: holdY, behavior: 'instant' }); }
-          catch (err) { window.scrollTo(0, holdY); }
-        }
-        var t = Math.min(1, (now - t0) / PLAY_MS);
-        var e = 1 - Math.pow(1 - t, 3);            // ease out
-        items.forEach(function (it) {
-          it.el.style.setProperty('--s', (1 - e).toFixed(3));
-          it.el.classList.toggle('is-converted', t >= 1);
-        });
-        if (t < 1) { playRaf = requestAnimationFrame(step); }
-        else {
-          playRaf = null; played = true;
-          // explicit "the timed run finished" marker. is-converted is not enough: the
-          // scroll-linked path sets that too, before the animation has actually played.
-          items.forEach(function (it) { it.el.classList.add('is-played'); });
-        }
-      })(t0);
-    }
-    if ('IntersectionObserver' in window) {
-      // Arm on entry, fire once scrolling settles. Firing on entry meant a fast scroll started
-      // the run while still travelling, so the whole thing played to an empty screen.
-      var playIO = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) { if (en.isIntersecting) wantsPlay = true; });
-      }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-      items.forEach(function (it) { playIO.observe(it.el); });
-      var playTimer = null;
-      window.addEventListener('scroll', function () {
-        clearTimeout(playTimer);
-        playTimer = setTimeout(function () {
-          if (wantsPlay && !played && !playRaf) { playIO.disconnect(); playOnce(); }
-        }, 180);
+      window.addEventListener(ev, function () {
+        stopGlide(); quietUntil = 0;
+        if (opts.onInput) opts.onInput();
       }, { passive: true });
-      setTimeout(function () { if (wantsPlay && !played && !playRaf) { playIO.disconnect(); playOnce(); } }, 700);
-    } else {
-      played = true;
-      items.forEach(function (it) { it.el.classList.add('is-played'); });
-    }
-
-    function update() {
-      if (playRaf) return;                          // the timed run owns --s while it plays
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var travel = vh * APPROACH;
-      items.forEach(function (it) {
-        var target = targetFor(it);
-        // 0 while still a full approach away, 1 once we are at the snap position
-        var q = clamp(1 - (target - window.pageYOffset) / travel);
-        it.el.style.setProperty('--s', (1 - Math.pow(q, 3)).toFixed(3));
-        it.el.classList.toggle('is-converted', q >= 0.985);   // the glide lands a hair short of 1
-      });
-    }
-
-    // ---- snap, matching the story section's easing ----
-    var snapRaf = null, suppressSnapUntil = 0;
-    var lastDir = 1, lastY = window.pageYOffset;
-    function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-    function cancelSnap() {
-      if (snapRaf) { cancelAnimationFrame(snapRaf); snapRaf = null; }
-      suppressSnapUntil = 0;
-    }
-    ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(function (evt) {
-      window.addEventListener(evt, cancelSnap, { passive: true });
     });
-    function glideTo(targetY, duration) {
-      cancelSnap();
-      var startY = window.pageYOffset, delta = targetY - startY;
-      if (Math.abs(delta) < 2) return;
-      var t0 = performance.now();
-      suppressSnapUntil = Date.now() + duration + 250;
-      (function step(now) {
-        var t = Math.min(1, (now - t0) / duration);
-        var y = startY + delta * easeInOutCubic(t);
-        try { window.scrollTo({ top: y, behavior: 'instant' }); }
-        catch (err) { window.scrollTo(0, y); }
-        snapRaf = t < 1 ? requestAnimationFrame(step) : null;
-      })(t0);
-    }
 
-    function maybeSnap() {
-      if (Date.now() < suppressSnapUntil) return;
-      if (lastDir !== 1) return;                  // only ever pulls forward, never back up
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var y = window.pageYOffset;
-      var best = null, bestGap = Infinity;
-      items.forEach(function (it) {
-        var target = targetFor(it);
-        var gap = target - y;                     // positive means the snap point is still below
-        // approaching from above only: once past it, leave the reader alone
-        if (gap > 8 && gap < vh * 0.55 && gap < bestGap) { bestGap = gap; best = target; }
-      });
-      if (best === null) return;
-      glideTo(best, Math.min(1500, 650 + bestGap * 0.6));
-    }
+    // ---- the ONLY thing here that decides to move ----
+    // Try again shortly. settle() runs off the scroll-idle timer, so when it bails for a reason
+    // that will pass on its own (a glide finishing, a merge still running, the quiet window after
+    // a glide) there is nothing left to call it again: if the reader has stopped, no more scroll
+    // events arrive. That is how a section could sit in one place forever, and why a nudge was
+    // needed to shake it loose.
+    function settleSoon(ms) { clearTimeout(idle); idle = setTimeout(settle, ms); }
 
-    var ticking = false, snapTimer;
-    function onScroll() {
-      var y = window.pageYOffset;
-      if (y !== lastY) { lastDir = y > lastY ? 1 : -1; lastY = y; }
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(function () { update(); ticking = false; });
+    function settle() {
+      if (opts.snap === false) return;
+      if (gliding || (opts.busy && opts.busy())) { settleSoon(220); return; }
+      if (Date.now() < quietUntil) { settleSoon(quietUntil - Date.now() + 60); return; }
+      if (tsRigLock.by && tsRigLock.by !== self && Date.now() < tsRigLock.until) { settleSoon(220); return; }
+      var r = el.getBoundingClientRect(), H = vh();
+      if (r.top > H * 0.9 || r.bottom < H * 0.1) return;     // not in front of the reader
+      if (opts.beforeSettle && opts.beforeSettle(r, H, settleSoon)) return;
+
+      // Settle to the NEAREST rest, full stop. The direction filter and the dead zone that
+      // replaced it were both wrong, in opposite ways: filtering by direction meant a nudge up
+      // from a block counted as "heading up" and threw the reader all the way back, and widening
+      // the dead zone to stop that just let them park anywhere in between. Nearest handles both
+      // on its own. A small nudge is still nearest to the block you are on, so it returns there;
+      // once you are past the midpoint the next one is nearest, so it carries you on; and
+      // scrolling clean past the section fails the in-view test above and is left alone entirely.
+      var y = window.pageYOffset, all = opts.rests(), ti = -1, bestD = Infinity;
+      for (var i = 0; i < all.length; i++) {
+        var d = Math.abs(all[i] - y);
+        if (d < bestD) { bestD = d; ti = i; }
       }
-      clearTimeout(snapTimer);
-      snapTimer = setTimeout(maybeSnap, 240);
+      if (ti < 0) return;
+
+      // Stay inside the span the rests actually cover. The in-view test above is on the whole
+      // section, and a four-block story is several viewports tall, so it still counts as in view
+      // long after the reader has scrolled on into the next section: the story rig would reach
+      // forward and haul them back out of the RGB merge while that section was starting it, and
+      // the two would trade the page back and forth. Half a viewport past the end is the same
+      // nearest-rest logic applied one level up: beyond that you are closer to whatever comes
+      // next than to anything here, so this rig has no business moving you.
+      if (y < all[0] - H * 0.5 || y > all[all.length - 1] + H * 0.5) return;
+
+      if (opts.resolve) ti = opts.resolve(ti, all, r, H);
+      var dist = Math.abs(all[ti] - y);
+      if (dist < 8) return;                        // already parked on one
+      if (dist > H * 0.85) return;                 // too far to be a settle
+      glide(all[ti], Math.min(1600, 700 + dist * 0.7));
     }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', function () { clearTimeout(snapTimer); update(); }, { passive: true });
-    update();
+
+    // ---- render: one rAF loop, reads scroll and writes styles, never moves the page ----
+    function frame(now) {
+      var r = el.getBoundingClientRect(), H = vh();
+      var more = opts.frame ? opts.frame(r, H, now) : false;
+      var live = r.bottom > -200 && r.top < H + 200;
+      if (live || more) requestAnimationFrame(frame); else running = false;
+    }
+    function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+    window.addEventListener('scroll', function () { kick(); settleSoon(IDLE_MS); }, { passive: true });
+    window.addEventListener('resize', kick, { passive: true });
+
+    self.glide = glide; self.settle = settle; self.settleSoon = settleSoon;
+    self.stopGlide = stopGlide; self.kick = kick; self.vh = vh; self.ease = ease;
+    return self;
+  }
+
+  /* One media stage. Both sections crossfade the same way: the incoming layer rises into place
+     while the outgoing one carries on out the way you are travelling, and .is-up flips that axis
+     when you scroll back up. .ts-no-anim kills the transition for one frame while the resting
+     offsets flip, so nothing visibly jumps across the frame at the changeover. Layers are matched
+     by data-i rather than by position, so they stay correct if the blocks are ever reordered. */
+  function tsStage(stage, dots, layers, onSet) {
+    var active = -1;
+    function setDir(up) {
+      if (!stage || stage.classList.contains('is-up') === up) return;
+      stage.classList.add('ts-no-anim');
+      stage.classList.toggle('is-up', up);
+      void stage.offsetWidth;                      // flush the new offsets before re-enabling
+      stage.classList.remove('ts-no-anim');
+    }
+    return {
+      index: function () { return active; },
+      set: function (i) {
+        if (i === active) return;
+        if (onSet) onSet(i, active);
+        setDir(i < active);
+        dots.forEach(function (d, di) { d.classList.toggle('is-active', di === i); });
+        layers.forEach(function (l) {
+          var li = parseInt(l.getAttribute('data-i'), 10) || 0;
+          if (li === i) { l.classList.remove('is-leaving'); l.classList.add('is-active'); }
+          else if (l.classList.contains('is-active')) {
+            // send the outgoing layer onward, then park it back for its next turn
+            l.classList.remove('is-active'); l.classList.add('is-leaving');
+            setTimeout(function () {
+              if (!l.classList.contains('is-active')) l.classList.remove('is-leaving');
+            }, 1100);
+          }
+        });
+        active = i;
+      }
+    };
+  }
+
+  /* RGB deep dive. The three raw captures splay apart, draw together as you scroll, then the real
+     converted frame crossfades in and the panel slides left while the copy scrolls past it on the
+     right. The merge runs on its own clock; everything else is scroll-linked. */
+  (function () {
+    document.querySelectorAll('.tonescan-landing .ts-hdive__pin').forEach(function (pin) {
+      var rgb    = pin.querySelector('.ts-rgb');
+      var stg    = pin.querySelector('.ts-rgb__stage');
+      var panels = Array.prototype.slice.call(pin.querySelectorAll('.ts-hdive__panel'));
+      var layers = stg ? Array.prototype.slice.call(stg.querySelectorAll('[data-i]')) : [];
+      var dots   = Array.prototype.slice.call(pin.querySelectorAll('.ts-hdive__dot'));
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        if (rgb) { rgb.style.setProperty('--s', 0); rgb.classList.add('is-converted', 'is-played'); }
+        pin.style.setProperty('--t', 1);
+        panels.forEach(function (p) { p.style.setProperty('--pv', 1); });
+        pin.classList.add('is-copy');
+        return;
+      }
+
+      var PLAY_MS  = 1700;   // the merge, on its own clock
+      var HOLD_MS  = 900;    // how long residual inertia is absorbed once it starts
+      var BEAT_MS  = 850;    // pause on the merged photo before moving to the copy
+      var SLIDE    = 0.7;    // fraction of a viewport the slide plays out over
+      var APPROACH = 0.72;   // and the pre-merge scrub
+
+      var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+      function vh() { return window.innerHeight || document.documentElement.clientHeight; }
+      function midOffset() {
+        var h = document.querySelector('header');
+        var hh = h ? h.getBoundingClientRect().height : 0;
+        return hh + (vh() - hh) / 2;
+      }
+
+      // rest positions, in document coordinates: the merged photo, then each copy block
+      function mergeRest() { return window.pageYOffset + pin.getBoundingClientRect().top; }
+      function panelRest(i) {
+        var r = panels[i].getBoundingClientRect();
+        return window.pageYOffset + r.top + r.height / 2 - midOffset();
+      }
+      function rests() {
+        var out = [mergeRest()];
+        for (var i = 0; i < panels.length; i++) out.push(panelRest(i));
+        return out;
+      }
+
+      var media = tsStage(stg, dots, layers, function (i) {
+        if (stg) { stg.classList.add('is-rot'); stg.classList.toggle('is-shot', i > 0); }
+      });
+
+      var played = false, playing = false, playT0 = 0, holdY = 0, holding = false;
+      var t = 0, tTarget = 0;
+
+      function startPlay() {
+        if (played || playing) return;
+        playing = true; playT0 = performance.now(); holdY = window.pageYOffset; holding = true;
+        setTimeout(function () { holding = false; }, HOLD_MS);
+        rig.kick();
+      }
+
+      function render(r, H, now) {
+        if (playing) {
+          if (holding && Math.abs(window.pageYOffset - holdY) > 1) {
+            try { window.scrollTo({ top: holdY, behavior: 'instant' }); } catch (e) { window.scrollTo(0, holdY); }
+          }
+          var k = Math.min(1, (now - playT0) / PLAY_MS), e = 1 - Math.pow(1 - k, 3);
+          if (rgb) {
+            rgb.style.setProperty('--s', (1 - e).toFixed(3));
+            rgb.classList.toggle('is-converted', k >= 1);
+          }
+          if (k >= 1) {
+            playing = false; played = true; holding = false;
+            if (rgb) rgb.classList.add('is-played');
+            setTimeout(rig.settle, BEAT_MS);        // a beat on the merged photo, then move on
+          }
+        } else if (rgb) {
+          // Scroll-linked whenever the timed run is not driving it, so scrubbing back up
+          // separates the channels again rather than leaving the photo stuck merged.
+          var q = clamp(1 - (mergeRest() - window.pageYOffset) / (H * APPROACH));
+          rgb.style.setProperty('--s', (1 - Math.pow(q, 3)).toFixed(3));
+          rgb.classList.toggle('is-converted', q >= 0.985);
+        }
+
+        // The slide was once gated on the timed run having finished, but that run only starts if
+        // you stop in the zone, so scrolling straight through left the section dead. Reaching the
+        // rest position counts as merged too; the scrub has already played it out by then.
+        if (!played && !playing && r.top <= 0) {
+          played = true;
+          if (rgb) rgb.classList.add('is-played');
+        }
+
+        tTarget = played ? rig.ease(clamp(-r.top / (H * SLIDE))) : 0;
+        var gap = Math.abs(tTarget - t);
+        t += (tTarget - t) * (gap > 0.25 ? 0.34 : 0.14);
+        if (Math.abs(tTarget - t) < 0.0005) t = tTarget;
+        pin.style.setProperty('--t', t.toFixed(4));
+
+        var gate = clamp((t - 0.5) / 0.4);
+        pin.classList.toggle('is-copy', gate > 0);
+        var best = -1, bestD = Infinity;
+        panels.forEach(function (p, i) {
+          var pr = p.getBoundingClientRect();
+          var d = Math.abs((pr.top + pr.height / 2) - H / 2) / H;
+          if (d < bestD) { bestD = d; best = i; }
+          var pv = gate <= 0 ? 0 : clamp((0.62 - d) / 0.36) * gate;
+          p.style.setProperty('--pv', (pv * pv * (3 - 2 * pv)).toFixed(3));
+        });
+        if (gate > 0 && best >= 0 && bestD < 0.3) media.set(best);
+
+        // While the merge is still scrubbing, the section is back at its opening state. The active
+        // index used to keep whatever block it last showed, so is-shot stayed on, the channels
+        // stayed hidden and the frame was not the active layer: entering the section a second time
+        // rendered nothing at all but the glow.
+        var conv = !rgb || rgb.classList.contains('is-converted');
+        if (!conv && media.index() !== 0) media.set(0);
+
+        // Glow follows the copy: all three channels while the merge is still on screen, then red,
+        // green, blue as each block comes up. Driven off the same index as the dots.
+        var ai = media.index();
+        var ch = (gate > 0 && ai >= 0) ? ['r', 'g', 'b'][ai] : null;
+        pin.classList.toggle('is-ch-r', ch === 'r');
+        pin.classList.toggle('is-ch-g', ch === 'g');
+        pin.classList.toggle('is-ch-b', ch === 'b');
+
+        return Math.abs(tTarget - t) > 0.0005 || playing;
+      }
+
+      var rig = tsPinRig({
+        el: pin,
+        rests: rests,
+        frame: render,
+        busy: function () { return playing; },
+        onInput: function () { holding = false; },
+        beforeSettle: function (r, H, settleSoon) {
+          if (played) return false;
+          if (Math.abs(r.top) < H * 0.45) startPlay();   // settled in the zone: run it
+          else settleSoon(400);                          // in view but short of the zone
+          return true;
+        },
+        // all[0] is the merged photo. Once the merge has played that is a place to pass through,
+        // not to stop: a static photo with no copy and nothing prompting you onward, which is
+        // exactly the state you can get stuck in. Resolve it to the first copy block instead, and
+        // only when actually on or past it, so scrolling up out of the section is not pushed back.
+        resolve: function (ti, all, r, H) {
+          return (ti === 0 && all.length > 1 && r.top <= H * 0.1) ? 1 : ti;
+        }
+      });
+
+      dots.forEach(function (d, di) {
+        d.addEventListener('click', function () { rig.glide(panelRest(di), 900); });
+      });
+
+      rig.kick();
+      setTimeout(rig.settle, 700);
+    });
   })();
 
   /* secondary feature list — one category open at a time; clicking the open one closes it */
@@ -282,262 +439,6 @@ function tsInit() {
     });
   })();
 
-  /* RGB pinned region. Once the merge has played, --t drives the panel left. It is eased and
-     then damped towards its target every frame, so a fast flick still arrives smoothly instead
-     of snapping across. The copy blocks follow it in, and from block three onwards the frame's
-     contents swap for a screenshot, with the dot rail tracking whichever block is centred. */
-  (function () {
-    var pins = document.querySelectorAll('.tonescan-landing .ts-hdive__pin');
-    if (!pins.length) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
-    var ease = function (v) { return v < 0.5 ? 4 * v * v * v : 1 - Math.pow(-2 * v + 2, 3) / 2; };
-
-    pins.forEach(function (pin) {
-      var stage = pin.querySelector('.ts-rgb__stage');
-      var rgb = pin.querySelector('.ts-rgb');
-      var panels = pin.querySelectorAll('.ts-hdive__panel');
-      var shots = stage ? stage.querySelectorAll('[data-i]') : [];
-      var dots = pin.querySelectorAll('.ts-hdive__dot');
-      var cur = 0, target = 0, active = -1, running = false, wantsIntro = false;
-      var lastY = window.pageYOffset, snapped = false, snapping = false, abort = false, snapStart = 0;
-      var isMerged = false, pinTop = 1e6, lastScrollAt = Date.now(), IDLE_MS = 4000;
-      // The merge finishing is its own cue, so it gets its own short beat rather than falling
-      // through to the 4s "nothing is happening" timer. That timer also could not start until
-      // the play-hold stopped emitting scroll events, so the real wait was the hold plus four
-      // seconds: long enough to read as the section having stalled.
-      var mergedAt = 0, POST_MERGE_MS = 850;
-      window.addEventListener('scroll', function () { if (!snapping) lastScrollAt = Date.now(); }, { passive: true });
-
-      // once the panel is part-way left, pull the first copy block into the middle so the
-      // section title lands in place instead of drifting past. Downward scroll only, once,
-      // and never while the reader is flicking through at speed.
-      function snapToFirst(slow) {
-        var panel = panels[0];
-        if (!panel) return;
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var pr = panel.getBoundingClientRect();
-        var from = window.pageYOffset;
-        var to = from + pr.top + pr.height / 2 - midOffset();
-        // forward only. Scrolled past the section and slowed down, this used to haul the
-        // reader back up to the first copy block, which is the one thing a snap must not do.
-        if (to - from < 8) { snapped = true; return; }
-        // 620ms was fine for a nudge but this move is most of a viewport. Scale with the
-        // distance, and take it slower still when nothing prompted it but the idle timer.
-        var dist = Math.abs(to - from);
-        var dur = Math.min(2200, 900 + dist * 1.1);
-        if (slow) dur = Math.min(3200, dur * 1.5);
-        var t0 = 0;
-        snapping = true; abort = false; snapStart = Date.now();
-        function step(now) {
-          if (!t0) t0 = now;
-          if (abort) { snapping = false; return; }
-          var k = Math.min(1, (now - t0) / dur);
-          var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
-          window.scrollTo({ top: from + (to - from) * e, behavior: 'instant' });
-          if (k < 1) requestAnimationFrame(step); else { snapping = false; snapped = true; }
-        }
-        requestAnimationFrame(step);
-      }
-      // No wheel abort: trackpad inertia keeps firing wheel events for a second or more after
-      // the gesture ends, which cancelled the snap every time. 620ms is short enough to ride out.
-      function takeOver() { if (snapping) { abort = true; snapped = true; } }
-      ['touchstart', 'keydown'].forEach(function (ev) {
-        window.addEventListener(ev, takeOver, { passive: true });
-      });
-
-      // flip the entry/exit axis without animating the resting layers across the frame
-      function setDir(up) {
-        if (!stage || stage.classList.contains('is-up') === up) return;
-        stage.classList.add('ts-no-anim');
-        stage.classList.toggle('is-up', up);
-        void stage.offsetWidth;                 // flush the new offsets before re-enabling
-        stage.classList.remove('ts-no-anim');
-      }
-
-      function setActive(i) {
-        if (i === active) return;
-        if (stage) {
-          stage.classList.add('is-rot');
-          stage.classList.toggle('is-shot', i > 0);   // channels only hide behind a screenshot
-        }
-        setDir(i < active);                     // moving to an earlier block = scrolling up
-        dots.forEach(function (d, di) { d.classList.toggle('is-active', di === i); });
-        Array.prototype.forEach.call(shots, function (sh) {
-          var si = parseInt(sh.getAttribute('data-i'), 10) || 0;
-          if (si === i) {
-            sh.classList.remove('is-leaving');
-            sh.classList.add('is-active');
-          } else if (sh.classList.contains('is-active')) {
-            // send the outgoing layer away, then park it back on the entry side for next time
-            sh.classList.remove('is-active');
-            sh.classList.add('is-leaving');
-            setTimeout(function () {
-              if (!sh.classList.contains('is-active')) sh.classList.remove('is-leaving');
-            }, 1100);
-          }
-        });
-        active = i;
-      }
-
-      function measure() {
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var r = pin.getBoundingClientRect();
-        var merged = !rgb || rgb.classList.contains('is-played');
-        if (merged && !isMerged) mergedAt = Date.now();      // note the moment it lands
-        isMerged = merged; pinTop = r.top;
-        target = merged ? ease(clamp(-r.top / (vh * 0.7))) : 0;
-
-        var y = window.pageYOffset;
-        var speed = Math.abs(y - lastY);
-        var down = y > lastY;
-        if (y !== lastY) dirY = down ? 1 : -1;   // BEFORE lastY is reassigned, or it never fires
-        lastY = y;
-
-        // Re-arm on the way out. snapped used to latch for the life of the page, so the
-        // section advanced itself once and never again: come back and it would sit merged
-        // forever with nothing to move it on.
-        if (r.bottom < -vh * 0.5 || r.top > vh * 1.5) { snapped = false; }
-
-        // armed here, fired from the idle timer once scrolling has actually stopped
-        wantsIntro = (!snapped && !snapping && merged && dirY === 1 && cur >= 0.3);
-
-        var gate = clamp((cur - 0.5) / 0.4);
-        pin.classList.toggle('is-copy', gate > 0);
-        var best = -1, bestD = Infinity;
-        panels.forEach(function (panel, i) {
-          var pr = panel.getBoundingClientRect();
-          var d = Math.abs((pr.top + pr.height / 2) - vh / 2) / vh;
-          if (d < bestD) { bestD = d; best = i; }
-          // 0.62/0.36 so neighbours overlap at the midpoint instead of both landing on zero
-          var pv = gate <= 0 ? 0 : clamp((0.62 - d) / 0.36) * gate;
-          panel.style.setProperty('--pv', (pv * pv * (3 - 2 * pv)).toFixed(3));
-        });
-        if (gate > 0 && best >= 0 && bestD < 0.3) setActive(best);
-        return r.bottom > -200 && r.top < vh + 200;
-      }
-
-      function frame() {
-        var onScreen = measure();
-        // 0.14 is a nice settle for browsing speed, but it lags badly behind a fast scroll,
-        // which read as the section dragging. Close the gap quicker when it is wide.
-        var gap = Math.abs(target - cur);
-        cur += (target - cur) * (gap > 0.25 ? 0.34 : 0.14);
-        if (Math.abs(target - cur) < 0.0005) cur = target;
-        pin.style.setProperty('--t', cur.toFixed(4));
-        if (onScreen || Math.abs(target - cur) > 0.0005) {
-          requestAnimationFrame(frame);
-        } else {
-          running = false;
-        }
-      }
-      function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
-
-      // Gentle per-block snap, same idea as the workflow story: once scrolling settles, centre
-      // whichever copy block is nearest, so the section can't be left parked between two.
-      var blockTimer = null, suppressUntil = 0, blockRaf = null, dirY = 1;
-      function centreOf(el) { var r = el.getBoundingClientRect(); return window.pageYOffset + r.top + r.height / 2; }
-      // the sticky header covers the top of the viewport, so the optical middle sits below it
-      function midOffset() {
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var h = document.querySelector('header');
-        var hh = h ? h.getBoundingClientRect().height : 0;
-        return hh + (vh - hh) / 2;
-      }
-      function cancelBlockSnap() { if (blockRaf) { cancelAnimationFrame(blockRaf); blockRaf = null; } suppressUntil = 0; }
-      function glideBlock(targetY, duration) {
-        cancelBlockSnap();
-        var startY = window.pageYOffset, delta = targetY - startY;
-        if (Math.abs(delta) < 2) return;
-        var t0 = performance.now();
-        suppressUntil = Date.now() + duration + 250;
-        (function step(now) {
-          var k = Math.min(1, (now - t0) / duration);
-          var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
-          try { window.scrollTo({ top: startY + delta * e, behavior: 'instant' }); }
-          catch (err) { window.scrollTo(0, startY + delta * e); }
-          blockRaf = k < 1 ? requestAnimationFrame(step) : null;
-        })(t0);
-      }
-      function maybeSnapBlock() {
-        if (snapping) return;
-        if (Date.now() < suppressUntil) return;
-
-        // The intro advance, now that scrolling has settled rather than mid-gesture.
-        if (wantsIntro && !snapped) { wantsIntro = false; snapToFirst(); return; }
-
-        // Between "merged" and "copy showing" nothing owned the scroll, so this stretch could
-        // be parked in forever. Resolve it to whichever end the reader was heading for.
-        if (!snapped && isMerged && cur > 0.04 && cur < 0.96 && dirY === 1) {
-          snapToFirst();
-          return;
-        }
-        if (!snapped) return;                        // the intro snap owns the scroll until it has run
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var mid = window.pageYOffset + midOffset(), bi = -1, best = Infinity;
-        panels.forEach(function (pnl, pi) {
-          var d = Math.abs(centreOf(pnl) - mid);
-          if (d < best) { best = d; bi = pi; }
-        });
-        // 0.6, not 0.45: blocks are a viewport apart, so the midpoint is 0.5vh from both
-        // neighbours and the old cut-off rejected precisely the state worth rescuing.
-        if (bi < 0 || best < 24 || best > vh * 0.6) return;
-        if (!pin.classList.contains('is-copy')) return;   // never during the merge
-        // never drag the reader back against the way they were going: take the next block instead
-        var target = centreOf(panels[bi]);
-        if ((target - window.pageYOffset > 0 ? 1 : -1) !== dirY) {
-          var alt = bi + dirY;
-          if (!panels[alt]) return;
-          target = centreOf(panels[alt]);
-        }
-        // Never travel backwards. Being dragged back into a section you just left is the single
-        // worst thing a scroll snap can do, and it also re-runs the merge scrub on the way in,
-        // which is what made the animation look like it was resetting itself.
-        if (dirY === 1 && target - midOffset() < window.pageYOffset - 4) return;
-        if (dirY === -1 && target - midOffset() > window.pageYOffset + 4) return;
-        glideBlock(target - midOffset(), 1150);
-      }
-      // Any real input wins, and unlike the intro snap that includes the wheel: this one is a
-      // gentle settle, so trackpad momentum should defer it rather than be ridden out. Same
-      // 240ms idle as the workflow story, so it only engages once scrolling has actually stopped.
-      ['touchstart', 'keydown', 'pointerdown', 'wheel'].forEach(function (ev) {
-        window.addEventListener(ev, cancelBlockSnap, { passive: true });
-      });
-      window.addEventListener('scroll', function () {
-        clearTimeout(blockTimer);
-        blockTimer = setTimeout(maybeSnapBlock, 240);
-      }, { passive: true });
-
-      // parked on the finished merge with nothing happening: after four still seconds, move
-      // the reader on to the copy rather than leaving them looking at a static photo
-      setInterval(function () {
-        if (snapped || snapping || !isMerged) return;
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        if (cur > 0.05 || Math.abs(pinTop) > vh * 0.25) return;
-        // just merged and sitting still: move on promptly. Otherwise fall back to the long
-        // idle, which exists for someone who wandered off rather than someone who just watched it.
-        var quiet = Date.now() - lastScrollAt;
-        var since = mergedAt ? Date.now() - mergedAt : 0;
-        if (mergedAt && since > POST_MERGE_MS && quiet > 300) { snapToFirst(); return; }
-        if (quiet < IDLE_MS) return;
-        snapToFirst(true);
-      }, 150);
-
-      dots.forEach(function (d, di) {
-        d.addEventListener('click', function () {
-          var panel = panels[di];
-          if (!panel) return;
-          var pr = panel.getBoundingClientRect();
-          glideBlock(window.pageYOffset + pr.top + pr.height / 2 - midOffset(), 1150);
-        });
-      });
-
-      window.addEventListener('scroll', kick, { passive: true });
-      window.addEventListener('resize', kick, { passive: true });
-      kick();
-    });
-  })();
-
   /* Conversion strip. Both layers are identical and are driven by one offset, so they stay
      locked together; the conversion is done entirely by their complementary CSS masks. Motion
      is deliberately stepped rather than continuous: settle, slide one frame, settle. */
@@ -556,6 +457,7 @@ function tsInit() {
     var dot = null;
     var cutPx = 0;                             // --cut in px, refreshed by centreLead
     var mvX = 0, mvY = 0, mvTouch = false, rafId = 0;
+    var viewerOpen = false;                    // the strip holds still while a frame is open
 
     function each(fn) { Array.prototype.forEach.call(tracks, fn); }
     function firstItem() { return tracks[0].querySelector('.ts-conv__item'); }
@@ -705,7 +607,7 @@ function tsInit() {
       running = true;
       while (running) { await wait(SETTLE_MS); await slide(); }
     }
-    function start() { if (!running && !dragging && !reduce.matches) { centreLead(); loop(); } }
+    function start() { if (!running && !dragging && !viewerOpen && !reduce.matches) { centreLead(); loop(); } }
     function stop() { running = false; gen++; clearTimeout(timer); }
 
     // ---- free drag -------------------------------------------------------------------------
@@ -835,6 +737,162 @@ function tsInit() {
       });
     }
 
+    // ---- click a converted frame to open it full screen ---------------------------------------
+    // Only the converted side is clickable: left of the changeover the frame is still a negative,
+    // and blowing that up would be showing the reader the problem rather than the picture. The
+    // masks that split the two sides do NOT clip hit testing, so which side a click landed on has
+    // to come from the geometry, not from the event target.
+    //
+    // PhotoSwipe is already loaded for the scan gallery and its zoom-from-thumbnail animation is
+    // exactly the "grow out of the strip" behaviour wanted here, so the clicked frame is handed
+    // over as the thumb rather than any of this being animated by hand.
+    var posLayer = wrap.querySelector('.ts-conv__layer--pos');
+    var downCX = 0, downCY = 0;
+    wrap.addEventListener('pointerdown', function (e) { downCX = e.clientX; downCY = e.clientY; });
+
+    // The strip tiles a small pool of photos across every frame, so the same picture is on screen
+    // several times over. Collapse them by source, or the viewer pages through five copies of one
+    // shot, which is the bug the gallery's JSON dataSource exists to avoid.
+    function collectFrames() {
+      var seen = {}, slides = [], els = [], map = new Map();
+      posLayer.querySelectorAll('.ts-conv__item').forEach(function (fig) {
+        var img = fig.querySelector('.ts-conv__win img');
+        if (!img) return;
+        var full = img.getAttribute('data-full') || img.currentSrc || img.src;
+        if (!full) return;
+        if (seen[full] === undefined) {
+          seen[full] = slides.length;
+          // naturalWidth is density-corrected when srcset uses x descriptors, so it lies here;
+          // the markup carries the real size of the full-size file instead
+          slides.push({ src: full,
+                        // The strip's own 440px file, shown scaled up for the whole zoom and
+                        // swapped for the full-size one only once that has finished loading.
+                        // Without it the viewer opens on nothing and the picture flicks in.
+                        msrc: img.currentSrc || img.src,
+                        width:  parseInt(img.getAttribute('data-fw'), 10) || img.naturalWidth,
+                        height: parseInt(img.getAttribute('data-fh'), 10) || img.naturalHeight,
+                        // Only matters for scans that are not 3:2; the gate itself is 36 x 24 now,
+                        // so a 3:2 photo fills it exactly and nothing is cropped.
+                        thumbCropped: true });
+          els.push(fig.querySelector('.ts-conv__win') || fig);
+        }
+        map.set(fig, seen[full]);
+      });
+      return { slides: slides, els: els, map: map };
+    }
+
+    function openViewer(fig) {
+      if (viewerOpen) return;
+      if (typeof PhotoSwipeLightbox === 'undefined' || typeof PhotoSwipe === 'undefined') return;
+      var data = collectFrames();
+      var idx = data.map.get(fig);
+      if (idx === undefined || !data.slides.length) return;
+      // grow out of the frame actually clicked, not whichever copy of it was collected first
+      data.els[idx] = fig.querySelector('.ts-conv__win') || fig;
+
+      viewerOpen = true;
+      stop();
+      // Park on what is painted rather than on the transition's target, so the frame is still
+      // where the reader clicked it when the viewer animates back into it on close.
+      offset = paintedOffset();
+      each(function (t) { t.style.transition = 'none'; });
+      apply();
+
+      var lb = new PhotoSwipeLightbox({
+        dataSource: data.slides,
+        pswpModule: PhotoSwipe,
+        loop: true,
+        zoom: true,
+        wheelToZoom: true,
+        showHideAnimationType: 'zoom',
+        bgOpacity: 0.96,
+        padding: { top: 24, bottom: 24, left: 24, right: 24 }
+      });
+      // with an array dataSource PhotoSwipe has no thumbnail to work from, so point it at ours
+      lb.addFilter('thumbEl', function (el, slideData, i) { return data.els[i] || el; });
+      // The frame the reader clicked is emptied while the viewer is up, so the picture reads as
+      // having been lifted off the strip rather than copied from it: the gate is left showing bare
+      // film. Hidden as the zoom begins and put back only once the closing animation has landed
+      // the image back in the gate, so neither end of the trip shows two of the same photo.
+      var liftedImg = fig.querySelector('.ts-conv__win img');
+      // firstUpdate fires before the zoom has painted anything, so hiding there emptied the gate
+      // for a frame or two before the rising image appeared: that gap was the flicker. Wait for
+      // the animation to start AND for one frame to land, so the picture is already covering the
+      // gate at the moment the original underneath it goes.
+      lb.on('openingAnimationStart', function () {
+        // Two frames, not one: openingAnimationStart fires before the rising image has been laid
+        // out, so a single rAF can still empty the gate in a paint where nothing covers it. That
+        // was the black flash. The cost is one extra frame of the original sitting underneath a
+        // picture that exactly covers it, which is invisible.
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            if (liftedImg) liftedImg.style.visibility = 'hidden';
+          });
+        });
+      });
+      lb.on('destroy', function () {
+        if (liftedImg) liftedImg.style.visibility = '';
+        viewerOpen = false;
+        start();
+      });
+      lb.init();
+      lb.loadAndOpen(idx);
+    }
+
+    // Fetch the full-size file while the pointer is still hovering, so the viewer has it decoded
+    // by the time it opens. Only the converted side, and each file only once.
+    var prefetched = {};
+    function prefetchAt(x, y) {
+      if (!posLayer || !cutPx) return;
+      if (x - wrap.getBoundingClientRect().left < cutPx) return;
+      var hits = document.elementsFromPoint(x, y);
+      for (var i = 0; i < hits.length; i++) {
+        var f = hits[i].closest ? hits[i].closest('.ts-conv__item') : null;
+        if (!f || !posLayer.contains(f)) continue;
+        var im = f.querySelector('.ts-conv__win img');
+        var full = im && im.getAttribute('data-full');
+        if (!full || prefetched[full]) return;
+        prefetched[full] = 1;
+        var pre = new Image();
+        pre.decoding = 'async';
+        pre.src = full;
+        return;
+      }
+    }
+    // Only after the pointer has settled on one frame. Firing per move meant sweeping the strip
+    // queued a full-size file for every frame crossed, which is nothing at 1000px originals and
+    // tens of megabytes once real scans are uploaded. Also respects Data Saver.
+    var hoverTimer = null, hoverFrame = null;
+    wrap.addEventListener('pointermove', function (e) {
+      if (e.pointerType === 'touch' || dragging || viewerOpen) return;
+      var conn = navigator.connection;
+      if (conn && conn.saveData) return;
+      var x = e.clientX, y = e.clientY;
+      var f = null, hits = document.elementsFromPoint(x, y);
+      for (var i = 0; i < hits.length; i++) {
+        var c = hits[i].closest ? hits[i].closest('.ts-conv__item') : null;
+        if (c && posLayer && posLayer.contains(c)) { f = c; break; }
+      }
+      if (f === hoverFrame) return;                 // still on the same frame, timer already set
+      hoverFrame = f;
+      clearTimeout(hoverTimer);
+      if (!f) return;
+      hoverTimer = setTimeout(function () { prefetchAt(x, y); }, 140);
+    }, { passive: true });
+
+    wrap.addEventListener('click', function (e) {
+      if (!posLayer || !cutPx) return;
+      // releasing a drag also fires a click; only a release that stayed put is a click on a photo
+      if (Math.abs(e.clientX - downCX) > 6 || Math.abs(e.clientY - downCY) > 6) return;
+      if (e.clientX - wrap.getBoundingClientRect().left < cutPx) return;
+      // the negative layer sits above the positive one, so walk the whole hit stack
+      var hits = document.elementsFromPoint(e.clientX, e.clientY);
+      for (var i = 0; i < hits.length; i++) {
+        var f = hits[i].closest ? hits[i].closest('.ts-conv__item') : null;
+        if (f && posLayer.contains(f)) { openViewer(f); return; }
+      }
+    });
+
     // Warm every frame two viewports out so nothing pops in on a cold cache. The files are
     // already in the markup; this just makes sure the fetch has happened before they matter.
     var warmed = false;
@@ -890,174 +948,60 @@ function tsInit() {
     });
   })();
 
-  /* workflow story, REVERSED: the scrolling TEXT panel that reaches the middle of the
-     viewport drives which pinned media shot is shown. Also drives --sp (0->1 progress through
-     the section) for the background blobs, so they keep moving between steps. */
+  /* Workflow story, REVERSED: the copy block that reaches the middle of the viewport drives which
+     pinned shot is shown, rather than the media driving the copy. Runs on the same rig as the RGB
+     section above. It used to carry its own snap, which had the direction filter and the missing
+     retry that were found and fixed there; sharing the rig means it cannot drift back out of step.
+     --sp is 0 -> 1 progress through the section, for the background blobs, so they keep drifting
+     while you are between two steps. */
   (function () {
     document.querySelectorAll('.tonescan-landing .ts-story-sec').forEach(function (sec) {
-      var panels = sec.querySelectorAll('.ts-story__panel');
-      var shots = sec.querySelectorAll('.ts-story__shot');
+      var panels = Array.prototype.slice.call(sec.querySelectorAll('.ts-story__panel'));
+      var shots  = Array.prototype.slice.call(sec.querySelectorAll('.ts-story__shot'));
       if (!panels.length || !shots.length) return;
 
-      var stage = sec.querySelector('.ts-story__stage');
-      var dots = sec.querySelectorAll('.ts-story__dot');
-      var prev = 0;
+      var dots  = Array.prototype.slice.call(sec.querySelectorAll('.ts-story__dot'));
+      var media = tsStage(sec.querySelector('.ts-story__stage'), dots, shots);
 
-      dots.forEach(function (d, di) {
-        d.addEventListener('click', function () {
-          var pnl = panels[di];
-          if (!pnl) return;
-          var el = pnl.querySelector('.ts-story__panelinner') || pnl;
-          var r = el.getBoundingClientRect();
-          var vh = window.innerHeight || document.documentElement.clientHeight;
-          glideTo(window.pageYOffset + r.top + r.height / 2 - vh / 2, 950);
-        });
-      });
-
-      // flip the entry/exit axis without animating the resting panels across the frame
-      function setDir(up) {
-        if (!stage || stage.classList.contains('is-up') === up) return;
-        stage.classList.add('ts-no-anim');
-        stage.classList.toggle('is-up', up);
-        void stage.offsetWidth;                 // flush the new offsets before re-enabling
-        stage.classList.remove('ts-no-anim');
-      }
-
-      if ('IntersectionObserver' in window) {
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (!e.isIntersecting) return;
-            var panel = e.target.closest('.ts-story__panel');
-            var i = parseInt(panel && panel.getAttribute('data-i'), 10) || 0;
-            if (i === prev) return;
-            setDir(i < prev);                   // moving to an earlier step = scrolling up
-            prev = i;
-            dots.forEach(function (d, di) { d.classList.toggle('is-active', di === i); });
-            shots.forEach(function (s, si) {
-              if (si === i) {
-                s.classList.remove('is-leaving');
-                s.classList.add('is-active');
-              } else if (s.classList.contains('is-active')) {
-                // send the outgoing shot upward, then park it back below for its next turn
-                s.classList.remove('is-active');
-                s.classList.add('is-leaving');
-                setTimeout(function () {
-                  if (!s.classList.contains('is-active')) s.classList.remove('is-leaving');
-                }, 1100);
-              }
-            });
-          });
-        // Zero-height band across the middle of the viewport. We observe the TEXT block, not
-        // the 100vh panel, so the media swaps exactly as that step's copy hits centre screen.
-        }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
-        panels.forEach(function (pnl) {
-          io.observe(pnl.querySelector('.ts-story__panelinner') || pnl);
-        });
-      }
-
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      // Snap the nearest step to centre once scrolling settles, so the section can't be left
-      // parked halfway between two slides. Deliberately JS-on-idle rather than CSS
-      // scroll-snap: scroll-snap-type has to go on the scroll container (html) and would
-      // then tug at every other section on the page.
-      var snapTimer, suppressSnapUntil = 0, snapRaf = null;
-      var lastDir = 1, lastY = window.pageYOffset;
-
-      // scrollIntoView({behavior:'smooth'}) uses the browser's own timing, which lands hard.
-      // Animate it ourselves so the section eases into place instead of yanking.
-      function easeInOutCubic(t) {
-        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      }
-      function cancelSnap() {
-        if (snapRaf) { cancelAnimationFrame(snapRaf); snapRaf = null; }
-        // let a fresh snap engage once the user stops, instead of staying locked out
-        suppressSnapUntil = 0;
-      }
-      function glideTo(targetY, duration) {
-        cancelSnap();
-        var startY = window.pageYOffset;
-        var delta = targetY - startY;
-        if (Math.abs(delta) < 2) return;
-        var t0 = performance.now();
-        suppressSnapUntil = Date.now() + duration + 250;
-        (function step(now) {
-          var t = Math.min(1, (now - t0) / duration);
-          var y = startY + delta * easeInOutCubic(t);
-          try { window.scrollTo({ top: y, behavior: 'instant' }); }
-          catch (err) { window.scrollTo(0, y); }
-          snapRaf = t < 1 ? requestAnimationFrame(step) : null;
-        })(t0);
-      }
-      // any real input wins over an in-flight snap
-      ['touchstart', 'keydown', 'pointerdown'].forEach(function (evt) {
-        window.addEventListener(evt, cancelSnap, { passive: true });
-      });
-
-      // Damping. Each step is a full viewport tall, so one flick of a notched mouse wheel can
-      // clear a whole panel and land past the next step. Scale those big discrete jumps down
-      // while the section is on screen. Trackpads (deltaMode 0, many small deltas with their
-      // own momentum) are left alone on purpose, clamping those just feels laggy.
-      // Wheel damping removed. It was registered { passive: false } so it could preventDefault,
-      // which means every wheel event had to round-trip through the main thread before the
-      // compositor was allowed to scroll. With the rAF drivers already busy there, that alone
-      // produced the stutter, whichever way you scrolled and however early the handler bailed.
-      // The snap below already stops a flick leaving you between panels, so the damping was
-      // solving a problem that was handled anyway. This listener is passive and only cancels
-      // an in-flight snap, so input always wins.
-      window.addEventListener('wheel', cancelSnap, { passive: true });
-
-      function centreOf(pnl) {
-        var el = pnl.querySelector('.ts-story__panelinner') || pnl;
-        var r = el.getBoundingClientRect();
+      // Measure the copy, not the panel. On desktop they share a centre, but on mobile the panel
+      // carries its own poster above the text and centring the box would push the words off.
+      function inner(p) { return p.querySelector('.ts-story__panelinner') || p; }
+      function centreOf(i) {
+        var r = inner(panels[i]).getBoundingClientRect();
         return window.pageYOffset + r.top + r.height / 2;
       }
+      // Plain viewport centre, not the area below the header: these blocks are a full viewport
+      // tall, so there is already room above the copy. The RGB section allows for the header
+      // because its copy column starts hard against the top of the pinned region.
+      function vh() { return window.innerHeight || document.documentElement.clientHeight; }
+      function restOf(i) { return centreOf(i) - vh() / 2; }
 
-      function maybeSnap() {
-        if (Date.now() < suppressSnapUntil) return;
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var mid = window.pageYOffset + vh / 2;
-        var bi = -1, bestDist = Infinity;
-        panels.forEach(function (pnl, pi) {
-          var d = Math.abs(centreOf(pnl) - mid);
-          if (d < bestDist) { bestDist = d; bi = pi; }
-        });
-        // close enough already, or we're outside the section, leave the scroll alone
-        if (bi < 0 || bestDist < 24 || bestDist > vh * 0.45) return;
+      var rig = tsPinRig({
+        el: sec,
+        // no snapping under reduced motion; the shots still swap, the page is just never moved
+        snap: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+        rests: function () { return panels.map(function (p, i) { return restOf(i); }); },
+        frame: function (r, H) {
+          // 0 as the section's top reaches the bottom of the screen, 1 as its bottom leaves the top
+          var sp = (H - r.top) / (H + r.height);
+          sec.style.setProperty('--sp', (sp < 0 ? 0 : sp > 1 ? 1 : sp).toFixed(4));
 
-        // If snapping would drag the page back against the way the reader was going, take the
-        // next step in their direction instead. Being pulled backwards is the jarring part.
-        var target = centreOf(panels[bi]);
-        if ((target - window.pageYOffset > 0 ? 1 : -1) !== lastDir) {
-          var alt = bi + lastDir;
-          if (!panels[alt]) return;                  // at either end: leave it where it is
-          target = centreOf(panels[alt]);
+          var best = -1, bestD = Infinity;
+          panels.forEach(function (p, i) {
+            var pr = inner(p).getBoundingClientRect();
+            var d = Math.abs((pr.top + pr.height / 2) - H / 2);
+            if (d < bestD) { bestD = d; best = i; }
+          });
+          if (best >= 0) media.set(best);
+          return false;
         }
-        glideTo(target - vh / 2, 950);
-      }
+      });
 
-      var ticking = false;
-      function progress() {
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var r = sec.getBoundingClientRect();
-        // 0 as the section's top reaches the bottom of the screen, 1 as its bottom leaves the top
-        var sp = (vh - r.top) / (vh + r.height);
-        sec.style.setProperty('--sp', (sp < 0 ? 0 : sp > 1 ? 1 : sp).toFixed(4));
-        ticking = false;
-      }
-      function onScroll() {
-        var y = window.pageYOffset;
-        if (y !== lastY) { lastDir = y > lastY ? 1 : -1; lastY = y; }
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(progress);
-        }
-        clearTimeout(snapTimer);
-        snapTimer = setTimeout(maybeSnap, 240);
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', function () { clearTimeout(snapTimer); onScroll(); }, { passive: true });
-      progress();
+      dots.forEach(function (d, di) {
+        d.addEventListener('click', function () { rig.glide(restOf(di), 950); });
+      });
+
+      rig.kick();
     });
   })();
 
@@ -1230,6 +1174,51 @@ function tsInit() {
     var next = document.querySelector('.tonescan-landing .ts-hero-nav--next');
     if (prev) prev.addEventListener('click', function () { show(current - 1); });
     if (next) next.addEventListener('click', function () { show(current + 1); });
+
+    // Both arrows or neither. The split hero runs its media off the right-hand edge, so the
+    // next arrow ends up outside the viewport and only the prev one is left on screen, which
+    // reads as a broken control rather than a pair. Measured off the frame, not the buttons,
+    // so hiding them does not change the answer on the next pass.
+    function fitNav() {
+      if (!frame || !prev || !next) return;
+      var r = frame.getBoundingClientRect();
+      var vw = document.documentElement.clientWidth;
+      // prev sits at left:-56px, next at right:-56px, both 44px wide
+      var fits = r.left - 56 >= 0 && r.right + 56 <= vw;
+      frame.classList.toggle('has-no-nav', !fits);
+    }
+
+    // Centre the feature tabs under the screenshot rather than under the page, so the row reads as
+    // belonging to the image above it instead of floating under the whole layout. Only when it
+    // fits there: a row shoved against the window edge to stay centred looks worse than one
+    // centred on the page, so that case falls back. Split hero only, and only where it is actually
+    // two columns; the centred hero has nothing to line up against.
+    var tabrow = bar.querySelector('.ts-hero-tabs');
+    var split = document.querySelector('.tonescan-landing .ts-hero-split');
+    var TAB_GAP = 8, EDGE = 50;   // the row's own gap, and the air kept at the window edge
+    function fitTabs() {
+      if (!frame || !tabrow || !split || !tabs.length) return;
+      tabrow.style.paddingLeft = '';
+      tabrow.classList.remove('is-aligned');
+      if (!window.matchMedia('(min-width: 900px)').matches) return;
+      var vw = document.documentElement.clientWidth;
+      var rowL = tabrow.getBoundingClientRect().left;
+      var f = frame.getBoundingClientRect();
+      var natural = 0;
+      tabs.forEach(function (t, i) { natural += t.getBoundingClientRect().width + (i ? TAB_GAP : 0); });
+      // Centre on the VISIBLE part of the image. The frame deliberately runs off the right of the
+      // page, so centring on its full box would push the row half off screen with it.
+      var centre = (Math.max(f.left, 0) + Math.min(f.right, vw)) / 2;
+      var left = centre - natural / 2;
+      if (left >= rowL && left + natural <= vw - EDGE) {
+        tabrow.style.paddingLeft = (left - rowL) + 'px';
+        tabrow.classList.add('is-aligned');
+      }
+    }
+
+    function fit() { fitNav(); fitTabs(); }
+    fit();
+    window.addEventListener('resize', fit, { passive: true });
 
     // hold while the pointer is over the media, so it can't swap out from under a reader
     if (frame) {

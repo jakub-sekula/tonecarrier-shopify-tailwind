@@ -17,7 +17,7 @@
       centred header, one large screenshot on a glow, then a two-column detail grid beneath.
       The other three rows below stay side-by-side, which keeps this one clearly on top.
     {%- endcomment -%}
-    <section class="ts-hdive">
+    <section class="ts-hdive" id="rgb">
       {%- comment -%}
         Scroll-linked channel merge: the three raw captures splay apart, draw together as you
         scroll, then the real converted frame crossfades in. Driven by --s / .is-converted in
@@ -34,7 +34,9 @@
       <div class="ts-hdive__pin">
         <div class="ts-hdive__sticky">
           <div class="ts-hdive__stage">
-            <div class="ts-hdive__glow" aria-hidden="true"></div>
+            {%- comment -%} One layer per channel so they can fade independently as the copy
+               blocks go past. Three gradients on one element could not be animated apart. {%- endcomment -%}
+            <div class="ts-hdive__glow" aria-hidden="true"><i class="g-r"></i><i class="g-g"></i><i class="g-b"></i></div>
             <div class="ts-rgb">
               <div class="ts-rgb__stage">
                 <div class="ts-rgb__ch ts-rgb__ch--r"></div>
@@ -70,10 +72,9 @@
             <h2 class="ts-hdive__title ts-hdive__title--aside">RGB scanning made simple</h2>
             <p class="ts-hdive__sub ts-hdive__sub--aside">The way high-end lab scanners have always got their colour, now automatic on your own camera.</p>
 
-            <h3 class="ts-hdive__ptitle ts-hdive__ptitle--sub">The best colour a camera scan can give you</h3>
-            <p class="ts-hdive__lead">What you just watched is three separate exposures of one frame coming together. The negative was photographed once under red light, once under green and once under blue, and each of those exposures read a single dye layer of the film on its own.</p>
-            <p class="ts-hdive__lead">You did not line any of it up. toneScan Studio found the three frames sitting in your capture folder, recognised them as one shot, matched their exposure channel by channel and combined them into the finished picture.</p>
-            <p class="ts-hdive__lead">It is the same principle the best lab scanners have used for years, and until now it meant lab hardware. All it takes here is a folder of RAW files and a light source that can change colour.</p>
+            <h3 class="ts-hdive__ptitle ts-hdive__ptitle--sub">Three exposures, one frame</h3>
+            <p class="ts-hdive__lead">The negative is photographed three times, under red, green and blue light in turn. Each exposure reads a single dye layer on its own.</p>
+            <p class="ts-hdive__lead">You do not line anything up. toneScan Studio finds the three frames in your capture folder, matches them channel by channel and combines them.</p>
           </div>
 
           <div class="ts-hdive__panel">
@@ -84,7 +85,7 @@
 
           <div class="ts-hdive__panel">
             <h3 class="ts-hdive__ptitle">What you need to shoot it</h3>
-            <p class="ts-hdive__lead">Any digital camera and a light source that can give you red, green and blue separately. Monochrome sensors gain the most, since there is no colour filter array in the way at all.</p>
+            <p class="ts-hdive__lead">Any digital camera and a light source that can give you red, green and blue separately. Monochrome sensors work too.</p>
             <p class="ts-hdive__lead">A companion web app that turns your phone into the light source is on the way, so you will be able to try RGB with nothing more than the screen in your pocket.</p>
             <a class="ts-hdive__link" href="#signup">Try it in the beta <span aria-hidden="true">›</span></a>
           </div>

@@ -18,6 +18,9 @@
     .ts-conv-head h2, .ts-conv-head p {
       max-width: calc(var(--cut) - max(0px, (100vw - 1400px) / 2) - 50px - 56px); }
   }
+  /* That measure is wide, so the subheading was ending on a three-word orphan. Balance evens the
+     lines out without touching the width, which is tied to where the strip changes over. */
+  .ts-conv-head p { text-wrap: balance; }
 
   /* Shooting notes. Small and muted so it reads as a footnote, never as second-tier body copy.
      In flow under the CTA on phones; on desktop it moves into the converted column, which is
@@ -282,6 +285,12 @@
      sides bow slightly, blurred inside the SVG so the boundary is soft the way emulsion is.
      Masking the window exposes the track underneath, which carries the same --base colour, so
      the feathered edge resolves into the stock with no seam. Four gates, cycled per frame. */
+  /* Deliberately 36 x 25.706, not the 36 x 24 of a real full-frame image area. A true 24mm frame
+     leaves 1.353mm between the perforations and the picture, which reads as too much empty film;
+     this closes it to 0.5mm and keeps the perforations on spec and where they belong. The cost is
+     a 1.40:1 gate, so 3:2 photos are cover-cropped about 6.7% horizontally. That crop is only a
+     problem if something animates out of the gate believing it shows the whole photo, which is
+     why the viewer marks these thumbnails thumbCropped. */
   .ts-conv__win { position: absolute; left: 0; top: calc(4.647 * var(--mm));
     width: calc(36 * var(--mm)); height: calc(25.706 * var(--mm));
     overflow: hidden; display: block; background-color: var(--base);
@@ -814,12 +823,44 @@
   @media (min-width: 900px) { .ts-hdive__stage { padding: 0 50px; } }
   /* sits mostly ABOVE the frame, the frame is opaque, so only the part that clears its top
      edge is visible. Push it up and oversize it or the glow reads as nothing. */
-  .ts-hdive__glow { position: absolute; left: 50%; top: -190px; width: 92%; height: 420px; transform: translateX(-50%);
-    border-radius: 50%; filter: blur(100px); pointer-events: none;
-    background:
-      radial-gradient(44% 64% at 13% 55%, rgba(255,16,48,.85) 0%, transparent 70%),   /* R */
-      radial-gradient(56% 74% at 50% 58%, rgba(0,235,90,.78) 0%, transparent 72%),    /* G */
-      radial-gradient(44% 64% at 87% 55%, rgba(34,86,255,.92) 0%, transparent 70%); } /* B */
+  /* Bigger, and the blur moved off the parent onto each layer. With the blur on the parent,
+     animating the children forces the whole thing to be re-blurred every frame; per layer the
+     browser can rasterise each blurred blob once and just move it. */
+  /* Centred on the media rather than hanging above it, so the colour sits behind the photo
+     instead of forming a band over its head. .ts-hdive__stage .ts-rgb is already z-index 1,
+     so DOM order plus z-index 0 keeps this underneath. */
+  .ts-hdive__glow { position: absolute; left: 50%; top: 50%; z-index: 0;
+    width: 158%; height: 190%; min-height: 820px;
+    transform: translate(-50%, -50%); border-radius: 50%; pointer-events: none; }
+  /* One element per channel. As three gradients on a single background they could not be faded
+     apart, and animating a custom property inside rgba() needs @property to interpolate. */
+  .ts-hdive__glow i { position: absolute; inset: 0; border-radius: inherit; display: block;
+    opacity: 1; filter: blur(160px); will-change: transform;
+    background-repeat: no-repeat; background-size: 64% 94%;
+    transition: opacity .55s ease, background-position .7s ease; }
+  /* Three drifts on deliberately unrelated periods so they never fall into step. */
+  @keyframes ts-glow-a { 0%, 100% { transform: translate3d(-3%, -2%, 0) scale(1);    }
+                         50%      { transform: translate3d( 4%,  3%, 0) scale(1.09); } }
+  @keyframes ts-glow-b { 0%, 100% { transform: translate3d( 3%,  2%, 0) scale(1.06); }
+                         50%      { transform: translate3d(-4%, -3%, 0) scale(0.95); } }
+  @keyframes ts-glow-c { 0%, 100% { transform: translate3d( 0,   3%, 0) scale(0.97); }
+                         50%      { transform: translate3d( 2%, -4%, 0) scale(1.11); } }
+  .ts-hdive__glow .g-r { animation: ts-glow-a 19s ease-in-out infinite; }
+  .ts-hdive__glow .g-g { animation: ts-glow-b 23s ease-in-out infinite; }
+  .ts-hdive__glow .g-b { animation: ts-glow-c 29s ease-in-out infinite; }
+  .ts-hdive__glow .g-r { background-image: radial-gradient(closest-side, rgba(255,16,48,.62) 0%, rgba(255,16,48,.20) 44%, transparent 82%); background-position: 2% 50%; }
+  .ts-hdive__glow .g-g { background-image: radial-gradient(closest-side, rgba(0,235,90,.56) 0%, rgba(0,235,90,.18) 46%, transparent 84%); background-position: 50% 50%; }
+  .ts-hdive__glow .g-b { background-image: radial-gradient(closest-side, rgba(34,86,255,.68) 0%, rgba(34,86,255,.22) 44%, transparent 82%); background-position: 98% 50%; }
+  /* All three while the merge is on screen, then one per copy block as they pass. */
+  .ts-hdive__pin.is-ch-r .g-g, .ts-hdive__pin.is-ch-r .g-b,
+  .ts-hdive__pin.is-ch-g .g-r, .ts-hdive__pin.is-ch-g .g-b,
+  .ts-hdive__pin.is-ch-b .g-r, .ts-hdive__pin.is-ch-b .g-g { opacity: 0; }
+  /* Spread left to right only while all three are up, which is the merge. On its own slide each
+     blob slides to the same place behind the photo, so red does not sit out at the far edge. */
+  .ts-hdive__pin.is-ch-r .g-r,
+  .ts-hdive__pin.is-ch-g .g-g,
+  .ts-hdive__pin.is-ch-b .g-b { background-position: 50% 50%; }
+  @media (prefers-reduced-motion: reduce) { .ts-hdive__glow i { transition: none; animation: none; } }
   .ts-hdive__frame { position: relative; z-index: 1; overflow: hidden;
     border: 1px solid rgba(255,255,255,.16); border-radius: 8px 8px 0 0; border-bottom: 0;
     background: #0f0f10; box-shadow: 0 40px 110px -40px rgba(0,0,0,.95); }
@@ -881,7 +922,7 @@
        so the first copy block only reaches the middle once the photo has finished moving */
     /* 700px is half the 1400px page container, so the copy stops where the page does
        rather than running out to the window edge on a wide display */
-    .ts-hdive__textcol { grid-column: 2; grid-row: 1; z-index: 1; max-width: 700px;
+    .ts-hdive__textcol { grid-column: 2; grid-row: 1; z-index: 3; max-width: 700px;
       /* tail on the last block: the photo stays pinned while the closing copy travels up,
          so the section does not let go the instant that block reaches the middle */
       padding: 75vh 50px 45vh 60px; }
@@ -961,6 +1002,14 @@
     background: rgba(255,255,255,.24); cursor: pointer;
     transition: background .25s ease, transform .25s ease, box-shadow .25s ease; }
   .ts-hdive__dot.is-active { background: #fff; transform: scale(1.3); box-shadow: 0 0 0 5px rgba(255,255,255,.10); }
+  /* The active dot takes its block's channel, matching the blob behind the photo. Keyed off
+     data-i rather than nth-child so it stays correct if the blocks are ever reordered. */
+  .ts-hdive__dot[data-i="0"].is-active { background: #ff3350;
+    box-shadow: 0 0 0 5px rgba(255,51,80,.14), 0 0 14px 3px rgba(255,51,80,.55); }
+  .ts-hdive__dot[data-i="1"].is-active { background: #24e070;
+    box-shadow: 0 0 0 5px rgba(36,224,112,.14), 0 0 14px 3px rgba(36,224,112,.5); }
+  .ts-hdive__dot[data-i="2"].is-active { background: #4a82ff;
+    box-shadow: 0 0 0 5px rgba(74,130,255,.14), 0 0 14px 3px rgba(74,130,255,.6); }
   .ts-hdive__dot:hover:not(.is-active) { background: rgba(255,255,255,.55); }
   .ts-hdive__dot:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
 
@@ -1036,6 +1085,11 @@
     background-image: url('{{ 'converted.jpg' | asset_url }}'); }
   .ts-rgb.is-converted .ts-rgb__frame { opacity: 1;
     box-shadow: 0 34px 90px -28px rgba(0,0,0,.92); }
+  /* Once the merge has resolved, the channel layers have done their job. They used to stay put
+     behind the frame, invisible only because the frame is opaque, so the moment the frame faded
+     out for a block change the separated negative showed through behind the incoming screenshot.
+     Scrubbing back up drops is-converted and brings them straight back. */
+  .ts-rgb.is-converted .ts-rgb__ch { opacity: 0; transition: opacity .45s ease; }
 
   /* ---- workflow story: scrolling text (left) + PINNED media (right) ----
      Reverse of the earlier version. The media column is a full-height grid cell so the sticky
@@ -1059,6 +1113,11 @@
   .ts-story__dot.is-active { background: #fff; transform: scale(1.3); box-shadow: 0 0 0 5px rgba(255,255,255,.10); }
   .ts-story__dot:hover:not(.is-active) { background: rgba(255,255,255,.55); }
   .ts-story__dot:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+  /* 7px is the dot, not the target. An overlay pseudo takes the hit area to 29px without
+     touching layout or the rail's zero width. The 26px gap leaves 4px between neighbours,
+     so they still cannot be mis-hit. */
+  .ts-story__dot, .ts-hdive__dot { position: relative; }
+  .ts-story__dot::after, .ts-hdive__dot::after { content: ''; position: absolute; inset: -11px; }
 
   .ts-story__title { font-size: 26px; line-height: 1.12; font-weight: 600; letter-spacing: -.015em; color: #fff; }
   .ts-story__body { margin-top: 14px; max-width: 460px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
@@ -1101,8 +1160,14 @@
     /* left padding tracks the site container; NO right padding, so the media runs off the edge */
     .ts-story { position: relative; display: grid; grid-template-columns: minmax(300px, 34%) minmax(0, 66%); gap: 56px;
       padding-left: max(50px, calc((100vw - 1400px) / 2 + 50px)); }
-    /* out of the grid: sits against the left edge of the screen, not the text column */
-    .ts-story__rail { display: block; position: absolute; left: 26px; top: 0; bottom: 0; width: 0; }
+    /* In the gutter between the copy and the media, the same relationship the RGB rail has to
+       its centreline. It is a real grid item now rather than absolutely positioned, so all
+       three children need explicit placement or auto-flow drops the media onto a second row.
+       Zero width pulled half the 56px gap leftward centres it in the gutter. */
+    .ts-story__rail { display: block; position: relative; z-index: 3; pointer-events: auto;
+      grid-column: 2; grid-row: 1; width: 0; margin-left: -28px; }
+    .ts-story__textcol { grid-column: 1; grid-row: 1; }
+    .ts-story__mediacol { grid-column: 2; grid-row: 1; }
     .ts-story__panel { display: flex; flex-direction: column; justify-content: center; min-height: 100vh; padding: 0; }
     .ts-story__title { font-size: 34px; }
     .ts-story__sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
@@ -1261,6 +1326,9 @@
   .ts-hero-nav:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
   .ts-hero-nav--prev { left: -56px; }
   .ts-hero-nav--next { right: -56px; }
+  /* set by the driver when one of the pair would fall outside the viewport. Three classes, so
+     it outranks the display:inline-flex below whichever order they end up in. */
+  .ts-hero-frame.has-no-nav .ts-hero-nav { display: none; }
   @media (min-width: 750px) {
     .ts-hero-nav { display: inline-flex; }
     /* 64px of clear gutter each side so the arrows never sit on the screenshot */
@@ -1296,8 +1364,18 @@
        reference lets the screenshot run past the edge rather than sitting inside a margin */
     .ts-hero-split .ts-hero-frame { margin: 0; max-width: none; width: calc(100% + 14vw); }
     .ts-hero-split .ts-hero-glass { transform: none; }
-    /* the tab row spans the page, so it reads better centred than hung off the copy column */
+    /* Centred across the page by default. The driver measures whether the row fits under the
+       visible part of the screenshot and, when it does, pads it across and switches to flex-start
+       so it sits centred on the image instead. */
     .ts-hero-split .ts-hero-tabs { justify-content: center; }
+    /* nowrap because the padding pushes the row past its own container, the same way the
+       screenshot above it does; the driver only sets this once it has checked the row still
+       clears the window edge, so nothing is ever cut off */
+    .ts-hero-split .ts-hero-tabs.is-aligned { justify-content: flex-start; flex-wrap: nowrap; }
+    /* The row is deliberately wider than the container it sits in, so the pills must be allowed
+       to overflow it. Without this, nowrap makes flex shrink them to fit instead and every long
+       label breaks onto a second line. */
+    .ts-hero-split .ts-hero-tabs.is-aligned .ts-hero-tab { flex: 0 0 auto; white-space: nowrap; }
 
     /* balanced rather than pinned to a width: the headline is a setting, so its length varies
        and a fixed max-width strands a word on line two as soon as the copy changes */
@@ -1313,6 +1391,72 @@
   }
 
   .ts-hero-selectbar { padding-top: 44px; padding-bottom: 64px; }
+
+  /* status pill above the headline. Sits in the hero's flex column, so it centres on the
+     centred hero and left-aligns on the split one without a second rule. */
+  .ts-hero-badge { display: inline-flex; align-items: center; gap: 8px; margin-bottom: -10px;
+    padding: 6px 14px; font-size: 13px; font-weight: 600; letter-spacing: .01em; color: #bfdbfe;
+    background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.38); border-radius: 9999px; }
+  .ts-hero-badge i { width: 6px; height: 6px; border-radius: 50%; background: #60a5fa; }
+
+  /* ---- WHAT IT IS: the page's plain-language intro ----------------------------------------
+     Replaced a carded problem section. Everything here is deliberately unboxed: the bento below
+     is a grid of boxes and the feature list is an accordion, so a third boxed grid read as more
+     of the same. A statement with the explanation set beside it, then three pillars sharing one
+     hairline, reads as a position rather than a feature list. */
+  .ts-intro__inner { margin: 0 auto; width: 100%; max-width: 1400px; padding: 80px 15px; }
+  /* balanced rather than pinned to a width: it is one short line and a ragged break reads badly */
+  .ts-intro__title { font-size: 32px; font-weight: 600; line-height: 1.08; letter-spacing: -.02em;
+    color: #fff; text-wrap: balance; }
+  .ts-intro__lead { margin-top: 20px; }
+  .ts-intro__lead p { max-width: 620px; font-size: 17px; line-height: 1.65; color: #a3a3a3; }
+  .ts-intro__lead p + p { margin-top: 18px; }
+
+  .ts-intro__pillars { list-style: none; margin: 48px 0 0; padding: 0; display: grid; }
+  /* on a phone the pillars stack, so each carries its own rule; on desktop the three rules meet
+     end to end and read as the single line under the statement */
+  .ts-intro__pillar { position: relative; display: flex; flex-direction: column;
+    padding: 26px 0; border-top: 1px solid rgba(255,255,255,.12); }
+  /* Faded screenshot behind each pillar. Strongest at the top right and gone by the time it
+     reaches the copy, so it reads as texture rather than a picture with words on top. Its own
+     element, not a background on the pillar, because the mask would otherwise take the rule with
+     it. */
+  .ts-intro__pbg { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: var(--shot); background-size: cover; background-position: top center;
+    opacity: .13; transition: opacity .3s ease;
+    -webkit-mask-image: radial-gradient(125% 105% at 100% 0%, #000 0%, transparent 70%);
+            mask-image: radial-gradient(125% 105% at 100% 0%, #000 0%, transparent 70%); }
+  .ts-intro__pillar:hover .ts-intro__pbg { opacity: .2; }
+  .ts-intro__pillar > *:not(.ts-intro__pbg) { position: relative; z-index: 1; }
+  .ts-intro__plabel { font-size: 15px; font-weight: 600; color: #fff; }
+  .ts-intro__ptext { margin-top: 10px; font-size: 15px; line-height: 1.6; color: #a3a3a3; }
+  /* pushed to the bottom so the three CTAs line up with each other whatever the copy length */
+  .ts-intro__pcta { align-self: flex-start; margin-top: 16px; font-size: 15px; font-weight: 600;
+    color: #60a5fa; text-decoration: none; }
+  .ts-intro__pcta:hover { text-decoration: underline; }
+  .ts-intro__pcta:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+
+  @media (min-width: 900px) {
+    .ts-intro__inner { padding: 120px 50px; }
+    /* Title and lead stack in one left-aligned column. Their measure is held by max-width
+       rather than by a second grid column, so the copy keeps a readable line length without the
+       headline being pinned to a fraction of the page. */
+    .ts-intro__title { font-size: 46px; max-width: 760px; }
+    .ts-intro__lead { margin-top: 26px; }
+    /* Separated by a gap rather than by internal padding. Padding made the first pillar wider
+       than the other two, so identical copy wrapped to a different number of lines in each. */
+    /* the gap narrows with the window so mid-size screens keep enough measure for the copy to
+       hold its line count instead of the gutters taking the width */
+    .ts-intro__pillars { --gap: clamp(44px, 6.1vw, 88px);
+      margin-top: 88px; grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: var(--gap); border-top: 1px solid rgba(255,255,255,.12); }
+    .ts-intro__pillar { padding: 30px 0 0; border-top: 0; }
+    /* the divider sits in the middle of the gap; the continuous rule above is the container's */
+    .ts-intro__pillar + .ts-intro__pillar::before { content: ''; position: absolute;
+      left: calc(var(--gap) / -2); top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.12); }
+    /* equal-height grid items, so margin-top:auto lands all three CTAs on one line */
+    .ts-intro__pcta { margin-top: auto; padding-top: 18px; }
+  }
   .ts-hero-tabs { position: relative; z-index: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
   .ts-hero-tab { padding: 8px 16px; font-size: 14px; font-weight: 500; color: #a3a3a3; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.10); border-radius: 2px; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease; }
   .ts-hero-tab.is-active { color: #fff; background: rgba(59,130,246,.14); border-color: rgba(59,130,246,.5); }
