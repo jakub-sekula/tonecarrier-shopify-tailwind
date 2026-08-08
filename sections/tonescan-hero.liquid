@@ -70,6 +70,10 @@
           <img class="ts-hero-icon" src="{{ 'tonescan-icon.png' | asset_url }}" alt="" width="256" height="256" fetchpriority="high">
           {%- endif -%}
 
+          {%- if section.settings.badge != blank -%}
+          <span class="ts-hero-badge"><i aria-hidden="true"></i>{{ section.settings.badge }}</span>
+          {%- endif -%}
+
           <h1 class="tw:text-[32px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.03em] tw:text-white tw:md:text-[58px]">
             {{ section.settings.heading }}
           </h1>
@@ -166,39 +170,6 @@
   </section>
 
 
-  {%- comment -%} ==================== 3 · PROBLEM / AGITATION ==================== {%- endcomment -%}
-  {%- unless ts_minimal -%}
-  <section class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
-    <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
-      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">What makes it hard</p>
-      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">
-        A negative is not a picture yet.
-</h2>
-      <p class="tw:mx-auto tw:mt-[20px] tw:max-w-[560px] tw:text-[17px] tw:leading-[1.6] tw:text-neutral-400">
-        It comes off the camera dense, orange, and with nothing in the frame you can call
-        neutral. Getting a photograph out means undoing all of that, then doing it thirty-five
-        more times without the roll drifting.
-      </p>
-    </div>
-    <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[16px] tw:md:grid-cols-3">
-      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
-        <div class="ts-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h9M17 18h3"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="15" cy="18" r="2"/></svg></div>
-        <h3 class="tw:mb-[8px] tw:text-[18px] tw:font-semibold tw:text-white">The orange has to come out</h3>
-        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Undoing the mask is the whole job. toneScan inverts on a model of how film and paper behave, so what lands on screen is already close to a print rather than something to rescue.</p>
-      </div>
-      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
-        <div class="ts-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h4l3 10h4M14 7h3M17 7l-2-2M17 7l-2 2M13 17h4M17 17l-2-2M17 17l-2 2"/></svg></div>
-        <h3 class="tw:mb-[8px] tw:text-[18px] tw:font-semibold tw:text-white">The light is never even</h3>
-        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Light on a copy stand is never perfectly even, and lenses fall off toward the corners. Shoot one flat-field reference and toneScan cancels both, so the corners match the middle.</p>
-      </div>
-      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
-        <div class="ts-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
-        <h3 class="tw:mb-[8px] tw:text-[18px] tw:font-semibold tw:text-white">A roll has to agree with itself</h3>
-        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Correcting frame by frame drifts. Get one frame right and toneScan pushes it across the roll.</p>
-      </div>
-    </div>
-  </section>
-  {%- endunless -%}
 </div>
 
 {%- comment -%} Page-wide CSS and JS are rendered once by layout/tonescan.liquid. Only the two
@@ -227,6 +198,13 @@
     },
     {
       "type": "text",
+      "id": "badge",
+      "label": "Badge above the headline",
+      "info": "Leave blank to hide it.",
+      "default": "Now in open beta"
+    },
+    {
+      "type": "text",
       "id": "heading",
       "label": "Headline",
       "default": "Film scanning,<br class=\"ts-hero-br\"> start to finish."
@@ -235,7 +213,7 @@
       "type": "textarea",
       "id": "subheading",
       "label": "Subtitle",
-      "default": "toneScan Studio is standalone software for serious film scanning. Seamless RGB, a physically accurate colour engine, and real speed. Now in open beta."
+      "default": "toneScan Studio turns your camera into a dedicated film scanner. Process whole rolls at the speed of a lab, with trichromatic scanning, accurate inversions and&nbsp;instant, full-resolution previews of every edit."
     },
     {
       "type": "text",

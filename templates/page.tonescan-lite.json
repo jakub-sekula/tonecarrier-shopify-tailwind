@@ -389,7 +389,7 @@
           "settings": {
             "title": "Capture & calibration",
             "icon": "icon0",
-            "items": "<b>Hardware control</b>: drives your light source and advances the film carrier\n<b>Tethered capture</b> straight into the current roll\n<b>Light presets</b> read from a connected light\n<b>Scan profiles</b>: calibrate once, reuse on every roll\n<b>Per-channel exposure targets</b> with an EV meter\n<b>Crosstalk correction</b> measured from your own setup\n<b>Linearity calibration</b>\n<b>White-light scanning</b>: single-shot works too",
+            "items": "<b>Hardware control</b>: drives your light source and advances the film carrier\nTrichromatic capture from any camera, mono sensors included\n<b>Tethered capture</b> straight into the current roll\n<b>Light presets</b> read from a connected light\n<b>Scan profiles</b>: calibrate once, reuse on every roll\n<b>Per-channel exposure targets</b> with an EV meter\n<b>Crosstalk correction</b> measured from your own setup\nFlat-field correction: cancels uneven light and lens falloff, so corners match the centre\n<b>Linearity calibration</b>\n<b>White-light scanning</b>: single-shot works too",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png"
           }
         },
@@ -398,7 +398,7 @@
           "settings": {
             "title": "Project management",
             "icon": "icon1",
-            "items": "<b>Roll-based library</b> with live frame counts\n<b>Watch folders</b> that ingest new scans as they land\n<b>Automatic triplet detection</b> and merge\n<b>Markers and colour labels</b> for fast culling\n<b>Per-channel inspection</b>: view R, G or B alone\n<b>Undo and redo</b> throughout",
+            "items": "<b>Roll-based library</b> with live frame counts\n<b>Watch folders</b> that ingest new scans as they land\n<b>Automatic triplet detection</b> and merge\nBatch editing: get one frame right and the whole roll follows\n<b>Markers and colour labels</b> for fast culling\n<b>Per-channel inspection</b>: view R, G or B alone\n<b>Undo and redo</b> throughout\nBackground processing: whole rolls convert and export while you carry on working",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png"
           }
         },
@@ -407,7 +407,7 @@
           "settings": {
             "title": "Rich editing experience",
             "icon": "icon2",
-            "items": "<b>Three process modes</b>: colour negative, B&amp;W negative, slide\n<b>Live RGB histogram</b>\n<b>Exposure, contrast, density,</b> highlight rolloff and shadow lift\n<b>Auto density</b>\n<b>Smart auto white balance</b>, or pick your own neutral\n<b>Levels, tone trims and sharpening</b>\n<b>Crop, rotate and flip</b>\n<b>Pixel loupe</b> with a live density readout\n<b>True exposure from raw</b>: read from signal, not the histogram",
+            "items": "Inversion modelled on film physics and the way darkroom paper responds to light\n<b>Three process modes</b>: colour negative, B&amp;W negative, slide\n<b>Live RGB histogram</b>\nGPU viewport: every slider lands on a full-resolution preview instantly, with no proxy image\n<b>Exposure, contrast, density,</b> highlight rolloff and shadow lift\n<b>Auto density</b>\n<b>Smart auto white balance</b>, or pick your own neutral\n<b>Levels, tone trims and sharpening</b>\n<b>Crop, rotate and flip</b>\nSmart auto-crop: frame edges found and squared up for you\n<b>Pixel loupe</b> with a live density readout\n<b>True exposure from raw</b>: read from signal, not the histogram",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png"
           }
         },
@@ -437,10 +437,15 @@
         "group_4",
         "group_5"
       ]
+    },
+    "intro": {
+      "type": "tonescan-intro",
+      "settings": {}
     }
   },
   "order": [
     "hero",
+    "intro",
     "conversion-strip",
     "features",
     "feature-list",

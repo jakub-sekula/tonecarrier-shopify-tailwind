@@ -1,0 +1,69 @@
+{%- comment -%}
+  WHAT IT IS: the page's plain-language intro.
+
+  Was a problem/agitation block living inside the hero section: a negative is orange, the light
+  falls off, the roll drifts. Anyone shopping for conversion software already knows all of that,
+  so restating it spent the best slot on the page telling the reader something they came in
+  knowing. This says what toneScan Studio is and what it does instead.
+
+  Split out of the hero into its own section so other sections can be ordered in front of it.
+  Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this file carries markup
+  only and can be reordered or removed without taking them with it.
+
+  Deliberately uncarded. The bento is a grid of boxes and the feature list is an accordion, so a
+  third boxed grid here would read as more of the same.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- comment -%} Screenshots live in Shopify Files (Content > Files). {%- endcomment -%}
+  {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+
+  <section class="ts-intro">
+    <div class="ts-intro__inner">
+      <div class="ts-intro__head">
+        <h2 class="ts-intro__title">One application for your complete workflow.</h2>
+        <div class="ts-intro__lead">
+          <p>toneScan Studio is standalone software that brings lab-grade speed and&nbsp;accuracy to camera scanning.</p>
+          <p>The conversion works from how film and&nbsp;paper actually behave rather than a look someone drew by eye, so the colour is right before you touch a single slider.</p>
+        </div>
+      </div>
+      <ul class="ts-intro__pillars">
+        <li class="ts-intro__pillar">
+          <span class="ts-intro__pbg" aria-hidden="true" style="--shot:url('{{ ts_cdn }}/organise.png')"></span>
+          <span class="ts-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
+          <h3 class="ts-intro__plabel">All of it in one app</h3>
+          <p class="ts-intro__ptext">Catalogue, convert, correct, calibrate and&nbsp;export your scans. toneScan Studio is the new home for your whole film photography workflow.</p>
+          <a class="ts-intro__pcta" href="#features">See what it does <span aria-hidden="true">&rsaquo;</span></a>
+        </li>
+        <li class="ts-intro__pillar">
+          <span class="ts-intro__pbg" aria-hidden="true" style="--shot:url('{{ ts_cdn }}/rgb-merge.png')"></span>
+          <span class="ts-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="9.5" r="5.2"/><circle cx="15" cy="9.5" r="5.2"/><circle cx="12" cy="15" r="5.2"/></svg></span>
+          <h3 class="ts-intro__plabel">Trichromatic scanning</h3>
+          <p class="ts-intro__ptext">Get the colour lab scanners are known for: cleaner from the start, less to fix afterwards, and&nbsp;shadows that hold together.</p>
+          <a class="ts-intro__pcta" href="#rgb">How RGB works <span aria-hidden="true">&rsaquo;</span></a>
+        </li>
+        <li class="ts-intro__pillar">
+          <span class="ts-intro__pbg" aria-hidden="true" style="--shot:url('{{ ts_cdn }}/pixel-preview.png')"></span>
+          <span class="ts-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg></span>
+          <h3 class="ts-intro__plabel">Fast, and&nbsp;stays out of the way</h3>
+          <p class="ts-intro__ptext">Quick imports, a GPU viewport, and&nbsp;an interface that answers instantly. Keyboard shortcuts let you fly through a roll like a lab tech.</p>
+          <a class="ts-intro__pcta" href="#how-it-works">See it in use <span aria-hidden="true">&rsaquo;</span></a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan intro",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "toneScan intro"
+    }
+  ]
+}
+{% endschema %}
