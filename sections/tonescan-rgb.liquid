@@ -137,6 +137,32 @@
       </div>
     </section>
 
+    {%- comment -%} Contact sheets, shipping in Studio. {%- endcomment -%}
+    <section class="ts-dive">
+      <div class="ts-dive__inner">
+        <div class="ts-dive__text">
+          <p class="ts-dive__eyebrow">Contact sheets</p>
+          <h2 class="ts-dive__title">A whole roll on one sheet</h2>
+          <p class="ts-dive__body">Lay a roll out as a proper 35mm contact sheet, the way it used to come back from the lab, and send it out as a JPG or a PDF. Frame numbers, edge printing and sprocket holes are all drawn to real film dimensions rather than pasted into a grid of thumbnails.</p>
+          <ul class="ts-bullets">
+            <li>A whole roll laid out as 35mm strips</li>
+            <li>Frame numbers and edge printing along every strip</li>
+            <li>Drawn to real film geometry, not a thumbnail grid</li>
+            <li>Export as JPG or PDF</li>
+          </ul>
+        </div>
+        <div class="ts-dive__media">
+          <div class="ts-shot">
+            {%- if section.settings.contact_sheet_image != blank -%}
+            <img src="{{ section.settings.contact_sheet_image | image_url: width: 3200 }}" alt="A roll laid out as a 35mm contact sheet" loading="lazy" width="{{ section.settings.contact_sheet_image.width }}" height="{{ section.settings.contact_sheet_image.height }}">
+            {%- else -%}
+            <img src="{{ ts_cdn }}/organise.png" alt="" loading="lazy" width="3200" height="2000">
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 </div>
 
@@ -145,7 +171,14 @@
   "name": "toneScan RGB deep dive",
   "tag": "section",
   "class": "section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "contact_sheet_image",
+      "label": "Contact sheet screenshot",
+      "info": "Falls back to a placeholder until a real one is uploaded."
+    }
+  ],
   "presets": [
     {
       "name": "toneScan RGB deep dive"
