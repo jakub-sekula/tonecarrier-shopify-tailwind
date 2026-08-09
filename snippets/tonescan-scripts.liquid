@@ -1252,6 +1252,472 @@ function tsInit() {
     window.__tsHeroVideoSync = sync;
   })();
 
+  /* ---- pricing: live Paddle prices and overlay checkout --------------------------------------
+     Amounts are never written into the page. PricePreview returns them already localised for the
+     buyer's country with tax applied, and the formatted string it hands back is used verbatim:
+     it is what checkout will actually charge, so reformatting it locally is how you end up
+     showing a number the checkout then contradicts.
+
+     Config rides on data attributes rather than being inlined here, because this snippet is
+     rendered by the layout and cannot see the pricing section's settings. No token means no
+     attributes, and the section keeps its static fallback amounts with the buttons disabled. */
+  (function () {
+    var sec = document.querySelector('.tonescan-landing .ts-pricing');
+    if (!sec) return;
+
+    // ---- the confirmation, lifted from the fulfilment Worker's checkout page ------------------
+    // The licence is minted asynchronously by the webhook, so the key is polled for rather than
+    // being in the redirect. Ported rather than reinvented: the shimmer-then-scramble reveal, the
+    // minimum shimmer, and the visibility-aware give-up all exist because of how that page
+    // behaves in the real world, and reimplementing them would relearn the same lessons.
+    var done = sec.querySelector('.ts-pricing__done');
+    var main = sec.querySelector('.ts-pricing__main');
+    var HEX = '0123456789ABCDEF';
+    var KEY_PLACEHOLDER = 'XXXXXX-XXXXXX-XXXXXX-XXXXXX-XXXXXX-XX';
+    // Even a fast mint holds the shimmer for a beat: an instant swap reads as a glitch, and the
+    // wait makes the reveal feel like something was issued rather than pre-baked.
+    var MIN_SHIMMER_MS = 2200, GIVE_UP_MS = 20000, POLL_MS = 1500;
+
+    function showDone() {
+      if (!done) return;
+      done.hidden = false;
+      // replace the cards rather than dim them: they have bought, a price list under a receipt
+      // is just noise, and a greyed-out one still reads as something to consider
+      if (main) main.classList.add('is-paid');
+      // the section drops its own max-width and padding so the picture can reach the screen edge
+      sec.classList.add('has-purchase');
+      buildDownloads();
+    }
+
+    // Split download button. Ported from the fulfilment Worker's checkout page, including the
+    // reason Intel is absent: that build gets no updates, and handing a paying customer a stale
+    // binary is a refund waiting to happen. Browsers cannot tell Apple Silicon from Intel (both
+    // report MacIntel), so macOS defaults to Apple Silicon and the caret covers a wrong guess.
+    var ICON_APPLE = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>';
+    var ICON_WIN = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>';
+    var BUILDS = {
+      mac: { icon: ICON_APPLE, label: 'Download toneScan for Mac', menu: 'Download toneScan for Mac (Apple Silicon)', href: '/download/mac' },
+      win: { icon: ICON_WIN, label: 'Download toneScan for Windows', menu: 'Download toneScan for Windows', href: '/download/win' }
+    };
+    var dlBuilt = false;
+    function buildDownloads() {
+      if (dlBuilt || !done) return;
+      var wrap = done.querySelector('.ts-done__dlwrap');
+      var base = done.getAttribute('data-dl-base') || '';
+      if (!wrap || !base) { if (wrap) wrap.hidden = true; return; }
+      dlBuilt = true;
+      var p = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+      var pick = (/win/i.test(p) || /windows/i.test(navigator.userAgent || '')) ? 'win' : 'mac';
+      var b = BUILDS[pick];
+      wrap.querySelector('.ts-done__dlicon').innerHTML = b.icon;
+      wrap.querySelector('.ts-done__dllabel').textContent = b.label;
+      wrap.querySelector('.ts-done__dlmain').href = base + b.href;
+      var menu = wrap.querySelector('.ts-done__dlmenu');
+      var html = '';
+      ['mac', 'win'].forEach(function (k) {
+        if (k === pick) return;
+        html += '<a href="' + base + BUILDS[k].href + '">' + BUILDS[k].icon + '<span>' + BUILDS[k].menu + '</span></a>';
+      });
+      menu.innerHTML = html;
+      var caret = wrap.querySelector('.ts-done__dlcaret');
+      caret.addEventListener('click', function (e) {
+        e.preventDefault();
+        var open = menu.classList.toggle('is-open');
+        caret.classList.toggle('is-open', open);
+      });
+      document.addEventListener('click', function (e) {
+        if (wrap.contains(e.target)) return;
+        menu.classList.remove('is-open');
+        caret.classList.remove('is-open');
+      });
+    }
+
+    // The heading is a promise until the key exists. "Thank you" is true the moment payment
+    // lands, but it reads as the end of the story while something is still being waited on.
+    function setHeading(which) {
+      var t = done && done.querySelector('.ts-done__title');
+      if (!t) return;
+      var v = t.getAttribute(which === 'busy' ? 'data-heading-busy' : 'data-heading-done');
+      // innerHTML, not textContent: the success heading carries a <br> so "Thank you" sits on
+      // its own line. Both values are theme settings, the same trust level as any other setting
+      // this page renders.
+      if (v) t.innerHTML = v;
+    }
+
+    var idleIv = null;
+    function startIdle(el) {
+      if (done) done.classList.add('is-generating');
+      setHeading('busy');
+      stopIdle();
+      idleIv = setInterval(function () {
+        var cur = el.textContent.split('');
+        for (var i = 0; i < cur.length; i++) {
+          if (cur[i] !== '-' && Math.random() < 0.28) cur[i] = HEX.charAt(Math.floor(Math.random() * 16));
+        }
+        el.textContent = cur.join('');
+      }, 90);
+    }
+    function stopIdle() { if (idleIv) { clearInterval(idleIv); idleIv = null; } }
+
+    // hex noise settling left to right into the real key
+    function scrambleTo(el, real, dur) {
+      var t0 = Date.now();
+      var iv = setInterval(function () {
+        var t = (Date.now() - t0) / dur;
+        if (t >= 1) { el.textContent = real; clearInterval(iv); return; }
+        var out = '';
+        for (var i = 0; i < real.length; i++) {
+          var c = real.charAt(i);
+          out += (c === '-' || i / real.length < t) ? c : HEX.charAt(Math.floor(Math.random() * 16));
+        }
+        el.textContent = out;
+      }, 45);
+    }
+
+    function revealKey(key, email) {
+      done.classList.remove('is-generating');
+      setHeading('done');
+      var code = done.querySelector('.ts-done__key');
+      var intro = done.querySelector('.ts-done__intro');
+      // lock the line above before changing it, so the key box cannot jump under the reader
+      // The two reserved lines come from CSS now; an inline lock would pin this to whatever the
+      // previous state happened to measure.
+      intro.innerHTML = 'Thank you for your purchase. Here is your licence key:';
+      var mailed = done.querySelector('.ts-done__mailed');
+      if (mailed) mailed.hidden = false;
+      if (email) done.querySelector('.ts-done__email').textContent = email;
+      stopIdle();
+      code.classList.remove('is-pending');
+      code.hidden = false;
+      scrambleTo(code, key, 700);
+      done.querySelector('.ts-done__copy').classList.add('is-shown');
+    }
+
+    // The email comes back from the key lookup, so it is escaped before going anywhere near
+    // innerHTML. The rest of these strings are ours.
+    function esc(v) {
+      return String(v).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function giveUp(email, why) {
+      done.classList.remove('is-generating');
+      setHeading('done');
+      stopIdle();
+      var code = done.querySelector('.ts-done__key');
+      var intro = done.querySelector('.ts-done__intro');
+      var to = email || 'your email address';
+      // No box: there is no key to show, and a box holding a sentence still reads as a key field.
+      // The panel's min-height keeps the section from resizing, and the copy is centred in it, so
+      // dropping this leaves no hole.
+      code.textContent = '';
+      code.hidden = true;
+      // One sentence per line, so no line breaks through the middle of a phrase. The heading
+      // already says the payment landed, so neither of these repeats the thank you.
+      // Expired is a different situation to slow: the key exists and was already sent, it is just
+      // no longer safe to hand out from a URL the buyer may have kept.
+      intro.innerHTML = why === 'expired'
+        ? 'Your key was issued earlier.<br>We sent it via email to ' + esc(to) + '.'
+        : 'It&rsquo;s taking longer than usual to get your key.<br>We will send it via email to ' + esc(to) + '.';
+      // Both of those say the key went to email, so the sentence below that says the same thing
+      // is dropped; only the receipt note is still worth keeping.
+      var mailed = done.querySelector('.ts-done__mailed');
+      if (mailed) mailed.hidden = true;
+      if (email) done.querySelector('.ts-done__email').textContent = email;
+    }
+
+    var errBox = sec.querySelector('.ts-pricing__error');
+    function showError(msg) {
+      if (!errBox) return;
+      if (msg) errBox.querySelector('.ts-pricing__errtext').textContent = msg;
+      errBox.hidden = false;
+    }
+    if (errBox) {
+      errBox.querySelector('.ts-pricing__errclose').addEventListener('click', function () {
+        errBox.hidden = true;
+      });
+    }
+
+    // Time spent on a hidden tab does NOT count toward giving up: background tabs throttle
+    // timers, so a buyer who switches away would come back to the slow message even though
+    // their key had arrived.
+    var hiddenMs = 0, hiddenAt = document.visibilityState === 'hidden' ? Date.now() : 0;
+    function activeElapsed(began) { return Date.now() - began - hiddenMs; }
+
+    function pollForKey(txn, began, ref) {
+      var keyUrl = done && done.getAttribute('data-key-url');
+      if (!keyUrl || ref.done) return;
+      ref.poll = function () { pollForKey(txn, began, ref); };
+      fetch(keyUrl + '?txn=' + encodeURIComponent(txn), { headers: { Accept: 'application/json' } })
+        .then(function (r) { return r.json().then(function (d) { return { status: r.status, d: d }; }); })
+        .then(function (res) {
+          if (ref.done) return;
+          if (res.status === 200 && res.d && res.d.key) {
+            setTimeout(function () {
+              if (ref.done) return;
+              ref.done = true;
+              revealKey(res.d.key, res.d.email);
+            }, Math.max(0, MIN_SHIMMER_MS - activeElapsed(began)));
+            return;
+          }
+          if (res.status === 410) { ref.done = true; return giveUp(res.d && res.d.email, 'expired'); }
+          if (activeElapsed(began) < GIVE_UP_MS) return setTimeout(ref.poll, POLL_MS);
+          ref.done = true; giveUp(res.d && res.d.email);
+        })
+        .catch(function () {
+          if (ref.done) return;
+          if (activeElapsed(began) < GIVE_UP_MS) return setTimeout(ref.poll, POLL_MS);
+          ref.done = true; giveUp();
+        });
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') { hiddenAt = Date.now(); return; }
+      if (hiddenAt) { hiddenMs += Date.now() - hiddenAt; hiddenAt = 0; }
+      if (window.__tsKeyRef && !window.__tsKeyRef.done && window.__tsKeyRef.poll) window.__tsKeyRef.poll();
+    });
+
+    function onPaid(txn, email) {
+      showDone();
+      if (email && done) done.querySelector('.ts-done__email').textContent = email;
+      if (!txn || !done || !done.getAttribute('data-key-url')) {
+        // nothing to poll with: the email note alone is the honest message
+        if (done) giveUp(email);
+        return;
+      }
+      var code = done.querySelector('.ts-done__key');
+      code.classList.add('is-pending');
+      startIdle(code);
+      var ref = { done: false };
+      window.__tsKeyRef = ref;
+      pollForKey(txn, Date.now(), ref);
+    }
+
+    if (done) {
+      done.querySelector('.ts-done__copy').addEventListener('click', function () {
+        var k = done.querySelector('.ts-done__key').textContent;
+        if (navigator.clipboard) navigator.clipboard.writeText(k);
+      });
+    }
+
+    // ---- development state switcher --------------------------------------------------------
+    // Drives the same functions a real purchase does rather than faking the markup, so styling
+    // against it cannot drift from what a buyer sees. Only present when the section rendered it.
+    // Shown where development happens and nowhere else. Local dev server, the theme editor, or
+    // ?mockup=1 for checking the styling against the real live page.
+    var mock = sec.querySelector('.ts-mock');
+    var isDev = /^(127\.0\.0\.1|localhost|\[::1\])$/.test(location.hostname) ||
+                /[?&]mockup=1\b/.test(location.search) ||
+                !!(window.Shopify && window.Shopify.designMode);
+    if (mock && isDev) mock.hidden = false;
+    if (mock && done) {
+      // hex, to match the alphabet the scramble settles through
+      var SAMPLE_KEY = '4F2A9C-7B1E6D-3A8F05-C29B47-E1D6A3-5F';
+      // Undefined stands in for the real no-address cases: a 410 that carries no email, the
+      // give-up timeout when the lookup never returned one, and the network-error catch, which
+      // calls giveUp with nothing at all. The copy then reads "your email address".
+      var noEmail = mock.querySelector('[data-mock-opt="noemail"]');
+      function sampleEmail() { return noEmail && noEmail.checked ? undefined : 'buyer@example.com'; }
+      // Flipping the modifier re-runs whichever state is up, so the difference is visible without
+      // clicking the state again.
+      if (noEmail) noEmail.addEventListener('change', function () {
+        var active = mock.querySelector('[data-mock].is-active');
+        if (active) active.click();
+      });
+      mock.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-mock]');
+        if (!btn) return;
+        var state = btn.getAttribute('data-mock');
+
+        // Back to a clean slate first, so states can be flipped in any order and a live poll
+        // from an earlier click cannot land on top of the one being looked at.
+        stopIdle();
+        if (window.__tsKeyRef) window.__tsKeyRef.done = true;
+        var code = done.querySelector('.ts-done__key');
+        var intro = done.querySelector('.ts-done__intro');
+        var copy = done.querySelector('.ts-done__copy');
+        code.hidden = false;
+        code.classList.add('is-pending');
+        code.textContent = KEY_PLACEHOLDER;
+        intro.textContent = 'Generating your licence key\u2026';
+        copy.classList.remove('is-shown');
+        var mailedEl = done.querySelector('.ts-done__mailed');
+        if (mailedEl) mailedEl.hidden = false;
+        done.querySelector('.ts-done__email').textContent = 'your email address';
+        Array.prototype.forEach.call(mock.querySelectorAll('[data-mock]'), function (b) {
+          b.classList.toggle('is-active', b === btn);
+        });
+
+        if (errBox) errBox.hidden = true;
+        if (state === 'reset') {
+          done.hidden = true;
+          if (main) main.classList.remove('is-paid');
+          sec.classList.remove('has-purchase');
+          return;
+        }
+        // a failed payment leaves the cards up, because they have not bought anything
+        if (state === 'failed') {
+          done.hidden = true;
+          if (main) main.classList.remove('is-paid');
+          sec.classList.remove('has-purchase');
+          showError();
+          return;
+        }
+        showDone();
+        if (state === 'pending') startIdle(code);
+        if (state === 'revealed') {
+          // shimmer briefly first: the reveal is the thing worth looking at
+          startIdle(code);
+          setTimeout(function () { revealKey(SAMPLE_KEY, sampleEmail()); }, 900);
+        }
+        if (state === 'slow') giveUp(sampleEmail());
+        if (state === 'expired') giveUp(sampleEmail(), 'expired');
+      });
+    }
+
+    // Landing here from Paddle's redirect. Paddle appends the transaction id, which is what the
+    // key lookup is keyed on.
+    // Only reached if a return URL was configured, which is off by default: Paddle's redirect
+    // fires the moment payment lands and takes the page with it, cutting the reveal short. The
+    // handler stays because the redirect is still the only path some payment methods offer, and
+    // because a buyer may bookmark or reload the confirmation. Paddle spells the transaction id
+    // _ptxn; the alternates cost nothing and save a silent failure if that ever differs.
+    var q = new URLSearchParams(location.search);
+    if (q.get('purchase') === 'complete') {
+      onPaid(q.get('_ptxn') || q.get('ptxn') || q.get('transaction_id') || null, null);
+    }
+
+    var token = sec.getAttribute('data-paddle-token');
+    var buys = Array.prototype.slice.call(sec.querySelectorAll('[data-pd-buy]'));
+    if (!token) {
+      // No token configured: the static amounts stand, but nothing must look purchasable.
+      buys.forEach(function (b) { b.disabled = true; b.setAttribute('aria-disabled', 'true'); });
+      return;
+    }
+
+    var amounts = Array.prototype.slice.call(sec.querySelectorAll('[data-pd-price]'));
+    var freqBtns = Array.prototype.slice.call(sec.querySelectorAll('[data-pd-freq]'));
+    var period = sec.querySelector('[data-pd-period]');
+    var successUrl = sec.getAttribute('data-paddle-success') || '';
+
+    // The app sends a trial user here as ?trial=<handle>#pricing. The handle names the licence
+    // they are already running on, so the webhook upgrades it in place instead of minting a
+    // second one. Read once, at load, so a re-render between arriving and clicking Buy cannot
+    // lose it. Nothing here can fail loudly: absent or empty is a normal purchase.
+    //
+    // There is no later chance to attach this. custom_data is fixed when the transaction is
+    // created, and /shop/checkout only reopens an existing ?_ptxn=. Miss it and the failure is
+    // silent: the webhook finds no handle, matches no email, mints a new licence, and the buyer's
+    // installed app still says trial while their key sits in their inbox.
+    var trialHandle = '';
+    try { trialHandle = (new URLSearchParams(location.search).get('trial') || '').trim(); } catch (e) {}
+
+    function ready(fn) {
+      if (window.Paddle) return fn();
+      var tag = document.createElement('script');
+      tag.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
+      tag.onload = fn;
+      tag.onerror = function () {
+        buys.forEach(function (b) { b.disabled = true; b.setAttribute('aria-disabled', 'true'); });
+      };
+      document.head.appendChild(tag);
+    }
+
+    ready(function () {
+      try {
+        if (sec.getAttribute('data-paddle-env') === 'sandbox') Paddle.Environment.set('sandbox');
+        // Not every payment method redirects, and the overlay can complete in place. Handling the
+        // event as well as the redirect means the reveal happens either way, and the buyer keeps
+        // their scroll position when it does.
+        Paddle.Initialize({
+          token: token,
+          eventCallback: function (ev) {
+            if (!ev) return;
+            // Closing the overlay is a decision, not a fault: saying anything about it is nagging.
+            if (ev.name === 'checkout.error') { showError(); return; }
+            if (ev.name !== 'checkout.completed') return;
+            var d = ev.data || {};
+            var email = (d.customer && d.customer.email) || null;
+            setTimeout(function () { try { Paddle.Checkout.close(); } catch (e) {} }, 0);
+            setTimeout(function () { try { Paddle.Checkout.close(); } catch (e) {} }, 400);
+            onPaid(d.transaction_id || d.id || null, email);
+            if (done) done.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      } catch (e) { return; }
+
+      // Every price in one call, both frequencies included, so flipping the toggle is a lookup
+      // rather than another round trip. No address: Paddle infers the country from the IP, and
+      // the sentinel some examples use is not something the API accepts.
+      var ids = {};
+      amounts.forEach(function (el) {
+        ['data-pd-price', 'data-pd-price-month', 'data-pd-price-year'].forEach(function (a) {
+          var v = el.getAttribute(a);
+          if (v) ids[v] = 1;
+        });
+      });
+      var items = Object.keys(ids).map(function (id) { return { priceId: id, quantity: 1 }; });
+      if (!items.length) return;
+
+      var formatted = {};
+      Paddle.PricePreview({ items: items }).then(function (res) {
+        var lines = res && res.data && res.data.details && res.data.details.lineItems;
+        if (!lines) return;
+        lines.forEach(function (li) { formatted[li.price.id] = li.formattedTotals.total; });
+        paint();
+      }).catch(function () { /* leave the static fallbacks in place */ });
+
+      function paint() {
+        amounts.forEach(function (el) {
+          var id = el.getAttribute('data-pd-price');
+          if (formatted[id]) el.textContent = formatted[id];
+        });
+      }
+
+      // ---- monthly / yearly ----
+      freqBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var freq = btn.getAttribute('data-pd-freq');
+          freqBtns.forEach(function (b) {
+            var on = b === btn;
+            b.classList.toggle('is-active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          amounts.forEach(function (el) {
+            var id = el.getAttribute('data-pd-price-' + freq);
+            if (id) el.setAttribute('data-pd-price', id);
+          });
+          buys.forEach(function (b) {
+            var id = b.getAttribute('data-pd-buy-' + freq);
+            if (id) b.setAttribute('data-pd-buy', id);
+          });
+          if (period) period.textContent = freq === 'year' ? 'per year' : 'per month';
+          paint();
+        });
+      });
+
+      // ---- checkout ----
+      buys.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-pd-buy');
+          if (!id) return;
+          var opts = { items: [{ priceId: id, quantity: 1 }] };
+          // Exactly this key, camelCase: the Worker reads custom_data.trialHandle verbatim.
+          // Omitted rather than sent empty, so a plain purchase carries no stray field.
+          if (trialHandle) opts.customData = { trialHandle: trialHandle };
+          if (successUrl) {
+            opts.settings = {
+              // absolute, because Paddle redirects the top window
+              successUrl: new URL(successUrl, location.origin).href
+            };
+          }
+          try { Paddle.Checkout.open(opts); } catch (e) {}
+        });
+      });
+    });
+  })();
+
   /* beta signup, POST the email to the Cloudflare Worker (double opt-in; the Worker owns all
      key/confirm logic). Do NOT change the fetch URL, the { email } body, or the status handling. */
   (function () {

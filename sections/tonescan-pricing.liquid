@@ -1,66 +1,210 @@
 {%- comment -%}
-  Beta / perpetual / subscription. Prices are placeholders until launch.
+  Beta / perpetual / subscription, with live Paddle prices and overlay checkout.
 
-  Split out of tonescan-landing so the page composes from real sections in a JSON
-  template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
-  file carries markup only and can be reordered or removed without taking them with it.
+  Paddle is the merchant of record for software (hardware still sells through Shopify
+  checkout). The back half of this already exists in the toneScan Studio repo as
+  infra/shop-fulfillment: a Worker that takes Paddle's webhook, mints a Keygen licence and
+  emails it. Its README describes the front half as "Shopify product page -> Paddle.js
+  overlay checkout -> Paddle", which is what this section is.
+
+  Prices are NOT written into the page. Paddle.PricePreview fills them at runtime, so they
+  track the catalog and arrive already localised for the buyer's country, with tax handled.
+  The formatted string Paddle returns is used verbatim: it is the amount that will actually
+  be charged, and reformatting it locally is how you end up displaying something checkout
+  then contradicts.
+
+  The client-side token is PUBLIC by design. It can only open checkouts, never read or write
+  account data, and it ships in the HTML of Paddle's own checkout page too. It is not the
+  API key, which is a secret and must never reach the browser.
+
+  Split out of tonescan-landing so the page composes from real sections in a JSON template.
+  Page-wide CSS and JS are rendered once by layout/tonescan.liquid.
 {%- endcomment -%}
 
+{%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+{%- assign pd_token = section.settings.paddle_token -%}
+{%- assign pd_perp  = section.settings.price_perpetual -%}
+{%- assign pd_month = section.settings.price_monthly -%}
+{%- assign pd_year  = section.settings.price_annual -%}
+{%- assign pd_live  = false -%}
+{%- if pd_token != blank and pd_perp != blank -%}{%- assign pd_live = true -%}{%- endif -%}
+
 <div class="tonescan-landing tw:text-neutral-200">
-  <section id="pricing" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
-    <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
-      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Pricing</p>
-      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Free while we're in beta</h2>
-      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[520px] tw:text-[16px] tw:text-neutral-400">toneScan Studio is free to use during the open beta. When we launch, pick the licence that fits: own it forever, or subscribe.</p>
+  <section id="pricing" class="ts-pricing tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]"
+    {%- if pd_live %}
+    data-paddle-token="{{ pd_token }}"
+    data-paddle-env="{{ section.settings.paddle_environment }}"
+    data-paddle-success="{{ section.settings.success_url }}"
+    {%- endif %}>
+
+    {%- comment -%} Shown only when Paddle sends the buyer back here after paying. Hidden in
+       markup rather than rendered conditionally, because the redirect lands on a cached page
+       and the query string is the only thing that differs. {%- endcomment -%}
+    {%- comment -%} Replaces the cards outright once payment lands. They have bought; leaving a
+       price list under a receipt is just noise. Two columns: what happened on the left, the key
+       being minted on the right, because the key is the thing they are waiting for. {%- endcomment -%}
+    <div class="ts-pricing__done" hidden
+         data-key-url="{{ section.settings.key_url }}"
+         data-dl-base="{{ section.settings.download_base }}">
+      <div class="ts-done">
+        {%- comment -%} Everything about the purchase in one column, ending on the thing to do
+           next. Same 40/60 split and bleeding screenshot as the feature deep-dives, so this does
+           not read as a different page. {%- endcomment -%}
+        <div class="ts-done__left">
+          {%- comment -%} Spinner while the key is being minted, then it pops into the tick. Both
+             live in the same 46px disc so nothing shifts at the changeover. {%- endcomment -%}
+          <span class="ts-done__mark" aria-hidden="true">
+            <span class="ts-done__spinner"></span>
+            <svg class="ts-done__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </span>
+          <h2 class="ts-done__title" data-heading-busy="{{ section.settings.generating_heading }}" data-heading-done="{{ section.settings.success_heading }}">{{ section.settings.generating_heading }}</h2>
+          {%- comment -%} Height locked at reveal time: this sits ABOVE the key, so a reflow here
+             would shift the thing the buyer is reading. {%- endcomment -%}
+          <p class="ts-done__intro">Generating your licence key&hellip;</p>
+          {%- comment -%} Shrink-wrapped to the key, which is a known 38 characters and must never
+             wrap. The actions below inherit that width, so the box and the buttons line up. {%- endcomment -%}
+          <div class="ts-done__keyblock">
+          <div class="ts-done__keyrow">
+            <code class="ts-done__key is-pending">XXXXXX-XXXXXX-XXXXXX-XXXXXX-XXXXXX-XX</code>
+            <button type="button" class="ts-done__copy" title="Copy" aria-label="Copy licence key">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+          {%- comment -%} Action first, small print after it. Split button: the main action is
+             picked from the OS, the caret covers the case where we guessed wrong. Built by the
+             driver, since it needs navigator. {%- endcomment -%}
+          <div class="ts-done__actions">
+            <div class="ts-done__dlwrap">
+              <a class="ts-done__dlmain" href="#"><span class="ts-done__dlicon"></span><span class="ts-done__dllabel">Download</span></a>
+              <button type="button" class="ts-done__dlcaret" aria-label="Other versions">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div class="ts-done__dlmenu"></div>
+            </div>
+            {%- if section.settings.docs_url != blank -%}
+            <a class="ts-done__docs" href="{{ section.settings.docs_url }}">{{ section.settings.docs_text }}</a>
+            {%- endif -%}
+          </div>
+          </div>
+          {%- comment -%} One sentence per line, same as the intro above it. The mailed sentence is
+             hidden by the fallback states, which say the same thing in the intro. {%- endcomment -%}
+          <p class="ts-done__note"><span class="ts-done__mailed">We have also emailed your key to <b class="ts-done__email">your email address</b>.<br></span>Your receipt and VAT invoice come separately from Paddle.<br>Any issues? Let us know at <a href="mailto:{{ section.settings.support_email }}">{{ section.settings.support_email }}</a>.</p>
+        </div>
+
+        {%- comment -%} A photograph, not a screenshot: they have just bought the thing that makes
+           these, and a UI shot here would be selling something they already own. Cover-cropped to
+           the full height of the column. {%- endcomment -%}
+        <div class="ts-done__right">
+          {%- if section.settings.success_image != blank -%}
+          <img class="ts-done__pic" src="{{ section.settings.success_image | image_url: width: 2400 }}" alt="" loading="lazy" width="{{ section.settings.success_image.width }}" height="{{ section.settings.success_image.height }}">
+          {%- else -%}
+          <img class="ts-done__pic" src="{{ ts_cdn }}/DSCF5539_RGB.jpg" alt="" loading="lazy" width="1000" height="666">
+          {%- endif -%}
+        </div>
+      </div>
     </div>
-    <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[16px] tw:md:grid-cols-3">
 
-      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[32px]">
-        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Open beta</h3>
-        <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
-          <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">Free</span>
-          <span class="tw:text-[14px] tw:text-neutral-500">right now</span>
+    <div class="ts-pricing__main">
+      <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Pricing</p>
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
+        <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[520px] tw:text-[16px] tw:text-neutral-400">{{ section.settings.subheading }}</p>
+      </div>
+      <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[16px] tw:md:grid-cols-3">
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[32px]">
+          <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Open beta</h3>
+          <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+            <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">Free</span>
+            <span class="tw:text-[14px] tw:text-neutral-500">right now</span>
+          </div>
+          <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Every feature unlocked while we're in beta.</p>
+          <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
+            <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Full conversion &amp; editing</span></li>
+            <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>macOS and Windows</span></li>
+            <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Help shape what ships</span></li>
+          </ul>
+          <a href="#signup" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Join the beta</a>
         </div>
-        <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Every feature unlocked while we're in beta.</p>
-        <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
-          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Full conversion &amp; editing</span></li>
-          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>macOS and Windows</span></li>
-          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Help shape what ships</span></li>
-        </ul>
-        <a href="#signup" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Join the beta</a>
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-[#3b82f6]/60 tw:bg-[#3b82f6]/[0.06] tw:p-[32px]">
+          <span class="tw:mb-[16px] tw:inline-flex tw:w-fit tw:items-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[12px] tw:py-[4px] tw:text-[12px] tw:font-semibold tw:uppercase tw:tracking-[0.08em] tw:text-white">Best value</span>
+          <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Perpetual</h3>
+          <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+            <span class="ts-pricing__amount tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white" data-pd-price="{{ pd_perp }}">{{ section.settings.fallback_perpetual }}</span>
+            <span class="tw:text-[14px] tw:text-neutral-500">one-time</span>
+          </div>
+          <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Own it forever. Yours to keep.</p>
+          <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
+            {%- assign perp_lines = section.settings.perpetual_features | newline_to_br | split: '<br />' -%}
+            {%- for line in perp_lines -%}{%- assign l = line | strip -%}{%- if l != blank -%}
+            <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>{{ l }}</span></li>
+            {%- endif -%}{%- endfor -%}
+          </ul>
+          <button type="button" class="ts-pricing__buy tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]" data-pd-buy="{{ pd_perp }}">Get perpetual</button>
+        </div>
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[32px]">
+          <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Subscription</h3>
+          {%- if pd_year != blank -%}
+          <div class="ts-pricing__freq tw:mt-[14px] tw:inline-flex tw:w-fit tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.03] tw:p-[3px]" role="group" aria-label="Billing period">
+            <button type="button" class="ts-pricing__freqbtn is-active" data-pd-freq="month" aria-pressed="true">Monthly</button>
+            <button type="button" class="ts-pricing__freqbtn" data-pd-freq="year" aria-pressed="false">Yearly</button>
+          </div>
+          {%- endif -%}
+          <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+            <span class="ts-pricing__amount tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white" data-pd-price="{{ pd_month }}" data-pd-price-month="{{ pd_month }}" data-pd-price-year="{{ pd_year }}">{{ section.settings.fallback_monthly }}</span>
+            <span class="ts-pricing__period tw:text-[14px] tw:text-neutral-500" data-pd-period>per month</span>
+          </div>
+          <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Always up to date, cancel anytime.</p>
+          <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
+            {%- assign sub_lines = section.settings.subscription_features | newline_to_br | split: '<br />' -%}
+            {%- for line in sub_lines -%}{%- assign l = line | strip -%}{%- if l != blank -%}
+            <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>{{ l }}</span></li>
+            {%- endif -%}{%- endfor -%}
+          </ul>
+          <button type="button" class="ts-pricing__buy tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]" data-pd-buy="{{ pd_month }}" data-pd-buy-month="{{ pd_month }}" data-pd-buy-year="{{ pd_year }}">Get subscription</button>
+        </div>
+
       </div>
 
-      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-[#3b82f6]/60 tw:bg-[#3b82f6]/[0.06] tw:p-[32px]">
-        <span class="tw:mb-[16px] tw:inline-flex tw:w-fit tw:items-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[12px] tw:py-[4px] tw:text-[12px] tw:font-semibold tw:uppercase tw:tracking-[0.08em] tw:text-white">Best value</span>
-        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Perpetual</h3>
-        <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
-          <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">[ $ ]</span>
-          <span class="tw:text-[14px] tw:text-neutral-500">one-time · at launch</span>
-        </div>
-        <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Own it forever. Yours to keep.</p>
-        <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
-          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 1 ]</span></li>
-          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 2 ]</span></li>
-          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 3 ]</span></li>
-        </ul>
-        <a href="#" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Get perpetual</a>
-      </div>
+    {%- comment -%} Shown when Paddle reports the payment failed. Deliberately not shown when the
+       buyer simply closes the overlay: they chose to leave, and a banner about it is nagging. {%- endcomment -%}
+    <div class="ts-pricing__error" hidden role="alert">
+      <span class="ts-pricing__errmark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </span>
+      <p class="ts-pricing__errtext">That payment did not go through, and you have not been charged. Try again above, or use a different card.</p>
+      <button type="button" class="ts-pricing__errclose" aria-label="Dismiss">&times;</button>
+    </div>
 
-      <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[32px]">
-        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Subscription</h3>
-        <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
-          <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">[ $ ]</span>
-          <span class="tw:text-[14px] tw:text-neutral-500">per month · at launch</span>
-        </div>
-        <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Always up to date, cancel anytime.</p>
-        <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
-          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 1 ]</span></li>
-          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 2 ]</span></li>
-          <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>[ Feature line 3 ]</span></li>
-        </ul>
-        <a href="#" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Get subscription</a>
+      {%- if section.settings.footnote != blank -%}
+      <p class="tw:mx-auto tw:mt-[24px] tw:max-w-[620px] tw:text-center tw:text-[13px] tw:leading-[1.6] tw:text-neutral-500">{{ section.settings.footnote }}</p>
+      {%- endif -%}
+    </div>
+    {%- comment -%} Development only. Drives the SAME functions a real purchase does, so what gets
+       styled here cannot drift from what a buyer sees. Ships hidden and is unhidden by the driver
+       only on a local dev server, in the theme editor, or with ?mockup=1 on the URL: Liquid cannot
+       detect the dev server, because request.host is the shop domain even behind it. {%- endcomment -%}
+    <div class="ts-mock" role="group" aria-label="Confirmation state (development)" hidden>
+      <span class="ts-mock__label">Confirmation state</span>
+      <div class="ts-mock__row">
+        <button type="button" data-mock="reset">Cards</button>
+        <button type="button" data-mock="pending">Generating</button>
+        <button type="button" data-mock="revealed">Key revealed</button>
+        <button type="button" data-mock="slow">Email fallback</button>
       </div>
-
+      <div class="ts-mock__row">
+        <button type="button" data-mock="expired">Key expired</button>
+        <button type="button" data-mock="failed">Payment failed</button>
+      </div>
+      {%- comment -%} The address is not guaranteed: a 410 can come back without one, and the
+         network-error path has none at all, so the copy falls back to "your email address".
+         A modifier rather than three more buttons, since it applies to every state that names
+         an address. {%- endcomment -%}
+      <label class="ts-mock__opt">
+        <input type="checkbox" data-mock-opt="noemail"> No email known
+      </label>
     </div>
   </section>
 </div>
@@ -70,7 +214,158 @@
   "name": "toneScan pricing",
   "tag": "section",
   "class": "section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Free while we're in beta"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "toneScan Studio is free to use during the open beta. When we launch, pick the licence that fits: own it forever, or subscribe."
+    },
+    {
+      "type": "textarea",
+      "id": "perpetual_features",
+      "label": "Perpetual features",
+      "info": "One per line.",
+      "default": "Every feature, no subscription\nOne year of updates included\nUse it on your own machines"
+    },
+    {
+      "type": "textarea",
+      "id": "subscription_features",
+      "label": "Subscription features",
+      "info": "One per line.",
+      "default": "Starts with a 14 day free trial\nEvery feature, always current\nNew releases as they ship\nCancel whenever you like"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "Prices shown in your local currency, tax included where it applies."
+    },
+    {
+      "type": "header",
+      "content": "Paddle"
+    },
+    {
+      "type": "paragraph",
+      "content": "Prices and checkout come from Paddle. Leave the token blank to fall back to the static amounts below and disable the buy buttons."
+    },
+    {
+      "type": "text",
+      "id": "paddle_token",
+      "label": "Client-side token",
+      "info": "The PUBLIC token (test_… or live_…), never the API key.",
+      "default": "test_7d14ccde25df1c60f5887487b25"
+    },
+    {
+      "type": "select",
+      "id": "paddle_environment",
+      "label": "Environment",
+      "options": [
+        { "value": "sandbox", "label": "Sandbox" },
+        { "value": "production", "label": "Production" }
+      ],
+      "default": "sandbox"
+    },
+    {
+      "type": "text",
+      "id": "price_perpetual",
+      "label": "Perpetual price ID",
+      "default": "pri_01kyzemd4pvt5ffn8kpxy1ex59"
+    },
+    {
+      "type": "text",
+      "id": "price_monthly",
+      "label": "Monthly price ID",
+      "default": "pri_01kyzemd9095cb46p8kh6knf95"
+    },
+    {
+      "type": "text",
+      "id": "price_annual",
+      "label": "Yearly price ID",
+      "info": "Leave blank to drop the monthly/yearly toggle.",
+      "default": "pri_01kyzemdd1jw72h4h9thanrwwr"
+    },
+    {
+      "type": "text",
+      "id": "success_url",
+      "label": "Return URL after paying",
+      "info": "LEAVE BLANK. Setting it makes Paddle navigate away the moment payment lands, which kills the key reveal mid-animation and returns to a page with no transaction id to look the key up with. Blank keeps the buyer here and reveals in place. Only set it if you deliberately want a redirect, and expect no key on the other side."
+    },
+    {
+      "type": "text",
+      "id": "fallback_perpetual",
+      "label": "Perpetual price if Paddle is unavailable",
+      "info": "Only shown if Paddle cannot be reached. Sandbox is currently $150.",
+      "default": "$150"
+    },
+    {
+      "type": "text",
+      "id": "fallback_monthly",
+      "label": "Monthly price if Paddle is unavailable",
+      "info": "Only shown if Paddle cannot be reached. Sandbox is currently $10.",
+      "default": "$10"
+    },
+    {
+      "type": "header",
+      "content": "After payment"
+    },
+    {
+      "type": "text",
+      "id": "generating_heading",
+      "label": "Heading while the key is being issued",
+      "default": "Almost there\u2026"
+    },
+    {
+      "type": "text",
+      "id": "success_heading",
+      "label": "Heading",
+      "default": "Payment successful!"
+    },
+    {
+      "type": "text",
+      "id": "key_url",
+      "label": "Licence key endpoint",
+      "info": "The fulfilment Worker's /key route. Needs CORS for this storefront or the poll cannot run. Blank falls back to an email-only message.",
+      "default": "https://api.tonephotographic.com/shop/key"
+    },
+    {
+      "type": "image_picker",
+      "id": "success_image",
+      "label": "Image",
+      "info": "Cover-cropped to fill the column. A photograph works better here than a screenshot."
+    },
+    {
+      "type": "text",
+      "id": "docs_text",
+      "label": "Docs button text",
+      "default": "Read the docs"
+    },
+    {
+      "type": "url",
+      "id": "docs_url",
+      "label": "Docs link",
+      "info": "The button is hidden until this is set."
+    },
+    {
+      "type": "text",
+      "id": "support_email",
+      "label": "Support email",
+      "default": "hello@tonephotographic.com"
+    },
+    {
+      "type": "text",
+      "id": "download_base",
+      "label": "Download host",
+      "info": "The /download/mac and /download/win routes are appended to this.",
+      "default": "https://beta.tonephotographic.com"
+    }
+  ],
   "presets": [
     {
       "name": "toneScan pricing"

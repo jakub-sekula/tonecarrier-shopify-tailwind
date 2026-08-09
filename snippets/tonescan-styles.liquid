@@ -1392,6 +1392,200 @@
 
   .ts-hero-selectbar { padding-top: 44px; padding-bottom: 64px; }
 
+  /* ---- pricing: Paddle prices, checkout and the purchase confirmation --------------------- */
+  .ts-pricing__freqbtn { padding: 5px 12px; font-size: 13px; font-weight: 600; color: #a3a3a3;
+    background: none; border: 0; border-radius: 2px; cursor: pointer;
+    transition: color .18s ease, background .18s ease; }
+  .ts-pricing__freqbtn:hover { color: #fff; }
+  .ts-pricing__freqbtn.is-active { color: #fff; background: rgba(255,255,255,.10); }
+  .ts-pricing__freqbtn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-pricing__buy[disabled] { opacity: .45; cursor: not-allowed; }
+  .ts-pricing__buy[disabled]:hover { transform: none; }
+
+  /* Bought and paid for: the cards go entirely rather than dimming. A greyed-out price list
+     under a receipt still reads as something to weigh up. */
+  .ts-pricing__main.is-paid { display: none; }
+
+  /* Failed payment. Sits with the cards, because nothing was bought and the cards are still the
+     thing to act on. */
+  /* Sits under the cards, because the cards are what to act on next. A full-width band rather
+     than a centred notice: a failed payment should read as a state the page is in, not as a
+     polite aside, and it lines up with the row of cards above it. */
+  .ts-pricing__error { display: flex; align-items: center; gap: 14px; width: 100%;
+    margin: 32px 0 0; padding: 16px 18px; text-align: left;
+    background: rgba(232,90,90,.12); border-radius: 3px; }
+  .ts-pricing__errmark { flex: 0 0 auto; display: inline-flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px; color: #fff; border-radius: 9999px;
+    background: #e85a5a; box-shadow: 0 0 0 4px rgba(232,90,90,.14); }
+  .ts-pricing__errmark svg { width: 16px; height: 16px; }
+  .ts-pricing__errtext { flex: 1 1 auto; font-size: 15px; line-height: 1.55; color: #f2dede; }
+  .ts-pricing__errclose { flex: 0 0 auto; padding: 4px 8px; font-size: 20px; line-height: 1;
+    color: #e0a5a5; background: none; border: 0; cursor: pointer; }
+  .ts-pricing__errclose:hover { color: #fff; }
+
+  /* Purchase confirmation. Once it is showing, the section gives up its own max-width and
+     padding: the picture has to reach the edge of the screen and the full height of the block,
+     which it cannot do from inside a 1400px box with 50px gutters. Two classes, so it beats the
+     utility classes on the section element. */
+  .ts-pricing.has-purchase { max-width: none; padding: 0; }
+  .ts-done { position: relative; display: flex; flex-direction: column; }
+  /* the gutter moves onto the copy, tracking the page's centred container so the text still
+     lines up with every other section */
+  .ts-done__left { padding: 64px 15px; }
+  /* One disc holding both states, so the changeover is a swap inside a fixed box rather than a
+     layout change. The tick starts small and lands with a slight overshoot: that is the pop. */
+  .ts-done__mark { position: relative; display: inline-flex; align-items: center; justify-content: center;
+    width: 46px; height: 46px; margin-bottom: 20px; color: #fff; border-radius: 9999px;
+    background: #3b82f6;
+    box-shadow: 0 0 0 6px rgba(59,130,246,.14), 0 0 26px 4px rgba(59,130,246,.45);
+    transition: background .3s ease, box-shadow .3s ease; }
+  .ts-done__check { width: 24px; height: 24px;
+    transition: opacity .2s ease, transform .4s cubic-bezier(.18, 1.5, .45, 1); }
+  .ts-done__spinner { position: absolute; inset: 0; border-radius: 9999px;
+    border: 2px solid rgba(255,255,255,.16); border-top-color: #3b82f6;
+    opacity: 0; animation: ts-spin .8s linear infinite; }
+
+  /* generating: the disc empties out and the ring spins in its place */
+  .ts-pricing__done.is-generating .ts-done__mark { background: transparent; box-shadow: none; }
+  .ts-pricing__done.is-generating .ts-done__spinner { opacity: 1; }
+  .ts-pricing__done.is-generating .ts-done__check { opacity: 0; transform: scale(.35); }
+
+  @keyframes ts-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .ts-done__spinner { animation: none; border-top-color: rgba(255,255,255,.55); }
+    .ts-done__check { transition: opacity .2s ease; }
+  }
+  /* no ch cap: 18ch was forcing "Thank you for your purchase!" onto two lines even where the
+     column had room for it */
+  .ts-done__title { font-size: 28px; font-weight: 600; line-height: 1.15;
+    letter-spacing: -.02em; color: #fff; text-wrap: balance; }
+  /* the column is half the screen, so the copy needs its own measure or it runs to 600px and
+     breaks in odd places */
+  /* two lines reserved: the copy is one line in some states and two in others, and letting that
+     reflow moved everything below it */
+  /* Wide enough to hold the longest single sentence in any state with room to spare. At 46ch the
+     success line ran to 98% of the measure, so any copy tweak would have silently wrapped it.
+     One line reserved, not two: generating and the revealed key are both one line, so the reveal
+     lands without shifting the box under the reader, and there is no dead space beneath it. */
+  .ts-done__intro { margin-top: 14px; min-height: 1.6em; max-width: 50ch; font-size: 16px;
+    line-height: 1.6; color: #a3a3a3; text-wrap: pretty; }
+  /* The key is a fixed 38 characters, so the box is sized to it rather than to the column: at
+     half-screen width a full-width box left the key marooned in a very wide field. max-content
+     plus nowrap makes it exactly as wide as it needs to be, and it can never break. */
+  .ts-done__keyblock { width: max-content; max-width: 100%; }
+  .ts-done__keyrow { position: relative; margin: 16px 0 0; }
+  .ts-done__key { display: block; width: 100%; padding: 15px 44px;
+    text-align: center; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px;
+    letter-spacing: .03em; white-space: nowrap; color: #f0f2f5;
+    background: #141416; border: 1px solid #262626; border-radius: 2px; transition: color .5s ease; }
+  /* noise until the real key lands, so it must not be selectable */
+  .ts-done__key.is-pending { color: #404349; user-select: none; }
+
+  .ts-done__copy { position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    display: flex; padding: 8px; color: #8b8f96; background: transparent; border: 0; cursor: pointer;
+    opacity: 0; pointer-events: none; transition: opacity .4s ease .25s, color .2s ease; }
+  .ts-done__copy.is-shown { opacity: 1; pointer-events: auto; }
+  .ts-done__copy:hover { color: #fff; }
+  .ts-done__copy svg { width: 16px; height: 16px; }
+  .ts-done__note { margin-top: 22px; max-width: 52ch; font-size: 13px;
+    line-height: 1.6; color: #8b8f96; text-wrap: pretty; }
+  .ts-done__note a { color: #a3a3a3; text-decoration: underline; text-underline-offset: 2px; }
+  .ts-done__note a:hover { color: #fff; }
+  /* Nothing below the key is true yet while it is still being minted: the small print talks about
+     a key that has been emailed, and there is nothing to activate a download with. Both fade in
+     once there is a key, or once we have given up and said so. pointer-events guards the button
+     so it cannot be clicked while it is invisible. */
+  .ts-pricing__done.is-generating .ts-done__note,
+  .ts-pricing__done.is-generating .ts-done__actions { opacity: 0; pointer-events: none; }
+  .ts-done__note, .ts-done__actions { transition: opacity .45s ease; }
+
+  @media (max-width: 560px) {
+    /* 38 monospace characters will not fit a phone at 15px, so shrink the type rather than let
+       the box overflow the screen or the key wrap. */
+    .ts-done__key { padding: 13px 38px; font-size: 12px; letter-spacing: 0; }
+  }
+
+  /* actions sit under the key they activate, with the small print after them */
+  /* width comes from the key block above, so the buttons and the key box share an edge */
+  .ts-done__actions { display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px;
+    width: 100%; margin-top: 20px; }
+  .ts-done__docs { display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 20px; font-size: 15px; font-weight: 600; color: #e5e5e5; text-decoration: none;
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.16); border-radius: 2px;
+    transition: background .18s ease, border-color .18s ease, color .18s ease; }
+  .ts-done__docs:hover { color: #fff; background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.28); }
+  .ts-done__dlwrap { position: relative; display: flex; flex: 1 1 auto; min-width: 0; }
+  .ts-done__dlmain { flex: 1 1 auto; }
+  .ts-done__dlmain { display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 13px 22px; font-size: 15px; font-weight: 600; color: #fff; text-decoration: none;
+    background: #3b82f6; border-radius: 2px 0 0 2px; transition: background .18s ease; }
+  .ts-done__dlmain:hover { background: #2f74e6; }
+  .ts-done__dlicon { display: flex; }
+  .ts-done__dlicon svg { width: 16px; height: 16px; }
+  .ts-done__dlcaret { display: flex; align-items: center; justify-content: center; width: 42px;
+    color: #fff; background: #3b82f6; border: 0; border-left: 1px solid rgba(255,255,255,.22);
+    border-radius: 0 2px 2px 0; cursor: pointer; transition: background .18s ease; }
+  .ts-done__dlcaret:hover { background: #2f74e6; }
+  .ts-done__dlcaret svg { width: 14px; height: 14px; transition: transform .2s ease; }
+  .ts-done__dlcaret.is-open svg { transform: rotate(180deg); }
+  .ts-done__dlmenu { position: absolute; top: calc(100% + 6px); left: 0; min-width: 100%; z-index: 2;
+    background: #141416; border: 1px solid #2a2f36; border-radius: 3px;
+    box-shadow: 0 12px 28px rgba(0,0,0,.5); opacity: 0; pointer-events: none;
+    transform: translateY(-4px); transition: opacity .18s ease, transform .18s ease; }
+  .ts-done__dlmenu.is-open { opacity: 1; pointer-events: auto; transform: none; }
+  .ts-done__dlmenu a { display: flex; align-items: center; gap: 10px; padding: 11px 14px;
+    font-size: 14px; color: #c7cbd1; text-decoration: none; white-space: nowrap; }
+  .ts-done__dlmenu a:hover { color: #fff; background: #1c1c20; }
+  .ts-done__dlmenu svg { width: 15px; height: 15px; }
+
+  /* Full-bleed photograph rather than a framed screenshot: no border or radius, cropped to
+     whatever height the column ends up. On a phone it needs its own height, since there is no
+     column to match. */
+  .ts-done__right { position: relative; overflow: hidden; background: #0f0f10; }
+  .ts-done__pic { display: block; width: 100%; height: 100%; min-height: 300px;
+    object-fit: cover; object-position: center; }
+
+  @media (min-width: 900px) {
+    /* 40/60, the same split the feature deep-dives use, so this does not read as a different
+       page. A hard rule between the columns rather than a gap: the conversion strip already
+       makes a hard vertical line this page's way of separating two things. */
+    /* Half and half, edge to edge. The copy carries the page gutter itself: max() keeps it on
+       the same line as every other section once the viewport is wider than the 1400px container.
+       The picture then owns its half outright, top to bottom and out to the screen edge. */
+    .ts-done { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: stretch; gap: 0; }
+    /* The panel is pinned to the tallest state so the section never resizes between them, and the
+       copy starts at the top of it. Centring the copy instead made every state a different height
+       push the tick and the heading up or down; anchored at the top they hold their position and
+       only the content below them moves. The slack all collects at the bottom. */
+    .ts-done { min-height: 640px; }
+    .ts-done__left { display: flex; flex-direction: column; justify-content: flex-start;
+      padding: 96px 64px 96px max(50px, calc((100vw - 1400px) / 2 + 50px)); }
+    /* the rule is the separator; the picture starts hard against it */
+    .ts-done__right { border-left: 1px solid rgba(255,255,255,.14); }
+    .ts-done__pic { min-height: 560px; }
+    .ts-done__title { font-size: 38px; }
+  }
+
+  /* Development state switcher. Deliberately unlovely and amber-labelled: it should never be
+     mistaken for part of the page, and it should be obvious if it ever ships by accident. */
+  .ts-mock { position: fixed; right: 16px; bottom: 16px; z-index: 60;
+    display: flex; flex-direction: column; gap: 7px; padding: 10px 11px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px;
+    background: rgba(10,10,12,.94); border: 1px dashed rgba(255,255,255,.30); border-radius: 4px;
+    box-shadow: 0 18px 40px -20px rgba(0,0,0,.9); }
+  .ts-mock__label { color: #f59e0b; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .ts-mock__row { display: flex; gap: 5px; }
+  .ts-mock button { padding: 5px 9px; font: inherit; color: #d4d4d4; cursor: pointer;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 3px;
+    transition: background .15s ease, color .15s ease; }
+  .ts-mock button:hover { color: #fff; background: rgba(255,255,255,.13); }
+  .ts-mock button.is-active { color: #0a0a0c; background: #f59e0b; border-color: #f59e0b; }
+  .ts-mock button:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-mock__opt { display: flex; align-items: center; gap: 6px; color: #d4d4d4; cursor: pointer; }
+  .ts-mock__opt input { margin: 0; accent-color: #f59e0b; }
+  @media (max-width: 749px) { .ts-mock { display: none; } }
+
   /* status pill above the headline. Sits in the hero's flex column, so it centres on the
      centred hero and left-aligns on the split one without a second rule. */
   .ts-hero-badge { display: inline-flex; align-items: center; gap: 8px; margin-bottom: -10px;
