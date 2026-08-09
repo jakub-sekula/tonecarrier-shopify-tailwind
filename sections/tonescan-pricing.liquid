@@ -35,6 +35,9 @@
     data-paddle-token="{{ pd_token }}"
     data-paddle-env="{{ section.settings.paddle_environment }}"
     data-paddle-success="{{ section.settings.success_url }}"
+    data-upgrade-info="{{ section.settings.upgrade_info_url }}"
+    data-checkout-theme="{{ section.settings.checkout_theme }}"
+    data-checkout-variant="{{ section.settings.checkout_variant }}"
     {%- endif %}>
 
     {%- comment -%} Shown only when Paddle sends the buyer back here after paying. Hidden in
@@ -131,9 +134,15 @@
           <span class="tw:mb-[16px] tw:inline-flex tw:w-fit tw:items-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[12px] tw:py-[4px] tw:text-[12px] tw:font-semibold tw:uppercase tw:tracking-[0.08em] tw:text-white">Best value</span>
           <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Perpetual</h3>
           <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+            {%- comment -%} The price this replaces. <s> rather than a styled span, so it still
+               reads as superseded with stylesheets off. {%- endcomment -%}
+            <s class="ts-pricing__was" data-pd-was hidden></s>
             <span class="ts-pricing__amount tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white" data-pd-price="{{ pd_perp }}">{{ section.settings.fallback_perpetual }}</span>
             <span class="tw:text-[14px] tw:text-neutral-500">one-time</span>
           </div>
+          {%- comment -%} Filled in only when a discount is actually applied to the preview, so it
+             can never claim an offer that checkout will not honour. {%- endcomment -%}
+          <p class="ts-pricing__offer" data-pd-offer hidden></p>
           <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Own it forever. Yours to keep.</p>
           <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
             {%- assign perp_lines = section.settings.perpetual_features | newline_to_br | split: '<br />' -%}
@@ -153,9 +162,11 @@
           </div>
           {%- endif -%}
           <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
+            <s class="ts-pricing__was" data-pd-was hidden></s>
             <span class="ts-pricing__amount tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white" data-pd-price="{{ pd_month }}" data-pd-price-month="{{ pd_month }}" data-pd-price-year="{{ pd_year }}">{{ section.settings.fallback_monthly }}</span>
             <span class="ts-pricing__period tw:text-[14px] tw:text-neutral-500" data-pd-period>per month</span>
           </div>
+          <p class="ts-pricing__offer" data-pd-offer data-pd-offer-recurring hidden></p>
           <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Always up to date, cancel anytime.</p>
           <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
             {%- assign sub_lines = section.settings.subscription_features | newline_to_br | split: '<br />' -%}
@@ -197,6 +208,17 @@
       <div class="ts-mock__row">
         <button type="button" data-mock="expired">Key expired</button>
         <button type="button" data-mock="failed">Payment failed</button>
+      </div>
+      {%- comment -%} No key is minted on an upgrade, so these two states never poll. {%- endcomment -%}
+      <div class="ts-mock__row">
+        <button type="button" data-mock="up-trial">Upgraded (trial)</button>
+        <button type="button" data-mock="up-beta">Upgraded (beta)</button>
+      </div>
+      {%- comment -%} The cards as a beta tester arriving from the app sees them. Hidden unless the
+         page is on a dev server: it attaches a real discount id, so it must not be reachable in
+         production even with ?mockup=1. {%- endcomment -%}
+      <div class="ts-mock__row" data-mock-localonly hidden>
+        <button type="button" data-mock="beta-price">Beta discount pricing</button>
       </div>
       {%- comment -%} The address is not guaranteed: a 410 can come back without one, and the
          network-error path has none at all, so the copy falls back to "your email address".
@@ -333,6 +355,35 @@
       "label": "Licence key endpoint",
       "info": "The fulfilment Worker's /key route. Needs CORS for this storefront or the poll cannot run. Blank falls back to an email-only message.",
       "default": "https://api.tonephotographic.com/shop/key"
+    },
+    {
+      "type": "select",
+      "id": "checkout_theme",
+      "label": "Checkout appearance",
+      "info": "Styles the checkout card only. The backdrop behind it follows the visitor's system colour scheme, which the page reports as dark regardless, so the page always shows through.",
+      "options": [
+        { "value": "light", "label": "Light" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "checkout_variant",
+      "label": "Checkout layout",
+      "info": "Multi-page is the compact card with the page dimmed around it. One-page is a single tall form that fills the screen.",
+      "options": [
+        { "value": "multi-page", "label": "Compact card (multi-page)" },
+        { "value": "one-page", "label": "Full form (one-page)" }
+      ],
+      "default": "multi-page"
+    },
+    {
+      "type": "text",
+      "id": "upgrade_info_url",
+      "label": "Upgrade lookup endpoint",
+      "info": "The fulfilment Worker's /upgrade-info route. Decides whether a buyer arriving from the app is upgrading, and which discount applies. Blank or unreachable means everyone pays full price.",
+      "default": "https://api.tonephotographic.com/shop/upgrade-info"
     },
     {
       "type": "image_picker",

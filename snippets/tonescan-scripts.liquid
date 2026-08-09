@@ -1265,6 +1265,17 @@ function tsInit() {
     var sec = document.querySelector('.tonescan-landing .ts-pricing');
     if (!sec) return;
 
+    // Hostname only, and deliberately not the same test as the state switcher, which also turns on
+    // with ?mockup=1 and therefore works on the live domain. Anything that can attach a real
+    // discount id to a real checkout has to be unreachable in production.
+    var tsLocalDev = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
+    // Parsed once, up here, because the dev switcher reads it well before the price driver runs.
+    var q0;
+    try { q0 = new URLSearchParams(location.search); } catch (e) { q0 = new URLSearchParams(''); }
+    // Set once the price driver is up. Lets the switcher below re-run the price lookup under a
+    // pretend offer; null until then, and null forever if Paddle never loads.
+    var applyMockOffer = null;
+
     // ---- the confirmation, lifted from the fulfilment Worker's checkout page ------------------
     // The licence is minted asynchronously by the webhook, so the key is polled for rather than
     // being in the redirect. Ported rather than reinvented: the shimmer-then-scramble reveal, the
@@ -1418,7 +1429,7 @@ function tsInit() {
       // Expired is a different situation to slow: the key exists and was already sent, it is just
       // no longer safe to hand out from a URL the buyer may have kept.
       intro.innerHTML = why === 'expired'
-        ? 'Your key was issued earlier.<br>We sent it via email to ' + esc(to) + '.'
+        ? 'Your key was issued earlier.<br>We have sent your key via email to ' + esc(to) + '.'
         : 'It&rsquo;s taking longer than usual to get your key.<br>We will send it via email to ' + esc(to) + '.';
       // Both of those say the key went to email, so the sentence below that says the same thing
       // is dropped; only the receipt note is still worth keeping.
@@ -1478,7 +1489,35 @@ function tsInit() {
       if (window.__tsKeyRef && !window.__tsKeyRef.done && window.__tsKeyRef.poll) window.__tsKeyRef.poll();
     });
 
+    // An upgrade moves the licence the buyer already holds onto a paid policy. The key does not
+    // change, their install stays activated, and the app notices on its own within about a minute.
+    // So there is nothing to reveal, nothing to paste and nothing to download: showing a key here
+    // would invite them to re-enter one that is already working. Because the page knows this
+    // BEFORE checkout opens, it never polls, which also puts it out of reach of the reveal window.
+    function showUpgraded(kind) {
+      if (!done) return;
+      showDone();
+      done.classList.remove('is-generating');
+      setHeading('done');
+      stopIdle();
+      var code = done.querySelector('.ts-done__key');
+      code.textContent = '';
+      code.hidden = true;
+      // The product is named on the first line in both variants, so the second is identical and
+      // says "the app".
+      var upgraded = 'Your licence has been upgraded; you can go back to the app now.';
+      done.querySelector('.ts-done__intro').innerHTML = kind === 'beta'
+        ? 'Thank you for helping us beta test toneScan!<br>' + upgraded
+        : 'Thank you for trying out toneScan!<br>' + upgraded;
+      // Both of these speak to a key that was delivered. Neither happened.
+      var mailed = done.querySelector('.ts-done__mailed');
+      if (mailed) mailed.hidden = true;
+      var acts = done.querySelector('.ts-done__actions');
+      if (acts) acts.hidden = true;
+    }
+
     function onPaid(txn, email) {
+      if (isUpgrade()) return showUpgraded(offer.kind);
       showDone();
       if (email && done) done.querySelector('.ts-done__email').textContent = email;
       if (!txn || !done || !done.getAttribute('data-key-url')) {
@@ -1514,6 +1553,14 @@ function tsInit() {
     if (mock && done) {
       // hex, to match the alphabet the scramble settles through
       var SAMPLE_KEY = '4F2A9C-7B1E6D-3A8F05-C29B47-E1D6A3-5F';
+      // The sandbox beta discount, standing in for what /upgrade-info would return. Overridable
+      // with ?mockdiscount= so a changed or live id does not need an edit here. Nothing outside
+      // this dev-only block reads it: the real flow takes the id from the Worker, which is what
+      // keeps the offer changeable without a storefront deploy.
+      var SAMPLE_DISCOUNT = (tsLocalDev && q0.get('mockdiscount')) || 'dsc_01kzkpxsqb3ezwscbavx3cf7cw';
+      // Attaches a real discount id, so it is gated harder than the panel around it.
+      var betaRow = mock.querySelector('[data-mock-localonly]');
+      if (betaRow && tsLocalDev) betaRow.hidden = false;
       // Undefined stands in for the real no-address cases: a 410 that carries no email, the
       // give-up timeout when the lookup never returned one, and the network-error catch, which
       // calls giveUp with nothing at all. The copy then reads "your email address".
@@ -1544,6 +1591,10 @@ function tsInit() {
         copy.classList.remove('is-shown');
         var mailedEl = done.querySelector('.ts-done__mailed');
         if (mailedEl) mailedEl.hidden = false;
+        // The upgrade states take this away; without restoring it here, every state picked after
+        // one of them would come up with no download button.
+        var actsEl = done.querySelector('.ts-done__actions');
+        if (actsEl) actsEl.hidden = false;
         done.querySelector('.ts-done__email').textContent = 'your email address';
         Array.prototype.forEach.call(mock.querySelectorAll('[data-mock]'), function (b) {
           b.classList.toggle('is-active', b === btn);
@@ -1554,6 +1605,19 @@ function tsInit() {
           done.hidden = true;
           if (main) main.classList.remove('is-paid');
           sec.classList.remove('has-purchase');
+          // Full price again, or the discount would stick to every later state.
+          if (applyMockOffer) applyMockOffer(null);
+          return;
+        }
+        // The pricing cards as a beta tester arriving from the app sees them. Not a confirmation
+        // state: it is the same cards view as reset, with the offer applied over it.
+        if (state === 'beta-price') {
+          done.hidden = true;
+          if (main) main.classList.remove('is-paid');
+          sec.classList.remove('has-purchase');
+          if (tsLocalDev && applyMockOffer) {
+            applyMockOffer({ eligible: true, kind: 'beta', discountId: SAMPLE_DISCOUNT });
+          }
           return;
         }
         // a failed payment leaves the cards up, because they have not bought anything
@@ -1573,7 +1637,63 @@ function tsInit() {
         }
         if (state === 'slow') giveUp(sampleEmail());
         if (state === 'expired') giveUp(sampleEmail(), 'expired');
+        if (state === 'up-trial') showUpgraded('trial');
+        if (state === 'up-beta') showUpgraded('beta');
       });
+    }
+
+    // The app sends an upgrading user here as ?upgrade=<handle>#pricing. The parameter is
+    // "upgrade", not "trial", because the handle carries a BETA licence as readily as a trial one.
+    // It names the licence they are already running, so the webhook moves that one onto a paid
+    // policy instead of minting a second. Read once, at load, so a re-render between arriving and
+    // clicking Buy cannot lose it. Absent or empty is an ordinary full-price purchase.
+    //
+    // There is no later chance to attach this. custom_data is fixed when the transaction is
+    // created, and /shop/checkout only reopens an existing ?_ptxn=. Miss it and the failure is
+    // silent: the webhook finds no handle, mints a new licence, and the buyer's installed app
+    // still says trial while their key sits in their inbox.
+    var upgradeHandle = (q0.get('upgrade') || '').trim();
+
+    // What that handle entitles: { eligible, kind, discountId }. The WORKER decides, never this
+    // page. A discount the storefront could grant itself is one anybody could grant themselves by
+    // editing a URL, so nothing here reads a flag off the query string.
+    //
+    // Null until it answers, and null forever if it does not. Every failure means full price, and
+    // none of them may block the buy button, so the lookup is raced against a timeout and its
+    // rejection is swallowed. The endpoint fails closed on its own side; this side's only job is
+    // not to turn that into a dead page.
+    var offer = null;
+    var offerReady = Promise.resolve(null);
+    var infoUrl = sec.getAttribute('data-upgrade-info') || '';
+
+    // Local simulation of an answer, so the discounted cards and the upgrade confirmation can be
+    // looked at before the Worker route exists.
+    //
+    // Gated on the HOSTNAME, deliberately not on the same condition as the state switcher: that
+    // one also turns on with ?mockup=1, which works on the live domain. A query parameter that
+    // could attach a real discount id to a real checkout is precisely the client-side grant the
+    // spec forbids, so this can only ever run on a dev server.
+    //   ?mockoffer=beta|trial [&mockdiscount=dsc_…]
+    var localOnly = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
+    var mockOffer = localOnly ? (q0.get('mockoffer') || '') : '';
+    if (mockOffer === 'beta' || mockOffer === 'trial') {
+      offer = { eligible: true, kind: mockOffer, discountId: q0.get('mockdiscount') || null };
+    } else if (upgradeHandle && infoUrl) {
+      offerReady = Promise.race([
+        fetch(infoUrl + '?handle=' + encodeURIComponent(upgradeHandle), { credentials: 'omit' })
+          .then(function (r) { return r.json(); })
+          .catch(function () { return null; }),
+        new Promise(function (res) { setTimeout(function () { res(null); }, 4000); })
+      ]).then(function (d) {
+        offer = (d && d.eligible) ? d : null;
+        return offer;
+      }).catch(function () { return null; });
+    }
+
+    // An upgrade mints no new key, so the confirmation has nothing to poll for. Paid licences come
+    // back ineligible, which is not an upgrade either: that is a second purchase.
+    function isUpgrade() {
+      return !!(offer && (offer.kind === 'trial' || offer.kind === 'beta'));
     }
 
     // Landing here from Paddle's redirect. Paddle appends the transaction id, which is what the
@@ -1583,9 +1703,15 @@ function tsInit() {
     // handler stays because the redirect is still the only path some payment methods offer, and
     // because a buyer may bookmark or reload the confirmation. Paddle spells the transaction id
     // _ptxn; the alternates cost nothing and save a silent failure if that ever differs.
-    var q = new URLSearchParams(location.search);
-    if (q.get('purchase') === 'complete') {
-      onPaid(q.get('_ptxn') || q.get('ptxn') || q.get('transaction_id') || null, null);
+    //
+    // Deferred until the lookup answers, so an upgrade that comes back this way still knows it is
+    // one. It only can if the return URL carried ?upgrade= through; Paddle appends to whatever was
+    // configured and does not preserve the original query, so a bare return URL lands here as an
+    // ordinary purchase and polls for a key. That is the same fallback as the lookup being down.
+    if (q0.get('purchase') === 'complete') {
+      offerReady.then(function () {
+        onPaid(q0.get('_ptxn') || q0.get('ptxn') || q0.get('transaction_id') || null, null);
+      });
     }
 
     var token = sec.getAttribute('data-paddle-token');
@@ -1601,17 +1727,23 @@ function tsInit() {
     var period = sec.querySelector('[data-pd-period]');
     var successUrl = sec.getAttribute('data-paddle-success') || '';
 
-    // The app sends a trial user here as ?trial=<handle>#pricing. The handle names the licence
-    // they are already running on, so the webhook upgrades it in place instead of minting a
-    // second one. Read once, at load, so a re-render between arriving and clicking Buy cannot
-    // lose it. Nothing here can fail loudly: absent or empty is a normal purchase.
+    // Pinned, not inherited. Paddle's own defaults are theme:light and variant:multi-page, but the
+    // effective values come from the account dashboard and from an unpinned CDN build of
+    // paddle.js, so an overlay that looked right one day can change appearance with no deploy on
+    // this side. Naming them here makes the checkout look the same regardless of either.
     //
-    // There is no later chance to attach this. custom_data is fixed when the transaction is
-    // created, and /shop/checkout only reopens an existing ?_ptxn=. Miss it and the failure is
-    // silent: the webhook finds no handle, matches no email, mints a new licence, and the buyer's
-    // installed app still says trial while their key sits in their inbox.
-    var trialHandle = '';
-    try { trialHandle = (new URLSearchParams(location.search).get('trial') || '').trim(); } catch (e) {}
+    // theme and variant govern the checkout CARD only. Neither touches the backdrop behind it:
+    // that is painted inside Paddle's iframe from the colours set in the Paddle dashboard, which
+    // is why it can change with no deploy here and cannot be styled from this stylesheet.
+    // Per Paddle's own overlay docs: "Customize colors, logo, and branding in the Paddle
+    // dashboard. Structure and experience is managed by Paddle."
+    //
+    // Pinned anyway, so the card at least does not drift with the account default.
+    var CHECKOUT_SETTINGS = {
+      displayMode: 'overlay',
+      theme: sec.getAttribute('data-checkout-theme') || 'light',
+      variant: sec.getAttribute('data-checkout-variant') || 'multi-page'
+    };
 
     function ready(fn) {
       if (window.Paddle) return fn();
@@ -1632,6 +1764,7 @@ function tsInit() {
         // their scroll position when it does.
         Paddle.Initialize({
           token: token,
+          checkout: { settings: CHECKOUT_SETTINGS },
           eventCallback: function (ev) {
             if (!ev) return;
             // Closing the overlay is a decision, not a fault: saying anything about it is nagging.
@@ -1660,18 +1793,87 @@ function tsInit() {
       var items = Object.keys(ids).map(function (id) { return { priceId: id, quantity: 1 }; });
       if (!items.length) return;
 
-      var formatted = {};
-      Paddle.PricePreview({ items: items }).then(function (res) {
-        var lines = res && res.data && res.data.details && res.data.details.lineItems;
-        if (!lines) return;
-        lines.forEach(function (li) { formatted[li.price.id] = li.formattedTotals.total; });
-        paint();
-      }).catch(function () { /* leave the static fallbacks in place */ });
+      var formatted = {};   // what the buyer pays
+      var full = {};        // the same prices with no discount, for the strike-through
+      var discounted = {};
+      function linesOf(res) {
+        return res && res.data && res.data.details && res.data.details.lineItems;
+      }
+      // Waits on the offer so this is one call with the right discount, rather than a full price
+      // that visibly rewrites itself a moment later. The static fallbacks hold the space meanwhile.
+      function loadPrices() {
+        var withDiscount = offer && offer.discountId;
+        // Two lookups when an offer is on: the price they pay, and the one it replaces. The
+        // undiscounted figure is asked for rather than derived, because the discount comes off
+        // before tax, so the total cannot be reconstructed by adding the discount back on. Paddle
+        // owns that calculation and this does not attempt it.
+        var jobs = [Paddle.PricePreview({ items: items })];
+        if (withDiscount) jobs.push(Paddle.PricePreview({ items: items, discountId: offer.discountId }));
+        return Promise.all(jobs).then(function (res) {
+          var baseLines = linesOf(res[0]);
+          var payLines = linesOf(res[res.length - 1]);
+          if (!baseLines || !payLines) return;
+          baseLines.forEach(function (li) { full[li.price.id] = li.formattedTotals.total; });
+          payLines.forEach(function (li) {
+            formatted[li.price.id] = li.formattedTotals.total;
+            // Paddle reports what it actually took off. Reading the discount from the response
+            // rather than from the fact that we asked for one means the note can never advertise
+            // an offer the checkout will decline.
+            //
+            // The raw integer, not formattedTotals.discount: that is locale-formatted, and a zero
+            // reads "$0.00" in one place and "0,00 €" in another. Parsing it would need to know
+            // where the symbol sits. This is minor units as a plain string in every currency.
+            discounted[li.price.id] = Number(li.totals && li.totals.discount) > 0;
+          });
+          paint();
+        }).catch(function () { /* leave the static fallbacks in place */ });
+      }
+      offerReady.then(loadPrices);
+
+      // Lets the dev switcher put the cards under a pretend offer and take them back out again.
+      // Re-runs the real price lookup rather than doing arithmetic on the displayed figures, so
+      // what it shows is what Paddle would actually charge.
+      applyMockOffer = function (o) {
+        offer = o;
+        return loadPrices();
+      };
 
       function paint() {
         amounts.forEach(function (el) {
           var id = el.getAttribute('data-pd-price');
           if (formatted[id]) el.textContent = formatted[id];
+          var was = el.parentElement && el.parentElement.querySelector('[data-pd-was]');
+          if (!was) return;
+          // Only when Paddle actually took something off AND the two figures differ. A discount
+          // that rounds to the same total would otherwise strike through the price it is next to.
+          if (discounted[id] && full[id] && full[id] !== formatted[id]) {
+            was.textContent = full[id];
+            was.hidden = false;
+          } else {
+            was.textContent = '';
+            was.hidden = true;
+          }
+        });
+        paintOffer();
+      }
+
+      // The beta discount does not recur, so on a subscription it comes off the first period only.
+      // Showing the reduced figure unqualified would make the card false from the second period
+      // on, which is why the recurring cards say which period it applies to and the one-time card
+      // does not need to.
+      function paintOffer() {
+        Array.prototype.forEach.call(sec.querySelectorAll('[data-pd-offer]'), function (note) {
+          var card = note.closest('div');
+          var amountEl = card && card.querySelector('[data-pd-price]');
+          var id = amountEl && amountEl.getAttribute('data-pd-price');
+          if (!id || !discounted[id]) { note.hidden = true; return; }
+          if (note.hasAttribute('data-pd-offer-recurring')) {
+            var yearly = amountEl.getAttribute('data-pd-price-year') === id;
+            note.textContent = 'Beta tester price, for your first ' + (yearly ? 'year' : 'month') + '.';
+          } else {
+            note.textContent = 'Beta tester price.';
+          }
+          note.hidden = false;
         });
       }
 
@@ -1703,15 +1905,26 @@ function tsInit() {
           var id = btn.getAttribute('data-pd-buy');
           if (!id) return;
           var opts = { items: [{ priceId: id, quantity: 1 }] };
-          // Exactly this key, camelCase: the Worker reads custom_data.trialHandle verbatim.
-          // Omitted rather than sent empty, so a plain purchase carries no stray field.
-          if (trialHandle) opts.customData = { trialHandle: trialHandle };
-          if (successUrl) {
-            opts.settings = {
-              // absolute, because Paddle redirects the top window
-              successUrl: new URL(successUrl, location.origin).href
-            };
-          }
+          // The URL parameter is `upgrade`; the customData key is `trialHandle`. They do not
+          // match and nothing warns you: the webhook reads custom_data.trialHandle and nothing
+          // else. Sent whenever a handle is present, regardless of what the lookup said, because
+          // the lookup being down must not turn an upgrade into a duplicate licence.
+          if (upgradeHandle) opts.customData = { trialHandle: upgradeHandle };
+          // Carried explicitly rather than relying on the Initialize-level settings surviving.
+          // A settings object passed here replaces the one given to Initialize rather than
+          // merging into it, so sending only a successUrl would silently drop the theme and the
+          // variant, and only on the checkouts that have a return URL.
+          opts.settings = {
+            displayMode: CHECKOUT_SETTINGS.displayMode,
+            theme: CHECKOUT_SETTINGS.theme,
+            variant: CHECKOUT_SETTINGS.variant
+          };
+          // absolute, because Paddle redirects the top window
+          if (successUrl) opts.settings.successUrl = new URL(successUrl, location.origin).href;
+          // Whatever the lookup has by now. It is started at load and the buyer has to read a
+          // price list first, so it has effectively always answered; if it has not, they pay full
+          // price rather than wait behind a spinner.
+          if (offer && offer.discountId) opts.discountId = offer.discountId;
           try { Paddle.Checkout.open(opts); } catch (e) {}
         });
       });

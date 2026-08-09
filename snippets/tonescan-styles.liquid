@@ -1463,11 +1463,14 @@
      breaks in odd places */
   /* two lines reserved: the copy is one line in some states and two in others, and letting that
      reflow moved everything below it */
-  /* Wide enough to hold the longest single sentence in any state with room to spare. At 46ch the
-     success line ran to 98% of the measure, so any copy tweak would have silently wrapped it.
+  /* Wide enough to hold the longest single sentence in any state with room to spare. Every line
+     here carries its own <br>, so this is a wrap guard rather than a reading measure: a generous
+     value costs nothing visually and a tight one wraps copy through the middle of a phrase the
+     next time a word is added. The longest line is the upgrade one at 487px; 56ch is ~551px, and
+     still inside the ~586px the column gives, so the panel is not the constraint.
      One line reserved, not two: generating and the revealed key are both one line, so the reveal
      lands without shifting the box under the reader, and there is no dead space beneath it. */
-  .ts-done__intro { margin-top: 14px; min-height: 1.6em; max-width: 50ch; font-size: 16px;
+  .ts-done__intro { margin-top: 14px; min-height: 1.6em; max-width: 56ch; font-size: 16px;
     line-height: 1.6; color: #a3a3a3; text-wrap: pretty; }
   /* The key is a fixed 38 characters, so the box is sized to it rather than to the column: at
      half-screen width a full-width box left the key marooned in a very wide field. max-content
@@ -1507,6 +1510,9 @@
 
   /* actions sit under the key they activate, with the small print after them */
   /* width comes from the key block above, so the buttons and the key box share an edge */
+  /* display:flex outranks the UA's [hidden] rule, so an upgrade (which has nothing to download)
+     would otherwise still show the button. */
+  .ts-done__actions[hidden] { display: none; }
   .ts-done__actions { display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px;
     width: 100%; margin-top: 20px; }
   .ts-done__docs { display: inline-flex; align-items: center; justify-content: center;
@@ -1582,6 +1588,25 @@
   .ts-mock button:hover { color: #fff; background: rgba(255,255,255,.13); }
   .ts-mock button.is-active { color: #0a0a0c; background: #f59e0b; border-color: #f59e0b; }
   .ts-mock button:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  /* Paddle's overlay backdrop follows the visitor's SYSTEM colour scheme, evaluated inside their
+     own cross-origin iframe: on a dark system it dims this page and lets it show through, on a
+     light one it fills the viewport with a solid panel. The checkout `theme` setting does not
+     touch it, and neither does anything in this file.
+     Declared on the frame itself because color-scheme on an embedder is the one standards-defined
+     way to propagate a scheme into a nested document. Whether Chrome honours it across origins is
+     not something this can guarantee; it costs one line and breaks nothing if it is ignored.
+     Patching matchMedia in the host page was tried and does nothing: paddle.js is not the reader,
+     the iframe is. */
+  .paddle-frame, .paddle-frame-overlay { color-scheme: dark; }
+
+  /* The superseded price, sitting before the one being charged. Smaller and dimmer so the figure
+     that matters still reads first at a glance. */
+  .ts-pricing__was { font-size: 24px; font-weight: 600; letter-spacing: -0.02em;
+    color: #6b7280; text-decoration-thickness: 2px; }
+
+  /* Sits under the amount, and only ever appears when Paddle reported an actual reduction. No
+     display property of its own, so the hidden attribute is enough to take it away. */
+  .ts-pricing__offer { margin-top: 8px; font-size: 13px; font-weight: 600; color: #60a5fa; }
   .ts-mock__opt { display: flex; align-items: center; gap: 6px; color: #d4d4d4; cursor: pointer; }
   .ts-mock__opt input { margin: 0; accent-color: #f59e0b; }
   @media (max-width: 749px) { .ts-mock { display: none; } }
