@@ -163,6 +163,32 @@
       </div>
     </section>
 
+    {%- comment -%} Flipped, to keep the alternation going after the contact sheet dive. {%- endcomment -%}
+    <section class="ts-dive ts-dive--alt ts-dive--flip">
+      <div class="ts-dive__inner">
+        <div class="ts-dive__text">
+          <p class="ts-dive__eyebrow">Metadata</p>
+          <h2 class="ts-dive__title">The roll's details, in every file</h2>
+          <p class="ts-dive__body">Record the film stock, the camera and how the roll was developed. toneScan Studio writes all of it into the files it exports, so it is there when you open them again.</p>
+          <ul class="ts-bullets">
+            <li>Film stock, camera and development details on every frame</li>
+            <li>Written into the files you export</li>
+            <li>Filenames built from name, date, project or sequence</li>
+            <li>TIFF or JPG, at the size and quality you choose</li>
+          </ul>
+        </div>
+        <div class="ts-dive__media">
+          <div class="ts-shot">
+            {%- if section.settings.metadata_image != blank -%}
+            <img src="{{ section.settings.metadata_image | image_url: width: 3200 }}" alt="Film stock, camera and development details recorded against a roll" loading="lazy" width="{{ section.settings.metadata_image.width }}" height="{{ section.settings.metadata_image.height }}">
+            {%- else -%}
+            <img src="{{ ts_cdn }}/organise.png" alt="" loading="lazy" width="3200" height="2000">
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 </div>
 
@@ -176,6 +202,12 @@
       "type": "image_picker",
       "id": "contact_sheet_image",
       "label": "Contact sheet screenshot",
+      "info": "Falls back to a placeholder until a real one is uploaded."
+    },
+    {
+      "type": "image_picker",
+      "id": "metadata_image",
+      "label": "Metadata screenshot",
       "info": "Falls back to a placeholder until a real one is uploaded."
     }
   ],
