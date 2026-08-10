@@ -12,10 +12,6 @@
   "sections": {
     "hero": {
       "type": "tonescan-hero",
-      "settings": {
-        "background_opacity": 8,
-        "background_blur": 5
-      },
       "blocks": {
         "slide_1": {
           "type": "slide",
@@ -73,7 +69,11 @@
         "slide_4",
         "slide_5",
         "slide_6"
-      ]
+      ],
+      "settings": {
+        "background_opacity": 8,
+        "background_blur": 5
+      }
     },
     "conversion-strip": {
       "type": "tonescan-conversion-strip",
@@ -246,7 +246,6 @@
     },
     "features": {
       "type": "tonescan-features",
-      "settings": {},
       "blocks": {
         "tile_1": {
           "type": "tile",
@@ -369,7 +368,8 @@
         "tile_7",
         "tile_8",
         "tile_9"
-      ]
+      ],
+      "settings": {}
     },
     "highlights": {
       "type": "tonescan-highlights",
@@ -462,7 +462,8 @@
         "group_3",
         "group_4",
         "group_5"
-      ]
+      ],
+      "settings": {}
     },
     "intro": {
       "type": "tonescan-intro",

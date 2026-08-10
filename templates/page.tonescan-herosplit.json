@@ -1,17 +1,23 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "layout": "tonescan",
   "sections": {
     "hero": {
       "type": "tonescan-hero-split",
-      "settings": {
-        "background_opacity": 8,
-        "background_blur": 5
-      },
       "blocks": {
         "slide_1": {
           "type": "slide",
           "settings": {
             "title": "Develop",
+            "video": "shopify://files/videos/hero.mp4",
             "media_url": "https://cdn.shopify.com/videos/c/o/v/b65600e0d21a4c62a9bc7beeea2ea761.mp4",
             "alt": ""
           }
@@ -20,6 +26,7 @@
           "type": "slide",
           "settings": {
             "title": "RGB merge",
+            "video": "shopify://files/videos/grid-ingest.mp4",
             "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png",
             "alt": "Three single-channel captures selected and merged into one RGB frame"
           }
@@ -28,6 +35,7 @@
           "type": "slide",
           "settings": {
             "title": "Calibration",
+            "video": "shopify://files/videos/calibration.mp4",
             "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png",
             "alt": "Calibrating channel exposure and reading the crosstalk matrix"
           }
@@ -64,7 +72,20 @@
         "slide_4",
         "slide_5",
         "slide_6"
-      ]
+      ],
+      "settings": {
+        "badge": "Now in open beta",
+        "heading": "Film scanning, start to finish.",
+        "subheading": "toneScan Studio turns your camera into a dedicated film scanner. Process whole rolls at the speed of a lab, with trichromatic scanning, accurate inversions and&nbsp;instant, full-resolution previews of every edit.",
+        "cta_text": "Join the beta",
+        "sub_cta_text": "Available for Mac and Windows",
+        "background_opacity": 8,
+        "background_blur": 5
+      }
+    },
+    "intro": {
+      "type": "tonescan-intro",
+      "settings": {}
     },
     "conversion-strip": {
       "type": "tonescan-conversion-strip",
@@ -232,12 +253,13 @@
         "note": "<p>All photos converted with toneScan Studio, using automatic settings with minor exposure and white balance tweaks.</p><p>Scanned with Fujifilm and Canon cameras.</p>",
         "show_scans_cta": false,
         "cta_text": "See sample scans",
-        "cta_link": "#gallery"
+        "cta_link": "#gallery",
+        "edge_stock": "TONE PT 200/24°",
+        "edge_batch": "0-2137"
       }
     },
     "features": {
       "type": "tonescan-features",
-      "settings": {},
       "blocks": {
         "tile_1": {
           "type": "tile",
@@ -262,7 +284,9 @@
             "icon": "ic1",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png",
             "video_url": "",
-            "alt": ""
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
           }
         },
         "tile_3": {
@@ -274,7 +298,9 @@
             "icon": "ic2",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
             "video_url": "",
-            "alt": ""
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
           }
         },
         "tile_4": {
@@ -286,7 +312,9 @@
             "icon": "ic3",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
             "video_url": "",
-            "alt": ""
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
           }
         },
         "tile_5": {
@@ -298,7 +326,9 @@
             "icon": "ic4",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
             "video_url": "",
-            "alt": ""
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
           }
         },
         "tile_6": {
@@ -310,7 +340,9 @@
             "icon": "ic5",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png",
             "video_url": "",
-            "alt": "Exporting sixteen selected frames at once while the roll stays browsable"
+            "alt": "Exporting sixteen selected frames at once while the roll stays browsable",
+            "cta_text": "",
+            "cta_link": "#gallery"
           }
         },
         "tile_7": {
@@ -322,7 +354,9 @@
             "icon": "ic6",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
             "video_url": "",
-            "alt": ""
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
           }
         },
         "tile_8": {
@@ -334,7 +368,9 @@
             "icon": "ic7",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
             "video_url": "",
-            "alt": ""
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
           }
         },
         "tile_9": {
@@ -346,7 +382,9 @@
             "icon": "ic8",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png",
             "video_url": "",
-            "alt": ""
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
           }
         }
       },
@@ -360,7 +398,11 @@
         "tile_7",
         "tile_8",
         "tile_9"
-      ]
+      ],
+      "settings": {
+        "heading": "Everything a film scan needs",
+        "subheading": "Capture, calibration, conversion, culling and export, in one program built for film photographers."
+      }
     },
     "highlights": {
       "type": "tonescan-highlights",
@@ -376,26 +418,6 @@
     },
     "hardware": {
       "type": "tonescan-hardware",
-      "settings": {}
-    },
-    "gallery": {
-      "type": "tonescan-gallery",
-      "settings": {}
-    },
-    "testimonial": {
-      "type": "tonescan-testimonial",
-      "settings": {}
-    },
-    "pricing": {
-      "type": "tonescan-pricing",
-      "settings": {}
-    },
-    "faq": {
-      "type": "tonescan-faq",
-      "settings": {}
-    },
-    "signup": {
-      "type": "tonescan-signup",
       "settings": {}
     },
     "feature-list": {
@@ -424,7 +446,7 @@
           "settings": {
             "title": "Rich editing experience",
             "icon": "icon2",
-            "items": "Inversion modelled on film physics and the way darkroom paper responds to light\n<b>Three process modes</b>: colour negative, B&amp;W negative, slide\n<b>Live RGB histogram</b>\nGPU viewport: every slider lands on a full-resolution preview instantly, with no proxy image\n<b>Exposure, contrast, density,</b> highlight rolloff and shadow lift\n<b>Auto density</b>\n<b>Smart auto white balance</b>, or pick your own neutral\n<b>Levels, tone trims and sharpening</b>\n<b>Crop, rotate and flip</b>\nSmart auto-crop: frame edges found and squared up for you\n<b>Pixel loupe</b> with a live density readout\n<b>True exposure from raw</b>: read from signal, not the histogram",
+            "items": "Inversion modelled on film physics and the way darkroom paper responds to light\n<b>Three process modes</b>: colour negative, B&W negative, slide\n<b>Live RGB histogram</b>\nGPU viewport: every slider lands on a full-resolution preview instantly, with no proxy image\n<b>Exposure, contrast, density,</b> highlight rolloff and shadow lift\n<b>Auto density</b>\n<b>Smart auto white balance</b>, or pick your own neutral\n<b>Levels, tone trims and sharpening</b>\n<b>Crop, rotate and flip</b>\nSmart auto-crop: frame edges found and squared up for you\n<b>Pixel loupe</b> with a live density readout\n<b>True exposure from raw</b>: read from signal, not the histogram",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png"
           }
         },
@@ -453,10 +475,54 @@
         "group_3",
         "group_4",
         "group_5"
-      ]
+      ],
+      "settings": {
+        "heading": "The full feature list",
+        "subheading": "Everything toneScan Studio does, grouped by where it fits in the work."
+      }
     },
-    "intro": {
-      "type": "tonescan-intro",
+    "gallery": {
+      "type": "tonescan-gallery",
+      "settings": {}
+    },
+    "testimonial": {
+      "type": "tonescan-testimonial",
+      "settings": {}
+    },
+    "pricing": {
+      "type": "tonescan-pricing",
+      "settings": {
+        "heading": "Free while we're in beta",
+        "subheading": "toneScan Studio is free to use during the open beta. When we launch, pick the licence that fits: own it forever, or subscribe.",
+        "perpetual_features": "Every feature, no subscription\nOne year of updates included\nUse it on your own machines",
+        "subscription_features": "Starts with a 14 day free trial\nEvery feature, always current\nNew releases as they ship\nCancel whenever you like",
+        "footnote": "Prices shown in your local currency, tax included where it applies.",
+        "paddle_token": "test_7d14ccde25df1c60f5887487b25",
+        "paddle_environment": "sandbox",
+        "price_perpetual": "pri_01kyzemd4pvt5ffn8kpxy1ex59",
+        "price_monthly": "pri_01kyzemd9095cb46p8kh6knf95",
+        "price_annual": "pri_01kyzemdd1jw72h4h9thanrwwr",
+        "success_url": "",
+        "fallback_perpetual": "$150",
+        "fallback_monthly": "$10",
+        "generating_heading": "Almost there…",
+        "success_heading": "Payment successful!",
+        "key_url": "https://api.tonephotographic.com/shop/key",
+        "checkout_theme": "light",
+        "checkout_variant": "multi-page",
+        "upgrade_info_url": "https://api.tonephotographic.com/shop/upgrade-info",
+        "docs_text": "Read the docs",
+        "docs_url": "",
+        "support_email": "hello@tonephotographic.com",
+        "download_base": "https://beta.tonephotographic.com"
+      }
+    },
+    "faq": {
+      "type": "tonescan-faq",
+      "settings": {}
+    },
+    "signup": {
+      "type": "tonescan-signup",
       "settings": {}
     }
   },
