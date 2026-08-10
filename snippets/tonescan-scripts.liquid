@@ -1134,8 +1134,12 @@ function tsInit() {
     var dots = bar.querySelectorAll('.ts-hero-dot');
     var select = bar.querySelector('.ts-hero-select');
     var frame = document.querySelector('.tonescan-landing .ts-hero-frame');
-    var video = hero.querySelector('.ts-hero-video');
     var current = 0;
+    // whichever slot is showing, if it happens to be a video one
+    function activeVideo() {
+      var s = shots[current];
+      return s ? s.querySelector('.ts-hero-video') : null;
+    }
 
     function show(i, fromAuto) {
       i = (i + shots.length) % shots.length;
@@ -1144,7 +1148,7 @@ function tsInit() {
       dots.forEach(function (d, di) { d.classList.toggle('is-active', di === i); });
       shots.forEach(function (s, si) { s.classList.toggle('is-active', si === i); });
       if (select && +select.value !== i) select.value = i;
-      if (window.__tsHeroVideoSync) window.__tsHeroVideoSync(); // play/pause the Develop video with its slot
+      if (window.__tsHeroVideoSync) window.__tsHeroVideoSync(); // play/pause each hero video with its slot
       if (fromAuto) scheduleAuto(); else stopAuto();            // any manual pick ends the rotation
     }
 
@@ -1160,13 +1164,21 @@ function tsInit() {
     }
     function tick() {
       if (autoStopped) return;
-      // don't cut the Develop clip off part-way through, wait for it to finish
-      if (video && shots[0] && shots[0].classList.contains('is-active') && !video.paused && !video.ended) {
+      // Don't cut a clip off part-way through, wait for it to finish. Asks the slot that is
+      // actually showing: this used to name shots[0], so a video in any later slot got talked
+      // over by the timer.
+      var v = activeVideo();
+      if (v && !v.paused && !v.ended) {
         autoTimer = setTimeout(tick, 1000);
         return;
       }
       show(current + 1, true);
     }
+
+    // A finished clip moves the hero on itself, so the sequence is driven by the video rather than
+    // by a timer racing it. The rotation flag is left as it was: someone who picked a tab still
+    // gets the next clip when this one ends, but the 10s timer stays stopped for image slots.
+    window.__tsHeroAdvance = function () { show(current + 1, !autoStopped); };
 
     tabs.forEach(function (t, ti) { t.addEventListener('click', function () { show(ti); }); });
     if (select) select.addEventListener('change', function () { show(+select.value); });
@@ -1228,28 +1240,78 @@ function tsInit() {
     scheduleAuto();
   })();
 
-  /* hero Develop video, autoplay (muted) when the hero is in view AND its slot is active;
-     replay button overlays when it ends. Honours reduced-motion (no autoplay; shows Play). */
+  /* hero videos: autoplay (muted) when the hero is in view AND that video's own slot is active;
+     replay button overlays when one ends. Honours reduced-motion (no autoplay; shows Play).
+
+     Every slot gets its own driver. This used to querySelector a single video and a single replay
+     button, which worked only because there was one video block: a second one rendered fine and
+     then simply never played, because nothing was wired to it. The markup was always per-block. */
   (function () {
-    var video = document.querySelector('.tonescan-landing .ts-hero-video');
-    if (!video) return;
-    var slot = video.closest('.ts-hero-shot');
-    var replay = document.querySelector('.tonescan-landing .ts-hero-replay');
-    var label = replay ? replay.querySelector('.ts-hero-replay__label') : null;
+    var hero = document.querySelector('.tonescan-landing .ts-hero-color');
+    var videos = hero ? Array.prototype.slice.call(hero.querySelectorAll('.ts-hero-video')) : [];
+    if (!videos.length) return;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var inView = false, ended = false;
-    function activeSlot() { return slot && slot.classList.contains('is-active'); }
-    function sync() {
-      if (!reduce && inView && activeSlot() && !ended) { var p = video.play(); if (p && p.catch) p.catch(function () {}); }
-      else { video.pause(); }
-    }
-    video.addEventListener('ended', function () { ended = true; if (label) label.textContent = 'Replay'; if (replay) replay.classList.add('is-shown'); });
-    if (replay) replay.addEventListener('click', function () { ended = false; replay.classList.remove('is-shown'); video.currentTime = 0; var p = video.play(); if (p && p.catch) p.catch(function () {}); });
-    if (reduce && replay) { if (label) label.textContent = 'Play'; replay.classList.add('is-shown'); } // opt-in under reduced motion
+    var syncs = [];
+
+    // ONE observer, on the hero, not one per video.
+    //
+    // This is what stopped the later clips playing. An inactive slot is not rendered, so an
+    // observer watching the video itself never reports it as intersecting, and the gate stayed
+    // shut for every video except the one visible at load. Whether the hero is on screen is a
+    // property of the hero, so that is what gets watched; which clip should run is decided by
+    // its slot's class.
+    var heroInView = false;
+    function syncAll() { syncs.forEach(function (fn) { fn(); }); }
+
+    videos.forEach(function (video) {
+      var slot = video.closest('.ts-hero-shot');
+      // scoped to this slot, or two videos would share the first one's replay button
+      var replay = slot ? slot.querySelector('.ts-hero-replay') : null;
+      var label = replay ? replay.querySelector('.ts-hero-replay__label') : null;
+      function activeSlot() { return slot && slot.classList.contains('is-active'); }
+      function rewind() { try { video.currentTime = 0; } catch (e) {} }
+
+      function sync() {
+        if (reduce) { video.pause(); return; }
+        if (heroInView && activeSlot()) {
+          // Coming back to a slot starts the clip again rather than resuming on its last frame,
+          // which is what a paused-at-the-end video looks like.
+          if (video.ended) rewind();
+          var p = video.play();
+          if (p && p.catch) p.catch(function () {});
+        } else {
+          video.pause();
+          rewind();
+        }
+      }
+
+      video.addEventListener('ended', function () {
+        // The sequence: a finished clip moves the hero to the next slot, which starts that one.
+        if (!reduce && window.__tsHeroAdvance) { window.__tsHeroAdvance(); return; }
+        if (label) label.textContent = 'Replay';
+        if (replay) replay.classList.add('is-shown');
+      });
+      if (replay) replay.addEventListener('click', function () {
+        replay.classList.remove('is-shown');
+        rewind();
+        var p = video.play(); if (p && p.catch) p.catch(function () {});
+      });
+      // Under reduced motion nothing plays on its own, so the button is the way in.
+      if (reduce && replay) { if (label) label.textContent = 'Play'; replay.classList.add('is-shown'); }
+
+      syncs.push(sync);
+    });
+
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (es) { es.forEach(function (e) { inView = e.isIntersecting; sync(); }); }, { threshold: 0.3 }).observe(video);
-    } else { inView = true; sync(); }
-    window.__tsHeroVideoSync = sync;
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { heroInView = e.isIntersecting; });
+        syncAll();
+      }, { threshold: 0.3 }).observe(hero);
+    } else { heroInView = true; syncAll(); }
+
+    // The stage controller calls this on every slot change, and the clip leaving has to be paused
+    // as surely as the arriving one has to start.
+    window.__tsHeroVideoSync = syncAll;
   })();
 
   /* ---- pricing: live Paddle prices and overlay checkout --------------------------------------
