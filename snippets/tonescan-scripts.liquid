@@ -1351,14 +1351,64 @@ function tsInit() {
     // wait makes the reveal feel like something was issued rather than pre-baked.
     var MIN_SHIMMER_MS = 2200, GIVE_UP_MS = 20000, POLL_MS = 1500;
 
+    var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Animates the section between the layout before a change and the layout after it.
+    //
+    // Height cannot transition to or from `auto`, so both ends are measured and written as pixels
+    // and then handed back to the stylesheet once it has arrived. Pinning the panel to the cards'
+    // height was tried first and is not the same thing: it forced two different layouts to agree
+    // on one number, and any state that wanted to be taller was cut off rather than accommodated.
+    //
+    // The section already has overflow:hidden for the background, which is also what stops the
+    // taller layout spilling out while the height is still catching up.
+    function animateHeight(mutate) {
+      if (!motionOk) { mutate(); return; }
+      var from = sec.getBoundingClientRect().height;
+      mutate();
+      sec.style.height = '';
+      var to = sec.getBoundingClientRect().height;
+      if (Math.abs(to - from) < 2) return;
+
+      // Order matters, and getting it wrong is silent. Writing the transition and the new height
+      // in one go leaves the browser free to collapse both into a single style resolution, and
+      // then there is nothing to interpolate from: it snapped, with the height still reading its
+      // start value 120ms into a 500ms transition. The starting height is committed under
+      // transition:none first, and the real transition is armed a frame later.
+      sec.style.transition = 'none';
+      sec.style.height = from + 'px';
+      sec.getBoundingClientRect();               // commit the start
+      requestAnimationFrame(function () {
+        sec.style.transition = 'height .5s cubic-bezier(.4, 0, .2, 1)';
+        requestAnimationFrame(function () { sec.style.height = to + 'px'; });
+      });
+
+      var settle = function () {
+        sec.style.transition = '';
+        sec.style.height = '';                   // back to auto, so later content can still grow it
+        sec.removeEventListener('transitionend', settle);
+      };
+      sec.addEventListener('transitionend', settle);
+      setTimeout(settle, 900);                   // in case transitionend never arrives
+    }
+
+    var scrolledToDone = false;
     function showDone() {
       if (!done) return;
-      done.hidden = false;
-      // replace the cards rather than dim them: they have bought, a price list under a receipt
-      // is just noise, and a greyed-out one still reads as something to consider
-      if (main) main.classList.add('is-paid');
-      // the section drops its own max-width and padding so the picture can reach the screen edge
-      sec.classList.add('has-purchase');
+      animateHeight(function () {
+        done.hidden = false;
+        // replace the cards rather than dim them: they have bought, a price list under a receipt
+        // is just noise, and a greyed-out one still reads as something to consider
+        if (main) main.classList.add('is-paid');
+        sec.classList.add('has-purchase');
+      });
+      // Once, and only on the way in. The panel is the thing they are here for now, and after a
+      // redirect the browser is free to restore whatever scroll position it likes.
+      if (!scrolledToDone) {
+        scrolledToDone = true;
+        try { done.scrollIntoView({ behavior: motionOk ? 'smooth' : 'auto', block: 'center' }); }
+        catch (e) { done.scrollIntoView(); }
+      }
       buildDownloads();
     }
 
@@ -1447,15 +1497,33 @@ function tsInit() {
       }, 45);
     }
 
-    function revealKey(key, email) {
+    // What fulfilment actually did with this purchase, and therefore what the buyer needs told.
+    //
+    // Read from the key lookup, NEVER from the /upgrade-info answer this page held before
+    // checkout. That one is a prediction: an upgrade handle has a TTL, and if it lapses between
+    // page load and payment the buyer really does get a brand new licence. A page still saying
+    // "welcome back" would be wrong at the only moment it matters, and would withhold the key
+    // they now genuinely need.
+    //
+    // An unrecognised value falls through to the new-licence copy on purpose. More kinds may be
+    // added, and every licence is new in some sense, so that copy is never a lie. Defaulting the
+    // other way would greet a first-time buyer as a returning one.
+    var UPGRADE_COPY = {
+      trial: 'You are on the full version. Your install will catch up on its own.<br>Your key has not changed:',
+      beta: 'Thank you for helping us beta test. You are on the full version now.<br>Your key has not changed:',
+      reactivation: 'Welcome back. Your licence is live again, and there is nothing to paste.<br>It is the same key as before:'
+    };
+
+    function revealKey(key, email, upgradedFrom) {
       done.classList.remove('is-generating');
       setHeading('done');
       var code = done.querySelector('.ts-done__key');
       var intro = done.querySelector('.ts-done__intro');
-      // lock the line above before changing it, so the key box cannot jump under the reader
-      // The two reserved lines come from CSS now; an inline lock would pin this to whatever the
-      // previous state happened to measure.
-      intro.innerHTML = 'Thank you for your purchase. Here is your licence key:';
+      var carried = UPGRADE_COPY[upgradedFrom] || null;
+      intro.innerHTML = carried || 'Thank you for your purchase. Here is your licence key:';
+      // The key stays visible either way. Someone reinstalling on a new machine still needs it;
+      // it just stops being the headline when it is not what they came back for.
+      done.classList.toggle('is-carried', !!carried);
       var mailed = done.querySelector('.ts-done__mailed');
       if (mailed) mailed.hidden = false;
       if (email) done.querySelector('.ts-done__email').textContent = email;
@@ -1530,7 +1598,7 @@ function tsInit() {
             setTimeout(function () {
               if (ref.done) return;
               ref.done = true;
-              revealKey(res.d.key, res.d.email);
+              revealKey(res.d.key, res.d.email, res.d.upgradedFrom);
             }, Math.max(0, MIN_SHIMMER_MS - activeElapsed(began)));
             return;
           }
@@ -1551,35 +1619,12 @@ function tsInit() {
       if (window.__tsKeyRef && !window.__tsKeyRef.done && window.__tsKeyRef.poll) window.__tsKeyRef.poll();
     });
 
-    // An upgrade moves the licence the buyer already holds onto a paid policy. The key does not
-    // change, their install stays activated, and the app notices on its own within about a minute.
-    // So there is nothing to reveal, nothing to paste and nothing to download: showing a key here
-    // would invite them to re-enter one that is already working. Because the page knows this
-    // BEFORE checkout opens, it never polls, which also puts it out of reach of the reveal window.
-    function showUpgraded(kind) {
-      if (!done) return;
-      showDone();
-      done.classList.remove('is-generating');
-      setHeading('done');
-      stopIdle();
-      var code = done.querySelector('.ts-done__key');
-      code.textContent = '';
-      code.hidden = true;
-      // The product is named on the first line in both variants, so the second is identical and
-      // says "the app".
-      var upgraded = 'Your licence has been upgraded; you can go back to the app now.';
-      done.querySelector('.ts-done__intro').innerHTML = kind === 'beta'
-        ? 'Thank you for helping us beta test toneScan!<br>' + upgraded
-        : 'Thank you for trying out toneScan!<br>' + upgraded;
-      // Both of these speak to a key that was delivered. Neither happened.
-      var mailed = done.querySelector('.ts-done__mailed');
-      if (mailed) mailed.hidden = true;
-      var acts = done.querySelector('.ts-done__actions');
-      if (acts) acts.hidden = true;
-    }
-
+    // Always polls, including when the page predicted an upgrade before checkout. It used to
+    // short-circuit on that prediction and never look the key up at all, which is wrong twice
+    // over: an upgrade handle can lapse between page load and payment, and the buyer then gets a
+    // genuinely new licence whose key this page would have withheld while telling them their
+    // install was already sorted.
     function onPaid(txn, email) {
-      if (isUpgrade()) return showUpgraded(offer.kind);
       showDone();
       if (email && done) done.querySelector('.ts-done__email').textContent = email;
       if (!txn || !done || !done.getAttribute('data-key-url')) {
@@ -1664,9 +1709,13 @@ function tsInit() {
 
         if (errBox) errBox.hidden = true;
         if (state === 'reset') {
-          done.hidden = true;
-          if (main) main.classList.remove('is-paid');
-          sec.classList.remove('has-purchase');
+          animateHeight(function () {
+            done.hidden = true;
+            if (main) main.classList.remove('is-paid');
+            sec.classList.remove('has-purchase');
+          });
+          // so the next state scrolls the panel back into view, the way a real purchase would
+          scrolledToDone = false;
           // Full price again, or the discount would stick to every later state.
           if (applyMockOffer) applyMockOffer(null);
           return;
@@ -1699,8 +1748,13 @@ function tsInit() {
         }
         if (state === 'slow') giveUp(sampleEmail());
         if (state === 'expired') giveUp(sampleEmail(), 'expired');
-        if (state === 'up-trial') showUpgraded('trial');
-        if (state === 'up-beta') showUpgraded('beta');
+        // Same reveal the real flow runs, with the value the key lookup would have carried.
+        ['up-trial', 'up-beta', 'up-react'].forEach(function (s) {
+          if (state !== s) return;
+          var from = s === 'up-beta' ? 'beta' : (s === 'up-react' ? 'reactivation' : 'trial');
+          startIdle(code);
+          setTimeout(function () { revealKey(SAMPLE_KEY, sampleEmail(), from); }, 900);
+        });
       });
     }
 
@@ -1752,12 +1806,6 @@ function tsInit() {
       }).catch(function () { return null; });
     }
 
-    // An upgrade mints no new key, so the confirmation has nothing to poll for. Paid licences come
-    // back ineligible, which is not an upgrade either: that is a second purchase.
-    function isUpgrade() {
-      return !!(offer && (offer.kind === 'trial' || offer.kind === 'beta'));
-    }
-
     // Landing here from Paddle's redirect. Paddle appends the transaction id, which is what the
     // key lookup is keyed on.
     // Only reached if a return URL was configured, which is off by default: Paddle's redirect
@@ -1766,14 +1814,11 @@ function tsInit() {
     // because a buyer may bookmark or reload the confirmation. Paddle spells the transaction id
     // _ptxn; the alternates cost nothing and save a silent failure if that ever differs.
     //
-    // Deferred until the lookup answers, so an upgrade that comes back this way still knows it is
-    // one. It only can if the return URL carried ?upgrade= through; Paddle appends to whatever was
-    // configured and does not preserve the original query, so a bare return URL lands here as an
-    // ordinary purchase and polls for a key. That is the same fallback as the lookup being down.
+    // Runs immediately. It used to wait on the offer lookup so it could tell an upgrade apart,
+    // which is no longer the page's job: the key lookup reports what fulfilment did, and it does
+    // so on a landing that has lost the original query string as readily as on one that kept it.
     if (q0.get('purchase') === 'complete') {
-      offerReady.then(function () {
-        onPaid(q0.get('_ptxn') || q0.get('ptxn') || q0.get('transaction_id') || null, null);
-      });
+      onPaid(q0.get('_ptxn') || q0.get('ptxn') || q0.get('transaction_id') || null, null);
     }
 
     var token = sec.getAttribute('data-paddle-token');
@@ -1836,8 +1881,8 @@ function tsInit() {
             var email = (d.customer && d.customer.email) || null;
             setTimeout(function () { try { Paddle.Checkout.close(); } catch (e) {} }, 0);
             setTimeout(function () { try { Paddle.Checkout.close(); } catch (e) {} }, 400);
+            // showDone does the scrolling now, so every route in lands the same way
             onPaid(d.transaction_id || d.id || null, email);
-            if (done) done.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
         });
       } catch (e) { return; }
@@ -1857,6 +1902,7 @@ function tsInit() {
 
       var formatted = {};   // what the buyer pays
       var full = {};        // the same prices with no discount, for the strike-through
+      var raw = {};         // undiscounted totals in minor units, for the yearly saving
       var discounted = {};
       function linesOf(res) {
         return res && res.data && res.data.details && res.data.details.lineItems;
@@ -1875,7 +1921,11 @@ function tsInit() {
           var baseLines = linesOf(res[0]);
           var payLines = linesOf(res[res.length - 1]);
           if (!baseLines || !payLines) return;
-          baseLines.forEach(function (li) { full[li.price.id] = li.formattedTotals.total; });
+          baseLines.forEach(function (li) {
+            full[li.price.id] = li.formattedTotals.total;
+            // minor units, for the yearly saving. The formatted string cannot be divided.
+            raw[li.price.id] = Number(li.totals && li.totals.total);
+          });
           payLines.forEach(function (li) {
             formatted[li.price.id] = li.formattedTotals.total;
             // Paddle reports what it actually took off. Reading the discount from the response
@@ -1888,9 +1938,30 @@ function tsInit() {
             discounted[li.price.id] = Number(li.totals && li.totals.discount) > 0;
           });
           paint();
+          paintSaving();
         }).catch(function () { /* leave the static fallbacks in place */ });
       }
       offerReady.then(loadPrices);
+
+      // What a year costs against twelve months of the monthly price. Worked out from the
+      // undiscounted totals, so the headline saving is the standing offer rather than something
+      // that moves when a beta discount is applied to the first period only.
+      //
+      // Stays hidden unless there is a real saving to report: the two prices are set by hand in
+      // Paddle and nothing guarantees the annual one is cheaper.
+      function paintSaving() {
+        var badge = sec.querySelector('[data-pd-save]');
+        if (!badge) return;
+        var el = sec.querySelector('[data-pd-price-year]');
+        var mId = el && el.getAttribute('data-pd-price-month');
+        var yId = el && el.getAttribute('data-pd-price-year');
+        var m = raw[mId], y = raw[yId];
+        if (!m || !y) { badge.hidden = true; return; }
+        var pct = Math.round((1 - y / (m * 12)) * 100);
+        if (!(pct > 0)) { badge.hidden = true; return; }
+        badge.textContent = pct + '% off';
+        badge.hidden = false;
+      }
 
       // Lets the dev switcher put the cards under a pretend offer and take them back out again.
       // Re-runs the real price lookup rather than doing arithmetic on the displayed figures, so

@@ -40,6 +40,15 @@
     data-checkout-variant="{{ section.settings.checkout_variant }}"
     {%- endif %}>
 
+    {%- comment -%} A child of the SECTION, not of the cards, so it covers the section's own
+       vertical padding too. Inside the cards it stopped 120px short at each end and left a black
+       band. Particles are the hero's component, so the two ends of the page share a texture; no
+       parallax driver, which is bound to the hero's scroll pin. {%- endcomment -%}
+    <div class="ts-pricing-bg" aria-hidden="true">
+      <div class="ts-pricing-glow"><i></i></div>
+      <div class="ts-hero-particles"><span class="p1"></span><span class="p2"></span><span class="p3"></span></div>
+    </div>
+
     {%- comment -%} Shown only when Paddle sends the buyer back here after paying. Hidden in
        markup rather than rendered conditionally, because the redirect lands on a cached page
        and the query string is the only thing that differs. {%- endcomment -%}
@@ -54,6 +63,12 @@
            next. Same 40/60 split and bleeding screenshot as the feature deep-dives, so this does
            not read as a different page. {%- endcomment -%}
         <div class="ts-done__left">
+          {%- comment -%} The same blob and particles as the pricing cards, so the panel that
+             replaces them is visibly the same place rather than a different screen. {%- endcomment -%}
+          <div class="ts-pricing-bg" aria-hidden="true">
+            <div class="ts-pricing-glow"><i></i></div>
+            <div class="ts-hero-particles"><span class="p1"></span><span class="p2"></span><span class="p3"></span></div>
+          </div>
           {%- comment -%} Spinner while the key is being minted, then it pops into the tick. Both
              live in the same 46px disc so nothing shifts at the changeover. {%- endcomment -%}
           <span class="ts-done__mark" aria-hidden="true">
@@ -94,90 +109,88 @@
           <p class="ts-done__note"><span class="ts-done__mailed">We have also emailed your key to <b class="ts-done__email">your email address</b>.<br></span>Your receipt and VAT invoice come separately from Paddle.<br>Any issues? Let us know at <a href="mailto:{{ section.settings.support_email }}">{{ section.settings.support_email }}</a>.</p>
         </div>
 
-        {%- comment -%} A photograph, not a screenshot: they have just bought the thing that makes
-           these, and a UI shot here would be selling something they already own. Cover-cropped to
-           the full height of the column. {%- endcomment -%}
-        <div class="ts-done__right">
-          {%- if section.settings.success_image != blank -%}
-          <img class="ts-done__pic" src="{{ section.settings.success_image | image_url: width: 2400 }}" alt="" loading="lazy" width="{{ section.settings.success_image.width }}" height="{{ section.settings.success_image.height }}">
-          {%- else -%}
-          <img class="ts-done__pic" src="{{ ts_cdn }}/DSCF5539_RGB.jpg" alt="" loading="lazy" width="1000" height="666">
-          {%- endif -%}
-        </div>
       </div>
     </div>
 
     <div class="ts-pricing__main">
       <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
-        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Pricing</p>
         <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
-        <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[520px] tw:text-[16px] tw:text-neutral-400">{{ section.settings.subheading }}</p>
+        <p class="ts-pricing__sub tw:mx-auto tw:mt-[16px] tw:text-[16px] tw:text-neutral-400">{{ section.settings.subheading }}</p>
       </div>
-      <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[16px] tw:md:grid-cols-3">
+      {%- comment -%} Subscription in the middle and raised, because it is the one being put
+         forward. No badge on any of them: the size and the solid button say it, and a label
+         claiming best value would argue with the one-off card sitting next to it. {%- endcomment -%}
+      <div class="ts-tiers">
 
-        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[32px]">
-          <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Open beta</h3>
-          <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
-            <span class="tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">Free</span>
-            <span class="tw:text-[14px] tw:text-neutral-500">right now</span>
+        <div class="ts-tier">
+          <h3 class="ts-tier__name">Free trial</h3>
+          <div class="ts-tier__price">
+            <span class="ts-tier__amount">Free</span>
+            <span class="ts-tier__per">for 14 days</span>
           </div>
-          <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Every feature unlocked while we're in beta.</p>
-          <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
-            <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Full conversion &amp; editing</span></li>
-            <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>macOS and Windows</span></li>
-            <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>Help shape what ships</span></li>
+          <p class="ts-tier__blurb">{{ section.settings.trial_blurb }}</p>
+          <ul class="ts-tier__list">
+            {%- assign trial_lines = section.settings.trial_features | newline_to_br | split: '<br />' -%}
+            {%- for line in trial_lines -%}{%- assign l = line | strip -%}{%- if l != blank -%}
+            <li><span class="ts-tier__dot"></span><span>{{ l }}</span></li>
+            {%- endif -%}{%- endfor -%}
           </ul>
-          <a href="#signup" class="tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Join the beta</a>
+          {%- comment -%} Falls back to the download base, since the trial is started by running
+             the app rather than by anything on this page. {%- endcomment -%}
+          <a href="{{ section.settings.trial_cta_url | default: section.settings.download_base | default: '#signup' }}" class="ts-tier__cta">{{ section.settings.trial_cta_text }}</a>
         </div>
 
-        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-[#3b82f6]/60 tw:bg-[#3b82f6]/[0.06] tw:p-[32px]">
-          <span class="tw:mb-[16px] tw:inline-flex tw:w-fit tw:items-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[12px] tw:py-[4px] tw:text-[12px] tw:font-semibold tw:uppercase tw:tracking-[0.08em] tw:text-white">Best value</span>
-          <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Perpetual</h3>
-          <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
-            {%- comment -%} The price this replaces. <s> rather than a styled span, so it still
-               reads as superseded with stylesheets off. {%- endcomment -%}
+        <div class="ts-tier ts-tier--feature">
+          <h3 class="ts-tier__name">Subscription</h3>
+          {%- if pd_year != blank -%}
+          <div class="ts-pricing__freq" role="group" aria-label="Billing period">
+            <button type="button" class="ts-pricing__freqbtn is-active" data-pd-freq="month" aria-pressed="true">Monthly</button>
+            {%- comment -%} The saving is worked out from the two amounts Paddle actually returns,
+               never written here: the ratio between a year and twelve months differs per currency,
+               so any figure typed in would be wrong in most of them. {%- endcomment -%}
+            <button type="button" class="ts-pricing__freqbtn" data-pd-freq="year" aria-pressed="false">Yearly<span class="ts-pricing__save" data-pd-save hidden></span></button>
+          </div>
+          {%- endif -%}
+          <div class="ts-tier__price">
             <s class="ts-pricing__was" data-pd-was hidden></s>
-            <span class="ts-pricing__amount tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white" data-pd-price="{{ pd_perp }}">{{ section.settings.fallback_perpetual }}</span>
-            <span class="tw:text-[14px] tw:text-neutral-500">one-time</span>
+            <span class="ts-tier__amount ts-pricing__amount" data-pd-price="{{ pd_month }}" data-pd-price-month="{{ pd_month }}" data-pd-price-year="{{ pd_year }}">{{ section.settings.fallback_monthly }}</span>
+            <span class="ts-tier__per ts-pricing__period" data-pd-period>per month</span>
           </div>
           {%- comment -%} Filled in only when a discount is actually applied to the preview, so it
              can never claim an offer that checkout will not honour. {%- endcomment -%}
-          <p class="ts-pricing__offer" data-pd-offer hidden></p>
-          <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Own it forever. Yours to keep.</p>
-          <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
-            {%- assign perp_lines = section.settings.perpetual_features | newline_to_br | split: '<br />' -%}
-            {%- for line in perp_lines -%}{%- assign l = line | strip -%}{%- if l != blank -%}
-            <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>{{ l }}</span></li>
-            {%- endif -%}{%- endfor -%}
-          </ul>
-          <button type="button" class="ts-pricing__buy tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]" data-pd-buy="{{ pd_perp }}">Get perpetual</button>
-        </div>
-
-        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[32px]">
-          <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">Subscription</h3>
-          {%- if pd_year != blank -%}
-          <div class="ts-pricing__freq tw:mt-[14px] tw:inline-flex tw:w-fit tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.03] tw:p-[3px]" role="group" aria-label="Billing period">
-            <button type="button" class="ts-pricing__freqbtn is-active" data-pd-freq="month" aria-pressed="true">Monthly</button>
-            <button type="button" class="ts-pricing__freqbtn" data-pd-freq="year" aria-pressed="false">Yearly</button>
-          </div>
-          {%- endif -%}
-          <div class="tw:mt-[12px] tw:flex tw:items-baseline tw:gap-[8px]">
-            <s class="ts-pricing__was" data-pd-was hidden></s>
-            <span class="ts-pricing__amount tw:text-[40px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white" data-pd-price="{{ pd_month }}" data-pd-price-month="{{ pd_month }}" data-pd-price-year="{{ pd_year }}">{{ section.settings.fallback_monthly }}</span>
-            <span class="ts-pricing__period tw:text-[14px] tw:text-neutral-500" data-pd-period>per month</span>
-          </div>
           <p class="ts-pricing__offer" data-pd-offer data-pd-offer-recurring hidden></p>
-          <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Always up to date, cancel anytime.</p>
-          <ul class="tw:mt-[24px] tw:flex tw:flex-1 tw:flex-col tw:gap-[12px] tw:text-[14px] tw:text-neutral-300">
+          <p class="ts-tier__blurb">{{ section.settings.subscription_blurb }}</p>
+          <ul class="ts-tier__list">
             {%- assign sub_lines = section.settings.subscription_features | newline_to_br | split: '<br />' -%}
             {%- for line in sub_lines -%}{%- assign l = line | strip -%}{%- if l != blank -%}
-            <li class="tw:flex tw:items-start tw:gap-[10px]"><span class="tw:mt-[6px] tw:h-[6px] tw:w-[6px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><span>{{ l }}</span></li>
+            <li><span class="ts-tier__dot"></span><span>{{ l }}</span></li>
             {%- endif -%}{%- endfor -%}
           </ul>
-          <button type="button" class="ts-pricing__buy tw:mt-[28px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[24px] tw:py-[13px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]" data-pd-buy="{{ pd_month }}" data-pd-buy-month="{{ pd_month }}" data-pd-buy-year="{{ pd_year }}">Get subscription</button>
+          <button type="button" class="ts-pricing__buy ts-tier__cta ts-tier__cta--solid" data-pd-buy="{{ pd_month }}" data-pd-buy-month="{{ pd_month }}" data-pd-buy-year="{{ pd_year }}">Get subscription</button>
+        </div>
+
+        <div class="ts-tier">
+          <h3 class="ts-tier__name">One-off</h3>
+          <div class="ts-tier__price">
+            {%- comment -%} The price this replaces. <s> rather than a styled span, so it still
+               reads as superseded with stylesheets off. {%- endcomment -%}
+            <s class="ts-pricing__was" data-pd-was hidden></s>
+            <span class="ts-tier__amount ts-pricing__amount" data-pd-price="{{ pd_perp }}">{{ section.settings.fallback_perpetual }}</span>
+            <span class="ts-tier__per">once</span>
+          </div>
+          <p class="ts-pricing__offer" data-pd-offer hidden></p>
+          <p class="ts-tier__blurb">{{ section.settings.perpetual_blurb }}</p>
+          <ul class="ts-tier__list">
+            {%- assign perp_lines = section.settings.perpetual_features | newline_to_br | split: '<br />' -%}
+            {%- for line in perp_lines -%}{%- assign l = line | strip -%}{%- if l != blank -%}
+            <li><span class="ts-tier__dot"></span><span>{{ l }}</span></li>
+            {%- endif -%}{%- endfor -%}
+          </ul>
+          <button type="button" class="ts-pricing__buy ts-tier__cta" data-pd-buy="{{ pd_perp }}">Get one-off</button>
         </div>
 
       </div>
+
 
     {%- comment -%} Shown when Paddle reports the payment failed. Deliberately not shown when the
        buyer simply closes the overlay: they chose to leave, and a banner about it is nagging. {%- endcomment -%}
@@ -191,6 +204,15 @@
 
       {%- if section.settings.footnote != blank -%}
       <p class="tw:mx-auto tw:mt-[24px] tw:max-w-[620px] tw:text-center tw:text-[13px] tw:leading-[1.6] tw:text-neutral-500">{{ section.settings.footnote }}</p>
+      {%- endif -%}
+      {%- comment -%} Demo is not a tier, so it does not sit in the row pretending to be one, and
+         it is not something anyone is choosing between. A native <details> keeps it one line of
+         small print until somebody wants it, and needs no script to open. {%- endcomment -%}
+      {%- if section.settings.demo_body != blank -%}
+      <details class="ts-demo">
+        <summary class="ts-demo__toggle">{{ section.settings.demo_title }}</summary>
+        <p class="ts-demo__body">{{ section.settings.demo_body }}</p>
+      </details>
       {%- endif -%}
     </div>
     {%- comment -%} Development only. Drives the SAME functions a real purchase does, so what gets
@@ -209,10 +231,12 @@
         <button type="button" data-mock="expired">Key expired</button>
         <button type="button" data-mock="failed">Payment failed</button>
       </div>
-      {%- comment -%} No key is minted on an upgrade, so these two states never poll. {%- endcomment -%}
+      {%- comment -%} The three upgradedFrom values the key lookup can carry. All still reveal a
+         key, because the buyer may be reinstalling; it just is not the headline. {%- endcomment -%}
       <div class="ts-mock__row">
-        <button type="button" data-mock="up-trial">Upgraded (trial)</button>
-        <button type="button" data-mock="up-beta">Upgraded (beta)</button>
+        <button type="button" data-mock="up-trial">Was a trial</button>
+        <button type="button" data-mock="up-beta">Was a beta</button>
+        <button type="button" data-mock="up-react">Reactivated</button>
       </div>
       {%- comment -%} The cards as a beta tester arriving from the app sees them. Hidden unless the
          page is on a dev server: it attaches a real discount id, so it must not be reachable in
@@ -241,27 +265,77 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Free while we're in beta"
+      "default": "Buy it once, or subscribe"
     },
     {
       "type": "textarea",
       "id": "subheading",
       "label": "Subheading",
-      "default": "toneScan Studio is free to use during the open beta. When we launch, pick the licence that fits: own it forever, or subscribe."
+      "default": "Flexible licensing: pay by the month while a project runs, or buy it once and keep it."
+    },
+    {
+      "type": "text",
+      "id": "trial_blurb",
+      "label": "Trial blurb",
+      "default": "The same application you would buy."
     },
     {
       "type": "textarea",
-      "id": "perpetual_features",
-      "label": "Perpetual features",
+      "id": "trial_features",
+      "label": "Trial features",
       "info": "One per line.",
-      "default": "Every feature, no subscription\nOne year of updates included\nUse it on your own machines"
+      "default": "Every feature, no restrictions\nmacOS and Windows\nNo account or credit card needed"
+    },
+    {
+      "type": "text",
+      "id": "trial_cta_text",
+      "label": "Trial button",
+      "default": "Try free for 14 days"
+    },
+    {
+      "type": "url",
+      "id": "trial_cta_url",
+      "label": "Trial button link",
+      "info": "The trial itself starts inside the app, so this should point at the download. Falls back to the signup anchor."
+    },
+    {
+      "type": "text",
+      "id": "subscription_blurb",
+      "label": "Subscription blurb",
+      "default": "Handy for a single project, or for a longer look at toneScan than the trial allows."
     },
     {
       "type": "textarea",
       "id": "subscription_features",
       "label": "Subscription features",
       "info": "One per line.",
-      "default": "Starts with a 14 day free trial\nEvery feature, always current\nNew releases as they ship\nCancel whenever you like"
+      "default": "Every feature, always current\nNew releases as they ship\nTwo machines per licence\nCancel whenever you like"
+    },
+    {
+      "type": "text",
+      "id": "perpetual_blurb",
+      "label": "One-off blurb",
+      "default": "Buy it once and keep it."
+    },
+    {
+      "type": "textarea",
+      "id": "perpetual_features",
+      "label": "One-off features",
+      "info": "One per line.",
+      "default": "Yours to keep, no subscription\nFree updates within a major version\nTwo machines per licence"
+    },
+    {
+      "type": "text",
+      "id": "demo_title",
+      "label": "Demo link text",
+      "info": "The small print link that opens the demo explanation.",
+      "default": "What you can do without a licence"
+    },
+    {
+      "type": "textarea",
+      "id": "demo_body",
+      "label": "Demo text",
+      "default": "Without a licence toneScan carries on as a demo. Exports come out small and watermarked, and you can still browse any library you built while a trial or a paid licence was active."
     },
     {
       "type": "text",
@@ -384,12 +458,6 @@
       "label": "Upgrade lookup endpoint",
       "info": "The fulfilment Worker's /upgrade-info route. Decides whether a buyer arriving from the app is upgrading, and which discount applies. Blank or unreachable means everyone pays full price.",
       "default": "https://api.tonephotographic.com/shop/upgrade-info"
-    },
-    {
-      "type": "image_picker",
-      "id": "success_image",
-      "label": "Image",
-      "info": "Cover-cropped to fill the column. A photograph works better here than a screenshot."
     },
     {
       "type": "text",

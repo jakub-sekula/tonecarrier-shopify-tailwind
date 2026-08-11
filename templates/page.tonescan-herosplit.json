@@ -492,10 +492,6 @@
     "pricing": {
       "type": "tonescan-pricing",
       "settings": {
-        "heading": "Free while we're in beta",
-        "subheading": "toneScan Studio is free to use during the open beta. When we launch, pick the licence that fits: own it forever, or subscribe.",
-        "perpetual_features": "Every feature, no subscription\nOne year of updates included\nUse it on your own machines",
-        "subscription_features": "Starts with a 14 day free trial\nEvery feature, always current\nNew releases as they ship\nCancel whenever you like",
         "footnote": "Prices shown in your local currency, tax included where it applies.",
         "paddle_token": "test_7d14ccde25df1c60f5887487b25",
         "paddle_environment": "sandbox",

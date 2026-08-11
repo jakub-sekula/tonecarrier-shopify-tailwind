@@ -1393,11 +1393,20 @@
   .ts-hero-selectbar { padding-top: 44px; padding-bottom: 64px; }
 
   /* ---- pricing: Paddle prices, checkout and the purchase confirmation --------------------- */
+  /* The toggle used to be styled by utilities on the card markup. It carries its own styles now
+     that the tiers are a component, or it renders as two bare buttons. */
+  .ts-pricing__freq { display: inline-flex; width: fit-content; margin-top: 14px; padding: 3px;
+    border: 1px solid rgba(255,255,255,.10); border-radius: 2px;
+    background: rgba(255,255,255,.04); }
   .ts-pricing__freqbtn { padding: 5px 12px; font-size: 13px; font-weight: 600; color: #a3a3a3;
     background: none; border: 0; border-radius: 2px; cursor: pointer;
     transition: color .18s ease, background .18s ease; }
+  /* Rides inside the Yearly button so it moves with it and cannot be read as applying to both. */
+  .ts-pricing__save { margin-left: 6px; font-size: 11px; font-weight: 700; letter-spacing: .02em;
+    color: #7dd3a0; }
+  .ts-pricing__freqbtn.is-active .ts-pricing__save { color: #86efac; }
   .ts-pricing__freqbtn:hover { color: #fff; }
-  .ts-pricing__freqbtn.is-active { color: #fff; background: rgba(255,255,255,.10); }
+  .ts-pricing__freqbtn.is-active { color: #fff; background: rgba(255,255,255,.12); border-radius: 2px; }
   .ts-pricing__freqbtn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
   .ts-pricing__buy[disabled] { opacity: .45; cursor: not-allowed; }
   .ts-pricing__buy[disabled]:hover { transform: none; }
@@ -1405,6 +1414,102 @@
   /* Bought and paid for: the cards go entirely rather than dimming. A greyed-out price list
      under a receipt still reads as something to weigh up. */
   .ts-pricing__main.is-paid { display: none; }
+
+  /* ---- pricing: the glass tiers ------------------------------------------------------------
+     Two bloom gradients behind the row, so there is something for the cards to blur. Without a
+     light source under them, backdrop-filter has nothing to work with and glass reads as flat
+     grey. Bleeds past the section's own padding, which is why it is inset negatively. */
+  /* Fills the section including its padding, and is clipped by it, so the glow cannot leak into
+     the sections above and below. The confirmation carries its own in the left column, so this one
+     goes when the cards do. */
+  .ts-pricing { position: relative; overflow: hidden; }
+  .ts-pricing__main { position: relative; z-index: 1; }
+  .ts-pricing-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    overflow: hidden; }
+  .ts-pricing.has-purchase > .ts-pricing-bg { display: none; }
+  /* One soft blob, in the page's own blue. Three channel blobs were tried here and read as a
+     different section's idea borrowed: the RGB glow means something where the subject is channel
+     separation, and nothing at all behind a price list. Drifts on ts-glow-a, borrowed from that
+     section, so it is never quite still. */
+  .ts-pricing-glow { position: absolute; left: 50%; top: 50%;
+    width: 110%; height: 140%; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; opacity: .55; }
+  .ts-pricing-glow i { position: absolute; inset: 0; display: block; border-radius: inherit;
+    filter: blur(150px); will-change: transform;
+    background: radial-gradient(closest-side, rgba(59,130,246,.50) 0%, rgba(59,130,246,.16) 48%, transparent 82%);
+    animation: ts-glow-a 24s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .ts-pricing-glow i { animation: none; } }
+  /* fade the whole thing out at the edges so it never ends on a hard line */
+  .ts-pricing-bg { -webkit-mask-image: radial-gradient(120% 100% at 50% 45%, #000 42%, transparent 88%);
+                           mask-image: radial-gradient(120% 100% at 50% 45%, #000 42%, transparent 88%); }
+
+  /* Wide enough to hold the line whole: at 520px it broke mid-clause, and at 62ch it was over by
+     a single pixel, which is worse, because `balance` then evens the two halves and puts the break
+     through the middle of a phrase rather than at the comma. `pretty` rather than `balance` for
+     the narrow widths where it genuinely has to wrap: it fixes orphans without forcing the halves
+     to match. Re-measure if this copy grows; the whole point is that it does not wrap at all. */
+  .ts-pricing__sub { max-width: 68ch; text-wrap: pretty; }
+
+  .ts-tiers { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 48px;
+    align-items: center; }
+  @media (min-width: 900px) {
+    /* The middle column is wider AND taller. Centre alignment on the row is what lets it grow in
+       both directions off the same centre line rather than pushing the others down. */
+    .ts-tiers { grid-template-columns: 1fr 1.18fr 1fr; gap: 20px; }
+  }
+
+  .ts-tier { position: relative; display: flex; flex-direction: column; padding: 32px;
+    border: 1px solid rgba(255,255,255,.10); border-radius: 2px;
+    background: rgba(255,255,255,.035);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+            backdrop-filter: blur(22px) saturate(140%); }
+  @media (min-width: 900px) {
+    .ts-tier--feature { padding: 44px 40px; border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.07);
+      -webkit-backdrop-filter: blur(30px) saturate(160%);
+              backdrop-filter: blur(30px) saturate(160%);
+      box-shadow: 0 30px 80px -30px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.04) inset; }
+  }
+
+  .ts-tier__name { font-size: 15px; font-weight: 600; letter-spacing: .02em; color: #a3a3a3; }
+  .ts-tier--feature .ts-tier__name { color: #e5e7eb; }
+  .ts-tier__price { display: flex; align-items: baseline; gap: 8px; margin-top: 12px;
+    flex-wrap: wrap; }
+  .ts-tier__amount { font-size: 40px; font-weight: 600; letter-spacing: -.02em; color: #fff; }
+  .ts-tier--feature .ts-tier__amount { font-size: 54px; }
+  .ts-tier__per { font-size: 14px; color: #737373; }
+  .ts-tier__blurb { margin-top: 10px; font-size: 14px; line-height: 1.5; color: #a3a3a3;
+    text-wrap: pretty; }
+  .ts-tier__list { display: flex; flex: 1; flex-direction: column; gap: 12px; margin-top: 24px;
+    font-size: 14px; color: #d4d4d4; }
+  .ts-tier__list li { display: flex; align-items: flex-start; gap: 10px; }
+  .ts-tier__dot { margin-top: 6px; width: 6px; height: 6px; flex-shrink: 0; border-radius: 9999px;
+    background: #fff; }
+
+  .ts-tier__cta { display: inline-flex; align-items: center; justify-content: center;
+    margin-top: 28px; padding: 13px 24px; border-radius: 2px;
+    font-size: 15px; font-weight: 600; color: #fff; cursor: pointer;
+    border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.05);
+    transition: transform .15s ease, background .15s ease, color .15s ease; }
+  .ts-tier__cta:hover { transform: translateY(-1px); background: rgba(255,255,255,.11); }
+  /* the one being put forward: solid, so it reads first without a badge */
+  .ts-tier__cta--solid { color: #0a0a0c; background: #fff; border-color: #fff; }
+  .ts-tier__cta--solid:hover { background: #fff; color: #0a0a0c; }
+
+  /* Demo, as small print that opens. Not a fourth card: it is not something anyone is choosing
+     between, it is what is there once you have chosen nothing. */
+  .ts-demo { margin: 8px auto 0; max-width: 620px; text-align: center; font-size: 13px; }
+  .ts-demo__toggle { display: inline-block; color: #737373; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 2px;
+    transition: color .15s ease; }
+  .ts-demo__toggle:hover { color: #d4d4d4; }
+  .ts-demo__toggle:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+  /* the default triangle sits oddly on a centred line of small print */
+  .ts-demo__toggle::-webkit-details-marker { display: none; }
+  .ts-demo__toggle { list-style: none; }
+  .ts-demo[open] .ts-demo__toggle { color: #d4d4d4; }
+  .ts-demo__body { margin: 10px auto 0; max-width: 560px; line-height: 1.6; color: #8b8b8b;
+    text-wrap: pretty; }
 
   /* Failed payment. Sits with the cards, because nothing was bought and the cards are still the
      thing to act on. */
@@ -1428,10 +1533,18 @@
      which it cannot do from inside a 1400px box with 50px gutters. Two classes, so it beats the
      utility classes on the section element. */
   .ts-pricing.has-purchase { max-width: none; padding: 0; }
+  /* One centred column. It was a 50:50 split with a photograph on the right, which gave a receipt
+     two places to look at once; there is only one thing to read here. No overflow:hidden on the
+     column: the download menu is absolutely positioned and would be clipped. .ts-pricing-bg clips
+     itself. */
   .ts-done { position: relative; display: flex; flex-direction: column; }
-  /* the gutter moves onto the copy, tracking the page's centred container so the text still
-     lines up with every other section */
-  .ts-done__left { padding: 64px 15px; }
+  /* flex:1 so it fills the panel's min-height. Without it the column is only as tall as its
+     content, the panel keeps its 640px, and the difference is a band of unpainted section with no
+     background on it. */
+  .ts-done__left { position: relative; display: flex; flex: 1; flex-direction: column;
+    align-items: center; padding: 64px 15px; text-align: center; }
+  .ts-done__left .ts-pricing-bg { inset: 0; }
+  .ts-done__left > *:not(.ts-pricing-bg) { position: relative; z-index: 1; }
   /* One disc holding both states, so the changeover is a swap inside a fixed box rather than a
      layout change. The tick starts small and lands with a slight overshoot: that is the pop. */
   .ts-done__mark { position: relative; display: inline-flex; align-items: center; justify-content: center;
@@ -1481,6 +1594,10 @@
     text-align: center; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px;
     letter-spacing: .03em; white-space: nowrap; color: #f0f2f5;
     background: #141416; border: 1px solid #262626; border-radius: 2px; transition: color .5s ease; }
+  /* When the key is not what the buyer came for. It stays on the page, because someone
+     reinstalling on another machine still needs it, but it stops competing with the sentence that
+     tells them their install is already sorted. */
+  .ts-pricing__done.is-carried .ts-done__key { color: #a3a3a3; background: #0f0f11; }
   /* noise until the real key lands, so it must not be selectable */
   .ts-done__key.is-pending { color: #404349; user-select: none; }
 
@@ -1513,7 +1630,7 @@
   /* display:flex outranks the UA's [hidden] rule, so an upgrade (which has nothing to download)
      would otherwise still show the button. */
   .ts-done__actions[hidden] { display: none; }
-  .ts-done__actions { display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px;
+  .ts-done__actions { display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center; gap: 12px;
     width: 100%; margin-top: 20px; }
   .ts-done__docs { display: inline-flex; align-items: center; justify-content: center;
     padding: 12px 20px; font-size: 15px; font-weight: 600; color: #e5e5e5; text-decoration: none;
@@ -1544,32 +1661,11 @@
   .ts-done__dlmenu a:hover { color: #fff; background: #1c1c20; }
   .ts-done__dlmenu svg { width: 15px; height: 15px; }
 
-  /* Full-bleed photograph rather than a framed screenshot: no border or radius, cropped to
-     whatever height the column ends up. On a phone it needs its own height, since there is no
-     column to match. */
-  .ts-done__right { position: relative; overflow: hidden; background: #0f0f10; }
-  .ts-done__pic { display: block; width: 100%; height: 100%; min-height: 300px;
-    object-fit: cover; object-position: center; }
-
   @media (min-width: 900px) {
-    /* 40/60, the same split the feature deep-dives use, so this does not read as a different
-       page. A hard rule between the columns rather than a gap: the conversion strip already
-       makes a hard vertical line this page's way of separating two things. */
-    /* Half and half, edge to edge. The copy carries the page gutter itself: max() keeps it on
-       the same line as every other section once the viewport is wider than the 1400px container.
-       The picture then owns its half outright, top to bottom and out to the screen edge. */
-    .ts-done { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: stretch; gap: 0; }
-    /* The panel is pinned to the tallest state so the section never resizes between them, and the
-       copy starts at the top of it. Centring the copy instead made every state a different height
-       push the tick and the heading up or down; anchored at the top they hold their position and
-       only the content below them moves. The slack all collects at the bottom. */
-    .ts-done { min-height: 640px; }
-    .ts-done__left { display: flex; flex-direction: column; justify-content: flex-start;
-      padding: 96px 64px 96px max(50px, calc((100vw - 1400px) / 2 + 50px)); }
-    /* the rule is the separator; the picture starts hard against it */
-    .ts-done__right { border-left: 1px solid rgba(255,255,255,.14); }
-    .ts-done__pic { min-height: 560px; }
+    /* No floor on the height any more. It was 640px so that every state matched the tallest, back
+       when the panel was pinned; now the section animates between whatever each state actually
+       needs, and a floor only buys a band of empty space under the short ones. */
+    .ts-done__left { justify-content: flex-start; padding: 96px 50px; }
     .ts-done__title { font-size: 38px; }
   }
 
