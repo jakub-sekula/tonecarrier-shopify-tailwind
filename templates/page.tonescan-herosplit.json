@@ -75,7 +75,7 @@
       ],
       "settings": {
         "badge": "Now in open beta",
-        "heading": "Film scanning, start to finish.",
+        "heading": "Film scanning,<br class=\"ts-hero-br\"> start to finish.",
         "subheading": "toneScan Studio turns your camera into a dedicated film scanner. Process whole rolls at the speed of a lab, with trichromatic scanning, accurate inversions and&nbsp;instant, full-resolution previews of every edit.",
         "cta_text": "Join the beta",
         "sub_cta_text": "Available for Mac and Windows",

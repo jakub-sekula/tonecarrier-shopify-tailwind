@@ -17,6 +17,7 @@
           "type": "slide",
           "settings": {
             "title": "Develop",
+            "video": "shopify://files/videos/hero.mp4",
             "media_url": "https://cdn.shopify.com/videos/c/o/v/b65600e0d21a4c62a9bc7beeea2ea761.mp4",
             "alt": ""
           }
@@ -25,6 +26,7 @@
           "type": "slide",
           "settings": {
             "title": "RGB merge",
+            "video": "shopify://files/videos/grid-ingest.mp4",
             "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png",
             "alt": "Three single-channel captures selected and merged into one RGB frame"
           }
@@ -33,6 +35,7 @@
           "type": "slide",
           "settings": {
             "title": "Calibration",
+            "video": "shopify://files/videos/calibration.mp4",
             "media_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png",
             "alt": "Calibrating channel exposure and reading the crosstalk matrix"
           }
