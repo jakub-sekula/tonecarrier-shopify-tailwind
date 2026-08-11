@@ -1,0 +1,23 @@
+{
+  "_comment": [
+    "Sections shown on the PUBLIC toneScan page (templates/page.tonescan-lite.json).",
+    "This is an allowlist, not a list of exclusions: a section added to the full",
+    "template stays off lite until its key is named here. New work is in progress",
+    "until someone says otherwise, and that is the direction a mistake should fall.",
+    "",
+    "Keys are the section keys from templates/page.tonescan.json, and order here is",
+    "ignored: lite always follows the full template's order.",
+    "",
+    "Edit with `npm run lite:add <key>` / `npm run lite:remove <key>` rather than by",
+    "hand, since both regenerate lite for you. `npm run lite` regenerates on its own."
+  ],
+  "onLite": [
+    "hero",
+    "intro",
+    "conversion-strip",
+    "features",
+    "feature-list",
+    "faq",
+    "signup"
+  ]
+}
