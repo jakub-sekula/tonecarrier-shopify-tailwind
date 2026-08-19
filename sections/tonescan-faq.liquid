@@ -1,52 +1,28 @@
 {%- comment -%}
   Frequently asked questions.
 
-  Split out of tonescan-landing so the page composes from real sections in a JSON
-  template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
-  file carries markup only and can be reordered or removed without taking them with it.
+  Block-driven rather than hardcoded. It was nine copies of the same four lines of markup, which
+  meant every wording change was a code change, and the answers drifted out of step with the
+  pricing and feature sections that are edited in the theme editor. Now it is the same kind of
+  section as the rest of the page.
+
+  Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this file carries markup
+  only and can be reordered or removed without taking them with it.
 {%- endcomment -%}
 
 <div class="tonescan-landing tw:text-neutral-200">
   <section id="faq" class="tw:scroll-mt-[84px] tw:border-t tw:border-white/10 tw:bg-white/[0.015]">
     <div class="tw:mx-auto tw:w-full tw:max-w-[760px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
-      <h2 class="tw:mb-[40px] tw:text-center tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Frequently asked questions</h2>
+      <h2 class="tw:mb-[40px] tw:text-center tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
       <div class="tw:flex tw:flex-col tw:gap-[12px]">
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
-          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Is it really free right now?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Yes. toneScan Studio is completely free to use during the open beta, with every feature unlocked. Paid licences (perpetual or subscription) arrive at launch.</p>
+        {%- for block in section.blocks -%}
+          {%- if block.settings.q != blank -%}
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]" {{ block.shopify_attributes }}>
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">{{ block.settings.q }}<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45" aria-hidden="true">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">{{ block.settings.a }}</p>
         </details>
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
-          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Do I need special hardware?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">No. toneScan Studio works with raw scans from any digital camera. It pairs with a toneCarrier setup and can even drive its light and carrier, but that isn't required.</p>
-        </details>
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
-          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">What film can I convert?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Colour negatives, black &amp; white, and slides, across common formats.</p>
-        </details>
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
-          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Does it run on my computer?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">toneScan Studio runs natively on both macOS (Apple Silicon) and Windows. Linux is still to come.</p>
-        </details>
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
-          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Do I have to shoot RGB?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Not at all. Single-shot white-light scanning is fully supported and works exactly the same way through the rest of the app. RGB is there when you want the cleanest possible colour separation. It isn't a requirement.</p>
-        </details>
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
-          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Can I use it on scans I've already shot?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Yes. Point toneScan Studio at a folder of existing raw captures and it will bring them in, group them into rolls and, if you shot RGB, merge the channel triplets for you. Nothing needs to be re-scanned.</p>
-        </details>
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
-          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">What do I get at the end?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Finished TIFF or JPG files, at the quality and long edge you choose, named with a pattern you control, and tagged with film stock, camera and development details. Export one frame or the whole roll in a single pass.</p>
-        </details>
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
-          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">How is this different from a Lightroom plugin?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">toneScan Studio is a complete application, not something bolted onto a host app. Capture, calibration, conversion, organising and export all live in one place, so there's no Lightroom licence to keep, and no round trips between programs to get a roll finished.</p>
-        </details>
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
-          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">What's the difference between perpetual and subscription?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Perpetual is a one-time purchase you own forever. Subscription keeps you on the latest version and can be cancelled anytime.</p>
-        </details>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
     </div>
   </section>
@@ -57,7 +33,35 @@
   "name": "toneScan FAQ",
   "tag": "section",
   "class": "section",
-  "settings": [],
+  "max_blocks": 14,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently asked questions"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "q",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "textarea",
+          "id": "a",
+          "label": "Answer",
+          "default": "Answer"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
       "name": "toneScan FAQ"
