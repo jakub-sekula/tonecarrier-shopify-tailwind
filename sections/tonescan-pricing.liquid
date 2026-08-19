@@ -220,7 +220,13 @@
        only on a local dev server, in the theme editor, or with ?mockup=1 on the URL: Liquid cannot
        detect the dev server, because request.host is the shop domain even behind it. {%- endcomment -%}
     <div class="ts-mock" role="group" aria-label="Confirmation state (development)" hidden>
-      <span class="ts-mock__label">Confirmation state</span>
+      {%- comment -%} The bar is the drag handle as well as the heading, so there is no separate
+         grab target to find. {%- endcomment -%}
+      <div class="ts-mock__bar">
+        <span class="ts-mock__label">Confirmation state</span>
+        <button type="button" class="ts-mock__collapse" aria-expanded="true" aria-label="Collapse panel">&minus;</button>
+      </div>
+      <div class="ts-mock__body">
       <div class="ts-mock__row">
         <button type="button" data-mock="reset">Cards</button>
         <button type="button" data-mock="pending">Generating</button>
@@ -251,6 +257,7 @@
       <label class="ts-mock__opt">
         <input type="checkbox" data-mock-opt="noemail"> No email known
       </label>
+      </div>
     </div>
   </section>
 </div>

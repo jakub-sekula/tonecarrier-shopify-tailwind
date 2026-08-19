@@ -1676,6 +1676,22 @@
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px;
     background: rgba(10,10,12,.94); border: 1px dashed rgba(255,255,255,.30); border-radius: 4px;
     box-shadow: 0 18px 40px -20px rgba(0,0,0,.9); }
+  /* Sits out of the way until wanted. It covers the bottom-right corner of every page it is on,
+     and at full strength it reads as part of the design while you are looking at the design. */
+  .ts-mock { opacity: .28; transition: opacity .18s ease; }
+  .ts-mock:hover, .ts-mock:focus-within, .ts-mock.is-dragging { opacity: 1; }
+  /* Once moved it is positioned from the top left, so the corner defaults have to stop applying. */
+  .ts-mock.is-placed { right: auto; bottom: auto; }
+  .ts-mock.is-dragging { user-select: none; cursor: grabbing; }
+
+  .ts-mock__bar { display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    cursor: grab; touch-action: none; }
+  .ts-mock.is-dragging .ts-mock__bar { cursor: grabbing; }
+  .ts-mock__collapse { padding: 0 6px; line-height: 1; font: inherit; font-size: 14px;
+    color: #f59e0b; background: transparent; border: 0; cursor: pointer; }
+  .ts-mock__body { display: flex; flex-direction: column; gap: 7px; }
+  .ts-mock.is-collapsed .ts-mock__body { display: none; }
+
   .ts-mock__label { color: #f59e0b; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
   .ts-mock__row { display: flex; gap: 5px; }
   .ts-mock button { padding: 5px 9px; font: inherit; color: #d4d4d4; cursor: pointer;

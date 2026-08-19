@@ -1657,6 +1657,82 @@ function tsInit() {
                 /[?&]mockup=1\b/.test(location.search) ||
                 !!(window.Shopify && window.Shopify.designMode);
     if (mock && isDev) mock.hidden = false;
+
+    // Drag by the bar, collapse with the button, both remembered. Dev-only furniture, so the state
+    // lives in localStorage rather than anywhere that matters, and every read is guarded: private
+    // browsing throws on access rather than returning null.
+    if (mock && isDev) (function () {
+      var KEY = 'ts.mock.ui';
+      var bar = mock.querySelector('.ts-mock__bar');
+      var toggle = mock.querySelector('.ts-mock__collapse');
+
+      function load() {
+        try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; }
+      }
+      function save(patch) {
+        try {
+          var s = load();
+          for (var k in patch) s[k] = patch[k];
+          localStorage.setItem(KEY, JSON.stringify(s));
+        } catch (e) { /* not worth a broken panel */ }
+      }
+
+      // Kept inside the viewport on the way in as well as while moving: a panel restored to a
+      // position from a wider window is otherwise off screen with no way to grab it back.
+      function place(x, y) {
+        var r = mock.getBoundingClientRect();
+        x = Math.max(0, Math.min(x, window.innerWidth - r.width));
+        y = Math.max(0, Math.min(y, window.innerHeight - r.height));
+        mock.classList.add('is-placed');
+        mock.style.left = x + 'px';
+        mock.style.top = y + 'px';
+        return { x: x, y: y };
+      }
+
+      var st = load();
+      if (st.collapsed) {
+        mock.classList.add('is-collapsed');
+        if (toggle) { toggle.setAttribute('aria-expanded', 'false'); toggle.innerHTML = '&plus;'; }
+      }
+      if (typeof st.x === 'number' && typeof st.y === 'number') place(st.x, st.y);
+
+      if (toggle) toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var off = mock.classList.toggle('is-collapsed');
+        toggle.setAttribute('aria-expanded', off ? 'false' : 'true');
+        toggle.innerHTML = off ? '&plus;' : '&minus;';
+        save({ collapsed: off });
+      });
+
+      if (bar) bar.addEventListener('pointerdown', function (e) {
+        if (e.target.closest('.ts-mock__collapse')) return;
+        var r = mock.getBoundingClientRect();
+        var dx = e.clientX - r.left, dy = e.clientY - r.top;
+        mock.classList.add('is-dragging');
+        bar.setPointerCapture(e.pointerId);
+        var last = { x: r.left, y: r.top };
+
+        function move(ev) { last = place(ev.clientX - dx, ev.clientY - dy); }
+        function up() {
+          mock.classList.remove('is-dragging');
+          bar.removeEventListener('pointermove', move);
+          bar.removeEventListener('pointerup', up);
+          bar.removeEventListener('pointercancel', up);
+          save({ x: last.x, y: last.y });
+        }
+        bar.addEventListener('pointermove', move);
+        bar.addEventListener('pointerup', up);
+        bar.addEventListener('pointercancel', up);
+        e.preventDefault();
+      });
+
+      // A resize can strand a panel that was parked against the old right edge.
+      window.addEventListener('resize', function () {
+        if (!mock.classList.contains('is-placed')) return;
+        var r = mock.getBoundingClientRect();
+        save(place(r.left, r.top));
+      }, { passive: true });
+    })();
     if (mock && done) {
       // hex, to match the alphabet the scramble settles through
       var SAMPLE_KEY = '4F2A9C-7B1E6D-3A8F05-C29B47-E1D6A3-5F';
