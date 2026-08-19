@@ -70,6 +70,10 @@
 
     {{ 'app.css' | asset_url | stylesheet_tag }}
 
+    {%- comment -%} Restyles Shopify's injected cookie banner. Must be rendered on every layout
+       that can show it, since the platform adds it to every page. {%- endcomment -%}
+    {% render 'cookie-banner' %}
+
     {%- comment -%} PhotoSwipe (MIT): fullscreen sample-scan viewer with pinch/wheel zoom.
        Already vendored in assets/ and used by the main theme; theme.liquid loads it globally,
        but this page uses its own layout, so it has to be pulled in here too. {%- endcomment -%}
@@ -178,7 +182,9 @@
       <div class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:flex-col tw:items-center tw:justify-between tw:gap-[16px] tw:px-[15px] tw:py-[32px] tw:md:flex-row tw:md:px-[50px]">
         <p class="tw:text-[13px] tw:text-neutral-500">© {{ 'now' | date: '%Y' }} Tone Photographic. All rights reserved.</p>
         <div class="tw:flex tw:items-center tw:gap-[24px]">
-          <a href="/" class="tw:text-[13px] tw:text-neutral-500 tw:transition-colors tw:hover:text-white">toneCarrier store</a>
+          {%- comment -%} No toneCarrier store to link to. The label said there was one and the
+             href went to the shop home, which is a promise the site does not keep. {%- endcomment -%}
+          <a href="/" class="tw:text-[13px] tw:text-neutral-500 tw:transition-colors tw:hover:text-white">Tone Photographic</a>
           <a href="/policies/privacy-policy" class="tw:text-[13px] tw:text-neutral-500 tw:transition-colors tw:hover:text-white">Privacy</a>
           <a href="/pages/contact" class="tw:text-[13px] tw:text-neutral-500 tw:transition-colors tw:hover:text-white">Support</a>
         </div>

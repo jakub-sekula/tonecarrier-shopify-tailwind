@@ -1,0 +1,227 @@
+{%- comment -%}
+  Restyles Shopify's cookie consent banner.
+
+  The banner is not ours: it is injected through content_for_header by the platform's
+  privacy-banner script, and there is no theme setting for it. It lands in the light DOM, though,
+  which is what makes this possible at all: markup in a shadow root could not be reached from here.
+
+  Shopify's own <style id="shopify-pc__banner__styles"> is written into <head> AFTER this, so
+  source order is lost before it starts. Everything below is scoped to #shopify-pc__banner, and an
+  id beats the single classes and `.dialog button.btn` pairs Shopify uses, so the cascade is won on
+  specificity instead. That is also why there is almost no !important here: the two that remain are
+  on declarations Shopify sets with the same weight.
+
+  What changed: a 650x265 dialog floating over the middle of the page becomes a slim bar along the
+  bottom. The buttons keep their order and their labels, because consent controls are not a thing
+  to be clever with.
+{%- endcomment -%}
+<style>
+  /* The bar itself. Shopify centres a fixed box; this pins it to the bottom edge instead.
+     position is restated rather than inherited from Shopify's sheet: their styles only exist when
+     their banner does, so anything relying on them silently comes out static elsewhere. */
+  #shopify-pc__banner.shopify-pc__banner__dialog {
+    position: fixed;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: none;
+    padding: 12px 20px;
+    background: rgba(10, 10, 12, 0.88);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: none;
+  }
+
+  /* Text and buttons on one line once there is room for it. Shopify stacks them at every width. */
+  #shopify-pc__banner .shopify-pc__banner__wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  #shopify-pc__banner .shopify-pc__banner__body {
+    width: auto;
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a3a3a3;
+  }
+  /* The heading is what makes it read as a dialog demanding attention. The body text already
+     says what this is. */
+  #shopify-pc__banner #shopify-pc__banner__body-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  #shopify-pc__banner .shopify-pc__banner__body p { margin: 0; font-size: 13px; }
+  #shopify-pc__banner #shopify-pc__banner__body-policy-link { color: #d4d4d4; }
+
+  #shopify-pc__banner .shopify-pc__banner__btns {
+    display: flex;
+    align-items: center;
+    width: auto;
+    flex: 0 0 auto;
+    flex-direction: row;
+    gap: 8px;
+  }
+  /* Shopify reorders these with :nth-child rules in its own sheet, so the reading order is Accept,
+     Decline, then Manage preferences rather than the DOM order. Restated here for the same reason
+     as position above, and so the order cannot change under us. */
+  #shopify-pc__banner button.shopify-pc__banner__btn-accept { order: 1; }
+  #shopify-pc__banner button.shopify-pc__banner__btn-decline { order: 2; }
+  #shopify-pc__banner button.shopify-pc__banner__btn-manage-prefs { order: 3; }
+
+  /* Shopify puts `margin: 15px 20px 0 0` on every button in the banner, which is spacing for the
+     stacked layout it ships. Left alone in a centred row it pushes the buttons 15px below the
+     text they are supposed to sit beside, and grows the row to fit the margin, so the row's
+     midpoint lines up while the buttons themselves do not. The gap comes from the flex `gap`
+     above instead. */
+  #shopify-pc__banner .shopify-pc__banner__btns button { margin: 0; }
+
+  /* Same three buttons in the same order, just smaller and quieter. Accept stays the filled one:
+     making the accept and decline weights differ is a dark pattern, so they match. */
+  #shopify-pc__banner button.shopify-pc__banner__btn-accept,
+  #shopify-pc__banner button.shopify-pc__banner__btn-decline {
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #f5f5f5;
+    white-space: nowrap;
+  }
+  #shopify-pc__banner button.shopify-pc__banner__btn-accept:hover,
+  #shopify-pc__banner button.shopify-pc__banner__btn-decline:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+  #shopify-pc__banner button.shopify-pc__banner__btn-manage-prefs {
+    padding: 7px 10px;
+    font-size: 13px;
+    color: #a3a3a3;
+    text-decoration: underline;
+    white-space: nowrap;
+  }
+  #shopify-pc__banner button.shopify-pc__banner__btn-manage-prefs:hover { color: #fff; }
+
+  /* Stacks below the width where the copy and three buttons stop fitting side by side. Shopify's
+     own breakpoint is 480px, which is far too late for a row this wide. */
+  @media (max-width: 749px) {
+    #shopify-pc__banner.shopify-pc__banner__dialog { padding: 14px 16px; }
+    #shopify-pc__banner .shopify-pc__banner__wrapper {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+    #shopify-pc__banner .shopify-pc__banner__btns { justify-content: flex-start; flex-wrap: wrap; }
+  }
+
+  /* The preferences dialog is a genuine modal and stays one. Only its backdrop is toned down so it
+     does not black out the page behind it. */
+  #shopify-pc__prefs.shopify-pc__prefs__dialog { background: rgba(10, 10, 12, 0.96); }
+
+  /* The chat launcher sits in the same bottom corner and lands underneath the bar. It waits until
+     consent has been answered. !important because the chat script writes inline styles onto its
+     own host element. */
+  html.ts-consent-open shopify-chat { display: none !important; }
+</style>
+
+<script>
+  /* Marks the document while the consent bar is on screen, so the chat launcher can get out of its
+     way. It cannot be done in CSS: on dismiss Shopify leaves the banner in the DOM and sets
+     display:none on it, so :has(#shopify-pc__banner) would match for the rest of the session.
+     Computed display is the only honest test, and only script can read it. */
+  (function () {
+    var root = document.documentElement;
+    var el = null, watch = null;
+
+    function sync() {
+      var open = !!el && el.isConnected && getComputedStyle(el).display !== 'none';
+      root.classList.toggle('ts-consent-open', open);
+    }
+
+    function attach(node) {
+      if (node === el) return sync();
+      el = node;
+      if (watch) watch.disconnect();
+      watch = new MutationObserver(sync);
+      watch.observe(el, { attributes: true, attributeFilter: ['style', 'class', 'hidden'] });
+      sync();
+    }
+
+    // The platform injects the banner, and that can land before or after this runs. Polled rather
+    // than watching the whole document for childList changes, which is a lot of observer for one
+    // element that arrives once.
+    var tries = 0;
+    (function find() {
+      var node = document.getElementById('shopify-pc__banner');
+      if (node) return attach(node);
+      if (++tries < 40) setTimeout(find, 250);   // ~10s, then give up quietly
+    })();
+
+    /* A stand-in, for looking at the styling.
+     *
+     * The real banner cannot be summoned back on demand: once consent has been answered Shopify
+     * stops injecting the element altogether, so there is nothing on the page to unhide, and the
+     * decision is held server side rather than in a cookie you can clear. This rebuilds it from
+     * the markup the real one uses, so every rule above applies to it identically.
+     *
+     * Structure, ids and labels are copied from the live banner. The body sentence is the one
+     * thing that is not: that copy comes from the store's own privacy settings, so this is
+     * representative rather than exact.
+     *
+     * localhost only, and only when asked for: ?cookiebanner=1
+     */
+    var LOCAL = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
+    if (!LOCAL || !/[?&]cookiebanner=1\b/.test(location.search)) return;
+
+    function mock() {
+      if (document.getElementById('shopify-pc__banner')) return;   // never fight the real one
+      var s = document.createElement('section');
+      s.id = 'shopify-pc__banner';
+      s.className = 'shopify-pc__banner__dialog';
+      s.setAttribute('role', 'dialog');
+      s.setAttribute('aria-modal', 'false');
+      s.innerHTML =
+        '<div class="shopify-pc__banner__wrapper">' +
+          '<div class="shopify-pc__banner__body">' +
+            '<h2 id="shopify-pc__banner__body-title">Cookie consent</h2>' +
+            // Copied verbatim from the live banner, so the preview wraps at the same width the
+            // real thing does. This copy comes from the store's privacy settings, not from here,
+            // so changing it in the admin means changing it here too or the preview starts lying.
+            '<p>We and our partners, including Shopify, use cookies and other technologies to ' +
+            'personalize your experience, show you ads, and perform analytics, and we will not ' +
+            'use cookies or other technologies for these purposes unless you accept them. ' +
+            'Learn more in our <a id="shopify-pc__banner__body-policy-link" href="#">Privacy Policy</a></p>' +
+          '</div>' +
+          // this order, because Shopify's own granular rules reorder them with :nth-child
+          '<div class="shopify-pc__banner__btns shopify-pc__banner__btns-granular">' +
+            '<button id="shopify-pc__banner__btn-manage-prefs" class="shopify-pc__banner__btn-manage-prefs"><span>Manage preferences</span></button>' +
+            '<button id="shopify-pc__banner__btn-accept" class="shopify-pc__banner__btn-accept"><span>Accept</span></button>' +
+            '<button id="shopify-pc__banner__btn-decline" class="shopify-pc__banner__btn-decline"><span>Decline</span></button>' +
+          '</div>' +
+        '</div>';
+      // Dismisses the way the real one does, so the chat coming back can be seen too.
+      s.addEventListener('click', function (e) {
+        if (e.target.closest('button')) { s.style.display = 'none'; sync(); }
+      });
+      document.body.appendChild(s);
+      attach(s);
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mock);
+    else mock();
+  })();
+</script>
