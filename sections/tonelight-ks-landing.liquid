@@ -1,0 +1,696 @@
+{%- comment -%}
+  tonelight-ks-landing
+  --------------------
+  Code-first, dark landing page for the toneLight Kickstarter campaign.
+  Rendered via templates/page.tonelight-ks-promo.liquid using layout/tonelight-ks.liquid.
+
+  CONVENTIONS: same system as the tonescan landing page.
+  - Tailwind v4, prefix-first (tw:). Dark theme, blue accent #3b82f6 / #60a5fa, minimal 2px radius.
+  - Container: max-w-[1400px], px-[15px] md:px-[50px]. Arbitrary px for type/spacing.
+  - Keeps the hero copy from the old KS page; campaign video is a placeholder.
+  - The waitlist form is the existing snippet (rendered as-is).
+
+  BUILD ORDER (stubs below): 1 hero+countdown  2 marquee  3 why-RGB/crosstalk
+    4 the system (toneLight/toneCarrier/toneStudio)  5 benefits bento  6 how it works
+    7 team  8 rewards/tiers  9 faq  10 waitlist CTA
+{%- endcomment -%}
+
+{%- liquid
+  # Kickstarter launch target (edit this). ISO 8601, UTC.
+  assign ks_launch = '2026-08-19T16:00:00Z'
+-%}
+
+<div class="tonelight-ks tw:text-neutral-200">
+
+  {%- comment -%} ============================ 1 · HERO + COUNTDOWN ============================ {%- endcomment -%}
+  <section class="tw:relative tw:overflow-hidden">
+    <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-[#3b82f6]/10 tw:blur-[130px]"></div>
+
+    <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[72px] tw:pb-[56px] tw:md:px-[50px] tw:md:pt-[104px] tw:md:pb-[80px]">
+      <div class="tw:mx-auto tw:flex tw:max-w-[880px] tw:flex-col tw:items-center tw:gap-[24px] tw:text-center">
+        <span class="tw:inline-flex tw:items-center tw:gap-[8px] tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.04] tw:px-[12px] tw:py-[6px] tw:text-[13px] tw:font-medium tw:text-neutral-300">
+          <span class="tw:h-[6px] tw:w-[6px] tw:rounded-full tw:bg-[#3b82f6]"></span>
+          Coming soon on Kickstarter
+        </span>
+
+        <h1 class="tw:text-[40px] tw:font-semibold tw:leading-[1.04] tw:tracking-[-0.03em] tw:md:text-[66px]">
+          <span class="tw:bg-[linear-gradient(180deg,#ffffff,#a3a3a3)] tw:bg-clip-text tw:text-transparent">
+            Turn your digital camera into a precision film scanner.
+          </span>
+        </h1>
+
+        <p class="tw:max-w-[620px] tw:text-[18px] tw:leading-[1.55] tw:text-neutral-400 tw:md:text-[20px]">
+          toneLight is a smart RGB scanning light that delivers clean colours, improved dynamic
+          range, and a DSLR scanning workflow like never seen before.
+        </p>
+
+        {%- comment -%} countdown {%- endcomment -%}
+        <div class="ks-countdown" data-launch="{{ ks_launch }}" role="timer" aria-label="Time until Kickstarter launch">
+          <div class="ks-countdown__unit"><span class="ks-countdown__num" data-cd="days">--</span><span class="ks-countdown__label">days</span></div>
+          <div class="ks-countdown__sep">:</div>
+          <div class="ks-countdown__unit"><span class="ks-countdown__num" data-cd="hours">--</span><span class="ks-countdown__label">hrs</span></div>
+          <div class="ks-countdown__sep">:</div>
+          <div class="ks-countdown__unit"><span class="ks-countdown__num" data-cd="mins">--</span><span class="ks-countdown__label">min</span></div>
+          <div class="ks-countdown__sep">:</div>
+          <div class="ks-countdown__unit"><span class="ks-countdown__num" data-cd="secs">--</span><span class="ks-countdown__label">sec</span></div>
+        </div>
+
+        <div class="tw:mt-[4px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
+          <a href="#waitlist" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[26px] tw:py-[14px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
+            Join the waitlist
+          </a>
+          <a href="#why-rgb" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[26px] tw:py-[14px] tw:text-[15px] tw:font-medium tw:text-white tw:transition-colors tw:hover:bg-white/[0.08]">
+            See how it works
+          </a>
+        </div>
+        <p class="tw:text-[13px] tw:text-neutral-500">Every backer gets a lifetime toneScan Studio licence, free.</p>
+      </div>
+
+      {%- comment -%} campaign video placeholder {%- endcomment -%}
+      <div class="tw:mx-auto tw:mt-[48px] tw:max-w-[960px] tw:md:mt-[64px]">
+        <div class="tw:flex tw:aspect-[16/9] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600 tw:shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
+          [ campaign video ]
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== WAITLIST (kit form) ==================== {%- endcomment -%}
+  <section id="waitlist" class="tw:scroll-mt-[84px] tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[720px] tw:px-[15px] tw:py-[56px] tw:md:px-[50px] tw:md:py-[72px] tw:text-center">
+      <h2 class="tw:text-[26px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[34px]">Be first when we launch.</h2>
+      <p class="tw:mx-auto tw:mt-[12px] tw:mb-[28px] tw:max-w-[480px] tw:text-[16px] tw:text-neutral-400">Join the waitlist for early-bird pricing and launch-day access. No spam — just the campaign.</p>
+      {% render 'tc-kickstarter-prelaunch-form' %}
+      <div class="tw:mt-[22px] tw:flex tw:items-center tw:justify-center tw:gap-[10px]">
+        <span class="tw:text-[13px] tw:text-neutral-500">Coming soon to</span>
+        <img src="{{ 'kickstarter-logo.svg' | asset_url }}" alt="Kickstarter" width="252" height="26" class="tw:h-[16px] tw:w-auto">
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== RESULTS (3-way comparison) ====================
+       Prepared image slots. Set white/rgb/lab URLs per frame in the SAMPLES array (JS below).
+  {%- endcomment -%}
+  <section id="results" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">The results</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Same frame, three ways. Judge for yourself.</h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">The same negative under white light, with toneLight RGB, and from a professional lab scanner. No theory — just the colour you get.</p>
+    </div>
+
+    <div class="ks-compare tw:mt-[48px]">
+      <div class="ks-compare__col">
+        <div class="ks-compare__label">White light</div>
+        <div class="ks-compare__img" data-slot="white">[ white light ]</div>
+      </div>
+      <div class="ks-compare__col ks-compare__col--feat">
+        <div class="ks-compare__label"><span class="ks-compare__dot"></span>toneLight RGB</div>
+        <div class="ks-compare__img" data-slot="rgb">[ toneLight RGB ]</div>
+      </div>
+      <div class="ks-compare__col">
+        <div class="ks-compare__label">Pro lab scan</div>
+        <div class="ks-compare__img" data-slot="lab">[ pro lab scan ]</div>
+      </div>
+    </div>
+
+    <div class="ks-compare__thumbs" role="tablist" aria-label="Sample frames">
+      <button type="button" class="ks-compare__thumb is-active" data-sample="0" aria-label="Sample 1"></button>
+      <button type="button" class="ks-compare__thumb" data-sample="1" aria-label="Sample 2"></button>
+      <button type="button" class="ks-compare__thumb" data-sample="2" aria-label="Sample 3"></button>
+      <button type="button" class="ks-compare__thumb" data-sample="3" aria-label="Sample 4"></button>
+    </div>
+    <p class="tw:mt-[16px] tw:text-center tw:text-[13px] tw:text-neutral-600">Pick a frame to compare · real comparison scans drop into these slots</p>
+  </section>
+
+  {%- comment -%} ==================== WHY RGB (crosstalk explainer) ==================== {%- endcomment -%}
+  <section id="why-rgb" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Why RGB</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">The problem isn't your camera — it's the light.</h2>
+    </div>
+
+    <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:items-center tw:gap-[48px] tw:md:grid-cols-2">
+      <div>
+        <p class="tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">Colour negatives aren't made to be viewed under white light. They're three stacked dye layers — cyan, magenta and yellow — built to be printed onto paper that reads light in three narrow bands. Scan them with white light and your sensor records all three layers at once. That blending is called <span class="tw:text-neutral-200">crosstalk</span>, and it's what causes cyan skies, magenta shadows and skin tones that never look quite right.</p>
+        <p class="tw:mt-[20px] tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">toneLight fixes it at the source. It takes three exposures through narrowband red, green and blue light — one per dye layer — so each channel is read cleanly. Inversions get easier, colours more predictable, and the look holds across the whole roll. It's how lab and cinema scanners have worked for decades; now your existing rig can too.</p>
+      </div>
+      <div>
+        {%- comment -%} R/G/B channels merge then convert on scroll (reused component; assets already in /assets) {%- endcomment -%}
+        <div class="ts-rgb">
+          <div class="ts-rgb__stage">
+            <div class="ts-rgb__ch ts-rgb__ch--r"></div>
+            <div class="ts-rgb__ch ts-rgb__ch--g"></div>
+            <div class="ts-rgb__ch ts-rgb__ch--b"></div>
+            <div class="ts-rgb__result"></div>
+          </div>
+          <span class="ts-rgb__cap">Three RGB channel captures</span>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} spectral crosstalk chart (data from tonelight_project) {%- endcomment -%}
+    <div class="ks-spectral">
+      <div class="ks-spectral__head">
+        <h3 class="tw:text-[20px] tw:font-semibold tw:text-white">The spectral picture</h3>
+        <p class="ks-spectral__sub">Toggle each set of curves. Camera channels overlap and spill under white light; narrowband RGB peaks land cleanly where each channel dominates — matching the film's dye layers.</p>
+      </div>
+      <div class="ks-spectral__chips">
+        <button type="button" class="ks-spectral__chip is-active" data-group="sensor" aria-pressed="true"><span class="ks-spectral__sw" style="background:linear-gradient(90deg,#5a9cf0,#4ade80,#f2555a)"></span>Camera sensitivity</button>
+        <button type="button" class="ks-spectral__chip" data-group="film" aria-pressed="false"><span class="ks-spectral__sw" style="background:linear-gradient(90deg,#facc15,#e879f9,#22d3ee)"></span>Film dye density</button>
+        <button type="button" class="ks-spectral__chip" data-group="narrow" aria-pressed="false"><span class="ks-spectral__sw" style="background:linear-gradient(90deg,#5a9cf0,#4ade80,#f2555a)"></span>Narrowband RGB</button>
+        <button type="button" class="ks-spectral__chip is-active" data-group="broad" aria-pressed="true"><span class="ks-spectral__sw ks-spectral__sw--dash"></span>White light</button>
+      </div>
+      <div class="ks-spectral__chart" role="img" aria-label="Spectral curves across wavelength — camera sensor sensitivity, film dye density, narrowband RGB and broadband white-light spectra."></div>
+    </div>
+
+    {%- comment -%} benefits of RGB {%- endcomment -%}
+    <div class="tw:mt-[56px] tw:grid tw:grid-cols-1 tw:gap-[20px] tw:md:grid-cols-3">
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[44px] tw:w-[44px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[18px] tw:w-[18px] tw:rounded-[2px] tw:bg-[#3b82f6]"></div></div>
+        <h3 class="tw:mb-[8px] tw:text-[19px] tw:font-semibold tw:text-white">Colour separated at the source</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Each exposure reads essentially one dye layer on its own, making any camera sensor behave like photographic paper.</p>
+      </div>
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[44px] tw:w-[44px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[18px] tw:w-[18px] tw:rounded-[2px] tw:bg-[#3b82f6]"></div></div>
+        <h3 class="tw:mb-[8px] tw:text-[19px] tw:font-semibold tw:text-white">Consistent across a roll</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Clean input means clean scans. Shadows stay clean, skin tones look natural, and the look doesn't drift frame to frame — set it once, apply it to the whole roll.</p>
+      </div>
+      <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <div class="tw:mb-[16px] tw:flex tw:h-[44px] tw:w-[44px] tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6]/15"><div class="tw:h-[18px] tw:w-[18px] tw:rounded-[2px] tw:bg-[#3b82f6]"></div></div>
+        <h3 class="tw:mb-[8px] tw:text-[19px] tw:font-semibold tw:text-white">Fast and effortless</h3>
+        <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">toneLight sequences the colours, fires the shutter and advances the film; toneScan Studio merges the captures on the fly. First shot to export in a couple of minutes.</p>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== THE SYSTEM (3 pillars) ==================== {%- endcomment -%}
+  <section id="system" class="tw:scroll-mt-[84px] tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">The system</p>
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Three parts, built to work as one.</h2>
+        <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">A narrowband RGB light, a motorised film carrier, and desktop software — designed together so capture, transport and conversion feel like a single tool.</p>
+      </div>
+      <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[20px] tw:md:grid-cols-3">
+        <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <div class="tw:mb-[20px] tw:flex tw:aspect-[3/2] tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ toneLight ]</div>
+          <h3 class="tw:mb-[8px] tw:text-[20px] tw:font-semibold tw:text-white">toneLight</h3>
+          <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Narrowband RGB light source for clean colour separation on any digital camera.</p>
+        </div>
+        <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <div class="tw:mb-[20px] tw:flex tw:aspect-[3/2] tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ toneCarrier ]</div>
+          <h3 class="tw:mb-[8px] tw:text-[20px] tw:font-semibold tw:text-white">toneCarrier</h3>
+          <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Motorised film carrier that advances even short strips quickly and precisely.</p>
+        </div>
+        <div class="tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <div class="tw:mb-[20px] tw:flex tw:aspect-[3/2] tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ toneScan Studio ]</div>
+          <h3 class="tw:mb-[8px] tw:text-[20px] tw:font-semibold tw:text-white">toneScan Studio</h3>
+          <p class="tw:text-[15px] tw:leading-[1.55] tw:text-neutral-400">Desktop software that automates capture, merges the channels and inverts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== toneLight (hardware deep-dive) ==================== {%- endcomment -%}
+  <section class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:grid tw:grid-cols-1 tw:items-center tw:gap-[48px] tw:md:grid-cols-2">
+      <div>
+        <p class="tw:mb-[14px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">toneLight</p>
+        <h2 class="tw:text-[28px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[40px]">The RGB light that does the hard part in hardware.</h2>
+        <p class="tw:mt-[18px] tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">toneLight is our RGB light panel engineered specifically for scanning film with a digital camera. It achieves excellent colour separation on any camera by automatically triggering red, green and blue exposures of every frame. Shoot slides or black &amp; white? A high-quality white LED panel has you covered too.</p>
+        <p class="tw:mt-[16px] tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">Large physical controls make it easy to use in the dark, and an injection-moulded enclosure stands up to years of daily use.</p>
+      </div>
+      <div>
+        <div class="tw:flex tw:aspect-[4/3] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ toneLight product shot ]</div>
+      </div>
+    </div>
+
+    <div class="tw:mt-[40px] tw:grid tw:grid-cols-1 tw:gap-x-[40px] tw:gap-y-[20px] tw:sm:grid-cols-2 tw:md:grid-cols-3">
+      <div class="tw:flex tw:gap-[12px]"><span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Purpose-built RGB illumination</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Narrowband LED array for sequential trichromatic capture, coordinated with the camera automatically.</p></div></div>
+      <div class="tw:flex tw:gap-[12px]"><span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><div><p class="tw:flex tw:items-center tw:gap-[8px] tw:text-[15px] tw:font-semibold tw:text-white">White &amp; infrared too <span class="tw:rounded-[2px] tw:border tw:border-white/15 tw:px-[8px] tw:py-[1px] tw:text-[11px] tw:font-medium tw:uppercase tw:tracking-[0.08em] tw:text-neutral-500">IR soon</span></p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">High-CRI white for slide and B&amp;W; an IR channel for dust and defect capture.</p></div></div>
+      <div class="tw:flex tw:gap-[12px]"><span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Capture control built in</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Stepper-motor film advance, direct shutter release, and a serial API for automation.</p></div></div>
+      <div class="tw:flex tw:gap-[12px]"><span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Simple to run</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Tactile physical controls and a clear GUI — minimal interaction once it's configured.</p></div></div>
+      <div class="tw:flex tw:gap-[12px]"><span class="tw:mt-[7px] tw:h-[7px] tw:w-[7px] tw:shrink-0 tw:rounded-full tw:bg-[#3b82f6]"></span><div><p class="tw:text-[15px] tw:font-semibold tw:text-white">Built for real use</p><p class="tw:text-[14px] tw:leading-[1.5] tw:text-neutral-400">Durable injection-moulded enclosure with mounting points top and bottom for copy stands and custom rigs.</p></div></div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== toneCarrier + motor ==================== {%- endcomment -%}
+  <section class="tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:grid tw:grid-cols-1 tw:items-center tw:gap-[48px] tw:md:grid-cols-2">
+        <div class="tw:md:order-2">
+          <p class="tw:mb-[14px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">toneCarrier</p>
+          <h2 class="tw:text-[28px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[40px]">Motorised film transport, frame after frame.</h2>
+          <p class="tw:mt-[18px] tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">toneCarrier keeps film flat and secure during scanning, in 35 mm and 120 formats, with a belt-drive system that smoothly advances even short strips. A quiet stepper motor makes the transport fast and precise — driven by a jog dial on toneLight for fine control, or from the toneScan Studio GUI for automated capture.</p>
+          <div class="tw:mt-[20px] tw:rounded-[2px] tw:border tw:border-[#3b82f6]/40 tw:bg-[#3b82f6]/[0.06] tw:p-[20px]">
+            <p class="tw:text-[15px] tw:font-semibold tw:text-white">Already own a toneCarrier?</p>
+            <p class="tw:mt-[6px] tw:text-[14px] tw:leading-[1.55] tw:text-neutral-300">Upgrade it to motorised in about 5 minutes. Our motor conversion kit attaches to the back of your existing carrier — no disassembly required.</p>
+          </div>
+        </div>
+        <div class="tw:md:order-1">
+          <div class="tw:flex tw:aspect-[4/3] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ motorised toneCarrier shot ]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== toneScan Studio (short + link out) ==================== {%- endcomment -%}
+  <section class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:grid tw:grid-cols-1 tw:items-center tw:gap-[48px] tw:md:grid-cols-2">
+      <div>
+        <p class="tw:mb-[14px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">toneScan Studio</p>
+        <h2 class="tw:text-[28px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[40px]">The software that ties it all together.</h2>
+        <p class="tw:mt-[18px] tw:text-[17px] tw:leading-[1.65] tw:text-neutral-400">toneScan Studio drives the light and carrier, then automatically combines and inverts your scans with an engine built on real film physics. Point it at a hot folder and scans appear, merge and invert as they land — batch-edit and export a full roll in minutes.</p>
+        <p class="tw:mt-[16px] tw:text-[15px] tw:text-neutral-500">Every backer gets a lifetime toneScan Studio licence, free.</p>
+        <a href="/pages/tonescan-landing" class="tw:mt-[24px] tw:inline-flex tw:items-center tw:gap-[8px] tw:text-[15px] tw:font-semibold tw:text-[#60a5fa] tw:transition-colors tw:hover:text-white">
+          Explore toneScan Studio
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+      <div>
+        <div class="tw:flex tw:aspect-[16/10] tw:w-full tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-neutral-900 tw:text-[13px] tw:text-neutral-600">[ toneScan Studio screenshot ]</div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== REWARDS (pledge tiers) ==================== {%- endcomment -%}
+  <section id="rewards" class="tw:scroll-mt-[84px] tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Rewards</p>
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Back it at launch, save the most.</h2>
+        <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">Early-bird tiers are limited and go live on launch day. Most people already camera-scan — if that's you, the light is the only part you're missing. You'll need a copy stand or sturdy tripod to mount your camera.</p>
+      </div>
+      <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[20px] tw:md:grid-cols-2 tw:xlg:grid-cols-4">
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">toneLight RGB Panel</h3>
+          <div class="tw:mt-[14px] tw:flex tw:items-baseline tw:gap-[8px]"><span class="tw:text-[32px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">£340</span><span class="tw:text-[13px] tw:text-[#60a5fa]">super early bird</span></div>
+          <p class="tw:mt-[4px] tw:text-[13px] tw:text-neutral-500">then £360 early bird · £400 regular</p>
+          <p class="tw:mt-[14px] tw:flex-1 tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">The light on its own. Drops into any carrier with a standard 35 mm aperture and adds trichromatic RGB capture. The one most of you want.</p>
+          <a href="#waitlist" class="tw:mt-[24px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[20px] tw:py-[12px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Notify me at launch</a>
+        </div>
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-[#3b82f6]/60 tw:bg-[#3b82f6]/[0.06] tw:p-[28px]">
+          <span class="tw:mb-[14px] tw:inline-flex tw:w-fit tw:items-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[10px] tw:py-[3px] tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.08em] tw:text-white">Most popular</span>
+          <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">toneLight + Motorised Carrier</h3>
+          <div class="tw:mt-[14px] tw:flex tw:items-baseline tw:gap-[8px]"><span class="tw:text-[32px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">£375</span><span class="tw:text-[13px] tw:text-[#60a5fa]">super early bird</span></div>
+          <p class="tw:mt-[4px] tw:text-[13px] tw:text-neutral-500">then £400 early bird · £450 regular</p>
+          <p class="tw:mt-[14px] tw:flex-1 tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">A complete RGB setup with automated transport, ready for your camera and copy stand. Choose 35 mm or 120.</p>
+          <a href="#waitlist" class="tw:mt-[24px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[20px] tw:py-[12px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Notify me at launch</a>
+        </div>
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">toneLight + Motor Upgrade Kit</h3>
+          <div class="tw:mt-[14px] tw:flex tw:items-baseline tw:gap-[8px]"><span class="tw:text-[32px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">£375</span><span class="tw:text-[13px] tw:text-[#60a5fa]">super early bird</span></div>
+          <p class="tw:mt-[4px] tw:text-[13px] tw:text-neutral-500">then £400 early bird · £450 regular</p>
+          <p class="tw:mt-[14px] tw:flex-1 tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">The light plus a motor kit that retrofits onto your current toneCarrier (35 mm or 120) for automated scanning.</p>
+          <a href="#waitlist" class="tw:mt-[24px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[20px] tw:py-[12px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Notify me at launch</a>
+        </div>
+
+        <div class="tw:flex tw:flex-col tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">Full scanning kit</h3>
+          <div class="tw:mt-[14px] tw:flex tw:items-baseline tw:gap-[8px]"><span class="tw:text-[32px] tw:font-semibold tw:tracking-[-0.02em] tw:text-white">£470</span><span class="tw:text-[13px] tw:text-[#60a5fa]">super early bird</span></div>
+          <p class="tw:mt-[4px] tw:text-[13px] tw:text-neutral-500">then £495 early bird · £550 regular</p>
+          <p class="tw:mt-[14px] tw:flex-1 tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">Motorised carrier plus the full accessory set — easyloader tray, catch tray, chimney, frame masks. Best if you're building a rig from scratch.</p>
+          <a href="#waitlist" class="tw:mt-[24px] tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:border tw:border-white/15 tw:bg-white/[0.03] tw:px-[20px] tw:py-[12px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">Notify me at launch</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== TRUSTED BY THE COMMUNITY ==================== {%- endcomment -%}
+  <section class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Trusted by the film community</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Built on a carrier 2,000+ photographers already use.</h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">toneLight builds on toneCarrier, our modular film transport for camera scanning. Photographers all over the world have already made it part of their workflow.</p>
+    </div>
+    <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[20px] tw:md:grid-cols-3">
+      <figure class="tw:flex tw:flex-col tw:gap-[16px] tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <blockquote class="tw:text-[15px] tw:leading-[1.6] tw:text-neutral-200">"Your carrier has been my favorite so far, even compared against more expensive options. The simplicity of your design and the overall serviceability really stand out to me."</blockquote>
+        <figcaption class="tw:mt-auto tw:text-[14px] tw:font-semibold tw:text-white">Stephen W.</figcaption>
+      </figure>
+      <figure class="tw:flex tw:flex-col tw:gap-[16px] tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <blockquote class="tw:text-[15px] tw:leading-[1.6] tw:text-neutral-200">"Thank you so much for designing the toneCarrier! I just finished home scanning my first batch of negatives and couldn't have been more excited by the magic of the process. I really appreciate the attention to detail — the belt/dual-roller drive, interchangeable masks, and dedicated CS-Lite adapter."</blockquote>
+        <figcaption class="tw:mt-auto tw:text-[14px] tw:font-semibold tw:text-white">Aram R.</figcaption>
+      </figure>
+      <figure class="tw:flex tw:flex-col tw:gap-[16px] tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+        <blockquote class="tw:text-[15px] tw:leading-[1.6] tw:text-neutral-200">"I have an archive of 120,000 6x6 negatives to scan. Before buying I researched and tested many systems and the Tone Carrier is better than all of them."</blockquote>
+        <figcaption class="tw:mt-auto tw:text-[14px] tw:font-semibold tw:text-white">Paul E.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== TEAM ==================== {%- endcomment -%}
+  <section class="tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1100px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">The team</p>
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">A small team in Bristol, UK.</h2>
+        <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">We're both long-time film photographers. toneLight came out of the same scanning frustration everyone in this space hits — and a stubborn belief that we could do it better.</p>
+      </div>
+      <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[20px] tw:md:grid-cols-2">
+        <div class="tw:flex tw:gap-[20px] tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <div class="tw:h-[72px] tw:w-[72px] tw:shrink-0 tw:rounded-[2px] tw:bg-white/10"></div>
+          <div>
+            <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">Jakub</h3>
+            <p class="tw:text-[13px] tw:text-[#60a5fa]">Mechanical engineer &amp; product design</p>
+            <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">Five years across Formula 1, medical devices and consumer products. Precision design, manufacturing, and taking hardware from concept to production.</p>
+          </div>
+        </div>
+        <div class="tw:flex tw:gap-[20px] tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]">
+          <div class="tw:h-[72px] tw:w-[72px] tw:shrink-0 tw:rounded-[2px] tw:bg-white/10"></div>
+          <div>
+            <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">Nico</h3>
+            <p class="tw:text-[13px] tw:text-[#60a5fa]">Electronics &amp; software</p>
+            <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">10+ years across embedded systems, control electronics, and the software tools that make real-world workflows hold together.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== TIMELINE ==================== {%- endcomment -%}
+  <section class="tw:mx-auto tw:w-full tw:max-w-[1100px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+      <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">Where we are</p>
+      <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Nearly two years in, and close.</h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">Four prototypes, firmware feature-complete, and every unit used in real scanning sessions — not on a bench. Funding covers the final prototypes and the first production run.</p>
+    </div>
+    <ol class="ks-timeline tw:mx-auto tw:mt-[44px] tw:max-w-[560px]">
+      <li><span class="ks-timeline__date">Dec 2024</span><span class="ks-timeline__event">Concept and feasibility</span></li>
+      <li><span class="ks-timeline__date">Jan–Mar 2025</span><span class="ks-timeline__event">Prototypes 1 &amp; 2 — core workflow proven end to end</span></li>
+      <li><span class="ks-timeline__date">Apr–Jun 2025</span><span class="ks-timeline__event">Prototype 3 — uniformity, enclosure, UI, stepper-motor controller</span></li>
+      <li><span class="ks-timeline__date">Jul–Aug 2025</span><span class="ks-timeline__event">Prototype 4 — firmware reaches feature completeness</span></li>
+      <li class="is-launch"><span class="ks-timeline__date">Jul 2026</span><span class="ks-timeline__event">Kickstarter launch — final validation &amp; demonstrations</span></li>
+      <li><span class="ks-timeline__date">Oct 2026</span><span class="ks-timeline__event">Design lock, injection-mould tooling, pilot production</span></li>
+      <li><span class="ks-timeline__date">Dec 2026</span><span class="ks-timeline__event">Compliance testing, full production batch, packaging</span></li>
+      <li><span class="ks-timeline__date">Jan 2027</span><span class="ks-timeline__event">Shipping to backers begins</span></li>
+    </ol>
+  </section>
+
+  {%- comment -%} ==================== FAQ ==================== {%- endcomment -%}
+  <section id="faq" class="tw:scroll-mt-[84px] tw:border-t tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[760px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <h2 class="tw:mb-[40px] tw:text-center tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">Frequently asked questions</h2>
+      <div class="tw:flex tw:flex-col tw:gap-[12px]">
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Which cameras are supported?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Any camera with a standard remote shutter input. toneLight triggers the shutter directly and never touches your exposure settings, so metering stays in your hands. All major brands.</p>
+        </details>
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Does it work with 120 / medium format?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">Yes — fully compatible with toneCarrier 120 from day one. Motorised upgrades are available for both 35 mm and 120.</p>
+        </details>
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">How does it compare to a lab scanner?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">For most negatives, comparable — and better in resolution and flexibility. Two honest caveats: transport is currently open-loop (a small jog every few frames), and a Bayer sensor is softer at deep red and blue than a mono camera. Both are in active development.</p>
+        </details>
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">What about slide film / E-6?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">toneLight has a high-CRI white mode for slides. Slides are positive, so they work like normal photos in any editor — toneScan Studio isn't required.</p>
+        </details>
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">Do I need toneScan Studio, or can I use other software?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">toneScan Studio is the intended workflow and what the system is built around. The three captures are standard RAW, so anyone comfortable with manual channel work can experiment elsewhere. For slides, any editor works with no extra steps.</p>
+        </details>
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]">
+          <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">How long does a roll take?<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45">+</span></summary>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">About a minute to capture in semi-auto. In hot-folder mode, toneScan Studio merges scans as they arrive, so by the time you step away from the rig the files are ready to preview.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ==================== FINAL CTA ==================== {%- endcomment -%}
+  <section class="tw:relative tw:overflow-hidden">
+    <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:bottom-[-180px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-[#3b82f6]/10 tw:blur-[130px]"></div>
+    <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[96px] tw:md:px-[50px] tw:md:py-[140px] tw:text-center">
+      <h2 class="tw:mx-auto tw:max-w-[760px] tw:text-[34px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.02em] tw:text-white tw:md:text-[56px]">
+        Help bring lab-grade colour to home scanning.
+      </h2>
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[540px] tw:text-[17px] tw:text-neutral-400">Join the waitlist for early-bird pricing and launch-day access. Thousands already trusted us with the toneCarrier — be part of what comes next.</p>
+      <div class="tw:mt-[32px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
+        <a href="#waitlist" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[#3b82f6] tw:px-[28px] tw:py-[15px] tw:text-[15px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
+          Join the waitlist
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+{%- comment -%} ===== countdown styles + init ===== {%- endcomment -%}
+{%- style -%}
+  .ks-countdown { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+  .ks-countdown__unit { display: flex; flex-direction: column; align-items: center; min-width: 58px; padding: 10px 6px; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: rgba(255,255,255,.03); }
+  .ks-countdown__num { font-size: 26px; font-weight: 600; line-height: 1; color: #fff; font-variant-numeric: tabular-nums; }
+  .ks-countdown__label { margin-top: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8a8a8a; }
+  .ks-countdown__sep { color: #3b82f6; font-weight: 600; }
+  .ks-countdown.is-live .ks-countdown__num { color: #3b82f6; }
+
+  /* ---- rgb merge (scroll-linked --s spread; .is-converted crossfades the result) ---- */
+  .ts-rgb { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #08080a; }
+  .ts-rgb__stage { position: absolute; inset: 0; background: #000; isolation: isolate; }
+  .ts-rgb__ch { position: absolute; inset: 6%; mix-blend-mode: screen; background-size: cover; background-position: center; will-change: transform; }
+  .ts-rgb__ch--r { background-image: url('{{ 'raw-red.jpg' | asset_url }}'); transform: translate(calc(-12% * var(--s, 1)), calc(-7% * var(--s, 1))) rotate(calc(-2deg * var(--s, 1))); }
+  .ts-rgb__ch--g { background-image: url('{{ 'raw-green.jpg' | asset_url }}'); transform: translateY(calc(8% * var(--s, 1))); }
+  .ts-rgb__ch--b { background-image: url('{{ 'raw-blue.jpg' | asset_url }}'); transform: translate(calc(12% * var(--s, 1)), calc(-7% * var(--s, 1))) rotate(calc(2deg * var(--s, 1))); }
+  .ts-rgb__result { position: absolute; inset: 6%; z-index: 1; opacity: 0; transition: opacity .55s ease; background-size: cover; background-position: center; will-change: opacity; background-image: url('{{ 'converted.jpg' | asset_url }}'); }
+  .ts-rgb.is-converted .ts-rgb__result { opacity: 1; }
+  .ts-rgb__cap { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 5px 10px; font-size: 12px; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; }
+
+  /* ---- timeline ---- */
+  .ks-timeline { position: relative; margin: 0; padding: 0 0 0 24px; list-style: none; border-left: 1px solid rgba(255,255,255,.12); }
+  .ks-timeline li { position: relative; padding-bottom: 26px; }
+  .ks-timeline li:last-child { padding-bottom: 0; }
+  .ks-timeline li::before { content: ''; position: absolute; left: -29px; top: 4px; width: 9px; height: 9px; border-radius: 9999px; background: rgba(255,255,255,.35); border: 2px solid #0a0a0b; }
+  .ks-timeline li.is-launch::before { background: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,.2); }
+  .ks-timeline__date { display: block; font-size: 13px; font-weight: 600; color: #60a5fa; }
+  .ks-timeline__event { display: block; margin-top: 2px; font-size: 15px; line-height: 1.5; color: #d4d4d4; }
+
+  /* ---- spectral crosstalk chart ---- */
+  .ks-spectral { margin-top: 56px; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: rgba(255,255,255,.02); padding: 24px; }
+  .ks-spectral__head { display: flex; flex-direction: column; gap: 16px; margin-bottom: 8px; }
+  @media (min-width: 750px) { .ks-spectral__head { flex-direction: row; align-items: flex-start; justify-content: space-between; } }
+  .ks-spectral__sub { margin-top: 8px; max-width: 560px; font-size: 15px; line-height: 1.6; color: #a3a3a3; transition: opacity .3s ease; }
+  .ks-spectral__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .ks-spectral__chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; font-size: 13px; font-weight: 600; color: #8a8a8a; background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.12); border-radius: 2px; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease; }
+  .ks-spectral__chip.is-active { color: #fff; background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.25); }
+  .ks-spectral__chip:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ks-spectral__sw { width: 20px; height: 8px; border-radius: 2px; flex-shrink: 0; opacity: .45; transition: opacity .2s ease; }
+  .ks-spectral__chip.is-active .ks-spectral__sw { opacity: 1; }
+  .ks-spectral__sw--dash { background: repeating-linear-gradient(90deg, #d0d0d0 0 4px, transparent 4px 7px); }
+  .ks-spectral__chart { width: 100%; height: 380px; margin-top: 16px; }
+
+  /* ---- results 3-way comparison ---- */
+  .ks-compare { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 750px) { .ks-compare { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+  .ks-compare__col { display: flex; flex-direction: column; }
+  .ks-compare__label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; font-weight: 600; color: #a3a3a3; }
+  .ks-compare__col--feat .ks-compare__label { color: #fff; }
+  .ks-compare__dot { width: 7px; height: 7px; border-radius: 9999px; background: #3b82f6; }
+  .ks-compare__img { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 3 / 2; padding: 8px; text-align: center; font-size: 12px; color: #6a6a6a; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #0f0f10; background-size: cover; background-position: center; }
+  .ks-compare__col--feat .ks-compare__img { border-color: rgba(59,130,246,.55); box-shadow: 0 0 0 1px rgba(59,130,246,.25); }
+  .ks-compare__thumbs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
+  .ks-compare__thumb { width: 88px; aspect-ratio: 3 / 2; padding: 0; overflow: hidden; cursor: pointer; border: 1px solid rgba(255,255,255,.12); border-radius: 2px; background: #14161c; background-size: cover; background-position: center; opacity: .55; transition: opacity .2s ease, border-color .2s ease; }
+  .ks-compare__thumb.is-active { opacity: 1; border-color: #3b82f6; }
+  .ks-compare__thumb:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+{%- endstyle -%}
+
+<script>
+  (function () {
+    document.querySelectorAll('.tonelight-ks .ks-countdown').forEach(function (el) {
+      var target = new Date(el.getAttribute('data-launch')).getTime();
+      if (isNaN(target)) return;
+      var out = {
+        days: el.querySelector('[data-cd="days"]'),
+        hours: el.querySelector('[data-cd="hours"]'),
+        mins: el.querySelector('[data-cd="mins"]'),
+        secs: el.querySelector('[data-cd="secs"]')
+      };
+      var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+      function tick() {
+        var diff = target - Date.now();
+        if (diff <= 0) {
+          el.classList.add('is-live');
+          out.days.textContent = out.hours.textContent = out.mins.textContent = out.secs.textContent = '00';
+          clearInterval(timer);
+          return;
+        }
+        var s = Math.floor(diff / 1000);
+        out.days.textContent = Math.floor(s / 86400);
+        out.hours.textContent = pad(Math.floor(s % 86400 / 3600));
+        out.mins.textContent = pad(Math.floor(s % 3600 / 60));
+        out.secs.textContent = pad(s % 60);
+      }
+      tick();
+      var timer = setInterval(tick, 1000);
+    });
+  })();
+
+  /* rgb merge — scroll-linked (mirrors the tonescan component) */
+  (function () {
+    var els = document.querySelectorAll('.tonelight-ks .ts-rgb');
+    if (!els.length) return;
+    var clamp = function (v) { return v < 0 ? 0 : (v > 1 ? 1 : v); };
+    var texts = ['Three RGB channel captures', 'Channels aligned & combined', 'Converted with toneScan Studio'];
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach(function (el) {
+        el.style.setProperty('--s', 0);
+        el.classList.add('is-converted');
+        var c = el.querySelector('.ts-rgb__cap'); if (c) c.textContent = texts[2];
+      });
+      return;
+    }
+    var items = [];
+    els.forEach(function (el) { items.push({ el: el, cap: el.querySelector('.ts-rgb__cap'), last: -1 }); });
+    function update() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      items.forEach(function (it) {
+        var r = it.el.getBoundingClientRect();
+        var p = clamp((vh - r.top) / (vh + r.height));
+        it.el.style.setProperty('--s', (1 - clamp(p * 2)).toFixed(3));
+        var converted = p >= 0.5;
+        it.el.classList.toggle('is-converted', converted);
+        if (it.cap) { var ti = converted ? 2 : (p < 0.3 ? 0 : 1); if (ti !== it.last) { it.cap.textContent = texts[ti]; it.last = ti; } }
+      });
+    }
+    var ticking = false;
+    function onScroll() { if (ticking) return; ticking = true; requestAnimationFrame(function () { update(); ticking = false; }); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+
+  /* spectral chart — toggleable curve groups (camera sensitivity, film dye density, narrowband RGB, broadband white). ECharts, lazy-loaded. */
+  (function () {
+    var root = document.querySelector('.tonelight-ks .ks-spectral');
+    if (!root) return;
+    var mount = root.querySelector('.ks-spectral__chart');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var R = [0,0.0066,0.0143,0.022,0.037,0.041,0.0319,0.0286,0.0287,0.0371,0.0466,0.0498,0.0608,0.0865,0.1255,0.1655,0.1516,0.1493,0.1786,0.3118,0.672,1,0.9997,0.903,0.7654,0.6715,0.5411,0.4241,0.2959,0.1854,0.081,0.0272,0.0111,0.0069,0.0044];
+    var G = [0,0.0033,0.0116,0.0199,0.0411,0.0652,0.0868,0.1132,0.156,0.2665,0.4036,0.4831,0.6423,0.817,0.919,1,0.9362,0.8976,0.7554,0.6453,0.4866,0.3511,0.2023,0.1153,0.0657,0.0477,0.0351,0.0252,0.0177,0.0135,0.0079,0.004,0.0019,0.0012,0.001];
+    var B = [0,0,0.0589,0.151,0.4235,0.7212,0.8276,0.9565,1,0.9871,0.9267,0.7706,0.5878,0.4025,0.2297,0.1412,0.0914,0.0621,0.0387,0.0299,0.0246,0.0206,0.0149,0.0116,0.0102,0.0099,0.0089,0.0095,0.0077,0.0059,0.0027,0.0008,0.0005,0.0004,0.0003];
+    var SPD = [0.4242,0.4639,0.7024,0.7765,0.7931,0.7358,0.8901,0.9932,1,0.975,0.984,0.9236,0.9282,0.915,0.8895,0.9141,0.8862,0.8832,0.8488,0.8177,0.8131,0.7528,0.764,0.7605,0.7444,0.707,0.7104,0.6793,0.6809,0.6984,0.6645,0.5918,0.6078,0.6311,0.5229];
+    var WL0 = 380, STEP = 10, N = R.length;
+    var COL = { r: '#f2555a', g: '#4ade80', b: '#5a9cf0', cy: '#22d3ee', mg: '#e879f9', yr: '#facc15', wht: '#d0d0d0' };
+    var LED_SIG = 20 / (2 * Math.sqrt(2 * Math.log(2)));
+    var FILM = [['Cyan dye', COL.cy, 680.6, 50.9], ['Magenta dye', COL.mg, 536.6, 27.8], ['Yellow dye', COL.yr, 445.3, 29.5]];
+    var LEDS = [['Blue LED (460 nm)', COL.b, 460], ['Green LED (540 nm)', COL.g, 540], ['Red LED (660 nm)', COL.r, 660]];
+
+    function pair(a) { var d = []; for (var i = 0; i < N; i++) d.push([WL0 + i * STEP, a[i]]); return d; }
+    function gauss(mu, sig, amp) { amp = amp || 1; var d = []; for (var w = 380; w <= 720; w += 2) d.push([w, +(amp * Math.exp(-0.5 * Math.pow((w - mu) / sig, 2))).toFixed(4)]); return d; }
+    function ls(name, color, data, o) {
+      o = o || {};
+      return { name: name, type: 'line', smooth: (o.smooth !== undefined ? o.smooth : 0.45), symbol: 'none', showSymbol: false,
+        data: data, lineStyle: { color: color, width: 2, type: (o.dash ? 'dashed' : 'solid') },
+        areaStyle: { color: color, opacity: (o.fill !== undefined ? o.fill : 0.16) }, emphasis: { disabled: true }, z: (o.z || 2) };
+    }
+
+    var active = { sensor: true, film: false, narrow: false, broad: true };
+    var chart = null;
+
+    function buildSeries() {
+      var s = [];
+      if (active.broad) s.push(ls('White light', COL.wht, pair(SPD), { smooth: 0.3, fill: 0.04, dash: true, z: 1 }));
+      if (active.sensor) { s.push(ls('Red channel', COL.r, pair(R))); s.push(ls('Green channel', COL.g, pair(G))); s.push(ls('Blue channel', COL.b, pair(B))); }
+      if (active.film) FILM.forEach(function (f) { s.push(ls(f[0], f[1], gauss(f[2], f[3]), { smooth: 0.25, fill: 0.10 })); });
+      if (active.narrow) LEDS.forEach(function (l) { s.push(ls(l[0], l[1], gauss(l[2], LED_SIG, 0.98), { smooth: false, fill: 0.3, z: 3 })); });
+      if (!s.length) s.push({ name: '', type: 'line', data: [] });
+      return s;
+    }
+    function option() {
+      return {
+        animationDuration: reduce ? 0 : 900, animationEasing: 'cubicOut',
+        grid: { left: 6, right: 16, top: 22, bottom: 52, containLabel: true },
+        legend: { show: false },
+        tooltip: { trigger: 'axis', backgroundColor: '#141416', borderColor: 'rgba(255,255,255,.12)', textStyle: { color: '#e5e5e5', fontSize: 12 },
+          axisPointer: { type: 'line', lineStyle: { color: 'rgba(255,255,255,.25)' } },
+          formatter: function (ps) { var out = Math.round(ps[0].axisValue) + ' nm'; ps.forEach(function (p) { if (p.seriesName) out += '<br>' + p.marker + p.seriesName + ': ' + Math.round(p.value[1] * 100) + '%'; }); return out; } },
+        xAxis: { type: 'value', min: 380, max: 720, interval: 100,
+          name: 'Wavelength (nm)', nameLocation: 'middle', nameGap: 32, nameTextStyle: { color: '#8a8a8a', fontSize: 12 },
+          axisLine: { lineStyle: { color: 'rgba(255,255,255,.25)' } },
+          axisTick: { show: true, lineStyle: { color: 'rgba(255,255,255,.25)' } },
+          minorTick: { show: true, splitNumber: 2, lineStyle: { color: 'rgba(255,255,255,.15)' } },
+          axisLabel: { color: '#8a8a8a', fontSize: 11 },
+          splitLine: { show: true, lineStyle: { color: 'rgba(255,255,255,.05)' } },
+          minorSplitLine: { show: true, lineStyle: { color: 'rgba(255,255,255,.025)' } } },
+        yAxis: { type: 'value', min: 0, max: 1.08, interval: 0.25,
+          name: 'Relative (normalised)', nameLocation: 'middle', nameGap: 42, nameTextStyle: { color: '#8a8a8a', fontSize: 12 },
+          axisLine: { show: false }, axisTick: { show: false },
+          axisLabel: { show: true, color: '#8a8a8a', fontSize: 11, formatter: function (v) { return Math.round(v * 100) + '%'; } },
+          splitLine: { show: true, lineStyle: { color: 'rgba(255,255,255,.05)' } } },
+        series: buildSeries()
+      };
+    }
+    function render() { if (chart) chart.setOption(option(), { replaceMerge: ['series'] }); }
+
+    root.querySelectorAll('.ks-spectral__chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var gn = chip.getAttribute('data-group');
+        active[gn] = !active[gn];
+        chip.classList.toggle('is-active', active[gn]);
+        chip.setAttribute('aria-pressed', active[gn] ? 'true' : 'false');
+        render();
+      });
+    });
+
+    var libLoading = false;
+    function ensure(cb) {
+      if (window.echarts) return cb();
+      if (libLoading) return;
+      libLoading = true;
+      var sc = document.createElement('script');
+      sc.src = 'https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js';
+      sc.async = true; sc.onload = cb;
+      document.head.appendChild(sc);
+    }
+    function boot() { if (!window.echarts || chart) return; chart = echarts.init(mount, null, { renderer: 'canvas' }); chart.setOption(option()); window.addEventListener('resize', function () { chart.resize(); }); }
+    if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { ensure(boot); io.disconnect(); } }); }, { threshold: 0.35 }); io.observe(root); }
+    else ensure(boot);
+  })();
+
+  /* results — 3-way comparison sample switcher */
+  (function () {
+    var sec = document.querySelector('.tonelight-ks #results');
+    if (!sec) return;
+    var slots = { white: sec.querySelector('[data-slot="white"]'), rgb: sec.querySelector('[data-slot="rgb"]'), lab: sec.querySelector('[data-slot="lab"]') };
+    var thumbs = sec.querySelectorAll('.ks-compare__thumb');
+    var LBL = { white: 'white light', rgb: 'toneLight RGB', lab: 'pro lab scan' };
+    // Placeholder frames — set white/rgb/lab image URLs per frame (assets or CDN) when ready.
+    var SAMPLES = [
+      { name: 'Portra 400', white: '', rgb: '', lab: '' },
+      { name: 'CineStill 800T', white: '', rgb: '', lab: '' },
+      { name: 'Gold 200', white: '', rgb: '', lab: '' },
+      { name: 'Ektar 100', white: '', rgb: '', lab: '' }
+    ];
+    function show(i) {
+      var sm = SAMPLES[i] || SAMPLES[0];
+      Object.keys(slots).forEach(function (k) {
+        var el = slots[k]; if (!el) return;
+        if (sm[k]) { el.style.backgroundImage = 'url(' + sm[k] + ')'; el.textContent = ''; }
+        else { el.style.backgroundImage = ''; el.textContent = '[ ' + LBL[k] + ' — ' + sm.name + ' ]'; }
+      });
+      thumbs.forEach(function (t, ti) { t.classList.toggle('is-active', ti === i); });
+    }
+    thumbs.forEach(function (t, ti) {
+      if (SAMPLES[ti]) t.setAttribute('aria-label', SAMPLES[ti].name);
+      t.addEventListener('click', function () { show(ti); });
+    });
+    show(0);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "tonelight ks landing",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [{ "name": "tonelight ks landing" }]
+}
+{% endschema %}
