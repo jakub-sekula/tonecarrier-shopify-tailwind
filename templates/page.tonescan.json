@@ -266,7 +266,7 @@
           "settings": {
             "title": "Rich inversion engine",
             "description": "Rendering modelled on real film physics and the way darkroom paper responds to light. The starting point already looks like a print, so you adjust to taste.",
-            "size": "large",
+            "size": "big",
             "icon": "ic0",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
             "video_url": "",
@@ -280,7 +280,7 @@
           "settings": {
             "title": "Seamless RGB scanning",
             "description": "Trichromatic capture from any camera, mono sensors included. Triplets merged for you.",
-            "size": "small",
+            "size": "wide",
             "icon": "ic1",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png",
             "video_url": "",
@@ -294,7 +294,7 @@
           "settings": {
             "title": "See every edit instantly",
             "description": "Adjustments show on the full-resolution image the moment you make them.",
-            "size": "small",
+            "size": "tall",
             "icon": "ic2",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
             "video_url": "",
@@ -308,7 +308,7 @@
           "settings": {
             "title": "Flat-field correction",
             "description": "Automatically corrects unevenness in your light source.",
-            "size": "small",
+            "size": "sm",
             "icon": "ic3",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
             "video_url": "",
@@ -322,7 +322,7 @@
           "settings": {
             "title": "Batch editing",
             "description": "Get one frame right and the whole roll follows, matched from first frame to last.",
-            "size": "small",
+            "size": "sm",
             "icon": "ic4",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
             "video_url": "",
@@ -336,7 +336,7 @@
           "settings": {
             "title": "Properly fast",
             "description": "Smooth, instant previews of every edit, and a keyboard shortcut for everything so you can fly through a roll. Whole rolls convert and export in the background while you carry on working.",
-            "size": "large",
+            "size": "wide",
             "icon": "ic5",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png",
             "video_url": "",
@@ -350,7 +350,7 @@
           "settings": {
             "title": "Standalone software",
             "description": "No Lightroom, no plugins, no host app. One program you own.",
-            "size": "small",
+            "size": "sm",
             "icon": "ic6",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
             "video_url": "",
@@ -364,7 +364,7 @@
           "settings": {
             "title": "Smart auto-crop",
             "description": "Frame edges found and squared up for you, on every shot.",
-            "size": "small",
+            "size": "sm",
             "icon": "ic7",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
             "video_url": "",
@@ -378,7 +378,7 @@
           "settings": {
             "title": "Hardware control",
             "description": "Drives your light source and advances the film carrier as you shoot.",
-            "size": "small",
+            "size": "wide",
             "icon": "ic8",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png",
             "video_url": "",
@@ -389,14 +389,14 @@
         }
       },
       "block_order": [
-        "tile_1",
-        "tile_2",
-        "tile_3",
-        "tile_4",
-        "tile_5",
-        "tile_6",
         "tile_7",
+        "tile_2",
+        "tile_4",
+        "tile_3",
+        "tile_1",
+        "tile_5",
         "tile_8",
+        "tile_6",
         "tile_9"
       ],
       "settings": {
@@ -410,7 +410,50 @@
     },
     "workflow": {
       "type": "tonescan-workflow",
-      "settings": {}
+      "blocks": {
+        "step1": {
+          "type": "step",
+          "settings": {
+            "title": "A roll in minutes",
+            "body": "<p>Point toneScan Studio at your capture folder and the whole roll appears, triplets already merged and frames already inverted.</p><p>You're looking at finished pictures before you've touched a single slider.</p>",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png"
+          }
+        },
+        "step2": {
+          "type": "step",
+          "settings": {
+            "title": "Right colour, first try",
+            "body": "<p>The inversion is built on how film and paper actually behave, so the first thing you see is already close.</p><p>No profile hunting, no per-frame guesswork, and no fighting an orange cast for twenty minutes.</p>",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png"
+          }
+        },
+        "step3": {
+          "type": "step",
+          "settings": {
+            "title": "Instant feedback",
+            "body": "<p>Move a slider and the frame moves with it. No lag, no stand-in preview, no waiting to find out what an adjustment really did.</p><p>And what you settle on is what you get: the exported file matches the one you approved on screen.</p>",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png"
+          }
+        },
+        "step4": {
+          "type": "step",
+          "settings": {
+            "title": "One frame, whole roll",
+            "body": "<p>Push your settings across every frame, then send the lot out in one go.</p><p>TIFF or JPG, your sizing, your filenames, with film stock and camera details already attached.</p>",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png"
+          }
+        }
+      },
+      "block_order": [
+        "step1",
+        "step2",
+        "step3",
+        "step4"
+      ],
+      "settings": {
+        "eyebrow": "The workflow",
+        "heading": "From capture to export"
+      }
     },
     "rgb": {
       "type": "tonescan-rgb",
@@ -428,7 +471,7 @@
           "settings": {
             "title": "Capture & calibration",
             "icon": "icon0",
-            "items": "<b>Hardware control</b>: Controls your light source and motorised film carrier for automatic scanning.\n<b>Trichromatic scanning</b>: Photograph each frame under red, green and blue light, the way lab scanners read colour.\n<b>White-light scanning</b>: One shot per frame works too, with any ordinary light source.\n<b>Works with your existing camera scanning rig</b>\n<b>Automatic exposure tuning</b>: Tunes your light settings to use the full range of your sensor.\n<b>Flat-field correction</b>: Automatically corrects unevenness in your light source.\n<b>Crosstalk correction</b>",
+            "items": "<b>Hardware control</b>: Controls your light source and motorised film carrier for automatic scanning.\n<b>Trichromatic scanning</b>: Photograph each frame under red, green and blue light, the way lab scanners read colour. toneScan Studio finds the three and merges them.\n<b>White-light scanning</b>: One shot per frame works too, with any ordinary light source.\n<b>Works with your existing camera scanning rig</b>\n<b>Automatic exposure tuning</b>: Tunes your light settings to use the full range of your sensor.\n<b>Flat-field correction</b>: Automatically corrects unevenness in your light source.\n<b>Crosstalk correction</b>",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/calibration-crosstalk.png"
           }
         },
@@ -446,7 +489,7 @@
           "settings": {
             "title": "Editing and interface",
             "icon": "icon2",
-            "items": "<b>Instant previews</b>: See your edits straight away, at full resolution.\n<b>Keyboard shortcuts</b>: Work through a roll without reaching for the mouse.\n<b>Background processing</b>: Whole rolls convert and export while you carry on working.\n<b>Live RGB histogram</b>\n<b>Pixel loupe</b>\n<b>Smart auto-crop</b>: Never crop out the film border by hand again.\n<b>Crop, rotate and flip</b>\n<b>Undo, redo and edit history</b>",
+            "items": "<b>Instant previews</b>: See your edits straight away, at full resolution.\n<b>Keyboard shortcuts</b>: Work through a roll without reaching for the mouse.\n<b>Background processing</b>: Whole rolls convert and export while you carry on working.\n<b>Live RGB histogram</b>\n<b>Pixel loupe</b>\n<b>Smart auto-crop</b>: Never crop out the film border by hand again.\n<b>Crop, rotate and flip</b>\n<b>Batch editing</b>: Copy and paste edits across as many frames as you like.\n<b>Undo, redo and edit history</b>",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png"
           }
         },
@@ -455,7 +498,7 @@
           "settings": {
             "title": "Project management",
             "icon": "icon1",
-            "items": "<b>Roll-based library</b>: Organised by roll, the way you shoot.\n<b>Hot folder support</b>: Point it at a folder and new scans are picked up as they land.\n<b>Automatic RGB merge</b>: Finds the red, green and blue frames of each shot and combines them for you.\n<b>Batch editing</b>: Copy and paste edits across as many frames as you like.\n<b>Rich metadata</b>: Record the camera, lens and film stock against a roll, and find them again by any of it.",
+            "items": "<b>Roll-based library</b>: Organised by roll, the way you shoot.\n<b>Hot folder support</b>: Point it at a folder and new scans are picked up as they land.\n<b>Rich metadata</b>: Record the camera, lens and film stock against a roll, and find them again by any of it.",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png"
           }
         },
@@ -525,9 +568,6 @@
     },
     "faq": {
       "type": "tonescan-faq",
-      "settings": {
-        "heading": "Frequently asked questions"
-      },
       "blocks": {
         "q1": {
           "type": "qa",
@@ -568,7 +608,7 @@
           "type": "qa",
           "settings": {
             "q": "Do I need special hardware?",
-            "a": "No. toneScan Studio works with raw scans from any digital camera and whatever light you already have. It can also drive a toneCarrier and either a toneLight or a ScanLight directly, if you have them, but nothing depends on that."
+            "a": "No. toneScan Studio works with raw scans from any digital camera and whatever light you already have. It can also drive our own toneLight and toneCarrier, and selected third-party lights, directly from the app, but nothing depends on that."
           }
         },
         "q7": {
@@ -635,21 +675,36 @@
         "q11",
         "q12",
         "q13"
-      ]
+      ],
+      "settings": {
+        "heading": "Frequently asked questions"
+      }
     },
     "signup": {
       "type": "tonescan-signup",
+      "settings": {}
+    },
+    "demo": {
+      "type": "tonescan-demo",
+      "settings": {
+        "embed_url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ"
+      }
+    },
+    "compare": {
+      "type": "tonescan-compare",
       "settings": {}
     }
   },
   "order": [
     "hero",
-    "intro",
     "conversion-strip",
+    "intro",
+    "demo",
     "features",
-    "highlights",
     "workflow",
     "rgb",
+    "compare",
+    "highlights",
     "hardware",
     "feature-list",
     "gallery",

@@ -23,7 +23,8 @@
     {%- comment -%}
       HEADLINE FEATURES, these nine, in this order, are the ones the page leads on. Anything
       that isn't one of them belongs in the "Plus everything" list below, not here.
-      Every tile carries a "+" that opens a short video of the feature (.ts-feature-more):
+      A tile carries a "+" that opens a short video (.ts-feature-more) only when its
+      "Show expand button" setting is on:
         data-video  = mp4 URL. EMPTY FOR NOW, the modal falls back to the poster plus a
                       "video coming soon" line, so tiles stay clickable until the clips exist.
         data-poster = still shown before playback / instead of it
@@ -45,9 +46,20 @@
         {%- assign b = block.settings -%}
         {%- if b.image != blank -%}{%- assign src = b.image | image_url: width: 3200 -%}
         {%- else -%}{%- assign src = b.image_url -%}{%- endif -%}
-      <article class="ts-bento{% if b.size == 'large' %} ts-bento--lg{% endif %}" {{ block.shopify_attributes }}>
+        {%- comment -%} size -> grid footprint. big is the one showcase tile (screenshot beside
+           text); every other size is a label over its image, which is what lets them be any
+           shape. Legacy large/small map onto big/sm so old blocks keep working. {%- endcomment -%}
+        {%- assign span = b.size | default: 'sm' -%}
+        {%- if span == 'large' -%}{%- assign span = 'big' -%}{%- elsif span == 'small' -%}{%- assign span = 'sm' -%}{%- endif -%}
+        {%- assign is_media = false -%}
+        {%- if span == 'big' -%}{%- assign is_media = true -%}{%- endif -%}
+      <article class="ts-bento ts-bento--{{ span }}{% if is_media %} ts-bento--media{% endif %}" {{ block.shopify_attributes }}>
+        {%- comment -%} Per-tile, off unless the tile opts in. The plus opens the lightbox, so it
+           only belongs on tiles that have something worth opening. {%- endcomment -%}
+        {%- if b.show_expand -%}
         <button type="button" class="ts-feature-more" data-video="{{ b.video_url }}" data-poster="{{ src }}" data-title="{{ b.title | escape }}" aria-label="Watch: {{ b.title | escape }}"><span aria-hidden="true">+</span></button>
-        {%- if b.size == 'large' -%}
+        {%- endif -%}
+        {%- if is_media -%}
         <div class="ts-bento__media">
           <div class="ts-shot">
             <img src="{{ src }}" alt="{{ b.alt }}" loading="lazy" width="3200" height="2000">
@@ -116,6 +128,13 @@
       "name": "Feature tile",
       "settings": [
         {
+          "type": "checkbox",
+          "id": "show_expand",
+          "label": "Show expand button",
+          "info": "The + that opens the feature lightbox. Off unless this tile has something to show.",
+          "default": false
+        },
+        {
           "type": "text",
           "id": "title",
           "label": "Title",
@@ -129,18 +148,14 @@
         {
           "type": "select",
           "id": "size",
-          "label": "Size",
-          "default": "small",
+          "label": "Tile size",
           "options": [
-            {
-              "value": "large",
-              "label": "Large (framed screenshot)"
-            },
-            {
-              "value": "small",
-              "label": "Small (background image)"
-            }
-          ]
+            { "value": "sm", "label": "Small (1x1)" },
+            { "value": "wide", "label": "Wide (2x1)" },
+            { "value": "tall", "label": "Tall (1x2)" },
+            { "value": "big", "label": "Large (2x2, screenshot + text)" }
+          ],
+          "default": "sm"
         },
         {
           "type": "select",

@@ -137,6 +137,9 @@
       </div>
     </section>
 
+    {%- comment -%} Held back until it ships. The dive is written and styled; turning the setting
+       on is the whole of the work when it lands. {%- endcomment -%}
+    {%- if section.settings.show_contact_sheet -%}
     {%- comment -%} Contact sheets, shipping in Studio. {%- endcomment -%}
     <section class="ts-dive">
       <div class="ts-dive__inner">
@@ -162,8 +165,10 @@
         </div>
       </div>
     </section>
+    {%- endif -%}
 
-    {%- comment -%} Flipped, to keep the alternation going after the contact sheet dive. {%- endcomment -%}
+    {%- comment -%} Alternates with the calibration dive above. The contact sheet dive between them is
+       gated off, so this keeps the left/right rhythm either way. {%- endcomment -%}
     <section class="ts-dive ts-dive--alt ts-dive--flip">
       <div class="ts-dive__inner">
         <div class="ts-dive__text">
@@ -198,6 +203,13 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_contact_sheet",
+      "label": "Show the contact sheet section",
+      "info": "Off until contact sheets ship. The section is written and ready; this switches it on.",
+      "default": false
+    },
     {
       "type": "image_picker",
       "id": "contact_sheet_image",

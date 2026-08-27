@@ -1,0 +1,86 @@
+{%- comment -%}
+  White light against RGB, on the same frame.
+
+  A handle you drag rather than two images side by side: the difference is in the colour of the same
+  negative, and two separate pictures make the eye compare compositions instead. Overlaying them and
+  wiping between keeps every pixel in the same place, so the only thing that changes is the thing
+  being argued about.
+
+  BOTH IMAGES MUST BE THE SAME FRAME, at the same crop and size. Different frames make this a lie.
+
+  Works with no JavaScript: the range input is a real input, so it can be dragged and it takes arrow
+  keys for free. The script only adds pointer-drag anywhere on the image.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+  <section class="ts-cmp" id="compare">
+    <div class="ts-cmp__inner">
+      <div class="ts-cmp__head">
+        {%- if section.settings.eyebrow != blank -%}
+        <p class="ts-cmp__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="ts-cmp__title">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+        <p class="ts-cmp__sub">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="ts-cmp__stage" style="--x: 50%">
+        {%- comment -%} The right-hand image is the base layer and stays whole; the left one is
+           clipped to the handle. Clipping rather than resizing, so nothing scales as you drag. {%- endcomment -%}
+        <div class="ts-cmp__layer ts-cmp__layer--b">
+          {%- if section.settings.image_rgb != blank -%}
+          <img src="{{ section.settings.image_rgb | image_url: width: 2400 }}" alt="{{ section.settings.label_rgb }}: the same negative scanned under red, green and blue light" loading="lazy" width="{{ section.settings.image_rgb.width }}" height="{{ section.settings.image_rgb.height }}">
+          {%- else -%}
+          <img src="{{ ts_cdn }}/rgb-merge.png" alt="" loading="lazy" width="3200" height="2000">
+          {%- endif -%}
+        </div>
+        <div class="ts-cmp__layer ts-cmp__layer--a">
+          {%- if section.settings.image_white != blank -%}
+          <img src="{{ section.settings.image_white | image_url: width: 2400 }}" alt="{{ section.settings.label_white }}: the same negative scanned under a single white light" loading="lazy" width="{{ section.settings.image_white.width }}" height="{{ section.settings.image_white.height }}">
+          {%- else -%}
+          <img src="{{ ts_cdn }}/calibration-crosstalk.png" alt="" loading="lazy" width="3200" height="2000">
+          {%- endif -%}
+        </div>
+
+        <span class="ts-cmp__tag ts-cmp__tag--a">{{ section.settings.label_white }}</span>
+        <span class="ts-cmp__tag ts-cmp__tag--b">{{ section.settings.label_rgb }}</span>
+
+        <div class="ts-cmp__handle" aria-hidden="true">
+          <span class="ts-cmp__grip">
+            <svg viewBox="0 0 24 24"><path d="M9 6 4 12l5 6M15 6l5 6-5 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+
+        {%- comment -%} The real control. Visually it is the handle above; this stays operable and
+           keyboard-reachable underneath it. {%- endcomment -%}
+        <input class="ts-cmp__range" type="range" min="0" max="100" value="50" step="0.1"
+               aria-label="Reveal more of {{ section.settings.label_white }} or {{ section.settings.label_rgb }}">
+      </div>
+
+      {%- if section.settings.caption != blank -%}
+      <p class="ts-cmp__caption">{{ section.settings.caption }}</p>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan comparison",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "White light against RGB" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The same negative, two ways" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Both of these are straight off the camera with no correction. Drag to see what the light source alone does to the colour." },
+    { "type": "image_picker", "id": "image_white", "label": "White light scan", "info": "Shown on the left. Must be the same frame and crop as the RGB one." },
+    { "type": "image_picker", "id": "image_rgb", "label": "RGB scan", "info": "Shown on the right." },
+    { "type": "text", "id": "label_white", "label": "Left label", "default": "White light" },
+    { "type": "text", "id": "label_rgb", "label": "Right label", "default": "RGB" },
+    { "type": "text", "id": "caption", "label": "Caption", "default": "Same negative, same camera, same exposure. Only the light changed." }
+  ],
+  "presets": [ { "name": "toneScan comparison" } ]
+}
+{% endschema %}

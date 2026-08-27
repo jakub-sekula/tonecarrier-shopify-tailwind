@@ -1314,6 +1314,46 @@ function tsInit() {
     window.__tsHeroVideoSync = syncAll;
   })();
 
+  /* white light against RGB: the wipe.
+     The range input already handles dragging its own thumb, arrow keys and Home/End, so this only
+     mirrors its value onto --x and adds dragging from anywhere on the image. Pointer events rather
+     than mouse and touch pairs, so a pen works and there is one code path. */
+  (function () {
+    var stages = document.querySelectorAll('.tonescan-landing .ts-cmp__stage');
+    if (!stages.length) return;
+    Array.prototype.forEach.call(stages, function (stage) {
+      var range = stage.querySelector('.ts-cmp__range');
+      if (!range) return;
+
+      function paint() { stage.style.setProperty('--x', range.value + '%'); }
+      range.addEventListener('input', paint);
+      paint();
+
+      // Dragging anywhere, not just on the thumb. The input covers the stage, so a press lands here
+      // first and the position is worked out from the box rather than from the thumb.
+      var dragging = false;
+      function at(e) {
+        var r = stage.getBoundingClientRect();
+        if (!r.width) return;
+        var pct = ((e.clientX - r.left) / r.width) * 100;
+        range.value = Math.max(0, Math.min(100, pct));
+        paint();
+      }
+      stage.addEventListener('pointerdown', function (e) {
+        dragging = true;
+        try { stage.setPointerCapture(e.pointerId); } catch (err) {}
+        at(e);
+      });
+      stage.addEventListener('pointermove', function (e) { if (dragging) at(e); });
+      ['pointerup', 'pointercancel'].forEach(function (ev) {
+        stage.addEventListener(ev, function (e) {
+          dragging = false;
+          try { stage.releasePointerCapture(e.pointerId); } catch (err) {}
+        });
+      });
+    });
+  })();
+
   /* ---- pricing: live Paddle prices and overlay checkout --------------------------------------
      Amounts are never written into the page. PricePreview returns them already localised for the
      buyer's country with tax applied, and the formatted string it hands back is used verbatim:

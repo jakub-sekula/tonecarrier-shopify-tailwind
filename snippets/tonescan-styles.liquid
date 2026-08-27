@@ -412,27 +412,39 @@
   .ts-morelist .ts-os { font-size: inherit; color: inherit; }
 
   /* ---- bento grid ----
-     Two large cards anchor it: the engine top-left, speed in the middle-right. Everything
-     else is a single cell. Positions are explicit, so source order must match the numbering
-     in the markup comment.
-       r1: [ 1 engine  ][ 2 RGB   ]
-       r2: [ 1 engine  ][ 3 GPU   ]
-       r3: [ 4 ffc ][ 6 speed     ]
-       r4: [ 5 batch ][ 6 speed   ]
-       r5: [ 7 standalone ][ 8 crop ][ 9 hardware ]
-  */
+     A mosaic, Apple-keynote style. Each tile carries its own footprint (sm 1x1, wide 2x1,
+     tall 1x2, big 2x2) and the grid packs them with auto-flow: dense, so the shape of the
+     wall comes from the tiles themselves rather than from fixed cell coordinates. Reorder
+     them, add one, drop one, and it repacks without anything here changing. Source order still
+     sets rough reading order; dense only backfills the holes a larger tile leaves.
+
+     Four columns on a wide screen, two on a tablet. A 2-wide tile fills a tablet row, which is
+     the right call: half-width shrinks the label past legibility. */
   .ts-bento-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-  @media (min-width: 900px) {
-    .ts-bento-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 210px; }
-    .ts-bento-grid > :nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 3; }
-    .ts-bento-grid > :nth-child(2) { grid-column: 3;     grid-row: 1; }
-    .ts-bento-grid > :nth-child(3) { grid-column: 3;     grid-row: 2; }
-    .ts-bento-grid > :nth-child(4) { grid-column: 1;     grid-row: 3; }
-    .ts-bento-grid > :nth-child(5) { grid-column: 1;     grid-row: 4; }
-    .ts-bento-grid > :nth-child(6) { grid-column: 2 / 4; grid-row: 3 / 5; }
-    .ts-bento-grid > :nth-child(7) { grid-column: 1;     grid-row: 5; }
-    .ts-bento-grid > :nth-child(8) { grid-column: 2;     grid-row: 5; }
-    .ts-bento-grid > :nth-child(9) { grid-column: 3;     grid-row: 5; }
+  @media (min-width: 700px) {
+    .ts-bento-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px;
+      grid-auto-flow: row dense; }
+    .ts-bento--wide { grid-column: span 2; }
+    .ts-bento--tall { grid-row: span 2; }
+    .ts-bento--big  { grid-column: span 2; grid-row: span 2; }
+  }
+  /* Desktop is the signature composition from the reference, so it is placed explicitly rather
+     than packed: the showcase tile sits in the CENTRE two columns, a tall tile down the left, two
+     stacked squares down the right, a small-wide-small top row and two wide tiles across the
+     bottom. Auto-flow cannot centre a big tile (the first one always lands top-left), which is why
+     these are pinned. Tuned for nine tiles in the order the template sets; fewer leaves a gap,
+     more fall back to auto-flow. The span classes above still stack it sensibly below 1024. */
+  @media (min-width: 1024px) {
+    .ts-bento-grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 205px; }
+    .ts-bento-grid > :nth-child(1) { grid-column: 1;     grid-row: 1; }        /* small, top-left */
+    .ts-bento-grid > :nth-child(2) { grid-column: 2 / 4; grid-row: 1; }        /* wide banner, top-centre */
+    .ts-bento-grid > :nth-child(3) { grid-column: 4;     grid-row: 1; }        /* small, top-right */
+    .ts-bento-grid > :nth-child(4) { grid-column: 1;     grid-row: 2 / 4; }    /* tall, left */
+    .ts-bento-grid > :nth-child(5) { grid-column: 2 / 4; grid-row: 2 / 4; }    /* the big showcase, centre */
+    .ts-bento-grid > :nth-child(6) { grid-column: 4;     grid-row: 2; }        /* small, upper-right */
+    .ts-bento-grid > :nth-child(7) { grid-column: 4;     grid-row: 3; }        /* small, lower-right */
+    .ts-bento-grid > :nth-child(8) { grid-column: 1 / 3; grid-row: 4; }        /* wide, bottom-left */
+    .ts-bento-grid > :nth-child(9) { grid-column: 3 / 5; grid-row: 4; }        /* wide, bottom-right */
   }
 
   /* ---- bento tiles + the "+" that opens a feature video ---- */
@@ -452,10 +464,10 @@
   .ts-bento > * { position: relative; z-index: 1; }
   /* Large cards: the screenshot runs edge to edge (no card padding on its side) while the
      copy keeps its own padding. overflow:hidden clips the image to the card's corner. */
-  .ts-bento--lg { padding: 0; overflow: hidden; }
-  .ts-bento--lg .ts-bento__media { margin: 0; }
-  .ts-bento--lg .ts-bento__media .ts-shot { border: 0; border-radius: 0; min-height: 0; height: 100%; }
-  .ts-bento--lg .ts-bento__text { padding: 24px; }
+  .ts-bento--media { padding: 0; overflow: hidden; }
+  .ts-bento--media .ts-bento__media { margin: 0; }
+  .ts-bento--media .ts-bento__media .ts-shot { border: 0; border-radius: 0; min-height: 0; height: 100%; }
+  .ts-bento--media .ts-bento__text { padding: 24px; }
   .ts-bento h3 { padding-right: 34px; }   /* keep headings clear of the + */
   .ts-feature-more { position: absolute; top: 12px; right: 12px; z-index: 2; display: flex; align-items: center; justify-content: center;
     width: 26px; height: 26px; padding: 0; font-size: 19px; line-height: 1; color: rgba(255,255,255,.38);
@@ -470,11 +482,11 @@
   .ts-bento__media .ts-shot { min-height: 180px; height: 100%; }
   @media (min-width: 750px) {
     /* half and half, no gutter, the image owns its side completely */
-    .ts-bento--lg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; align-items: stretch; }
-    .ts-bento--lg .ts-bento__media { margin-bottom: 0; align-self: stretch; }
+    .ts-bento--media { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; align-items: stretch; }
+    .ts-bento--media .ts-bento__media { margin-bottom: 0; align-self: stretch; }
     /* copy starts at the top; the CTA is pushed to the bottom-right of the column */
-    .ts-bento--lg .ts-bento__text { display: flex; flex-direction: column; justify-content: flex-start; padding: 32px; }
-    .ts-bento--lg .ts-bento__cta { margin-top: auto; align-self: flex-end; }
+    .ts-bento--media .ts-bento__text { display: flex; flex-direction: column; justify-content: flex-start; padding: 32px; }
+    .ts-bento--media .ts-bento__cta { margin-top: auto; align-self: flex-end; }
   }
 
   /* Faded screenshot behind the icon cards, full strength at the top, gone by the bottom,
@@ -625,6 +637,10 @@
     border: 0; border-radius: 4px 4px 0 0; box-shadow: none; background: #0f0f10; }
   .ts-hw__media .ts-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 
+  /* Full width under the three columns, and centred: it is about the whole section rather than
+     about the column it used to sit in. */
+  .ts-hw__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 18px; padding: 28px 24px 0; }
   .ts-hw__cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0;
     border: 1px solid rgba(255,255,255,.10); border-top-color: rgba(255,255,255,.10); }
   .ts-hw__col { padding: 28px 24px; }
@@ -647,9 +663,17 @@
     .ts-hw__head { margin-bottom: 56px; }
     .ts-hw__title { font-size: 38px; }
     /* side by side, split by a rule, flush against the cut above */
+    /* Two up on a tablet, three across once there is room: at 900px three columns of this much
+       prose gives about 28 characters a line. */
     .ts-hw__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ts-hw__col:nth-child(3) { border-top: 1px solid rgba(255,255,255,.10); border-left: 0; }
     .ts-hw__col { padding: 40px 48px; }
     .ts-hw__col + .ts-hw__col { border-top: 0; border-left: 1px solid rgba(255,255,255,.10); }
+  }
+  @media (min-width: 1100px) {
+    .ts-hw__cols { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .ts-hw__col { padding: 40px 36px; }
+    .ts-hw__col:nth-child(3) { border-top: 0; border-left: 1px solid rgba(255,255,255,.10); }
     .ts-hw__lead { font-size: 17px; }
   }
 
@@ -1121,24 +1145,22 @@
 
   .ts-story__title { font-size: 26px; line-height: 1.12; font-weight: 600; letter-spacing: -.015em; color: #fff; }
   .ts-story__body { margin-top: 14px; max-width: 460px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
-  .ts-story__body + .ts-story__body { margin-top: 16px; }
+  .ts-story__body p { margin: 0; }
+  .ts-story__body p + p { margin-top: 16px; }
 
   /* one screenshot per step; 16/10 frame matches the 3200x2000 files so nothing is cropped */
-  .ts-story__v0 { background-image: url('{{ ts_cdn }}/organise.png'); }
-  .ts-story__v1 { background-image: url('{{ ts_cdn }}/develop.png'); }
-  .ts-story__v2 { background-image: url('{{ ts_cdn }}/pixel-preview.png'); }
-  .ts-story__v3 { background-image: url('{{ ts_cdn }}/batch-export.png'); }
 
   /* bare positioning box, the frame itself lives on each shot so the whole panel travels */
   .ts-story__stage { position: relative; aspect-ratio: 16 / 10; }
   /* the outgoing panel fades while sliding up and out; the incoming one rises into place */
-  .ts-story__shot { position: absolute; inset: 0; opacity: 0;
-    background-color: #0f0f10; background-size: cover; background-position: center;
+  .ts-story__shot { position: absolute; inset: 0; opacity: 0; overflow: hidden;
+    background-color: #0f0f10;
     border: 1px solid rgba(255,255,255,.12); border-radius: 3px;
     box-shadow: 0 40px 100px -40px rgba(0,0,0,.9);
     transform: translateY(20%) scale(.94);
     transition: opacity .8s ease, transform 1.05s cubic-bezier(.22,.61,.24,1); }
   /* incoming grows into place, outgoing shrinks away as it leaves */
+  .ts-story__media { display: block; width: 100%; height: 100%; object-fit: cover; }
   .ts-story__shot.is-active { opacity: 1; transform: translateY(0) scale(1); }
   .ts-story__shot.is-leaving { opacity: 0; transform: translateY(-20%) scale(.94); }
   /* scrolling UP: panels wait above and leave downward, so they still arrive from the
@@ -1667,6 +1689,87 @@
        needs, and a floor only buys a band of empty space under the short ones. */
     .ts-done__left { justify-content: flex-start; padding: 96px 50px; }
     .ts-done__title { font-size: 38px; }
+  }
+
+  /* ---- demo film -------------------------------------------------------------------------- */
+  .ts-livedemo { background: #f4f4f5; padding: 80px 15px; }
+  .ts-livedemo__inner { max-width: 1400px; margin: 0 auto; }
+  .ts-livedemo__head { max-width: 720px; margin: 0 auto 40px; text-align: center; }
+  .ts-livedemo__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em;
+    text-transform: uppercase; color: #2563eb; }
+  .ts-livedemo__title { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1;
+    letter-spacing: -.02em; color: #18181b; text-wrap: balance; }
+  .ts-livedemo__sub { margin: 16px 0 0; font-size: 16px; line-height: 1.6; color: #52525b;
+    text-wrap: pretty; }
+  /* the glow sits behind and is clipped by nothing, so it has to be smaller than its own box */
+  .ts-livedemo__frame { position: relative; }
+  .ts-livedemo__glow { position: absolute; inset: 8% 12%; z-index: 0; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(37,99,235,.16), transparent 70%);
+    filter: blur(90px); pointer-events: none; }
+  .ts-livedemo__stage { position: relative; z-index: 1; overflow: hidden; border-radius: 3px;
+    border: 1px solid rgba(0,0,0,.14); background: #e4e4e7; }
+  .ts-livedemo__stage video, .ts-livedemo__stage img { display: block; width: 100%; height: auto; }
+  .ts-livedemo__embed { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
+  .ts-livedemo__placeholder { position: relative; }
+  .ts-livedemo__placeholder img { opacity: .45; }
+  .ts-livedemo__soon { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    margin: 0; padding: 9px 16px; font-size: 13px; color: #e5e5e5; white-space: nowrap;
+    background: rgba(0,0,0,.72); border: 1px solid rgba(255,255,255,.18); border-radius: 2px; }
+  @media (min-width: 900px) {
+    .ts-livedemo { padding: 120px 50px; }
+    .ts-livedemo__title { font-size: 46px; }
+  }
+
+  /* ---- white light against RGB ------------------------------------------------------------ */
+  .ts-cmp { max-width: 1400px; margin: 0 auto; padding: 80px 15px; }
+  .ts-cmp__head { max-width: 720px; margin: 0 auto 40px; text-align: center; }
+  .ts-cmp__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em;
+    text-transform: uppercase; color: #60a5fa; }
+  .ts-cmp__title { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1;
+    letter-spacing: -.02em; color: #fff; text-wrap: balance; }
+  .ts-cmp__sub { margin: 16px 0 0; font-size: 16px; line-height: 1.6; color: #a3a3a3;
+    text-wrap: pretty; }
+
+  /* --x is the wipe position, written by the input. Everything below reads it, so dragging is one
+     custom property change rather than a layout pass. */
+  .ts-cmp__stage { position: relative; overflow: hidden; border-radius: 3px;
+    border: 1px solid rgba(255,255,255,.12); background: #0a0a0b; touch-action: pan-y; }
+  .ts-cmp__layer { display: block; }
+  .ts-cmp__layer img { display: block; width: 100%; height: auto; }
+  /* the left image is clipped, never resized, so the two stay pixel-aligned while the handle moves */
+  .ts-cmp__layer--a { position: absolute; inset: 0; z-index: 1;
+    clip-path: inset(0 calc(100% - var(--x)) 0 0); }
+  .ts-cmp__layer--a img { width: 100%; height: 100%; object-fit: cover; }
+
+  .ts-cmp__tag { position: absolute; bottom: 14px; z-index: 2; padding: 5px 12px; font-size: 12px;
+    font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #e5e5e5;
+    background: rgba(0,0,0,.66); border: 1px solid rgba(255,255,255,.16); border-radius: 2px;
+    pointer-events: none; }
+  .ts-cmp__tag--a { left: 14px; }
+  .ts-cmp__tag--b { right: 14px; }
+
+  .ts-cmp__handle { position: absolute; top: 0; bottom: 0; left: var(--x); z-index: 3; width: 2px;
+    margin-left: -1px; background: rgba(255,255,255,.9); pointer-events: none; }
+  .ts-cmp__grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;
+    border-radius: 9999px; color: #0a0a0c; background: #fff;
+    box-shadow: 0 2px 14px rgba(0,0,0,.45); }
+  .ts-cmp__grip svg { width: 20px; height: 20px; }
+
+  /* The actual control, laid over the whole image and made invisible. Keeping a real input means
+     drag, arrow keys, Home/End and screen readers all work without being reimplemented. */
+  .ts-cmp__range { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; margin: 0;
+    opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none; background: none; }
+  .ts-cmp__range::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 100%; }
+  .ts-cmp__range::-moz-range-thumb { width: 44px; height: 100%; border: 0; opacity: 0; }
+  .ts-cmp__range:focus-visible { opacity: 1; outline: none; }
+  .ts-cmp__stage:has(.ts-cmp__range:focus-visible) { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+  .ts-cmp__caption { margin: 18px auto 0; max-width: 720px; text-align: center; font-size: 13px;
+    line-height: 1.6; color: #737373; }
+  @media (min-width: 900px) {
+    .ts-cmp { padding: 120px 50px; }
+    .ts-cmp__title { font-size: 46px; }
   }
 
   /* Development state switcher. Deliberately unlovely and amber-labelled: it should never be

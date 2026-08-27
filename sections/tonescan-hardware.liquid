@@ -1,5 +1,5 @@
 {%- comment -%}
-  toneLight and carrier control.
+  The Capture tab: camera, light, film transport and shutter in one place (F48 in the app).
 
   Split out of tonescan-landing so the page composes from real sections in a JSON
   template. Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this
@@ -17,8 +17,8 @@
       <div class="ts-hw__head">
         <div class="ts-tile-icon ts-hw__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></svg></div>
         <p class="ts-hw__eyebrow">Hardware control</p>
-        <h2 class="ts-hw__title">It drives the hardware too</h2>
-        <p class="ts-hw__sub">toneScan Studio talks to your light source and film carrier directly, so a whole roll can run through without you touching the camera.</p>
+        <h2 class="ts-hw__title">Scan a whole roll hands-free</h2>
+        <p class="ts-hw__sub">toneScan Studio connects to your light and film carrier directly. Set your exposures once and it scans the roll for you, frame by frame, without you touching the camera.</p>
       </div>
 
       <div class="ts-hw__media">
@@ -29,21 +29,27 @@
 
       <div class="ts-hw__cols">
         <div class="ts-hw__col">
-          <p class="ts-hw__lead"><strong>Set the exposures once.</strong> From there the light changes, the carrier advances and the frames land in the right roll already merged, one channel at a time.</p>
+          <p class="ts-hw__lead"><strong>Our own hardware, already talking.</strong> Plug in a toneLight and it is there, with per-channel control, saved presets read off the board, and firmware updates you install without leaving the app. Add a toneCarrier and the transport is driven from the same screen, so the shutter and the film advance are one action.</p>
         </div>
         <div class="ts-hw__col">
-          <p class="ts-hw__lead"><strong>Works with the light you already have.</strong> It also works with toneLight, our own RGB light source made for it.</p>
-          <div class="ts-hw__cta">
-            <a class="ts-hw__btn" href="{{ ts_tonelight_url }}">
-              See toneLight
-              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <span class="ts-hw__ks">
-              <span class="ts-hw__kslabel">Launching on</span>
-              {{ 'kickstarter-logo.svg' | inline_asset_content }}
-            </span>
-          </div>
+          <p class="ts-hw__lead"><strong>Calibration that runs itself.</strong> toneScan Studio measures your rig and sets each channel against its own target, with an EV meter showing how far off you are. Save the result as a scan profile and every later roll starts from it, so the setup happens once rather than every time you sit down.</p>
         </div>
+        <div class="ts-hw__col">
+          <p class="ts-hw__lead"><strong>Third-party hardware too.</strong> Selected third-party lights are driven from the same screen as ours, down to naming the board you have and updating its firmware. Any light you can set to red, green and blue by hand still works, so none of this is a condition of using the app.</p>
+        </div>
+      </div>
+
+      {%- comment -%} Its own row, under all three columns. It sat inside the third-party column,
+         where a link to our own light read as the example of somebody else's. {%- endcomment -%}
+      <div class="ts-hw__foot">
+        <a class="ts-hw__btn" href="{{ ts_tonelight_url }}">
+          See toneLight
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <span class="ts-hw__ks">
+          <span class="ts-hw__kslabel">Launching on</span>
+          {{ 'kickstarter-logo.svg' | inline_asset_content }}
+        </span>
       </div>
     </div>
   </section>
