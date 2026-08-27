@@ -356,6 +356,11 @@ body {
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
+    {%- comment -%} Store notice at the very top of every page, above the header group. Rendered as a
+       static section so it is editable in the theme editor; the toneScan layout renders the same
+       named section, so one config covers the whole site. {%- endcomment -%}
+    {% section 'holiday-banner' %}
+
     {% unless template == 'page.tonelight-ks-promo' %}
       {%- if settings.cart_type == 'drawer' -%}
         {%- render 'cart-drawer' -%}

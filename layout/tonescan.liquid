@@ -122,6 +122,10 @@
   <body class="tonescan-body">
     <a class="tw:sr-only" href="#MainContent">Skip to content</a>
 
+    {%- comment -%} Store notice. Sits above the sticky header and scrolls away with the page. The
+       same named static section renders from theme.liquid too, so one editor config covers the site. {%- endcomment -%}
+    {% section 'holiday-banner' %}
+
     {%- comment -%} ===== minimal sticky header (matches main-site width + fonts) ===== {%- endcomment -%}
     <header class="tw:sticky tw:top-0 tw:z-50 tw:border-b tw:border-white/10 tw:bg-[#0a0a0b]/80 tw:backdrop-blur-[12px]">
       <div class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:items-center tw:justify-between tw:px-[15px] tw:py-[10px] tw:md:px-[50px]">

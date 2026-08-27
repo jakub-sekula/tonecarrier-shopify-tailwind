@@ -1,0 +1,325 @@
+{%- comment -%}
+  Store notice bar for the top of the page. Built for the shipping delay, but every part is a
+  setting, so it does for any temporary heads-up (holiday hours, a sale, a stock note).
+
+  This is the section version of what began as a snippet: it carries its own markup, CSS and dismiss
+  script, and is rendered statically from the layouts with {% section 'holiday-banner' %}. Because
+  both layouts render the same named section, there is one config in the theme editor and it applies
+  everywhere. The colours come in as four pickers and drive a set of CSS variables; the quieter
+  tints and borders are mixed from those, so three or four choices restyle the whole bar.
+
+  It sits in normal flow at the very top of the body, above a sticky header, so it scrolls away as
+  the page moves. No JavaScript is needed to show it; the script only hides it once dismissed, so an
+  important notice stays visible for everyone.
+{%- endcomment -%}
+
+{%- if section.settings.enabled -%}
+{%- assign hb_version = section.settings.version | default: 'v1' -%}
+{%- comment -%} Fallback so the link shows before anyone opens the editor. Clear the link text to hide it. {%- endcomment -%}
+{%- assign hb_link_url = section.settings.link_url | default: '/pages/contact' -%}
+<aside class="holiday-banner" role="region" aria-label="Store notice"
+       data-hb-key="{{ hb_version }}" data-hb-dismissible="{{ section.settings.dismissible }}"
+       style="--hb-bg: {{ section.settings.color_bg }}; --hb-text: {{ section.settings.color_text }}; --hb-accent: {{ section.settings.color_accent }}; --hb-strong: {{ section.settings.color_emphasis }};">
+  <div class="holiday-banner__inner">
+    {%- unless section.settings.icon == 'none' -%}
+    <span class="holiday-banner__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        {%- case section.settings.icon -%}
+          {%- when 'calendar' -%}<path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4"/>
+          {%- when 'box' -%}<path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>
+          {%- when 'gift' -%}<path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7S9.5 7 8.5 5.5 9 3 10 3s2 4 2 4zM12 7s2.5 0 3.5-1.5S15 3 14 3s-2 4-2 4z"/>
+          {%- when 'info' -%}<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>
+          {%- when 'triangle' -%}<path d="M10.3 4.9 2.82 18a2 2 0 0 0 1.7 3h14.96a2 2 0 0 0 1.7-3L13.7 4.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4M12 17h.01"/>
+          {%- else -%}<path d="M3 6h11v9H3zM14 9h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/>
+        {%- endcase -%}
+      </svg>
+    </span>
+    {%- endunless -%}
+
+    <p class="holiday-banner__text">
+      {%- if section.settings.label != blank -%}<span class="holiday-banner__label">{{ section.settings.label }}</span>{%- endif -%}
+      <span class="holiday-banner__msg">{{ section.settings.message }}</span>
+      {%- if section.settings.note != blank -%}<span class="holiday-banner__note">{{ section.settings.note }}</span>{%- endif -%}
+    </p>
+
+    <div class="holiday-banner__actions">
+      {%- if section.settings.link_text != blank and hb_link_url != blank -%}
+      <a class="holiday-banner__link" href="{{ hb_link_url }}">
+        {{ section.settings.link_text }}
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4"/></svg>
+      </a>
+      {%- endif -%}
+      {%- if section.settings.dismissible -%}
+      <button type="button" class="holiday-banner__close" aria-label="Dismiss notice">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg>
+      </button>
+      {%- endif -%}
+    </div>
+  </div>
+</aside>
+
+<style>
+  .holiday-banner {
+    /* The four picked colours arrive as inline vars on the element above; the quieter tokens are
+       mixed from them here, so the whole bar restyles from a few choices. color-mix is widely
+       supported; where it is not, those tints simply fall back and the bar stays readable. */
+    --hb-tint: color-mix(in srgb, var(--hb-accent) 10%, transparent);
+    --hb-border: var(--hb-accent);
+    --hb-chip-bg: color-mix(in srgb, var(--hb-accent) 15%, transparent);
+    --hb-muted: color-mix(in srgb, var(--hb-text) 62%, transparent);
+    --hb-close: color-mix(in srgb, var(--hb-text) 55%, transparent);
+    --hb-close-hover: var(--hb-strong);
+    --hb-close-bg: color-mix(in srgb, var(--hb-text) 12%, transparent);
+
+    position: relative;
+    background-color: var(--hb-bg);
+    /* A subtle wash of the accent on the left, fading to the solid background. */
+    background-image: linear-gradient(90deg, var(--hb-tint), transparent 62%);
+    border-bottom: 1px solid var(--hb-border);
+  }
+  .holiday-banner[hidden] { display: none; }
+
+  .holiday-banner__inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 9px 15px;
+  }
+
+  .holiday-banner__icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hb-accent);
+  }
+  .holiday-banner__icon svg { width: 22px; height: 22px; }
+
+  .holiday-banner__text {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    /* Normal/light weight so the message sits level with the header nav rather than reading heavier. */
+    font-weight: 400;
+    color: var(--hb-text);
+  }
+  .holiday-banner__label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    color: var(--hb-accent);
+  }
+  .holiday-banner__msg strong { font-weight: 600; color: var(--hb-strong); }
+  .holiday-banner__note { color: var(--hb-muted); }
+
+  .holiday-banner__actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+  .holiday-banner__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--hb-muted);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .holiday-banner__link svg { width: 13px; height: 13px; transition: transform 0.18s ease; }
+  .holiday-banner__link:hover { text-decoration: underline; color: var(--hb-text); }
+  .holiday-banner__link:hover svg { transform: translateX(2px); }
+
+  .holiday-banner__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--hb-close);
+    cursor: pointer;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  .holiday-banner__close svg { width: 14px; height: 14px; }
+  .holiday-banner__close:hover { color: var(--hb-close-hover); background: var(--hb-close-bg); }
+  .holiday-banner__link:focus-visible,
+  .holiday-banner__close:focus-visible { outline: 2px solid var(--hb-accent); outline-offset: 2px; }
+
+  /* On a narrow bar, drop the quieter trailing line and the call to action so the core notice
+     keeps the full width and stops wrapping into a tall block. The dismiss button stays. */
+  @media (max-width: 749px) {
+    .holiday-banner__note { display: none; }
+    .holiday-banner__link { display: none; }
+    .holiday-banner__inner { align-items: flex-start; gap: 10px; }
+    .holiday-banner__icon { margin-top: 1px; }
+    .holiday-banner__close { margin-top: -2px; }
+  }
+  @media (min-width: 750px) {
+    .holiday-banner__inner { padding: 10px 50px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .holiday-banner__link svg { transition: none; }
+  }
+</style>
+
+<script>
+  /* Hides the bar once dismissed, and keeps it hidden on return via localStorage. The key carries
+     the notice version, so changing the copy (bumping the version field) brings the bar back for
+     someone who dismissed the old one. Runs inline right after the markup so a previously-dismissed
+     bar is hidden before it paints, rather than flashing in and out. */
+  (function () {
+    var bars = document.querySelectorAll('.holiday-banner');
+    for (var i = 0; i < bars.length; i++) {
+      (function (bar) {
+        var key = 'hb-dismissed:' + (bar.getAttribute('data-hb-key') || 'default');
+        var dismissible = bar.getAttribute('data-hb-dismissible') === 'true';
+        if (dismissible) {
+          try { if (localStorage.getItem(key) === '1') { bar.hidden = true; return; } } catch (e) {}
+        }
+        var close = bar.querySelector('.holiday-banner__close');
+        if (close) {
+          close.addEventListener('click', function () {
+            bar.hidden = true;
+            try { localStorage.setItem(key, '1'); } catch (e) {}
+          });
+        }
+      })(bars[i]);
+    }
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Store notice bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Show the notice",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Message"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "info": "The short tag on the left. Leave blank for none.",
+      "default": "Shipping delay"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "message",
+      "label": "Message",
+      "info": "Bold part of it (like the date) with the B button.",
+      "default": "All physical orders will ship after <strong>19 September</strong>."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Quiet note",
+      "info": "A softer trailing line, hidden on phones. Leave blank for none."
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "default": "triangle",
+      "options": [
+        { "value": "triangle", "label": "Warning triangle" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "calendar", "label": "Calendar" },
+        { "value": "box", "label": "Box" },
+        { "value": "gift", "label": "Gift" },
+        { "value": "info", "label": "Info" },
+        { "value": "none", "label": "None" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Link"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text",
+      "info": "Leave blank for no link.",
+      "default": "Got questions? Contact us."
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": "Background",
+      "default": "#0c0b08"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text",
+      "default": "#e7e5e4"
+    },
+    {
+      "type": "color",
+      "id": "color_accent",
+      "label": "Accent",
+      "info": "Label, icon and link.",
+      "default": "#fbbf24"
+    },
+    {
+      "type": "color",
+      "id": "color_emphasis",
+      "label": "Emphasis",
+      "info": "The bold part of the message.",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Dismiss"
+    },
+    {
+      "type": "checkbox",
+      "id": "dismissible",
+      "label": "Let people dismiss it",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "version",
+      "label": "Notice version",
+      "info": "Change this when you change the message, to bring the bar back for anyone who dismissed the old one.",
+      "default": "2025-09-19"
+    }
+  ],
+  "presets": [
+    { "name": "Store notice bar" }
+  ]
+}
+{% endschema %}
