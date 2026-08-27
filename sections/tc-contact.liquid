@@ -1,0 +1,203 @@
+{%- comment -%}
+  A proper contact page: a short "get in touch" column beside the form, rather than a lone form in
+  an empty page. The form itself is Shopify's {% form 'contact' %}, so submission, spam protection
+  and the notification email are unchanged; everything around it is ours to style.
+
+  The left column is built from blocks, so the details (email, socials, links) are edited in the
+  theme editor. The heading, intro and colours are section settings. Field names match Shopify's
+  contact form so the message still arrives the same way.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-pad { padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px; }
+  @media (min-width: 750px) {
+    .section-{{ section.id }}-pad { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
+  }
+{%- endstyle -%}
+
+<section class="tc-contact section-{{ section.id }}-pad" style="--tcc-bg: {{ section.settings.bg_color }};">
+  <div class="tc-contact__wrap page-width">
+    <div class="tc-contact__grid">
+
+      <aside class="tc-contact__aside">
+        <h1 class="tc-contact__title">{{ section.settings.heading }}</h1>
+        {%- if section.settings.intro != blank -%}<div class="tc-contact__intro">{{ section.settings.intro }}</div>{%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+        <ul class="tc-contact__details" role="list">
+          {%- for block in section.blocks -%}
+            {%- assign b = block.settings -%}
+            <li class="tc-contact__detail" {{ block.shopify_attributes }}>
+              <span class="tc-contact__dbody">
+                {%- if b.label != blank -%}<span class="tc-contact__dlabel">{{ b.label }}</span>{%- endif -%}
+                {%- if b.url != blank -%}
+                  <a class="tc-contact__dlink" href="{{ b.url }}"{% if b.url contains '//' %} target="_blank" rel="noopener"{% endif %}>{{ b.value | default: b.url }}</a>
+                {%- else -%}
+                  <span class="tc-contact__dvalue">{{ b.value }}</span>
+                {%- endif -%}
+              </span>
+            </li>
+          {%- endfor -%}
+        </ul>
+        {%- endif -%}
+      </aside>
+
+      <div class="tc-contact__formcol">
+        <div class="tc-contact__card">
+          {%- form 'contact', id: 'ContactForm' -%}
+            {%- if form.posted_successfully? -%}
+              <p class="tc-contact__status tc-contact__status--ok" tabindex="-1" autofocus>
+                {{ 'templates.contact.form.post_success' | t }}
+              </p>
+            {%- elsif form.errors -%}
+              <div class="tc-contact__status tc-contact__status--err" role="alert" tabindex="-1" autofocus>
+                {{ 'templates.contact.form.error_heading' | t }}
+                <a href="#ContactForm-email">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</a>
+              </div>
+            {%- endif -%}
+
+            <div class="tc-contact__twocol">
+              <div class="tc-contact__field">
+                <label class="tc-contact__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+                <input class="tc-contact__input" type="text" id="ContactForm-name" autocomplete="name"
+                       name="contact[{{ 'templates.contact.form.name' | t }}]"
+                       value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}">
+              </div>
+              <div class="tc-contact__field">
+                <label class="tc-contact__label" for="ContactForm-email">{{ 'templates.contact.form.email' | t }} <span aria-hidden="true">*</span></label>
+                <input class="tc-contact__input" type="email" id="ContactForm-email" name="contact[email]"
+                       autocomplete="email" spellcheck="false" autocapitalize="off" aria-required="true"
+                       {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}
+                       value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+              </div>
+            </div>
+
+            {%- if section.settings.show_order_number -%}
+            <div class="tc-contact__field">
+              <label class="tc-contact__label" for="ContactForm-order">{{ section.settings.order_number_label }} <span class="tc-contact__optional">(optional)</span></label>
+              <input class="tc-contact__input" type="text" id="ContactForm-order" autocomplete="off"
+                     name="contact[Order number]" placeholder="{{ section.settings.order_number_placeholder }}"
+                     value="{{ form['Order number'] }}">
+            </div>
+            {%- endif -%}
+
+            <div class="tc-contact__field">
+              <label class="tc-contact__label" for="ContactForm-body">{{ 'templates.contact.form.comment' | t }}</label>
+              <textarea class="tc-contact__input tc-contact__textarea" rows="6" id="ContactForm-body"
+                        name="contact[{{ 'templates.contact.form.comment' | t }}]">{{ form.body }}</textarea>
+            </div>
+
+            <div class="tc-contact__foot">
+              <button type="submit" class="tc-contact__submit">{{ section.settings.button_text }}</button>
+              {%- if section.settings.form_note != blank -%}<p class="tc-contact__formnote">{{ section.settings.form_note }}</p>{%- endif -%}
+            </div>
+          {%- endform -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .tc-contact { background: var(--tcc-bg, #f6f6f5); color: #1c1c1c; }
+  /* Width and gutters come from Dawn's own .page-width class on the wrapper, so the content lines
+     up with the header and the rest of the site. Nothing to restate here. */
+  .tc-contact__grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
+  @media (min-width: 900px) {
+    .tc-contact__grid { grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; }
+  }
+
+  /* left column */
+  .tc-contact__title { margin: 0; font-size: 38px; line-height: 1.05; letter-spacing: -0.02em; font-weight: 600; color: #121212; }
+  @media (min-width: 900px) { .tc-contact__title { font-size: 46px; } }
+  .tc-contact__intro { margin-top: 18px; max-width: 42ch; font-size: 17px; line-height: 1.6; color: #52524e; }
+  .tc-contact__intro p { margin: 0 0 12px; }
+  .tc-contact__intro p:last-child { margin-bottom: 0; }
+
+  .tc-contact__details { list-style: none; margin: 32px 0 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
+  .tc-contact__dbody { display: flex; flex-direction: column; gap: 2px; }
+  .tc-contact__dlabel { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8a8a86; }
+  .tc-contact__dvalue, .tc-contact__dlink { font-size: 16px; color: #1c1c1c; }
+  .tc-contact__dlink { text-decoration: none; border-bottom: 1px solid #c9c9c4; padding-bottom: 1px; transition: border-color 0.15s ease; }
+  .tc-contact__dlink:hover { border-color: #1c1c1c; }
+
+  /* form card */
+  .tc-contact__card { background: #fff; border: 1px solid #e4e4e0; border-radius: 0; padding: 28px; }
+  @media (min-width: 750px) { .tc-contact__card { padding: 36px; } }
+
+  .tc-contact__twocol { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  @media (min-width: 600px) { .tc-contact__twocol { grid-template-columns: 1fr 1fr; } }
+
+  .tc-contact__field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+  .tc-contact__twocol .tc-contact__field { margin-bottom: 0; }
+  .tc-contact__twocol { margin-bottom: 18px; }
+  .tc-contact__label { font-size: 13px; font-weight: 600; color: #3a3a37; }
+  .tc-contact__optional { font-weight: 400; color: #a5a5a0; }
+  .tc-contact__input {
+    width: 100%; box-sizing: border-box; padding: 12px 14px; font-size: 15px; font-family: inherit;
+    color: #1c1c1c; background: #fff; border: 1px solid #d6d6d1; border-radius: 0;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease; -webkit-appearance: none; appearance: none;
+  }
+  .tc-contact__input::placeholder { color: #a5a5a0; }
+  .tc-contact__input:focus { outline: none; border-color: #1c1c1c; box-shadow: 0 0 0 3px rgba(0,0,0,0.08); }
+  .tc-contact__textarea { resize: vertical; min-height: 132px; line-height: 1.55; }
+
+  .tc-contact__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 22px; }
+  .tc-contact__submit {
+    appearance: none; border: 0; cursor: pointer; padding: 13px 30px; font-size: 15px; font-weight: 600;
+    font-family: inherit; color: #fff; background: #121212; border-radius: 0; transition: background 0.15s ease, transform 0.1s ease;
+  }
+  .tc-contact__submit:hover { background: #2c2c2c; }
+  .tc-contact__submit:active { transform: translateY(1px); }
+  .tc-contact__submit:focus-visible { outline: 2px solid #121212; outline-offset: 3px; }
+  .tc-contact__formnote { margin: 0; font-size: 13px; color: #8a8a86; }
+
+  /* status messages */
+  .tc-contact__status { margin: 0 0 20px; padding: 12px 16px; font-size: 14px; border-radius: 0; border: 1px solid; }
+  .tc-contact__status--ok { color: #14532d; background: #f0fdf4; border-color: #bbf7d0; }
+  .tc-contact__status--err { display: flex; flex-direction: column; gap: 4px; color: #7f1d1d; background: #fef2f2; border-color: #fecaca; }
+  .tc-contact__status--err a { color: inherit; }
+</style>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Contact us" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Questions about an order, our hardware, or the software beta? Send a message and we'll reply by email.</p>" },
+    { "type": "checkbox", "id": "show_order_number", "label": "Show the order number field", "default": true },
+    { "type": "text", "id": "order_number_label", "label": "Order number label", "default": "Order number" },
+    { "type": "text", "id": "order_number_placeholder", "label": "Order number placeholder", "default": "e.g. TN1234" },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Send message" },
+    { "type": "text", "id": "form_note", "label": "Note under the button", "default": "We'll only use your details to reply." },
+    { "type": "header", "content": "Appearance" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#f6f6f5" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Padding top", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Padding bottom", "default": 96 }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Detail",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Email" },
+        { "type": "text", "id": "value", "label": "Text", "info": "What's shown. For a link, falls back to the URL." },
+        { "type": "url", "id": "url", "label": "Link", "info": "Optional. Use mailto: for an email address." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Contact form",
+      "blocks": [
+        { "type": "detail", "settings": { "label": "Email", "value": "hello@tonephotographic.com", "url": "mailto:hello@tonephotographic.com" } },
+        { "type": "detail", "settings": { "label": "Instagram", "value": "@tonephotographic", "url": "https://instagram.com/tonephotographic" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
