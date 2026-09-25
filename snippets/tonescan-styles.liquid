@@ -1144,6 +1144,10 @@
   .ts-story__dot::after, .ts-hdive__dot::after { content: ''; position: absolute; inset: -11px; }
 
   .ts-story__title { font-size: 26px; line-height: 1.12; font-weight: 600; letter-spacing: -.015em; color: #fff; }
+  /* app icon above a step title; same treatment as the hero's icon, a size down */
+  .ts-story__icon { display: block; width: 64px; height: 64px; margin-bottom: 18px; }
+  @media (min-width: 768px) { .ts-story__icon { width: 76px; height: 76px; } }
+  @media (prefers-reduced-motion: no-preference) { .ts-story__icon { filter: drop-shadow(0 12px 28px rgba(0,0,0,.5)); } }
   .ts-story__body { margin-top: 14px; max-width: 460px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
   .ts-story__body p { margin: 0; }
   .ts-story__body p + p { margin-top: 16px; }
@@ -1161,6 +1165,10 @@
     transition: opacity .8s ease, transform 1.05s cubic-bezier(.22,.61,.24,1); }
   /* incoming grows into place, outgoing shrinks away as it leaves */
   .ts-story__media { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* stand-in for a step with no media yet (a product shot still to come) */
+  .ts-story__ph { display: flex; align-items: center; justify-content: center; background: #0f0f10;
+    border: 1px solid rgba(255,255,255,.10); border-radius: 3px; }
+  .ts-story__ph span { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: #525252; }
   .ts-story__shot.is-active { opacity: 1; transform: translateY(0) scale(1); }
   .ts-story__shot.is-leaving { opacity: 0; transform: translateY(-20%) scale(.94); }
   /* scrolling UP: panels wait above and leave downward, so they still arrive from the
@@ -1330,6 +1338,9 @@
   .ts-hero-stage { position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 3px 3px 0 0; background: #0f0f10; }
   .ts-hero-shot { position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease; }
   .ts-hero-shot.is-active { opacity: 1; }
+  /* media slot with nothing picked yet */
+  .ts-hero-shot--ph { display: flex; align-items: center; justify-content: center; background: #0f0f10; }
+  .ts-hero-shot--ph span { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #525252; }
   img.ts-hero-shot { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
   /* video slot (Develop) */
   .ts-hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; background: #0f0f10; }
@@ -1413,6 +1424,133 @@
   }
 
   .ts-hero-selectbar { padding-top: 44px; padding-bottom: 64px; }
+
+  /* ---- link buttons: shared by the hero's link mode and the toneLight header ----
+     Same footprint as .ts-btn so a page can swap the signup form for links without the hero
+     changing height. Kickstarter green is theirs, off the logo asset (#05ce78); the text on it is
+     near-black because white on that green fails contrast. */
+  .ts-hero-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .ts-cta { display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    height: 50px; padding: 0 26px; font-size: 15px; font-weight: 600; line-height: 1;
+    text-decoration: none; white-space: nowrap; border: 1px solid transparent; border-radius: 2px;
+    transition: transform .15s ease, background .15s ease, border-color .15s ease; }
+  .ts-cta:hover { transform: translateY(-1px); }
+  .ts-cta:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+  .ts-cta--accent { color: #fff; background: #3b82f6; }
+  .ts-cta--accent:hover { background: #2f6fed; }
+  .ts-cta--ks { color: #0a0a0b; background: #05ce78; }
+  .ts-cta--ks:hover { background: #04bd6e; }
+  .ts-cta--ghost { color: #fff; background: rgba(255,255,255,.03); border-color: rgba(255,255,255,.15); }
+  .ts-cta--ghost:hover { background: rgba(255,255,255,.08); }
+  .ts-cta--sm { height: auto; padding: 9px 16px; font-size: 14px; }
+  /* once the pair wraps onto two lines, two buttons of different widths look accidental */
+  @media (max-width: 520px) { .ts-hero-ctas .ts-cta { width: 100%; max-width: 340px; } }
+  .ts-hero-note { margin: -10px 0 0; font-size: 14px; line-height: 1.5; color: #8a8a8a; }
+
+  /* Kickstarter logo inside the status pill, after its text ("Coming soon on" + logo). The logo
+     keeps its own green, so the pill itself goes neutral rather than blue. */
+  .ts-hero-badge--ks { gap: 9px; color: #d4d4d4; background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.14); }
+  .ts-hero-badge--ks svg { display: block; width: auto; height: 12px; }
+  @media (min-width: 768px) { .ts-hero-badge--ks svg { height: 13px; } }
+
+  /* ---- Kickstarter launch countdown (hero): a split-flap board ----
+     White tiles, black digits, a hinge line across the middle. Each digit is two clipped halves
+     of the same character; when it changes the script drops in two leaves that fold over the
+     hinge (old top half falls away, new bottom half falls into place), then removes them.
+     [hidden] needs its own rule: the flex display below would otherwise win over the attribute. */
+  .ts-countdown { --fh: 58px; --fw: 42px; display: flex; align-items: flex-start; justify-content: center; gap: 14px; }
+  .ts-countdown[hidden], .ts-hero-badge__live[hidden], .ts-hero-badge__pre[hidden] { display: none; }
+  .ts-countdown__unit { display: flex; flex-direction: column; align-items: center; }
+  .ts-countdown__num { display: flex; gap: 4px; }
+  .ts-countdown__label { margin-top: 8px; font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: #71717a; }
+  .ts-flap__digit { position: relative; display: block; width: var(--fw); height: var(--fh); border-radius: 5px;
+    font-size: 36px; font-weight: 600; font-variant-numeric: tabular-nums; color: #0a0a0b; perspective: 240px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.09), 0 2px 5px -2px rgba(0,0,0,.18); }
+  .ts-flap__half, .ts-flap__leaf { position: absolute; left: 0; right: 0; height: 50%; overflow: hidden; }
+  .ts-flap__half--top, .ts-flap__leaf--top { top: 0; border-radius: 5px 5px 0 0; background: linear-gradient(#fff, #f5f5f4); }
+  .ts-flap__half--bot, .ts-flap__leaf--bot { bottom: 0; border-radius: 0 0 5px 5px; background: linear-gradient(#fafaf9, #fff); }
+  .ts-flap__half > span, .ts-flap__leaf > span { position: absolute; left: 0; right: 0; height: var(--fh);
+    line-height: var(--fh); text-align: center; }
+  .ts-flap__half--top > span, .ts-flap__leaf--top > span { top: 0; }
+  .ts-flap__half--bot > span, .ts-flap__leaf--bot > span { bottom: 0; }
+  /* the hinge */
+  .ts-flap__digit::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; z-index: 3; height: 1px;
+    margin-top: -.5px; background: rgba(0,0,0,.16); }
+  .ts-flap__leaf { z-index: 2; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .ts-flap__leaf--top { transform-origin: 50% 100%; animation: tsFlapTop .18s ease-in forwards; }
+  .ts-flap__leaf--bot { transform-origin: 50% 0; transform: rotateX(90deg); animation: tsFlapBot .18s ease-out .18s forwards; }
+  @keyframes tsFlapTop { to { transform: rotateX(-90deg); } }
+  @keyframes tsFlapBot { to { transform: rotateX(0deg); } }
+  @media (max-width: 400px) {
+    .ts-countdown { --fh: 48px; --fw: 34px; gap: 10px; }
+    .ts-flap__digit { font-size: 30px; }
+  }
+  @media (min-width: 900px) {
+    .ts-hero-split:not(.ts-hero-split--nomedia) .ts-countdown { justify-content: flex-start; }
+  }
+
+  /* down arrow on an in-page link button */
+  .ts-cta__chev { width: 16px; height: 16px; margin-right: -4px; transition: transform .15s ease; }
+  .ts-cta:hover .ts-cta__chev { transform: translateY(2px); }
+
+  /* ---- one media slot: no tab bar under the frame, so the hero needs its own bottom padding
+     or the frame sits flush on the section edge ---- */
+  .ts-hero-split--notabs:not(.ts-hero-split--nomedia) .ts-hero { padding-bottom: 64px; }
+  @media (min-width: 900px) {
+    .ts-hero-split--notabs:not(.ts-hero-split--nomedia) .ts-hero { padding-bottom: 104px; }
+  }
+
+  /* ---- hero with no media blocks: copy centred, no frame, no tab bar ----
+     The sticky pin and fade exist to be covered by the rising frame; with no frame the copy
+     would just fade out on scroll, so it stays put. */
+  .ts-hero-split--nomedia .ts-hero { padding-bottom: 88px; }
+  .ts-hero-split--nomedia .ts-hero-text { position: static; opacity: 1; transform: none; }
+  @media (min-width: 900px) {
+    .ts-hero-split.ts-hero-split--nomedia .ts-hero-split__grid { display: block; }
+    .ts-hero-split.ts-hero-split--nomedia .ts-hero-text { max-width: 940px; margin-inline: auto;
+      align-items: center; text-align: center; }
+    .ts-hero-split.ts-hero-split--nomedia .ts-hero-text .ts-os-row { justify-content: center; }
+    .ts-hero-split.ts-hero-split--nomedia .ts-hero { padding-bottom: 128px; }
+    .ts-hero-split.ts-hero-split--nomedia .ts-hero-text > p:not(.ts-os-row):not(.ts-hero-note) { font-size: 20px; line-height: 1.55; }
+  }
+  @media (min-width: 900px) {
+    .ts-hero-split:not(.ts-hero-split--nomedia) .ts-hero-ctas { justify-content: flex-start; }
+  }
+
+  /* ---- light hero (toneLight): same markup and driver, palette flipped ----
+     Warm off-white to match the page's light panels (#f2f1ee), with a faint green pool where
+     the dark hero has its blue one. The background video and starfield are dark-only texture. */
+  .ts-hero-split--light .ts-hero-color {
+    background:
+      radial-gradient(80% 70% at 50% 100%, rgba(5,206,120,.09) 0%, transparent 70%),
+      linear-gradient(180deg, #ffffff 0%, #f7f6f3 55%, #f2f1ee 100%); }
+  .ts-hero-split--light .ts-hero-bg,
+  .ts-hero-split--light .ts-hero-particles,
+  .ts-hero-split--light .hero-floats { display: none; }
+  .ts-hero-split--light .ts-hero-text h1 { color: #0a0a0b; }
+  .ts-hero-split--light .ts-hero-text > p { color: #52525b; }
+  .ts-hero-split--light .ts-hero-text > .ts-hero-note,
+  .ts-hero-split--light .ts-os { color: #71717a; }
+  .ts-hero-split--light .ts-hero-badge { color: #3f3f46; background: #fff;
+    border-color: rgba(0,0,0,.10); box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+  .ts-hero-split--light .ts-hero-badge i { background: #05ce78; }
+  .ts-hero-split--light .ts-cta--ghost { color: #0a0a0b; background: #fff; border-color: rgba(0,0,0,.14); }
+  .ts-hero-split--light .ts-cta--ghost:hover { background: #fafafa; border-color: rgba(0,0,0,.24); }
+  .ts-hero-split--light .ts-cta:focus-visible { outline-color: #0a0a0b; }
+  .ts-hero-split--light .ts-email { color: #0a0a0b; background: #fff; border-color: rgba(0,0,0,.14); }
+  .ts-hero-split--light .ts-email::placeholder { color: #a1a1aa; }
+  .ts-hero-split--light .ts-msg { color: #52525b; }
+  .ts-hero-split--light .ts-hero-glass { background: rgba(0,0,0,.03); border-color: rgba(0,0,0,.10);
+    box-shadow: 0 30px 80px -40px rgba(0,0,0,.35); }
+  .ts-hero-split--light .ts-hero-stage { background: #e7e5e4; }
+  .ts-hero-split--light .ts-hero-shot--ph { background: #e7e5e4; }
+  .ts-hero-split--light .ts-hero-shot--ph span { color: #a1a1aa; }
+  .ts-hero-split--light .ts-hero-tab { color: #52525b; background: #fff; border-color: rgba(0,0,0,.10); }
+  .ts-hero-split--light .ts-hero-tab:hover:not(.is-active) { color: #0a0a0b; background: #fafafa; }
+  .ts-hero-split--light .ts-hero-tab.is-active { color: #fff; background: #0a0a0b; border-color: #0a0a0b; }
+  .ts-hero-split--light .ts-hero-dot { background: rgba(0,0,0,.18); }
+  .ts-hero-split--light .ts-hero-dot.is-active { background: #0a0a0b; }
+  .ts-hero-split--light .ts-hero-select { color: #0a0a0b; background: #fff; border-color: rgba(0,0,0,.14); }
 
   /* ---- pricing: Paddle prices, checkout and the purchase confirmation --------------------- */
   /* The toggle used to be styled by utilities on the card markup. It carries its own styles now
@@ -1712,6 +1850,7 @@
   .ts-livedemo__embed { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
   .ts-livedemo__placeholder { position: relative; }
   .ts-livedemo__placeholder img { opacity: .45; }
+  .ts-livedemo__blank { aspect-ratio: 16 / 9; background: #18181b; }
   .ts-livedemo__soon { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
     margin: 0; padding: 9px 16px; font-size: 13px; color: #e5e5e5; white-space: nowrap;
     background: rgba(0,0,0,.72); border: 1px solid rgba(255,255,255,.18); border-radius: 2px; }
@@ -1770,6 +1909,99 @@
   @media (min-width: 900px) {
     .ts-cmp { padding: 120px 50px; }
     .ts-cmp__title { font-size: 46px; }
+  }
+
+  /* ---- three-way scan toggle (white / RGB / lab) ------------------------------------------ */
+  .ts-tri { max-width: 1400px; margin: 0 auto; padding: 80px 15px; }
+  .ts-tri__head { max-width: 720px; margin: 0 auto 40px; text-align: center; }
+  .ts-tri__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em;
+    text-transform: uppercase; color: #60a5fa; }
+  .ts-tri__title { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1;
+    letter-spacing: -.02em; color: #fff; text-wrap: balance; }
+  .ts-tri__sub { margin: 16px 0 0; font-size: 16px; line-height: 1.6; color: #a3a3a3; text-wrap: pretty; }
+
+  /* Sample selector: pill buttons under the subheading, a white pill marking the active sample. */
+  .ts-tri__sets { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 auto 32px; max-width: 760px; }
+  .ts-tri__setbtn { padding: 8px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; color: #a3a3a3;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); cursor: pointer;
+    transition: color .18s ease, background .18s ease, border-color .18s ease; }
+  .ts-tri__setbtn:hover { color: #e5e5e5; border-color: rgba(255,255,255,.28); }
+  .ts-tri__setbtn.is-active { color: #0a0a0b; background: #fff; border-color: #fff; }
+  .ts-tri__setbtn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+  /* One sample shown at a time; the JS switcher toggles is-active. */
+  .ts-tri__set { display: none; }
+  .ts-tri__set.is-active { display: block; }
+
+  .ts-tri__switch { max-width: none; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+
+  /* The radios drive everything and stay keyboard-reachable, so they are hidden the sr-only way
+     rather than with display:none. */
+  .ts-tri__in { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* Mobile-first: one scan at a time in an aspect-ratio box, cells crossfading over each other. The
+     label rides in the buttons here, so it is hidden; on wide screens it moves under each frame. */
+  .ts-tri__stage { position: relative; width: 100%; aspect-ratio: var(--ar, 1.6); }
+  .ts-tri__cell { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .4s ease; }
+  .ts-tri__frame { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 3px;
+    border: 1px solid rgba(255,255,255,.12); background: #0a0a0b; }
+  .ts-tri__img { display: block; width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
+  /* The whole label (title + optional detail) is hidden on mobile, where the buttons carry it. */
+  .ts-tri__label { display: none; }
+  .ts-tri__labeltitle { display: block; font-size: 13px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: #d4d4d4; }
+  .ts-tri__sublabel { display: block; margin-top: 3px; font-size: 12px; font-weight: 400; letter-spacing: 0;
+    text-transform: none; color: #8a8a8a; }
+  /* Only the scan on show takes clicks, so tapping the stage opens the one you can see rather than a
+     stacked copy underneath it. */
+  .ts-tri__in--1:checked ~ .ts-tri__stage .ts-tri__cell--1,
+  .ts-tri__in--2:checked ~ .ts-tri__stage .ts-tri__cell--2,
+  .ts-tri__in--3:checked ~ .ts-tri__stage .ts-tri__cell--3 { opacity: 1; pointer-events: auto; }
+
+  /* Segmented control (mobile only; the 3-up hides it): a white pill marks the active scan. It uses
+     each scan's short label, so the row stays compact instead of overflowing. */
+  .ts-tri__btns { display: inline-flex; max-width: 100%; gap: 4px; margin-top: 24px; padding: 5px;
+    border-radius: 12px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); }
+  .ts-tri__btn { display: inline-flex; align-items: center; justify-content: center; padding: 9px 18px;
+    border-radius: 8px; font-size: 14px; font-weight: 600; color: #a3a3a3; white-space: nowrap;
+    cursor: pointer; user-select: none; transition: color .18s ease, background .18s ease; }
+  .ts-tri__btn:hover { color: #e5e5e5; }
+  .ts-tri__in--1:checked ~ .ts-tri__btns .ts-tri__btn--1,
+  .ts-tri__in--2:checked ~ .ts-tri__btns .ts-tri__btn--2,
+  .ts-tri__in--3:checked ~ .ts-tri__btns .ts-tri__btn--3 { background: #fff; color: #0a0a0b; }
+  .ts-tri__in--1:focus-visible ~ .ts-tri__btns .ts-tri__btn--1,
+  .ts-tri__in--2:focus-visible ~ .ts-tri__btns .ts-tri__btn--2,
+  .ts-tri__in--3:focus-visible ~ .ts-tri__btns .ts-tri__btn--3 { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+  .ts-tri__caption { margin: 22px auto 0; max-width: 720px; text-align: center; font-size: 13px;
+    line-height: 1.6; color: #737373; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ts-tri__cell { transition: none; }
+  }
+  /* Where three fit side by side, drop the toggle and show all of them at once. The stage becomes a
+     bare grid and each cell carries its own frame. */
+  @media (min-width: 750px) {
+    .ts-tri__stage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; aspect-ratio: auto; }
+    .ts-tri__cell { position: relative; inset: auto; opacity: 1; pointer-events: auto; }
+    .ts-tri__frame { height: auto; aspect-ratio: var(--ar, 1.6); }
+    .ts-tri__label { display: block; margin-top: 12px; text-align: center; }
+    .ts-tri__in, .ts-tri__btns { display: none; }
+  }
+  @media (min-width: 900px) {
+    .ts-tri { padding: 120px 50px; }
+    .ts-tri__title { font-size: 46px; }
+  }
+  /* Large frames (a setting): much taller, the pictures cropped to fill (object-fit: cover on
+     .ts-tri__img) rather than letterboxed to their own ratio. Width stays within the page's
+     1400px column, edges in line with the header. */
+  .ts-tri--large .ts-tri__stage { aspect-ratio: 4 / 3; }
+  @media (min-width: 750px) {
+    .ts-tri--large .ts-tri__stage { gap: 12px; aspect-ratio: auto; }
+    /* tall, but capped against the width too, so a narrow desktop window does not turn each
+       frame into a thin portrait strip */
+    .ts-tri--large .ts-tri__frame { aspect-ratio: auto; height: clamp(420px, min(72vh, 44vw), 620px); }
   }
 
   /* Development state switcher. Deliberately unlovely and amber-labelled: it should never be
@@ -1997,4 +2229,117 @@
     /* equal air above and below the strip */
     .ts-conv { margin: 64px 0; }
   }
+
+  /* ---- workflow body: rich text lists and emphasis (both themes) ---- */
+  .ts-story__body ul { margin: 16px 0 0; padding-left: 18px; }
+  .ts-story__body li + li { margin-top: 8px; }
+  .ts-story__body strong { font-weight: 600; color: #e5e5e5; }
+  .ts-story__body a { color: #60a5fa; font-weight: 600; text-decoration: none; }
+  .ts-story__body a:hover { color: #fff; }
+
+  /* =========================================================================================
+     LIGHT PAGE (toneLight). The layout adds .tonescan-body--light; everything below flips the
+     shared sections from dark to light without touching their markup:not(.ts-dark):not(.ts-dark *), so toneScan stays dark.
+     Two layers:
+       1. the Tailwind colour utilities the sections are written in (unlayered rules here beat
+          Tailwind's utility layer, so a class selector is enough)
+       2. the handful of component classes that carry their own colours
+     Anything with a coloured background keeps its white text: see the :not() on text-white.
+     A section can stay dark on the light page: give its wrapper .ts-dark and none of the rules
+     below reach inside it (the workflow section has a setting for this).
+     ========================================================================================= */
+  /* body.tonescan-body (layout) sets the dark background at element+class specificity */
+  body.tonescan-body.tonescan-body--light { color-scheme: light; background-color: #fff; color: #27272a; }
+
+  .tonescan-body--light .tw\:text-white:not([class*="tw:bg-[#"]):not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
+  .tonescan-body--light .tw\:hover\:text-white:hover:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
+  .tonescan-body--light .tw\:text-neutral-200:not(.ts-dark):not(.ts-dark *) { color: #27272a; }
+  .tonescan-body--light .tw\:text-neutral-300:not(.ts-dark):not(.ts-dark *) { color: #3f3f46; }
+  .tonescan-body--light .tw\:text-neutral-400:not(.ts-dark):not(.ts-dark *) { color: #52525b; }
+  .tonescan-body--light .tw\:text-neutral-500:not(.ts-dark):not(.ts-dark *) { color: #71717a; }
+  .tonescan-body--light .tw\:text-neutral-600:not(.ts-dark):not(.ts-dark *) { color: #a1a1aa; }
+  .tonescan-body--light .tw\:text-\[\#60a5fa\]:not(.ts-dark):not(.ts-dark *) { color: #71717a; }
+  .tonescan-body--light .tw\:border-white\/10:not(.ts-dark):not(.ts-dark *) { border-color: rgba(0,0,0,.09); }
+  .tonescan-body--light .tw\:border-white\/15:not(.ts-dark):not(.ts-dark *) { border-color: rgba(0,0,0,.14); }
+  .tonescan-body--light .tw\:bg-white\/\[0\.02\]:not(.ts-dark):not(.ts-dark *) { background-color: #fff; }
+  .tonescan-body--light .tw\:bg-white\/\[0\.015\]:not(.ts-dark):not(.ts-dark *) { background-color: #f7f7f5; }
+  .tonescan-body--light .tw\:bg-white\/\[0\.03\]:not(.ts-dark):not(.ts-dark *),
+  .tonescan-body--light .tw\:bg-white\/\[0\.04\]:not(.ts-dark):not(.ts-dark *) { background-color: rgba(0,0,0,.03); }
+  .tonescan-body--light .tw\:bg-white\/10:not(.ts-dark):not(.ts-dark *) { background-color: rgba(0,0,0,.06); }
+  .tonescan-body--light .tw\:hover\:bg-white\/\[0\.08\]:hover:not(.ts-dark):not(.ts-dark *) { background-color: rgba(0,0,0,.05); }
+  .tonescan-body--light .tw\:bg-neutral-900:not(.ts-dark):not(.ts-dark *) { background-color: #ececea; }
+
+
+  /* link buttons */
+  .tonescan-body--light .ts-cta--ghost:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; background: #fff; border-color: rgba(0,0,0,.14); }
+  .tonescan-body--light .ts-cta--ghost:hover:not(.ts-dark):not(.ts-dark *) { background: #fafafa; border-color: rgba(0,0,0,.24); }
+  .tonescan-body--light .ts-cta:focus-visible:not(.ts-dark):not(.ts-dark *) { outline-color: #0a0a0b; }
+
+  /* three-way scan comparison */
+  .tonescan-body--light .ts-tri__eyebrow:not(.ts-dark):not(.ts-dark *) { color: #71717a; }
+  .tonescan-body--light .ts-tri__title:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
+  .tonescan-body--light .ts-tri__sub:not(.ts-dark):not(.ts-dark *) { color: #52525b; }
+  .tonescan-body--light .ts-tri__setbtn:not(.ts-dark):not(.ts-dark *) { color: #52525b; background: #fff; border-color: rgba(0,0,0,.12); }
+  .tonescan-body--light .ts-tri__setbtn:hover:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; border-color: rgba(0,0,0,.28); }
+  .tonescan-body--light .ts-tri__setbtn.is-active:not(.ts-dark):not(.ts-dark *) { color: #fff; background: #0a0a0b; border-color: #0a0a0b; }
+  .tonescan-body--light .ts-tri__frame:not(.ts-dark):not(.ts-dark *) { border-color: rgba(0,0,0,.10); background: #ececea; }
+  .tonescan-body--light .ts-tri__labeltitle:not(.ts-dark):not(.ts-dark *) { color: #27272a; }
+  .tonescan-body--light .ts-tri__sublabel:not(.ts-dark):not(.ts-dark *) { color: #71717a; }
+  .tonescan-body--light .ts-tri__btns:not(.ts-dark):not(.ts-dark *) { background: rgba(0,0,0,.04); border-color: rgba(0,0,0,.08); }
+  .tonescan-body--light .ts-tri__btn:not(.ts-dark):not(.ts-dark *) { color: #52525b; }
+  .tonescan-body--light .ts-tri__btn:hover:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
+  .tonescan-body--light .ts-tri__in--1:checked ~ .ts-tri__btns .ts-tri__btn--1:not(.ts-dark):not(.ts-dark *),
+  .tonescan-body--light .ts-tri__in--2:checked ~ .ts-tri__btns .ts-tri__btn--2:not(.ts-dark):not(.ts-dark *),
+  .tonescan-body--light .ts-tri__in--3:checked ~ .ts-tri__btns .ts-tri__btn--3:not(.ts-dark):not(.ts-dark *) { background: #0a0a0b; color: #fff; }
+  .tonescan-body--light .ts-tri__caption:not(.ts-dark):not(.ts-dark *) { color: #71717a; }
+
+  /* workflow (the system) */
+  .tonescan-body--light .ts-story-sec:not(.ts-dark):not(.ts-dark *) { background: #f7f7f5; }
+  .tonescan-body--light .ts-story-sec__blobs:not(.ts-dark):not(.ts-dark *) { opacity: .35; }
+  .tonescan-body--light .ts-story__title:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
+  .tonescan-body--light .ts-story__body:not(.ts-dark):not(.ts-dark *) { color: #52525b; }
+  .tonescan-body--light .ts-story__body strong:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
+  .tonescan-body--light .ts-story__body a:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
+  .tonescan-body--light .ts-story__body a:hover:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
+  .tonescan-body--light .ts-story__dot:not(.ts-dark):not(.ts-dark *) { background: rgba(0,0,0,.20); }
+  .tonescan-body--light .ts-story__dot.is-active:not(.ts-dark):not(.ts-dark *) { background: #0a0a0b; box-shadow: 0 0 0 5px rgba(0,0,0,.06); }
+  .tonescan-body--light .ts-story__dot:hover:not(.is-active):not(.ts-dark):not(.ts-dark *) { background: rgba(0,0,0,.45); }
+  .tonescan-body--light .ts-story__shot:not(.ts-dark):not(.ts-dark *) { background-color: #ececea; border-color: rgba(0,0,0,.10);
+    box-shadow: 0 40px 100px -50px rgba(0,0,0,.35); }
+  .tonescan-body--light .ts-story__panel:not(.ts-dark):not(.ts-dark *)::before { border-color: rgba(0,0,0,.10); background-color: #ececea; }
+  .tonescan-body--light .ts-story__ph:not(.ts-dark):not(.ts-dark *) { background: #ececea; border-color: rgba(0,0,0,.08); }
+  .tonescan-body--light .ts-story__ph span:not(.ts-dark):not(.ts-dark *) { color: #a1a1aa; }
+
+  /* ---- toneLight: no blue accent ----
+     The toneLight page carries one colour, the Kickstarter green. Everything the shared sections
+     draw in the toneScan blue (eyebrows, links, glows, focus rings) goes neutral here, including
+     inside a section kept dark (.ts-dark), where the greys are lighter. */
+  .tonescan-body--light .ts-dark .tw\:text-\[\#60a5fa\] { color: #a3a3a3; }
+  .tonescan-body--light .ts-story__body a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .tonescan-body--light .ts-dark .ts-story__body a { color: #fff; }
+  .tonescan-body--light .ts-story-blob--1 { background: rgba(255,255,255,.07); }
+  .tonescan-body--light .ts-story-blob--2 { background: rgba(255,255,255,.05); }
+  .tonescan-body--light .ts-story-blob--3 { background: rgba(255,255,255,.04); }
+  .tonescan-body--light .ts-livedemo__glow { background: radial-gradient(closest-side, rgba(0,0,0,.10), transparent 70%); }
+  .tonescan-body--light .ts-hero-glow::before, .tonescan-body--light .ts-hero-glow::after { background: rgba(0,0,0,.06); }
+  /* Keyboard focus rings. Each component sets its own blue outline; only the colour changes, so
+     !important is the proportionate tool rather than restating every component's outline. */
+  body.tonescan-body--light *:focus-visible,
+  body.tonescan-body--light .ts-tri__in:focus-visible ~ .ts-tri__btns .ts-tri__btn { outline-color: #0a0a0b !important; }
+  body.tonescan-body--light .ts-dark *:focus-visible { outline-color: #fff !important; }
+
+  /* ---- site header: shrinks a little once the page is scrolled (layout adds .is-scrolled) ----
+     Padding carries the change in height; the logo and button scale rather than resize, so
+     nothing reflows mid-transition. */
+  .ts-site-header__bar { transition: padding .25s ease; }
+  .ts-site-header img { transform-origin: left center; transition: transform .25s ease; }
+  .ts-site-header .ts-cta--sm { transition: padding .25s ease, transform .15s ease, background .15s ease; }
+  .ts-site-header.is-scrolled .ts-site-header__bar { padding-top: 4px; padding-bottom: 4px; }
+  .ts-site-header.is-scrolled img { transform: scale(.84); }
+  .ts-site-header.is-scrolled .ts-cta--sm { padding-top: 7px; padding-bottom: 7px; }
+  @media (prefers-reduced-motion: reduce) {
+    .ts-site-header__bar, .ts-site-header img, .ts-site-header .ts-cta--sm { transition: none; }
+  }
+  /* On the light page the header sits over white, where 80% black reads as grey: near-solid. */
+  .tonescan-body--light .ts-site-header { background-color: rgba(10,10,11,.96); }
 {%- endstyle -%}

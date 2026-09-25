@@ -1,0 +1,50 @@
+{%- comment -%}
+  Closing call to action for the toneLight page: heading, a line of text and one button.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  <section class="tw:relative tw:overflow-hidden">
+    <div class="tl-cta__glow" aria-hidden="true"></div>
+    <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[96px] tw:text-center tw:md:px-[50px] tw:md:py-[140px]">
+      <h2 class="tw:mx-auto tw:max-w-[760px] tw:text-[34px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.02em] tw:text-white tw:md:text-[56px]">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+      <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[540px] tw:text-[17px] tw:text-neutral-400">{{ section.settings.text }}</p>
+      {%- endif -%}
+      {%- if section.settings.button_text != blank -%}
+      <div class="tw:mt-[32px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
+        <a class="ts-cta ts-cta--{{ section.settings.button_style }}" href="{{ section.settings.button_url | default: settings.tonelight_ks_url | default: '#rewards' }}">{{ section.settings.button_text }}</a>
+      </div>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{%- style -%}
+  .tl-cta__glow { position: absolute; left: 50%; bottom: -180px; width: 720px; height: 360px; transform: translateX(-50%);
+    border-radius: 9999px; background: rgba(5,206,120,.08); filter: blur(130px); pointer-events: none; }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "toneLight call to action",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Back toneLight on Kickstarter" },
+    { "type": "textarea", "id": "text", "label": "Text" },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Back toneLight on Kickstarter" },
+    { "type": "text", "id": "button_url", "label": "Button URL", "info": "Leave blank to link to the campaign URL in Theme settings > toneLight Kickstarter." },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button colour",
+      "options": [
+        { "value": "ks", "label": "Kickstarter green" },
+        { "value": "accent", "label": "Blue" }
+      ],
+      "default": "ks"
+    }
+  ],
+  "presets": [{ "name": "toneLight call to action" }]
+}
+{% endschema %}

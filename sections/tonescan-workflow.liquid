@@ -11,7 +11,7 @@
   text.
 {%- endcomment -%}
 
-<div class="tonescan-landing tw:text-neutral-200">
+<div class="tonescan-landing{% if section.settings.keep_dark %} ts-dark{% endif %} tw:text-neutral-200">
   {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
 
   <section id="how-it-works" class="ts-story-sec tw:scroll-mt-[84px] tw:border-y tw:border-white/10">
@@ -28,6 +28,9 @@
           <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">{{ section.settings.eyebrow }}</p>
           {%- endif -%}
           <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
+          {%- if section.settings.subheading != blank -%}
+          <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:leading-[1.6] tw:text-neutral-400">{{ section.settings.subheading }}</p>
+          {%- endif -%}
         </div>
       </div>
 
@@ -46,11 +49,23 @@
         <div class="ts-story__textcol">
           {%- for block in section.blocks -%}
             {%- assign b = block.settings -%}
+            {%- comment -%} A step with no media at all shows a neutral placeholder rather than a
+               borrowed screenshot: the toneLight page has hardware steps with no product shot yet,
+               and toneScan's organise view standing in for a light would be misleading. {%- endcomment -%}
+            {%- assign no_media = false -%}
+            {%- if b.image == blank and b.image_url == blank and b.video_url == blank -%}{%- assign no_media = true -%}{%- endif -%}
             {%- if b.image != blank -%}{%- assign poster = b.image | image_url: width: 2400 -%}
             {%- elsif b.image_url != blank -%}{%- assign poster = b.image_url -%}
             {%- else -%}{%- assign poster = ts_cdn | append: '/organise.png' -%}{%- endif -%}
-          <div class="ts-story__panel" data-i="{{ forloop.index0 }}" style="--shot:url('{{ poster }}')" {{ block.shopify_attributes }}>
+          <div class="ts-story__panel" data-i="{{ forloop.index0 }}" style="--shot:{% if no_media %}none{% else %}url('{{ poster }}'){% endif %}" {{ block.shopify_attributes }}>
             <div class="ts-story__panelinner">
+              {%- comment -%} Optional icon above the title: a picked image, or the bundled toneScan
+                 Studio app icon, the same file the toneScan hero shows. {%- endcomment -%}
+              {%- if b.icon != blank -%}
+              {{ b.icon | image_url: width: 192 | image_tag: class: 'ts-story__icon', alt: '', loading: 'lazy', width: 96, height: 96 }}
+              {%- elsif b.app_icon -%}
+              <img class="ts-story__icon" src="{{ 'tonescan-icon.png' | asset_url }}" alt="" width="96" height="96" loading="lazy">
+              {%- endif -%}
               <h3 class="ts-story__title">{{ b.title }}</h3>
               <div class="ts-story__body">{{ b.body }}</div>
             </div>
@@ -76,6 +91,8 @@
                 {%- elsif b.video_url != blank -%}
                 {%- comment -%} a gif or other still frame served from a URL {%- endcomment -%}
                 <img class="ts-story__media" src="{{ b.video_url }}" alt="" loading="lazy">
+                {%- elsif b.image == blank and b.image_url == blank -%}
+                <div class="ts-story__media ts-story__ph"><span>{{ b.title }}</span></div>
                 {%- else -%}
                 <img class="ts-story__media" src="{{ still }}" alt="" loading="lazy">
                 {%- endif -%}
@@ -96,7 +113,9 @@
   "class": "section",
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Leave blank for none." },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "From capture to export" }
+    { "type": "text", "id": "heading", "label": "Heading", "default": "From capture to export" },
+    { "type": "textarea", "id": "subheading", "label": "Subtitle", "info": "Optional. Leave blank for none." },
+    { "type": "checkbox", "id": "keep_dark", "label": "Keep dark on light pages", "info": "On a light page (toneLight), this section keeps the dark scheme.", "default": false }
   ],
   "blocks": [
     {
@@ -104,6 +123,8 @@
       "name": "Step",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Step" },
+        { "type": "checkbox", "id": "app_icon", "label": "Show the toneScan Studio app icon", "info": "Above the title, as in the toneScan hero.", "default": false },
+        { "type": "image_picker", "id": "icon", "label": "Or a custom icon", "info": "Used instead of the app icon when picked." },
         { "type": "richtext", "id": "body", "label": "Body" },
         { "type": "image_picker", "id": "image", "label": "Image", "info": "Shown as the still, and as the poster on mobile and behind a video." },
         { "type": "text", "id": "image_url", "label": "Image URL", "info": "Used only when no image is picked." },

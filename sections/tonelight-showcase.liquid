@@ -1,0 +1,192 @@
+{%- comment -%}
+  Key features: a row of buttons under the heading picks one feature at a time. Its short
+  description sits straight under the buttons, then its image or clip, large. The button carries
+  the feature's name, so the title is not repeated.
+  A feature's media can be a Shopify-hosted video, an .mp4/.webm URL (both play muted and
+  looping) or a GIF / still (an image or an image URL). With nothing set it shows a plain panel.
+  Only the selected feature's clip plays, and only while it is on screen.
+
+  The panels share one grid cell, so the section is as tall as its longest description and
+  nothing below it jumps when the selection changes. Anchor #features is linked from the header.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  <section id="features" class="tl-show tw:scroll-mt-[84px]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
+        {%- if section.settings.eyebrow != blank -%}
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+        <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:leading-[1.6] tw:text-neutral-400">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- assign sid = section.id -%}
+      <div class="tl-show__tabs" role="tablist" aria-label="{{ section.settings.heading | escape }}">
+        {%- for block in section.blocks -%}
+        <button type="button" class="tl-show__tab{% if forloop.first %} is-active{% endif %}" role="tab"
+                id="tl-show-{{ sid }}-tab-{{ forloop.index0 }}" aria-controls="tl-show-{{ sid }}-panel-{{ forloop.index0 }}"
+                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+                data-i="{{ forloop.index0 }}">{{ block.settings.label | default: block.settings.title }}</button>
+        {%- endfor -%}
+      </div>
+
+      <div class="tl-show__panels">
+        {%- for block in section.blocks -%}
+        {%- assign c = block.settings -%}
+        <div class="tl-show__panel{% if forloop.first %} is-active{% endif %}" role="tabpanel" data-i="{{ forloop.index0 }}"
+             id="tl-show-{{ sid }}-panel-{{ forloop.index0 }}" aria-labelledby="tl-show-{{ sid }}-tab-{{ forloop.index0 }}"
+             {% unless forloop.first %}aria-hidden="true"{% endunless %} {{ block.shopify_attributes }}>
+          {%- if c.text != blank -%}<p class="tl-show__text">{{ c.text }}</p>{%- endif -%}
+          <div class="tl-show__media">
+            {%- if c.video != blank -%}
+              {{ c.video | video_tag: loop: true, muted: true, controls: false, playsinline: true, preload: 'metadata', image_size: '1600x', class: 'tl-show__clip' }}
+            {%- elsif c.video_url contains '.mp4' or c.video_url contains '.webm' -%}
+              <video class="tl-show__clip" muted loop playsinline preload="metadata"{% if c.image != blank %} poster="{{ c.image | image_url: width: 1600 }}"{% endif %}>
+                <source src="{{ c.video_url }}" type="video/{% if c.video_url contains '.webm' %}webm{% else %}mp4{% endif %}">
+              </video>
+            {%- elsif c.video_url != blank -%}
+              <img class="tl-show__clip" src="{{ c.video_url }}" alt="{{ c.title | escape }}" loading="lazy" width="1600" height="900">
+            {%- elsif c.image != blank -%}
+              {%- assign fp = '' -%}{%- if c.image.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ c.image.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+              {{ c.image | image_url: width: 2000 | image_tag: class: 'tl-show__clip', loading: 'lazy', alt: c.title, sizes: '(min-width: 1100px) 1100px, 100vw', style: fp }}
+            {%- else -%}
+              <span class="tl-show__ph">Image or clip</span>
+            {%- endif -%}
+          </div>
+        </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+</div>
+
+{%- style -%}
+  .tl-show { background: #fff; }
+
+  /* Buttons: centred while they fit, a sideways-scrolling row on narrow screens. The auto margins
+     on the first and last button centre the row without clipping its start once it overflows,
+     which justify-content: center would. */
+  .tl-show__tabs { display: flex; gap: 8px; margin: 36px -15px 0; padding: 2px 15px 6px; overflow-x: auto;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .tl-show__tabs::-webkit-scrollbar { display: none; }
+  .tl-show__tabs > :first-child { margin-left: auto; }
+  .tl-show__tabs > :last-child { margin-right: auto; }
+  .tl-show__tab { flex: 0 0 auto; padding: 9px 18px; font: inherit; font-size: 14px; font-weight: 600; white-space: nowrap;
+    color: #52525b; background: #fff; border: 1px solid rgba(0,0,0,.12); border-radius: 999px; cursor: pointer;
+    transition: color .18s ease, background .18s ease, border-color .18s ease; }
+  .tl-show__tab:hover { color: #0a0a0b; border-color: rgba(0,0,0,.28); }
+  .tl-show__tab.is-active { color: #fff; background: #0a0a0b; border-color: #0a0a0b; }
+  .tl-show__tab:focus-visible { outline: 2px solid #0a0a0b; outline-offset: 2px; }
+
+  .tl-show__panels { display: grid; max-width: 1100px; margin: 24px auto 0; }
+  /* Panels share one grid cell, so the description area is as tall as the longest one and the
+     media below never shifts when the selection changes. The text sits at the top of that area. */
+  .tl-show__panel { display: flex; flex-direction: column; }
+  .tl-show__panel { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; }
+  .tl-show__panel.is-active { opacity: 1; visibility: visible; transition: opacity .35s ease; }
+  @media (prefers-reduced-motion: reduce) { .tl-show__panel, .tl-show__panel.is-active { transition: none; } }
+
+  .tl-show__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 3px;
+    border: 1px solid rgba(0,0,0,.08); background: #ececea; }
+  .tl-show__clip { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .tl-show__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #a1a1aa; }
+
+  .tl-show__text { max-width: 640px; margin: 0 auto 28px; text-align: center; font-size: 16px; line-height: 1.6; color: #52525b; }
+  .tl-show__media { margin-top: auto; }
+{%- endstyle -%}
+
+<script>
+  (function () {
+    document.querySelectorAll('.tl-show').forEach(function (sec) {
+      var tabs = Array.prototype.slice.call(sec.querySelectorAll('.tl-show__tab'));
+      var panels = Array.prototype.slice.call(sec.querySelectorAll('.tl-show__panel'));
+      if (!tabs.length) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var onScreen = false;
+      var current = 0;
+
+      // Only the selected feature's clip plays, and only while the section is on screen.
+      function sync() {
+        panels.forEach(function (p, i) {
+          var v = p.querySelector('video');
+          if (!v) return;
+          if (i === current && onScreen && !reduce) { var r = v.play(); if (r && r.catch) r.catch(function () {}); }
+          else v.pause();
+        });
+      }
+
+      function select(i, focus) {
+        current = i;
+        tabs.forEach(function (t, ti) {
+          var on = ti === i;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+        });
+        panels.forEach(function (p, pi) {
+          var on = pi === i;
+          p.classList.toggle('is-active', on);
+          if (on) p.removeAttribute('aria-hidden'); else p.setAttribute('aria-hidden', 'true');
+        });
+        var v = panels[i] && panels[i].querySelector('video');
+        if (v) v.currentTime = 0;
+        if (focus) tabs[i].focus();
+        // keep the chosen button in view when the row scrolls sideways
+        tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+        sync();
+      }
+
+      tabs.forEach(function (t, i) {
+        t.addEventListener('click', function () { select(i, false); });
+        t.addEventListener('keydown', function (e) {
+          var n = tabs.length, to = null;
+          if (e.key === 'ArrowRight') to = (i + 1) % n;
+          else if (e.key === 'ArrowLeft') to = (i - 1 + n) % n;
+          else if (e.key === 'Home') to = 0;
+          else if (e.key === 'End') to = n - 1;
+          if (to !== null) { e.preventDefault(); select(to, true); }
+        });
+      });
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          onScreen = entries[0].isIntersecting;
+          sync();
+        }, { threshold: 0.25 }).observe(sec.querySelector('.tl-show__panels'));
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "toneLight showcase",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Key features" },
+    { "type": "textarea", "id": "subheading", "label": "Subtitle" }
+  ],
+  "blocks": [
+    {
+      "type": "clip",
+      "name": "Feature",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Button label", "info": "Optional. A shorter name for the button; falls back to the title." },
+        { "type": "video", "id": "video", "label": "Video", "info": "Short, silent clip. Plays muted and looping." },
+        { "type": "text", "id": "video_url", "label": "Video or GIF URL", "info": "Used when no video is picked. An .mp4 or .webm plays muted and looping; anything else shows as an image." },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "A GIF or still when there is no video, or the poster behind a video URL." },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Short description" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [{ "name": "toneLight showcase" }]
+}
+{% endschema %}

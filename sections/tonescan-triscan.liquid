@@ -1,0 +1,139 @@
+{%- comment -%}
+  Same frame, three scans (white light, RGB, lab), across one or more samples.
+
+  Each sample is a block of three images, one per scan. The scan labels, their sub-details and the
+  short (mobile) labels are set once at section level, since every sample uses the same three scans.
+  A row of buttons under the subheading switches samples; within a sample the wide layout shows all
+  three side by side and the narrow layout toggles between them.
+
+  ALL THREE IMAGES IN A SAMPLE MUST BE THE SAME FRAME, at the same crop and size.
+
+  The scan toggle needs no JavaScript (three real radios per sample). Switching samples uses a little
+  JS in tonescan-scripts. Each sample's three images open full screen via PhotoSwipe.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
+
+  <section class="ts-tri{% if section.settings.large %} ts-tri--large{% endif %}" id="triscan">
+    <div class="ts-tri__inner">
+      <div class="ts-tri__head">
+        {%- if section.settings.eyebrow != blank -%}<p class="ts-tri__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="ts-tri__title">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}<p class="ts-tri__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+
+      {%- comment -%} Sample selector, only when there is more than one. {%- endcomment -%}
+      {%- if section.blocks.size > 1 -%}
+      <div class="ts-tri__sets">
+        {%- for block in section.blocks -%}
+        <button type="button" class="ts-tri__setbtn{% if forloop.first %} is-active{% endif %}" data-set="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{%- if block.settings.name != blank -%}{{ block.settings.name }}{%- else -%}Sample {{ forloop.index }}{%- endif -%}</button>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- assign b = block.settings -%}
+        {%- assign setid = section.id | append: '-' | append: block.id -%}
+
+        {%- comment -%} src is shown; data-full/fw/fh are the fullscreen file (capped at 3000). Image 1
+           gives the aspect ratio every cell shares. Fallbacks so a new sample renders before uploads. {%- endcomment -%}
+        {%- assign p1 = '' -%}
+        {%- if b.image_1 != blank -%}
+          {%- assign p1 = b.image_1.presentation.focal_point -%}
+          {%- assign s1 = b.image_1 | image_url: width: 2400 -%}{%- assign w1 = b.image_1.width -%}{%- assign h1 = b.image_1.height -%}{%- assign ar = b.image_1.aspect_ratio -%}
+          {%- assign fw1 = b.image_1.width -%}{%- if fw1 > 3000 -%}{%- assign fw1 = 3000 -%}{%- endif -%}{%- assign fh1 = fw1 | times: b.image_1.height | divided_by: b.image_1.width -%}{%- assign f1 = b.image_1 | image_url: width: fw1 -%}
+        {%- else -%}
+          {%- assign s1 = ts_cdn | append: '/calibration-crosstalk.png' -%}{%- assign w1 = 3200 -%}{%- assign h1 = 2000 -%}{%- assign ar = 1.6 -%}{%- assign f1 = s1 -%}{%- assign fw1 = 3200 -%}{%- assign fh1 = 2000 -%}
+        {%- endif -%}
+        {%- assign p2 = '' -%}
+        {%- if b.image_2 != blank -%}
+          {%- assign p2 = b.image_2.presentation.focal_point -%}
+          {%- assign s2 = b.image_2 | image_url: width: 2400 -%}{%- assign fw2 = b.image_2.width -%}{%- if fw2 > 3000 -%}{%- assign fw2 = 3000 -%}{%- endif -%}{%- assign fh2 = fw2 | times: b.image_2.height | divided_by: b.image_2.width -%}{%- assign f2 = b.image_2 | image_url: width: fw2 -%}
+        {%- else -%}
+          {%- assign s2 = ts_cdn | append: '/rgb-merge.png' -%}{%- assign f2 = s2 -%}{%- assign fw2 = 3200 -%}{%- assign fh2 = 2000 -%}
+        {%- endif -%}
+        {%- assign p3 = '' -%}
+        {%- if b.image_3 != blank -%}
+          {%- assign p3 = b.image_3.presentation.focal_point -%}
+          {%- assign s3 = b.image_3 | image_url: width: 2400 -%}{%- assign fw3 = b.image_3.width -%}{%- if fw3 > 3000 -%}{%- assign fw3 = 3000 -%}{%- endif -%}{%- assign fh3 = fw3 | times: b.image_3.height | divided_by: b.image_3.width -%}{%- assign f3 = b.image_3 | image_url: width: fw3 -%}
+        {%- else -%}
+          {%- assign s3 = ts_cdn | append: '/pixel-preview.png' -%}{%- assign f3 = s3 -%}{%- assign fw3 = 3200 -%}{%- assign fh3 = 2000 -%}
+        {%- endif -%}
+
+        <div class="ts-tri__set{% if forloop.first %} is-active{% endif %}" data-set="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <div class="ts-tri__switch">
+            <input class="ts-tri__in ts-tri__in--1" type="radio" name="tri-{{ setid }}" id="tri-{{ setid }}-1" checked>
+            <input class="ts-tri__in ts-tri__in--2" type="radio" name="tri-{{ setid }}" id="tri-{{ setid }}-2">
+            <input class="ts-tri__in ts-tri__in--3" type="radio" name="tri-{{ setid }}" id="tri-{{ setid }}-3">
+
+            <div class="ts-tri__stage" style="--ar: {{ ar }}">
+              <div class="ts-tri__cell ts-tri__cell--1">
+                <div class="ts-tri__frame"><img class="ts-tri__img" src="{{ s1 }}"{% if p1 != blank %} style="object-position: {{ p1 }}"{% endif %} data-full="{{ f1 }}" data-fw="{{ fw1 }}" data-fh="{{ fh1 }}" alt="{{ section.settings.label_1 }}" loading="lazy" width="{{ w1 }}" height="{{ h1 }}"></div>
+                <span class="ts-tri__label"><span class="ts-tri__labeltitle">{{ section.settings.label_1 }}</span>{% if section.settings.sublabel_1 != blank %}<span class="ts-tri__sublabel">{{ section.settings.sublabel_1 }}</span>{% endif %}</span>
+              </div>
+              <div class="ts-tri__cell ts-tri__cell--2">
+                <div class="ts-tri__frame"><img class="ts-tri__img" src="{{ s2 }}"{% if p2 != blank %} style="object-position: {{ p2 }}"{% endif %} data-full="{{ f2 }}" data-fw="{{ fw2 }}" data-fh="{{ fh2 }}" alt="{{ section.settings.label_2 }}" loading="lazy"></div>
+                <span class="ts-tri__label"><span class="ts-tri__labeltitle">{{ section.settings.label_2 }}</span>{% if section.settings.sublabel_2 != blank %}<span class="ts-tri__sublabel">{{ section.settings.sublabel_2 }}</span>{% endif %}</span>
+              </div>
+              <div class="ts-tri__cell ts-tri__cell--3">
+                <div class="ts-tri__frame"><img class="ts-tri__img" src="{{ s3 }}"{% if p3 != blank %} style="object-position: {{ p3 }}"{% endif %} data-full="{{ f3 }}" data-fw="{{ fw3 }}" data-fh="{{ fh3 }}" alt="{{ section.settings.label_3 }}" loading="lazy"></div>
+                <span class="ts-tri__label"><span class="ts-tri__labeltitle">{{ section.settings.label_3 }}</span>{% if section.settings.sublabel_3 != blank %}<span class="ts-tri__sublabel">{{ section.settings.sublabel_3 }}</span>{% endif %}</span>
+              </div>
+            </div>
+
+            <div class="ts-tri__btns">
+              <label class="ts-tri__btn ts-tri__btn--1" for="tri-{{ setid }}-1">{{ section.settings.short_label_1 | default: section.settings.label_1 }}</label>
+              <label class="ts-tri__btn ts-tri__btn--2" for="tri-{{ setid }}-2">{{ section.settings.short_label_2 | default: section.settings.label_2 }}</label>
+              <label class="ts-tri__btn ts-tri__btn--3" for="tri-{{ setid }}-3">{{ section.settings.short_label_3 | default: section.settings.label_3 }}</label>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+
+      {%- if section.settings.caption != blank -%}<p class="ts-tri__caption">{{ section.settings.caption }}</p>{%- endif -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "toneScan three-way",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Optional. Blank by default." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Lab-grade results" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Compare the results of white light, RGB, and lab scanning." },
+    { "type": "header", "content": "Scan labels", "info": "Shared across every sample." },
+    { "type": "text", "id": "label_1", "label": "Scan 1 label", "default": "White light" },
+    { "type": "text", "id": "sublabel_1", "label": "Scan 1 detail", "info": "Optional second line, e.g. Converted with NLP." },
+    { "type": "text", "id": "short_label_1", "label": "Scan 1 short label", "info": "For the mobile buttons. Falls back to the label above.", "default": "White light" },
+    { "type": "text", "id": "label_2", "label": "Scan 2 label", "default": "RGB" },
+    { "type": "text", "id": "sublabel_2", "label": "Scan 2 detail", "info": "Optional second line, e.g. Converted with toneScan." },
+    { "type": "text", "id": "short_label_2", "label": "Scan 2 short label", "info": "For the mobile buttons. Falls back to the label above.", "default": "RGB" },
+    { "type": "text", "id": "label_3", "label": "Scan 3 label", "default": "Lab scan" },
+    { "type": "text", "id": "sublabel_3", "label": "Scan 3 detail", "info": "Optional second line, e.g. Frontier SP-3000." },
+    { "type": "text", "id": "short_label_3", "label": "Scan 3 short label", "info": "For the mobile buttons. Falls back to the label above.", "default": "Lab scan" },
+    { "type": "checkbox", "id": "large", "label": "Large frames", "info": "Much taller frames; the pictures are cropped to fill.", "default": false },
+    { "type": "text", "id": "caption", "label": "Caption", "default": "Same negative, same crop. Only the scanning method changed." }
+  ],
+  "blocks": [
+    {
+      "type": "sample",
+      "name": "Sample",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Button label", "info": "Shown on the sample selector. Auto-numbered (Sample 1, 2, ...) if blank." },
+        { "type": "paragraph", "content": "All three must be the same frame, at the same crop and size." },
+        { "type": "image_picker", "id": "image_1", "label": "White light scan" },
+        { "type": "image_picker", "id": "image_2", "label": "RGB scan" },
+        { "type": "image_picker", "id": "image_3", "label": "Lab scan" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    { "name": "toneScan three-way", "blocks": [ { "type": "sample" } ] }
+  ]
+}
+{% endschema %}

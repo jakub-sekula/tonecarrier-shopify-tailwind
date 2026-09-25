@@ -1,0 +1,118 @@
+{%- comment -%}
+  Technical specifications, laid out like a spec sheet: a heading per group with a rule under
+  it, then label / value rows. Built from two block types so it is edited in the theme editor:
+    group  starts a new group under its title
+    row    a label and a value; a value can run over several lines (one per line in the box)
+  Rows before the first group sit in an untitled group. Anchor #specs is linked from the header.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  <section id="specs" class="tl-specs tw:scroll-mt-[84px]">
+    <div class="tl-specs__inner">
+      {%- if section.settings.eyebrow != blank -%}<p class="tl-specs__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="tl-specs__heading">{{ section.settings.heading }}</h2>
+
+      {%- comment -%} Each group renders the rows that follow it, up to the next group. Rows ahead of
+         the first group go in an untitled group of their own. {%- endcomment -%}
+      {%- capture ts_lead_rows -%}
+        {%- for r in section.blocks -%}
+          {%- if r.type == 'group' -%}{%- break -%}{%- endif -%}
+          <div class="tl-specs__row" {{ r.shopify_attributes }}><dt>{{ r.settings.label }}</dt><dd>{{ r.settings.value | escape | newline_to_br }}</dd></div>
+        {%- endfor -%}
+      {%- endcapture -%}
+      <div class="tl-specs__groups">
+      {%- if ts_lead_rows != blank -%}
+      <div class="tl-specs__group"><dl class="tl-specs__rows">{{ ts_lead_rows }}</dl></div>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'group' -%}
+        {%- assign next = forloop.index -%}
+        <div class="tl-specs__group" {{ block.shopify_attributes }}>
+          <h3 class="tl-specs__title">{{ block.settings.title }}</h3>
+          <dl class="tl-specs__rows">
+            {%- for r in section.blocks offset: next -%}
+              {%- if r.type == 'group' -%}{%- break -%}{%- endif -%}
+            <div class="tl-specs__row" {{ r.shopify_attributes }}><dt>{{ r.settings.label }}</dt><dd>{{ r.settings.value | escape | newline_to_br }}</dd></div>
+            {%- endfor -%}
+          </dl>
+        </div>
+        {%- endif -%}
+      {%- endfor -%}
+      </div>
+
+      {%- if section.settings.note != blank -%}
+      <div class="tl-specs__note">{{ section.settings.note }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.footnotes != blank -%}
+      <div class="tl-specs__notes">{{ section.settings.footnotes }}</div>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{%- style -%}
+  .tl-specs { background: #fff; }
+  .tl-specs__inner { max-width: 1200px; margin: 0 auto; padding: 64px 15px; }
+  @media (min-width: 768px) { .tl-specs__inner { padding: 96px 50px; } }
+  .tl-specs__eyebrow { margin: 0 0 12px; text-align: center; font-size: 13px; font-weight: 600; letter-spacing: .16em;
+    text-transform: uppercase; color: #71717a; }
+  .tl-specs__heading { margin: 0; text-align: center; font-size: 30px; font-weight: 600; line-height: 1.1;
+    letter-spacing: -.02em; color: #0a0a0b; }
+  @media (min-width: 768px) { .tl-specs__heading { font-size: 38px; } }
+
+  /* Compact spec sheet: tight rows, and on wide screens the groups flow into two columns. */
+  .tl-specs__groups { margin-top: 32px; }
+  @media (min-width: 1000px) { .tl-specs__groups { column-count: 2; column-gap: 56px; } }
+  .tl-specs__group { break-inside: avoid; padding-top: 24px; }
+  .tl-specs__title { margin: 0; padding-bottom: 8px; font-size: 16px; font-weight: 600;
+    color: #0a0a0b; border-bottom: 1px solid rgba(0,0,0,.16); }
+  .tl-specs__rows { margin: 0; }
+  .tl-specs__row { display: grid; grid-template-columns: minmax(0, 36%) minmax(0, 1fr); gap: 16px; padding: 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,.07); }
+  .tl-specs__row dt { font-size: 13px; line-height: 1.5; color: #71717a; }
+  .tl-specs__row dd { margin: 0; font-size: 13px; line-height: 1.5; color: #0a0a0b; }
+
+  /* a paragraph under the table (e.g. what else you need), body-sized rather than a footnote */
+  .tl-specs__note { margin-top: 32px; font-size: 15px; line-height: 1.6; color: #52525b; }
+  .tl-specs__note p { margin: 0; }
+  .tl-specs__note p + p { margin-top: 8px; }
+  .tl-specs__note strong { font-weight: 600; color: #0a0a0b; }
+  .tl-specs__notes { margin-top: 24px; font-size: 12px; line-height: 1.6; color: #71717a; }
+  .tl-specs__notes p { margin: 0; }
+  .tl-specs__notes p + p { margin-top: 6px; }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "toneLight specs",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Technical specifications" },
+    { "type": "richtext", "id": "note", "label": "Paragraph under the table", "info": "Optional. Body text, e.g. what else you need." },
+    { "type": "richtext", "id": "footnotes", "label": "Footnotes", "info": "Optional. Small print under everything." }
+  ],
+  "blocks": [
+    {
+      "type": "group",
+      "name": "Group heading",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" }
+      ]
+    },
+    {
+      "type": "row",
+      "name": "Spec row",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label" },
+        { "type": "textarea", "id": "value", "label": "Value", "info": "One line per line; each shows on its own line." }
+      ]
+    }
+  ],
+  "max_blocks": 50,
+  "presets": [{ "name": "toneLight specs" }]
+}
+{% endschema %}

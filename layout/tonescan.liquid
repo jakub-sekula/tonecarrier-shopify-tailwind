@@ -28,9 +28,24 @@
       Dawn's meta-tags snippet emits no og:image for pages without a featured image. Admin SEO
       fields (page title / meta description / a page featured image) override the defaults below.
     {%- endcomment -%}
+    {%- comment -%} Shared by the toneScan Studio and toneLight landing pages, so the two stay one
+       system. Only the header links, the header button and the social defaults differ, keyed off
+       the template suffix. Everything else (fonts, styles, scripts, lightbox) is common. {%- endcomment -%}
+    {%- liquid
+      assign ts_page = 'tonescan'
+      if template.suffix contains 'tonelight'
+        assign ts_page = 'tonelight'
+      endif
+    -%}
     {%- liquid
       assign ts_title = page_title | default: shop.name
-      assign ts_desc = page_description | default: 'Standalone software for serious film scanning. Seamless RGB, a physically accurate colour engine, and real speed. Now in open beta for macOS and Windows.'
+      if ts_page == 'tonelight'
+        assign ts_desc = page_description | default: 'Get lab-grade results from the gear you already own. toneScan is the smart RGB film scanning system: toneLight, the motorised toneCarrier and toneScan Studio.'
+        assign ts_image_alt = 'The toneScan RGB film scanning system'
+      else
+        assign ts_desc = page_description | default: 'Standalone software for serious film scanning. Seamless RGB, a physically accurate colour engine, and real speed. Now in open beta for macOS and Windows.'
+        assign ts_image_alt = 'toneScan Studio film scanning software'
+      endif
       # og:image precedence: page metafield custom.social_image → page featured image → default screenshot.
       # Works whether the metafield is a File(image) reference or a plain URL string.
       assign ts_image = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011'
@@ -57,7 +72,7 @@
     <meta property="og:description" content="{{ ts_desc | escape }}">
     <meta property="og:image" content="{{ ts_image }}">
     <meta property="og:image:secure_url" content="{{ ts_image }}">
-    <meta property="og:image:alt" content="toneScan Studio film scanning software">
+    <meta property="og:image:alt" content="{{ ts_image_alt }}">
     {%- if settings.social_twitter_link != blank -%}
       <meta name="twitter:site" content="{{ settings.social_twitter_link | split: 'twitter.com/' | last | prepend: '@' }}">
     {%- endif -%}
@@ -119,7 +134,9 @@
     {%- endstyle -%}
   </head>
 
-  <body class="tonescan-body">
+  {%- comment -%} The toneLight page is light throughout: the body class switches the shared
+     sections over (see "light page" in tonescan-styles). toneScan stays dark. {%- endcomment -%}
+  <body class="tonescan-body{% if ts_page == 'tonelight' %} tonescan-body--light{% endif %}">
     <a class="tw:sr-only" href="#MainContent">Skip to content</a>
 
     {%- comment -%} Store notice. Sits above the sticky header and scrolls away with the page. The
@@ -127,8 +144,10 @@
     {% section 'holiday-banner' %}
 
     {%- comment -%} ===== minimal sticky header (matches main-site width + fonts) ===== {%- endcomment -%}
-    <header class="tw:sticky tw:top-0 tw:z-50 tw:border-b tw:border-white/10 tw:bg-[#0a0a0b]/80 tw:backdrop-blur-[12px]">
-      <div class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:items-center tw:justify-between tw:px-[15px] tw:py-[10px] tw:md:px-[50px]">
+    {%- comment -%} .ts-dark keeps the header dark on the light toneLight page too, the same as
+       everywhere else on the site: the light-page overrides skip anything inside it. {%- endcomment -%}
+    <header class="ts-site-header ts-dark tw:sticky tw:top-0 tw:z-50 tw:border-b tw:border-white/10 tw:bg-[#0a0a0b]/80 tw:backdrop-blur-[12px]">
+      <div class="ts-site-header__bar tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:items-center tw:justify-between tw:px-[15px] tw:py-[10px] tw:md:px-[50px]">
         <a href="/" class="tw:flex tw:items-center focus-inset" aria-label="{{ shop.name }}">
           {%- if settings.logo != blank -%}
             {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
@@ -156,6 +175,20 @@
         {%- assign ts_minimal = false -%}
         {%- if template.suffix == 'tonescan-lite' -%}{%- assign ts_minimal = true -%}{%- endif -%}
         {%- assign ts_lite_blocks = 'features,faq' | split: ',' -%}
+        {%- if ts_page == 'tonelight' -%}
+        {%- comment -%} Anchors match the ids the toneLight template's sections render. {%- endcomment -%}
+        <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
+          <a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>
+          <a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">The system</a>
+          <a href="#rewards" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Rewards</a>
+          <a href="#specs" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Specs</a>
+          <a href="#faq" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">FAQ</a>
+        </nav>
+
+        {%- comment -%} The campaign URL is a theme setting so every Kickstarter button on the page
+           shares it. Before it is set, the button falls back to the rewards on this page. {%- endcomment -%}
+        <a href="{{ settings.tonelight_ks_url | default: '#rewards' }}" class="ts-cta ts-cta--ks ts-cta--sm">Back on Kickstarter</a>
+        {%- else -%}
         <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
           {%- if ts_minimal == false or ts_lite_blocks contains 'features' -%}<a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>{%- endif -%}
           {%- if ts_minimal == false or ts_lite_blocks contains 'workflow' -%}<a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">How it works</a>{%- endif -%}
@@ -166,6 +199,7 @@
         <a href="#signup" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[var(--ts-accent)] tw:px-[16px] tw:py-[9px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
           Become a tester
         </a>
+        {%- endif -%}
       </div>
     </header>
 
@@ -195,6 +229,25 @@
       </div>
     </footer>
 
+    {%- comment -%} Header tightens once the page is scrolled: less padding, a slightly smaller logo
+       and button (styles under "site header" in tonescan-styles). A class toggle on a passive
+       scroll listener, so the transition is all CSS. {%- endcomment -%}
+    <script>
+      (function () {
+        var h = document.querySelector('.ts-site-header');
+        if (!h) return;
+        // Run straight from the scroll event: it is one comparison and touches the DOM only when
+        // the state flips, so there is nothing for a frame callback to save.
+        var on = false;
+        function update() {
+          var next = (window.pageYOffset || 0) > 24;
+          if (next !== on) { on = next; h.classList.toggle('is-scrolled', on); }
+        }
+        window.addEventListener('scroll', update, { passive: true });
+        update();
+      })();
+    </script>
+
     {%- comment -%} ===== scroll animations: reveal-on-scroll + subtle parallax ===== {%- endcomment -%}
     <script>
       (function () {
@@ -207,7 +260,9 @@
         // Elements to reveal: headings, grid items (cards/steps), testimonials, faq rows.
         // .ts-conv__item is excluded: every film frame is a <figure>, so the reveal was holding
         // each one 22px low until it intersected, which read as frames sliding up into the strip.
-        var targets = document.querySelectorAll('.tonescan-landing :is(h1, h2, [class*="grid"] > *, figure:not(.ts-conv__item), details)');
+        // .tl-rev__tile likewise: the review wall's tiles drift through a clipped window, so revealing
+        // each one as it crosses in reads as flicker, and copies rebuilt on resize were never revealed.
+        var targets = document.querySelectorAll('.tonescan-landing :is(h1, h2, [class*="grid"] > *, figure:not(.ts-conv__item):not(.tl-rev__tile), details)');
         targets.forEach(function (el) { el.classList.add('reveal'); });
 
         var io = new IntersectionObserver(function (entries) {

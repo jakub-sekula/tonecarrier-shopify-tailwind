@@ -83,10 +83,6 @@
         "background_blur": 5
       }
     },
-    "intro": {
-      "type": "tonescan-intro",
-      "settings": {}
-    },
     "conversion-strip": {
       "type": "tonescan-conversion-strip",
       "blocks": {
@@ -258,96 +254,29 @@
         "edge_batch": "0-2137"
       }
     },
+    "intro": {
+      "type": "tonescan-intro",
+      "settings": {}
+    },
+    "demo": {
+      "type": "tonescan-demo",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Live demo",
+        "subheading": "",
+        "embed_url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "video_url": "",
+        "autoplay": true,
+        "placeholder_note": "The full walkthrough is being recorded."
+      }
+    },
     "features": {
       "type": "tonescan-features",
       "blocks": {
-        "tile_1": {
-          "type": "tile",
-          "settings": {
-            "title": "Rich inversion engine",
-            "description": "Rendering modelled on real film physics and the way darkroom paper responds to light. The starting point already looks like a print, so you adjust to taste.",
-            "size": "big",
-            "icon": "ic0",
-            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
-            "video_url": "",
-            "alt": "A converted frame beside the live RGB histogram and the develop controls",
-            "cta_text": "See samples",
-            "cta_link": "#gallery"
-          }
-        },
-        "tile_2": {
-          "type": "tile",
-          "settings": {
-            "title": "Seamless RGB scanning",
-            "description": "Trichromatic capture from any camera, mono sensors included. Triplets merged for you.",
-            "size": "wide",
-            "icon": "ic1",
-            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png",
-            "video_url": "",
-            "alt": "",
-            "cta_text": "",
-            "cta_link": "#gallery"
-          }
-        },
-        "tile_3": {
-          "type": "tile",
-          "settings": {
-            "title": "See every edit instantly",
-            "description": "Adjustments show on the full-resolution image the moment you make them.",
-            "size": "tall",
-            "icon": "ic2",
-            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
-            "video_url": "",
-            "alt": "",
-            "cta_text": "",
-            "cta_link": "#gallery"
-          }
-        },
-        "tile_4": {
-          "type": "tile",
-          "settings": {
-            "title": "Flat-field correction",
-            "description": "Automatically corrects unevenness in your light source.",
-            "size": "sm",
-            "icon": "ic3",
-            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
-            "video_url": "",
-            "alt": "",
-            "cta_text": "",
-            "cta_link": "#gallery"
-          }
-        },
-        "tile_5": {
-          "type": "tile",
-          "settings": {
-            "title": "Batch editing",
-            "description": "Get one frame right and the whole roll follows, matched from first frame to last.",
-            "size": "sm",
-            "icon": "ic4",
-            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
-            "video_url": "",
-            "alt": "",
-            "cta_text": "",
-            "cta_link": "#gallery"
-          }
-        },
-        "tile_6": {
-          "type": "tile",
-          "settings": {
-            "title": "Properly fast",
-            "description": "Smooth, instant previews of every edit, and a keyboard shortcut for everything so you can fly through a roll. Whole rolls convert and export in the background while you carry on working.",
-            "size": "wide",
-            "icon": "ic5",
-            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png",
-            "video_url": "",
-            "alt": "Exporting sixteen selected frames at once while the roll stays browsable",
-            "cta_text": "",
-            "cta_link": "#gallery"
-          }
-        },
         "tile_7": {
           "type": "tile",
           "settings": {
+            "show_expand": false,
             "title": "Standalone software",
             "description": "No Lightroom, no plugins, no host app. One program you own.",
             "size": "sm",
@@ -359,9 +288,85 @@
             "cta_link": "#gallery"
           }
         },
+        "tile_2": {
+          "type": "tile",
+          "settings": {
+            "show_expand": false,
+            "title": "Seamless RGB scanning",
+            "description": "Trichromatic capture from any camera, mono sensors included. Triplets merged for you.",
+            "size": "wide",
+            "icon": "ic1",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png",
+            "video_url": "",
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
+          }
+        },
+        "tile_4": {
+          "type": "tile",
+          "settings": {
+            "show_expand": false,
+            "title": "Flat-field correction",
+            "description": "Automatically corrects unevenness in your light source.",
+            "size": "sm",
+            "icon": "ic3",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
+            "video_url": "",
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
+          }
+        },
+        "tile_3": {
+          "type": "tile",
+          "settings": {
+            "show_expand": false,
+            "title": "See every edit instantly",
+            "description": "Adjustments show on the full-resolution image the moment you make them.",
+            "size": "tall",
+            "icon": "ic2",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
+            "video_url": "",
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
+          }
+        },
+        "tile_1": {
+          "type": "tile",
+          "settings": {
+            "show_expand": false,
+            "title": "Rich inversion engine",
+            "description": "Rendering modelled on real film physics and the way darkroom paper responds to light. The starting point already looks like a print, so you adjust to taste.",
+            "size": "big",
+            "icon": "ic0",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
+            "video_url": "",
+            "alt": "A converted frame beside the live RGB histogram and the develop controls",
+            "cta_text": "See samples",
+            "cta_link": "#gallery"
+          }
+        },
+        "tile_5": {
+          "type": "tile",
+          "settings": {
+            "show_expand": false,
+            "title": "Batch editing",
+            "description": "Get one frame right and the whole roll follows, matched from first frame to last.",
+            "size": "sm",
+            "icon": "ic4",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
+            "video_url": "",
+            "alt": "",
+            "cta_text": "",
+            "cta_link": "#gallery"
+          }
+        },
         "tile_8": {
           "type": "tile",
           "settings": {
+            "show_expand": false,
             "title": "Smart auto-crop",
             "description": "Frame edges found and squared up for you, on every shot.",
             "size": "sm",
@@ -373,9 +378,25 @@
             "cta_link": "#gallery"
           }
         },
+        "tile_6": {
+          "type": "tile",
+          "settings": {
+            "show_expand": false,
+            "title": "Properly fast",
+            "description": "Smooth, instant previews of every edit, and a keyboard shortcut for everything so you can fly through a roll. Whole rolls convert and export in the background while you carry on working.",
+            "size": "wide",
+            "icon": "ic5",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png",
+            "video_url": "",
+            "alt": "Exporting sixteen selected frames at once while the roll stays browsable",
+            "cta_text": "",
+            "cta_link": "#gallery"
+          }
+        },
         "tile_9": {
           "type": "tile",
           "settings": {
+            "show_expand": false,
             "title": "Hardware control",
             "description": "Drives your light source and advances the film carrier as you shoot.",
             "size": "wide",
@@ -404,10 +425,6 @@
         "subheading": "Capture, calibration, conversion, culling and export, in one program built for film photographers."
       }
     },
-    "highlights": {
-      "type": "tonescan-highlights",
-      "settings": {}
-    },
     "workflow": {
       "type": "tonescan-workflow",
       "blocks": {
@@ -416,7 +433,8 @@
           "settings": {
             "title": "A roll in minutes",
             "body": "<p>Point toneScan Studio at your capture folder and the whole roll appears, triplets already merged and frames already inverted.</p><p>You're looking at finished pictures before you've touched a single slider.</p>",
-            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png"
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/organise.png",
+            "video_url": ""
           }
         },
         "step2": {
@@ -424,7 +442,8 @@
           "settings": {
             "title": "Right colour, first try",
             "body": "<p>The inversion is built on how film and paper actually behave, so the first thing you see is already close.</p><p>No profile hunting, no per-frame guesswork, and no fighting an orange cast for twenty minutes.</p>",
-            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png"
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
+            "video_url": ""
           }
         },
         "step3": {
@@ -432,7 +451,8 @@
           "settings": {
             "title": "Instant feedback",
             "body": "<p>Move a slider and the frame moves with it. No lag, no stand-in preview, no waiting to find out what an adjustment really did.</p><p>And what you settle on is what you get: the exported file matches the one you approved on screen.</p>",
-            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png"
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png",
+            "video_url": ""
           }
         },
         "step4": {
@@ -440,7 +460,8 @@
           "settings": {
             "title": "One frame, whole roll",
             "body": "<p>Push your settings across every frame, then send the lot out in one go.</p><p>TIFF or JPG, your sizing, your filenames, with film stock and camera details already attached.</p>",
-            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png"
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/batch-export.png",
+            "video_url": ""
           }
         }
       },
@@ -457,6 +478,63 @@
     },
     "rgb": {
       "type": "tonescan-rgb",
+      "settings": {
+        "show_contact_sheet": false
+      }
+    },
+    "compare": {
+      "type": "tonescan-compare",
+      "settings": {
+        "eyebrow": "White light against RGB",
+        "heading": "The same negative, two ways",
+        "subheading": "Both of these are straight off the camera with no correction. Drag to see what the light source alone does to the colour.",
+        "image_white": "shopify://shop_images/comp1_white_small_a3ae9467-852e-404f-8bee-1a405a138918.jpg",
+        "image_rgb": "shopify://shop_images/comp1_rgb_small_5f83e634-42ce-4933-8396-324c889851f6.jpg",
+        "label_white": "White light",
+        "label_rgb": "RGB",
+        "caption": "Same negative and scanning system, only light source changed."
+      }
+    },
+    "triscan": {
+      "type": "tonescan-triscan",
+      "blocks": {
+        "sample_1": {
+          "type": "sample",
+          "settings": {
+            "name": "Sample 1",
+            "image_1": "shopify://shop_images/1-NLP.jpg",
+            "image_2": "shopify://shop_images/1-RGB.jpg",
+            "image_3": "shopify://shop_images/1-LAB.jpg"
+          }
+        },
+        "sample_2": {
+          "type": "sample",
+          "settings": {
+            "name": "Sample 2"
+          }
+        }
+      },
+      "block_order": [
+        "sample_1",
+        "sample_2"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "Lab-grade results",
+        "subheading": "Compare the results of white light, RGB, and lab scanning.",
+        "label_1": "White light scan",
+        "sublabel_1": "Converted with NLP",
+        "short_label_1": "White",
+        "label_2": "RGB scan",
+        "sublabel_2": "Converted with toneScan",
+        "short_label_2": "RGB",
+        "label_3": "Lab scan (Frontier)",
+        "short_label_3": "Lab (Frontier)",
+        "caption": "Same negative, same crop. Only the scanning method changed."
+      }
+    },
+    "highlights": {
+      "type": "tonescan-highlights",
       "settings": {}
     },
     "hardware": {
@@ -480,7 +558,7 @@
           "settings": {
             "title": "Colour and processing",
             "icon": "icon5",
-            "items": "<b>Simulated paper response</b>: The rendering engine models how photographic paper responds to light.\n<b>Three process modes</b>: Colour negative, B&amp;W negative and slide.\n<b>White balance</b>: Automatic, or pick your own neutral.\n<b>Automatic brightness and contrast</b>\n<b>Intuitive exposure and tone controls</b>: Contrast, density, highlight rolloff and shadow lift.\n<b>Sharpening and noise reduction</b>\n<b>Per-channel inspection</b>: View R, G or B on its own.",
+            "items": "<b>Simulated paper response</b>: The rendering engine models how photographic paper responds to light.\n<b>Three process modes</b>: Colour negative, B&W negative and slide.\n<b>White balance</b>: Automatic, or pick your own neutral.\n<b>Automatic brightness and contrast</b>\n<b>Intuitive exposure and tone controls</b>: Contrast, density, highlight rolloff and shadow lift.\n<b>Sharpening and noise reduction</b>\n<b>Per-channel inspection</b>: View R, G or B on its own.",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/rgb-merge.png"
           }
         },
@@ -545,6 +623,18 @@
     "pricing": {
       "type": "tonescan-pricing",
       "settings": {
+        "heading": "Buy it once, or subscribe",
+        "subheading": "Flexible licensing: pay by the month while a project runs, or buy it once and keep it.",
+        "trial_blurb": "The same application you would buy.",
+        "trial_features": "Every feature, no restrictions\nmacOS and Windows\nNo account or credit card needed",
+        "trial_cta_text": "Try free for 14 days",
+        "trial_cta_url": "",
+        "subscription_blurb": "Handy for a single project, or for a longer look at toneScan than the trial allows.",
+        "subscription_features": "Every feature, always current\nNew releases as they ship\nTwo machines per licence\nCancel whenever you like",
+        "perpetual_blurb": "Buy it once and keep it.",
+        "perpetual_features": "Yours to keep, no subscription\nFree updates within a major version\nTwo machines per licence",
+        "demo_title": "What you can do without a licence",
+        "demo_body": "Without a licence toneScan carries on as a demo. Exports come out small and watermarked, and you can still browse any library you built while a trial or a paid licence was active.",
         "footnote": "Prices shown in your local currency, tax included where it applies.",
         "paddle_token": "test_7d14ccde25df1c60f5887487b25",
         "paddle_environment": "sandbox",
@@ -683,16 +773,6 @@
     "signup": {
       "type": "tonescan-signup",
       "settings": {}
-    },
-    "demo": {
-      "type": "tonescan-demo",
-      "settings": {
-        "embed_url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ"
-      }
-    },
-    "compare": {
-      "type": "tonescan-compare",
-      "settings": {}
     }
   },
   "order": [
@@ -704,6 +784,7 @@
     "workflow",
     "rgb",
     "compare",
+    "triscan",
     "highlights",
     "hardware",
     "feature-list",

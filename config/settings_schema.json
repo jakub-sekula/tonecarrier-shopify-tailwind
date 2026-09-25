@@ -1466,4 +1466,15 @@
       }
     ]
   },
+  {
+    "name": "toneLight Kickstarter",
+    "settings": [
+      {
+        "type": "url",
+        "id": "tonelight_ks_url",
+        "label": "Kickstarter campaign URL",
+        "info": "Every Kickstarter button on the toneLight page links here: the header, the hero, the reward cards and the closing call to action. Set it before launch too; Kickstarter shows its pre-launch page until the campaign goes live."
+      }
+    ]
+  }
 ]

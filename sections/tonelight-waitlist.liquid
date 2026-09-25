@@ -1,0 +1,50 @@
+{%- comment -%}
+  toneLight waitlist: the Kit (ConvertKit) pre-launch form, as its own section in the landing
+  system. The form itself is the existing snippet, rendered as-is. Anchor #waitlist is the target
+  of the header button, the hero and the rewards cards.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  <section id="waitlist" class="tw:scroll-mt-[84px] tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[720px] tw:px-[15px] tw:py-[56px] tw:text-center tw:md:px-[50px] tw:md:py-[72px]">
+      {%- if section.settings.heading != blank -%}
+      <h2 class="tw:text-[26px] tw:font-semibold tw:leading-[1.15] tw:tracking-[-0.02em] tw:text-white tw:md:text-[34px]">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+      <p class="tw:mx-auto tw:mt-[12px] tw:mb-[28px] tw:max-w-[480px] tw:text-[16px] tw:text-neutral-400">{{ section.settings.text }}</p>
+      {%- endif -%}
+      {% render 'tc-kickstarter-prelaunch-form' %}
+      {%- if section.settings.show_logo -%}
+      <div class="tl-waitlist__ks">
+        {%- if section.settings.logo_label != blank -%}<span>{{ section.settings.logo_label }}</span>{%- endif -%}
+        {{ 'kickstarter-logo.svg' | inline_asset_content | replace: '<svg ', '<svg role="img" aria-label="Kickstarter" ' }}
+      </div>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{%- style -%}
+  .tl-waitlist__ks { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 22px; }
+  .tl-waitlist__ks span { font-size: 13px; color: #737373; }
+  .tl-waitlist__ks svg { display: block; width: auto; height: 16px; }
+  /* The form snippet is shared with other pages and carries the blue accent. Here it takes the
+     Kickstarter green the rest of the toneLight page's buttons use, without touching the snippet. */
+  #waitlist .formkit-submit { color: #0a0a0b; background: #05ce78; }
+  #waitlist .formkit-submit:hover { background: #04bd6e; }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "toneLight waitlist",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Be first when we launch." },
+    { "type": "textarea", "id": "text", "label": "Text" },
+    { "type": "checkbox", "id": "show_logo", "label": "Show Kickstarter logo", "default": true },
+    { "type": "text", "id": "logo_label", "label": "Text before the logo", "default": "Coming soon to" }
+  ],
+  "presets": [{ "name": "toneLight waitlist" }]
+}
+{% endschema %}

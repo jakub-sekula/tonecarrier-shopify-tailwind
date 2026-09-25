@@ -1,0 +1,1130 @@
+/*
+ * toneScan Kickstarter landing page (the whole kit: toneLight, the motorised toneCarrier and
+ * toneScan Studio). Built from the same section library as the toneScan Studio page
+ * (templates/page.tonescan.json) on the shared layout/tonescan.liquid, light throughout.
+ * Content follows the Kickstarter story. toneLight-only sections are the tonelight-* ones.
+ * The system section stays dark (keep_dark); the results use large frames.
+ */
+{
+  "layout": "tonescan",
+  "sections": {
+    "hero": {
+      "type": "tonescan-hero-split",
+      "settings": {
+        "theme": "light",
+        "show_icon": false,
+        "badge": "Now live on",
+        "badge_kickstarter": true,
+        "heading": "Get lab-grade results from the gear you already own",
+        "subheading": "Introducing toneScan: the smart RGB film scanning system.",
+        "cta_type": "link",
+        "cta_text": "Back toneScan on Kickstarter",
+        "cta_style": "ks",
+        "cta_url": "",
+        "cta2_text": "See how it works",
+        "cta2_url": "#how-it-works",
+        "show_os": false,
+        "sub_cta_text": "",
+        "badge_prelaunch": "Launching on",
+        "launch_at": "",
+        "cta2_chevron": true
+      },
+      "blocks": {
+        "media_1": {
+          "type": "slide",
+          "settings": {
+            "title": "Hero image or video",
+            "alt": "The toneScan kit"
+          }
+        }
+      },
+      "block_order": [
+        "media_1"
+      ]
+    },
+    "campaign-video": {
+      "type": "tonescan-demo",
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "subheading": "",
+        "embed_url": "",
+        "video_url": "",
+        "autoplay": false,
+        "placeholder_note": "Campaign video"
+      }
+    },
+    "results": {
+      "type": "tonescan-triscan",
+      "settings": {
+        "eyebrow": "The results",
+        "heading": "Same frame, three ways. Judge for yourself.",
+        "subheading": "The same negative under white light, with toneLight RGB, and from a professional lab scanner. No theory, just the colour you get.",
+        "label_1": "White light",
+        "sublabel_1": "Converted with NLP",
+        "short_label_1": "White",
+        "label_2": "toneLight RGB",
+        "sublabel_2": "Converted with toneScan",
+        "short_label_2": "RGB",
+        "label_3": "Pro lab scan",
+        "short_label_3": "Lab",
+        "caption": "",
+        "large": true
+      },
+      "blocks": {
+        "sample_1": {
+          "type": "sample",
+          "settings": {
+            "name": "Sample 1",
+            "image_1": "shopify://shop_images/1-NLP.jpg",
+            "image_2": "shopify://shop_images/1-RGB.jpg",
+            "image_3": "shopify://shop_images/1-LAB.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "sample_1"
+      ]
+    },
+    "features": {
+      "type": "tonelight-showcase",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Key features",
+        "subheading": ""
+      },
+      "blocks": {
+        "clip_separation": {
+          "type": "clip",
+          "settings": {
+            "title": "Colours separated at the source",
+            "text": "Each exposure reads essentially one dye layer on its own, making any camera sensor behave like photographic paper and achieving excellent colour separation."
+          }
+        },
+        "clip_consistent": {
+          "type": "clip",
+          "settings": {
+            "title": "Consistent results",
+            "text": "Clean input data makes clean final scans which are easy to edit and adjust to your liking. Shadows come out clean, skin tones look more natural and don't drift frame to frame. Set the look once and apply it on the rest of the roll with no surprises."
+          }
+        },
+        "clip_fast": {
+          "type": "clip",
+          "settings": {
+            "title": "Fast and effortless scanning",
+            "text": "Digitising film with toneScan is quick and easy: just load the film, advance, and shoot! toneLight sequences the colours, fires the shutter, and advances the film; toneScan picks up the captures and merges them on the fly. Go from first shot to export in just a couple of minutes."
+          }
+        },
+        "clip_integrated": {
+          "type": "clip",
+          "settings": {
+            "title": "An integrated scanning experience",
+            "text": "The light, film transport, and software were built to work together from the start. Everything feels cohesive and consistent like a professional tool that you can rely on."
+          }
+        }
+      },
+      "block_order": [
+        "clip_separation",
+        "clip_consistent",
+        "clip_fast",
+        "clip_integrated"
+      ]
+    },
+    "system": {
+      "type": "tonescan-workflow",
+      "settings": {
+        "eyebrow": "The system",
+        "heading": "The toneScan System",
+        "subheading": "We built a system of integrated parts which replicate that proven lab scanner workflow with a standard camera-based scanning rig. It's made up of three key components.",
+        "keep_dark": true
+      },
+      "blocks": {
+        "step_tonelight": {
+          "type": "step",
+          "settings": {
+            "title": "toneLight",
+            "body": "<p>The toneLight is our dedicated light panel designed specifically for film scanning. It features high quality red, green, and blue LED arrays picked for optimal channel separation when used with colour negative film. There is also a 95 CRI white LED panel for scanning slides or black and white film, and a 880 nm infrared one for dust reduction with compatible cameras (not yet supported in toneScan Studio).</p><p>toneLight is made to be durable and long lasting. It has a sturdy injection moulded ABS enclosure, and a machined aluminium heatsink to keep it running optimally for years of use.</p><p>All essential features can be controlled via the illuminated front buttons, and more advanced configuration and automation is available through the built-in USB-C port. The toneLight is powered by a regular USB-C Power Delivery supply, such as a phone or laptop charger, or a power bank.</p>"
+          }
+        },
+        "step_tonecarrier": {
+          "type": "step",
+          "settings": {
+            "title": "toneCarrier",
+            "body": "<p>Two years ago we launched the toneCarrier as a robust, low cost film carrier for 35 mm and 120 film. Today it is trusted by thousands of photographers all around the world. Building on this solid foundation, we developed a motorised version which can automatically feed and move film along to make automatic scanning possible.</p><p>toneCarrier uses a unique dual roller belt drive system that makes it possible to scan even short strips of film (3 frames of 35 mm). Flatness is achieved by a dual s-curve film channel, which applies gentle tension to the film without any contact with the emulsion.</p><p><strong>All existing toneCarriers can be upgraded to the motorised version in less than 5 minutes.</strong> It's the same toneCarrier you may already know and use, but even faster and easier to use. The motor upgrade is fully compatible with our manual carriers and needs minimal disassembly.</p>"
+          }
+        },
+        "step_tonescan": {
+          "type": "step",
+          "settings": {
+            "title": "toneScan Studio",
+            "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png",
+            "body": "<p>toneScan Studio is our standalone desktop software made to work with the RGB scanning system. It automatically handles the capture, merging, and inversion of trichrome scans. It also supports scans made with white light, as well as slides and black and white film.</p><p>It uses an advanced inversion engine which emulates a real darkroom print. With smart automatic corrections and default settings, the scans are usually usable with no additional corrections. And if you do want to change something, the GPU accelerated viewport and 1:1 pixel perfect previews make it quick and precise.</p><p>toneScan Studio integrates seamlessly with our hardware. For RGB scans, it automatically calibrates the light settings before each session, ensuring great and consistent results every time.</p><p><a href=\"/pages/tonescan\" title=\"toneScan Studio\">Explore toneScan Studio →</a></p>",
+            "app_icon": true
+          }
+        }
+      },
+      "block_order": [
+        "step_tonelight",
+        "step_tonecarrier",
+        "step_tonescan"
+      ]
+    },
+    "specs": {
+      "type": "tonelight-specs",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Technical specifications",
+        "footnotes": "",
+        "note": "<p><strong>You will also need:</strong> a camera with a standard remote shutter input, and a copy stand or a sturdy tripod to mount it over the scanning kit.</p>"
+      },
+      "blocks": {
+        "group_light": {
+          "type": "group",
+          "settings": {
+            "title": "toneLight"
+          }
+        },
+        "row_l1": {
+          "type": "row",
+          "settings": {
+            "label": "Light sources",
+            "value": "Narrowband red, green and blue LED arrays\n95 CRI white LED panel\n880 nm infrared LED panel"
+          }
+        },
+        "row_l2": {
+          "type": "row",
+          "settings": {
+            "label": "RGB capture",
+            "value": "Red, green and blue exposures in sequence, synchronised with the camera shutter"
+          }
+        },
+        "row_l3": {
+          "type": "row",
+          "settings": {
+            "label": "White light",
+            "value": "For slides and black and white film"
+          }
+        },
+        "row_l4": {
+          "type": "row",
+          "settings": {
+            "label": "Infrared",
+            "value": "Dust reduction with compatible cameras\nNot yet supported in toneScan Studio"
+          }
+        },
+        "row_l5": {
+          "type": "row",
+          "settings": {
+            "label": "Controls",
+            "value": "Illuminated front buttons"
+          }
+        },
+        "row_l6": {
+          "type": "row",
+          "settings": {
+            "label": "Connectivity",
+            "value": "USB-C (power, control and configuration)\nShutter-release output\nRS485 port for future expansion"
+          }
+        },
+        "row_l7": {
+          "type": "row",
+          "settings": {
+            "label": "Control interfaces",
+            "value": "Serial API\nWeb GUI\ntoneScan Studio"
+          }
+        },
+        "row_l8": {
+          "type": "row",
+          "settings": {
+            "label": "Power",
+            "value": "USB-C Power Delivery: a phone or laptop charger, or a power bank"
+          }
+        },
+        "row_l9": {
+          "type": "row",
+          "settings": {
+            "label": "Enclosure",
+            "value": "Injection-moulded ABS"
+          }
+        },
+        "row_l10": {
+          "type": "row",
+          "settings": {
+            "label": "Cooling",
+            "value": "Machined aluminium heatsink"
+          }
+        },
+        "row_l11": {
+          "type": "row",
+          "settings": {
+            "label": "Mounting",
+            "value": "Mounting points top and bottom for copy stands and custom rigs"
+          }
+        },
+        "group_carrier": {
+          "type": "group",
+          "settings": {
+            "title": "Motorised toneCarrier"
+          }
+        },
+        "row_c1": {
+          "type": "row",
+          "settings": {
+            "label": "Film formats",
+            "value": "35 mm and 120"
+          }
+        },
+        "row_c2": {
+          "type": "row",
+          "settings": {
+            "label": "Film transport",
+            "value": "Dual-roller belt drive with stepper motor"
+          }
+        },
+        "row_c3": {
+          "type": "row",
+          "settings": {
+            "label": "Shortest strip",
+            "value": "3 frames of 35 mm"
+          }
+        },
+        "row_c4": {
+          "type": "row",
+          "settings": {
+            "label": "Film flatness",
+            "value": "Dual S-curve film channel, with no contact with the emulsion"
+          }
+        },
+        "row_c5": {
+          "type": "row",
+          "settings": {
+            "label": "Upgrading",
+            "value": "Existing toneCarriers convert to motorised in under 5 minutes"
+          }
+        },
+        "row_c6": {
+          "type": "row",
+          "settings": {
+            "label": "Accessories (full kit)",
+            "value": "Easyloader tray, catch tray, chimney, frame masks"
+          }
+        },
+        "group_software": {
+          "type": "group",
+          "settings": {
+            "title": "toneScan Studio"
+          }
+        },
+        "row_s1": {
+          "type": "row",
+          "settings": {
+            "label": "Platforms",
+            "value": "macOS and Windows"
+          }
+        },
+        "row_s2": {
+          "type": "row",
+          "settings": {
+            "label": "Scan types",
+            "value": "RGB (trichrome), white light, slides, black and white"
+          }
+        },
+        "row_s3": {
+          "type": "row",
+          "settings": {
+            "label": "RGB workflow",
+            "value": "Automatic capture, merging and inversion"
+          }
+        },
+        "row_s4": {
+          "type": "row",
+          "settings": {
+            "label": "Calibration",
+            "value": "Automatic light calibration before each RGB session"
+          }
+        },
+        "row_s5": {
+          "type": "row",
+          "settings": {
+            "label": "Inversion",
+            "value": "Darkroom print emulation"
+          }
+        },
+        "row_s6": {
+          "type": "row",
+          "settings": {
+            "label": "Editing",
+            "value": "GPU-accelerated viewport, 1:1 pixel previews, keyboard shortcuts"
+          }
+        },
+        "row_s7": {
+          "type": "row",
+          "settings": {
+            "label": "Library",
+            "value": "Organised by roll, with metadata and search\nMetadata written to EXIF on export"
+          }
+        }
+      },
+      "block_order": [
+        "group_light",
+        "row_l1",
+        "row_l2",
+        "row_l3",
+        "row_l4",
+        "row_l5",
+        "row_l6",
+        "row_l7",
+        "row_l8",
+        "row_l9",
+        "row_l10",
+        "row_l11",
+        "group_carrier",
+        "row_c1",
+        "row_c2",
+        "row_c3",
+        "row_c4",
+        "row_c5",
+        "row_c6",
+        "group_software",
+        "row_s1",
+        "row_s2",
+        "row_s3",
+        "row_s4",
+        "row_s5",
+        "row_s6",
+        "row_s7"
+      ]
+    },
+    "rewards": {
+      "type": "tonelight-rewards",
+      "settings": {
+        "eyebrow": "Rewards",
+        "heading": "Three ways to back it",
+        "subheading": "<p>Most people reading this already camera-scan, and many own a toneCarrier. If that's you, start with the light panel: you already have everything else you need.</p><p>Whichever option you pick, you will need a copy stand or a sturdy tripod to mount your camera securely over the scanning kit.</p>",
+        "note": "Each one comes in limited Super Early Bird and Early Bird quantities.",
+        "label_super": "Super early bird",
+        "label_early": "Early bird",
+        "label_regular": "Regular",
+        "featured_button_style": "ks"
+      },
+      "blocks": {
+        "tier_light": {
+          "type": "tier",
+          "settings": {
+            "name": "toneLight RGB Panel",
+            "variant_note": "",
+            "description": "The one most of you want.",
+            "price_super": "£340",
+            "price_early": "£360",
+            "price_regular": "£400",
+            "featured": false,
+            "featured_label": "Most popular",
+            "button_text": "Back on Kickstarter",
+            "button_url": "",
+            "features": "The light source on its own\nAdds trichromatic RGB capture\nUSB-C power and control\nShutter-release output\nSerial API and web GUI"
+          }
+        },
+        "tier_upgrade": {
+          "type": "tier",
+          "settings": {
+            "name": "toneLight + Motor Upgrade Kit",
+            "variant_note": "35 mm or 120",
+            "description": "",
+            "price_super": "£375",
+            "price_early": "£400",
+            "price_regular": "£450",
+            "featured": false,
+            "featured_label": "Most popular",
+            "button_text": "Back on Kickstarter",
+            "button_url": "",
+            "features": "toneLight RGB Panel\nMotor kit that retrofits onto your current toneCarrier\nEverything you need to convert for automated scanning"
+          }
+        },
+        "tier_full": {
+          "type": "tier",
+          "settings": {
+            "name": "Full scanning kit",
+            "variant_note": "35 mm or 120",
+            "description": "Best if you're building a rig from scratch.",
+            "price_super": "£470",
+            "price_early": "£495",
+            "price_regular": "£550",
+            "featured": false,
+            "featured_label": "Most popular",
+            "button_text": "Back on Kickstarter",
+            "button_url": "",
+            "features": "Motorised toneCarrier, 35 mm or 120\nEasyloader tray\nCatch tray\nChimney\nFrame masks"
+          }
+        }
+      },
+      "block_order": [
+        "tier_light",
+        "tier_upgrade",
+        "tier_full"
+      ]
+    },
+    "team": {
+      "type": "tonelight-team",
+      "settings": {
+        "eyebrow": "About us",
+        "heading": "A small team in Bristol, UK.",
+        "subheading": "We're both long-time film photographers. toneLight came out of the same scanning frustration everyone in this space hits, and a stubborn belief that we could do it better."
+      },
+      "blocks": {
+        "member_1": {
+          "type": "member",
+          "settings": {
+            "name": "Jakub",
+            "role": "Mechanical engineer & product design",
+            "bio": "Jakub is a mechanical engineer with five years of experience across Formula 1, medical devices, and consumer products. Precision design, manufacturing, and taking hardware projects from concept to production."
+          }
+        },
+        "member_2": {
+          "type": "member",
+          "settings": {
+            "name": "Nico",
+            "role": "Electronics & software",
+            "bio": "Nico is an electronics and software engineer, 10+ years across embedded systems, control electronics, and the software tools that make real-world workflows hold together."
+          }
+        }
+      },
+      "block_order": [
+        "member_1",
+        "member_2"
+      ]
+    },
+    "timeline": {
+      "type": "tonelight-timeline",
+      "settings": {
+        "eyebrow": "Project timeline",
+        "heading": "How we got here",
+        "subheading": "The project started in December 2024 and has been in constant development since, with four major prototypes and hundreds of hours of testing in real scanning workflows.",
+        "current_label": "We are here!"
+      },
+      "blocks": {
+        "milestone_1": {
+          "type": "milestone",
+          "settings": {
+            "date": "December 2024",
+            "event": "Concept and feasibility exploration",
+            "description": "Initial bench testing with off the shelf hardware",
+            "status": "done"
+          }
+        },
+        "milestone_2": {
+          "type": "milestone",
+          "settings": {
+            "date": "February 2025",
+            "event": "First hardware prototype",
+            "description": "Rough PCB layout and firmware, workflow tests",
+            "status": "done"
+          }
+        },
+        "milestone_3": {
+          "type": "milestone",
+          "settings": {
+            "date": "May 2025",
+            "event": "Second hardware prototype",
+            "description": "Improved controls and light diffuser, refined PCB",
+            "status": "done"
+          }
+        },
+        "milestone_4": {
+          "type": "milestone",
+          "settings": {
+            "date": "November 2025",
+            "event": "Third hardware prototype",
+            "description": "Added motor controller, motorised carrier upgrades",
+            "status": "done"
+          }
+        },
+        "milestone_5": {
+          "type": "milestone",
+          "settings": {
+            "date": "January 2026",
+            "event": "toneScan Studio development begins",
+            "description": "Start work on all-in-one desktop software",
+            "status": "done"
+          }
+        },
+        "milestone_6": {
+          "type": "milestone",
+          "settings": {
+            "date": "April 2026",
+            "event": "Fourth hardware prototype",
+            "description": "Redesign enclosure for injection moulding, major design for manufacturing (DFM) improvements",
+            "status": "done"
+          }
+        },
+        "milestone_7": {
+          "type": "milestone",
+          "settings": {
+            "date": "August 2026",
+            "event": "toneScan Studio closed beta testing",
+            "description": "App builds shared with testers for real world evaluation and feature development",
+            "status": "done"
+          }
+        },
+        "milestone_8": {
+          "type": "milestone",
+          "settings": {
+            "date": "October 2026",
+            "event": "Kickstarter Launch!",
+            "description": "The campaign will help us raise funds for final prototyping, manufacturing, and certification.",
+            "status": "current"
+          }
+        },
+        "milestone_9": {
+          "type": "milestone",
+          "settings": {
+            "date": "November 2026",
+            "event": "Kickstarter campaign ends",
+            "description": "",
+            "status": "upcoming"
+          }
+        },
+        "milestone_10": {
+          "type": "milestone",
+          "settings": {
+            "date": "November 2026",
+            "event": "Design lock, final prototype build",
+            "description": "Finalise hardware design and DFM, manufacture vacuum-cast prototypes.",
+            "status": "upcoming"
+          }
+        },
+        "milestone_11": {
+          "type": "milestone",
+          "settings": {
+            "date": "December 2026",
+            "event": "Certification activities",
+            "description": "Obtain the required CE/FCC certificates.",
+            "status": "upcoming"
+          }
+        },
+        "milestone_12": {
+          "type": "milestone",
+          "settings": {
+            "date": "February 2027",
+            "event": "Manufacturing begins",
+            "description": "Order production tooling and manufacture the first batch of toneLights!",
+            "status": "upcoming"
+          }
+        },
+        "milestone_13": {
+          "type": "milestone",
+          "settings": {
+            "date": "March 2027",
+            "event": "First finished units shipped to backers",
+            "description": "",
+            "status": "upcoming"
+          }
+        }
+      },
+      "block_order": [
+        "milestone_1",
+        "milestone_2",
+        "milestone_3",
+        "milestone_4",
+        "milestone_5",
+        "milestone_6",
+        "milestone_7",
+        "milestone_8",
+        "milestone_9",
+        "milestone_10",
+        "milestone_11",
+        "milestone_12",
+        "milestone_13"
+      ]
+    },
+    "faq": {
+      "type": "tonescan-faq",
+      "settings": {
+        "heading": "Frequently asked questions"
+      },
+      "blocks": {
+        "qa_1": {
+          "type": "qa",
+          "settings": {
+            "q": "Which cameras are supported?",
+            "a": "Any camera with a standard remote shutter input. toneLight triggers the shutter directly and never touches your exposure settings, so metering stays in your hands. All major brands."
+          }
+        },
+        "qa_2": {
+          "type": "qa",
+          "settings": {
+            "q": "Does it work with 120 / medium format?",
+            "a": "Yes: fully compatible with toneCarrier 120 from day one. Motorised upgrades are available for both 35 mm and 120."
+          }
+        },
+        "qa_3": {
+          "type": "qa",
+          "settings": {
+            "q": "How does it compare to a lab scanner?",
+            "a": "For most negatives, comparable, and better in resolution and flexibility. Two honest caveats: transport is currently open-loop (a small jog every few frames), and a Bayer sensor is softer at deep red and blue than a mono camera. Both are in active development."
+          }
+        },
+        "qa_4": {
+          "type": "qa",
+          "settings": {
+            "q": "What about slide film / E-6?",
+            "a": "toneLight has a high-CRI white mode for slides. Slides are positive, so they work like normal photos in any editor, so toneScan Studio isn't required."
+          }
+        },
+        "qa_5": {
+          "type": "qa",
+          "settings": {
+            "q": "Do I need toneScan Studio, or can I use other software?",
+            "a": "toneScan Studio is the intended workflow and what the system is built around. The three captures are standard RAW, so anyone comfortable with manual channel work can experiment elsewhere. For slides, any editor works with no extra steps."
+          }
+        },
+        "qa_6": {
+          "type": "qa",
+          "settings": {
+            "q": "How long does a roll take?",
+            "a": "About a minute to capture in semi-auto. In hot-folder mode, toneScan Studio merges scans as they arrive, so by the time you step away from the rig the files are ready to preview."
+          }
+        }
+      },
+      "block_order": [
+        "qa_1",
+        "qa_2",
+        "qa_3",
+        "qa_4",
+        "qa_5",
+        "qa_6"
+      ]
+    },
+    "final-cta": {
+      "type": "tonelight-cta",
+      "settings": {
+        "heading": "Help bring lab-grade colour to home scanning.",
+        "text": "Early-bird tiers are limited and available at launch.",
+        "button_text": "Back toneScan on Kickstarter",
+        "button_url": "",
+        "button_style": "ks"
+      }
+    },
+    "reviews": {
+      "type": "tonelight-reviews",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Trusted by the film community",
+        "subheading": "The toneScan system is built on toneCarrier, our 3D-printable modular film holder. Thousands of photographers have already made it part of their workflows.",
+        "height": 900,
+        "stat_1_value": "125+",
+        "stat_1_label": "five-star reviews",
+        "stat_2_value": "5,000+",
+        "stat_2_label": "community version downloads",
+        "stat_2_links": "MakerWorld |  https://makerworld.com/en/models/574585-tonecarrier-film-carrier-for-35-mm-film-scanning\nPrintables | https://www.printables.com/model/965532-tonecarrier-film-carrier-for-dslr-scanning-35-mm-f\nThingiverse | https://www.thingiverse.com/thing:6721799",
+        "stat_3_value": "1,000+",
+        "stat_3_label": "toneCarriers sold"
+      },
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Great stuff, very easy to handle, I can strongly recommend both the gear and the dealer/manufacturer. Many thanks!",
+            "author": "Joachim B.",
+            "product": "120 Easyloader tray (STL)",
+            "date": "August 2026",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "I have scanned six 120 rolls with the Tone 120 dslr scanning system and it is a hit with me. )I also purchased the 35mm system, and have scanned two rolls so far. I paired them with an old laptop that I installed MX Linux 25.2 and Entangle to monitor the negatives as I turn the advancement dials. I like being able to sit down to scan. Finally, I can get perfectly aligned shots, and I can fill the frame using a geared Nikon GP-2 camera focusing stage to utilize the max resolution/area of the camera by raising and lowering the dslr in a controlled fashion. This also allows instant 90 degree orientation switching when going from 4.5x6 to 6x7 or half frame 35mm to full frame. Another wonderful feature is how easy it is to start the roll - just push it in until it contacts the silicone wheels, and start turning CCW. The Tone dslr scanning system is a well thought out and engineered system.",
+            "author": "James M.",
+            "product": "toneCarrier 120",
+            "date": "July 2026",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Great kit and easy to use with the printed parts! It gives the assembled tonecarrier some weight and sturdiness.",
+            "author": "Jonas P.",
+            "product": "toneCarrier hardware kit",
+            "date": "July 2026",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "stars": 4,
+            "text": "A well constructed piece of kit that has made my workflow more pleasurable and accessible. Solid and smooth to operate. Only issue has been film catching occasionally on the self spooling module.",
+            "author": "Malcolm S.",
+            "product": "toneCarrier 120 kit",
+            "date": "July 2026",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Best Scanning kit i used so far. Film always lays perfectly flat and super easy to advance. Bought the 35mm version assembled and 3D printed the 120 one. Both work flawlessly. Thanks!",
+            "author": "Stefano V.",
+            "product": "toneCarrier 35 mm kit",
+            "date": "June 2026",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "I got tired of the vignetting and squeaking mechanism of my Valoi360 system and got frustrated when I ordered their scanning hood and received an overpriced, cheaply 3D-printed plastic tube. Of course, I have nothing against 3D-printed items. I own a 3D printer myself, so I know when they are cheaply printed versus printed well, with thin layers and thick walls. So I decided to look for an alternative film carrier I could print myself, found the basic 35mm ToneCarrier on MakerWorld, and was impressed by the quality and attention to detail of the model, which brought me to this site. I purchased both the 35mm and 120 carrier 3D models, and I'm extremely impressed with their quality, how well documented everything is, and how easy they are to print and assemble. I'm more than happy I made the move from Valoi to ToneCarrier.",
+            "author": "Richard P.",
+            "product": "toneCarrier 35 mm (STL)",
+            "date": "June 2026",
+            "source": "tonephotographic.com"
+          }
+        },
+        "photos_1": {
+          "type": "photos",
+          "settings": {
+            "alt": "Customer photo of a toneCarrier",
+            "image_1": "shopify://shop_images/1769999650__1769999592267-1000008049__original_1.avif",
+            "image_2": "shopify://shop_images/1769999646__1769999587733-1000008053__original.avif",
+            "image_3": "shopify://shop_images/75rVVhx.jpg",
+            "image_4": "shopify://shop_images/icm_fullxfull.704137727_d7iiozjkf3swk804sw4s_0cf3e483-f45a-419d-ad80-e31331cef3e7.jpg",
+            "image_5": "shopify://shop_images/iap_1000x1000.5933097143_p67sx5d1_31ffbad9-4636-45ed-9865-d000c46dba12.jpg",
+            "image_6": "shopify://shop_images/iap_1000x1000.6117566321_med46ppe_a8c7deb5-a5be-4d55-a951-1552682e1d4d.jpg"
+          }
+        },
+        "review_7": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "I'm very impressed with the toneCarrier 120 Mark II. The kit is well made and, most importantly, it does an excellent job of keeping my film flat while scanning. I've previously used a much more expensive holder from Negative Supply and, honestly, I prefer this. It may not be machined from aluminium, but it's easier to load film into and gives better results in terms of flatness. The only thing worth mentioning is that I initially had a little trouble attaching the Easyloader tray and Auto-spooling catch trays. The tabs needed careful alignment when sliding into the slots and caught slightly the first couple of times I tried. Probably a rough edge or something as it's been absolutely fine ever since. Overall, this is an excellent scanning kit and I'd highly recommend it.",
+            "author": "Graeme",
+            "product": "toneCarrier 120 kit (Mark II)",
+            "date": "May 2026",
+            "source": "Etsy"
+          }
+        },
+        "review_8": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Great product with quality build. I bought the 120 film version and will buy the 35mm version next.",
+            "author": "David",
+            "product": "toneCarrier 120 kit (Mark II)",
+            "date": "April 2026",
+            "source": "Etsy"
+          }
+        },
+        "review_9": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "This was very well put together and it prints to perfection, once put together it scans my negatives flawlessly!",
+            "author": "Javier E.",
+            "product": "toneCarrier 120 (STL)",
+            "date": "April 2026",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_10": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "I cannot fault this thing. Printed and assembled from the studio, supplied with very clear instruction on print settings and assembly. The Tone carrier has given me faith in achieving high quality digital output, without the need for lab services.",
+            "author": "Dom M.",
+            "product": "toneCarrier 120 (STL)",
+            "date": "March 2026",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_11": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Solid materials, precise movements and easy set up! Happy buyer!!!",
+            "author": "Daniel K.",
+            "product": "120 Easyloader tray",
+            "date": "March 2026",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_12": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "The 120 scanning kit works fantastically and is a great value. Additionally, the customer support is top-notch. I plan to add the 35mm kit to my practice as well. Highly recommended.",
+            "author": "Ian",
+            "product": "toneCarrier 120 kit (Mark II)",
+            "date": "March 2026",
+            "source": "Etsy"
+          }
+        },
+        "photos_2": {
+          "type": "photos",
+          "settings": {
+            "alt": "Customer photo of a toneCarrier",
+            "image_1": "shopify://shop_images/iap_1000x1000.6116066881_eqpz1zlz_f54f0097-8f69-49b5-ac9e-b465460e07f6.jpg",
+            "image_2": "shopify://shop_images/iap_1000x1000.5829876814_g7sycudj_47cafdc7-f0ef-411c-af96-83c920b54c96.jpg",
+            "image_3": "shopify://shop_images/iap_1000x1000.6205665709_frjgu5zf_6c592339-7d13-40b9-8537-0e709c7ab86e.jpg",
+            "image_4": "shopify://shop_images/iap_1000x1000.6063710274_tod92wlo_07855be0-f3c5-423f-96a0-938a30d80b6c.jpg",
+            "image_5": "shopify://shop_images/iap_1000x1000.5758798026_56dohtgn_d461cd2f-2f85-4474-9e7e-5b6fb3de4d01.jpg",
+            "image_6": "shopify://shop_images/1746959258__1746959256650-img_9104__original.avif"
+          }
+        },
+        "review_13": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Great solution for my 120 film scanning - would definitely recommend",
+            "author": "Michael",
+            "product": "toneCarrier 120 kit (Mark II)",
+            "date": "February 2026",
+            "source": "Etsy"
+          }
+        },
+        "review_14": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "There isnt much to say except it just works! Printed on my P1S Printer, assembly was simple (maybe a more elastic belt for an easier assembly?) and works like a charm. Its made my scanning set up faster and easier and i couldnt be happier, defo buying the 120 kit next!",
+            "author": "Harry",
+            "product": "toneCarrier 35 mm kit (STL)",
+            "date": "November 2025",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_15": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Flawless handling and really well made, congratulations on this product, thought through down to the last detail.",
+            "author": "Hendrick",
+            "product": "toneCarrier 35 mm kit (Mark II)",
+            "date": "November 2025",
+            "source": "Etsy"
+          }
+        },
+        "review_16": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "I’m really into 3D printing and DIY projects, so I bought the STL files along with the hardware kit. I printed everything on my Bambu Lab A1 mini (yes, it’s possible to print it on a 180x180 plate, you just need to rotate most parts by 45° and slice them yourself). I used a high-quality print profile, and the results turned out great. 👌 After some time using it, I accidentally broke a part, but I just printed a new one. That’s one of the best parts of this setup - infinite repairability through 3D printing. I highly recommend getting the full scanning kit, since the easy loader and catch trays work beautifully. The whole scanning process is easy and feels smooth. I also really enjoy how the film advances using the knobs - super satisfying! As for film flatness, it’s pretty good overall. I only notice slight issues on the first or last frame of a roll, which seems to be common with most film holders. I haven’t compared it to others, but I’ve heard people report similar (or worse) flatness problems even on higher-end models like the VALOI Easy 120. Great product, 100% recommend! 😄",
+            "author": "Pawel",
+            "product": "toneCarrier 120 kit (STL)",
+            "date": "November 2025",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_17": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "This holder keeps 120 film absolutely flat — exactly what I needed for high-quality scans. Build quality is great, and customer service was outstanding. Strongly recommend!",
+            "author": "Lena",
+            "product": "toneCarrier 120 holder (Mark II)",
+            "date": "September 2025",
+            "source": "Etsy"
+          }
+        },
+        "review_18": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Great scanning solution for 35mm film. Design is very well considered and product is good quality. Would recommend!",
+            "author": "Luke",
+            "product": "toneCarrier 35 mm kit (Mark II)",
+            "date": "August 2025",
+            "source": "Etsy"
+          }
+        },
+        "photos_3": {
+          "type": "photos",
+          "settings": {
+            "alt": "Customer photo of a toneCarrier",
+            "image_1": "shopify://shop_images/1780963091__1780963087681-tonecarrierreview01__original.avif",
+            "image_2": "shopify://shop_images/1773930553__1773930544321-1000044266__original.avif",
+            "image_3": "shopify://shop_images/iap_1000x1000.6065199583_4npzodqd_1c0412a4-d5b6-45e1-b1f6-3f5378c49287.jpg",
+            "image_4": "shopify://shop_images/iap_600x600.6151646851_4pdhi82b_67557f8c-8ae3-4e80-bd61-866d6763aec6.jpg",
+            "image_5": "shopify://shop_images/iap_1000x1000.6157596964_lumkad6d_1ab195b9-490a-48f1-90a3-52a729aeb25a.jpg",
+            "image_6": "shopify://shop_images/iap_1000x1000.5897241383_m7ad0eaf_c9ac1d28-5895-48ae-bc3f-8ebfa0795854.jpg"
+          }
+        },
+        "review_19": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "This is a fantastic addition to my film carrier. Keeping my film nice and smooth for my scans. As far as customer service goes, they are terrific.",
+            "author": "Justin",
+            "product": "toneCarrier 120 Easyloader Tray",
+            "date": "August 2025",
+            "source": "Etsy"
+          }
+        },
+        "review_20": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Great negative holder in 35 and 120. Negatives are held very flat and kept scratch free.",
+            "author": "Ryder",
+            "product": "toneCarrier 120",
+            "date": "July 2025",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_21": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "I got the stl only version and print all the parts in a professional store in my country. I really liked the procedure and the assembly.",
+            "author": "George M.",
+            "product": "120 self-spooling tray (STL)",
+            "date": "May 2025",
+            "source": "tonephotographic.com"
+          }
+        },
+        "review_22": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Excellent product for a 35mm film carrier that's well designed and keeps the negative flat for scanning. Arrived very quickly, would highly recommend!",
+            "author": "Edward",
+            "product": "toneCarrier Basic 35 mm",
+            "date": "February 2025",
+            "source": "Etsy"
+          }
+        },
+        "review_23": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "This holder is absolutely incredible! It’s honestly ridiculous how well thought out the design is… I tried a lot of the big brands currently producing holders and was left a little disappointed, this holder left me excited (and motivated) to scan all my negatives. The only thing I could see improvements on is the way in which any additional parts (film rollers) clip into place. On my first use I heard a slight cracking noise and it feels (somewhat) prone to snapping - in saying that none of the products are damaged and appear to work perfectly. Excited to see any other products this company comes out with.",
+            "author": "Sampson",
+            "product": "toneCarrier 35 mm kit (Mark II)",
+            "date": "February 2025",
+            "source": "Etsy"
+          }
+        },
+        "review_24": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "I've used the Valoi system, the Negative Supply system, and the Cumulus system. The ToneCarrier is the best of them all, and superb value as well. Thank you for a great product!",
+            "author": "Niels J.",
+            "product": "120 Easyloader tray",
+            "date": "February 2025",
+            "source": "tonephotographic.com"
+          }
+        },
+        "photos_4": {
+          "type": "photos",
+          "settings": {
+            "alt": "Customer photo of a toneCarrier",
+            "image_1": "shopify://shop_images/1745600764__2025-04-25094035__original.avif",
+            "image_2": "shopify://shop_images/1735592472__photodec302024125757pm__original.avif",
+            "image_3": "shopify://shop_images/1745600667__2025-04-25094148__original.avif",
+            "image_4": "shopify://shop_images/1780963090__1780963076375-tonecarrierreview02__original.avif",
+            "image_5": "shopify://shop_images/1759779695__1000014032__original.avif",
+            "image_6": "shopify://shop_images/1769999643__1769999584265-1000008048__original.avif"
+          }
+        },
+        "review_25": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "I’ve tried another 35mm film holder from Etsy and I honestly regret not getting this the first time around. I can’t believe how easy it was to process one roll through this even without the little wheels. If you’re trying to find a home film scanning set-up with a camera, I would recommend this.",
+            "author": "Cloe",
+            "product": "toneCarrier Basic 35 mm",
+            "date": "February 2025",
+            "source": "Etsy"
+          }
+        },
+        "review_26": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "The TonePhotographic holders are incredible well designed and made, this is my second one. They are well thought out and the printing quality is top notch. Jake is very helpful at all stages.",
+            "author": "Ian",
+            "product": "toneCarrier 120 holder (Mark II)",
+            "date": "November 2024",
+            "source": "Etsy"
+          }
+        },
+        "review_27": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "I've used pretty much every film scanning setup that's out there and after one roll with the toneCarrier, I'm gonna say this is the best scanning rig available - and not just for the price. The amount of engineering and thought that went into this blew my mind. It took a full day of printing but the assembly took me literally five minutes. It's a robust carrier that keeps my negatives flat and allows me to scan a roll in 1-2 minutes thanks to the beautiful scroll knobs. The complete build feels really heavy in the hands, especially for a 3D print. The only thing I didn't care for were the framing masks. If you want maximum coverage of your negative, I would avoid using them since the corners are rounded; I ended up losing more than I wanted after cropping. Highly recommend the toneCarrier 120!!",
+            "author": "Etsy buyer",
+            "product": "toneCarrier 120 holder (Mark II)",
+            "date": "November 2024",
+            "source": "Etsy"
+          }
+        },
+        "photos_5": {
+          "type": "photos",
+          "settings": {
+            "alt": "Customer photo of a toneCarrier",
+            "image_1": "shopify://shop_images/1777550402__1777550399150-img_2002__original.avif",
+            "url_2": "https://review-images.judgeme.com/tone-photographic/1786531867__1786531862848-img_5689__original.JPG?quality=80&width=900",
+            "url_3": "https://review-images.judgeme.com/tone-photographic/1785512696__1785512477382-tone_120_scanner-39946__original.jpg?quality=80&width=900",
+            "url_4": "https://review-images.judgeme.com/tone-photographic/1784208878__1784208874343-img_9804__original.jpeg?quality=80&width=900",
+            "url_5": "https://review-images.judgeme.com/tone-photographic/1762274003__img_25331__original.jpeg?quality=80&width=900"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6",
+        "photos_1",
+        "review_7",
+        "review_8",
+        "review_9",
+        "review_10",
+        "review_11",
+        "review_12",
+        "photos_2",
+        "review_13",
+        "review_14",
+        "review_15",
+        "review_16",
+        "review_17",
+        "review_18",
+        "photos_3",
+        "review_19",
+        "review_20",
+        "review_21",
+        "review_22",
+        "review_23",
+        "review_24",
+        "photos_4",
+        "review_25",
+        "review_26",
+        "review_27",
+        "photos_5"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "campaign-video",
+    "results",
+    "features",
+    "system",
+    "rewards",
+    "reviews",
+    "team",
+    "timeline",
+    "specs",
+    "faq",
+    "final-cta"
+  ]
+}

@@ -18,7 +18,9 @@
         {%- if section.settings.eyebrow != blank -%}
         <p class="ts-livedemo__eyebrow">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
+        {%- if section.settings.heading != blank -%}
         <h2 class="ts-livedemo__title">{{ section.settings.heading }}</h2>
+        {%- endif -%}
         {%- if section.settings.subheading != blank -%}
         <p class="ts-livedemo__sub">{{ section.settings.subheading }}</p>
         {%- endif -%}
@@ -67,7 +69,10 @@
               <img src="{{ section.settings.poster | image_url: width: 2400 }}" alt="" loading="lazy"
                    width="{{ section.settings.poster.width }}" height="{{ section.settings.poster.height }}">
               {%- else -%}
-              <img src="{{ ts_cdn }}/organise.png" alt="" loading="lazy" width="3200" height="2000">
+              {%- comment -%} No poster either: a plain panel, not a borrowed screenshot. The toneLight
+                 page reaches this before its campaign film exists, and toneScan's organise view
+                 standing in for a hardware video would be misleading. {%- endcomment -%}
+              <div class="ts-livedemo__blank" aria-hidden="true"></div>
               {%- endif -%}
               <p class="ts-livedemo__soon">{{ section.settings.placeholder_note }}</p>
             </div>

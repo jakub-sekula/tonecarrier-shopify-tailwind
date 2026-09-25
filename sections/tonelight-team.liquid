@@ -1,0 +1,68 @@
+{%- comment -%}
+  toneLight team: one block per person. The photo falls back to a plain square until one is set.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  <section class="tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+    <div class="tw:mx-auto tw:w-full tw:max-w-[1100px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+      <div class="tw:mx-auto tw:max-w-[720px] tw:text-center">
+        {%- if section.settings.eyebrow != blank -%}
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+        <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[560px] tw:text-[16px] tw:text-neutral-400">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+      <div class="tw:mt-[48px] tw:grid tw:grid-cols-1 tw:gap-[20px] tw:md:grid-cols-2">
+        {%- for block in section.blocks -%}
+        {%- assign m = block.settings -%}
+        <div class="tw:flex tw:gap-[20px] tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]" {{ block.shopify_attributes }}>
+          {%- if m.photo != blank -%}
+          {%- assign fp = '' -%}{%- if m.photo.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ m.photo.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+          {{ m.photo | image_url: width: 200 | image_tag: class: 'tl-team__photo', alt: m.name, loading: 'lazy', width: 72, height: 72, style: fp }}
+          {%- else -%}
+          <div class="tl-team__photo" aria-hidden="true"></div>
+          {%- endif -%}
+          <div>
+            <h3 class="tw:text-[18px] tw:font-semibold tw:text-white">{{ m.name }}</h3>
+            {%- if m.role != blank -%}<p class="tw:text-[13px] tw:text-[#60a5fa]">{{ m.role }}</p>{%- endif -%}
+            <p class="tw:mt-[10px] tw:text-[14px] tw:leading-[1.55] tw:text-neutral-400">{{ m.bio }}</p>
+          </div>
+        </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+</div>
+
+{%- style -%}
+  .tl-team__photo { flex-shrink: 0; display: block; width: 72px; height: 72px; object-fit: cover; border-radius: 2px; background: #ececea; }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "toneLight team",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The team" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The team" },
+    { "type": "textarea", "id": "subheading", "label": "Subtitle" }
+  ],
+  "blocks": [
+    {
+      "type": "member",
+      "name": "Team member",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Photo" },
+        { "type": "text", "id": "name", "label": "Name" },
+        { "type": "text", "id": "role", "label": "Role" },
+        { "type": "textarea", "id": "bio", "label": "Bio" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{ "name": "toneLight team" }]
+}
+{% endschema %}

@@ -1,0 +1,470 @@
+{%- comment -%}
+  Customer reviews wall: review cards (stars, text, name, product, date) woven with customer
+  photos, in columns that drift slowly and loop without stopping, like the homepage's "Quality you can trust" but
+  in the landing-page style. Up to three headline stats sit above.
+
+  Markup renders every tile once, in order, as a plain wall. The script then deals the tiles into
+  as many columns as fit (1 / 2 / 3) and doubles each column so it can loop seamlessly. Without
+  script, or with reduced motion, the plain wall is what shows, which is also what the editor
+  sees while a block is being edited.
+{%- endcomment -%}
+
+<div class="tonescan-landing tw:text-neutral-200">
+  <section class="tl-rev" id="reviews">
+    <div class="tl-rev__inner">
+      <div class="tl-rev__head">
+        {%- if section.settings.eyebrow != blank -%}
+        <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- comment -%} Decorative: the stars say "reviews" before the heading does. {%- endcomment -%}
+        <div class="tl-rev__headstars" aria-hidden="true">
+          {%- for i in (1..5) -%}<svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z"/></svg>{%- endfor -%}
+        </div>
+        <h2 class="tl-rev__heading tw:text-white">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+        <p class="tl-rev__sub">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+        {%- comment -%} Up to three headline numbers under the heading; a stat with no value is skipped. {%- endcomment -%}
+        {%- if section.settings.stat_1_value != blank or section.settings.stat_2_value != blank or section.settings.stat_3_value != blank -%}
+        <dl class="tl-rev__stats">
+          {%- for i in (1..3) -%}
+            {%- capture vk -%}stat_{{ i }}_value{%- endcapture -%}{%- capture lk -%}stat_{{ i }}_label{%- endcapture -%}
+            {%- assign v = section.settings[vk] -%}{%- assign l = section.settings[lk] -%}
+            {%- capture hk -%}stat_{{ i }}_links{%- endcapture -%}
+            {%- assign links = section.settings[hk] | newline_to_br | split: '<br />' -%}
+            {%- if v != blank -%}
+            <div class="tl-rev__stat">
+              <dt>
+                {%- if section.settings[hk] != blank -%}
+                {%- comment -%} Label opens a small card of links: on hover or keyboard focus with a
+                   mouse, on tap on touch screens. One "Name | URL" per line of the setting. {%- endcomment -%}
+                <span class="tl-rev__hc">
+                  <button type="button" class="tl-rev__hc-btn" aria-expanded="false" aria-controls="tl-rev-hc-{{ section.id }}-{{ i }}">{{ l }}<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  <span class="tl-rev__pop" id="tl-rev-hc-{{ section.id }}-{{ i }}">
+                    {%- for line in links -%}
+                      {%- assign parts = line | split: '|' -%}
+                      {%- assign name = parts[0] | strip -%}{%- assign href = parts[1] | strip -%}
+                      {%- if name != blank and href != blank -%}
+                      <a href="{{ href }}" target="_blank" rel="noopener">{{ name | escape }}<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 8l4-4M4.5 4H8v3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </span>
+                </span>
+                {%- else -%}{{ l }}{%- endif -%}
+              </dt>
+              <dd><span class="tl-rev__num">{{ v }}</span></dd>
+            </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </dl>
+        <div class="tl-rev__dots" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="tl-rev__wall" style="--tl-rev-h: {{ section.settings.height | default: 680 }}px">
+        <div class="tl-rev__source">
+          {%- for block in section.blocks -%}
+            {%- assign b = block.settings -%}
+            {%- if block.type == 'photos' -%}
+              {%- comment -%} A set of up to six photos in one block: Shopify caps a section at 50 blocks,
+                 and one block per photo ran out long before the photos did. Each still renders as
+                 its own tile, so the wall treats them exactly like single photos. {%- endcomment -%}
+              {%- for i in (1..6) -%}
+                {%- capture ik -%}image_{{ i }}{%- endcapture -%}{%- capture uk -%}url_{{ i }}{%- endcapture -%}
+                {%- assign img = b[ik] -%}{%- assign url = b[uk] -%}
+                {%- if img != blank -%}
+                {%- assign fp = '' -%}{%- if img.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ img.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+                <figure class="tl-rev__tile tl-rev__tile--photo" {{ block.shopify_attributes }}>
+                  {%- comment -%} alt is worked out first: a "| default:" inside image_tag's arguments
+                     starts a new filter and silently swallows every argument after it. {%- endcomment -%}
+                  {%- assign alt_text = b.alt | default: 'Customer photo' -%}
+                  {{ img | image_url: width: 700 | image_tag: loading: 'lazy', alt: alt_text, sizes: '(min-width: 1000px) 30vw, (min-width: 640px) 45vw, 90vw', style: fp }}
+                </figure>
+                {%- elsif url != blank -%}
+                <figure class="tl-rev__tile tl-rev__tile--photo" {{ block.shopify_attributes }}>
+                  <img src="{{ url }}" alt="{{ b.alt | default: 'Customer photo' | escape }}" loading="lazy" width="900" height="600">
+                </figure>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- elsif block.type == 'photo' -%}
+              {%- if b.image != blank -%}
+              {%- assign fp = '' -%}{%- if b.image.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ b.image.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+              <figure class="tl-rev__tile tl-rev__tile--photo" {{ block.shopify_attributes }}>
+                {%- assign alt_text = b.alt | default: 'Customer photo' -%}
+                {{ b.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: alt_text, sizes: '(min-width: 1000px) 30vw, (min-width: 640px) 45vw, 90vw', style: fp }}
+              </figure>
+              {%- elsif b.image_url != blank -%}
+              <figure class="tl-rev__tile tl-rev__tile--photo" {{ block.shopify_attributes }}>
+                <img src="{{ b.image_url }}" alt="{{ b.alt | default: 'Customer photo' | escape }}" loading="lazy" width="900" height="600">
+              </figure>
+              {%- endif -%}
+            {%- else -%}
+              {%- assign n = b.stars | default: 5 -%}
+              <figure class="tl-rev__tile tl-rev__card" {{ block.shopify_attributes }}>
+                <span class="tl-rev__cardstars" role="img" aria-label="{{ n }} out of 5 stars">
+                  {%- for i in (1..5) -%}<svg viewBox="0 0 20 20" class="{% if i > n %}is-off{% endif %}" aria-hidden="true"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z"/></svg>{%- endfor -%}
+                </span>
+                <blockquote class="tl-rev__text">{{ b.text }}</blockquote>
+                <figcaption class="tl-rev__by">
+                  <span class="tl-rev__name">{{ b.author }}</span>
+                  {%- capture meta -%}{{ b.product }}{% if b.product != blank and b.date != blank %} · {% endif %}{{ b.date }}{%- endcapture -%}
+                  {%- if meta != blank -%}<span class="tl-rev__meta">{{ meta }}</span>{%- endif -%}
+                  {%- if b.source != blank -%}<span class="tl-rev__src">{{ b.source }}</span>{%- endif -%}
+                </figcaption>
+              </figure>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+    </div>
+  </section>
+</div>
+
+{%- style -%}
+  .tl-rev { background: #f7f7f5; border-top: 1px solid rgba(0,0,0,.07); border-bottom: 1px solid rgba(0,0,0,.07); }
+  .tl-rev { padding-bottom: 80px; }
+  @media (min-width: 768px) { .tl-rev { padding-bottom: 120px; } }
+  .tl-rev__inner { max-width: 1400px; margin: 0 auto; padding: 80px 15px 0; }
+  @media (min-width: 768px) { .tl-rev__inner { padding: 120px 50px 0; } }
+  .tl-rev__head { max-width: 760px; margin: 0 auto; text-align: center; }
+  .tl-rev__heading { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1; letter-spacing: -.02em; }
+  @media (min-width: 768px) { .tl-rev__heading { font-size: 46px; } }
+  .tl-rev__sub { margin: 16px auto 0; max-width: 690px; text-wrap: balance; font-size: 16px; line-height: 1.6; color: #52525b; }
+
+  /* headline numbers */
+  .tl-rev__stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 56px; margin: 32px 0 0; }
+  .tl-rev__stat { display: flex; flex-direction: column-reverse; align-items: center; gap: 4px; }
+  .tl-rev__stat dd { margin: 0; font-size: 34px; font-weight: 600; line-height: 1; letter-spacing: -.02em; color: #0a0a0b; }
+  /* tabular figures and a width held at the final value, so the count-up never nudges the row */
+  .tl-rev__num { display: inline-block; font-variant-numeric: tabular-nums; }
+  .tl-rev__stat dt { font-size: 14px; color: #52525b; }
+
+  /* hover card on a stat label */
+  .tl-rev__hc { position: relative; display: inline-block; }
+  .tl-rev__hc-btn { display: inline-flex; align-items: center; gap: 4px; padding: 0; font: inherit; color: inherit; background: none;
+    border: 0; cursor: pointer; text-decoration: underline dotted rgba(0,0,0,.35); text-underline-offset: 4px; }
+  .tl-rev__hc-btn svg { width: 12px; height: 12px; transition: transform .18s ease; }
+  .tl-rev__hc-btn:focus-visible { outline: 2px solid #0a0a0b; outline-offset: 3px; border-radius: 2px; }
+  .tl-rev__pop { position: absolute; z-index: 5; left: 50%; top: 100%; display: flex; flex-direction: column; min-width: 190px;
+    margin-top: 10px; padding: 6px; text-align: left; background: #fff; border: 1px solid rgba(0,0,0,.1); border-radius: 6px;
+    box-shadow: 0 12px 32px -12px rgba(0,0,0,.25); opacity: 0; visibility: hidden; transform: translate(-50%, 4px);
+    transition: opacity .16s ease, transform .16s ease, visibility 0s linear .16s; }
+  /* invisible bridge over the gap, so the card stays open while the pointer crosses to it */
+  .tl-rev__pop::before { content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+  .tl-rev__pop a { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 9px 10px;
+    font-size: 14px; font-weight: 500; color: #0a0a0b; text-decoration: none; border-radius: 4px; }
+  .tl-rev__pop a:hover, .tl-rev__pop a:focus-visible { background: #f4f4f3; outline: none; }
+  .tl-rev__pop a svg { width: 12px; height: 12px; color: #a1a1aa; }
+  .tl-rev__hc.is-open .tl-rev__pop { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .16s ease, transform .16s ease; }
+  .tl-rev__hc.is-open .tl-rev__hc-btn svg { transform: rotate(180deg); }
+  @media (hover: hover) {
+    .tl-rev__hc:hover .tl-rev__pop, .tl-rev__hc:focus-within .tl-rev__pop { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .16s ease, transform .16s ease; }
+    .tl-rev__hc:hover .tl-rev__hc-btn svg, .tl-rev__hc:focus-within .tl-rev__hc-btn svg { transform: rotate(180deg); }
+  }
+  @media (min-width: 768px) { .tl-rev__stat dd { font-size: 42px; } }
+
+  /* Phones: the stats become a swipeable carousel, one at a time, with dots underneath. */
+  .tl-rev__dots { display: none; }
+  @media (max-width: 639px) {
+    .tl-rev__stats { flex-wrap: nowrap; justify-content: flex-start; gap: 0; margin: 28px -15px 0;
+      overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+    .tl-rev__stats::-webkit-scrollbar { display: none; }
+    .tl-rev__stat { flex: 0 0 100%; scroll-snap-align: center; }
+    .tl-rev__pop { position: static; display: none; margin: 10px auto 0; transform: none; }
+    .tl-rev__hc.is-open .tl-rev__pop { display: flex; transform: none; }
+    .tl-rev__dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
+    .tl-rev__dots span { width: 7px; height: 7px; border-radius: 9999px; background: rgba(0,0,0,.18); transition: background .2s ease, width .2s ease; }
+    .tl-rev__dots span.is-active { width: 20px; background: #0a0a0b; }
+  }
+  @media (max-width: 639px) and (prefers-reduced-motion: reduce) { .tl-rev__stats { scroll-behavior: auto; } }
+
+  /* the wall: a plain masonry of every tile until the script turns it into drifting columns */
+  /* full page width, a small gutter at each edge */
+  .tl-rev__wall { position: relative; max-width: 2560px; margin: 48px auto 0; padding: 0 16px; }
+  .tl-rev__source { column-count: 1; column-gap: 16px; }
+  @media (min-width: 640px) { .tl-rev__source { column-count: 2; } }
+  @media (min-width: 900px) { .tl-rev__source { column-count: 3; } }
+  @media (min-width: 1240px) { .tl-rev__source { column-count: 4; } }
+  @media (min-width: 1560px) { .tl-rev__source { column-count: 5; } }
+  .tl-rev__tile { break-inside: avoid; margin: 0 0 16px; }
+
+  .tl-rev__card { padding: 22px 22px 20px; background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 4px; }
+  .tl-rev__headstars { display: flex; justify-content: center; gap: 4px; margin-bottom: 18px; }
+  .tl-rev__headstars svg { width: 22px; height: 22px; fill: var(--tw-color-orange-400, #ff8904); }
+  .tl-rev__cardstars { display: inline-flex; gap: 2px; }
+  .tl-rev__cardstars svg { width: 16px; height: 16px; fill: var(--tw-color-orange-400, #ff8904); }
+  .tl-rev__cardstars svg.is-off { fill: #e4e4e7; }
+  /* long reviews are cut to a few lines so every card stays a similar weight */
+  .tl-rev__text { margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: #27272a;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden; }
+  .tl-rev__by { display: flex; flex-direction: column; gap: 2px; margin-top: 16px; }
+  .tl-rev__name { font-size: 14px; font-weight: 600; color: #0a0a0b; }
+  .tl-rev__meta, .tl-rev__src { font-size: 13px; color: #71717a; }
+  /* Photos are cropped 3:2 so they sit alongside the reviews rather than dominating them: a tall
+     phone picture would otherwise be the biggest thing in its column. */
+  .tl-rev__tile--photo { overflow: hidden; aspect-ratio: 3 / 2; border-radius: 4px; background: #ececea; }
+  .tl-rev__tile--photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* drifting columns (built by the script) */
+  .tl-rev__wall.is-live { height: var(--tl-rev-h); overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+            mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent); }
+  /* Same width treatment as the toneScan film strip: full bleed, but on genuinely large displays
+     the edges fade out, solid 700px either side of centre and gone by 1280px, so the wall keeps a
+     generous width and stops growing rather than stretching across a whole monitor. The edge fade
+     is intersected with the top/bottom fade so both apply. */
+  @media (min-width: 2100px) {
+    .tl-rev__wall.is-live {
+      -webkit-mask-image: linear-gradient(to right, transparent calc(50% - 1280px), #000 calc(50% - 700px), #000 calc(50% + 700px), transparent calc(50% + 1280px)),
+                          linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+      -webkit-mask-composite: source-in;
+              mask-image: linear-gradient(to right, transparent calc(50% - 1280px), #000 calc(50% - 700px), #000 calc(50% + 700px), transparent calc(50% + 1280px)),
+                          linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+              mask-composite: intersect; }
+  }
+  .tl-rev__wall.is-live .tl-rev__source { display: none; }
+  .tl-rev__cols { display: grid; gap: 16px; align-items: start; }
+  .tl-rev__col { overflow: hidden; }
+  .tl-rev__track { display: flex; flex-direction: column; gap: 16px; will-change: transform;
+    animation: tlRevUp var(--dur, 60s) linear infinite; }
+  .tl-rev__track .tl-rev__tile { margin: 0; }
+  .tl-rev__col.is-down .tl-rev__track { animation-name: tlRevDown; }
+  /* the track holds the tiles twice, so moving it by exactly one copy (half, less half a gap)
+     lands on an identical frame and the loop has no seam */
+  @keyframes tlRevUp { from { transform: translateY(0); } to { transform: translateY(calc(-50% - 8px)); } }
+  @keyframes tlRevDown { from { transform: translateY(calc(-50% - 8px)); } to { transform: translateY(0); } }
+{%- endstyle -%}
+
+<script>
+  /* Stats: count up from zero the first time each number is on screen, and on phones run the row
+     as a carousel. Kept apart from the wall's script below, which bails out early for reduced
+     motion and in the editor. */
+  (function () {
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.tl-rev__stats').forEach(function (row) {
+      var stats = Array.prototype.slice.call(row.querySelectorAll('.tl-rev__stat'));
+      if (!stats.length) return;
+
+      // ---- count-up ----
+      function countUp(el) {
+        if (el.dataset.done) return;
+        el.dataset.done = '1';
+        var text = el.textContent.trim();
+        var m = text.match(/^(\D*)([\d,]+)(.*)$/);           // "5,000+" -> "", "5,000", "+"
+        if (!m || still) return;                              // leave anything else, or reduced motion, as written
+        var target = parseInt(m[2].replace(/,/g, ''), 10);
+        var comma = m[2].indexOf(',') > -1;
+        el.style.minWidth = el.getBoundingClientRect().width + 'px';   // hold the final width
+        var t0 = null, dur = 1400;
+        function fmt(n) { var s = String(n); return comma ? s.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : s; }
+        function step(now) {
+          if (t0 === null) t0 = now;
+          var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);   // ease-out cubic
+          el.textContent = m[1] + fmt(Math.round(target * e)) + m[3];
+          if (k < 1) requestAnimationFrame(step); else el.textContent = text;
+        }
+        el.textContent = m[1] + '0' + m[3];
+        requestAnimationFrame(step);
+      }
+      var nums = stats.map(function (st) { return st.querySelector('.tl-rev__num'); });
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { countUp(e.target); io.unobserve(e.target); } });
+        }, { threshold: 0.6 });
+        nums.forEach(function (n) { io.observe(n); });
+      }
+
+      // ---- stat hover cards: click/tap toggles; hover and focus are handled in CSS ----
+      row.querySelectorAll('.tl-rev__hc').forEach(function (hc) {
+        var btn = hc.querySelector('.tl-rev__hc-btn');
+        function set(open) { hc.classList.toggle('is-open', open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+        btn.addEventListener('click', function () { set(!hc.classList.contains('is-open')); });
+        hc.addEventListener('mouseenter', function () { btn.setAttribute('aria-expanded', 'true'); });
+        hc.addEventListener('mouseleave', function () { if (!hc.classList.contains('is-open')) btn.setAttribute('aria-expanded', 'false'); });
+        document.addEventListener('click', function (e) { if (!hc.contains(e.target)) set(false); });
+        hc.addEventListener('keydown', function (e) { if (e.key === 'Escape') { set(false); btn.blur(); } });
+      });
+
+      // ---- phone carousel: dots follow the scroll; auto-advance until the reader touches it ----
+      var dotsBox = row.parentElement.querySelector('.tl-rev__dots');
+      if (!dotsBox || stats.length < 2) return;
+      var dots = stats.map(function () { var d = document.createElement('span'); dotsBox.appendChild(d); return d; });
+      function current() { return Math.round(row.scrollLeft / Math.max(1, row.clientWidth)); }
+      function paint() { var c = current(); dots.forEach(function (d, i) { d.classList.toggle('is-active', i === c); }); }
+      row.addEventListener('scroll', paint, { passive: true });
+      paint();
+      var timer = null, stopped = still;
+      function stop() { stopped = true; clearInterval(timer); }
+      ['touchstart', 'pointerdown', 'wheel'].forEach(function (ev) { row.addEventListener(ev, stop, { passive: true }); });
+      function tick() {
+        if (stopped || getComputedStyle(row).overflowX !== 'auto') return;   // only while it is a carousel
+        var r = row.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > window.innerHeight) return;              // only while it is on screen
+        var next = (current() + 1) % stats.length;
+        row.scrollTo({ left: next * row.clientWidth });
+      }
+      if (!stopped) timer = setInterval(tick, 3200);
+    });
+  })();
+
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.Shopify && window.Shopify.designMode) return;   // keep the plain wall while editing
+    document.querySelectorAll('.tl-rev__wall').forEach(function (wall) {
+      var source = wall.querySelector('.tl-rev__source');
+      var tiles = Array.prototype.slice.call(source.children);
+      if (tiles.length < 4) return;
+      var SPEED = 22;                                   // px per second, the same for every column
+      var built = 0, cols = null;
+
+      // Copies must not inherit the page's scroll-reveal state. The reveal script tags every
+      // <figure> with .reveal (opacity 0) and only un-hides the ones it watches as they scroll in.
+      // It tags the source tiles too, which are hidden once the wall is live, so a rebuild after a
+      // resize or zoom cloned invisible tiles and the whole wall vanished.
+      function copy(t) {
+        var c = t.cloneNode(true);
+        c.classList.remove('reveal', 'in');
+        c.style.transitionDelay = '';
+        return c;
+      }
+
+      function count() {
+        var w = wall.clientWidth;
+        return w >= 1560 ? 5 : w >= 1240 ? 4 : w >= 900 ? 3 : w >= 600 ? 2 : 1;
+      }
+
+      function build() {
+        var n = count();
+        if (n === built) return;
+        built = n;
+        if (cols) cols.remove();
+        cols = document.createElement('div');
+        cols.className = 'tl-rev__cols';
+        cols.style.gridTemplateColumns = 'repeat(' + n + ', minmax(0, 1fr))';
+        var tracks = [];
+        for (var c = 0; c < n; c++) {
+          var col = document.createElement('div');
+          col.className = 'tl-rev__col' + (c % 2 ? ' is-down' : '');
+          var track = document.createElement('div');
+          track.className = 'tl-rev__track';
+          col.appendChild(track); cols.appendChild(col); tracks.push(track);
+        }
+        // Deal reviews and photos separately, then weave each column: a photo after every so many
+        // reviews, so text and pictures alternate down every column however many columns there
+        // are. Odd columns start on a photo, so neighbouring columns do not line up.
+        var texts = tiles.filter(function (t) { return !t.classList.contains('tl-rev__tile--photo'); });
+        var pics = tiles.filter(function (t) { return t.classList.contains('tl-rev__tile--photo'); });
+        var colT = [], colP = [];
+        for (var k = 0; k < n; k++) { colT.push([]); colP.push([]); }
+        texts.forEach(function (t, i) { colT[i % n].push(t); });
+        pics.forEach(function (t, i) { colP[(i + 1) % n].push(t); });
+        tracks.forEach(function (track, c) {
+          var T = colT[c], P = colP[c];
+          var every = P.length ? Math.max(1, Math.round(T.length / P.length)) : Infinity;
+          var ti = 0, pi = 0;
+          if (c % 2 && P.length) track.appendChild(copy(P[pi++]));
+          while (ti < T.length || pi < P.length) {
+            for (var r = 0; r < every && ti < T.length; r++) track.appendChild(copy(T[ti++]));
+            if (pi < P.length) track.appendChild(copy(P[pi++]));
+            if (ti >= T.length) while (pi < P.length) track.appendChild(copy(P[pi++]));
+          }
+        });
+        tracks.forEach(function (track) {
+          // second copy for the seamless loop; hidden from assistive tech and from tabbing
+          Array.prototype.slice.call(track.children).forEach(function (t) {
+            var dup = copy(t);
+            dup.setAttribute('aria-hidden', 'true');
+            dup.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
+            track.appendChild(dup);
+          });
+        });
+        wall.appendChild(cols);
+        wall.classList.add('is-live');
+        function timeIt() {
+          tracks.forEach(function (track) {
+            var half = track.scrollHeight / 2;
+            track.style.setProperty('--dur', Math.max(20, Math.round(half / SPEED)) + 's');
+          });
+        }
+        timeIt();
+        // photos arrive later and change the column heights, and so the loop length
+        cols.querySelectorAll('img').forEach(function (img) { if (!img.complete) img.addEventListener('load', timeIt, { once: true }); });
+      }
+
+      build();
+      var t;
+      window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(build, 150); }, { passive: true });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "toneLight reviews",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Trusted by the film community" },
+    { "type": "textarea", "id": "subheading", "label": "Subtitle" },
+    { "type": "header", "content": "Stats" },
+    { "type": "text", "id": "stat_1_value", "label": "Stat 1 number", "info": "e.g. 125+. Leave blank to hide." },
+    { "type": "text", "id": "stat_1_label", "label": "Stat 1 label" },
+    { "type": "textarea", "id": "stat_1_links", "label": "Stat 1 links", "info": "Optional. Turns the label into a hover card of links. One per line: Name | URL" },
+    { "type": "text", "id": "stat_2_value", "label": "Stat 2 number" },
+    { "type": "text", "id": "stat_2_label", "label": "Stat 2 label" },
+    { "type": "textarea", "id": "stat_2_links", "label": "Stat 2 links", "info": "Optional. Turns the label into a hover card of links. One per line: Name | URL" },
+    { "type": "text", "id": "stat_3_value", "label": "Stat 3 number" },
+    { "type": "text", "id": "stat_3_label", "label": "Stat 3 label" },
+    { "type": "textarea", "id": "stat_3_links", "label": "Stat 3 links", "info": "Optional. Turns the label into a hover card of links. One per line: Name | URL" },
+    { "type": "header", "content": "Wall" },
+    { "type": "range", "id": "height", "label": "Height", "min": 400, "max": 1200, "step": 20, "unit": "px", "default": 900 }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "stars", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "text", "label": "Review" },
+        { "type": "text", "id": "author", "label": "Name" },
+        { "type": "text", "id": "product", "label": "Product", "info": "Optional." },
+        { "type": "text", "id": "date", "label": "Date", "info": "e.g. May 2026" },
+        { "type": "text", "id": "source", "label": "Where it was left", "info": "Optional, e.g. Etsy" }
+
+      ]
+    },
+    {
+      "type": "photos",
+      "name": "Customer photos",
+      "settings": [
+        { "type": "paragraph", "content": "Up to six photos. Each shows as its own tile, woven in with the reviews. For each slot, pick a photo or paste a URL." },
+        { "type": "image_picker", "id": "image_1", "label": "Photo 1" },
+        { "type": "text", "id": "url_1", "label": "Or photo 1 URL" },
+        { "type": "image_picker", "id": "image_2", "label": "Photo 2" },
+        { "type": "text", "id": "url_2", "label": "Or photo 2 URL" },
+        { "type": "image_picker", "id": "image_3", "label": "Photo 3" },
+        { "type": "text", "id": "url_3", "label": "Or photo 3 URL" },
+        { "type": "image_picker", "id": "image_4", "label": "Photo 4" },
+        { "type": "text", "id": "url_4", "label": "Or photo 4 URL" },
+        { "type": "image_picker", "id": "image_5", "label": "Photo 5" },
+        { "type": "text", "id": "url_5", "label": "Or photo 5 URL" },
+        { "type": "image_picker", "id": "image_6", "label": "Photo 6" },
+        { "type": "text", "id": "url_6", "label": "Or photo 6 URL" },
+        { "type": "text", "id": "alt", "label": "Alt text", "default": "Customer photo" }
+      ]
+    },
+    {
+      "type": "photo",
+      "name": "Customer photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "image_url", "label": "Or a photo URL", "info": "Used when no photo is picked, e.g. a photo attached to a review on this store." },
+        { "type": "text", "id": "alt", "label": "Alt text", "default": "Customer photo" }
+      ]
+    }
+  ],
+  "max_blocks": 50,
+  "presets": [{ "name": "toneLight reviews" }]
+}
+{% endschema %}

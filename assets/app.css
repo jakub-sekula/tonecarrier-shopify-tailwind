@@ -43,6 +43,7 @@
     --tw-text-6xl: 3.75rem;
     --tw-text-6xl--line-height: 1;
     --tw-font-weight-extralight: 200;
+    --tw-font-weight-normal: 400;
     --tw-font-weight-medium: 500;
     --tw-font-weight-semibold: 600;
     --tw-font-weight-bold: 700;
@@ -1311,6 +1312,10 @@
   .tw\:font-medium {
     --tw-font-weight: var(--tw-font-weight-medium);
     font-weight: var(--tw-font-weight-medium);
+  }
+  .tw\:font-normal {
+    --tw-font-weight: var(--tw-font-weight-normal);
+    font-weight: var(--tw-font-weight-normal);
   }
   .tw\:font-semibold {
     --tw-font-weight: var(--tw-font-weight-semibold);

@@ -10,6 +10,87 @@
    render position irrelevant, rather than making it a rule someone has to remember. */
 (function () {
 function tsInit() {
+  // ---- development overlay panels (.ts-mock) ------------------------------------------------
+  // Shared by the pricing confirmation-state panel and the toneLight launch-state panel. Only
+  // shown where development happens: a local dev server, the theme editor, or ?mockup=1.
+  function tsIsDev() {
+    return /^(127\.0\.0\.1|localhost|\[::1\])$/.test(location.hostname) ||
+           /[?&]mockup=1\b/.test(location.search) ||
+           !!(window.Shopify && window.Shopify.designMode);
+  }
+  // Drag by the bar, collapse with the button, both remembered per panel under KEY.
+  function tsMockPanel(mock, KEY) {
+    var bar = mock.querySelector('.ts-mock__bar');
+    var toggle = mock.querySelector('.ts-mock__collapse');
+
+    function load() {
+      try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; }
+    }
+    function save(patch) {
+      try {
+        var s = load();
+        for (var k in patch) s[k] = patch[k];
+        localStorage.setItem(KEY, JSON.stringify(s));
+      } catch (e) { /* not worth a broken panel */ }
+    }
+
+    // Kept inside the viewport on the way in as well as while moving: a panel restored to a
+    // position from a wider window is otherwise off screen with no way to grab it back.
+    function place(x, y) {
+      var r = mock.getBoundingClientRect();
+      x = Math.max(0, Math.min(x, window.innerWidth - r.width));
+      y = Math.max(0, Math.min(y, window.innerHeight - r.height));
+      mock.classList.add('is-placed');
+      mock.style.left = x + 'px';
+      mock.style.top = y + 'px';
+      return { x: x, y: y };
+    }
+
+    var st = load();
+    if (st.collapsed) {
+      mock.classList.add('is-collapsed');
+      if (toggle) { toggle.setAttribute('aria-expanded', 'false'); toggle.innerHTML = '&plus;'; }
+    }
+    if (typeof st.x === 'number' && typeof st.y === 'number') place(st.x, st.y);
+
+    if (toggle) toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var off = mock.classList.toggle('is-collapsed');
+      toggle.setAttribute('aria-expanded', off ? 'false' : 'true');
+      toggle.innerHTML = off ? '&plus;' : '&minus;';
+      save({ collapsed: off });
+    });
+
+    if (bar) bar.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('.ts-mock__collapse')) return;
+      var r = mock.getBoundingClientRect();
+      var dx = e.clientX - r.left, dy = e.clientY - r.top;
+      mock.classList.add('is-dragging');
+      bar.setPointerCapture(e.pointerId);
+      var last = { x: r.left, y: r.top };
+
+      function move(ev) { last = place(ev.clientX - dx, ev.clientY - dy); }
+      function up() {
+        mock.classList.remove('is-dragging');
+        bar.removeEventListener('pointermove', move);
+        bar.removeEventListener('pointerup', up);
+        bar.removeEventListener('pointercancel', up);
+        save({ x: last.x, y: last.y });
+      }
+      bar.addEventListener('pointermove', move);
+      bar.addEventListener('pointerup', up);
+      bar.addEventListener('pointercancel', up);
+      e.preventDefault();
+    });
+
+    // A resize can strand a panel that was parked against the old right edge.
+    window.addEventListener('resize', function () {
+      if (!mock.classList.contains('is-placed')) return;
+      var r = mock.getBoundingClientRect();
+      save(place(r.left, r.top));
+    }, { passive: true });
+  }
+
   (function () {
     document.querySelectorAll('.tonescan-landing .ts-ba').forEach(function (el) {
       var range = el.querySelector('.ts-ba__range');
@@ -72,6 +153,93 @@ function tsInit() {
     // the PhotoSwipe tags are deferred, so wait for them if we got here first
     if (document.readyState === 'complete') start();
     else window.addEventListener('load', start);
+  })();
+
+  /* three-way scan toggle: click a scan to open it full screen. Same PhotoSwipe and grow-from-
+     thumbnail zoom the filmstrip uses; each stage is a tiny gallery of its own three scans. */
+  (function () {
+    var stages = document.querySelectorAll('.tonescan-landing .ts-tri__stage');
+    if (!stages.length) return;
+
+    function wire(stage) {
+      if (typeof PhotoSwipeLightbox === 'undefined' || typeof PhotoSwipe === 'undefined') return;
+      var imgs = [].slice.call(stage.querySelectorAll('.ts-tri__img'));
+      if (!imgs.length) return;
+
+      var slides = imgs.map(function (img) {
+        var cell = img.closest('.ts-tri__cell');
+        var title = cell && cell.querySelector('.ts-tri__labeltitle');
+        var sub = cell && cell.querySelector('.ts-tri__sublabel');
+        var cap = title ? title.textContent.trim() : '';
+        if (sub && sub.textContent.trim()) cap += ' · ' + sub.textContent.trim();
+        return {
+          src: img.getAttribute('data-full') || img.currentSrc || img.src,
+          // the shown file, scaled up for the zoom until the full-size one has loaded
+          msrc: img.currentSrc || img.src,
+          width:  parseInt(img.getAttribute('data-fw'), 10) || img.naturalWidth,
+          height: parseInt(img.getAttribute('data-fh'), 10) || img.naturalHeight,
+          caption: cap
+        };
+      });
+
+      var lb = new PhotoSwipeLightbox({
+        dataSource: slides,
+        pswpModule: PhotoSwipe,
+        loop: true,
+        zoom: true,
+        wheelToZoom: true,
+        showHideAnimationType: 'zoom',
+        bgOpacity: 0.96,
+        padding: { top: 24, bottom: 24, left: 24, right: 24 }
+      });
+      // grow out of the scan that was clicked, and back into the current one on close
+      lb.addFilter('thumbEl', function (el, slideData, i) { return imgs[i] || el; });
+      // keep the scan's label on screen in the viewer, via the same caption element the gallery uses
+      lb.on('uiRegister', function () {
+        lb.pswp.ui.registerElement({
+          name: 'ts-caption', order: 9, isButton: false, appendTo: 'root',
+          html: '', className: 'pswp__caption',
+          onInit: function (el, pswp) {
+            pswp.on('change', function () {
+              el.textContent = (pswp.currSlide && pswp.currSlide.data.caption) || '';
+            });
+          }
+        });
+      });
+      lb.init();
+
+      stage.addEventListener('click', function (e) {
+        var img = e.target.closest('.ts-tri__img');
+        if (!img) return;
+        var idx = imgs.indexOf(img);
+        if (idx > -1) lb.loadAndOpen(idx);
+      });
+    }
+
+    function start() { stages.forEach(wire); }
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start);
+  })();
+
+  /* three-way scan toggle: sample switcher. Clicking Sample N shows that sample's set and marks the
+     button; the scan toggle inside each set is still the CSS radios, so this is pure show/hide. */
+  (function () {
+    document.querySelectorAll('.tonescan-landing .ts-tri').forEach(function (sec) {
+      var btns = sec.querySelectorAll('.ts-tri__setbtn');
+      var sets = sec.querySelectorAll('.ts-tri__set');
+      if (btns.length < 2) return;
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var idx = btn.getAttribute('data-set');
+          btns.forEach(function (b) {
+            var on = b.getAttribute('data-set') === idx;
+            b.classList.toggle('is-active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          sets.forEach(function (s) { s.classList.toggle('is-active', s.getAttribute('data-set') === idx); });
+        });
+      });
+    });
   })();
 
   /* ---- shared machinery for the two pinned sections ------------------------------------------
@@ -180,7 +348,11 @@ function tsInit() {
       // the two would trade the page back and forth. Half a viewport past the end is the same
       // nearest-rest logic applied one level up: beyond that you are closer to whatever comes
       // next than to anything here, so this rig has no business moving you.
-      if (y < all[0] - H * 0.5 || y > all[all.length - 1] + H * 0.5) return;
+      // With snapFromFirst the lead-in above the first rest is left alone entirely: a reader who
+      // arrives at the section heading (the header link, or scrolling in and stopping to read it)
+      // is not pulled down onto the first block. Snapping starts once they have reached it.
+      var lo = opts.snapFromFirst ? all[0] - 2 : all[0] - H * 0.5;
+      if (y < lo || y > all[all.length - 1] + H * 0.5) return;
 
       if (opts.resolve) ti = opts.resolve(ti, all, r, H);
       var dist = Math.abs(all[ti] - y);
@@ -980,6 +1152,8 @@ function tsInit() {
         el: sec,
         // no snapping under reduced motion; the shots still swap, the page is just never moved
         snap: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+        // the heading above the first block is somewhere to stop and read, not a snap zone
+        snapFromFirst: true,
         rests: function () { return panels.map(function (p, i) { return restOf(i); }); },
         frame: function (r, H) {
           // 0 as the section's top reaches the bottom of the screen, 1 as its bottom leaves the top
@@ -1701,78 +1875,7 @@ function tsInit() {
     // Drag by the bar, collapse with the button, both remembered. Dev-only furniture, so the state
     // lives in localStorage rather than anywhere that matters, and every read is guarded: private
     // browsing throws on access rather than returning null.
-    if (mock && isDev) (function () {
-      var KEY = 'ts.mock.ui';
-      var bar = mock.querySelector('.ts-mock__bar');
-      var toggle = mock.querySelector('.ts-mock__collapse');
-
-      function load() {
-        try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; }
-      }
-      function save(patch) {
-        try {
-          var s = load();
-          for (var k in patch) s[k] = patch[k];
-          localStorage.setItem(KEY, JSON.stringify(s));
-        } catch (e) { /* not worth a broken panel */ }
-      }
-
-      // Kept inside the viewport on the way in as well as while moving: a panel restored to a
-      // position from a wider window is otherwise off screen with no way to grab it back.
-      function place(x, y) {
-        var r = mock.getBoundingClientRect();
-        x = Math.max(0, Math.min(x, window.innerWidth - r.width));
-        y = Math.max(0, Math.min(y, window.innerHeight - r.height));
-        mock.classList.add('is-placed');
-        mock.style.left = x + 'px';
-        mock.style.top = y + 'px';
-        return { x: x, y: y };
-      }
-
-      var st = load();
-      if (st.collapsed) {
-        mock.classList.add('is-collapsed');
-        if (toggle) { toggle.setAttribute('aria-expanded', 'false'); toggle.innerHTML = '&plus;'; }
-      }
-      if (typeof st.x === 'number' && typeof st.y === 'number') place(st.x, st.y);
-
-      if (toggle) toggle.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var off = mock.classList.toggle('is-collapsed');
-        toggle.setAttribute('aria-expanded', off ? 'false' : 'true');
-        toggle.innerHTML = off ? '&plus;' : '&minus;';
-        save({ collapsed: off });
-      });
-
-      if (bar) bar.addEventListener('pointerdown', function (e) {
-        if (e.target.closest('.ts-mock__collapse')) return;
-        var r = mock.getBoundingClientRect();
-        var dx = e.clientX - r.left, dy = e.clientY - r.top;
-        mock.classList.add('is-dragging');
-        bar.setPointerCapture(e.pointerId);
-        var last = { x: r.left, y: r.top };
-
-        function move(ev) { last = place(ev.clientX - dx, ev.clientY - dy); }
-        function up() {
-          mock.classList.remove('is-dragging');
-          bar.removeEventListener('pointermove', move);
-          bar.removeEventListener('pointerup', up);
-          bar.removeEventListener('pointercancel', up);
-          save({ x: last.x, y: last.y });
-        }
-        bar.addEventListener('pointermove', move);
-        bar.addEventListener('pointerup', up);
-        bar.addEventListener('pointercancel', up);
-        e.preventDefault();
-      });
-
-      // A resize can strand a panel that was parked against the old right edge.
-      window.addEventListener('resize', function () {
-        if (!mock.classList.contains('is-placed')) return;
-        var r = mock.getBoundingClientRect();
-        save(place(r.left, r.top));
-      }, { passive: true });
-    })();
+    if (mock && isDev) tsMockPanel(mock, 'ts.mock.ui');
     if (mock && done) {
       // hex, to match the alphabet the scramble settles through
       var SAMPLE_KEY = '4F2A9C-7B1E6D-3A8F05-C29B47-E1D6A3-5F';
@@ -2217,6 +2320,108 @@ function tsInit() {
           .finally(function () { btn.disabled = false; });
       });
     });
+  })();
+
+  /* Kickstarter launch countdown in the hero. Liquid renders the starting state; this keeps it
+     ticking and, at zero, hides the countdown and swaps the pre-launch badge text for the live
+     one, so the page goes live on its own. Also corrects a page served from cache on either side
+     of the launch.
+     Modes: auto (visitors: follows the launch time), pre and live (the dev panel's previews). A
+     pre preview with no launch time set, or one already past, counts down to a stand-in date so
+     there is something to look at. */
+  (function () {
+    var el = document.querySelector('.tonescan-landing .ts-countdown[data-launch]');
+    if (!el) return;
+    var scope = el.closest('.ts-hero-text') || document;
+    var live = scope.querySelector('.ts-hero-badge__live');
+    var pre = scope.querySelector('.ts-hero-badge__pre');
+    var out = { d: el.querySelector('[data-cd="d"]'), h: el.querySelector('[data-cd="h"]'),
+                m: el.querySelector('[data-cd="m"]'), s: el.querySelector('[data-cd="s"]') };
+    var real = Date.parse(el.getAttribute('data-launch') || '');
+    var mode = 'auto';
+    var standIn = null;
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Split-flap digits (markup from snippets/ts-flap-digits). A changed digit gets its static top
+    // half set to the new value at once, then two leaves fold over the hinge: the old top half
+    // falls away, the new bottom half drops into place, and only then does the static bottom
+    // half take the new value, so the old digit never flashes through.
+    function flapTile(ch) {
+      return '<span class="ts-flap__digit" data-v="' + ch + '"><span class="ts-flap__half ts-flap__half--top"><span>' + ch +
+             '</span></span><span class="ts-flap__half ts-flap__half--bot"><span>' + ch + '</span></span></span>';
+    }
+    function flapLeaf(side, ch) {
+      var l = document.createElement('span');
+      l.className = 'ts-flap__leaf ts-flap__leaf--' + side;
+      l.innerHTML = '<span>' + ch + '</span>';
+      return l;
+    }
+    function flapSet(num, str) {
+      var tiles = num.querySelectorAll('.ts-flap__digit');
+      if (tiles.length !== str.length) { num.innerHTML = str.split('').map(flapTile).join(''); return; }
+      for (var i = 0; i < str.length; i++) {
+        var d = tiles[i], nv = str.charAt(i), ov = d.getAttribute('data-v');
+        if (nv === ov) continue;
+        d.setAttribute('data-v', nv);
+        var top = d.querySelector('.ts-flap__half--top > span');
+        var bot = d.querySelector('.ts-flap__half--bot > span');
+        d.querySelectorAll('.ts-flap__leaf').forEach(function (l) { l.remove(); });
+        top.textContent = nv;
+        if (still || document.hidden || el.hidden) { bot.textContent = nv; continue; }
+        var lt = flapLeaf('top', ov), lb = flapLeaf('bot', nv);
+        d.appendChild(lt); d.appendChild(lb);
+        lb.addEventListener('animationend', (function (b, v, a, c) {
+          return function () { b.textContent = v; a.remove(); c.remove(); };
+        })(bot, nv, lt, lb));
+      }
+    }
+
+    function target() {
+      if (mode === 'live') return 0;
+      if (mode === 'pre') {
+        if (!isNaN(real) && real > Date.now()) return real;
+        if (!standIn) standIn = Date.now() + ((12 * 86400 + 7 * 3600 + 42 * 60 + 18) * 1000);
+        return standIn;
+      }
+      return isNaN(real) ? 0 : real;
+    }
+    function setPrelaunch(on) {
+      el.hidden = !on;
+      if (live && pre) { pre.hidden = !on; live.hidden = on; }
+    }
+    function tick() {
+      var diff = target() - Date.now();
+      if (diff <= 0) { setPrelaunch(false); return; }
+      setPrelaunch(true);
+      var t = Math.floor(diff / 1000);
+      flapSet(out.d, pad(Math.floor(t / 86400)));
+      flapSet(out.h, pad(Math.floor(t % 86400 / 3600)));
+      flapSet(out.m, pad(Math.floor(t % 3600 / 60)));
+      flapSet(out.s, pad(t % 60));
+    }
+
+    // Dev panel: previews either state. The choice is remembered and starts on the countdown.
+    var panel = document.querySelector('.tonescan-landing .ts-mock--launch');
+    if (panel && tsIsDev()) {
+      panel.hidden = false;
+      tsMockPanel(panel, 'ts.mock.launch.ui');
+      var KEY = 'ts.mock.launch.mode';
+      var btns = panel.querySelectorAll('[data-launch-mock]');
+      var setMode = function (m) {
+        mode = m;
+        btns.forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-launch-mock') === m); });
+        try { localStorage.setItem(KEY, m); } catch (e) { /* preview still works, just not remembered */ }
+        tick();
+      };
+      btns.forEach(function (b) { b.addEventListener('click', function () { setMode(b.getAttribute('data-launch-mock')); }); });
+      var saved = null;
+      try { saved = localStorage.getItem(KEY); } catch (e) { /* private browsing */ }
+      setMode(saved === 'live' || saved === 'auto' ? saved : 'pre');
+    }
+
+    tick();
+    setInterval(tick, 1000);
   })();
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tsInit);

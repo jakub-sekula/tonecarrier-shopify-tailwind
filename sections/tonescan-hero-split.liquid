@@ -30,7 +30,38 @@
     off-screen wider than the viewport, and no grow-on-scroll.
     overflow-clip (not hidden) so the sticky hero text still pins while floats / wide image stay clipped.
   {%- endcomment -%}
-  <section class="ts-hero-split tw:relative tw:overflow-clip">
+  {%- comment -%} Variants, all settings on this section so both landing pages share one hero:
+     theme      dark (toneScan) or light (toneLight / Kickstarter)
+     cta_type   the beta signup form, or plain link buttons
+     no media   when there are no media blocks the copy centres and the frame is skipped {%- endcomment -%}
+  {%- assign ts_theme = section.settings.theme | default: 'dark' -%}
+  {%- comment -%} Launch countdown. The same page runs before and after a Kickstarter launch, so
+     nothing needs changing on the day: before the launch time the hero shows the countdown and the
+     pre-launch badge, after it neither. Liquid picks the starting state so a pre-launch visitor
+     never sees a flash of the live badge; the script in tonescan-scripts ticks it and flips it at
+     zero, which also corrects a page served from cache. An unparseable time counts as launched. {%- endcomment -%}
+  {%- assign ts_launch = section.settings.launch_at | strip -%}
+  {%- assign ts_prelaunch = false -%}
+  {%- assign ts_left = 0 -%}
+  {%- if ts_launch != blank -%}
+    {%- assign ts_launch_s = ts_launch | date: '%s' | plus: 0 -%}
+    {%- assign ts_now_s = 'now' | date: '%s' | plus: 0 -%}
+    {%- if ts_launch_s > ts_now_s -%}
+      {%- assign ts_prelaunch = true -%}
+      {%- assign ts_left = ts_launch_s | minus: ts_now_s -%}
+    {%- endif -%}
+  {%- endif -%}
+  {%- assign ts_launch_aware = false -%}
+  {%- if ts_launch != blank or section.settings.badge_prelaunch != blank -%}{%- assign ts_launch_aware = true -%}{%- endif -%}
+  {%- capture ts_badge_text -%}
+    {%- if section.settings.badge_prelaunch != blank -%}
+      <span class="ts-hero-badge__live"{% if ts_prelaunch %} hidden{% endif %}>{{ section.settings.badge }}</span><span class="ts-hero-badge__pre"{% unless ts_prelaunch %} hidden{% endunless %}>{{ section.settings.badge_prelaunch }}</span>
+    {%- else -%}
+      {{ section.settings.badge }}
+    {%- endif -%}
+  {%- endcapture -%}
+  {%- assign ts_has_media = false -%}{%- if section.blocks.size > 0 -%}{%- assign ts_has_media = true -%}{%- endif -%}
+  <section class="ts-hero-split ts-hero-split--{{ ts_theme }}{% unless ts_has_media %} ts-hero-split--nomedia{% endunless %}{% if section.blocks.size < 2 %} ts-hero-split--notabs{% endif %} tw:relative tw:overflow-clip">
     <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-white/[0.04] tw:blur-[130px]"></div>
 
     <div class="ts-hero-color">
@@ -69,14 +100,18 @@
         </div>
         <div class="ts-hero-split__grid">
         <div class="ts-hero-text tw:mx-auto tw:flex tw:max-w-[940px] tw:flex-col tw:items-center tw:gap-[26px] tw:text-center">
+          {%- if section.settings.show_icon != false -%}
           {%- if section.settings.icon -%}
           <img class="ts-hero-icon" src="{{ section.settings.icon | image_url: width: 256 }}" alt="" width="256" height="256" fetchpriority="high">
           {%- else -%}
           <img class="ts-hero-icon" src="{{ 'tonescan-icon.png' | asset_url }}" alt="" width="256" height="256" fetchpriority="high">
           {%- endif -%}
+          {%- endif -%}
 
-          {%- if section.settings.badge != blank -%}
-          <span class="ts-hero-badge"><i aria-hidden="true"></i>{{ section.settings.badge }}</span>
+          {%- if section.settings.badge_kickstarter -%}
+          <span class="ts-hero-badge ts-hero-badge--ks">{{ ts_badge_text }}{{ 'kickstarter-logo.svg' | inline_asset_content | replace: '<svg ', '<svg role="img" aria-label="Kickstarter" ' }}</span>
+          {%- elsif section.settings.badge != blank -%}
+          <span class="ts-hero-badge"><i aria-hidden="true"></i>{{ ts_badge_text }}</span>
           {%- endif -%}
 
           <h1 class="tw:text-[32px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.03em] tw:text-white tw:md:text-[58px]">
@@ -87,6 +122,33 @@
             {{ section.settings.subheading }}
           </p>
 
+          {%- if ts_launch_aware -%}
+          {%- assign cd_d = ts_left | divided_by: 86400 -%}
+          {%- assign cd_h = ts_left | modulo: 86400 | divided_by: 3600 -%}
+          {%- assign cd_m = ts_left | modulo: 3600 | divided_by: 60 -%}
+          {%- assign cd_s = ts_left | modulo: 60 -%}
+          {%- capture cd_ds -%}{% if cd_d < 10 %}0{% endif %}{{ cd_d }}{%- endcapture -%}
+          {%- capture cd_hs -%}{% if cd_h < 10 %}0{% endif %}{{ cd_h }}{%- endcapture -%}
+          {%- capture cd_ms -%}{% if cd_m < 10 %}0{% endif %}{{ cd_m }}{%- endcapture -%}
+          {%- capture cd_ss -%}{% if cd_s < 10 %}0{% endif %}{{ cd_s }}{%- endcapture -%}
+          {%- comment -%} Split-flap board: a tile per digit, grouped by unit. {%- endcomment -%}
+          <div class="ts-countdown" data-launch="{{ ts_launch | escape }}" role="timer" aria-label="Time until the Kickstarter launch"{% unless ts_prelaunch %} hidden{% endunless %}>
+            <div class="ts-countdown__unit"><span class="ts-countdown__num" data-cd="d">{% render 'ts-flap-digits', value: cd_ds %}</span><span class="ts-countdown__label">days</span></div>
+            <div class="ts-countdown__unit"><span class="ts-countdown__num" data-cd="h">{% render 'ts-flap-digits', value: cd_hs %}</span><span class="ts-countdown__label">hours</span></div>
+            <div class="ts-countdown__unit"><span class="ts-countdown__num" data-cd="m">{% render 'ts-flap-digits', value: cd_ms %}</span><span class="ts-countdown__label">minutes</span></div>
+            <div class="ts-countdown__unit"><span class="ts-countdown__num" data-cd="s">{% render 'ts-flap-digits', value: cd_ss %}</span><span class="ts-countdown__label">seconds</span></div>
+          </div>
+          {%- endif -%}
+          {%- if section.settings.cta_type == 'link' -%}
+          <div class="ts-hero-ctas tw:mt-[6px]">
+            {%- assign ts_cta_url = section.settings.cta_url -%}
+            {%- if ts_cta_url == blank and section.settings.cta_style == 'ks' -%}{%- assign ts_cta_url = settings.tonelight_ks_url -%}{%- endif -%}
+            <a class="ts-cta ts-cta--{{ section.settings.cta_style | default: 'accent' }}" href="{{ ts_cta_url | default: '#rewards' }}">{{ section.settings.cta_text }}</a>
+            {%- if section.settings.cta2_text != blank -%}
+            <a class="ts-cta ts-cta--ghost" href="{{ section.settings.cta2_url | default: '#' }}">{{ section.settings.cta2_text }}{% if section.settings.cta2_chevron %}<svg class="ts-cta__chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>{% endif %}</a>
+            {%- endif -%}
+          </div>
+          {%- else -%}
           <div class="ts-signup tw:mt-[6px]">
             <form class="ts-form" novalidate>
               <input class="ts-email" type="email" name="email" required
@@ -95,6 +157,10 @@
             </form>
             <p class="ts-msg" role="status" aria-live="polite"></p>
           </div>
+          {%- endif -%}
+          {%- if section.settings.show_os == false -%}
+          {%- if section.settings.sub_cta_text != blank -%}<p class="ts-hero-note">{{ section.settings.sub_cta_text }}</p>{%- endif -%}
+          {%- else -%}
           <p class="ts-os-row">
             <span class="ts-os">
               <svg class="ts-os__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
@@ -102,9 +168,11 @@
               {{ section.settings.sub_cta_text }}
             </span>
           </p>
+          {%- endif -%}
         </div>
 
-        <div class="ts-hero-frame tw:relative tw:mx-auto tw:mt-[102px] tw:max-w-[1320px]">
+        {%- if ts_has_media -%}
+        <div class="ts-hero-frame tw:relative tw:mx-auto tw:mt-[102px] tw:max-w-[1320px]{% if section.blocks.size < 2 %} has-no-nav{% endif %}">
           <div class="ts-hero-glow" aria-hidden="true"></div>
           {%- comment -%} glass frame + stacked feature shots (crossfaded by the selector below).
              Bottom is open (no bottom border) and dips past the colour cut so the dark image
@@ -135,6 +203,10 @@
                     <span class="ts-hero-replay__label">Replay</span>
                   </button>
                 </div>
+                {%- elsif block.settings.image == blank and block.settings.media_url == blank -%}
+                {%- comment -%} Nothing picked yet: a plain panel holds the space rather than a broken
+                   image, so the layout can be judged before the photo or clip exists. {%- endcomment -%}
+                <div class="ts-hero-shot ts-hero-shot--ph{% if forloop.first %} is-active{% endif %}" data-shot="{{ forloop.index0 }}" {{ block.shopify_attributes }}><span>{{ block.settings.title | default: 'Image or video' }}</span></div>
                 {%- else -%}
                 <img class="ts-hero-shot{% if forloop.first %} is-active{% endif %}" data-shot="{{ forloop.index0 }}"
                      src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 3200 }}{% else %}{{ block.settings.media_url }}{% endif %}"
@@ -145,10 +217,12 @@
             </div>
           </div>
         </div>
+        {%- endif -%}
         </div>
       </div>
       {%- comment -%} SELECTOR. Inside the coloured region here, not on the black band below the cut. Desktop: tab pills.
          Mobile: pagination dots + a native <select>. {%- endcomment -%}
+      {%- if section.blocks.size > 1 -%}
       <div class="ts-hero-selectbar tw:relative tw:z-[2] tw:mx-auto tw:w-full tw:max-w-[1320px] tw:px-[15px] tw:md:px-[50px]">
         <div class="ts-hero-tabs" role="tablist" aria-label="Features">
           {%- for block in section.blocks -%}
@@ -171,8 +245,29 @@
           </div>
         </div>
       </div>
+      {%- endif -%}
     </div>
 
+    {%- if ts_launch_aware -%}
+    {%- comment -%} Development only, like the pricing panel: previews the hero before and after
+       launch without touching the launch time. Hidden unless on a local dev server, in the theme
+       editor or with ?mockup=1. "Real time" is what visitors get: whatever the launch time says.
+       A direct child of the section so no transformed ancestor becomes the containing block of
+       this position: fixed panel. {%- endcomment -%}
+    <div class="ts-mock ts-mock--launch" role="group" aria-label="Launch state (development)" hidden>
+      <div class="ts-mock__bar">
+        <span class="ts-mock__label">Launch state</span>
+        <button type="button" class="ts-mock__collapse" aria-expanded="true" aria-label="Collapse panel">&minus;</button>
+      </div>
+      <div class="ts-mock__body">
+        <div class="ts-mock__row">
+          <button type="button" data-launch-mock="pre">Countdown</button>
+          <button type="button" data-launch-mock="live">After launch</button>
+          <button type="button" data-launch-mock="auto">Real time</button>
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
   </section>
 
 
@@ -193,8 +288,24 @@
   "class": "section",
   "settings": [
     {
+      "type": "select",
+      "id": "theme",
+      "label": "Theme",
+      "options": [
+        { "value": "dark", "label": "Dark (toneScan)" },
+        { "value": "light", "label": "Light (toneLight)" }
+      ],
+      "default": "dark"
+    },
+    {
       "type": "header",
       "content": "Copy"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show app icon",
+      "default": true
     },
     {
       "type": "image_picker",
@@ -211,6 +322,19 @@
     },
     {
       "type": "text",
+      "id": "badge_prelaunch",
+      "label": "Badge before launch",
+      "info": "Shown instead of the badge while the countdown runs, e.g. \"Launching on\". Leave blank to keep the badge as it is."
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_kickstarter",
+      "label": "Kickstarter logo in the badge",
+      "info": "Adds the Kickstarter logo after the badge text, e.g. \"Coming soon on\".",
+      "default": false
+    },
+    {
+      "type": "text",
       "id": "heading",
       "label": "Headline",
       "default": "Film scanning,<br class=\"ts-hero-br\"> start to finish."
@@ -222,10 +346,75 @@
       "default": "toneScan Studio turns your camera into a dedicated film scanner. Process whole rolls at the speed of a lab, with trichromatic scanning, accurate inversions and&nbsp;instant, full-resolution previews of every edit."
     },
     {
+      "type": "header",
+      "content": "Launch countdown"
+    },
+    {
+      "type": "text",
+      "id": "launch_at",
+      "label": "Launch time",
+      "info": "UTC, in the form 2026-10-20T15:00:00Z. Before this time the hero shows a countdown; at launch it disappears on its own. Leave blank for no countdown."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "select",
+      "id": "cta_type",
+      "label": "Button type",
+      "options": [
+        { "value": "form", "label": "Beta signup form" },
+        { "value": "link", "label": "Link button" }
+      ],
+      "default": "form"
+    },
+    {
       "type": "text",
       "id": "cta_text",
       "label": "Button text",
       "default": "Join the beta"
+    },
+    {
+      "type": "select",
+      "id": "cta_style",
+      "label": "Link button colour",
+      "options": [
+        { "value": "accent", "label": "Blue" },
+        { "value": "ks", "label": "Kickstarter green" }
+      ],
+      "default": "accent"
+    },
+    {
+      "type": "text",
+      "id": "cta_url",
+      "label": "Link button URL",
+      "info": "A page URL or an anchor on this page. A Kickstarter-green button left blank links to the campaign URL in Theme settings > toneLight Kickstarter."
+    },
+    {
+      "type": "text",
+      "id": "cta2_text",
+      "label": "Second button text",
+      "info": "Link buttons only. Leave blank to hide it."
+    },
+    {
+      "type": "text",
+      "id": "cta2_url",
+      "label": "Second button URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "cta2_chevron",
+      "label": "Down arrow on the second button",
+      "info": "For a button that jumps further down this page.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_os",
+      "label": "Show Mac and Windows icons",
+      "info": "Off shows the text below as a plain line.",
+      "default": true
     },
     {
       "type": "text",

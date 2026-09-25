@@ -1,0 +1,10 @@
+{%- comment -%}
+  One split-flap tile per character of `value`, for the hero countdown. Each tile is two halves
+  of the same character (clipped top and bottom) with a hinge line between them; the script in
+  tonescan-scripts adds the two moving leaves when a character changes.
+  Usage: {% render 'ts-flap-digits', value: '07' %}
+{%- endcomment -%}
+{%- assign chars = value | append: '' | split: '' -%}
+{%- for ch in chars -%}
+<span class="ts-flap__digit" data-v="{{ ch }}"><span class="ts-flap__half ts-flap__half--top"><span>{{ ch }}</span></span><span class="ts-flap__half ts-flap__half--bot"><span>{{ ch }}</span></span></span>
+{%- endfor -%}
