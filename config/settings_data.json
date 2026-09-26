@@ -159,10 +159,10 @@
         "settings": {
           "enabled": true,
           "label": "Shipping delay",
-          "message": "All physical orders will ship after <strong>19 September</strong>.",
+          "message": "4 weeks dispatch time - all physical orders will ship late October.",
           "note": "",
           "icon": "triangle",
-          "link_text": "Got questions? Contact us.",
+          "link_text": "Got questions? Contact us",
           "link_url": "",
           "color_bg": "#0c0b08",
           "color_text": "#e7e5e4",
