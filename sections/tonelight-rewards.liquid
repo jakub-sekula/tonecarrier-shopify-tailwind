@@ -75,11 +75,21 @@
         {%- endfor -%}
       </div>
 
+      {%- comment -%} The Kickstarter button follows Theme settings > toneLight Kickstarter > Call to
+         action: while that is the Kit waitlist form there is nothing to back yet, so no button. The
+         other state rides along in an inert <template> for the development panel's preview switch. {%- endcomment -%}
+      {%- assign tl_cta = settings.tonelight_cta | default: 'link' -%}
+      {%- capture tl_rew_btn -%}
       {%- if section.settings.show_button and section.settings.button_text != blank -%}
       <div class="tl-rewards__cta">
         <a class="ts-cta ts-cta--{{ section.settings.featured_button_style }} tl-rewards__btn" href="{{ section.settings.button_url | default: settings.tonelight_ks_url | default: '#rewards' }}">{{ section.settings.button_text }}</a>
       </div>
       {%- endif -%}
+      {%- endcapture -%}
+      <div class="ts-cta-swap" data-cta="{{ tl_cta }}">
+        <div class="ts-cta-swap__on">{% unless tl_cta == 'kit' %}{{ tl_rew_btn }}{% endunless %}</div>
+        {%- if tl_cta == 'kit' -%}<template data-cta-alt="link">{{ tl_rew_btn }}</template>{%- else -%}<template data-cta-alt="kit"></template>{%- endif -%}
+      </div>
 
       {%- if section.settings.note != blank -%}
       <p class="tl-rewards__note">{{ section.settings.note }}</p>
@@ -175,7 +185,7 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Rewards" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Rewards" },
     { "type": "richtext", "id": "subheading", "label": "Subtitle" },
-    { "type": "checkbox", "id": "show_button", "label": "Show the button under the cards", "default": true },
+    { "type": "checkbox", "id": "show_button", "label": "Show the button under the cards", "default": true, "info": "Only while Theme settings > toneLight Kickstarter > Call to action is the Kickstarter button. With the Kit waitlist form it stays hidden." },
     { "type": "text", "id": "button_text", "label": "Button text", "default": "Back on Kickstarter" },
     { "type": "text", "id": "button_url", "label": "Button URL", "info": "Leave blank to link to the campaign URL in Theme settings > toneLight Kickstarter." },
     { "type": "text", "id": "note", "label": "Note under the cards", "info": "Optional." },
