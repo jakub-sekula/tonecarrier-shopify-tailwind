@@ -110,7 +110,7 @@
             "image": "shopify://shop_images/Still_2026-07-28_232546_1.10.1.jpg",
             "title": "toneLight",
             "caption": "Smart RGB scanning light, launching soon on Kickstarter",
-            "link": "shopify://pages/tonelight-kickstarter-pre-launch-page",
+            "link": "shopify://pages/tonelight",
             "badge": "Coming soon",
             "badge_style": "muted",
             "show_ks_logo": false,
@@ -365,7 +365,7 @@
           "type": "announcement",
           "settings": {
             "text": "View demo of our upcoming RGB scanning light and motorized carrier!",
-            "link": "shopify://pages/tonelight-kickstarter-pre-launch-page"
+            "link": "shopify://pages/tonelight"
           }
         }
       },
