@@ -1,0 +1,9 @@
+{%- comment -%}
+  A Shopify-hosted video from a `video` setting, for a media slot that also takes an image.
+  Muted, looping, no controls. It plays only while it is on screen, and never on its own under
+  reduced motion (the video's preview frame stays up as the poster). The script that drives it is
+  tsAutoVideos in tonescan-scripts, which finds it by the ts-autovid class.
+  Usage: {% render 'ts-video', video: block.settings.video, class: 'tl-tier__vid' %}
+{%- endcomment -%}
+{%- assign vclass = 'ts-autovid ' | append: class -%}
+{{ video | video_tag: muted: true, loop: true, playsinline: true, controls: false, preload: 'none', image_size: '1600x', class: vclass }}

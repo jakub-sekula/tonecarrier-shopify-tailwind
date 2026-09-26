@@ -17,7 +17,7 @@
       {%- capture ts_lead_rows -%}
         {%- for r in section.blocks -%}
           {%- if r.type == 'group' -%}{%- break -%}{%- endif -%}
-          <div class="tl-specs__row" {{ r.shopify_attributes }}><dt>{{ r.settings.label }}</dt><dd>{{ r.settings.value | escape | newline_to_br }}</dd></div>
+          <div class="tl-specs__row" {{ r.shopify_attributes }}><dt>{{ r.settings.label }}</dt><dd>{{ r.settings.value | escape | replace: '[red]', '<span class="tl-specs__c tl-specs__c--r">' | replace: '[green]', '<span class="tl-specs__c tl-specs__c--g">' | replace: '[blue]', '<span class="tl-specs__c tl-specs__c--b">' | replace: '[/red]', '</span>' | replace: '[/green]', '</span>' | replace: '[/blue]', '</span>' | newline_to_br }}</dd></div>
         {%- endfor -%}
       {%- endcapture -%}
       <div class="tl-specs__groups">
@@ -33,7 +33,7 @@
           <dl class="tl-specs__rows">
             {%- for r in section.blocks offset: next -%}
               {%- if r.type == 'group' -%}{%- break -%}{%- endif -%}
-            <div class="tl-specs__row" {{ r.shopify_attributes }}><dt>{{ r.settings.label }}</dt><dd>{{ r.settings.value | escape | newline_to_br }}</dd></div>
+            <div class="tl-specs__row" {{ r.shopify_attributes }}><dt>{{ r.settings.label }}</dt><dd>{{ r.settings.value | escape | replace: '[red]', '<span class="tl-specs__c tl-specs__c--r">' | replace: '[green]', '<span class="tl-specs__c tl-specs__c--g">' | replace: '[blue]', '<span class="tl-specs__c tl-specs__c--b">' | replace: '[/red]', '</span>' | replace: '[/green]', '</span>' | replace: '[/blue]', '</span>' | newline_to_br }}</dd></div>
             {%- endfor -%}
           </dl>
         </div>
@@ -53,6 +53,11 @@
 </div>
 
 {%- style -%}
+  /* colour-coded values: [red]660 nm[/red], [green]…[/green], [blue]…[/blue] in a row's value */
+  .tl-specs__c { font-weight: 600; }
+  .tl-specs__c--r { color: #dc2626; }
+  .tl-specs__c--g { color: #16a34a; }
+  .tl-specs__c--b { color: #2563eb; }
   .tl-specs { background: #fff; }
   .tl-specs__inner { max-width: 1200px; margin: 0 auto; padding: 64px 15px; }
   @media (min-width: 768px) { .tl-specs__inner { padding: 96px 50px; } }
@@ -108,7 +113,7 @@
       "name": "Spec row",
       "settings": [
         { "type": "text", "id": "label", "label": "Label" },
-        { "type": "textarea", "id": "value", "label": "Value", "info": "One line per line; each shows on its own line." }
+        { "type": "textarea", "id": "value", "label": "Value", "info": "One item per line. Wrap a value in [red]…[/red], [green]…[/green] or [blue]…[/blue] to colour it." }
       ]
     }
   ],

@@ -6,11 +6,11 @@
   file carries markup only and can be reordered or removed without taking them with it.
 {%- endcomment -%}
 
-<div class="tonescan-landing tw:text-neutral-200">
+<div class="tonescan-landing{% if section.settings.keep_dark %} ts-dark ts-feat--dark{% endif %} tw:text-neutral-200">
   {%- comment -%} Screenshots live in Shopify Files (Content > Files). {%- endcomment -%}
   {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
 
-  <section id="features" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+  <section id="{{ section.settings.anchor | default: 'features' | handleize }}" class="tw:mx-auto tw:w-full tw:max-w-[1400px] tw:scroll-mt-[84px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
     <div class="tw:mx-auto tw:max-w-[760px] tw:text-center">
       <h2 class="tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">
         {{ section.settings.heading }}
@@ -61,9 +61,13 @@
         {%- endif -%}
         {%- if is_media -%}
         <div class="ts-bento__media">
+          {%- if src != blank -%}
           <div class="ts-shot">
             <img src="{{ src }}" alt="{{ b.alt }}" loading="lazy" width="3200" height="2000">
           </div>
+          {%- else -%}
+          <div class="ts-shot ts-shot--ph"><span>Image</span></div>
+          {%- endif -%}
         </div>
         <div class="ts-bento__text">
           <div class="ts-tile-icon">{% render 'tonescan-tile-icon', key: b.icon %}</div>
@@ -74,7 +78,7 @@
           {%- endif -%}
         </div>
         {%- else -%}
-        <span class="ts-bento__bg" style="--bg:url('{{ src }}')" aria-hidden="true"></span>
+        {%- if src != blank -%}<span class="ts-bento__bg" style="--bg:url('{{ src }}')" aria-hidden="true"></span>{%- endif -%}
         <div class="ts-tile-icon">{% render 'tonescan-tile-icon', key: b.icon %}</div>
         <div class="tw:mt-auto">
           <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">{{ b.title }}</h3>
@@ -103,6 +107,8 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor", "default": "features", "info": "The in-page link id, e.g. features links as #features. Must be unique on the page." },
+    { "type": "checkbox", "id": "keep_dark", "label": "Keep dark on light pages", "info": "On a light page (toneLight), this section keeps the dark scheme.", "default": false },
     {
       "type": "text",
       "id": "heading",

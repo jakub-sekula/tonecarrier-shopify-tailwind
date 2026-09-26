@@ -2424,7 +2424,30 @@ function tsInit() {
     setInterval(tick, 1000);
   })();
 }
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tsInit);
-else tsInit();
+/* Picked videos in image slots (snippet ts-video): play while on screen, pause off it, and leave
+   the poster up under reduced motion. Re-scans when the theme editor re-renders a section. */
+function tsAutoVideos() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      else v.pause();
+    });
+  }, { threshold: 0.2 }) : null;
+  function scan() {
+    document.querySelectorAll('video.ts-autovid:not([data-ts-seen])').forEach(function (v) {
+      v.setAttribute('data-ts-seen', '');
+      v.muted = true;                       // required for autoplay; the attribute alone is not always enough
+      if (io) io.observe(v); else { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    });
+  }
+  scan();
+  document.addEventListener('shopify:section:load', scan);
+}
+
+function tsBoot() { tsInit(); tsAutoVideos(); }
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tsBoot);
+else tsBoot();
 })();
 </script>

@@ -53,8 +53,9 @@
                borrowed screenshot: the toneLight page has hardware steps with no product shot yet,
                and toneScan's organise view standing in for a light would be misleading. {%- endcomment -%}
             {%- assign no_media = false -%}
-            {%- if b.image == blank and b.image_url == blank and b.video_url == blank -%}{%- assign no_media = true -%}{%- endif -%}
+            {%- if b.image == blank and b.image_url == blank and b.video_url == blank and b.video == blank -%}{%- assign no_media = true -%}{%- endif -%}
             {%- if b.image != blank -%}{%- assign poster = b.image | image_url: width: 2400 -%}
+            {%- elsif b.video != blank -%}{%- assign poster = b.video.preview_image | image_url: width: 2400 -%}
             {%- elsif b.image_url != blank -%}{%- assign poster = b.image_url -%}
             {%- else -%}{%- assign poster = ts_cdn | append: '/organise.png' -%}{%- endif -%}
           <div class="ts-story__panel" data-i="{{ forloop.index0 }}" style="--shot:{% if no_media %}none{% else %}url('{{ poster }}'){% endif %}" {{ block.shopify_attributes }}>
@@ -66,8 +67,23 @@
               {%- elsif b.app_icon -%}
               <img class="ts-story__icon" src="{{ 'tonescan-icon.png' | asset_url }}" alt="" width="96" height="96" loading="lazy">
               {%- endif -%}
-              <h3 class="ts-story__title">{{ b.title }}</h3>
+              <h3 class="ts-story__title">{{ b.title }}{% if b.badge != blank %} <span class="ts-story__badge">{{ b.badge }}</span>{% endif %}</h3>
               <div class="ts-story__body">{{ b.body }}</div>
+              {%- if b.stats != blank -%}
+              {%- comment -%} Key numbers under the copy: one "Value | Label" per line of the setting. {%- endcomment -%}
+              {%- assign stat_lines = b.stats | newline_to_br | split: '<br />' -%}
+              {%- comment -%} [mac] and [windows] in a value become the platform logos, with the
+                 names kept for screen readers. {%- endcomment -%}
+              {%- capture os_mac -%}<svg class="ts-story__os" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><span class="tw:sr-only">macOS</span>{%- endcapture -%}
+              {%- capture os_win -%}<svg class="ts-story__os" viewBox="0 0 24 24" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg><span class="tw:sr-only">Windows</span>{%- endcapture -%}
+              <dl class="ts-story__stats">
+                {%- for line in stat_lines -%}
+                  {%- assign parts = line | split: '|' -%}
+                  {%- assign sv = parts[0] | strip -%}{%- assign sl = parts[1] | strip -%}
+                  {%- if sv != blank -%}<div class="ts-story__stat"><dt>{{ sl | escape }}</dt><dd>{{ sv | escape | replace: '[mac]', os_mac | replace: '[windows]', os_win }}</dd></div>{%- endif -%}
+                {%- endfor -%}
+              </dl>
+              {%- endif -%}
             </div>
           </div>
           {%- endfor -%}
@@ -84,7 +100,9 @@
                 {%- elsif b.image_url != blank -%}{%- assign still = b.image_url -%}
                 {%- else -%}{%- assign still = ts_cdn | append: '/organise.png' -%}{%- endif -%}
               <div class="ts-story__shot{% if forloop.first %} is-active{% endif %}" data-i="{{ forloop.index0 }}">
-                {%- if b.video_url contains '.mp4' or b.video_url contains '.webm' -%}
+                {%- if b.video != blank -%}
+                {% render 'ts-video', video: b.video, class: 'ts-story__media' %}
+                {%- elsif b.video_url contains '.mp4' or b.video_url contains '.webm' -%}
                 <video class="ts-story__media" autoplay muted loop playsinline preload="metadata" poster="{{ still }}">
                   <source src="{{ b.video_url }}" type="video/{% if b.video_url contains '.webm' %}webm{% else %}mp4{% endif %}">
                 </video>
@@ -125,8 +143,11 @@
         { "type": "text", "id": "title", "label": "Title", "default": "Step" },
         { "type": "checkbox", "id": "app_icon", "label": "Show the toneScan Studio app icon", "info": "Above the title, as in the toneScan hero.", "default": false },
         { "type": "image_picker", "id": "icon", "label": "Or a custom icon", "info": "Used instead of the app icon when picked." },
+        { "type": "text", "id": "badge", "label": "Badge", "info": "Optional short tag beside the title, e.g. Open beta" },
         { "type": "richtext", "id": "body", "label": "Body" },
+        { "type": "textarea", "id": "stats", "label": "Stats", "info": "Optional key numbers under the copy. One per line: Value | Label, e.g. 20 nm | narrowband width. [mac] and [windows] in a value show those logos." },
         { "type": "image_picker", "id": "image", "label": "Image", "info": "Shown as the still, and as the poster on mobile and behind a video." },
+        { "type": "video", "id": "video", "label": "Video", "info": "Optional. Plays muted and looping in place of the image; its first frame stands in for the image on mobile when none is picked." },
         { "type": "text", "id": "image_url", "label": "Image URL", "info": "Used only when no image is picked." },
         { "type": "text", "id": "video_url", "label": "Video or GIF URL", "info": "Optional. An .mp4 or .webm plays muted and looping; a .gif or other URL shows as an image. Falls back to the still above." }
       ]

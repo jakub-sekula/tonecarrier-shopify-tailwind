@@ -21,14 +21,36 @@
           {%- if section.settings.subheading != blank -%}
           <p class="tl-tl__sub">{{ section.settings.subheading }}</p>
           {%- endif -%}
+          {%- comment -%} Up to three shots stacked in one frame. The script below crossfades between
+             them as the milestones scroll past: the first third of the list shows the first shot, and
+             so on. Empty slots are skipped, so with one shot nothing changes. {%- endcomment -%}
           <div class="tl-tl__media">
-            {%- if section.settings.image != blank -%}
-            {%- assign fp = '' -%}{%- if section.settings.image.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ section.settings.image.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
-            {%- assign alt_text = section.settings.image.alt | default: section.settings.heading -%}
-            {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: alt_text, sizes: '(min-width: 900px) 45vw, 100vw', style: fp }}
-            {%- else -%}
-            <span class="tl-tl__ph">Image</span>
+            {%- assign shots = 0 -%}
+            {%- if section.settings.video != blank or section.settings.image != blank -%}
+            <div class="tl-tl__shot is-active">
+              {%- if section.settings.video != blank -%}
+              {% render 'ts-video', video: section.settings.video, class: 'tl-tl__vid' %}
+              {%- else -%}
+              {%- assign fp = '' -%}{%- if section.settings.image.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ section.settings.image.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+              {%- assign alt_text = section.settings.image.alt | default: section.settings.heading -%}
+              {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: alt_text, sizes: '(min-width: 900px) 45vw, 100vw', style: fp }}
+              {%- endif -%}
+            </div>
+            {%- assign shots = 1 -%}
             {%- endif -%}
+            {%- for n in (2..3) -%}
+              {%- capture ik -%}image_{{ n }}{%- endcapture -%}
+              {%- assign im = section.settings[ik] -%}
+              {%- if im != blank -%}
+              {%- assign fp = '' -%}{%- if im.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ im.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+              {%- assign alt_text = im.alt | default: section.settings.heading -%}
+              <div class="tl-tl__shot{% if shots == 0 %} is-active{% endif %}">
+                {{ im | image_url: width: 1400 | image_tag: loading: 'lazy', alt: alt_text, sizes: '(min-width: 900px) 45vw, 100vw', style: fp }}
+              </div>
+              {%- assign shots = shots | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if shots == 0 -%}<span class="tl-tl__ph">Image</span>{%- endif -%}
           </div>
         </div>
       </div>
@@ -60,7 +82,10 @@
   .tl-tl__sub { margin: 16px 0 0; max-width: 520px; font-size: 16px; line-height: 1.6; color: #52525b; }
   .tl-tl__media { position: relative; margin-top: 28px; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 3px;
     border: 1px solid rgba(0,0,0,.08); background: #ececea; }
-  .tl-tl__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .tl-tl__shot { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; }
+  .tl-tl__shot.is-active { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .tl-tl__shot { transition: none; } }
+  .tl-tl__media img, .tl-tl__media video { display: block; width: 100%; height: 100%; object-fit: cover; }
   .tl-tl__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
     font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #a1a1aa; }
 
@@ -101,6 +126,21 @@
   .tl-tl__title { margin: 2px 0 0; font-size: 16px; font-weight: 600; line-height: 1.4; color: #0a0a0b; }
   .tl-tl__desc { margin: 4px 0 0; font-size: 15px; line-height: 1.55; color: #52525b; }
   .tl-tl__item.is-upcoming .tl-tl__title { color: #3f3f46; }
+
+  /* Scroll-linked mode, switched on by the script (so without it, or under reduced motion, the
+     static colours above stand). One grey track runs from the first dot to the last, and a green
+     fill grows down it with the scroll, stopping at the current step: the line is progress, so it
+     never runs into upcoming milestones. Dots light as the fill reaches them, and each step fades
+     up as it comes on screen. The script sets --tl-a (track top), --tl-len and --tl-fill. */
+  .tl-tl--live .tl-tl__item::before { display: none; }
+  .tl-tl--live .tl-tl__list::before, .tl-tl--live .tl-tl__list::after { content: ''; position: absolute; left: 9px; width: 2px;
+    top: var(--tl-a, 11px); border-radius: 2px; }
+  .tl-tl--live .tl-tl__list::before { height: var(--tl-len, 0px); background: #e7e5e4; }
+  .tl-tl--live .tl-tl__list::after { height: var(--tl-fill, 0px); background: #05ce78; }
+  .tl-tl--live .tl-tl__item .tl-tl__dot { transition: background-color .25s ease, box-shadow .25s ease; }
+  .tl-tl--live .tl-tl__item:not(.is-lit) .tl-tl__dot { background: #e7e5e4; box-shadow: none; }
+  .tl-tl--live .tl-tl__item { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+  .tl-tl--live .tl-tl__item.is-in { opacity: 1; transform: none; }
 {%- endstyle -%}
 
 <script>
@@ -117,6 +157,63 @@
         list.style.setProperty('--tl-offset', Math.max(0, Math.round(off)) + 'px');
       }
       align();
+
+      // Scroll-linked shots: whichever milestone has crossed the middle of the screen picks the
+      // shot, spread evenly (with 12 milestones and 3 shots, 4 milestones each).
+      var shots = Array.prototype.slice.call(media.querySelectorAll('.tl-tl__shot'));
+      var items = Array.prototype.slice.call(list.querySelectorAll('.tl-tl__item'));
+      if (shots.length > 1 && items.length) {
+        var current = 0, queued = false;
+        function pick() {
+          queued = false;
+          var line = window.innerHeight * 0.5, idx = 0;
+          for (var i = 0; i < items.length; i++) { if (items[i].getBoundingClientRect().top < line) idx = i; }
+          var k = Math.min(shots.length - 1, Math.floor(idx * shots.length / items.length));
+          if (k === current) return;
+          current = k;
+          shots.forEach(function (s, si) { s.classList.toggle('is-active', si === k); });
+        }
+        function queue() { if (!queued) { queued = true; requestAnimationFrame(pick); } }
+        window.addEventListener('scroll', queue, { passive: true });
+        window.addEventListener('resize', queue, { passive: true });
+        sec.__tlPick = pick;   // for checking by hand; harmless
+        pick();
+      }
+
+      // Scroll-linked line fill and step fade-in (see the CSS). Not under reduced motion.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && items.length > 1) {
+        var dots = items.map(function (it) { return it.querySelector('.tl-tl__dot'); });
+        var capIdx = -1;
+        items.forEach(function (it, i) { if (it.classList.contains('is-current')) capIdx = i; });
+        if (capIdx < 0) items.forEach(function (it, i) { if (it.classList.contains('is-done')) capIdx = i; });
+        sec.classList.add('tl-tl--live');
+        var fillQueued = false;
+        function fill() {
+          fillQueued = false;
+          var lt = list.getBoundingClientRect().top;
+          var centres = dots.map(function (d) { var r = d.getBoundingClientRect(); return (r.top + r.bottom) / 2 - lt; });
+          var a = centres[0], end = centres[centres.length - 1];
+          var cap = capIdx >= 0 ? centres[capIdx] : a;
+          var line = Math.min(cap, window.innerHeight * 0.5 - lt);   // raw: can sit above the first dot
+          var reach = Math.max(a, line);
+          list.style.setProperty('--tl-a', a + 'px');
+          list.style.setProperty('--tl-len', (end - a) + 'px');
+          list.style.setProperty('--tl-fill', (reach - a) + 'px');
+          var vh = window.innerHeight;
+          items.forEach(function (it, i) {
+            it.classList.toggle('is-lit', i <= capIdx && centres[i] <= line + 0.5);
+            // fade in once its top is well on screen; never fades back out
+            if (!it.classList.contains('is-in') && it.getBoundingClientRect().top < vh * 0.92) it.classList.add('is-in');
+          });
+        }
+        function queueFill() { if (!fillQueued) { fillQueued = true; requestAnimationFrame(fill); } }
+        window.addEventListener('scroll', queueFill, { passive: true });
+        window.addEventListener('resize', queueFill, { passive: true });
+        sec.__tlFill = fill;
+        fill();
+        // step heights change as fonts load or the column reflows, which moves the dots
+        if ('ResizeObserver' in window) new ResizeObserver(queueFill).observe(list);
+      }
       if ('ResizeObserver' in window) new ResizeObserver(align).observe(sticky);
       else window.addEventListener('resize', align, { passive: true });
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(align);
@@ -133,7 +230,10 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Where we are" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Timeline" },
     { "type": "textarea", "id": "subheading", "label": "Subtitle" },
-    { "type": "image_picker", "id": "image", "label": "Image", "info": "Beside the timeline, held in view while it scrolls." },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Beside the timeline, held in view while it scrolls. Add a second and third image below to have them change as the timeline scrolls." },
+    { "type": "video", "id": "video", "label": "Video", "info": "Optional. Plays muted and looping in place of the image." },
+    { "type": "image_picker", "id": "image_2", "label": "Second image", "info": "Optional. Fades in as the reader scrolls through the middle of the timeline." },
+    { "type": "image_picker", "id": "image_3", "label": "Third image", "info": "Optional. Fades in for the last part of the timeline." },
     { "type": "text", "id": "current_label", "label": "Label on the current step", "info": "Optional, e.g. We are here!" }
   ],
   "blocks": [

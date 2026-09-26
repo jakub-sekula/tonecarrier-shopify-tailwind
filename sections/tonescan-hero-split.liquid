@@ -61,7 +61,7 @@
     {%- endif -%}
   {%- endcapture -%}
   {%- assign ts_has_media = false -%}{%- if section.blocks.size > 0 -%}{%- assign ts_has_media = true -%}{%- endif -%}
-  <section class="ts-hero-split ts-hero-split--{{ ts_theme }}{% unless ts_has_media %} ts-hero-split--nomedia{% endunless %}{% if section.blocks.size < 2 %} ts-hero-split--notabs{% endif %} tw:relative tw:overflow-clip">
+  <section class="ts-hero-split ts-hero-split--{{ ts_theme }}{% if ts_theme == 'dark' %} ts-dark{% endif %}{% unless ts_has_media %} ts-hero-split--nomedia{% endunless %}{% if section.blocks.size < 2 %} ts-hero-split--notabs{% endif %} tw:relative tw:overflow-clip">
     <div class="tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-[-160px] tw:h-[360px] tw:w-[720px] tw:-translate-x-1/2 tw:rounded-full tw:bg-white/[0.04] tw:blur-[130px]"></div>
 
     <div class="ts-hero-color">
@@ -70,6 +70,7 @@
          copy. Defaults to the same clip the homepage uses; the theme editor can override it
          with a Files video or a still. {%- endcomment -%}
       {%- assign ts_hero_bg = 'https://cdn.shopify.com/videos/c/o/v/3cf4f2b9a1e647b0af03b88868030e86.mp4' -%}
+      {%- unless section.settings.background_off -%}
       <div class="ts-hero-bg" aria-hidden="true">
         {%- if section.settings.background_video != blank -%}
           {%- assign ts_bg_poster = section.settings.background_image | image_url: width: 1600 -%}
@@ -82,6 +83,7 @@
           </video>
         {%- endif -%}
       </div>
+      {%- endunless -%}
       <div class="ts-hero-particles" aria-hidden="true"><span class="p1"></span><span class="p2"></span><span class="p3"></span></div>
       <div class="ts-hero tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:pt-[72px] tw:pb-0 tw:md:px-[50px] tw:md:pt-[150px]">
         {%- comment -%}
@@ -115,7 +117,8 @@
           {%- endif -%}
 
           <h1 class="tw:text-[32px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.03em] tw:text-white tw:md:text-[58px]">
-            {{ section.settings.heading }}
+            {%- comment -%} [rgb]words[/rgb] fills those words with the red, green, blue gradient. {%- endcomment -%}
+            {{ section.settings.heading | replace: '[rgb]', '<span class="ts-rgb-text">' | replace: '[/rgb]', '</span>' }}
           </h1>
 
           <p class="tw:max-w-[620px] tw:text-[16px] tw:leading-[1.5] tw:text-neutral-400 tw:md:text-[20px] tw:md:leading-[1.55]">
@@ -337,6 +340,7 @@
       "type": "text",
       "id": "heading",
       "label": "Headline",
+      "info": "Wrap words in [rgb]…[/rgb] to fill them with a red, green, blue gradient.",
       "default": "Film scanning,<br class=\"ts-hero-br\"> start to finish."
     },
     {
@@ -425,6 +429,13 @@
     {
       "type": "header",
       "content": "Hero background"
+    },
+    {
+      "type": "checkbox",
+      "id": "background_off",
+      "label": "Hide background video",
+      "info": "Turns off the background video or image, including the default clip.",
+      "default": false
     },
     {
       "type": "video",

@@ -421,6 +421,11 @@
      Four columns on a wide screen, two on a tablet. A 2-wide tile fills a tablet row, which is
      the right call: half-width shrinks the label past legibility. */
   .ts-bento-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  /* dark bento on a light page: it carries its own background, since the page behind it is light */
+  .tonescan-body--light .ts-feat--dark { background: #08080a; }
+  /* big tile with no screenshot yet */
+  .ts-shot--ph { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 220px; background: rgba(255,255,255,.04); }
+  .ts-shot--ph span { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #71717a; }
   @media (min-width: 700px) {
     .ts-bento-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px;
       grid-auto-flow: row dense; }
@@ -1228,6 +1233,14 @@
       radial-gradient(96% 76% at 50% 62%, rgba(30,86,190,.30) 0%, transparent 72%),    /* main blue pool */
       linear-gradient(180deg, #070709 0%, #070709 55%, #08080a 100%);                  /* near-black base */
   }
+  /* toneLight page (dark hero on a light page): the same glow, in neutral greys instead of blue */
+  .tonescan-body--light .ts-hero-split--dark .ts-hero-color {
+    background:
+      radial-gradient(70% 55% at 12% 4%,  rgba(255,255,255,.035) 0%, transparent 70%),
+      radial-gradient(66% 52% at 92% 8%,  rgba(255,255,255,.03) 0%, transparent 70%),
+      radial-gradient(96% 76% at 50% 62%, rgba(255,255,255,.06) 0%, transparent 72%),
+      linear-gradient(180deg, #070709 0%, #070709 55%, #08080a 100%);
+  }
   /* ---- hero particles: three static tiled starfield layers ----
      Deliberately NOT animated. Drifting these by background-position repaints the whole
      layer every frame, with this many radial-gradients that was measurably expensive for
@@ -1449,7 +1462,11 @@
 
   /* Kickstarter logo inside the status pill, after its text ("Coming soon on" + logo). The logo
      keeps its own green, so the pill itself goes neutral rather than blue. */
-  .ts-hero-badge--ks { gap: 9px; color: #d4d4d4; background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.14); }
+  /* Headline words wrapped in [rgb]…[/rgb]: one gradient across them, red into green into blue.
+     The default slice decoration keeps it continuous when the phrase wraps onto a second line. */
+  .ts-rgb-text { background-image: linear-gradient(90deg, #ff5a5f 0%, #ff5a5f 14%, #34d67f 31%, #34d67f 40%, #4d8dff 57%, #4d8dff 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+  .ts-hero-badge.ts-hero-badge--ks { gap: 9px; color: #d4d4d4; background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.14); }
   .ts-hero-badge--ks svg { display: block; width: auto; height: 12px; }
   @media (min-width: 768px) { .ts-hero-badge--ks svg { height: 13px; } }
 
@@ -2236,6 +2253,38 @@
   .ts-story__body strong { font-weight: 600; color: #e5e5e5; }
   .ts-story__body a { color: #60a5fa; font-weight: 600; text-decoration: none; }
   .ts-story__body a:hover { color: #fff; }
+
+  /* ---- FAQ in two columns (a setting on tonescan-faq): two independent stacks side by side ---- */
+  .ts-faq__cols { display: flex; flex-direction: column; gap: 12px; }
+  @media (min-width: 1000px) {
+    .ts-faq--two.tw\:max-w-\[760px\] { max-width: 1240px; }
+    .ts-faq--two .ts-faq__cols { flex-direction: row; align-items: flex-start; gap: 16px; }
+    .ts-faq--two .ts-faq__col { flex: 1 1 0; min-width: 0; }
+  }
+
+  /* ---- workflow step badge: a small tag beside the title ---- */
+  /* flex so the badge centres on the title's line, and wraps under it cleanly when the column is
+     too narrow for both */
+  .ts-story__title:has(.ts-story__badge) { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+  .ts-story__badge { display: inline-block; padding: 3px 10px; font-size: 12px; font-weight: 600; line-height: 1.4;
+    letter-spacing: .02em; color: #e5e5e5; background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.14); border-radius: 999px; white-space: nowrap; }
+  .tonescan-body--light .ts-story__badge:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.12); }
+
+  /* ---- workflow step stats: a row of key numbers under the copy ---- */
+  /* one row: each column is at least as wide as its number, and a long label wraps inside its own
+     column rather than pushing the last stat onto a line of its own */
+  .ts-story__stats { display: grid; grid-auto-flow: column; grid-auto-columns: auto; justify-content: start; gap: 20px 28px; max-width: 460px; margin: 28px 0 0; padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,.1); }
+  .ts-story__stat { display: flex; flex-direction: column-reverse; gap: 4px; }
+  .ts-story__stat dd { margin: 0; font-size: 20px; font-weight: 600; line-height: 1.1; letter-spacing: -.015em; color: #fff; white-space: nowrap; }
+  @media (min-width: 1280px) { .ts-story__stat dd { font-size: 24px; } }
+  .ts-story__stat dd .ts-story__os { display: inline-block; width: .95em; height: .95em; margin-right: .3em; vertical-align: -.08em; fill: currentColor; }
+  .ts-story__stat dd .ts-story__os:last-of-type { margin-right: 0; }
+  .ts-story__stat dt { font-size: 13px; line-height: 1.35; color: #a3a3a3; }
+  .tonescan-body--light .ts-story__stats:not(.ts-dark):not(.ts-dark *) { border-top-color: rgba(0,0,0,.1); }
+  .tonescan-body--light .ts-story__stat dd:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
+  .tonescan-body--light .ts-story__stat dt:not(.ts-dark):not(.ts-dark *) { color: #52525b; }
 
   /* =========================================================================================
      LIGHT PAGE (toneLight). The layout adds .tonescan-body--light; everything below flips the

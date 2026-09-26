@@ -12,17 +12,32 @@
 
 <div class="tonescan-landing tw:text-neutral-200">
   <section id="faq" class="tw:scroll-mt-[84px] tw:border-t tw:border-white/10 tw:bg-white/[0.015]">
-    <div class="tw:mx-auto tw:w-full tw:max-w-[760px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
+    {%- comment -%} Two columns (a setting) are two separate stacks, first half left and second half
+       right, so opening a question only lengthens its own column and nothing hops across. {%- endcomment -%}
+    {%- assign faq_n = 0 -%}
+    {%- for block in section.blocks -%}{%- if block.settings.q != blank -%}{%- assign faq_n = faq_n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+    {%- assign faq_two = false -%}
+    {%- if section.settings.columns == '2' and faq_n > 3 -%}{%- assign faq_two = true -%}{%- endif -%}
+    {%- assign faq_half = faq_n | plus: 1 | divided_by: 2 -%}
+    <div class="{% if faq_two %}ts-faq--two {% endif %}tw:mx-auto tw:w-full tw:max-w-[760px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
       <h2 class="tw:mb-[40px] tw:text-center tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
-      <div class="tw:flex tw:flex-col tw:gap-[12px]">
+      <div class="ts-faq__cols">
+      <div class="ts-faq__col tw:flex tw:flex-col tw:gap-[12px]">
+        {%- assign faq_i = 0 -%}
         {%- for block in section.blocks -%}
           {%- if block.settings.q != blank -%}
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]" {{ block.shopify_attributes }}>
+          {%- assign faq_i = faq_i | plus: 1 -%}
+        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]"{% if faq_i == 1 and section.settings.open_first %} open{% endif %} {{ block.shopify_attributes }}>
           <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">{{ block.settings.q }}<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45" aria-hidden="true">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">{{ block.settings.a }}</p>
+          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">{{ block.settings.a | newline_to_br }}</p>
         </details>
+          {%- if faq_two and faq_i == faq_half -%}
+      </div>
+      <div class="ts-faq__col tw:flex tw:flex-col tw:gap-[12px]">
+          {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
+      </div>
       </div>
     </div>
   </section>
@@ -33,13 +48,30 @@
   "name": "toneScan FAQ",
   "tag": "section",
   "class": "section",
-  "max_blocks": 14,
+  "max_blocks": 30,
   "settings": [
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
       "default": "Frequently asked questions"
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns on wide screens",
+      "options": [
+        { "value": "1", "label": "One" },
+        { "value": "2", "label": "Two" }
+      ],
+      "default": "1",
+      "info": "Two splits the questions in half, left then right. Phones always show one column."
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open the first question",
+      "default": false
     }
   ],
   "blocks": [
