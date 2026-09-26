@@ -53,7 +53,10 @@
         {%- if span == 'large' -%}{%- assign span = 'big' -%}{%- elsif span == 'small' -%}{%- assign span = 'sm' -%}{%- endif -%}
         {%- assign is_media = false -%}
         {%- if span == 'big' -%}{%- assign is_media = true -%}{%- endif -%}
-      <article class="ts-bento ts-bento--{{ span }}{% if is_media %} ts-bento--media{% endif %}" {{ block.shopify_attributes }}>
+        {%- assign tsize = b.title_size | default: 'default' -%}
+        {%- assign bgpos = '' -%}
+        {%- if b.image != blank and b.image.presentation.focal_point != blank -%}{%- assign bgpos = b.image.presentation.focal_point -%}{%- endif -%}
+      <article class="ts-bento ts-bento--{{ span }}{% if is_media %} ts-bento--media{% endif %}{% if b.bg_full and is_media == false and src != blank %} ts-bento--fullbg{% endif %}{% unless tsize == 'default' %} ts-bento--t-{{ tsize }}{% endunless %}" {{ block.shopify_attributes }}>
         {%- comment -%} Per-tile, off unless the tile opts in. The plus opens the lightbox, so it
            only belongs on tiles that have something worth opening. {%- endcomment -%}
         {%- if b.show_expand -%}
@@ -70,18 +73,18 @@
           {%- endif -%}
         </div>
         <div class="ts-bento__text">
-          <div class="ts-tile-icon">{% render 'tonescan-tile-icon', key: b.icon %}</div>
-          <h3 class="tw:text-[22px] tw:font-semibold tw:text-white">{{ b.title }}</h3>
+          {%- if b.show_icon -%}<div class="ts-tile-icon">{% render 'tonescan-tile-icon', key: b.icon %}</div>{%- endif -%}
+          <h3 class="ts-bento__title tw:text-[22px] tw:font-semibold tw:text-white">{{ b.title }}</h3>
           <p class="tw:mt-[10px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">{{ b.description }}</p>
           {%- if b.cta_text != blank -%}
           <a class="ts-bento__cta" href="{{ b.cta_link | default: '#gallery' }}">{{ b.cta_text }}</a>
           {%- endif -%}
         </div>
         {%- else -%}
-        {%- if src != blank -%}<span class="ts-bento__bg" style="--bg:url('{{ src }}')" aria-hidden="true"></span>{%- endif -%}
-        <div class="ts-tile-icon">{% render 'tonescan-tile-icon', key: b.icon %}</div>
+        {%- if src != blank -%}<span class="ts-bento__bg" style="--bg:url('{{ src }}'){% if bgpos != blank %};--bgpos:{{ bgpos }}{% endif %}" aria-hidden="true"></span>{%- endif -%}
+        {%- if b.show_icon -%}<div class="ts-tile-icon">{% render 'tonescan-tile-icon', key: b.icon %}</div>{%- endif -%}
         <div class="tw:mt-auto">
-          <h3 class="tw:text-[17px] tw:font-semibold tw:text-white">{{ b.title }}</h3>
+          <h3 class="ts-bento__title tw:text-[17px] tw:font-semibold tw:text-white">{{ b.title }}</h3>
           <p class="tw:mt-[8px] tw:text-[14px] tw:leading-[1.6] tw:text-neutral-400">{{ b.description }}</p>
         </div>
         {%- endif -%}
@@ -206,6 +209,31 @@
               "label": "Icon 9"
             }
           ]
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show icon",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "title_size",
+          "label": "Title size",
+          "options": [
+            { "value": "default", "label": "Default" },
+            { "value": "sm", "label": "Small" },
+            { "value": "md", "label": "Medium" },
+            { "value": "lg", "label": "Large" }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "checkbox",
+          "id": "bg_full",
+          "label": "Full-strength background image",
+          "info": "Shows the image at full strength instead of a faint wash, with a dark fade behind the text. Not used on the large tile, which frames its image.",
+          "default": false
         },
         {
           "type": "image_picker",

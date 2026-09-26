@@ -1,0 +1,12 @@
+{%- comment -%}
+  The Kit (ConvertKit) waitlist form for the toneScan pages: the shared tc-kickstarter-prelaunch-form
+  snippet with its button label swapped in and Kit's script tag taken out. The page can show this
+  form in more than one place (hero, header, closing section), and a copy of ck.5.js per form would
+  bind each form more than once; tonescan-scripts loads the script once when a form is on the page.
+  Usage: {% render 'ts-kit-form', label: 'Join the waitlist', class: 'ts-kit--header' %}
+{%- endcomment -%}
+{%- capture kit_raw -%}{% render 'tc-kickstarter-prelaunch-form' %}{%- endcapture -%}
+{%- capture kit_label -%}<span class="">{{ label | default: 'Join the waitlist' | escape }}</span>{%- endcapture -%}
+<div class="ts-kit {{ class }}">
+  {{- kit_raw | remove: '<script src="https://f.convertkit.com/ckjs/ck.5.js" defer></script>' | replace: '<span class="">Join the waitlist</span>', kit_label -}}
+</div>

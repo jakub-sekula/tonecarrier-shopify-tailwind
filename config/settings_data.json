@@ -122,6 +122,8 @@
     "show_vendor": false,
     "show_cart_note": false,
     "cart_drawer_collection": "",
+    "tonelight_cta": "kit",
+    "tonelight_kit_label": "Notify me",
     "sections": {
       "main-password-header": {
         "type": "main-password-header",
@@ -150,6 +152,24 @@
           "margin_bottom": 0,
           "padding_top": 20,
           "padding_bottom": 20
+        }
+      },
+      "holiday-banner": {
+        "type": "holiday-banner",
+        "settings": {
+          "enabled": true,
+          "label": "Shipping delay",
+          "message": "All physical orders will ship after <strong>19 September</strong>.",
+          "note": "",
+          "icon": "triangle",
+          "link_text": "Got questions? Contact us.",
+          "link_url": "",
+          "color_bg": "#0c0b08",
+          "color_text": "#e7e5e4",
+          "color_accent": "#fbbf24",
+          "color_emphasis": "#ffffff",
+          "dismissible": false,
+          "version": "2025-09-19"
         }
       }
     },

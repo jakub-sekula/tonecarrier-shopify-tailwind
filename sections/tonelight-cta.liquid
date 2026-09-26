@@ -1,20 +1,33 @@
 {%- comment -%}
-  Closing call to action for the toneLight page: heading, a line of text and one button.
+  Closing call to action for the toneLight page: heading, a line of text and either one button or
+  the Kit waitlist form, per Theme settings > toneLight Kickstarter > Call to action. The other one
+  rides along in an inert <template> for the development panel's preview switch. #join is the
+  target of the header's waitlist button on small screens.
 {%- endcomment -%}
+{%- assign tl_cta = settings.tonelight_cta | default: 'link' -%}
 
 <div class="tonescan-landing tw:text-neutral-200">
-  <section class="tw:relative tw:overflow-hidden">
+  <section id="join" class="tw:relative tw:overflow-hidden tw:scroll-mt-[84px]">
     <div class="tl-cta__glow" aria-hidden="true"></div>
     <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[96px] tw:text-center tw:md:px-[50px] tw:md:py-[140px]">
       <h2 class="tw:mx-auto tw:max-w-[760px] tw:text-[34px] tw:font-semibold tw:leading-[1.08] tw:tracking-[-0.02em] tw:text-white tw:md:text-[56px]">{{ section.settings.heading }}</h2>
       {%- if section.settings.text != blank -%}
       <p class="tw:mx-auto tw:mt-[16px] tw:max-w-[540px] tw:text-[17px] tw:text-neutral-400">{{ section.settings.text }}</p>
       {%- endif -%}
+      {%- capture tl_cta_link -%}
       {%- if section.settings.button_text != blank -%}
       <div class="tw:mt-[32px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
         <a class="ts-cta ts-cta--{{ section.settings.button_style }}" href="{{ section.settings.button_url | default: settings.tonelight_ks_url | default: '#rewards' }}">{{ section.settings.button_text }}</a>
       </div>
       {%- endif -%}
+      {%- endcapture -%}
+      {%- capture tl_cta_kit -%}
+      <div class="tl-cta__kit">{% render 'ts-kit-form', label: settings.tonelight_kit_label %}</div>
+      {%- endcapture -%}
+      <div class="ts-cta-swap" data-cta="{{ tl_cta }}">
+        <div class="ts-cta-swap__on">{% if tl_cta == 'kit' %}{{ tl_cta_kit }}{% else %}{{ tl_cta_link }}{% endif %}</div>
+        {%- if tl_cta == 'kit' -%}<template data-cta-alt="link">{{ tl_cta_link }}</template>{%- else -%}<template data-cta-alt="kit">{{ tl_cta_kit }}</template>{%- endif -%}
+      </div>
     </div>
   </section>
 </div>
@@ -22,6 +35,7 @@
 {%- style -%}
   .tl-cta__glow { position: absolute; left: 50%; bottom: -180px; width: 720px; height: 360px; transform: translateX(-50%);
     border-radius: 9999px; background: rgba(5,206,120,.08); filter: blur(130px); pointer-events: none; }
+  .tl-cta__kit { max-width: 520px; margin: 32px auto 0; text-align: left; }
 {%- endstyle -%}
 
 {% schema %}

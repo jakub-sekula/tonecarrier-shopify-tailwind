@@ -6,7 +6,8 @@
   A row of buttons under the subheading switches samples; within a sample the wide layout shows all
   three side by side and the narrow layout toggles between them.
 
-  ALL THREE IMAGES IN A SAMPLE MUST BE THE SAME FRAME, at the same crop and size.
+  ALL THREE IMAGES IN A SAMPLE MUST BE THE SAME FRAME, at the same crop and size. Every sample
+  shows at the first sample's shape, so switching never changes the height.
 
   The scan toggle needs no JavaScript (three real radios per sample). Switching samples uses a little
   JS in tonescan-scripts. Each sample's three images open full screen via PhotoSwipe.
@@ -27,10 +28,29 @@
       {%- if section.blocks.size > 1 -%}
       <div class="ts-tri__sets">
         {%- for block in section.blocks -%}
-        <button type="button" class="ts-tri__setbtn{% if forloop.first %} is-active{% endif %}" data-set="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{%- if block.settings.name != blank -%}{{ block.settings.name }}{%- else -%}Sample {{ forloop.index }}{%- endif -%}</button>
+        {%- comment -%} Square thumbnail of the sample's RGB scan (image 2), falling back to image 1;
+           the sample's name is the button's label for screen readers and the hover tooltip. {%- endcomment -%}
+        {%- capture set_name -%}{%- if block.settings.name != blank -%}{{ block.settings.name }}{%- else -%}Sample {{ forloop.index }}{%- endif -%}{%- endcapture -%}
+        {%- assign thumb = block.settings.image_2 | default: block.settings.image_1 -%}
+        <button type="button" class="ts-tri__setbtn ts-tri__setbtn--thumb{% if forloop.first %} is-active{% endif %}" data-set="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="{{ set_name | escape }}" title="{{ set_name | escape }}">
+          {%- if thumb != blank -%}
+            {%- assign fp = '' -%}{%- if thumb.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ thumb.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+            {{ thumb | image_url: width: 240 | image_tag: alt: '', loading: 'lazy', width: 76, height: 76, widths: '160, 240', sizes: '80px', style: fp }}
+          {%- else -%}
+            <span class="ts-tri__thumbph">{{ forloop.index }}</span>
+          {%- endif -%}
+        </button>
         {%- endfor -%}
       </div>
       {%- endif -%}
+
+      {%- comment -%} One shape for every sample: the first sample's first image sets the aspect
+         ratio for all of them, so switching samples never changes the height or the crop. Images
+         of another shape are cropped to it (object-fit: cover, honouring focal points). {%- endcomment -%}
+      {%- assign tri_ar = 1.6 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.image_1 != blank -%}{%- assign tri_ar = block.settings.image_1.aspect_ratio -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
 
       {%- for block in section.blocks -%}
         {%- assign b = block.settings -%}
@@ -67,7 +87,7 @@
             <input class="ts-tri__in ts-tri__in--2" type="radio" name="tri-{{ setid }}" id="tri-{{ setid }}-2">
             <input class="ts-tri__in ts-tri__in--3" type="radio" name="tri-{{ setid }}" id="tri-{{ setid }}-3">
 
-            <div class="ts-tri__stage" style="--ar: {{ ar }}">
+            <div class="ts-tri__stage" style="--ar: {{ tri_ar }}">
               <div class="ts-tri__cell ts-tri__cell--1">
                 <div class="ts-tri__frame"><img class="ts-tri__img" src="{{ s1 }}"{% if p1 != blank %} style="object-position: {{ p1 }}"{% endif %} data-full="{{ f1 }}" data-fw="{{ fw1 }}" data-fh="{{ fh1 }}" alt="{{ section.settings.label_1 }}" loading="lazy" width="{{ w1 }}" height="{{ h1 }}"></div>
                 <span class="ts-tri__label"><span class="ts-tri__labeltitle">{{ section.settings.label_1 }}</span>{% if section.settings.sublabel_1 != blank %}<span class="ts-tri__sublabel">{{ section.settings.sublabel_1 }}</span>{% endif %}</span>

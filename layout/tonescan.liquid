@@ -187,7 +187,17 @@
 
         {%- comment -%} The campaign URL is a theme setting so every Kickstarter button on the page
            shares it. Before it is set, the button falls back to the rewards on this page. {%- endcomment -%}
-        <a href="{{ settings.tonelight_ks_url | default: '#rewards' }}" class="ts-cta ts-cta--ks ts-cta--sm">Back on Kickstarter</a>
+        {%- comment -%} Or the Kit waitlist form, per Theme settings > toneLight Kickstarter > Call to
+           action: a compact form on wide screens, and below that a button to the one in the
+           closing section (#join), since the bar has no room for a form. The other variant rides
+           along in an inert <template> for the development panel's preview switch. {%- endcomment -%}
+        {%- assign tl_cta = settings.tonelight_cta | default: 'link' -%}
+        {%- capture tl_head_link -%}<a href="{{ settings.tonelight_ks_url | default: '#rewards' }}" class="ts-cta ts-cta--ks ts-cta--sm">Back on Kickstarter</a>{%- endcapture -%}
+        {%- capture tl_head_kit -%}<div class="ts-head-kit">{% render 'ts-kit-form', label: settings.tonelight_kit_label, class: 'ts-kit--header' %}</div><a href="#join" class="ts-cta ts-cta--ks ts-cta--sm ts-head-kit__btn">{{ settings.tonelight_kit_label | default: 'Join the waitlist' }}</a>{%- endcapture -%}
+        <div class="ts-cta-swap" data-cta="{{ tl_cta }}">
+          <div class="ts-cta-swap__on">{% if tl_cta == 'kit' %}{{ tl_head_kit }}{% else %}{{ tl_head_link }}{% endif %}</div>
+          {%- if tl_cta == 'kit' -%}<template data-cta-alt="link">{{ tl_head_link }}</template>{%- else -%}<template data-cta-alt="kit">{{ tl_head_kit }}</template>{%- endif -%}
+        </div>
         {%- else -%}
         <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
           {%- if ts_minimal == false or ts_lite_blocks contains 'features' -%}<a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>{%- endif -%}
@@ -262,7 +272,8 @@
         // each one 22px low until it intersected, which read as frames sliding up into the strip.
         // .tl-rev__tile likewise: the review wall's tiles drift through a clipped window, so revealing
         // each one as it crosses in reads as flicker, and copies rebuilt on resize were never revealed.
-        var targets = document.querySelectorAll('.tonescan-landing :is(h1, h2, [class*="grid"] > *, figure:not(.ts-conv__item):not(.tl-rev__tile), details)');
+        // [data-reveal] opts anything else in, e.g. the reviews section's star row above its heading.
+        var targets = document.querySelectorAll('.tonescan-landing :is(h1, h2, [data-reveal], [class*="grid"] > *, figure:not(.ts-conv__item):not(.tl-rev__tile), details)');
         targets.forEach(function (el) { el.classList.add('reveal'); });
 
         var io = new IntersectionObserver(function (entries) {

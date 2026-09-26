@@ -502,6 +502,16 @@
             mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 88%);
     transition: opacity .25s ease; }
   .ts-bento:hover > .ts-bento__bg { opacity: .2; }
+  /* per-tile options: full-strength background (dark fade at the foot keeps the text readable),
+     and title size */
+  .ts-bento--fullbg > .ts-bento__bg, .ts-bento--fullbg:hover > .ts-bento__bg { opacity: 1; -webkit-mask-image: none; mask-image: none;
+    background-image: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.35) 45%, rgba(0,0,0,0) 75%), var(--bg);
+    background-position: center, var(--bgpos, center); }
+  .ts-bento--fullbg p { color: #d4d4d4; }
+  .ts-bento--t-sm .ts-bento__title { font-size: 17px; }
+  .ts-bento--t-md .ts-bento__title { font-size: 22px; }
+  .ts-bento--t-lg .ts-bento__title { font-size: 28px; line-height: 1.15; }
+  @media (min-width: 1024px) { .ts-bento--t-lg .ts-bento__title { font-size: 32px; } }
 
   /* align-self stops it stretching once .ts-bento__text becomes a flex column */
   .ts-bento__cta { display: inline-flex; align-self: flex-start; align-items: center; gap: 8px; width: auto;
@@ -1462,6 +1472,38 @@
 
   /* Kickstarter logo inside the status pill, after its text ("Coming soon on" + logo). The logo
      keeps its own green, so the pill itself goes neutral rather than blue. */
+  /* Kit waitlist form (snippet ts-kit-form) wherever it appears: the shared form's blue accents
+     become Kickstarter green and neutral focus. Dark by default; light on the light page outside
+     dark sections, and in a light hero. */
+  .ts-kit .formkit-form [data-element="fields"] { gap: 10px; }
+  .ts-kit .formkit-form input { height: 50px; font-size: 16px; }
+  .ts-kit .formkit-form input:focus { border-color: rgba(255,255,255,.45); }
+  .ts-kit .formkit-submit { height: 50px; color: #0a0a0b; background: #05ce78; white-space: nowrap; }
+  .ts-kit .formkit-submit:hover { background: #04bd6e; }
+  .ts-kit .formkit-spinner > div > div { background-color: #0a0a0b !important; }
+  .tonescan-body--light .ts-kit:not(.ts-dark *) .formkit-form input,
+  .ts-hero-split--light .ts-kit .formkit-form input { color: #0a0a0b; background: #fff; border-color: rgba(0,0,0,.15); }
+  .tonescan-body--light .ts-kit:not(.ts-dark *) .formkit-form input:focus,
+  .ts-hero-split--light .ts-kit .formkit-form input:focus { border-color: rgba(0,0,0,.45); }
+  .ts-hero-kit { width: 100%; max-width: 560px; }
+
+  /* the header's compact version: one row, header-sized; replies float under it rather than
+     pushing the bar open. Below 1200px there is no room, so a button to #join stands in. */
+  .ts-head-kit { display: none; }
+  @media (min-width: 1200px) {
+    .ts-head-kit { display: block; }
+    .ts-head-kit__btn { display: none !important; }
+  }
+  .ts-kit--header .formkit-form { position: relative; }
+  .ts-kit--header .formkit-form [data-element="fields"] { flex-direction: row; gap: 6px; }
+  .ts-kit--header .formkit-form input { width: 210px; height: 34px; padding: 0 12px; font-size: 13px; }
+  .ts-kit--header .formkit-submit { width: auto; max-width: none; height: 34px; padding: 0 14px; font-size: 13px; }
+  .ts-kit--header .formkit-alert { position: absolute; top: 100%; right: 0; width: max-content; max-width: 320px; margin-top: 8px;
+    padding: 8px 12px; font-size: 13px; }
+
+  /* development panel swap boxes: hooks only, they must not change layout */
+  .ts-cta-swap, .ts-cta-swap__on { display: contents; }
+
   /* Headline words wrapped in [rgb]…[/rgb]: one gradient across them, red into green into blue.
      The default slice decoration keeps it continuous when the phrase wraps onto a second line. */
   .ts-rgb-text { background-image: linear-gradient(90deg, #ff5a5f 0%, #ff5a5f 14%, #34d67f 31%, #34d67f 40%, #4d8dff 57%, #4d8dff 100%);
@@ -1938,13 +1980,35 @@
   .ts-tri__sub { margin: 16px 0 0; font-size: 16px; line-height: 1.6; color: #a3a3a3; text-wrap: pretty; }
 
   /* Sample selector: pill buttons under the subheading, a white pill marking the active sample. */
-  .ts-tri__sets { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 auto 32px; max-width: 760px; }
-  .ts-tri__setbtn { padding: 8px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; color: #a3a3a3;
+  /* Same behaviour as the Key features buttons: centred while they fit, one sideways-scrolling row
+     on narrow screens (the auto margins centre it without clipping its start once it overflows). */
+  .ts-tri__sets { display: flex; gap: 8px; margin: 0 -15px 32px; padding: 2px 15px 6px; overflow-x: auto;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .ts-tri__sets::-webkit-scrollbar { display: none; }
+  .ts-tri__sets > :first-child { margin-left: auto; }
+  .ts-tri__sets > :last-child { margin-right: auto; }
+  .ts-tri__setbtn { flex: 0 0 auto; white-space: nowrap; font-family: inherit;
+    padding: 9px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; color: #a3a3a3;
     background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); cursor: pointer;
     transition: color .18s ease, background .18s ease, border-color .18s ease; }
   .ts-tri__setbtn:hover { color: #e5e5e5; border-color: rgba(255,255,255,.28); }
   .ts-tri__setbtn.is-active { color: #0a0a0b; background: #fff; border-color: #fff; }
   .ts-tri__setbtn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+  /* Thumbnail buttons: a square crop of each sample's RGB scan. The selected one is fully opaque
+     with a solid outline; the rest are dimmed. Specific enough to beat the pill styles above and
+     the light-page overrides further down. */
+  .ts-tri__sets:has(.ts-tri__setbtn--thumb) { gap: 10px; }
+  .ts-tri__setbtn.ts-tri__setbtn--thumb { position: relative; width: 64px; height: 64px; padding: 0; overflow: hidden; border-radius: 4px;
+    background: #1a1a1c; border: 2px solid transparent; opacity: .55; transition: opacity .18s ease, border-color .18s ease; }
+  @media (min-width: 768px) { .ts-tri__setbtn.ts-tri__setbtn--thumb { width: 76px; height: 76px; } }
+  .ts-tri__setbtn--thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .ts-tri__setbtn.ts-tri__setbtn--thumb:hover { opacity: .85; border-color: transparent; }
+  .ts-tri__setbtn.ts-tri__setbtn--thumb.is-active { opacity: 1; background: #1a1a1c; border-color: #fff; }
+  .ts-tri__thumbph { display: flex; align-items: center; justify-content: center; height: 100%; font-size: 14px; font-weight: 600; color: #a3a3a3; }
+  .tonescan-body--light .ts-tri__setbtn.ts-tri__setbtn--thumb:not(.ts-dark):not(.ts-dark *) { background: #ececea; border-color: transparent; }
+  .tonescan-body--light .ts-tri__setbtn.ts-tri__setbtn--thumb.is-active:not(.ts-dark):not(.ts-dark *) { background: #ececea; border-color: #0a0a0b; }
+  .tonescan-body--light .ts-tri__thumbph:not(.ts-dark *) { color: #71717a; }
 
   /* One sample shown at a time; the JS switcher toggles is-active. */
   .ts-tri__set { display: none; }
@@ -2046,6 +2110,8 @@
 
   .ts-mock__label { color: #f59e0b; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
   .ts-mock__row { display: flex; gap: 5px; }
+  .ts-mock__sub { margin-top: 3px; color: #a1a1aa; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+
   .ts-mock button { padding: 5px 9px; font: inherit; color: #d4d4d4; cursor: pointer;
     background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 3px;
     transition: background .15s ease, color .15s ease; }

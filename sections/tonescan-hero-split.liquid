@@ -142,7 +142,18 @@
             <div class="ts-countdown__unit"><span class="ts-countdown__num" data-cd="s">{% render 'ts-flap-digits', value: cd_ss %}</span><span class="ts-countdown__label">seconds</span></div>
           </div>
           {%- endif -%}
-          {%- if section.settings.cta_type == 'link' -%}
+          {%- comment -%} The call to action is one of three variants, picked by cta_type. Each is
+             captured, the chosen one is shown, and when the dev panel exists the link and Kit
+             variants also ride along in inert <template>s so the panel can swap between them
+             (templates are never shown or run for visitors). {%- endcomment -%}
+          {%- capture ts_cta_kit -%}
+          {%- comment -%} The Kit (ConvertKit) waitlist form, the same form the other Kickstarter
+             pages use, with the hero's own button label. {%- endcomment -%}
+          <div class="ts-hero-kit tw:mt-[6px]">
+            {% render 'ts-kit-form', label: section.settings.kit_button_text %}
+          </div>
+          {%- endcapture -%}
+          {%- capture ts_cta_link -%}
           <div class="ts-hero-ctas tw:mt-[6px]">
             {%- assign ts_cta_url = section.settings.cta_url -%}
             {%- if ts_cta_url == blank and section.settings.cta_style == 'ks' -%}{%- assign ts_cta_url = settings.tonelight_ks_url -%}{%- endif -%}
@@ -151,6 +162,14 @@
             <a class="ts-cta ts-cta--ghost" href="{{ section.settings.cta2_url | default: '#' }}">{{ section.settings.cta2_text }}{% if section.settings.cta2_chevron %}<svg class="ts-cta__chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>{% endif %}</a>
             {%- endif -%}
           </div>
+          {%- endcapture -%}
+          {%- assign ts_cta = section.settings.cta_type | default: 'form' -%}
+          <div class="ts-hero-cta ts-cta-swap" data-cta="{{ ts_cta }}">
+          <div class="ts-cta-swap__on">
+          {%- if ts_cta == 'kit' -%}
+            {{ ts_cta_kit }}
+          {%- elsif ts_cta == 'link' -%}
+            {{ ts_cta_link }}
           {%- else -%}
           <div class="ts-signup tw:mt-[6px]">
             <form class="ts-form" novalidate>
@@ -161,6 +180,12 @@
             <p class="ts-msg" role="status" aria-live="polite"></p>
           </div>
           {%- endif -%}
+          </div>
+          {%- if ts_launch_aware -%}
+            {%- unless ts_cta == 'link' -%}<template data-cta-alt="link">{{ ts_cta_link }}</template>{%- endunless -%}
+            {%- unless ts_cta == 'kit' -%}<template data-cta-alt="kit">{{ ts_cta_kit }}</template>{%- endunless -%}
+          {%- endif -%}
+          </div>
           {%- if section.settings.show_os == false -%}
           {%- if section.settings.sub_cta_text != blank -%}<p class="ts-hero-note">{{ section.settings.sub_cta_text }}</p>{%- endif -%}
           {%- else -%}
@@ -198,7 +223,7 @@
                 {%- if is_video -%}
                 <div class="ts-hero-shot ts-hero-vslot{% if forloop.first %} is-active{% endif %}" data-shot="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
                   {%- comment -%} no poster: the video's own first frame is the placeholder {%- endcomment -%}
-                  <video class="ts-hero-video" muted playsinline preload="auto">
+                  <video class="ts-hero-video" muted playsinline preload="auto"{% if block.settings.loop %} loop{% endif %}>
                     <source src="{% if block.settings.video != blank %}{{ block.settings.video.sources[1].url | default: block.settings.video.sources[0].url }}{% else %}{{ block.settings.media_url }}{% endif %}" type="video/mp4">
                   </video>
                   <button type="button" class="ts-hero-replay" aria-label="Replay video">
@@ -267,6 +292,11 @@
           <button type="button" data-launch-mock="pre">Countdown</button>
           <button type="button" data-launch-mock="live">After launch</button>
           <button type="button" data-launch-mock="auto">Real time</button>
+        </div>
+        <span class="ts-mock__sub">Call to action</span>
+        <div class="ts-mock__row">
+          <button type="button" data-cta-mock="link">Kickstarter button</button>
+          <button type="button" data-cta-mock="kit">Kit form</button>
         </div>
       </div>
     </div>
@@ -369,7 +399,8 @@
       "label": "Button type",
       "options": [
         { "value": "form", "label": "Beta signup form" },
-        { "value": "link", "label": "Link button" }
+        { "value": "link", "label": "Link button" },
+        { "value": "kit", "label": "Kit waitlist form" }
       ],
       "default": "form"
     },
@@ -378,6 +409,13 @@
       "id": "cta_text",
       "label": "Button text",
       "default": "Join the beta"
+    },
+    {
+      "type": "text",
+      "id": "kit_button_text",
+      "label": "Kit form button text",
+      "default": "Join the waitlist",
+      "info": "Used with the Kit waitlist form. The second button is not shown with the form."
     },
     {
       "type": "select",
@@ -514,6 +552,13 @@
           "id": "video",
           "label": "Video",
           "info": "Overrides the screenshot. Autoplays muted with a replay button."
+        },
+        {
+          "type": "checkbox",
+          "id": "loop",
+          "label": "Loop the video",
+          "info": "Plays on repeat instead of stopping (or moving to the next slide) at the end.",
+          "default": false
         },
         {
           "type": "text",

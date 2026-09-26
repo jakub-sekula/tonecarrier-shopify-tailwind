@@ -17,7 +17,7 @@
         <p class="tw:mb-[16px] tw:text-[13px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#60a5fa]">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
         {%- comment -%} Decorative: the stars say "reviews" before the heading does. {%- endcomment -%}
-        <div class="tl-rev__headstars" aria-hidden="true">
+        <div class="tl-rev__headstars" aria-hidden="true" data-reveal>
           {%- for i in (1..5) -%}<svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z"/></svg>{%- endfor -%}
         </div>
         <h2 class="tl-rev__heading tw:text-white">{{ section.settings.heading }}</h2>

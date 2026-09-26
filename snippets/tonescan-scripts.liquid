@@ -228,16 +228,22 @@ function tsInit() {
       var btns = sec.querySelectorAll('.ts-tri__setbtn');
       var sets = sec.querySelectorAll('.ts-tri__set');
       if (btns.length < 2) return;
-      btns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var idx = btn.getAttribute('data-set');
-          btns.forEach(function (b) {
-            var on = b.getAttribute('data-set') === idx;
-            b.classList.toggle('is-active', on);
-            b.setAttribute('aria-pressed', on ? 'true' : 'false');
-          });
-          sets.forEach(function (s) { s.classList.toggle('is-active', s.getAttribute('data-set') === idx); });
+      function show(idx) {
+        btns.forEach(function (b) {
+          var on = b.getAttribute('data-set') === idx;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          // keep the chosen button in view when the row scrolls sideways
+          if (on && b.parentNode.scrollWidth > b.parentNode.clientWidth) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
         });
+        sets.forEach(function (s) { s.classList.toggle('is-active', s.getAttribute('data-set') === idx); });
+      }
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () { show(btn.getAttribute('data-set')); });
+      });
+      // theme editor: picking a sample block in the sidebar brings it up
+      sets.forEach(function (s) {
+        s.addEventListener('shopify:block:select', function () { show(s.getAttribute('data-set')); });
       });
     });
   })();
@@ -2414,10 +2420,63 @@ function tsInit() {
         try { localStorage.setItem(KEY, m); } catch (e) { /* preview still works, just not remembered */ }
         tick();
       };
-      btns.forEach(function (b) { b.addEventListener('click', function () { setMode(b.getAttribute('data-launch-mock')); }); });
+      // The two rows are linked where a combination would be contradictory: the Kit form is a
+      // waitlist, so it belongs with the countdown, and "after launch" belongs with the button.
+      var ctaSwap = null;
+      btns.forEach(function (b) { b.addEventListener('click', function () {
+        var m = b.getAttribute('data-launch-mock');
+        setMode(m);
+        if (m === 'live' && ctaSwap) ctaSwap('link');
+      }); });
       var saved = null;
       try { saved = localStorage.getItem(KEY); } catch (e) { /* private browsing */ }
       setMode(saved === 'live' || saved === 'auto' ? saved : 'pre');
+
+      // Call to action: swaps the hero between the Kickstarter button and the Kit waitlist form.
+      // The alternatives sit in inert <template>s; each variant's nodes are moved in and out rather
+      // than re-cloned, so a form keeps whatever state and listeners it has. Scripts are stripped
+      // from the clone and Kit's own script is loaded once, on first use.
+      // Every .ts-cta-swap on the page (hero, header, closing section) switches together.
+      var swapBoxes = Array.prototype.slice.call(document.querySelectorAll('.ts-cta-swap'));
+      var ctaBtns = panel.querySelectorAll('[data-cta-mock]');
+      var heroBox = document.querySelector('.tonescan-landing .ts-hero-cta');
+      if (swapBoxes.length && ctaBtns.length) {
+        var CTA_KEY = 'ts.mock.cta';
+        var boxes = swapBoxes.map(function (box) {
+          return { box: box, on: box.querySelector(':scope > .ts-cta-swap__on'), shown: box.getAttribute('data-cta'), stash: {} };
+        });
+        var nodesFor = function (bx, v) {
+          if (bx.stash[v]) return bx.stash[v];
+          var t = bx.box.querySelector(':scope > template[data-cta-alt="' + v + '"]');
+          if (!t) return null;
+          var frag = t.content.cloneNode(true);
+          frag.querySelectorAll('script').forEach(function (sc) { sc.remove(); });
+          bx.stash[v] = Array.prototype.slice.call(frag.childNodes);
+          return bx.stash[v];
+        };
+        var showCta = function (v, fromPanel) {
+          if (fromPanel && v === 'kit' && mode === 'live') setMode('pre');
+          ctaBtns.forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-cta-mock') === v); });
+          boxes.forEach(function (bx) {
+            if (!bx.on || v === bx.shown) return;
+            var incoming = nodesFor(bx, v);
+            if (!incoming) return;
+            bx.stash[bx.shown] = Array.prototype.slice.call(bx.on.childNodes);
+            bx.stash[bx.shown].forEach(function (n) { n.parentNode.removeChild(n); });
+            incoming.forEach(function (n) { bx.on.appendChild(n); });
+            bx.shown = v;
+          });
+          if (v === 'kit') tsKitEnsure();
+          try { localStorage.setItem(CTA_KEY, v); } catch (e) { /* not remembered, still shown */ }
+        };
+        ctaBtns.forEach(function (b) { b.addEventListener('click', function () { showCta(b.getAttribute('data-cta-mock'), true); }); });
+        ctaSwap = showCta;
+        var savedCta = null;
+        try { savedCta = localStorage.getItem(CTA_KEY); } catch (e) { /* private browsing */ }
+        // true: a remembered Kit form also pulls a remembered "after launch" back to the countdown
+        var pageCta = heroBox ? heroBox.getAttribute('data-cta') : boxes[0].shown;
+        showCta(savedCta === 'kit' || savedCta === 'link' ? savedCta : pageCta, true);
+      }
     }
 
     tick();
@@ -2439,6 +2498,13 @@ function tsAutoVideos() {
     document.querySelectorAll('video.ts-autovid:not([data-ts-seen])').forEach(function (v) {
       v.setAttribute('data-ts-seen', '');
       v.muted = true;                       // required for autoplay; the attribute alone is not always enough
+      v.loop = true;
+      // belt and braces for the loop: if a browser does reach the end (some stall there on certain
+      // encodes), start it again from the top
+      v.addEventListener('ended', function () {
+        try { v.currentTime = 0; } catch (e) {}
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      });
       if (io) io.observe(v); else { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
     });
   }
@@ -2446,7 +2512,22 @@ function tsAutoVideos() {
   document.addEventListener('shopify:section:load', scan);
 }
 
-function tsBoot() { tsInit(); tsAutoVideos(); }
+/* Kit's form script, loaded once for the whole page. The toneScan pages render the Kit form without
+   its own script tag (snippet ts-kit-form) because it can appear in several places at once. */
+function tsKitEnsure() {
+  if (document.querySelector('script[data-ts-ck]')) return;
+  var sc = document.createElement('script');
+  sc.src = 'https://f.convertkit.com/ckjs/ck.5.js';
+  sc.defer = true;
+  sc.setAttribute('data-ts-ck', '');
+  document.head.appendChild(sc);
+}
+function tsKitBoot() {
+  // only forms actually on the page count, not ones parked in a <template>
+  if (document.querySelector('.ts-kit form[data-sv-form]')) tsKitEnsure();
+}
+
+function tsBoot() { tsInit(); tsAutoVideos(); tsKitBoot(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tsBoot);
 else tsBoot();
 })();
