@@ -1500,8 +1500,30 @@
   .ts-kit--header .formkit-form [data-element="fields"] { flex-direction: row; gap: 6px; }
   .ts-kit--header .formkit-form input { width: 210px; height: 34px; padding: 0 12px; font-size: 13px; }
   .ts-kit--header .formkit-submit { width: auto; max-width: none; height: 34px; padding: 0 14px; font-size: 13px; }
-  .ts-kit--header .formkit-alert { position: absolute; top: 100%; right: 0; width: max-content; max-width: 320px; margin-top: 8px;
-    padding: 8px 12px; font-size: 13px; }
+  /* Kit's messages. On success its script replaces the fields row with div.formkit-alert-success,
+     and the snippet's own stylesheet gives alerts width: 100% (more specific than a plain class), so
+     with the fields gone the form collapsed and the message wrapped a word per line. The selectors
+     carry [data-uid] to outrank it. Errors drop down below the bar; the success message takes the
+     fields' place in the bar as a compact two-line note. */
+  .ts-kit--header .formkit-form[data-uid] .formkit-alert-error { position: absolute; top: 100%; right: 0; width: max-content;
+    max-width: 320px; margin-top: 8px; padding: 8px 12px; font-size: 13px; }
+  /* Kit's success message, everywhere the form appears (hero, header, bottom bar, closing
+     section): green text and a tick, no box, in the space the fields row had so nothing below moves.
+     [data-uid] outranks the snippet's own alert styles. Left-aligned by default; centred where the
+     form is centred. In the header it is capped at two 17px lines, the 34px the form occupied, so
+     the header keeps its height. */
+  .ts-kit .formkit-form[data-uid] .formkit-alert-success {
+    display: flex; align-items: center; justify-content: flex-start; gap: 10px; width: 100%; min-height: 50px;
+    margin: 0; padding: 0; font-size: 15px; font-weight: 500; line-height: 1.4; text-align: left; color: #34d399;
+    background: none; border: 0; border-radius: 0; }
+  .tonescan-body--light .ts-kit:not(.ts-dark *) .formkit-form[data-uid] .formkit-alert-success { color: #047857; }
+  .tl-cta__kit .formkit-form[data-uid] .formkit-alert-success { justify-content: center; }
+  .ts-kit .formkit-form[data-uid] .formkit-alert-success::before {
+    content: ''; flex: 0 0 auto; width: 16px; height: 16px; background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3 3 7-7' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3 3 7-7' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain; }
+  .ts-kit--header .formkit-form[data-uid] .formkit-alert-success { flex: none; width: auto; max-width: 300px; min-height: 0;
+    height: 34px; gap: 8px; font-size: 13px; line-height: 17px; overflow: hidden; }
 
   /* development panel swap boxes: hooks only, they must not change layout */
   .ts-cta-swap, .ts-cta-swap__on { display: contents; }
@@ -2487,6 +2509,22 @@
   /* ---- the site header's call to action on these pages (snippets/ts-header-cta) ----
      Sits after the cart icon, vertically centred, with the same small button as before. */
   .ts-head-cta { display: flex; align-items: center; margin-left: 12px; }
+  /* ---- signup confirmed dialog (layout/tonescan.liquid, opened by ?email=confirmed) ---- */
+  .ts-confirm { width: min(440px, calc(100vw - 32px)); max-width: none; margin: auto; padding: 0; color: #e5e5e5;
+    background: #111113; border: 1px solid rgba(255,255,255,.1); border-radius: 8px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.6); }
+  .ts-confirm::backdrop { background: rgba(0,0,0,.6); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .ts-confirm__card { display: flex; flex-direction: column; align-items: center; padding: 36px 32px 30px; text-align: center; }
+  .ts-confirm__icon { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; margin-bottom: 20px;
+    color: #05ce78; background: rgba(5,206,120,.12); border-radius: 9999px; }
+  .ts-confirm__icon svg { width: 28px; height: 28px; }
+  .ts-confirm__title { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -.01em; color: #fff; }
+  .ts-confirm__text { margin: 10px 0 0; max-width: 34ch; font-size: 15px; line-height: 1.55; color: #a3a3a3; text-wrap: pretty; }
+  .ts-confirm form { width: 100%; margin-top: 26px; }
+  .ts-confirm__btn { width: 100%; height: 46px; font-size: 15px; border: 0; cursor: pointer; }
+  .ts-confirm[open] { animation: tsConfirmIn .25s ease-out; }
+  @keyframes tsConfirmIn { from { opacity: 0; transform: translateY(8px) scale(.98); } }
+  @media (prefers-reduced-motion: reduce) { .ts-confirm[open] { animation: none; } }
+
   /* ---- bottom call-to-action bar, below 990px (layout/tonescan.liquid) ----
      Takes over from the header's call to action where the header is in its mobile layout. Parked
      below the screen and invisible (so it cannot be tabbed into) until body.ts-bar-on: the hero
@@ -2514,9 +2552,15 @@
     body.ts-bar-on shopify-chat { bottom: 76px !important; }
     .grecaptcha-badge { transition: bottom .3s ease !important; }
     body.ts-bar-on .grecaptcha-badge { bottom: 90px !important; }
-    /* Kit's replies (errors, the success message) float above the bar rather than growing it */
+    /* Kit's errors float above the bar rather than growing it; the success message takes the fields'
+       place inside the bar ([data-uid] outranks the snippet's own alert rules) */
     .ts-cta-bar .formkit-form { position: relative; }
-    .ts-cta-bar .formkit-alert { position: absolute; left: 0; right: 0; bottom: calc(100% + 10px); margin: 0; padding: 10px 12px; font-size: 14px; }
+    .ts-cta-bar .formkit-form[data-uid] .formkit-alert-error { position: absolute; left: 0; right: 0; bottom: calc(100% + 10px); margin: 0;
+      padding: 10px 12px; font-size: 14px; }
+    .ts-cta-bar .formkit-form[data-uid] .formkit-alert-success { min-height: 0; height: 48px; gap: 8px; justify-content: center;
+      font-size: 14px; line-height: 1.35; }
+    /* the phone hero is centred */
+    .ts-hero-split .ts-kit .formkit-form[data-uid] .formkit-alert-success { justify-content: center; min-height: 48px; }
   }
   @media (max-width: 989px) and (prefers-reduced-motion: reduce) { .ts-cta-bar { transition: none; } }
 

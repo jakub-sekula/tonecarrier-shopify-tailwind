@@ -1491,6 +1491,29 @@
         "id": "tonelight_kit_label",
         "label": "Waitlist button text",
         "default": "Join the waitlist"
+      },
+      {
+        "type": "header",
+        "content": "Signup confirmed dialog",
+        "info": "Shown on the toneLight and toneScan pages when the address has ?email=confirmed, the page Kit sends people to after they confirm their email."
+      },
+      {
+        "type": "text",
+        "id": "tonelight_confirm_title",
+        "label": "Heading",
+        "default": "You're on the list"
+      },
+      {
+        "type": "textarea",
+        "id": "tonelight_confirm_text",
+        "label": "Text",
+        "default": "Thanks for confirming your email. We'll let you know as soon as toneScan launches on Kickstarter."
+      },
+      {
+        "type": "text",
+        "id": "tonelight_confirm_button",
+        "label": "Button text",
+        "default": "Got it"
       }
     ]
   }

@@ -215,6 +215,37 @@
       {%- render 'ts-header-cta', place: 'bar' -%}
     </div>
 
+    {%- comment -%} Signup confirmed. Kit sends people who confirm their email to this page with
+       ?email=confirmed; the script below opens this dialog then, and takes the parameter out of the
+       address straight away, so a refresh does not show it again. Copy in Theme settings >
+       toneLight Kickstarter. {%- endcomment -%}
+    <dialog class="ts-confirm ts-dark" aria-labelledby="ts-confirm-title" aria-describedby="ts-confirm-text">
+      <div class="ts-confirm__card">
+        <span class="ts-confirm__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h2 class="ts-confirm__title" id="ts-confirm-title">{{ settings.tonelight_confirm_title | default: "You're on the list" }}</h2>
+        <p class="ts-confirm__text" id="ts-confirm-text">{{ settings.tonelight_confirm_text | default: "Thanks for confirming your email. We'll let you know as soon as toneScan launches on Kickstarter." }}</p>
+        <form method="dialog"><button class="ts-cta ts-cta--ks ts-confirm__btn" autofocus>{{ settings.tonelight_confirm_button | default: 'Got it' }}</button></form>
+      </div>
+    </dialog>
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('email') !== 'confirmed') return;
+        var dlg = document.querySelector('.ts-confirm');
+        if (!dlg || typeof dlg.showModal !== 'function') return;
+        // Take the parameter out of the address straight away, so a refresh, a shared link or a
+        // bookmark does not show the dialog again.
+        params.delete('email');
+        var q = params.toString();
+        history.replaceState(history.state, '', window.location.pathname + (q ? '?' + q : '') + window.location.hash);
+        // a click on the backdrop (outside the card) closes it too
+        dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+        dlg.showModal();
+      })();
+    </script>
+
     <script>
       /* The repeated call to action (header on wide screens, bottom bar below 990px) stays out of
          sight while any of the hero, which has its own, is still in view below the header:
