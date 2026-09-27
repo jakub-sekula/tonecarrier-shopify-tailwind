@@ -172,12 +172,8 @@
   <body class="tonescan-body{% if ts_page == 'tonelight' %} tonescan-body--light{% endif %}">
     <a class="tw:sr-only" href="#MainContent">Skip to content</a>
 
-    {%- comment -%} Store notice. Sits above the sticky header and scrolls away with the page. The
-       same named static section renders from theme.liquid too, so one editor config covers the site.
-       Not on the toneLight Kickstarter page: it is about shop orders, and the page sells none. {%- endcomment -%}
-    {%- unless ts_page == 'tonelight' -%}
-    {% section 'holiday-banner' %}
-    {%- endunless -%}
+    {%- comment -%} No store notice (holiday-banner) on these pages: it is about shop orders, and the
+       toneScan landing pages sell none. theme.liquid still renders it on every other page. {%- endcomment -%}
 
     {%- comment -%} The site header, the same section group and component as every other page
        (mobile drawer, highlighting, shrink on scroll). On these pages sections/header.liquid points
