@@ -120,7 +120,6 @@
         },
         "sw_panel": {
           "type": "panel_feature",
-          "disabled": true,
           "settings": {
             "label": "Software",
             "badge": "New",
@@ -139,7 +138,6 @@
         },
         "sw_slide_organise": {
           "type": "slide",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/organise.png",
             "caption": "Organise — browse and rate whole rolls at a glance"
@@ -147,7 +145,6 @@
         },
         "sw_slide_batch": {
           "type": "slide",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/batch-export.png",
             "caption": "Batch export — process entire rolls in one go"
@@ -155,7 +152,6 @@
         },
         "sw_slide_rgb": {
           "type": "slide",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/rgb-merge.png",
             "caption": "RGB merge — first class trichromatic scanning"
@@ -163,7 +159,6 @@
         },
         "sw_slide_pixel": {
           "type": "slide",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/pixel-preview.png",
             "caption": "Pixel preview — inspect grain at 100% before export"
