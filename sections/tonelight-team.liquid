@@ -9,7 +9,7 @@
 {%- if tl_bg and section.settings.overlay == 'dark' -%}{%- assign tl_dark = true -%}{%- endif -%}
 
 <div class="tonescan-landing{% if tl_dark %} ts-dark{% endif %} tw:text-neutral-200">
-  <section class="tl-team{% if tl_bg %} tl-team--bg tl-team--{{ section.settings.overlay }}{% endif %} tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
+  <section id="team" class="tl-team{% if tl_bg %} tl-team--bg tl-team--{{ section.settings.overlay }}{% endif %} tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
     {%- if tl_bg -%}
     <div class="tl-team__bg" aria-hidden="true">
       {%- if section.settings.bg_video != blank -%}
@@ -59,6 +59,7 @@
 </div>
 
 {%- style -%}
+  .tl-team { scroll-margin-top: 84px; }
   .tl-team--bg { position: relative; isolation: isolate; overflow: hidden; }
   .tl-team__bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
   .tl-team__bgmedia { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }

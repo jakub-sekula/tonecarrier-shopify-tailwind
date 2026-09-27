@@ -8,7 +8,7 @@
 {%- endcomment -%}
 
 <div class="tonescan-landing tw:text-neutral-200">
-  <section class="tl-tl">
+  <section class="tl-tl" id="timeline">
     <div class="tl-tl__wrap">
       {%- comment -%} Left column: heading and image, held in place on wide screens while the
          milestones scroll past on the right. Stacks, and does not stick, on phones. {%- endcomment -%}
@@ -74,7 +74,7 @@
 </div>
 
 {%- style -%}
-  .tl-tl { background: #fff; }
+  .tl-tl { background: #fff; scroll-margin-top: 84px; }
   .tl-tl__wrap { max-width: 1200px; margin: 0 auto; padding: 80px 15px; }
   @media (min-width: 768px) { .tl-tl__wrap { padding: 120px 50px; } }
   .tl-tl__heading { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1; letter-spacing: -.02em; }

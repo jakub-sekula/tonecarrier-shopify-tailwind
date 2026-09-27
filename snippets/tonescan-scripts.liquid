@@ -2527,7 +2527,38 @@ function tsKitBoot() {
   if (document.querySelector('.ts-kit form[data-sv-form]')) tsKitEnsure();
 }
 
-function tsBoot() { tsInit(); tsAutoVideos(); tsKitBoot(); }
+/* The site header on these pages links to the page's sections (sections/header.liquid). Links whose
+   section is not on the page (hidden in the editor, or cut from the lite page) are dropped, from
+   both the desktop menu and the mobile drawer, and the desktop link for the section in view gets
+   the menu's own highlight (.is-current). */
+function tsHeaderSections() {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.tc-mega__link[href^="#"], .tc-drawer__flat[href^="#"]'));
+  if (!links.length) return;
+  var items = [];
+  links.forEach(function (a) {
+    var id = a.getAttribute('href').slice(1);
+    var target = id && document.getElementById(id);
+    var holder = a.closest('.tc-mega__item, .tc-drawer__group');
+    if (!target) { if (holder) holder.remove(); return; }
+    if (holder && holder.classList.contains('tc-mega__item')) items.push({ el: holder, target: target });
+  });
+  if (!items.length) return;
+  var current = null, queued = false;
+  function spy() {
+    queued = false;
+    var line = window.innerHeight * 0.35, pick = null;
+    items.forEach(function (it) { if (it.target.getBoundingClientRect().top <= line) pick = it; });
+    if (pick && pick.target.getBoundingClientRect().bottom < 0) pick = null;
+    if (pick === current) return;
+    if (current) current.el.classList.remove('is-current');
+    if (pick) pick.el.classList.add('is-current');
+    current = pick;
+  }
+  window.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true });
+  spy();
+}
+
+function tsBoot() { tsInit(); tsAutoVideos(); tsKitBoot(); tsHeaderSections(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tsBoot);
 else tsBoot();
 })();

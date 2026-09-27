@@ -81,9 +81,41 @@
     <meta name="twitter:description" content="{{ ts_desc | escape }}">
     <meta name="twitter:image" content="{{ ts_image }}">
 
+    {%- comment -%} The site header (the same header-group as every other page) needs what
+       layout/theme.liquid gives it: the theme's root styles, Dawn's base.css and the global JS.
+       The styles go into a cascade layer, "dawn", declared between Tailwind's resets and its
+       utilities, so the header is styled exactly as elsewhere while the landing pages' Tailwind
+       classes and their own unlayered styles still win over Dawn's element rules. {%- endcomment -%}
+    <style>@layer properties, theme, base, dawn, ts-content, components, utilities;</style>
+    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+
     {{ content_for_header }}
 
     {{ 'app.css' | asset_url | stylesheet_tag }}
+    {%- capture ts_root_styles -%}{%- render 'theme-root-styles' -%}{%- endcapture -%}
+    <style>
+      @import url("{{ 'base.css' | asset_url }}") layer(dawn);
+      @layer dawn {
+        {{ ts_root_styles }}
+      }
+      /* The page content keeps the defaults it was built on (Tailwind's preflight), undoing the
+         Dawn element and body rules that reach it by inheritance or element selectors: body
+         letter-spacing, line-height and the 15px mobile size, and heading, link and paragraph
+         styling. Scoped to the content, so the header keeps Dawn's, exactly as elsewhere. */
+      @layer ts-content {
+        :where(#MainContent, body > footer) { font-size: 16px; line-height: 1.5; letter-spacing: normal; }
+        :where(#MainContent, body > footer) :where(h1, h2, h3, h4, h5, h6) {
+          margin: 0; font-family: inherit; font-size: inherit; font-weight: inherit; font-style: inherit;
+          letter-spacing: inherit; line-height: inherit; color: inherit; word-break: normal; }
+        :where(#MainContent, body > footer) :where(a) { color: inherit; text-decoration: inherit; }
+        :where(#MainContent, body > footer) :where(p, blockquote, dl, dd, figure, pre, hr) { margin: 0; }
+      }
+    </style>
+    {%- if settings.predictive_search_enabled -%}
+      <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- endif -%}
 
     {%- comment -%} Restyles Shopify's injected cookie banner. Must be rendered on every layout
        that can show it, since the platform adds it to every page. {%- endcomment -%}
@@ -110,6 +142,7 @@
       }
       html { scroll-behavior: smooth; }
       body.tonescan-body {
+        display: block;             /* not the theme's body grid (theme-root-styles) */
         margin: 0;
         background-color: #0a0a0b;
         color: #e5e5e5;
@@ -140,78 +173,17 @@
     <a class="tw:sr-only" href="#MainContent">Skip to content</a>
 
     {%- comment -%} Store notice. Sits above the sticky header and scrolls away with the page. The
-       same named static section renders from theme.liquid too, so one editor config covers the site. {%- endcomment -%}
+       same named static section renders from theme.liquid too, so one editor config covers the site.
+       Not on the toneLight Kickstarter page: it is about shop orders, and the page sells none. {%- endcomment -%}
+    {%- unless ts_page == 'tonelight' -%}
     {% section 'holiday-banner' %}
+    {%- endunless -%}
 
-    {%- comment -%} ===== minimal sticky header (matches main-site width + fonts) ===== {%- endcomment -%}
-    {%- comment -%} .ts-dark keeps the header dark on the light toneLight page too, the same as
-       everywhere else on the site: the light-page overrides skip anything inside it. {%- endcomment -%}
-    <header class="ts-site-header ts-dark tw:sticky tw:top-0 tw:z-50 tw:border-b tw:border-white/10 tw:bg-[#0a0a0b]/80 tw:backdrop-blur-[12px]">
-      <div class="ts-site-header__bar tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:items-center tw:justify-between tw:px-[15px] tw:py-[10px] tw:md:px-[50px]">
-        <a href="/" class="tw:flex tw:items-center focus-inset" aria-label="{{ shop.name }}">
-          {%- if settings.logo != blank -%}
-            {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
-            {{
-              settings.logo
-              | image_url: width: 600
-              | image_tag:
-                class: 'tw:block tw:h-auto',
-                width: settings.logo_width,
-                height: logo_height,
-                widths: '110, 165, 220',
-                alt: shop.name,
-                loading: 'eager'
-            }}
-          {%- else -%}
-            <span class="tw:text-[17px] tw:font-semibold tw:text-white">{{ shop.name }}</span>
-          {%- endif -%}
-        </a>
-
-        {%- comment -%}
-          A nav anchor is only valid if its block is actually rendered. The lite variant gates
-          blocks by name in sections/tonescan-landing.liquid; this list has to stay in step with
-          the one there. An anchor with no target scrolls nowhere, which reads as a broken page.
-        {%- endcomment -%}
-        {%- assign ts_minimal = false -%}
-        {%- if template.suffix == 'tonescan-lite' -%}{%- assign ts_minimal = true -%}{%- endif -%}
-        {%- assign ts_lite_blocks = 'features,faq' | split: ',' -%}
-        {%- if ts_page == 'tonelight' -%}
-        {%- comment -%} Anchors match the ids the toneLight template's sections render. {%- endcomment -%}
-        <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
-          <a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>
-          <a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">The system</a>
-          <a href="#rewards" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Rewards</a>
-          <a href="#specs" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Specs</a>
-          <a href="#faq" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">FAQ</a>
-        </nav>
-
-        {%- comment -%} The campaign URL is a theme setting so every Kickstarter button on the page
-           shares it. Before it is set, the button falls back to the rewards on this page. {%- endcomment -%}
-        {%- comment -%} Or the Kit waitlist form, per Theme settings > toneLight Kickstarter > Call to
-           action: a compact form on wide screens, and below that a button to the one in the
-           closing section (#join), since the bar has no room for a form. The other variant rides
-           along in an inert <template> for the development panel's preview switch. {%- endcomment -%}
-        {%- assign tl_cta = settings.tonelight_cta | default: 'link' -%}
-        {%- capture tl_head_link -%}<a href="{{ settings.tonelight_ks_url | default: '#rewards' }}" class="ts-cta ts-cta--ks ts-cta--sm">Back on Kickstarter</a>{%- endcapture -%}
-        {%- capture tl_head_kit -%}<div class="ts-head-kit">{% render 'ts-kit-form', label: settings.tonelight_kit_label, class: 'ts-kit--header' %}</div><a href="#join" class="ts-cta ts-cta--ks ts-cta--sm ts-head-kit__btn">{{ settings.tonelight_kit_label | default: 'Join the waitlist' }}</a>{%- endcapture -%}
-        <div class="ts-cta-swap" data-cta="{{ tl_cta }}">
-          <div class="ts-cta-swap__on">{% if tl_cta == 'kit' %}{{ tl_head_kit }}{% else %}{{ tl_head_link }}{% endif %}</div>
-          {%- if tl_cta == 'kit' -%}<template data-cta-alt="link">{{ tl_head_link }}</template>{%- else -%}<template data-cta-alt="kit">{{ tl_head_kit }}</template>{%- endif -%}
-        </div>
-        {%- else -%}
-        <nav class="tw:hidden tw:items-center tw:gap-[28px] tw:md:flex">
-          {%- if ts_minimal == false or ts_lite_blocks contains 'features' -%}<a href="#features" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Features</a>{%- endif -%}
-          {%- if ts_minimal == false or ts_lite_blocks contains 'workflow' -%}<a href="#how-it-works" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">How it works</a>{%- endif -%}
-          {%- if ts_minimal == false or ts_lite_blocks contains 'pricing' -%}<a href="#pricing" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">Pricing</a>{%- endif -%}
-          {%- if ts_minimal == false or ts_lite_blocks contains 'faq' -%}<a href="#faq" class="tw:text-[14px] tw:text-neutral-400 tw:transition-colors tw:hover:text-white">FAQ</a>{%- endif -%}
-        </nav>
-
-        <a href="#signup" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-[2px] tw:bg-[var(--ts-accent)] tw:px-[16px] tw:py-[9px] tw:text-[14px] tw:font-semibold tw:text-white tw:transition-transform tw:hover:-translate-y-[1px]">
-          Become a tester
-        </a>
-        {%- endif -%}
-      </div>
-    </header>
+    {%- comment -%} The site header, the same section group and component as every other page
+       (mobile drawer, highlighting, shrink on scroll). On these pages sections/header.liquid points
+       its menu at the page's sections, leaves out the shop icons, and adds the page's call to
+       action (snippets/ts-header-cta). {%- endcomment -%}
+    {% sections 'header-group' %}
 
     <main id="MainContent">
       {%- comment -%} Page-wide CSS and JS for every toneScan template. Rendered here rather than from a
@@ -239,22 +211,37 @@
       </div>
     </footer>
 
-    {%- comment -%} Header tightens once the page is scrolled: less padding, a slightly smaller logo
-       and button (styles under "site header" in tonescan-styles). A class toggle on a passive
-       scroll listener, so the transition is all CSS. {%- endcomment -%}
+    {%- comment -%} Phones and tablets (below 990px, the header's mobile layout): the page's call to
+       action lives in a bar fixed to the bottom of the screen instead of the header. It slides up
+       once the hero has scrolled away and back down while the closing section is on screen (script
+       below). .ts-dark keeps it dark on the light toneLight page. {%- endcomment -%}
+    <div class="ts-cta-bar ts-dark">
+      {%- render 'ts-header-cta', place: 'bar' -%}
+    </div>
+
     <script>
+      /* The repeated call to action (header on wide screens, bottom bar below 990px) stays out of
+         sight while any of the hero, which has its own, is still in view below the header:
+         body.ts-hero-cta-on. The bottom bar also steps aside while the closing section (#join, with
+         its own form) is on screen: body.ts-bar-on is set only when neither is in view. Hidden
+         things keep their space in the header, so the menu never shifts. */
       (function () {
-        var h = document.querySelector('.ts-site-header');
-        if (!h) return;
-        // Run straight from the scroll event: it is one comparison and touches the DOM only when
-        // the state flips, so there is nothing for a frame callback to save.
-        var on = false;
-        function update() {
-          var next = (window.pageYOffset || 0) > 24;
-          if (next !== on) { on = next; h.classList.toggle('is-scrolled', on); }
+        var hero = document.querySelector('.ts-hero-split');
+        var join = document.getElementById('join');
+        var heroOn = null, barOn = null;
+        function check() {
+          var bar = document.querySelector('.section-header');
+          var barBottom = bar ? bar.getBoundingClientRect().bottom : 0;
+          var nextHero = !!hero && hero.getBoundingClientRect().bottom > barBottom;
+          var j = join ? join.getBoundingClientRect() : null;
+          var joinInView = !!(j && j.top < window.innerHeight && j.bottom > barBottom);
+          var nextBar = !nextHero && !joinInView;
+          if (nextHero !== heroOn) { heroOn = nextHero; document.body.classList.toggle('ts-hero-cta-on', nextHero); }
+          if (nextBar !== barOn) { barOn = nextBar; document.body.classList.toggle('ts-bar-on', nextBar); }
         }
-        window.addEventListener('scroll', update, { passive: true });
-        update();
+        window.addEventListener('scroll', check, { passive: true });
+        window.addEventListener('resize', check, { passive: true });
+        check();
       })();
     </script>
 
@@ -298,5 +285,9 @@
         // (Hero scroll effects live in the section's own script.)
       })();
     </script>
+    {%- render 'theme-js-globals' -%}
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
   </body>
 </html>

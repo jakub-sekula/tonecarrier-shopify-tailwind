@@ -5,6 +5,9 @@
   Cards marked "featured on mobile" and the feature panel render as
   full-width blocks with an image and muted caption; other cards render
   as thumbnail rows. The drawer is a focus-trapped modal dialog.
+
+  links (optional): an array of "Label|url" strings, shown as plain rows
+  instead of the header's blocks (see tc-mega-menu).
 {% endcomment %}
 
 {%- assign tc_starters = '|panel_cards|panel_feature|panel_links|menu_link|@app|' -%}
@@ -39,6 +42,14 @@
       </button>
     </div>
 
+    {%- if links != blank -%}
+      {%- for l in links -%}
+        {%- assign lp = l | split: '|' -%}
+        <div class="tc-drawer__group">
+          <a class="tc-drawer__flat" href="{{ lp[1] }}"><span>{{ lp[0] | escape }}</span></a>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
     {%- for block in section.blocks -%}
       {%- assign tc_children_offset = forloop.index -%}
 
@@ -156,5 +167,6 @@
           </div>
       {%- endcase -%}
     {%- endfor -%}
+    {%- endif -%}
   </aside>
 </tc-mega-drawer>

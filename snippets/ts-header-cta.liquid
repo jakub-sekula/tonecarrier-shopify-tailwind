@@ -1,0 +1,32 @@
+{%- comment -%}
+  The toneScan landing pages' repeated call to action, in two places:
+    place: blank   the site header (sections/header.liquid, landing templates only), 990px and up
+    place: 'bar'   the fixed bar at the bottom of the screen below 990px (layout/tonescan.liquid)
+  Both stay out of sight while the hero, which has its own, is on screen; the bar also steps
+  aside while the closing section's form (#join) is on screen (script in layout/tonescan.liquid).
+
+  toneLight: the Kickstarter button, or the Kit waitlist form, per Theme settings > toneLight
+  Kickstarter > Call to action. In the header the form is compact, and below 1200px a button to
+  the form in the closing section (#join) stands in, since the bar has no room for a form. The
+  other variant rides along in an inert <template> for the development panel's preview switch.
+  toneScan: "Become a tester", to the signup section.
+{%- endcomment -%}
+{%- assign in_bar = false -%}
+{%- if place == 'bar' -%}{%- assign in_bar = true -%}{%- endif -%}
+{%- if template.suffix contains 'tonelight' -%}
+  {%- assign tl_cta = settings.tonelight_cta | default: 'link' -%}
+  {%- capture tl_link -%}<a href="{{ settings.tonelight_ks_url | default: '#rewards' }}" class="ts-cta ts-cta--ks{% unless in_bar %} ts-cta--sm{% endunless %}">Back on Kickstarter</a>{%- endcapture -%}
+  {%- if in_bar -%}
+    {%- capture tl_kit -%}{% render 'ts-kit-form', label: settings.tonelight_kit_label, class: 'ts-kit--bar' %}{%- endcapture -%}
+  {%- else -%}
+    {%- capture tl_kit -%}<div class="ts-head-kit">{% render 'ts-kit-form', label: settings.tonelight_kit_label, class: 'ts-kit--header' %}</div><a href="#join" class="ts-cta ts-cta--ks ts-cta--sm ts-head-kit__btn">{{ settings.tonelight_kit_label | default: 'Join the waitlist' }}</a>{%- endcapture -%}
+  {%- endif -%}
+  <div class="{% if in_bar %}ts-cta-bar__inner{% else %}ts-head-cta{% endif %} ts-cta-swap" data-cta="{{ tl_cta }}">
+    <div class="ts-cta-swap__on">{% if tl_cta == 'kit' %}{{ tl_kit }}{% else %}{{ tl_link }}{% endif %}</div>
+    {%- if tl_cta == 'kit' -%}<template data-cta-alt="link">{{ tl_link }}</template>{%- else -%}<template data-cta-alt="kit">{{ tl_kit }}</template>{%- endif -%}
+  </div>
+{%- elsif template.suffix contains 'tonescan' -%}
+  <div class="{% if in_bar %}ts-cta-bar__inner{% else %}ts-head-cta{% endif %}">
+    <a href="#signup" class="ts-cta ts-cta--accent{% unless in_bar %} ts-cta--sm{% endunless %}">Become a tester</a>
+  </div>
+{%- endif -%}

@@ -274,6 +274,11 @@
       };
       document.addEventListener('keydown', this.onKeydown);
 
+      // In-page links (the landing pages' section menu) close the drawer on the way out.
+      this.drawer.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener('click', () => this.closeDrawer());
+      });
+
       this.querySelectorAll('[data-tc-accordion]').forEach((btn) => {
         btn.addEventListener('click', () => {
           const group = btn.closest('.tc-drawer__group');

@@ -30,6 +30,38 @@
     }
   {%- endif -%}
 
+  /* Translucent once scrolled: StickyHeader (below) adds .scrolled-past-header to the header group.
+     The background is a layer behind the header's contents, not the wrapper itself: backdrop-filter
+     on the wrapper would make it the containing block of the mobile drawer (position: fixed, inside
+     the header) and clip the drawer to the header's height. The layer starts opaque and fades to
+     translucent, so nothing flashes at the switch. */
+  .section-header .header-wrapper {
+    isolation: isolate;
+    background: transparent;
+  }
+  .section-header .header-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: rgba(var(--color-background), 1);
+    transition: background-color 0.25s ease;
+    pointer-events: none;
+  }
+  .section-header.scrolled-past-header .header-wrapper::before {
+    background-color: rgba(var(--color-background), 0.72);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+  }
+  /* the separator line is the wrapper's bottom border, outside the layer's padding box: the layer
+     reaches under it, as the wrapper's own background did, or the border shows the page through */
+  .section-header .header-wrapper--border-bottom::before {
+    bottom: -0.1rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .section-header .header-wrapper::before { transition: none; }
+  }
+
   {%- if section.settings.menu_type_desktop != "drawer" -%}
     @media screen and (min-width: 990px) {
       header-drawer {
@@ -132,6 +164,24 @@
   </symbol>
 </svg>
 
+{%- comment -%} The toneScan landing pages (toneLight Kickstarter, toneScan) use this same header,
+   with its menu pointing at the page's own sections instead of the shop, no shop icons (search,
+   account, cart), and the page's call to action on the right (snippets/ts-header-cta). Links whose
+   section is not on the page are dropped by tonescan-scripts.
+   EXACT template names, not "contains": only templates on layout/tonescan.liquid load the scripts
+   and styles this mode relies on (page.tonelight-ks-promo-backup, for one, is on theme.liquid).
+   A new landing template on the tonescan layout has to be added here. {%- endcomment -%}
+{%- liquid
+  assign ts_landing = false
+  assign ts_links = blank
+  if template.suffix == 'tonelight-ks-promo'
+    assign ts_landing = true
+    assign ts_links = 'The system|#how-it-works,Features|#features,Why RGB|#triscan,Rewards|#rewards,Timeline|#timeline,Team|#team,Specs|#specs,FAQ|#faq' | split: ','
+  elsif template.suffix == 'tonescan' or template.suffix == 'tonescan-lite'
+    assign ts_landing = true
+    assign ts_links = 'Features|#features,How it works|#how-it-works,Pricing|#pricing,FAQ|#faq' | split: ','
+  endif
+-%}
 {%- liquid
   assign tc_nav_blocks = 0
   for block in section.blocks
@@ -164,7 +214,7 @@
   <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
     {%- liquid
       if tc_nav_blocks > 0
-        render 'tc-mega-drawer', section: section
+        render 'tc-mega-drawer', section: section, links: ts_links
       elsif section.settings.menu != blank
         render 'header-drawer'
       endif
@@ -206,7 +256,7 @@
 
     {%- liquid
       if tc_nav_blocks > 0
-        render 'tc-mega-menu', section: section
+        render 'tc-mega-menu', section: section, links: ts_links
       elsif section.settings.menu != blank
         if section.settings.menu_type_desktop == 'dropdown'
           render 'header-dropdown-menu'
@@ -270,6 +320,7 @@
           </localization-form>
         {%- endif -%}
       </div>
+      {%- unless ts_landing -%}
       {% render 'header-search', input_id: 'Search-In-Modal' %}
 
       {%- if shop.customer_accounts_enabled -%}
@@ -318,6 +369,10 @@
           </div>
         {%- endif -%}
       </a>
+      {%- else -%}
+      {%- comment -%} The landing pages' call to action instead of the shop icons. {%- endcomment -%}
+      {%- render 'ts-header-cta' -%}
+      {%- endunless -%}
     </div>
   </header>
 </{% if section.settings.sticky_header_type != 'none' %}sticky-header{% else %}div{% endif %}>

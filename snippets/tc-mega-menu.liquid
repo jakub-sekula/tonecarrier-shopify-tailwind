@@ -9,6 +9,10 @@
   Accessibility: APG disclosure navigation — triggers are <button>s with
   aria-expanded/aria-controls; inactive panes are hidden + inert (managed
   by tc-mega-menu.js); Esc closes and refocuses the trigger.
+
+  links (optional): an array of "Label|url" strings. When given, the nav is
+  just those plain links instead of the header's blocks (the toneScan
+  landing pages use it for in-page section links).
 {% endcomment %}
 
 {%- assign tc_starters = '|panel_cards|panel_feature|panel_links|menu_link|@app|' -%}
@@ -26,6 +30,12 @@
 <tc-mega-menu class="header__inline-menu tc-mega">
   <nav class="tc-mega__hover-nav" aria-label="Main menu">
     <ul class="tc-mega__nav" role="list">
+      {%- if links != blank -%}
+        {%- for l in links -%}
+          {%- assign lp = l | split: '|' -%}
+          <li class="tc-mega__item"><a class="tc-mega__link" href="{{ lp[1] }}">{{ lp[0] | escape }}</a></li>
+        {%- endfor -%}
+      {%- else -%}
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'menu_link' -%}
@@ -55,9 +65,11 @@
             </li>
         {%- endcase -%}
       {%- endfor -%}
+      {%- endif -%}
     </ul>
   </nav>
 
+  {%- if links == blank -%}
   <div class="tc-mega__shell" data-tc-shell>
     {%- for block in section.blocks -%}
       {%- assign tc_children_offset = forloop.index -%}
@@ -227,4 +239,5 @@
       {%- endcase -%}
     {%- endfor -%}
   </div>
+  {%- endif -%}
 </tc-mega-menu>

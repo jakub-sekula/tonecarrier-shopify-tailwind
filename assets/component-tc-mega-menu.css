@@ -66,7 +66,8 @@ tc-mega-menu {
 }
 
 .tc-mega__item:hover > .tc-mega__link,
-.tc-mega__item.is-open > .tc-mega__link {
+.tc-mega__item.is-open > .tc-mega__link,
+.tc-mega__item.is-current > .tc-mega__link {
   color: var(--tc-txt);
   background: rgba(255, 255, 255, 0.07);
 }
