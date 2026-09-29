@@ -78,7 +78,9 @@
      cover the rows passing under it: the section's own (--ts-sec-bg, from its background setting). */
   @media (max-width: 999px) {
     .tl-specs__title { position: sticky; top: var(--header-height, 66px); z-index: 2; padding-top: 12px; margin-top: -12px;
-      background: var(--ts-sec-bg, #fff); }
+      background: var(--ts-sec-bg, #fff); transition: top .15s ease-out; }
+    /* the landing header hides while scrolling down: the titles move up to the top edge meanwhile */
+    body:has(.section-header.shopify-section-header-hidden) .tl-specs__title { top: 0; }
   }
   .tl-specs__rows { margin: 0; }
   .tl-specs__row { display: grid; grid-template-columns: minmax(0, 36%) minmax(0, 1fr); gap: 16px; padding: 8px 0;

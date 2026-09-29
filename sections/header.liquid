@@ -198,7 +198,11 @@
   <script src="{{ 'tc-mega-menu.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-<{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}"{% else %}div{% endif %} class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}">
+{%- comment -%} The landing pages hide the header while scrolling down and bring it back on the way
+   up (Dawn's on-scroll-up mode), whatever the shop-wide sticky setting says. {%- endcomment -%}
+{%- assign ts_sticky = section.settings.sticky_header_type -%}
+{%- if ts_landing and ts_sticky != 'none' -%}{%- assign ts_sticky = 'on-scroll-up' -%}{%- endif -%}
+<{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ ts_sticky }}"{% else %}div{% endif %} class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}">
   {%- liquid
     assign social_links = false
     assign localization_forms = false
@@ -491,7 +495,7 @@
 
     closeSearchModal() {
       this.searchModal = this.searchModal || this.header.querySelector('details-modal');
-      this.searchModal.close(false);
+      if (this.searchModal) this.searchModal.close(false);   // the landing pages' header has no search
     }
   }
 

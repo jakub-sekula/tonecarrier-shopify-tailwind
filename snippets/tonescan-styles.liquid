@@ -1138,6 +1138,9 @@
   .ts-story-sec__blobs { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
   /* --sp is 0 -> 1 across the section, set by JS; the blobs drift the whole way through so the
      background is still moving while you're between two steps */
+  /* Below 900px the steps stack straight under the heading (on wide screens each is a full screen
+     tall, which leaves room of its own), so the heading needs space under it. */
+  @media (max-width: 899px) { .ts-story-sec__head { margin-bottom: 40px; } }
   .ts-story-blob { position: absolute; aspect-ratio: 1; border-radius: 50%; filter: blur(120px); will-change: transform; }
   /* all three sit in the right half, behind the pinned media, the text column stays clean */
   .ts-story-blob--1 { width: 42vw; left: 58%; top: 0%;  background: rgba(59,130,246,.30); transform: translate3d(0, calc(var(--sp, 0) * 70vh), 0); }
@@ -2609,6 +2612,19 @@
     body.ts-bar-on .ts-cta-bar { transform: none; visibility: visible; transition: transform .3s ease; }
     /* room at the end of the page so the bar never covers the footer */
     body.tonescan-body { padding-bottom: 76px; }
+    /* Folded: the bar slides down out of sight (all but the safe-area strip on phones with a home
+       indicator), leaving only its tab, which sits on the bar's top edge. */
+    /* centred, well away from the bar's button, so reaching for one never hits the other */
+    .ts-cta-bar__toggle { position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%); display: flex; align-items: center; justify-content: center;
+      width: 48px; height: 26px; padding: 0; color: #d4d4d8; cursor: pointer;
+      background: rgba(10,10,11,.78); -webkit-backdrop-filter: blur(16px) saturate(160%); backdrop-filter: blur(16px) saturate(160%);
+      border: 1px solid rgba(255,255,255,.08); border-bottom: 0; border-radius: 8px 8px 0 0; }
+    .ts-cta-bar__toggle::after { content: ''; position: absolute; inset: -10px -6px 0; }
+    .ts-cta-bar__toggle svg { width: 18px; height: 18px; transition: transform .3s ease; }
+    .ts-cta-bar__toggle:focus-visible { outline: 2px solid var(--ts-accent, #3b82f6); outline-offset: 2px; }
+    body.ts-bar-on.ts-bar-collapsed .ts-cta-bar { transform: translateY(calc(100% - env(safe-area-inset-bottom, 0px))); }
+    body.ts-bar-collapsed .ts-cta-bar__toggle svg { transform: rotate(180deg); }
+    body.tonescan-body.ts-bar-collapsed { padding-bottom: 26px; }
     .ts-cta-bar__inner, .ts-cta-bar .ts-cta-swap__on { display: block; }
     .ts-cta-bar .ts-cta { display: flex; width: 100%; height: 48px; font-size: 15px; }
     .ts-cta-bar .ts-kit .formkit-form [data-element="fields"] { flex-direction: row; gap: 8px; }

@@ -195,7 +195,9 @@
   .tl-rev__cardstars svg { width: 16px; height: 16px; fill: var(--tw-color-orange-400, #ff8904); }
   .tl-rev__cardstars svg.is-off { fill: #e4e4e7; }
   /* long reviews are cut to a few lines so every card stays a similar weight */
-  .tl-rev__text { margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: #27272a;
+  /* no quote bar: the theme's blockquote style adds a left border and indent; the text lines up with
+     the stars and the name instead */
+  .tl-rev__text { margin: 12px 0 0; padding-left: 0; border-left: 0; font-size: 15px; line-height: 1.6; color: #27272a;
     display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden; }
   .tl-rev__by { display: flex; flex-direction: column; gap: 2px; margin-top: 16px; }
   .tl-rev__name { font-size: 14px; font-weight: 600; color: #0a0a0b; }
@@ -234,20 +236,31 @@
   @keyframes tlRevUp { from { transform: translateY(0); } to { transform: translateY(calc(-50% - 8px)); } }
   @keyframes tlRevDown { from { transform: translateY(calc(-50% - 8px)); } to { transform: translateY(0); } }
 
-  /* Phones: the wall turned on its side. Two rows drifting sideways in opposite directions, full
-     bleed with faded ends, so nothing moves against the finger scrolling the page. Same loop: each
-     row holds its tiles twice and moves by exactly one copy. */
-  .tl-rev__wall.is-live.is-rows { height: auto; padding: 0;
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-            mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
-  .is-rows .tl-rev__cols { display: flex; flex-direction: column; gap: 14px; }
-  /* every tile in a row as tall as its tallest card; photos fill that height, cropped (cover) */
-  .is-rows .tl-rev__track { flex-direction: row; align-items: stretch; gap: 14px; width: max-content; animation-name: tlRevLeft; }
-  .is-rows .tl-rev__track .tl-rev__tile--photo { aspect-ratio: auto; }
-  .is-rows .tl-rev__col.is-down .tl-rev__track { animation-name: tlRevRight; }
-  .is-rows .tl-rev__track .tl-rev__tile { flex: 0 0 270px; }
-  @keyframes tlRevLeft { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 7px)); } }
-  @keyframes tlRevRight { from { transform: translateX(calc(-50% - 7px)); } to { transform: translateX(0); } }
+  /* Phones: no drift. Two swipe rows that snap like the reels: small photo thumbnails, then the
+     review cards, each the same starting height with the text cut to four lines and a Read more
+     that opens the full review. Built by the script below (the wall's is-swipe mode). */
+  .tl-rev__wall.is-live.is-swipe { height: auto; padding: 0; -webkit-mask-image: none; mask-image: none; }
+  .tl-rev__mrow { display: flex; gap: 12px; padding: 2px 0 6px 15px; overflow-x: auto; scroll-snap-type: x mandatory;
+    scroll-padding-inline: 15px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .tl-rev__mrow::-webkit-scrollbar { display: none; }
+  .tl-rev__mrow.is-auto { scroll-snap-type: none; }   /* while the marquee runs (script) */
+  .tl-rev__mrow::after { content: ''; flex: 0 0 3px; }   /* with the gap, a 15px margin after the last item */
+  .tl-rev__mphotos { margin-bottom: 12px; }
+  .tl-rev__mphotos .tl-rev__tile { flex: 0 0 132px; height: 88px; aspect-ratio: auto; margin: 0; scroll-snap-align: start; }
+  .tl-rev__mcards { position: relative; align-items: flex-start; }
+  .tl-rev__mcards .tl-rev__card { position: relative; flex: 0 0 82%; max-width: 340px; height: 280px; margin: 0; display: flex; flex-direction: column;
+    overflow: hidden; scroll-snap-align: start; }
+  .tl-rev__mcards .tl-rev__cardstars { align-self: flex-start; }
+  .tl-rev__mcards .tl-rev__text { -webkit-line-clamp: 4; line-clamp: 4; }
+  .tl-rev__mcards .tl-rev__by { margin-top: auto; padding-top: 12px; }
+  /* Read more opens every review in the row at once (and Show less closes them all) */
+  .tl-rev__mcards.is-open .tl-rev__card { height: auto; }
+  .tl-rev__mcards.is-open .tl-rev__text { display: block; -webkit-line-clamp: unset; line-clamp: none; overflow: visible; }
+  /* top right, level with the stars, so it stays put while the card opens and closes */
+  .tl-rev__more { position: absolute; top: 22px; right: 22px; padding: 0; font: inherit; font-size: 13px; font-weight: 600; line-height: 16px;
+    color: #0a0a0b; background: none; border: 0; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  .tl-rev__more::after { content: ''; position: absolute; inset: -12px -10px; }
+  .tl-rev__more:focus-visible { outline: 2px solid var(--ts-accent, #3b82f6); outline-offset: 2px; }
 {%- endstyle -%}
 
 <script>
@@ -323,7 +336,8 @@
   })();
 
   (function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // (phones get the swipe rows even with reduced motion: nothing in them moves by itself)
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (window.Shopify && window.Shopify.designMode) return;   // keep the plain wall while editing
     document.querySelectorAll('.tl-rev__wall').forEach(function (wall) {
       var source = wall.querySelector('.tl-rev__source');
@@ -343,23 +357,151 @@
         return c;
       }
 
-      // columns drifting up and down on wider screens; on phones two rows drifting sideways, so
-      // the wall never moves along the same axis as the page scroll under the reader's finger
+      // columns drifting up and down on wider screens; on phones, swipe rows instead (nothing
+      // drifts: a slow crawl under the finger that scrolls the page is maddening on a phone)
       function layout() {
         var w = wall.clientWidth;
-        if (w < 600) return { n: 2, rows: true };
+        if (w < 600) return { swipe: true };
         return { n: w >= 1560 ? 5 : w >= 1240 ? 4 : w >= 900 ? 3 : 2, rows: false };
       }
 
+      // Phones: a row of photo thumbnails, then a row of review cards, both snapping to the left
+      // margin like the reels. Cards start the same height with the text cut to four lines; a
+      // Read more (only where the text really is cut) opens every review in the row, Show less
+      // closes them all. Tapping a card that
+      // is peeking in brings it into place. Both rows loop endlessly: each holds its items three
+      // times and is kept in the middle copy (see loopRow), and runs on its own like a marquee,
+      // the two in opposite directions (see marquee).
+      function buildSwipe() {
+        cols = document.createElement('div');
+        cols.className = 'tl-rev__m';
+        var photos = document.createElement('div');
+        photos.className = 'tl-rev__mrow tl-rev__mphotos';
+        var cards = document.createElement('div');
+        cards.className = 'tl-rev__mrow tl-rev__mcards';
+        [0, 1, 2].forEach(function (pass) {
+          tiles.forEach(function (t) {
+            var c = copy(t);
+            if (pass !== 1) {                             // the loop's outer copies: hidden from assistive tech
+              c.setAttribute('aria-hidden', 'true');
+              c.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
+            }
+            (t.classList.contains('tl-rev__tile--photo') ? photos : cards).appendChild(c);
+          });
+        });
+        if (photos.children.length) cols.appendChild(photos);
+        cols.appendChild(cards);
+        wall.appendChild(cols);
+        wall.classList.add('is-live', 'is-swipe');
+        loopRow(cards); marquee(cards, 1, 24, function () { return !cards.classList.contains('is-open'); });
+        if (photos.children.length) { loopRow(photos); marquee(photos, -1, 32); }
+        var list = Array.prototype.slice.call(cards.children);
+        list.forEach(function (card, i) {
+          var text = card.querySelector('.tl-rev__text');
+          if (text && text.scrollHeight > text.clientHeight + 2) {
+            var more = document.createElement('button');
+            more.type = 'button';
+            more.className = 'tl-rev__more';
+            more.textContent = 'Read more';
+            more.setAttribute('aria-expanded', 'false');
+            if (card.getAttribute('aria-hidden') === 'true') more.tabIndex = -1;
+            text.insertAdjacentElement('afterend', more);
+            more.addEventListener('click', function () {
+              var open = cards.classList.toggle('is-open');
+              cards.querySelectorAll('.tl-rev__more').forEach(function (b) {
+                b.textContent = open ? 'Show less' : 'Read more';
+                b.setAttribute('aria-expanded', open ? 'true' : 'false');
+              });
+              if (!open) kick();
+            });
+          }
+          card.addEventListener('click', function (e) {
+            if (e.target.closest('a, button')) return;
+            var line = cards.scrollLeft + (parseFloat(getComputedStyle(cards).paddingLeft) || 0);
+            if (Math.abs(card.offsetLeft - line) > 8) {
+              cards.scrollTo({ left: card.offsetLeft - (parseFloat(getComputedStyle(cards).paddingLeft) || 0), behavior: reduce ? 'auto' : 'smooth' });
+            }
+          });
+        });
+      }
+
+      // One copy's width in a row that holds its items three times.
+      function copyWidth(row) {
+        var k = row.children.length / 3;
+        return row.children[k].offsetLeft - row.children[0].offsetLeft;
+      }
+      // Endless both ways: the row starts in its middle copy and, whenever the reader stops
+      // scrolling it, is moved back by exactly one copy into the middle one. The content there is
+      // identical, so the move cannot be seen, and there is always a copy's worth to swipe into.
+      function loopRow(row) {
+        row.scrollLeft = copyWidth(row);
+        var t = null;
+        row.addEventListener('scroll', function () {
+          if (row.classList.contains('is-auto')) return;       // the marquee keeps itself in range
+          clearTimeout(t);
+          t = setTimeout(function () {
+            var w = copyWidth(row), x = row.scrollLeft;
+            if (x < w) row.scrollLeft = x + w; else if (x >= 2 * w) row.scrollLeft = x - w;
+          }, 160);
+        }, { passive: true });
+      }
+
+      // A swipe row running on its own like a marquee: speed px per second, forwards (dir 1) or
+      // backwards (dir -1), kept inside the middle copy of its items. The position is kept as a
+      // float and written rounded, since browsers round scrollLeft and a sub-pixel step per frame
+      // would otherwise never move. Snapping is off while it runs (a mandatory snap would pull
+      // every tiny step back); the reader's touch, a wheel or an opened review hands the row back,
+      // snap and all, and it picks up 8 seconds after the last touch from wherever the reader left
+      // it. Held off screen; never under reduced motion.
+      var runners = [], raf = null, inView = false, last = null;
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { inView = es[0].isIntersecting; kick(); }, { threshold: 0.2 }).observe(wall);
+      wall.__revInView = function (v) { inView = v; raf = null; kick(); };   // for checking by hand; harmless
+      function marquee(row, dir, speed, ok) {
+        if (reduce || row.children.length < 6) return;
+        var r = { row: row, dir: dir, speed: speed, ok: ok, heldUntil: 0, pos: null };
+        var hold = function () {
+          r.heldUntil = Date.now() + 8000; r.pos = null; row.classList.remove('is-auto');
+          clearTimeout(r.wake); r.wake = setTimeout(kick, 8050);
+        };
+        ['pointerdown', 'touchstart', 'wheel'].forEach(function (ev) { row.addEventListener(ev, hold, { passive: true }); });
+        runners.push(r);
+        kick();
+      }
+      function kick() { if (!raf && runners.length) { last = null; raf = requestAnimationFrame(tick); } }
+      function tick(now) {
+        raf = null;
+        var dt = last === null ? 0 : Math.min(0.1, (now - last) / 1000);
+        last = now;
+        var any = false;
+        runners.forEach(function (r) {
+          var row = r.row;
+          if (!row.isConnected) return;
+          var free = inView && Date.now() >= r.heldUntil && !(r.ok && !r.ok());
+          if (!free) { if (row.classList.contains('is-auto')) { row.classList.remove('is-auto'); r.pos = null; } return; }
+          any = true;
+          var w = copyWidth(row);
+          if (r.pos === null) { r.pos = row.scrollLeft; row.classList.add('is-auto'); }
+          r.pos += r.dir * r.speed * dt;
+          while (r.pos >= 2 * w) r.pos -= w;
+          while (r.pos < w) r.pos += w;
+          row.scrollLeft = Math.round(r.pos);
+        });
+        // stop when nothing can move; the observer, a hold running out or closing the reviews restarts it
+        if (any) raf = requestAnimationFrame(tick);
+      }
+
       function build() {
-        var L = layout(), n = L.n, key = (L.rows ? 'r' : 'c') + n;
+        var L = layout(), n = L.n, key = L.swipe ? 's' : 'c' + n;
         if (key === built) return;
         built = key;
         if (cols) cols.remove();
-        wall.classList.toggle('is-rows', L.rows);
+        runners = [];
+        wall.classList.remove('is-live', 'is-swipe');
+        if (L.swipe) { buildSwipe(); return; }
+        if (reduce) { cols = null; return; }                    // wider screens keep the plain wall
         cols = document.createElement('div');
         cols.className = 'tl-rev__cols';
-        if (!L.rows) cols.style.gridTemplateColumns = 'repeat(' + n + ', minmax(0, 1fr))';
+        cols.style.gridTemplateColumns = 'repeat(' + n + ', minmax(0, 1fr))';
         var tracks = [];
         for (var c = 0; c < n; c++) {
           var col = document.createElement('div');
@@ -401,7 +543,7 @@
         wall.classList.add('is-live');
         function timeIt() {
           tracks.forEach(function (track) {
-            var half = (L.rows ? track.scrollWidth : track.scrollHeight) / 2;
+            var half = track.scrollHeight / 2;
             track.style.setProperty('--dur', Math.max(20, Math.round(half / SPEED)) + 's');
           });
         }

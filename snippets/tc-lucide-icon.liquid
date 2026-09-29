@@ -1,6 +1,8 @@
 {% assign icon_name = icon_name | downcase %}
 
 {% case icon_name %}
+  {% when "lucide-chevron-down" %}
+    {{ "lucide-chevron-down.svg" | inline_asset_content }}
   {% when "lucide-info" %}
     {{ "lucide-info.svg" | inline_asset_content }}
   {% when "lucide-message-circle" %}

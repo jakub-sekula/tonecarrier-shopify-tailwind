@@ -198,8 +198,9 @@
   .tl-tier__lvlname { font-size: 13px; font-weight: 600; color: #71717a; }
 
   /* price level switch */
-  /* its own layer above the cards that follow, so the levels tooltip opens over them */
-  .tl-rewards__levelwrap { position: relative; z-index: 10; margin-top: 36px; text-align: center; }
+  /* its own layer above the cards that follow (which have none), so the levels tooltip opens over
+     them; kept at 1 so the sticky site header still passes over it */
+  .tl-rewards__levelwrap { position: relative; z-index: 1; margin-top: 36px; text-align: center; }
   .tl-rewards__levels { display: flex; align-items: center; justify-content: center; width: max-content; max-width: 100%; margin: 0 auto; padding: 4px;
     background: #fff; border: 1px solid rgba(0,0,0,.1); border-radius: 999px; }
   .tl-rewards__lvllabel { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

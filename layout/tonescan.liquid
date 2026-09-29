@@ -265,7 +265,12 @@
        once the hero has scrolled away and back down while the closing section is on screen (script
        below). .ts-dark keeps it dark on the light toneLight page. {%- endcomment -%}
     <div class="ts-cta-bar ts-dark">
-      {%- render 'ts-header-cta', place: 'bar' -%}
+      {%- comment -%} The tab on the bar's top edge folds it away (and back): only the tab stays on
+         screen. Remembered for the visit (script below). {%- endcomment -%}
+      <button type="button" class="ts-cta-bar__toggle" aria-expanded="true" aria-controls="ts-cta-bar-body" aria-label="Hide the sign-up bar">{%- render 'tc-lucide-icon', icon_name: 'lucide-chevron-down' -%}</button>
+      <div class="ts-cta-bar__body" id="ts-cta-bar-body">
+        {%- render 'ts-header-cta', place: 'bar' -%}
+      </div>
     </div>
 
     {%- comment -%} Signup confirmed. Kit sends people who confirm their email to this page with
@@ -322,6 +327,26 @@
         window.addEventListener('scroll', check, { passive: true });
         window.addEventListener('resize', check, { passive: true });
         check();
+
+        // The bar's fold tab: body.ts-bar-collapsed slides the bar down behind its tab. The folded
+        // form is made inert so it cannot be tabbed into. Remembered for the visit (sessionStorage;
+        // a private window just starts open).
+        var tab = document.querySelector('.ts-cta-bar__toggle');
+        var body = document.getElementById('ts-cta-bar-body');
+        if (tab && body) {
+          var KEY = 'ts-bar-collapsed';
+          var setCollapsed = function (on) {
+            document.body.classList.toggle('ts-bar-collapsed', on);
+            tab.setAttribute('aria-expanded', on ? 'false' : 'true');
+            tab.setAttribute('aria-label', on ? 'Show the sign-up bar' : 'Hide the sign-up bar');
+            body.inert = on;
+            try { sessionStorage.setItem(KEY, on ? '1' : '0'); } catch (e) { /* not remembered */ }
+          };
+          var saved = null;
+          try { saved = sessionStorage.getItem(KEY); } catch (e) { /* private browsing */ }
+          if (saved === '1') setCollapsed(true);
+          tab.addEventListener('click', function () { setCollapsed(!document.body.classList.contains('ts-bar-collapsed')); });
+        }
       })();
     </script>
 
