@@ -6,7 +6,7 @@
 {%- endcomment -%}
 {%- assign tl_cta = settings.tonelight_cta | default: 'link' -%}
 
-<div class="tonescan-landing tw:text-neutral-200">
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'white' }} tw:text-neutral-200">
   <section id="join" class="tw:relative tw:overflow-hidden tw:scroll-mt-[84px]">
     <div class="tl-cta__glow" aria-hidden="true"></div>
     <div class="tw:relative tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[96px] tw:text-center tw:md:px-[50px] tw:md:py-[140px]">
@@ -16,14 +16,23 @@
       {%- endif -%}
       {%- capture tl_cta_link -%}
       {%- if section.settings.button_text != blank -%}
-      <div class="tw:mt-[32px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]">
+      <div class="tw:mt-[32px] tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-[12px]" data-reveal>
         <a class="ts-cta ts-cta--{{ section.settings.button_style }}" href="{{ section.settings.button_url | default: settings.tonelight_ks_url | default: '#rewards' }}">{{ section.settings.button_text }}</a>
       </div>
       {%- endif -%}
       {%- endcapture -%}
       {%- capture tl_cta_kit -%}
-      <div class="tl-cta__kit">{% render 'ts-kit-form', label: settings.tonelight_kit_label %}</div>
+      <div class="tl-cta__kit" data-reveal>{% render 'ts-kit-form', label: settings.tonelight_kit_label, notice: true %}</div>
       {%- endcapture -%}
+      {%- comment -%} The launch countdown again, over the signup. It follows the hero's countdown
+         (tonescan-scripts: data-cd-mirror): shown only while that one is counting down, so hidden
+         in the markup until the script has checked. {%- endcomment -%}
+      <div class="ts-countdown tl-cta__countdown" data-reveal data-cd-mirror role="timer" aria-label="Time until the Kickstarter launch" hidden>
+        <div class="ts-countdown__unit"><span class="ts-countdown__num" data-cd="d">{% render 'ts-flap-digits', value: '00' %}</span><span class="ts-countdown__label">days</span></div>
+        <div class="ts-countdown__unit"><span class="ts-countdown__num" data-cd="h">{% render 'ts-flap-digits', value: '00' %}</span><span class="ts-countdown__label">hours</span></div>
+        <div class="ts-countdown__unit"><span class="ts-countdown__num" data-cd="m">{% render 'ts-flap-digits', value: '00' %}</span><span class="ts-countdown__label">minutes</span></div>
+        <div class="ts-countdown__unit"><span class="ts-countdown__num" data-cd="s">{% render 'ts-flap-digits', value: '00' %}</span><span class="ts-countdown__label">seconds</span></div>
+      </div>
       <div class="ts-cta-swap" data-cta="{{ tl_cta }}">
         <div class="ts-cta-swap__on">{% if tl_cta == 'kit' %}{{ tl_cta_kit }}{% else %}{{ tl_cta_link }}{% endif %}</div>
         {%- if tl_cta == 'kit' -%}<template data-cta-alt="link">{{ tl_cta_link }}</template>{%- else -%}<template data-cta-alt="kit">{{ tl_cta_kit }}</template>{%- endif -%}
@@ -36,6 +45,16 @@
   .tl-cta__glow { position: absolute; left: 50%; bottom: -180px; width: 720px; height: 360px; transform: translateX(-50%);
     border-radius: 9999px; background: rgba(5,206,120,.08); filter: blur(130px); pointer-events: none; }
   .tl-cta__kit { max-width: 520px; margin: 32px auto 0; text-align: left; }
+  .tl-cta__countdown { margin-top: 36px; }
+  .tl-cta__countdown + .ts-cta-swap .tl-cta__kit { margin-top: 28px; }
+  /* phones: full width of the form under it, tiles sized from that width (as in the hero) */
+  @media (max-width: 767px) {
+    .tl-cta__countdown { width: 100%; max-width: 520px; margin-inline: auto; container-type: inline-size; justify-content: space-between; gap: 0;
+      --fw: calc((100cqi - 3 * 12px - 4 * 4px) / 8); --fh: calc(var(--fw) * 1.36); }
+    .tl-cta__countdown .ts-flap__digit { font-size: calc(var(--fh) * .6); }
+    .tl-cta__countdown .ts-countdown__num { gap: 4px; }
+    .tl-cta__countdown .ts-countdown__label { font-size: 10px; }
+  }
 {%- endstyle -%}
 
 {% schema %}
@@ -57,7 +76,8 @@
         { "value": "accent", "label": "Blue" }
       ],
       "default": "ks"
-    }
+    },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "white", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
   ],
   "presets": [{ "name": "toneLight call to action" }]
 }

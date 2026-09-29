@@ -48,17 +48,25 @@
       endif
       # og:image precedence: page metafield custom.social_image → page featured image → default screenshot.
       # Works whether the metafield is a File(image) reference or a plain URL string.
-      assign ts_image = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011'
+      # Always a static 1200px image (format: 'jpg' asks the CDN for one; it may answer with a PNG): an animated image (e.g. an animated WebP) otherwise reaches the
+      # link-preview crawlers as a multi-megabyte animated GIF, over X's 5 MB and Facebook's 8 MB
+      # limits, and the card fails. The static version is the first frame, at a few hundred KB.
+      # ts_image_h feeds og:image:height so a first share renders without a re-scrape.
+      assign ts_image = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files/develop.png?v=1784862011&width=1200&format=jpg'
+      assign ts_image_h = 750
       assign ts_mf = page.metafields.custom.social_image
       if ts_mf.value != blank
-        assign ts_mf_url = ts_mf.value | image_url: width: 1200
+        assign ts_mf_url = ts_mf.value | image_url: width: 1200, format: 'jpg'
         if ts_mf_url != blank
           assign ts_image = ts_mf_url | prepend: 'https:'
+          assign ts_image_h = 1200 | divided_by: ts_mf.value.aspect_ratio | round
         else
           assign ts_image = ts_mf.value
+          assign ts_image_h = blank
         endif
       elsif page_image
-        assign ts_image = page_image | image_url: width: 1200 | prepend: 'https:'
+        assign ts_image = page_image | image_url: width: 1200, format: 'jpg' | prepend: 'https:'
+        assign ts_image_h = 1200 | divided_by: page_image.aspect_ratio | round
       endif
     -%}
 
@@ -72,6 +80,10 @@
     <meta property="og:description" content="{{ ts_desc | escape }}">
     <meta property="og:image" content="{{ ts_image }}">
     <meta property="og:image:secure_url" content="{{ ts_image }}">
+    {%- if ts_image_h != blank -%}
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="{{ ts_image_h }}">
+    {%- endif -%}
     <meta property="og:image:alt" content="{{ ts_image_alt }}">
     {%- if settings.social_twitter_link != blank -%}
       <meta name="twitter:site" content="{{ settings.social_twitter_link | split: 'twitter.com/' | last | prepend: '@' }}">
@@ -133,9 +145,28 @@
       {{ settings.type_body_font | font_face: font_display: 'swap' }}
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
 
+      {%- comment -%} Page accent (theme settings: toneLight Kickstarter / toneScan pages). The stock
+         blue keeps its hand-picked shades; any other colour gets its shades mixed from it. --ts-accent-on
+         is the text colour on an accent fill, dark on light accents so buttons stay readable. {%- endcomment -%}
+      {%- if ts_page == 'tonelight' -%}{%- assign ts_acc_setting = settings.tonelight_accent -%}{%- else -%}{%- assign ts_acc_setting = settings.tonescan_accent -%}{%- endif -%}
+      {%- capture ts_acc -%}{{ ts_acc_setting | default: '#3b82f6' }}{%- endcapture -%}
+      {%- assign ts_acc = ts_acc | strip | downcase -%}
       :root {
         color-scheme: dark;
-        --ts-accent: #3b82f6;
+        --ts-accent: {{ ts_acc }};
+        {%- if ts_acc == '#3b82f6' %}
+        --ts-accent-hi: #60a5fa;
+        --ts-accent-focus: #93c5fd;
+        --ts-accent-hover: #2f6fed;
+        --ts-accent-ink: #2563eb;
+        --ts-accent-on: #fff;
+        {%- else %}
+        --ts-accent-hi: color-mix(in srgb, {{ ts_acc }} 72%, #fff);
+        --ts-accent-focus: color-mix(in srgb, {{ ts_acc }} 50%, #fff);
+        --ts-accent-hover: color-mix(in srgb, {{ ts_acc }} 88%, #000);
+        --ts-accent-ink: color-mix(in srgb, {{ ts_acc }} 82%, #000);
+        --ts-accent-on: {% assign ts_acc_b = ts_acc | color_brightness %}{% if ts_acc_b > 165 %}#0a0a0b{% else %}#fff{% endif %};
+        {%- endif %}
         --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
         --font-body-weight: {{ settings.type_body_font.weight | default: 400 }};
         --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
@@ -152,24 +183,31 @@
         text-rendering: optimizeLegibility;
       }
 
+      /* footer origin line: the text, then two tiny flags after it */
+      .ts-foot-origin { display: inline-flex; align-items: center; gap: 8px; }
+      .ts-foot-flags { display: inline-flex; gap: 3px; }
+      .ts-foot-flags svg { display: block; width: 16px; height: 8px; border-radius: 1px; box-shadow: 0 0 0 1px rgba(127,127,127,.25); }
       /* scroll-reveal (JS adds .reveal, then .in). If JS/IO absent, nothing hides. */
+      /* `translate`, not `transform`: it stacks with whatever transform the element has of its own
+         (centring, hover lifts) instead of replacing it. The classes come off again once it has
+         played, so the element's own transitions are back too. */
       .tonescan-landing .reveal {
         opacity: 0;
-        transform: translateY(22px);
-        transition: opacity .7s cubic-bezier(.2,.6,.2,1), transform .7s cubic-bezier(.2,.6,.2,1);
-        will-change: opacity, transform;
+        translate: 0 22px;
+        transition: opacity .7s cubic-bezier(.2,.6,.2,1), translate .7s cubic-bezier(.2,.6,.2,1);
+        will-change: opacity, translate;
       }
-      .tonescan-landing .reveal.in { opacity: 1; transform: none; }
+      .tonescan-landing .reveal.in { opacity: 1; translate: none; }
       @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
-        .tonescan-landing .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        .tonescan-landing .reveal { opacity: 1 !important; translate: none !important; transition: none !important; }
       }
     {%- endstyle -%}
   </head>
 
   {%- comment -%} The toneLight page is light throughout: the body class switches the shared
      sections over (see "light page" in tonescan-styles). toneScan stays dark. {%- endcomment -%}
-  <body class="tonescan-body{% if ts_page == 'tonelight' %} tonescan-body--light{% endif %}">
+  <body class="tonescan-body{% if ts_page == 'tonelight' %} tonescan-body--light{% if settings.tonelight_accent_eyebrows %} ts-accent-eyebrows{% endif %}{% endif %}">
     <a class="tw:sr-only" href="#MainContent">Skip to content</a>
 
     {%- comment -%} No store notice (holiday-banner) on these pages: it is about shop orders, and the
@@ -196,7 +234,22 @@
     {%- comment -%} ===== minimal footer ===== {%- endcomment -%}
     <footer class="tw:border-t tw:border-white/10">
       <div class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1400px] tw:flex-col tw:items-center tw:justify-between tw:gap-[16px] tw:px-[15px] tw:py-[32px] tw:md:flex-row tw:md:px-[50px]">
-        <p class="tw:text-[13px] tw:text-neutral-500">© {{ 'now' | date: '%Y' }} Tone Photographic. All rights reserved.</p>
+        {%- comment -%} The copyright, with the origin line beside it (theme settings, toneLight
+           Kickstarter > Landing page footer): small flags drawn inline, so they stay crisp. {%- endcomment -%}
+        <div class="ts-foot-legal tw:flex tw:flex-col tw:items-center tw:gap-[8px] tw:md:flex-row tw:md:gap-[16px]">
+          <p class="tw:text-[13px] tw:text-neutral-500">© {{ 'now' | date: '%Y' }} Tone Photographic. All rights reserved.</p>
+          {%- if settings.landing_origin_text != blank -%}
+          <p class="ts-foot-origin tw:text-[13px] tw:text-neutral-500">
+            {{ settings.landing_origin_text | escape }}
+            {%- if settings.landing_origin_uk or settings.landing_origin_pl -%}
+            <span class="ts-foot-flags" aria-hidden="true">
+              {%- if settings.landing_origin_uk -%}<svg viewBox="0 0 60 30"><clipPath id="tsf-s"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="tsf-t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(#tsf-s)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#tsf-t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>{%- endif -%}
+              {%- if settings.landing_origin_pl -%}<svg viewBox="0 0 16 8" preserveAspectRatio="none"><rect width="16" height="4" fill="#fff"/><rect y="4" width="16" height="4" fill="#DC143C"/></svg>{%- endif -%}
+            </span>
+            {%- endif -%}
+          </p>
+          {%- endif -%}
+        </div>
         <div class="tw:flex tw:items-center tw:gap-[24px]">
           {%- comment -%} No toneCarrier store to link to. The label said there was one and the
              href went to the shop home, which is a promise the site does not keep. {%- endcomment -%}
@@ -281,34 +334,81 @@
         // wrapper, so this has to sweep all of them: a single root only ever saw the hero.
         if (!document.querySelector('.tonescan-landing')) return;
 
-        // Elements to reveal: headings, grid items (cards/steps), testimonials, faq rows.
-        // .ts-conv__item is excluded: every film frame is a <figure>, so the reveal was holding
-        // each one 22px low until it intersected, which read as frames sliding up into the strip.
-        // .tl-rev__tile likewise: the review wall's tiles drift through a clipped window, so revealing
-        // each one as it crosses in reads as flicker, and copies rebuilt on resize were never revealed.
-        // [data-reveal] opts anything else in, e.g. the reviews section's star row above its heading.
-        var targets = document.querySelectorAll('.tonescan-landing :is(h1, h2, [data-reveal], [class*="grid"] > *, figure:not(.ts-conv__item):not(.tl-rev__tile), details)');
-        targets.forEach(function (el) { el.classList.add('reveal'); });
+        // What reveals:
+        //  - section heads: every h1/h2 with its eyebrow (the line just above it, or any *__eyebrow)
+        //    and its subtitle (the paragraph just below it, or any *__sub);
+        //  - [data-reveal] blocks, and each child of a [data-reveal-stagger] row (cards, columns);
+        //  - grid items, figures and FAQ rows, as before.
+        // Not: .ts-conv__item (every film frame is a <figure>; holding each one low read as frames
+        // sliding up into the strip) and .tl-rev__tile (the review wall drifts through a clipped
+        // window, so revealing tiles as they cross in reads as flicker; copies are rebuilt on resize).
+        // One reveal per element: a block holding a heading gives way to the heading's own parts,
+        // and anything inside a revealing block moves with it rather than twice.
+        var HEAD = ['h1', 'h2', 'p:has(+ :is(h1, h2))', ':is(h1, h2) + p', '[class*="__eyebrow"]',
+                    '[class*="__sub"]:not([class*="__sublabel"]):not(.ts-mock__sub)', '.ts-intro__lead'];
+        var BLOCK = ['[data-reveal]', '[data-reveal-stagger] > *', '[class*="grid"] > *',
+                     'figure:not(.ts-conv__item):not(.tl-rev__tile)', 'details'];
+        function pick(list) {
+          var found = [];
+          list.forEach(function (sel) {
+            try { found = found.concat(Array.prototype.slice.call(document.querySelectorAll('.tonescan-landing ' + sel))); }
+            catch (err) { /* a browser without :has() just skips that one */ }
+          });
+          return found;
+        }
+        // (the heroes keep their text block revealing as one piece, controls and all)
+        var heads = pick(HEAD).filter(function (el) { return !el.closest('.ts-mock, .ts-hero-text'); });
+        var blocks = pick(BLOCK).filter(function (b) { return !heads.some(function (h) { return b !== h && b.contains(h); }); });
+        var targets = Array.from(new Set(heads.concat(blocks))).sort(function (x, y) {
+          return x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+        });
+        var kept = [];
+        targets.forEach(function (el) {
+          if (el.parentElement && el.parentElement.closest('.reveal')) return;
+          el.classList.add('reveal');
+          kept.push(el);
+        });
+        // the hero's headline keeps its own second, later rise inside the text block, as it always had
+        pick(['.ts-hero-text h1']).forEach(function (el) { el.classList.add('reveal'); kept.push(el); });
 
+        // Stagger: whatever scrolls in together cascades, in reading order (row by row, left to
+        // right) within each group: the head's eyebrow, title and subtitle; a row of cards or
+        // columns ([data-reveal-stagger], or [data-reveal-group] around nested columns); a grid.
+        // Something arriving on its own starts straight away, so a long grid never builds up a
+        // long wait, and no cascade runs past ten steps.
+        var STEP = 90;
+        function groupOf(el) {
+          return el.parentElement.closest('[data-reveal-group], [data-reveal-stagger]') || el.parentElement;
+        }
+        function show(el, delay) {
+          el.style.transitionDelay = delay + 'ms';
+          el.classList.add('in');
+          setTimeout(function () { el.classList.remove('reveal', 'in'); el.style.transitionDelay = ''; }, delay + 900);
+        }
         var io = new IntersectionObserver(function (entries) {
+          var groups = new Map();
           entries.forEach(function (e) {
             if (!e.isIntersecting) return;
-            var el = e.target;
-            var delay = 0;
-            var parent = el.parentElement;
-            if (parent && /grid/.test(parent.className)) {
-              var idx = Array.prototype.indexOf.call(parent.children, el);
-              // Cap high enough to cover the 9-card bento. At 5 the last row shared one
-              // delay and the whole row landed at once.
-              delay = Math.min(idx, 9) * 55;
-            }
-            el.style.transitionDelay = delay + 'ms';
-            el.classList.add('in');
-            io.unobserve(el);
+            io.unobserve(e.target);
+            var g = groupOf(e.target);
+            if (!groups.has(g)) groups.set(g, []);
+            groups.get(g).push(e.target);
+          });
+          // groups play one after another in page order, so a section arriving whole reads as one
+          // sequence (head, then its cards) rather than everything starting at once
+          var n = 0;
+          // (ordered by each group's first member: a group's container can enclose an earlier one)
+          function before(x, y) { return x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; }
+          groups.forEach(function (list) { list.sort(before); });
+          Array.from(groups.keys()).sort(function (x, y) { return before(groups.get(x)[0], groups.get(y)[0]); }).forEach(function (g) {
+            var list = groups.get(g);
+            var pos = new Map(list.map(function (el) { var r = el.getBoundingClientRect(); return [el, [Math.round(r.top / 24), r.left]]; }));
+            list.sort(function (x, y) { var a = pos.get(x), b = pos.get(y); return a[0] - b[0] || a[1] - b[1]; });
+            list.forEach(function (el) { show(el, Math.min(n++, 10) * STEP); });
           });
         }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
 
-        targets.forEach(function (el) { io.observe(el); });
+        kept.forEach(function (el) { io.observe(el); });
         // (Hero scroll effects live in the section's own script.)
       })();
     </script>

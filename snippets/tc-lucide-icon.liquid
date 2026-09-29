@@ -1,6 +1,10 @@
 {% assign icon_name = icon_name | downcase %}
 
 {% case icon_name %}
+  {% when "lucide-info" %}
+    {{ "lucide-info.svg" | inline_asset_content }}
+  {% when "lucide-message-circle" %}
+    {{ "lucide-message-circle.svg" | inline_asset_content }}
   {% when "lucide-chevron-left" %}
     {{ "lucide-chevron-left.svg" | inline_asset_content }}
   {% when "lucide-chevron-right" %}
@@ -17,6 +21,10 @@
     {{ "lucide-lightbulb.svg" | inline_asset_content }}
   {% when "lucide-package" %}
     {{ "lucide-package.svg" | inline_asset_content }}
+  {% when "lucide-rotate-ccw" %}
+    {{ "lucide-rotate-ccw.svg" | inline_asset_content }}
+  {% when "lucide-play" %}
+    {{ "lucide-play.svg" | inline_asset_content }}
   {% when "lucide-plus" %}
     {{ "lucide-plus.svg" | inline_asset_content }}
   {% when "lucide-triangle-alert" %}

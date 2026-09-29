@@ -5,9 +5,17 @@
     upcoming  plain grey dot and line
   Status is a setting rather than worked out from the date, because milestone dates are ranges
   ("Jan-Mar 2025") and move; the editor is the place to say where things stand.
+
+  Images live on the milestones: each can carry up to six. A milestone with images is a trigger:
+  once it scrolls past the middle of the screen, the frame beside the timeline shows its images,
+  looping through them while it stays the latest trigger reached. With two or more, small
+  thumbnails under the step switch between them by hand. Before the first trigger is reached, the
+  frame shows the section's own image if it has one (otherwise the first trigger's first image),
+  still; with no step images at all, the section image is simply the picture. On phones, where nothing sits beside the list,
+  each step shows its images inside the step instead, with the same thumbnails and loop.
 {%- endcomment -%}
 
-<div class="tonescan-landing tw:text-neutral-200">
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'white' }} tw:text-neutral-200">
   <section class="tl-tl" id="timeline">
     <div class="tl-tl__wrap">
       {%- comment -%} Left column: heading and image, held in place on wide screens while the
@@ -21,34 +29,33 @@
           {%- if section.settings.subheading != blank -%}
           <p class="tl-tl__sub">{{ section.settings.subheading }}</p>
           {%- endif -%}
-          {%- comment -%} Up to three shots stacked in one frame. The script below crossfades between
-             them as the milestones scroll past: the first third of the list shows the first shot, and
-             so on. Empty slots are skipped, so with one shot nothing changes. {%- endcomment -%}
-          <div class="tl-tl__media">
+          {%- comment -%} Every milestone's images stacked in one frame (data-step names the milestone,
+             data-n the image within it); the script below crossfades between them. {%- endcomment -%}
+          <div class="tl-tl__media" data-reveal>
             {%- assign shots = 0 -%}
-            {%- if section.settings.video != blank or section.settings.image != blank -%}
-            <div class="tl-tl__shot is-active">
-              {%- if section.settings.video != blank -%}
-              {% render 'ts-video', video: section.settings.video, class: 'tl-tl__vid' %}
-              {%- else -%}
-              {%- assign fp = '' -%}{%- if section.settings.image.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ section.settings.image.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
-              {%- assign alt_text = section.settings.image.alt | default: section.settings.heading -%}
-              {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: alt_text, sizes: '(min-width: 900px) 45vw, 100vw', style: fp }}
-              {%- endif -%}
+            {%- if section.settings.image != blank -%}
+            {%- assign im = section.settings.image -%}
+            {%- assign fp = '' -%}{%- if im.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ im.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+            {%- assign alt_text = im.alt | default: section.settings.heading -%}
+            <div class="tl-tl__shot is-active" data-n="0">
+              {{ im | image_url: width: 1400 | image_tag: loading: 'lazy', alt: alt_text, sizes: '(min-width: 900px) 45vw, 100vw', style: fp }}
             </div>
             {%- assign shots = 1 -%}
             {%- endif -%}
-            {%- for n in (2..3) -%}
-              {%- capture ik -%}image_{{ n }}{%- endcapture -%}
-              {%- assign im = section.settings[ik] -%}
-              {%- if im != blank -%}
-              {%- assign fp = '' -%}{%- if im.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ im.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
-              {%- assign alt_text = im.alt | default: section.settings.heading -%}
-              <div class="tl-tl__shot{% if shots == 0 %} is-active{% endif %}">
-                {{ im | image_url: width: 1400 | image_tag: loading: 'lazy', alt: alt_text, sizes: '(min-width: 900px) 45vw, 100vw', style: fp }}
-              </div>
-              {%- assign shots = shots | plus: 1 -%}
-              {%- endif -%}
+            {%- for block in section.blocks -%}
+              {%- assign k = 0 -%}
+              {%- for n in (1..6) -%}
+                {%- if n == 1 -%}{%- assign ik = 'image' -%}{%- else -%}{%- capture ik -%}image_{{ n }}{%- endcapture -%}{%- endif -%}
+                {%- assign im = block.settings[ik] -%}
+                {%- if im != blank -%}
+                {%- assign fp = '' -%}{%- if im.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ im.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+                {%- assign alt_text = im.alt | default: block.settings.title -%}
+                <div class="tl-tl__shot{% if shots == 0 %} is-active{% endif %}" data-step="{{ block.id }}" data-n="{{ k }}">
+                  {{ im | image_url: width: 1400 | image_tag: loading: 'lazy', alt: alt_text, sizes: '(min-width: 900px) 45vw, 100vw', style: fp }}
+                </div>
+                {%- assign shots = shots | plus: 1 -%}{%- assign k = k | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
             {%- endfor -%}
             {%- if shots == 0 -%}<span class="tl-tl__ph">Image</span>{%- endif -%}
           </div>
@@ -59,12 +66,37 @@
         {%- for block in section.blocks -%}
         {%- assign m = block.settings -%}
         {%- assign st = m.status | default: 'upcoming' -%}
-        <li class="tl-tl__item is-{{ st }}" {{ block.shopify_attributes }}>
+        {%- assign pics = '' -%}
+        {%- for n in (1..6) -%}
+          {%- if n == 1 -%}{%- assign ik = 'image' -%}{%- else -%}{%- capture ik -%}image_{{ n }}{%- endcapture -%}{%- endif -%}
+          {%- if m[ik] != blank -%}{%- assign pics = pics | append: ik | append: ',' -%}{%- endif -%}
+        {%- endfor -%}
+        {%- assign pics = pics | split: ',' -%}
+        <li class="tl-tl__item is-{{ st }}"{% if pics.size > 0 %} data-shot="{{ block.id }}"{% endif %} {{ block.shopify_attributes }}>
           <span class="tl-tl__dot" aria-hidden="true"></span>
           <div class="tl-tl__body">
             <p class="tl-tl__date">{{ m.date }}{% if st == 'current' %}{% if section.settings.current_label != blank %}<span class="tl-tl__here">{{ section.settings.current_label }}</span>{% else %}<span class="tw:sr-only"> (current)</span>{% endif %}{% endif %}</p>
-            <p class="tl-tl__title">{{ m.event }}</p>
+            <p class="tl-tl__title">{{ m.title }}</p>
             {%- if m.description != blank -%}<p class="tl-tl__desc">{{ m.description }}</p>{%- endif -%}
+            {%- if pics.size > 0 -%}
+            {%- comment -%} phones only: the step's images in the step, since nothing sits beside the list {%- endcomment -%}
+            <div class="tl-tl__stepimg">
+              {%- for ik in pics -%}
+              {%- assign im = m[ik] -%}
+              {%- assign fp = '' -%}{%- if im.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ im.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+              <div class="tl-tl__stepshot{% if forloop.first %} is-active{% endif %}" data-n="{{ forloop.index0 }}">{{ im | image_url: width: 900 | image_tag: loading: 'lazy', alt: '', sizes: '100vw', style: fp }}</div>
+              {%- endfor -%}
+            </div>
+            {%- if pics.size > 1 -%}
+            <div class="tl-tl__thumbs" role="group" aria-label="Images for {{ m.title | escape }}">
+              {%- for ik in pics -%}
+              {%- assign im = m[ik] -%}
+              {%- assign fp = '' -%}{%- if im.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ im.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+              <button type="button" class="tl-tl__thumb{% if forloop.first %} is-active{% endif %}" data-n="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show image {{ forloop.index }} of {{ forloop.length }}">{{ im | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', width: 48, height: 48, style: fp }}</button>
+              {%- endfor -%}
+            </div>
+            {%- endif -%}
+            {%- endif -%}
           </div>
         </li>
         {%- endfor -%}
@@ -75,7 +107,7 @@
 
 {%- style -%}
   .tl-tl { background: #fff; scroll-margin-top: 84px; }
-  .tl-tl__wrap { max-width: 1200px; margin: 0 auto; padding: 80px 15px; }
+  .tl-tl__wrap { max-width: 1400px; margin: 0 auto; padding: 80px 15px; }
   @media (min-width: 768px) { .tl-tl__wrap { padding: 120px 50px; } }
   .tl-tl__heading { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1; letter-spacing: -.02em; }
   @media (min-width: 768px) { .tl-tl__heading { font-size: 46px; } }
@@ -86,6 +118,28 @@
   .tl-tl__shot.is-active { opacity: 1; }
   @media (prefers-reduced-motion: reduce) { .tl-tl__shot { transition: none; } }
   .tl-tl__media img, .tl-tl__media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .tl-tl__stepimg { position: relative; margin-top: 12px; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 3px;
+    border: 1px solid rgba(0,0,0,.08); background: #ececea; }
+  .tl-tl__stepshot { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; }
+  .tl-tl__stepshot.is-active { opacity: 1; }
+  .tl-tl__stepimg img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 900px) { .tl-tl__stepimg { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .tl-tl__stepshot { transition: none; } }
+
+  /* Thumbnails: one per image, the shown one at full opacity and the rest dimmed. While a step's
+     images are looping, a thin bar fills along the bottom of the shown thumbnail until the next
+     image (--tl-loop). */
+  .tl-tl__thumbs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .tl-tl__thumb { position: relative; width: 48px; height: 48px; padding: 0; overflow: hidden; cursor: pointer;
+    background: #ececea; border: 0; border-radius: 4px; opacity: .45; transition: opacity .18s ease; }
+  .tl-tl__thumb:hover { opacity: .8; }
+  .tl-tl__thumb.is-active { opacity: 1; }
+  .tl-tl__thumb:focus-visible { outline: 2px solid var(--ts-accent, #3b82f6); outline-offset: 2px; }
+  .tl-tl__thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .tl-tl__thumb::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+    background: rgba(255,255,255,.9); transform: scaleX(0); transform-origin: left; }
+  .tl-tl__thumb.is-active.is-timing::after { animation: tl-thumb var(--tl-loop, 3500ms) linear forwards; }
+  @keyframes tl-thumb { to { transform: scaleX(1); } }
   .tl-tl__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
     font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #a1a1aa; }
 
@@ -158,24 +212,99 @@
       }
       align();
 
-      // Scroll-linked shots: whichever milestone has crossed the middle of the screen picks the
-      // shot, spread evenly (with 12 milestones and 3 shots, 4 milestones each).
+      // Scroll-linked images. A milestone with images (data-shot) is a trigger: the latest trigger
+      // past the middle of the screen owns the frame, and its images loop there while it does and
+      // the section is on screen. Before the first trigger is reached the frame shows the first
+      // trigger's first image, still. Thumbnails pick an image by hand (and can bring an earlier or
+      // later step's images up); the loop carries on from the picked one, and the next time the
+      // scroll reaches a different trigger, that one takes over.
+      var LOOP_MS = 3500;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var shots = Array.prototype.slice.call(media.querySelectorAll('.tl-tl__shot'));
       var items = Array.prototype.slice.call(list.querySelectorAll('.tl-tl__item'));
-      if (shots.length > 1 && items.length) {
-        var current = 0, queued = false;
+      var groups = {};
+      // the section's own image, if any: a group of its own under the id '' (its shot has no data-step)
+      var own = shots.filter(function (sh) { return !sh.hasAttribute('data-step'); });
+      if (own.length) groups[''] = { shots: own, inline: [], thumbs: [], n: 0 };
+      items.forEach(function (it) {
+        var id = it.getAttribute('data-shot');
+        if (!id) return;
+        groups[id] = {
+          shots: shots.filter(function (sh) { return sh.getAttribute('data-step') === id; }),
+          inline: Array.prototype.slice.call(it.querySelectorAll('.tl-tl__stepshot')),
+          thumbs: Array.prototype.slice.call(it.querySelectorAll('.tl-tl__thumb')),
+          n: 0
+        };
+      });
+      var triggers = items.filter(function (it) { return groups[it.getAttribute('data-shot')]; });
+      if (triggers.length) {
+        var activeId = null, lastWant = null, reached = false, inView = true, timer = null, queued = false;
+        media.style.setProperty('--tl-loop', LOOP_MS + 'ms');
+        list.style.setProperty('--tl-loop', LOOP_MS + 'ms');
+        function looping() { var g = groups[activeId]; return !reduce && reached && inView && g && g.shots.length > 1; }
+        function paint() {
+          shots.forEach(function (sh) {
+            sh.classList.toggle('is-active', (sh.getAttribute('data-step') || '') === activeId && +sh.getAttribute('data-n') === groups[activeId].n);
+          });
+          Object.keys(groups).forEach(function (id) {
+            var g = groups[id], timing = id === activeId && looping();
+            g.thumbs.forEach(function (t) {
+              var on = +t.getAttribute('data-n') === g.n;
+              t.classList.toggle('is-active', on);
+              t.setAttribute('aria-pressed', on ? 'true' : 'false');
+              // restart the fill bar on the shown thumbnail
+              t.classList.remove('is-timing');
+              if (on && timing) { void t.offsetWidth; t.classList.add('is-timing'); }
+            });
+          });
+        }
+        function schedule() {
+          clearTimeout(timer);
+          if (looping()) timer = setTimeout(function () {
+            var g = groups[activeId];
+            setN(activeId, (g.n + 1) % g.shots.length);
+          }, LOOP_MS);
+        }
+        function setN(id, n) {
+          var g = groups[id];
+          g.n = n;
+          g.inline.forEach(function (x) { x.classList.toggle('is-active', +x.getAttribute('data-n') === n); });
+          paint(); schedule();
+        }
+        function setActive(id) {
+          if (id === activeId) { paint(); schedule(); return; }
+          activeId = id; paint(); schedule();
+        }
         function pick() {
           queued = false;
-          var line = window.innerHeight * 0.5, idx = 0;
-          for (var i = 0; i < items.length; i++) { if (items[i].getBoundingClientRect().top < line) idx = i; }
-          var k = Math.min(shots.length - 1, Math.floor(idx * shots.length / items.length));
-          if (k === current) return;
-          current = k;
-          shots.forEach(function (s, si) { s.classList.toggle('is-active', si === k); });
+          // before any trigger is reached: the section's own image, or failing that the first trigger's
+          var line = window.innerHeight * 0.5, want = own.length ? '' : triggers[0].getAttribute('data-shot'), hit = false;
+          triggers.forEach(function (it) { if (it.getBoundingClientRect().top < line) { want = it.getAttribute('data-shot'); hit = true; } });
+          var was = looping();
+          reached = hit;
+          // only a change of trigger moves the frame, so a thumbnail pick holds until then
+          if (want !== lastWant) { lastWant = want; setActive(want); }
+          else if (was !== looping()) { paint(); schedule(); }
         }
         function queue() { if (!queued) { queued = true; requestAnimationFrame(pick); } }
         window.addEventListener('scroll', queue, { passive: true });
         window.addEventListener('resize', queue, { passive: true });
+        if ('IntersectionObserver' in window) new IntersectionObserver(function (es) {
+          inView = es[0].isIntersecting; paint(); schedule();
+        }).observe(sec);
+        items.forEach(function (it) {
+          var id = it.getAttribute('data-shot');
+          if (!id) return;
+          groups[id].thumbs.forEach(function (t) {
+            t.addEventListener('click', function () {
+              groups[id].n = +t.getAttribute('data-n');
+              activeId = null; setActive(id);
+              setN(id, groups[id].n);
+            });
+          });
+          // theme editor: selecting a milestone with images brings them up
+          it.addEventListener('shopify:block:select', function () { activeId = null; setActive(id); });
+        });
         sec.__tlPick = pick;   // for checking by hand; harmless
         pick();
       }
@@ -230,11 +359,9 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Where we are" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Timeline" },
     { "type": "textarea", "id": "subheading", "label": "Subtitle" },
-    { "type": "image_picker", "id": "image", "label": "Image", "info": "Beside the timeline, held in view while it scrolls. Add a second and third image below to have them change as the timeline scrolls." },
-    { "type": "video", "id": "video", "label": "Video", "info": "Optional. Plays muted and looping in place of the image." },
-    { "type": "image_picker", "id": "image_2", "label": "Second image", "info": "Optional. Fades in as the reader scrolls through the middle of the timeline." },
-    { "type": "image_picker", "id": "image_3", "label": "Third image", "info": "Optional. Fades in for the last part of the timeline." },
-    { "type": "text", "id": "current_label", "label": "Label on the current step", "info": "Optional, e.g. We are here!" }
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Shown beside the timeline until the first milestone with images of its own scrolls in, and on its own while no milestone has images." },
+    { "type": "text", "id": "current_label", "label": "Label on the current step", "info": "Optional, e.g. We are here!" },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "white", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
   ],
   "blocks": [
     {
@@ -242,8 +369,15 @@
       "name": "Milestone",
       "settings": [
         { "type": "text", "id": "date", "label": "Date" },
-        { "type": "text", "id": "event", "label": "Title" },
+        { "type": "text", "id": "title", "label": "Title", "info": "Also names the milestone in the editor sidebar." },
         { "type": "text", "id": "description", "label": "Description", "info": "Optional." },
+        { "type": "header", "content": "Images", "info": "Optional. A step with images is a trigger: when it scrolls past the middle of the screen, the frame beside the timeline shows them, looping while this step is the latest trigger reached. Two or more add thumbnails under the step. On phones they show inside the step." },
+        { "type": "image_picker", "id": "image", "label": "Image 1" },
+        { "type": "image_picker", "id": "image_2", "label": "Image 2" },
+        { "type": "image_picker", "id": "image_3", "label": "Image 3" },
+        { "type": "image_picker", "id": "image_4", "label": "Image 4" },
+        { "type": "image_picker", "id": "image_5", "label": "Image 5" },
+        { "type": "image_picker", "id": "image_6", "label": "Image 6" },
         {
           "type": "select",
           "id": "status",

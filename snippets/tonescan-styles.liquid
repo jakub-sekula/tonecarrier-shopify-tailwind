@@ -9,7 +9,7 @@
     height: 40px; padding: 0 17px; font-size: 14px; font-weight: 600; color: #fff;
     background: #121215; border-radius: 2px; transition: background .15s ease, transform .15s ease; }
   .ts-conv-cta:hover { background: #2a2a30; transform: translateY(-1px); }
-  .ts-conv-cta:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+  .ts-conv-cta:focus-visible { outline: 2px solid var(--ts-accent-focus); outline-offset: 2px; }
 
   /* The copy runs from the page gutter to just short of the changeover, rather than to a fixed
      width: --cut is measured from the viewport edge, so subtract whatever the centred 1400px
@@ -368,12 +368,12 @@
   .ts-ba__before { clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
   .ts-ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
   .ts-ba__divider { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; margin-left: -1px; background: rgba(255,255,255,.92); pointer-events: none; }
-  .ts-ba__handle { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; border-radius: 9999px; background: #3b82f6; color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 12px rgba(0,0,0,.45); }
+  .ts-ba__handle { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; border-radius: 9999px; background: var(--ts-accent); color: var(--ts-accent-on); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 12px rgba(0,0,0,.45); }
   .ts-ba__tag { position: absolute; top: 12px; padding: 4px 8px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15); border-radius: 2px; pointer-events: none; }
   .ts-ba__tag--l { left: 12px; }
   .ts-ba__tag--r { right: 12px; }
   .ts-ba__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
-  .ts-ba__range:focus-visible { outline: 2px solid #3b82f6; outline-offset: -2px; }
+  .ts-ba__range:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: -2px; }
 
   /* ---- shared bits: icons, framed screenshots, feature bullets ----
      Icons are inline <svg viewBox="0 0 24 24"> with no presentation attributes, the stroke
@@ -395,7 +395,7 @@
 
   .ts-bullets { margin: 20px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
   .ts-bullets li { position: relative; padding-left: 20px; font-size: 15px; line-height: 1.55; color: #a3a3a3; }
-  .ts-bullets li::before { content: ''; position: absolute; left: 0; top: 9px; width: 7px; height: 7px; border-radius: 9999px; background: #3b82f6; }
+  .ts-bullets li::before { content: ''; position: absolute; left: 0; top: 9px; width: 7px; height: 7px; border-radius: 9999px; background: var(--ts-accent); }
 
   /* ---- platform badges (Apple / Windows marks) ---- */
   /* .ts-hero-text is a flex column with gap:26px, and .ts-msg reserves a status line under
@@ -479,7 +479,7 @@
     background: none; border: 0; cursor: pointer; transition: color .18s ease, transform .18s ease; }
   .ts-bento:hover .ts-feature-more { color: #fff; }
   .ts-feature-more:hover { transform: scale(1.12); }
-  .ts-feature-more:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-feature-more:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
 
   /* Wide cards lay out horizontally, stacking media above copy in a two-column-wide card
      leaves a long thin column of text and a lot of dead space. */
@@ -521,7 +521,7 @@
   .ts-bento__cta svg { width: 15px; height: 15px; flex-shrink: 0; transition: transform .18s ease; }
   .ts-bento__cta:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.55); }
   .ts-bento__cta:hover svg { transform: translateX(3px); }
-  .ts-bento__cta:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-bento__cta:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
 
   /* ---- feature video modal ---- */
   .ts-vid { position: fixed; inset: 0; z-index: 110; display: flex; align-items: center; justify-content: center; padding: 24px; }
@@ -533,7 +533,7 @@
   .ts-vid__soon { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); margin: 0; padding: 7px 14px; font-size: 13px; color: #e5e5e5; background: rgba(0,0,0,.72); border: 1px solid rgba(255,255,255,.18); border-radius: 2px; }
   .ts-vid__title { margin: 0; padding: 14px 20px; font-size: 15px; font-weight: 600; color: #fff; border-top: 1px solid rgba(255,255,255,.10); }
   .ts-vid__close { position: absolute; top: 10px; right: 10px; z-index: 3; width: 34px; height: 34px; border-radius: 2px; background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.18); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; }
-  .ts-vid__close:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-vid__close:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
 
   /* ---- secondary feature list: accordion rows, same language as the showcase above ----
      Was tab pills over a three-column grid; at that column width nearly every item wrapped
@@ -554,9 +554,9 @@
     transition: background .2s ease, color .2s ease, opacity .2s ease; }
   .ts-more__ico svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .ts-more__item.is-open .ts-more__cat, .ts-more__trigger:hover .ts-more__cat { color: #fff; }
-  .ts-more__icon { flex-shrink: 0; font-size: 20px; line-height: 1; color: #60a5fa; transition: transform .45s cubic-bezier(.16,.84,.28,1); }
+  .ts-more__icon { flex-shrink: 0; font-size: 20px; line-height: 1; color: var(--ts-accent-hi); transition: transform .45s cubic-bezier(.16,.84,.28,1); }
   .ts-more__item.is-open .ts-more__icon { transform: rotate(45deg); }
-  .ts-more__trigger:focus-visible { outline: 2px solid #3b82f6; outline-offset: -2px; }
+  .ts-more__trigger:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: -2px; }
   .ts-more__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s cubic-bezier(.16,.84,.28,1); }
   .ts-more__item.is-open .ts-more__panel { grid-template-rows: 1fr; }
   .ts-more__panelinner { overflow: hidden; }
@@ -625,18 +625,18 @@
   }
 
   /* ---- secondary feature list (grouped, under the bento) ---- */
-  .ts-morelist__head { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #60a5fa; }
+  .ts-morelist__head { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ts-accent-hi); }
   .ts-morelist { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px 56px; }
   @media (min-width: 820px) { .ts-morelist { grid-template-columns: 1fr 1fr; } }
   .ts-morelist li { position: relative; padding-left: 16px; font-size: 15px; line-height: 1.55; color: #8f8f8f; }
-  .ts-morelist li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 9999px; background: rgba(59,130,246,.75); }
+  .ts-morelist li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 9999px; background: color-mix(in srgb, var(--ts-accent) 75%, transparent); }
   .ts-morelist b { font-weight: 600; color: #e5e5e5; }
   .ts-soon { display: inline-block; margin-left: 2px; padding: 1px 6px; font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: #a3a3a3; border: 1px solid rgba(255,255,255,.16); border-radius: 2px; vertical-align: 1px; }
 
   .ts-hw__inner { display: flex; flex-direction: column; gap: 0; max-width: 1400px; margin: 0 auto; padding: 72px 15px; }
   .ts-hw__head { max-width: 760px; margin: 0 auto 48px; text-align: center; }
   .ts-hw__icon { margin: 0 auto 18px; }
-  .ts-hw__eyebrow { margin-bottom: 14px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .16em; color: #60a5fa; }
+  .ts-hw__eyebrow { margin-bottom: 14px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .16em; color: var(--ts-accent-hi); }
   .ts-hw__title { font-size: 28px; font-weight: 600; line-height: 1.15; letter-spacing: -.02em; color: #fff; }
   .ts-hw__sub { margin: 18px auto 0; max-width: 620px; font-size: 17px; line-height: 1.6; color: #a3a3a3; }
 
@@ -783,7 +783,7 @@
   .ts-scan { position: relative; display: block; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; padding: 0; border: 1px solid rgba(255,255,255,.10); border-radius: 2px; background: #0f0f10; cursor: zoom-in; }
   .ts-scan__img { position: absolute; inset: 0; display: block; background-size: cover; background-position: center; transition: transform .45s ease; }
   .ts-scan:hover .ts-scan__img { transform: scale(1.04); }
-  .ts-scan:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-scan:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
 
   /* ---- PhotoSwipe skin (loaded in layout/tonescan.liquid) ---- */
   .pswp { --pswp-bg: #08080a; --pswp-icon-color: #e5e5e5; --pswp-icon-color-secondary: #111; }
@@ -801,15 +801,15 @@
   .ts-acc__trigger { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 2px; background: none; border: 0; text-align: left; cursor: pointer; }
   .ts-acc__title { font-size: 19px; font-weight: 600; color: #a3a3a3; transition: color .2s ease; }
   .ts-acc__item.is-open .ts-acc__title, .ts-acc__trigger:hover .ts-acc__title { color: #fff; }
-  .ts-acc__icon { flex-shrink: 0; font-size: 20px; line-height: 1; color: #60a5fa; transition: transform .45s cubic-bezier(.16,.84,.28,1); }
+  .ts-acc__icon { flex-shrink: 0; font-size: 20px; line-height: 1; color: var(--ts-accent-hi); transition: transform .45s cubic-bezier(.16,.84,.28,1); }
   .ts-acc__item.is-open .ts-acc__icon { transform: rotate(45deg); }
-  .ts-acc__trigger:focus-visible { outline: 2px solid #3b82f6; outline-offset: -2px; }
+  .ts-acc__trigger:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: -2px; }
   .ts-acc__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s cubic-bezier(.16,.84,.28,1); }
   .ts-acc__item.is-open .ts-acc__panel { grid-template-rows: 1fr; }
   .ts-acc__panelinner { overflow: hidden; }
   .ts-acc__panelinner > p { margin: 0 0 16px; padding-right: 12px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
   .ts-acc__panelinner > p + p { margin-top: -2px; }
-  .ts-acc__link { display: inline-block; margin-bottom: 24px; font-size: 15px; font-weight: 600; color: #60a5fa; text-decoration: none; }
+  .ts-acc__link { display: inline-block; margin-bottom: 24px; font-size: 15px; font-weight: 600; color: var(--ts-accent-hi); text-decoration: none; }
   .ts-acc__link:hover { text-decoration: underline; }
 
   .ts-acc__media { position: relative; order: -1; margin-inline: -15px; overflow: hidden; }
@@ -817,7 +817,7 @@
   .ts-acc__bg { position: absolute; inset: 0;
     background:
       radial-gradient(60% 50% at 30% 12%, rgba(139,92,246,.42) 0%, transparent 66%),
-      radial-gradient(55% 45% at 78% 30%, rgba(59,130,246,.34) 0%, transparent 66%),
+      radial-gradient(55% 45% at 78% 30%, color-mix(in srgb, var(--ts-accent) 34%, transparent) 0%, transparent 66%),
       radial-gradient(70% 55% at 50% 100%, rgba(20,184,166,.26) 0%, transparent 68%),
       linear-gradient(180deg, #131318 0%, #0d0d10 100%); }
   /* bare positioning box, the frame (border, radius, shadow) rides on each shot, so the
@@ -911,7 +911,7 @@
   .ts-hdive__col { padding: 40px 0; }
   .ts-hdive__lead { margin: 0; font-size: 17px; line-height: 1.6; color: #8f8f8f; }
   .ts-hdive__lead b { font-weight: 600; color: #fff; }
-  .ts-hdive__link { display: inline-block; margin-top: 20px; font-size: 15px; font-weight: 600; color: #60a5fa; text-decoration: none; }
+  .ts-hdive__link { display: inline-block; margin-top: 20px; font-size: 15px; font-weight: 600; color: var(--ts-accent-hi); text-decoration: none; }
   .ts-hdive__link:hover { text-decoration: underline; }
 
   @media (min-width: 900px) {
@@ -1050,7 +1050,7 @@
   .ts-hdive__dot[data-i="2"].is-active { background: #4a82ff;
     box-shadow: 0 0 0 5px rgba(74,130,255,.14), 0 0 14px 3px rgba(74,130,255,.6); }
   .ts-hdive__dot:hover:not(.is-active) { background: rgba(255,255,255,.55); }
-  .ts-hdive__dot:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+  .ts-hdive__dot:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 3px; }
 
   .ts-hdive__detail { position: relative; z-index: 2; max-width: 1300px; margin: 0 auto; padding: 56px 15px 72px; background: #0a0a0b; }
   .ts-hdive__detailbody { margin: 0 0 26px; padding-right: 12px; max-width: 780px; font-size: 16px; line-height: 1.6; color: #a3a3a3; }
@@ -1070,7 +1070,7 @@
     background: radial-gradient(closest-side, rgba(72,92,140,.26) 0%, rgba(44,60,98,.12) 48%, transparent 78%); }
   .ts-dive__media > * { position: relative; z-index: 1; }
   .ts-dive__inner { display: flex; flex-direction: column; gap: 32px; max-width: 1400px; margin: 0 auto; padding: 72px 15px; }
-  .ts-dive__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #60a5fa; }
+  .ts-dive__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--ts-accent-hi); }
   .ts-dive__title { font-size: 28px; font-weight: 600; line-height: 1.15; letter-spacing: -.02em; color: #fff; }
   .ts-dive__body { margin-top: 16px; font-size: 17px; line-height: 1.6; color: #a3a3a3; }
   .ts-dive__media .ts-shot { aspect-ratio: 16 / 10; }
@@ -1151,7 +1151,7 @@
     transition: background .35s ease, transform .35s cubic-bezier(.16,.84,.28,1), box-shadow .35s ease; }
   .ts-story__dot.is-active { background: #fff; transform: scale(1.3); box-shadow: 0 0 0 5px rgba(255,255,255,.10); }
   .ts-story__dot:hover:not(.is-active) { background: rgba(255,255,255,.55); }
-  .ts-story__dot:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+  .ts-story__dot:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 3px; }
   /* 7px is the dot, not the target. An overlay pseudo takes the hit area to 29px without
      touching layout or the rail's zero width. The 26px gap leaves 4px between neighbours,
      so they still cannot be mis-hit. */
@@ -1370,7 +1370,7 @@
   .ts-hero-replay { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; display: none; align-items: center; gap: 8px; padding: 11px 18px; font-size: 14px; font-weight: 600; color: #fff; background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.28); border-radius: 3px; cursor: pointer; transition: background .15s ease; }
   .ts-hero-replay.is-shown { display: inline-flex; }
   .ts-hero-replay:hover { background: rgba(0,0,0,.78); }
-  .ts-hero-replay:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-hero-replay:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
   .ts-hero-replay svg { width: 16px; height: 16px; fill: currentColor; }
   /* prev/next arrows flanking the framed media. Desktop only, mobile has the dots + select. */
   .ts-hero-nav { position: absolute; top: 50%; z-index: 4; transform: translateY(-50%);
@@ -1379,7 +1379,7 @@
     cursor: pointer; backdrop-filter: blur(6px); transition: background .18s ease, border-color .18s ease, opacity .18s ease; }
   .ts-hero-nav svg { width: 20px; height: 20px; }
   .ts-hero-nav:hover { background: rgba(0,0,0,.68); border-color: rgba(255,255,255,.34); }
-  .ts-hero-nav:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-hero-nav:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
   .ts-hero-nav--prev { left: -56px; }
   .ts-hero-nav--next { right: -56px; }
   /* set by the driver when one of the pair would fall outside the viewport. Three classes, so
@@ -1458,9 +1458,9 @@
     text-decoration: none; white-space: nowrap; border: 1px solid transparent; border-radius: 2px;
     transition: transform .15s ease, background .15s ease, border-color .15s ease; }
   .ts-cta:hover { transform: translateY(-1px); }
-  .ts-cta:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
-  .ts-cta--accent { color: #fff; background: #3b82f6; }
-  .ts-cta--accent:hover { background: #2f6fed; }
+  .ts-cta:focus-visible { outline: 2px solid var(--ts-accent-focus); outline-offset: 2px; }
+  .ts-cta--accent { color: var(--ts-accent-on); background: var(--ts-accent); }
+  .ts-cta--accent:hover { background: var(--ts-accent-hover); }
   .ts-cta--ks { color: #0a0a0b; background: #05ce78; }
   .ts-cta--ks:hover { background: #04bd6e; }
   .ts-cta--ghost { color: #fff; background: rgba(255,255,255,.03); border-color: rgba(255,255,255,.15); }
@@ -1684,7 +1684,7 @@
   .ts-pricing__freqbtn.is-active .ts-pricing__save { color: #86efac; }
   .ts-pricing__freqbtn:hover { color: #fff; }
   .ts-pricing__freqbtn.is-active { color: #fff; background: rgba(255,255,255,.12); border-radius: 2px; }
-  .ts-pricing__freqbtn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-pricing__freqbtn:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
   .ts-pricing__buy[disabled] { opacity: .45; cursor: not-allowed; }
   .ts-pricing__buy[disabled]:hover { transform: none; }
 
@@ -1713,7 +1713,7 @@
     border-radius: 50%; pointer-events: none; opacity: .55; }
   .ts-pricing-glow i { position: absolute; inset: 0; display: block; border-radius: inherit;
     filter: blur(150px); will-change: transform;
-    background: radial-gradient(closest-side, rgba(59,130,246,.50) 0%, rgba(59,130,246,.16) 48%, transparent 82%);
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--ts-accent) 50%, transparent) 0%, color-mix(in srgb, var(--ts-accent) 16%, transparent) 48%, transparent 82%);
     animation: ts-glow-a 24s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .ts-pricing-glow i { animation: none; } }
   /* fade the whole thing out at the edges so it never ends on a hard line */
@@ -1780,7 +1780,7 @@
     text-decoration: underline; text-underline-offset: 2px;
     transition: color .15s ease; }
   .ts-demo__toggle:hover { color: #d4d4d4; }
-  .ts-demo__toggle:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+  .ts-demo__toggle:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 3px; }
   /* the default triangle sits oddly on a centred line of small print */
   .ts-demo__toggle::-webkit-details-marker { display: none; }
   .ts-demo__toggle { list-style: none; }
@@ -1825,14 +1825,14 @@
   /* One disc holding both states, so the changeover is a swap inside a fixed box rather than a
      layout change. The tick starts small and lands with a slight overshoot: that is the pop. */
   .ts-done__mark { position: relative; display: inline-flex; align-items: center; justify-content: center;
-    width: 46px; height: 46px; margin-bottom: 20px; color: #fff; border-radius: 9999px;
-    background: #3b82f6;
-    box-shadow: 0 0 0 6px rgba(59,130,246,.14), 0 0 26px 4px rgba(59,130,246,.45);
+    width: 46px; height: 46px; margin-bottom: 20px; color: var(--ts-accent-on); border-radius: 9999px;
+    background: var(--ts-accent);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--ts-accent) 14%, transparent), 0 0 26px 4px color-mix(in srgb, var(--ts-accent) 45%, transparent);
     transition: background .3s ease, box-shadow .3s ease; }
   .ts-done__check { width: 24px; height: 24px;
     transition: opacity .2s ease, transform .4s cubic-bezier(.18, 1.5, .45, 1); }
   .ts-done__spinner { position: absolute; inset: 0; border-radius: 9999px;
-    border: 2px solid rgba(255,255,255,.16); border-top-color: #3b82f6;
+    border: 2px solid rgba(255,255,255,.16); border-top-color: var(--ts-accent);
     opacity: 0; animation: ts-spin .8s linear infinite; }
 
   /* generating: the disc empties out and the ring spins in its place */
@@ -1917,15 +1917,15 @@
   .ts-done__dlwrap { position: relative; display: flex; flex: 1 1 auto; min-width: 0; }
   .ts-done__dlmain { flex: 1 1 auto; }
   .ts-done__dlmain { display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    padding: 13px 22px; font-size: 15px; font-weight: 600; color: #fff; text-decoration: none;
-    background: #3b82f6; border-radius: 2px 0 0 2px; transition: background .18s ease; }
-  .ts-done__dlmain:hover { background: #2f74e6; }
+    padding: 13px 22px; font-size: 15px; font-weight: 600; color: var(--ts-accent-on); text-decoration: none;
+    background: var(--ts-accent); border-radius: 2px 0 0 2px; transition: background .18s ease; }
+  .ts-done__dlmain:hover { background: var(--ts-accent-hover); }
   .ts-done__dlicon { display: flex; }
   .ts-done__dlicon svg { width: 16px; height: 16px; }
   .ts-done__dlcaret { display: flex; align-items: center; justify-content: center; width: 42px;
-    color: #fff; background: #3b82f6; border: 0; border-left: 1px solid rgba(255,255,255,.22);
+    color: var(--ts-accent-on); background: var(--ts-accent); border: 0; border-left: 1px solid rgba(255,255,255,.22);
     border-radius: 0 2px 2px 0; cursor: pointer; transition: background .18s ease; }
-  .ts-done__dlcaret:hover { background: #2f74e6; }
+  .ts-done__dlcaret:hover { background: var(--ts-accent-hover); }
   .ts-done__dlcaret svg { width: 14px; height: 14px; transition: transform .2s ease; }
   .ts-done__dlcaret.is-open svg { transform: rotate(180deg); }
   .ts-done__dlmenu { position: absolute; top: calc(100% + 6px); left: 0; min-width: 100%; z-index: 2;
@@ -1951,7 +1951,7 @@
   .ts-livedemo__inner { max-width: 1400px; margin: 0 auto; }
   .ts-livedemo__head { max-width: 720px; margin: 0 auto 40px; text-align: center; }
   .ts-livedemo__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em;
-    text-transform: uppercase; color: #2563eb; }
+    text-transform: uppercase; color: var(--ts-accent-ink); }
   .ts-livedemo__title { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1;
     letter-spacing: -.02em; color: #18181b; text-wrap: balance; }
   .ts-livedemo__sub { margin: 16px 0 0; font-size: 16px; line-height: 1.6; color: #52525b;
@@ -1980,7 +1980,7 @@
   .ts-cmp { max-width: 1400px; margin: 0 auto; padding: 80px 15px; }
   .ts-cmp__head { max-width: 720px; margin: 0 auto 40px; text-align: center; }
   .ts-cmp__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em;
-    text-transform: uppercase; color: #60a5fa; }
+    text-transform: uppercase; color: var(--ts-accent-hi); }
   .ts-cmp__title { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1;
     letter-spacing: -.02em; color: #fff; text-wrap: balance; }
   .ts-cmp__sub { margin: 16px 0 0; font-size: 16px; line-height: 1.6; color: #a3a3a3;
@@ -1988,10 +1988,19 @@
 
   /* --x is the wipe position, written by the input. Everything below reads it, so dragging is one
      custom property change rather than a layout pass. */
-  .ts-cmp__stage { position: relative; overflow: hidden; border-radius: 3px;
+  /* isolation: the handle, labels and drag input keep their z-indexes inside the stage instead of
+     competing with the page's (they drew over the sticky header). */
+  .ts-cmp__stage { position: relative; isolation: isolate; overflow: hidden; border-radius: 3px;
     border: 1px solid rgba(255,255,255,.12); background: #0a0a0b; touch-action: pan-y; }
   .ts-cmp__layer { display: block; }
   .ts-cmp__layer img { display: block; width: 100%; height: auto; }
+  /* every pair at the first pair's shape (--ar), cropped to fill, so switching keeps the height */
+  .ts-cmp__stage[style*="--ar"] { aspect-ratio: var(--ar); }
+  .ts-cmp__stage[style*="--ar"] .ts-cmp__layer--b { position: absolute; inset: 0; }
+  .ts-cmp__stage[style*="--ar"] .ts-cmp__layer img { width: 100%; height: 100%; object-fit: cover; }
+  /* one pair shown at a time; the three-way switcher toggles is-active */
+  .ts-cmp__set { display: none; }
+  .ts-cmp__set.is-active { display: block; }
   /* the left image is clipped, never resized, so the two stay pixel-aligned while the handle moves */
   .ts-cmp__layer--a { position: absolute; inset: 0; z-index: 1;
     clip-path: inset(0 calc(100% - var(--x)) 0 0); }
@@ -2019,7 +2028,7 @@
   .ts-cmp__range::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 100%; }
   .ts-cmp__range::-moz-range-thumb { width: 44px; height: 100%; border: 0; opacity: 0; }
   .ts-cmp__range:focus-visible { opacity: 1; outline: none; }
-  .ts-cmp__stage:has(.ts-cmp__range:focus-visible) { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-cmp__stage:has(.ts-cmp__range:focus-visible) { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
 
   .ts-cmp__caption { margin: 18px auto 0; max-width: 720px; text-align: center; font-size: 13px;
     line-height: 1.6; color: #737373; }
@@ -2032,7 +2041,7 @@
   .ts-tri { max-width: 1400px; margin: 0 auto; padding: 80px 15px; scroll-margin-top: 84px; }
   .ts-tri__head { max-width: 720px; margin: 0 auto 40px; text-align: center; }
   .ts-tri__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em;
-    text-transform: uppercase; color: #60a5fa; }
+    text-transform: uppercase; color: var(--ts-accent-hi); }
   .ts-tri__title { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1;
     letter-spacing: -.02em; color: #fff; text-wrap: balance; }
   .ts-tri__sub { margin: 16px 0 0; font-size: 16px; line-height: 1.6; color: #a3a3a3; text-wrap: pretty; }
@@ -2051,21 +2060,20 @@
     transition: color .18s ease, background .18s ease, border-color .18s ease; }
   .ts-tri__setbtn:hover { color: #e5e5e5; border-color: rgba(255,255,255,.28); }
   .ts-tri__setbtn.is-active { color: #0a0a0b; background: #fff; border-color: #fff; }
-  .ts-tri__setbtn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-tri__setbtn:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
 
-  /* Thumbnail buttons: a square crop of each sample's RGB scan. The selected one is fully opaque
-     with a solid outline; the rest are dimmed. Specific enough to beat the pill styles above and
+  /* Thumbnail buttons: a square crop of each sample's RGB scan. The selected one is at full
+     opacity, the rest dimmed; no outline. Specific enough to beat the pill styles above and
      the light-page overrides further down. */
   .ts-tri__sets:has(.ts-tri__setbtn--thumb) { gap: 10px; }
   .ts-tri__setbtn.ts-tri__setbtn--thumb { position: relative; width: 64px; height: 64px; padding: 0; overflow: hidden; border-radius: 4px;
-    background: #1a1a1c; border: 2px solid transparent; opacity: .55; transition: opacity .18s ease, border-color .18s ease; }
+    background: #1a1a1c; border: 0; opacity: .45; transition: opacity .18s ease; }
   @media (min-width: 768px) { .ts-tri__setbtn.ts-tri__setbtn--thumb { width: 76px; height: 76px; } }
   .ts-tri__setbtn--thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .ts-tri__setbtn.ts-tri__setbtn--thumb:hover { opacity: .85; border-color: transparent; }
-  .ts-tri__setbtn.ts-tri__setbtn--thumb.is-active { opacity: 1; background: #1a1a1c; border-color: #fff; }
+  .ts-tri__setbtn.ts-tri__setbtn--thumb:hover { opacity: .8; }
+  .ts-tri__setbtn.ts-tri__setbtn--thumb.is-active { opacity: 1; background: #1a1a1c; }
   .ts-tri__thumbph { display: flex; align-items: center; justify-content: center; height: 100%; font-size: 14px; font-weight: 600; color: #a3a3a3; }
-  .tonescan-body--light .ts-tri__setbtn.ts-tri__setbtn--thumb:not(.ts-dark):not(.ts-dark *) { background: #ececea; border-color: transparent; }
-  .tonescan-body--light .ts-tri__setbtn.ts-tri__setbtn--thumb.is-active:not(.ts-dark):not(.ts-dark *) { background: #ececea; border-color: #0a0a0b; }
+  .tonescan-body--light .ts-tri__setbtn.ts-tri__setbtn--thumb:not(.ts-dark):not(.ts-dark *) { background: #ececea; }
   .tonescan-body--light .ts-tri__thumbph:not(.ts-dark *) { color: #71717a; }
 
   /* One sample shown at a time; the JS switcher toggles is-active. */
@@ -2111,7 +2119,7 @@
   .ts-tri__in--3:checked ~ .ts-tri__btns .ts-tri__btn--3 { background: #fff; color: #0a0a0b; }
   .ts-tri__in--1:focus-visible ~ .ts-tri__btns .ts-tri__btn--1,
   .ts-tri__in--2:focus-visible ~ .ts-tri__btns .ts-tri__btn--2,
-  .ts-tri__in--3:focus-visible ~ .ts-tri__btns .ts-tri__btn--3 { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-tri__in--3:focus-visible ~ .ts-tri__btns .ts-tri__btn--3 { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
 
   .ts-tri__caption { margin: 22px auto 0; max-width: 720px; text-align: center; font-size: 13px;
     line-height: 1.6; color: #737373; }
@@ -2175,7 +2183,7 @@
     transition: background .15s ease, color .15s ease; }
   .ts-mock button:hover { color: #fff; background: rgba(255,255,255,.13); }
   .ts-mock button.is-active { color: #0a0a0c; background: #f59e0b; border-color: #f59e0b; }
-  .ts-mock button:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-mock button:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
   /* Paddle's overlay backdrop follows the visitor's SYSTEM colour scheme, evaluated inside their
      own cross-origin iframe: on a dark system it dims this page and lets it show through, on a
      light one it fills the viewport with a solid panel. The checkout `theme` setting does not
@@ -2194,7 +2202,7 @@
 
   /* Sits under the amount, and only ever appears when Paddle reported an actual reduction. No
      display property of its own, so the hidden attribute is enough to take it away. */
-  .ts-pricing__offer { margin-top: 8px; font-size: 13px; font-weight: 600; color: #60a5fa; }
+  .ts-pricing__offer { margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--ts-accent-hi); }
   .ts-mock__opt { display: flex; align-items: center; gap: 6px; color: #d4d4d4; cursor: pointer; }
   .ts-mock__opt input { margin: 0; accent-color: #f59e0b; }
   @media (max-width: 749px) { .ts-mock { display: none; } }
@@ -2203,8 +2211,8 @@
      centred hero and left-aligns on the split one without a second rule. */
   .ts-hero-badge { display: inline-flex; align-items: center; gap: 8px; margin-bottom: -10px;
     padding: 6px 14px; font-size: 13px; font-weight: 600; letter-spacing: .01em; color: #bfdbfe;
-    background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.38); border-radius: 9999px; }
-  .ts-hero-badge i { width: 6px; height: 6px; border-radius: 50%; background: #60a5fa; }
+    background: color-mix(in srgb, var(--ts-accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--ts-accent) 38%, transparent); border-radius: 9999px; }
+  .ts-hero-badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--ts-accent-hi); }
 
   /* ---- WHAT IT IS: the page's plain-language intro ----------------------------------------
      Replaced a carded problem section. Everything here is deliberately unboxed: the bento below
@@ -2239,9 +2247,9 @@
   .ts-intro__ptext { margin-top: 10px; font-size: 15px; line-height: 1.6; color: #a3a3a3; }
   /* pushed to the bottom so the three CTAs line up with each other whatever the copy length */
   .ts-intro__pcta { align-self: flex-start; margin-top: 16px; font-size: 15px; font-weight: 600;
-    color: #60a5fa; text-decoration: none; }
+    color: var(--ts-accent-hi); text-decoration: none; }
   .ts-intro__pcta:hover { text-decoration: underline; }
-  .ts-intro__pcta:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+  .ts-intro__pcta:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 3px; }
 
   @media (min-width: 900px) {
     .ts-intro__inner { padding: 120px 50px; }
@@ -2266,9 +2274,9 @@
   }
   .ts-hero-tabs { position: relative; z-index: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
   .ts-hero-tab { padding: 8px 16px; font-size: 14px; font-weight: 500; color: #a3a3a3; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.10); border-radius: 2px; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease; }
-  .ts-hero-tab.is-active { color: #fff; background: rgba(59,130,246,.14); border-color: rgba(59,130,246,.5); }
+  .ts-hero-tab.is-active { color: #fff; background: color-mix(in srgb, var(--ts-accent) 14%, transparent); border-color: color-mix(in srgb, var(--ts-accent) 50%, transparent); }
   .ts-hero-tab:hover:not(.is-active) { color: #fff; background: rgba(255,255,255,.06); }
-  .ts-hero-tab:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-hero-tab:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
   /* mobile selector (dots + native select): hidden on desktop */
   .ts-hero-mobsel { display: none; flex-direction: column; align-items: center; gap: 16px; }
   .ts-hero-dots { display: flex; gap: 8px; }
@@ -2276,7 +2284,7 @@
   .ts-hero-dot.is-active { width: 22px; border-radius: 9999px; background: #e5e5e5; }
   .ts-hero-selectwrap { position: relative; width: 100%; max-width: 320px; }
   .ts-hero-select { -webkit-appearance: none; appearance: none; width: 100%; padding: 14px 44px 14px 20px; font-size: 16px; font-weight: 600; color: #fff; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.14); border-radius: 3px; cursor: pointer; }
-  .ts-hero-select:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .ts-hero-select:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
   .ts-hero-select option { color: #111; }
   .ts-hero-selectcaret { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); width: 12px; height: 8px; color: #a3a3a3; pointer-events: none; }
   @media (max-width: 749px) {
@@ -2340,11 +2348,11 @@
   .ts-form { display: flex; gap: 10px; flex-wrap: wrap; }
   .ts-email { flex: 1; min-width: 220px; height: 50px; padding: 0 16px; font-size: 15px; color: #fff; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.14); border-radius: 2px; outline: none; }
   .ts-email::placeholder { color: #6a6a6a; }
-  .ts-email:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.25); }
-  .ts-btn { height: 50px; padding: 0 24px; font-size: 15px; font-weight: 600; color: #fff; cursor: pointer; background: #3b82f6; border: 0; border-radius: 2px; white-space: nowrap; transition: transform .15s ease, background .15s ease; }
-  .ts-btn:hover { background: #2f6fed; transform: translateY(-1px); }
+  .ts-email:focus { border-color: var(--ts-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ts-accent) 25%, transparent); }
+  .ts-btn { height: 50px; padding: 0 24px; font-size: 15px; font-weight: 600; color: var(--ts-accent-on); cursor: pointer; background: var(--ts-accent); border: 0; border-radius: 2px; white-space: nowrap; transition: transform .15s ease, background .15s ease; }
+  .ts-btn:hover { background: var(--ts-accent-hover); transform: translateY(-1px); }
   .ts-btn:disabled { opacity: .6; cursor: default; transform: none; }
-  .ts-btn:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+  .ts-btn:focus-visible { outline: 2px solid var(--ts-accent-focus); outline-offset: 2px; }
   /* once the field and button wrap onto separate lines, a half-width button looks stranded */
   @media (max-width: 520px) { .ts-form .ts-btn { width: 100%; } }
   .ts-msg { min-height: 20px; margin: 14px 2px 0; font-size: 14px; line-height: 1.5; color: #a3a3a3; }
@@ -2375,7 +2383,7 @@
   .ts-story__body ul { margin: 16px 0 0; padding-left: 18px; }
   .ts-story__body li + li { margin-top: 8px; }
   .ts-story__body strong { font-weight: 600; color: #e5e5e5; }
-  .ts-story__body a { color: #60a5fa; font-weight: 600; text-decoration: none; }
+  .ts-story__body a { color: var(--ts-accent-hi); font-weight: 600; text-decoration: none; }
   .ts-story__body a:hover { color: #fff; }
 
   /* ---- FAQ in two columns (a setting on tonescan-faq): two independent stacks side by side ---- */
@@ -2450,6 +2458,31 @@
   .tonescan-body--light .ts-cta--ghost:hover:not(.ts-dark):not(.ts-dark *) { background: #fafafa; border-color: rgba(0,0,0,.24); }
   .tonescan-body--light .ts-cta:focus-visible:not(.ts-dark):not(.ts-dark *) { outline-color: #0a0a0b; }
 
+  /* Section background toggle (every content section's "Background on light pages" setting).
+     Neighbouring sections alternate white and off-white so they don't run into each other; the
+     off-white ones get a hairline top and bottom. Painted on the full-width wrapper, since several
+     sections cap their own box at 1400px, and the section's own background and borders are
+     cleared so the setting always wins. Sections set to dark are left alone. */
+  /* (--ts-sec-bg repeats the colour for anything that has to paint it itself, e.g. sticky titles) */
+  .tonescan-landing.ts-bg--white { --ts-sec-bg: #fff; }
+  .tonescan-landing.ts-bg--offwhite { --ts-sec-bg: #f7f7f5; }
+  body.tonescan-body--light .tonescan-landing.ts-bg--white:not(.ts-dark) { background-color: #fff; }
+  body.tonescan-body--light .tonescan-landing.ts-bg--offwhite:not(.ts-dark) { background-color: #f7f7f5;
+    border-top: 1px solid rgba(0,0,0,.07); border-bottom: 1px solid rgba(0,0,0,.07); }
+  body.tonescan-body--light .tonescan-landing.ts-bg--white:not(.ts-dark) > section,
+  body.tonescan-body--light .tonescan-landing.ts-bg--offwhite:not(.ts-dark) > section {
+    background-color: transparent; border-top-color: transparent; border-bottom-color: transparent; }
+
+  /* the compare section kept dark on a light page: dark full width, like the other dark sections */
+  .tonescan-body--light .tonescan-landing.ts-dark:has(> .ts-cmp--dark) { background-color: #0a0a0b; }
+
+  /* white light against RGB wipe */
+  .tonescan-body--light .ts-cmp__eyebrow:not(.ts-dark):not(.ts-dark *) { color: #71717a; }
+  .tonescan-body--light .ts-cmp__title:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
+  .tonescan-body--light .ts-cmp__sub:not(.ts-dark):not(.ts-dark *) { color: #52525b; }
+  .tonescan-body--light .ts-cmp__stage:not(.ts-dark):not(.ts-dark *) { border-color: rgba(0,0,0,.10); background: #ececea; }
+  .tonescan-body--light .ts-cmp__caption:not(.ts-dark):not(.ts-dark *) { color: #71717a; }
+
   /* three-way scan comparison */
   .tonescan-body--light .ts-tri__eyebrow:not(.ts-dark):not(.ts-dark *) { color: #71717a; }
   .tonescan-body--light .ts-tri__title:not(.ts-dark):not(.ts-dark *) { color: #0a0a0b; }
@@ -2490,6 +2523,41 @@
      draw in the toneScan blue (eyebrows, links, glows, focus rings) goes neutral here, including
      inside a section kept dark (.ts-dark), where the greys are lighter. */
   .tonescan-body--light .ts-dark .tw\:text-\[\#60a5fa\] { color: #a3a3a3; }
+
+  /* ---- floating widgets on the toneLight page ------------------------------------------------
+     Shopify Inbox's "Message us" button and Kit's reCAPTCHA badge both float over the content.
+     The chat is hidden outright. The badge is hidden with visibility, not display, as Google asks,
+     so reCAPTCHA keeps working; its terms then require the protection notice in the user flow,
+     which ts-kit-form prints under the hero and closing forms (notice: true). */
+  /* Hidden unless open: the header's chat button (phones) opens it, and closing it hides it again. */
+  body.tonescan-body--light shopify-chat:not([open]), body.tonescan-body--light #shopify-chat:not([open]) { display: none !important; }
+  .ts-head-chat { display: none; }
+  @media (max-width: 989px) {
+    /* a bare link, like the menu button opposite: icon and label, no box */
+    .ts-head-chat { display: flex; align-items: center; gap: 6px; height: 44px; padding: 0; white-space: nowrap;
+      font-size: 13px; font-weight: 500; line-height: 1; color: rgb(var(--color-foreground)); text-decoration: none;
+      margin-right: -9px; opacity: .85; transition: opacity .15s ease; }
+    .ts-head-chat:hover { opacity: 1; }
+    .ts-head-chat svg { flex-shrink: 0; width: 18px; height: 18px; }
+    /* the header's side padding matches the page's 15px margins on these pages (it was 30px) */
+    body.tonescan-body .header.header--mobile-center { padding-left: 15px; padding-right: 15px; }
+  }
+  body.tonescan-body--light .grecaptcha-badge { visibility: hidden !important; }
+  /* its own colours rather than inherited ones: the forms sit in both dark and light sections */
+  .ts-recaptcha { margin: 10px 0 0; font-size: 11px; line-height: 1.5; color: #71717a; }
+  .ts-dark .ts-recaptcha, .ts-hero-split--dark .ts-recaptcha { color: #8f8f96; }
+  .ts-recaptcha a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ---- page accent ---------------------------------------------------------------------------
+     --ts-accent and its shades come from the layout (theme settings). The sections' eyebrows and
+     small labels use a Tailwind class compiled as a fixed blue; this points it at the accent. */
+  .tonescan-landing .tw\:text-\[\#60a5fa\] { color: var(--ts-accent-hi); }
+  /* light page: eyebrows are neutral (above); the class-named ones inside dark sections too */
+  .tonescan-body--light .ts-dark :is(.ts-cmp__eyebrow, .ts-tri__eyebrow, .ts-dive__eyebrow, .ts-hw__eyebrow, .ts-livedemo__eyebrow) { color: #a3a3a3; }
+  /* ...unless the toneLight "Colour the section eyebrows" setting is on: the accent's dark shade on
+     light sections, its light shade on dark ones. Team roles share the class but stay neutral. */
+  body.tonescan-body--light.ts-accent-eyebrows :is(.tw\:text-\[\#60a5fa\]:not(.tl-team__role), .ts-cmp__eyebrow, .ts-tri__eyebrow, .ts-dive__eyebrow, .ts-hw__eyebrow, .ts-livedemo__eyebrow, .tl-reels__eyebrow, .tl-specs__eyebrow):not(.ts-dark *) { color: var(--ts-accent-ink); }
+  body.tonescan-body--light.ts-accent-eyebrows .ts-dark :is(.tw\:text-\[\#60a5fa\]:not(.tl-team__role), .ts-cmp__eyebrow, .ts-tri__eyebrow, .ts-dive__eyebrow, .ts-hw__eyebrow, .ts-livedemo__eyebrow, .tl-reels__eyebrow, .tl-specs__eyebrow) { color: var(--ts-accent-hi); }
   .tonescan-body--light .ts-story__body a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
   .tonescan-body--light .ts-dark .ts-story__body a { color: #fff; }
   .tonescan-body--light .ts-story-blob--1 { background: rgba(255,255,255,.07); }

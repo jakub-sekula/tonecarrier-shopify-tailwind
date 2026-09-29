@@ -176,7 +176,7 @@
   assign ts_links = blank
   if template.suffix == 'tonelight-ks-promo'
     assign ts_landing = true
-    assign ts_links = 'The system|#how-it-works,Features|#features,Why RGB|#triscan,Rewards|#rewards,Timeline|#timeline,Team|#team,Specs|#specs,FAQ|#faq' | split: ','
+    assign ts_links = 'The system|#how-it-works,Features|#features,Why RGB|#compare,Rewards|#rewards,Timeline|#timeline,About us|#team,Specs|#specs,FAQ|#faq' | split: ','
   elsif template.suffix == 'tonescan' or template.suffix == 'tonescan-lite'
     assign ts_landing = true
     assign ts_links = 'Features|#features,How it works|#how-it-works,Pricing|#pricing,FAQ|#faq' | split: ','
@@ -370,7 +370,12 @@
         {%- endif -%}
       </a>
       {%- else -%}
-      {%- comment -%} The landing pages' call to action instead of the shop icons. {%- endcomment -%}
+      {%- comment -%} The landing pages' call to action instead of the shop icons. On the toneLight
+         page, phones also get a small chat button here: the page hides Shopify Inbox's floating
+         "Message us" launcher, and this opens the same chat (tonescan-scripts: tsHeaderChat). {%- endcomment -%}
+      {%- if template.suffix == 'tonelight-ks-promo' -%}
+      <a href="/pages/contact" class="ts-head-chat" data-ts-chat aria-label="Chat with us"><span>Chat</span>{%- render 'tc-lucide-icon', icon_name: 'lucide-message-circle' -%}</a>
+      {%- endif -%}
       {%- render 'ts-header-cta' -%}
       {%- endunless -%}
     </div>

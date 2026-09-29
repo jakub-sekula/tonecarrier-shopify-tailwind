@@ -150,7 +150,7 @@
           {%- comment -%} The Kit (ConvertKit) waitlist form, the same form the other Kickstarter
              pages use, with the hero's own button label. {%- endcomment -%}
           <div class="ts-hero-kit tw:mt-[6px]">
-            {% render 'ts-kit-form', label: section.settings.kit_button_text %}
+            {% render 'ts-kit-form', label: section.settings.kit_button_text, notice: true %}
           </div>
           {%- endcapture -%}
           {%- capture ts_cta_link -%}

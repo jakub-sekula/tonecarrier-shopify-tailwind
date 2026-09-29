@@ -1494,6 +1494,48 @@
       },
       {
         "type": "header",
+        "content": "Accent colour"
+      },
+      {
+        "type": "color",
+        "id": "tonelight_accent",
+        "label": "Accent colour",
+        "default": "#3b82f6",
+        "info": "The toneLight page's highlight colour: accent buttons, links, bullets, focus rings and glows. Lighter and darker shades are worked out from it."
+      },
+      {
+        "type": "checkbox",
+        "id": "tonelight_accent_eyebrows",
+        "label": "Colour the section eyebrows",
+        "default": false,
+        "info": "The small uppercase line above each section heading. Off: neutral grey."
+      },
+      {
+        "type": "header",
+        "content": "Landing page footer",
+        "info": "The footer of the toneLight and toneScan landing pages."
+      },
+      {
+        "type": "text",
+        "id": "landing_origin_text",
+        "label": "Line beside the copyright",
+        "default": "toneScan is developed in the UK and Poland",
+        "info": "Shown with small UK and Polish flags. Leave empty to hide it."
+      },
+      {
+        "type": "checkbox",
+        "id": "landing_origin_uk",
+        "label": "Show the UK flag",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "landing_origin_pl",
+        "label": "Show the Polish flag",
+        "default": true
+      },
+      {
+        "type": "header",
         "content": "Signup confirmed dialog",
         "info": "Shown on the toneLight and toneScan pages when the address has ?email=confirmed, the page Kit sends people to after they confirm their email."
       },
@@ -1514,6 +1556,18 @@
         "id": "tonelight_confirm_button",
         "label": "Button text",
         "default": "Got it"
+      }
+    ]
+  },
+  {
+    "name": "toneScan pages",
+    "settings": [
+      {
+        "type": "color",
+        "id": "tonescan_accent",
+        "label": "Accent colour",
+        "default": "#3b82f6",
+        "info": "The highlight colour on the toneScan landing pages (full and lite): accent buttons, links, bullets, section eyebrows, focus rings and glows."
       }
     ]
   }

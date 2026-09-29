@@ -9,7 +9,7 @@
   sees while a block is being edited.
 {%- endcomment -%}
 
-<div class="tonescan-landing tw:text-neutral-200">
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'offwhite' }} tw:text-neutral-200">
   <section class="tl-rev" id="reviews">
     <div class="tl-rev__inner">
       <div class="tl-rev__head">
@@ -26,7 +26,7 @@
         {%- endif -%}
         {%- comment -%} Up to three headline numbers under the heading; a stat with no value is skipped. {%- endcomment -%}
         {%- if section.settings.stat_1_value != blank or section.settings.stat_2_value != blank or section.settings.stat_3_value != blank -%}
-        <dl class="tl-rev__stats">
+        <dl class="tl-rev__stats" data-reveal-stagger>
           {%- for i in (1..3) -%}
             {%- capture vk -%}stat_{{ i }}_value{%- endcapture -%}{%- capture lk -%}stat_{{ i }}_label{%- endcapture -%}
             {%- assign v = section.settings[vk] -%}{%- assign l = section.settings[lk] -%}
@@ -233,6 +233,21 @@
      lands on an identical frame and the loop has no seam */
   @keyframes tlRevUp { from { transform: translateY(0); } to { transform: translateY(calc(-50% - 8px)); } }
   @keyframes tlRevDown { from { transform: translateY(calc(-50% - 8px)); } to { transform: translateY(0); } }
+
+  /* Phones: the wall turned on its side. Two rows drifting sideways in opposite directions, full
+     bleed with faded ends, so nothing moves against the finger scrolling the page. Same loop: each
+     row holds its tiles twice and moves by exactly one copy. */
+  .tl-rev__wall.is-live.is-rows { height: auto; padding: 0;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
+  .is-rows .tl-rev__cols { display: flex; flex-direction: column; gap: 14px; }
+  /* every tile in a row as tall as its tallest card; photos fill that height, cropped (cover) */
+  .is-rows .tl-rev__track { flex-direction: row; align-items: stretch; gap: 14px; width: max-content; animation-name: tlRevLeft; }
+  .is-rows .tl-rev__track .tl-rev__tile--photo { aspect-ratio: auto; }
+  .is-rows .tl-rev__col.is-down .tl-rev__track { animation-name: tlRevRight; }
+  .is-rows .tl-rev__track .tl-rev__tile { flex: 0 0 270px; }
+  @keyframes tlRevLeft { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 7px)); } }
+  @keyframes tlRevRight { from { transform: translateX(calc(-50% - 7px)); } to { transform: translateX(0); } }
 {%- endstyle -%}
 
 <script>
@@ -315,7 +330,7 @@
       var tiles = Array.prototype.slice.call(source.children);
       if (tiles.length < 4) return;
       var SPEED = 22;                                   // px per second, the same for every column
-      var built = 0, cols = null;
+      var built = '', cols = null;
 
       // Copies must not inherit the page's scroll-reveal state. The reveal script tags every
       // <figure> with .reveal (opacity 0) and only un-hides the ones it watches as they scroll in.
@@ -328,19 +343,23 @@
         return c;
       }
 
-      function count() {
+      // columns drifting up and down on wider screens; on phones two rows drifting sideways, so
+      // the wall never moves along the same axis as the page scroll under the reader's finger
+      function layout() {
         var w = wall.clientWidth;
-        return w >= 1560 ? 5 : w >= 1240 ? 4 : w >= 900 ? 3 : w >= 600 ? 2 : 1;
+        if (w < 600) return { n: 2, rows: true };
+        return { n: w >= 1560 ? 5 : w >= 1240 ? 4 : w >= 900 ? 3 : 2, rows: false };
       }
 
       function build() {
-        var n = count();
-        if (n === built) return;
-        built = n;
+        var L = layout(), n = L.n, key = (L.rows ? 'r' : 'c') + n;
+        if (key === built) return;
+        built = key;
         if (cols) cols.remove();
+        wall.classList.toggle('is-rows', L.rows);
         cols = document.createElement('div');
         cols.className = 'tl-rev__cols';
-        cols.style.gridTemplateColumns = 'repeat(' + n + ', minmax(0, 1fr))';
+        if (!L.rows) cols.style.gridTemplateColumns = 'repeat(' + n + ', minmax(0, 1fr))';
         var tracks = [];
         for (var c = 0; c < n; c++) {
           var col = document.createElement('div');
@@ -382,7 +401,7 @@
         wall.classList.add('is-live');
         function timeIt() {
           tracks.forEach(function (track) {
-            var half = track.scrollHeight / 2;
+            var half = (L.rows ? track.scrollWidth : track.scrollHeight) / 2;
             track.style.setProperty('--dur', Math.max(20, Math.round(half / SPEED)) + 's');
           });
         }
@@ -418,7 +437,8 @@
     { "type": "text", "id": "stat_3_label", "label": "Stat 3 label" },
     { "type": "textarea", "id": "stat_3_links", "label": "Stat 3 links", "info": "Optional. Turns the label into a hover card of links. One per line: Name | URL" },
     { "type": "header", "content": "Wall" },
-    { "type": "range", "id": "height", "label": "Height", "min": 400, "max": 1200, "step": 20, "unit": "px", "default": 900 }
+    { "type": "range", "id": "height", "label": "Height", "min": 400, "max": 1200, "step": 20, "unit": "px", "default": 900 },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "offwhite", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
   ],
   "blocks": [
     {

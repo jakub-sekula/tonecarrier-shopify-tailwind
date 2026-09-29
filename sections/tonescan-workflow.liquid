@@ -11,7 +11,7 @@
   text.
 {%- endcomment -%}
 
-<div class="tonescan-landing{% if section.settings.keep_dark %} ts-dark{% endif %} tw:text-neutral-200">
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'offwhite' }}{% if section.settings.keep_dark %} ts-dark{% endif %} tw:text-neutral-200">
   {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
 
   <section id="how-it-works" class="ts-story-sec tw:scroll-mt-[84px] tw:border-y tw:border-white/10">
@@ -133,7 +133,8 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Leave blank for none." },
     { "type": "text", "id": "heading", "label": "Heading", "default": "From capture to export" },
     { "type": "textarea", "id": "subheading", "label": "Subtitle", "info": "Optional. Leave blank for none." },
-    { "type": "checkbox", "id": "keep_dark", "label": "Keep dark on light pages", "info": "On a light page (toneLight), this section keeps the dark scheme.", "default": false }
+    { "type": "checkbox", "id": "keep_dark", "label": "Keep dark on light pages", "info": "On a light page (toneLight), this section keeps the dark scheme.", "default": false },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "offwhite", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
   ],
   "blocks": [
     {

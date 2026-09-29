@@ -35,7 +35,7 @@
         "badge_prelaunch": "Launching soon on",
         "badge_kickstarter": true,
         "heading": "Your camera, now a [rgb]pro film scanner[/rgb].",
-        "subheading": "Introducing toneScan, a smart film scanning system with RGB light, automatic film transport, and integrated software that makes digitising with a camera fast and effortless.",
+        "subheading": "Introducing toneScan, a smart film scanning system with RGB light, automatic film transport, and integrated software that makes digitising negatives with a digital camera fast and effortless.",
         "launch_at": "2026-10-07",
         "cta_type": "kit",
         "cta_text": "Go to Kickstarter",
@@ -87,7 +87,7 @@
           "settings": {
             "title": "toneScan Studio",
             "app_icon": true,
-            "badge": "Open beta",
+            "badge": "Now in beta",
             "body": "<p>toneScan Studio is our standalone desktop software made to work with the RGB scanning system. It automatically handles the capture, merging, and inversion of trichrome scans. It also supports scans made with white light, as well as slides and black and white film.</p><p>It uses an advanced inversion engine which emulates a real darkroom print. With smart automatic corrections and default settings, the scans are usually usable with no additional corrections. And if you do want to change something, the GPU accelerated viewport and 1:1 pixel perfect previews make it quick and precise.</p><p>toneScan Studio integrates seamlessly with our hardware. For RGB scans, it automatically calibrates the light settings before each session, ensuring great and consistent results every time.</p><p><a href=\"/pages/tonescan\" title=\"toneScan Studio\">Explore toneScan Studio →</a></p>",
             "stats": "[mac] [windows] | macOS and Windows",
             "image": "shopify://shop_images/Edit_viewport.webp",
@@ -105,7 +105,53 @@
         "eyebrow": "",
         "heading": "The toneScan system",
         "subheading": "toneScan is made of three key parts that work together to replicate the lab scanner experience with your standard camera scanning rig.",
-        "keep_dark": true
+        "keep_dark": true,
+        "bg": "white"
+      }
+    },
+    "reels": {
+      "type": "tonelight-reels",
+      "blocks": {
+        "clip_load": {
+          "type": "clip",
+          "settings": {
+            "video": "shopify://files/videos/Film loading vertical.mp4",
+            "video_url": "",
+            "title": "Load film",
+            "text": "The toneCarrier Easyloader Tray keeps your film roll safe from dust and scratches. And the large front buttons and jog dial make fine tuning the film position a breeze."
+          }
+        },
+        "clip_advance": {
+          "type": "clip",
+          "settings": {
+            "video": "shopify://files/videos/RGB shooting reel_789fa317-41b9-41ed-a898-56471b7bb0dd.mp4",
+            "video_url": "",
+            "title": "Capture RGB triplets",
+            "text": "toneScan synchronises the entire capture process, from triggering the camera to advancing the film frames."
+          }
+        },
+        "clip_capture": {
+          "type": "clip",
+          "settings": {
+            "video": "shopify://files/videos/RGB merge reel_2fed929f-d02b-4611-9ac7-0a728e91ef60.mp4",
+            "video_url": "",
+            "title": "Merge and convert",
+            "text": "toneScan Studio picks up the raw files and automatically merges and converts them. Smart auto exposure and white balance make a perfect starting point for your creative edits."
+          }
+        }
+      },
+      "block_order": [
+        "clip_load",
+        "clip_advance",
+        "clip_capture"
+      ],
+      "settings": {
+        "eyebrow": "best things in life are three",
+        "heading": "3 steps to great scans",
+        "subheading": "The greatest hurdle for RGB scanning has always been a clunky, labour-intensive workflow. But with toneScan, it's finally as easy as 1-2-3.",
+        "anchor": "in-action",
+        "keep_dark": false,
+        "bg": "white"
       }
     },
     "overview": {
@@ -290,7 +336,8 @@
         "anchor": "overview",
         "keep_dark": true,
         "heading": "Camera scanning done right.",
-        "subheading": "Film digitisation used to be a chore, but with toneScan it's quick and easy. Now you can get lab quality scans from your existing scanning rig at a fraction of the cost of a lab scanner."
+        "subheading": "Film digitisation used to be a chore, but with toneScan it's quick and easy. Now you can get lab quality scans from your existing scanning rig at a fraction of the cost of a lab scanner.",
+        "bg": "white"
       }
     },
     "campaign-video": {
@@ -303,7 +350,8 @@
         "embed_url": "",
         "video_url": "",
         "autoplay": false,
-        "placeholder_note": "Campaign video"
+        "placeholder_note": "Campaign video",
+        "bg": "white"
       }
     },
     "features": {
@@ -368,7 +416,43 @@
       "settings": {
         "eyebrow": "",
         "heading": "Key features",
-        "subheading": ""
+        "subheading": "",
+        "bg": "white"
+      }
+    },
+    "compare": {
+      "type": "tonescan-compare",
+      "blocks": {
+        "pair_1": {
+          "type": "pair",
+          "settings": {
+            "name": "",
+            "image_white": "shopify://shop_images/comp1_white_small_a3ae9467-852e-404f-8bee-1a405a138918.jpg",
+            "image_rgb": "shopify://shop_images/comp1_rgb_small_5f83e634-42ce-4933-8396-324c889851f6.jpg"
+          }
+        },
+        "pair_VGFUhV": {
+          "type": "pair",
+          "settings": {
+            "name": "",
+            "image_white": "shopify://shop_images/gosia-white.jpg",
+            "image_rgb": "shopify://shop_images/gosia2-rgb-small.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "pair_1",
+        "pair_VGFUhV"
+      ],
+      "settings": {
+        "eyebrow": "side by side",
+        "heading": "The RGB Advantage",
+        "subheading": "Trichromatic scanning can achieve cleaner, more saturated and true to life colours. It also produces predictable output files, which are easier to edit and fine tune for your desired look.",
+        "label_white": "White light",
+        "label_rgb": "RGB",
+        "caption": "Both images were scanned with the same camera and lens.RGB merge and conversion done in toneScan Studio.Default settings used for white light conversion.",
+        "keep_dark": true,
+        "bg": "offwhite"
       }
     },
     "results": {
@@ -430,6 +514,7 @@
         "sample_CY8Vnq",
         "sample_1"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "",
         "heading": "The RGB advantage",
@@ -444,7 +529,8 @@
         "sublabel_3": "Fujfilm Frontier SP-3000",
         "short_label_3": "Lab",
         "large": true,
-        "caption": ""
+        "caption": "",
+        "bg": "white"
       }
     },
     "rewards": {
@@ -505,6 +591,7 @@
         "eyebrow": "Kickstarter rewards",
         "heading": "Back it your way",
         "subheading": "<p>We have bundles to suit every workflow, whether you're just starting out camera scanning, or already have a working rig and are looking to upgrade.</p>",
+        "show_button": true,
         "button_text": "Back on Kickstarter",
         "button_url": "",
         "note": "",
@@ -512,7 +599,8 @@
         "label_super": "Super early bird",
         "label_early": "Early bird",
         "label_regular": "Regular",
-        "featured_button_style": "ks"
+        "featured_button_style": "ks",
+        "bg": "offwhite"
       }
     },
     "timeline": {
@@ -522,7 +610,7 @@
           "type": "milestone",
           "settings": {
             "date": "December 2024",
-            "event": "Concept and feasibility exploration",
+            "title": "Concept and feasibility exploration",
             "description": "Initial bench testing with off the shelf hardware",
             "status": "done"
           }
@@ -531,7 +619,7 @@
           "type": "milestone",
           "settings": {
             "date": "February 2025",
-            "event": "First hardware prototype",
+            "title": "First hardware prototype",
             "description": "Rough PCB layout and firmware, workflow tests",
             "status": "done"
           }
@@ -540,7 +628,7 @@
           "type": "milestone",
           "settings": {
             "date": "May 2025",
-            "event": "Second hardware prototype",
+            "title": "Second hardware prototype",
             "description": "Improved controls and light diffuser, refined PCB",
             "status": "done"
           }
@@ -549,7 +637,7 @@
           "type": "milestone",
           "settings": {
             "date": "November 2025",
-            "event": "Third hardware prototype",
+            "title": "Third hardware prototype",
             "description": "Added motor controller, motorised carrier upgrades",
             "status": "done"
           }
@@ -558,7 +646,7 @@
           "type": "milestone",
           "settings": {
             "date": "January 2026",
-            "event": "toneScan Studio development begins",
+            "title": "toneScan Studio development begins",
             "description": "Start work on all-in-one desktop software",
             "status": "done"
           }
@@ -567,7 +655,7 @@
           "type": "milestone",
           "settings": {
             "date": "April 2026",
-            "event": "Fourth hardware prototype",
+            "title": "Fourth hardware prototype",
             "description": "Redesign enclosure for injection moulding, major design for manufacturing (DFM) improvements",
             "status": "done"
           }
@@ -576,7 +664,7 @@
           "type": "milestone",
           "settings": {
             "date": "August 2026",
-            "event": "toneScan Studio closed beta testing",
+            "title": "toneScan Studio closed beta testing",
             "description": "App builds shared with testers for real world evaluation and feature development",
             "status": "done"
           }
@@ -585,7 +673,7 @@
           "type": "milestone",
           "settings": {
             "date": "October 2026",
-            "event": "Kickstarter Launch!",
+            "title": "Kickstarter Launch!",
             "description": "The campaign will help us raise funds for final prototyping, manufacturing, and certification.",
             "status": "current"
           }
@@ -594,7 +682,7 @@
           "type": "milestone",
           "settings": {
             "date": "November 2026",
-            "event": "Kickstarter campaign ends",
+            "title": "Kickstarter campaign ends",
             "description": "",
             "status": "upcoming"
           }
@@ -603,7 +691,7 @@
           "type": "milestone",
           "settings": {
             "date": "November 2026",
-            "event": "Design lock, final prototype build",
+            "title": "Design lock, final prototype build",
             "description": "Finalise hardware design and DFM, manufacture vacuum-cast prototypes.",
             "status": "upcoming"
           }
@@ -612,7 +700,7 @@
           "type": "milestone",
           "settings": {
             "date": "December 2026",
-            "event": "Certification activities",
+            "title": "Certification activities",
             "description": "Obtain the required CE/FCC certificates.",
             "status": "upcoming"
           }
@@ -621,7 +709,7 @@
           "type": "milestone",
           "settings": {
             "date": "February 2027",
-            "event": "Manufacturing begins",
+            "title": "Manufacturing begins",
             "description": "Order production tooling and manufacture the first batch of toneLights!",
             "status": "upcoming"
           }
@@ -630,7 +718,7 @@
           "type": "milestone",
           "settings": {
             "date": "March 2027",
-            "event": "First finished units shipped to backers",
+            "title": "First finished units shipped to backers",
             "description": "",
             "status": "upcoming"
           }
@@ -656,7 +744,8 @@
         "heading": "How we got here",
         "subheading": "The project started in December 2024 and has been in constant development since, with four major prototypes and hundreds of hours of testing in real scanning workflows.",
         "image": "shopify://shop_images/Old_Prototypes.jpg",
-        "current_label": "We are here!"
+        "current_label": "We are here!",
+        "bg": "white"
       }
     },
     "team": {
@@ -686,12 +775,13 @@
         "member_2"
       ],
       "settings": {
-        "eyebrow": "About us",
-        "heading": "The Tone Team",
-        "subheading": "We are Jakub and Nico, both experienced engineers and  long-time film photographers. toneScan was born from a stubborn belief that we could use our skills to make camera scanning easier and more fun for everyone.",
+        "eyebrow": "",
+        "heading": "About us",
+        "subheading": "We are Tone: Jakub and Nico, both experienced engineers and long-time film photographers. toneScan was born in our small workspace in Bristol from a stubborn belief that we could use our skills to make camera scanning a better, more enjoyable experience for everyone.",
         "bg_video": "shopify://files/videos/Team and engineernig.mp4",
         "overlay": "dark",
-        "overlay_opacity": 80
+        "overlay_opacity": 80,
+        "bg": "offwhite"
       }
     },
     "reviews": {
@@ -1124,10 +1214,11 @@
         "stat_2_value": "5,000+",
         "stat_2_label": "community version downloads",
         "stat_2_links": "MakerWorld |  https://makerworld.com/en/models/574585-tonecarrier-film-carrier-for-35-mm-film-scanning\nPrintables | https://www.printables.com/model/965532-tonecarrier-film-carrier-for-dslr-scanning-35-mm-f\nThingiverse | https://www.thingiverse.com/thing:6721799",
-        "stat_3_value": "1,000+",
+        "stat_3_value": "1500+",
         "stat_3_label": "toneCarriers sold",
         "stat_3_links": "",
-        "height": 900
+        "height": 900,
+        "bg": "white"
       }
     },
     "specs": {
@@ -1353,7 +1444,8 @@
         "eyebrow": "",
         "heading": "Technical specifications",
         "note": "<p><strong>You will also need:</strong> a camera with a standard remote shutter input, and a copy stand or a sturdy tripod to mount it over the scanning kit.</p>",
-        "footnotes": ""
+        "footnotes": "",
+        "bg": "white"
       }
     },
     "faq": {
@@ -1517,7 +1609,8 @@
       "settings": {
         "heading": "Frequently asked questions",
         "columns": "2",
-        "open_first": true
+        "open_first": true,
+        "bg": "offwhite"
       }
     },
     "final-cta": {
@@ -1527,16 +1620,19 @@
         "text": "Sign up below to get notified when the campaign launches. <br>The wait is almost over now!",
         "button_text": "Back toneScan on Kickstarter",
         "button_url": "",
-        "button_style": "ks"
+        "button_style": "ks",
+        "bg": "white"
       }
     }
   },
   "order": [
     "hero",
     "system",
+    "reels",
     "overview",
     "campaign-video",
     "features",
+    "compare",
     "results",
     "rewards",
     "timeline",

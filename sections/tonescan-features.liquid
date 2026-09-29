@@ -6,7 +6,7 @@
   file carries markup only and can be reordered or removed without taking them with it.
 {%- endcomment -%}
 
-<div class="tonescan-landing{% if section.settings.keep_dark %} ts-dark ts-feat--dark{% endif %} tw:text-neutral-200">
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'white' }}{% if section.settings.keep_dark %} ts-dark ts-feat--dark{% endif %} tw:text-neutral-200">
   {%- comment -%} Screenshots live in Shopify Files (Content > Files). {%- endcomment -%}
   {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
 
@@ -123,7 +123,8 @@
       "id": "subheading",
       "label": "Subtitle",
       "default": "Capture, calibration, conversion, culling and export, in one program built for film photographers."
-    }
+    },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "white", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
   ],
   "presets": [
     {

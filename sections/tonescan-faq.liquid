@@ -10,7 +10,7 @@
   only and can be reordered or removed without taking them with it.
 {%- endcomment -%}
 
-<div class="tonescan-landing tw:text-neutral-200">
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'offwhite' }} tw:text-neutral-200">
   <section id="faq" class="tw:scroll-mt-[84px] tw:border-t tw:border-white/10 tw:bg-white/[0.015]">
     {%- comment -%} Two columns (a setting) are two separate stacks, first half left and second half
        right, so opening a question only lengthens its own column and nothing hops across. {%- endcomment -%}
@@ -21,7 +21,7 @@
     {%- assign faq_half = faq_n | plus: 1 | divided_by: 2 -%}
     <div class="{% if faq_two %}ts-faq--two {% endif %}tw:mx-auto tw:w-full tw:max-w-[760px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
       <h2 class="tw:mb-[40px] tw:text-center tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
-      <div class="ts-faq__cols">
+      <div class="ts-faq__cols" data-reveal-group>
       <div class="ts-faq__col tw:flex tw:flex-col tw:gap-[12px]">
         {%- assign faq_i = 0 -%}
         {%- for block in section.blocks -%}
@@ -72,7 +72,8 @@
       "id": "open_first",
       "label": "Open the first question",
       "default": false
-    }
+    },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "offwhite", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
   ],
   "blocks": [
     {

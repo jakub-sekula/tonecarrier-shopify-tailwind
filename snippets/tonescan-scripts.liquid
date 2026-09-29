@@ -221,12 +221,13 @@ function tsInit() {
     else window.addEventListener('load', start);
   })();
 
-  /* three-way scan toggle: sample switcher. Clicking Sample N shows that sample's set and marks the
-     button; the scan toggle inside each set is still the CSS radios, so this is pure show/hide. */
+  /* sample switcher, for the three-way section and the white/RGB wipe. Clicking Sample N shows that
+     sample's set and marks the button; everything inside a set works on its own (the three-way's
+     CSS radios, each wipe's own range input), so this is pure show/hide. */
   (function () {
-    document.querySelectorAll('.tonescan-landing .ts-tri').forEach(function (sec) {
+    document.querySelectorAll('.tonescan-landing .ts-tri, .tonescan-landing .ts-cmp').forEach(function (sec) {
       var btns = sec.querySelectorAll('.ts-tri__setbtn');
-      var sets = sec.querySelectorAll('.ts-tri__set');
+      var sets = sec.querySelectorAll('.ts-tri__set, .ts-cmp__set');
       if (btns.length < 2) return;
       function show(idx) {
         btns.forEach(function (b) {
@@ -325,7 +326,8 @@ function tsInit() {
     function settleSoon(ms) { clearTimeout(idle); idle = setTimeout(settle, ms); }
 
     function settle() {
-      if (opts.snap === false) return;
+      // snap: false, or a function asked at the moment of settling (so it can follow the layout)
+      if (opts.snap === false || (typeof opts.snap === 'function' && !opts.snap())) return;
       if (gliding || (opts.busy && opts.busy())) { settleSoon(220); return; }
       if (Date.now() < quietUntil) { settleSoon(quietUntil - Date.now() + 60); return; }
       if (tsRigLock.by && tsRigLock.by !== self && Date.now() < tsRigLock.until) { settleSoon(220); return; }
@@ -1156,8 +1158,14 @@ function tsInit() {
 
       var rig = tsPinRig({
         el: sec,
-        // no snapping under reduced motion; the shots still swap, the page is just never moved
-        snap: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+        // No snapping under reduced motion (the shots still swap, the page is just never moved), and
+        // none below 900px, where the steps stack in the normal flow and a snap only fights the
+        // reader's own scrolling. Asked at settle time, so rotating or resizing takes effect.
+        snap: (function () {
+          var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+          var wide = window.matchMedia('(min-width: 900px)');
+          return function () { return !reduce.matches && wide.matches; };
+        })(),
         // the heading above the first block is somewhere to stop and read, not a snap zone
         snapFromFirst: true,
         rests: function () { return panels.map(function (p, i) { return restOf(i); }); },
@@ -1182,6 +1190,35 @@ function tsInit() {
       });
 
       rig.kick();
+    });
+  })();
+
+  /* toneLight timeline: the same gentle settle as the workflow story, on the same rig. When the
+     reader stops scrolling among the milestones, the page eases the nearest one's dot onto the
+     middle of the screen, which is the line the timeline itself works to (the image triggers and
+     the green fill both switch there). Everything the rig guarantees holds: it only moves after
+     scrolling has stopped, only to the nearest step, hands back the moment the reader touches,
+     types, clicks or scrolls, and leaves the heading above the first step alone. Wide screens only
+     (on phones the steps are plain flow and a snap only fights the reader), never under reduced
+     motion. The section's own script (sections/tonelight-timeline) does the rest and never scrolls. */
+  (function () {
+    document.querySelectorAll('.tonescan-landing .tl-tl').forEach(function (sec) {
+      var dots = Array.prototype.slice.call(sec.querySelectorAll('.tl-tl__item .tl-tl__dot'));
+      if (dots.length < 2) return;
+      function vh() { return window.innerHeight || document.documentElement.clientHeight; }
+      function restOf(d) {
+        var r = d.getBoundingClientRect();
+        return window.pageYOffset + (r.top + r.bottom) / 2 - vh() / 2;
+      }
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var wide = window.matchMedia('(min-width: 900px)');
+      sec.__tlRig = tsPinRig({                     // (on the section for checking by hand; harmless)
+        el: sec.querySelector('.tl-tl__list') || sec,
+        idleMs: 240,                                // a touch longer than the story: steps are close together
+        snap: function () { return !reduce.matches && wide.matches; },
+        snapFromFirst: true,
+        rests: function () { return dots.map(restOf); }
+      });
     });
   })();
 
@@ -1505,7 +1542,12 @@ function tsInit() {
       var range = stage.querySelector('.ts-cmp__range');
       if (!range) return;
 
-      function paint() { stage.style.setProperty('--x', range.value + '%'); }
+      var host = stage.closest('.ts-cmp') || stage;
+      function paint() {
+        stage.style.setProperty('--x', range.value + '%');
+        // the shown pair's position, for the pair switched in next (below); hidden pairs have no box
+        if (host.cmp && stage.getClientRects().length) host.cmp.pos = parseFloat(range.value);
+      }
       range.addEventListener('input', paint);
       paint();
 
@@ -1531,6 +1573,66 @@ function tsInit() {
           try { stage.releasePointerCapture(e.pointerId); } catch (err) {}
         });
       });
+
+      // The opening move and the hint, shared by every pair in the section (sec.cmp):
+      //  - the handle starts at 90% (the markup's value, so it is right with no JS too). After the
+      //    stage has been in view for 1.5 seconds it sweeps to 10%, once per section, so both scans
+      //    get shown without anyone touching it;
+      //  - a second after the sweep, and then each time the stage has sat in view (or under the
+      //    pointer) for 4 seconds untouched, the handle gives a small damped wiggle where it is.
+      // All of it stops for good once the reader moves the handle. Switching pairs carries the
+      // position over. Reduced motion: it simply starts at 10% and never moves by itself.
+      var st = host.cmp || (host.cmp = { intro: false, touched: false, pos: null });
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var INTRO_TO = 10;
+      if (reduceMotion && !st.intro) st.intro = true;
+      if (st.intro) { range.value = st.pos != null ? st.pos : INTRO_TO; paint(); }
+      if (reduceMotion) return;
+
+      var timer = null, anim = 0;
+      function stopHint() { st.touched = true; clearTimeout(timer); anim++; }
+      stage.addEventListener('pointerdown', stopHint);
+      range.addEventListener('keydown', stopHint);
+      // one rAF animation at a time per stage; anim is bumped to cancel whatever is running
+      function animate(dur, fn, done) {
+        var id = ++anim, t0 = null;
+        function step(now) {
+          if (id !== anim || st.touched) return;
+          if (t0 === null) t0 = now;
+          var k = Math.min(1, (now - t0) / dur);
+          range.value = fn(k); paint();
+          if (k < 1) requestAnimationFrame(step); else if (done) done();
+        }
+        requestAnimationFrame(step);
+      }
+      function intro() {
+        if (st.touched || dragging) return;
+        var from = parseFloat(range.value) || 90;
+        animate(1400, function (k) {
+          var e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;   // ease-in-out (cubic)
+          return from + (INTRO_TO - from) * e;
+        }, function () { st.intro = true; clearTimeout(timer); timer = setTimeout(wiggle, 1000); });
+      }
+      function wiggle() {
+        if (st.touched || dragging) return;
+        var base = parseFloat(range.value) || INTRO_TO;
+        // two small swings, fading out, ending back exactly where it started
+        animate(900, function (k) { return k < 1 ? base + 2.5 * Math.sin(k * Math.PI * 4) * (1 - k) : base; });
+      }
+      function linger() {
+        clearTimeout(timer);
+        if (st.touched) return;
+        timer = st.intro ? setTimeout(wiggle, 4000) : setTimeout(intro, 1500);
+      }
+      function leave() { clearTimeout(timer); }
+      stage.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') linger(); });
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) {
+          // a pair switched in picks up where the last one was left
+          if (st.intro && st.pos != null && Math.abs(parseFloat(range.value) - st.pos) > .01) { range.value = st.pos; paint(); }
+          linger();
+        } else leave();
+      }, { threshold: 0.6 }).observe(stage);
     });
   })();
 
@@ -2343,6 +2445,12 @@ function tsInit() {
     var pre = scope.querySelector('.ts-hero-badge__pre');
     var out = { d: el.querySelector('[data-cd="d"]'), h: el.querySelector('[data-cd="h"]'),
                 m: el.querySelector('[data-cd="m"]'), s: el.querySelector('[data-cd="s"]') };
+    // Other countdowns on the page (data-cd-mirror, e.g. the closing section's) run off this one:
+    // the same target, shown and hidden with it, including in the dev panel's previews.
+    var mirrors = Array.prototype.map.call(document.querySelectorAll('.tonescan-landing .ts-countdown[data-cd-mirror]'), function (m) {
+      return { el: m, d: m.querySelector('[data-cd="d"]'), h: m.querySelector('[data-cd="h"]'),
+               m: m.querySelector('[data-cd="m"]'), s: m.querySelector('[data-cd="s"]') };
+    });
     var real = Date.parse(el.getAttribute('data-launch') || '');
     var mode = 'auto';
     var standIn = null;
@@ -2394,6 +2502,7 @@ function tsInit() {
     }
     function setPrelaunch(on) {
       el.hidden = !on;
+      mirrors.forEach(function (x) { x.el.hidden = !on; });
       if (live && pre) { pre.hidden = !on; live.hidden = on; }
     }
     function tick() {
@@ -2405,6 +2514,12 @@ function tsInit() {
       flapSet(out.h, pad(Math.floor(t % 86400 / 3600)));
       flapSet(out.m, pad(Math.floor(t % 3600 / 60)));
       flapSet(out.s, pad(t % 60));
+      mirrors.forEach(function (x) {
+        flapSet(x.d, pad(Math.floor(t / 86400)));
+        flapSet(x.h, pad(Math.floor(t % 86400 / 3600)));
+        flapSet(x.m, pad(Math.floor(t % 3600 / 60)));
+        flapSet(x.s, pad(t % 60));
+      });
     }
 
     // Dev panel: previews either state. The choice is remembered and starts on the countdown.
@@ -2512,6 +2627,32 @@ function tsAutoVideos() {
   document.addEventListener('shopify:section:load', scan);
 }
 
+/* The header's chat button on the toneLight page (phones). The page hides Shopify Inbox's floating
+   launcher; this presses it instead. The widget lives in open shadow roots, and after the first
+   open its launcher sits a level deeper, so it is looked for all the way down. If the chat has not
+   loaded (blocked, or not there yet), the link simply goes to the contact page. */
+function tsHeaderChat() {
+  function find(root, depth) {
+    if (!root || depth > 6) return null;
+    var hit = root.querySelector('button.activator, button[aria-label="Message us"]');
+    if (hit) return hit;
+    var all = root.querySelectorAll('*');
+    for (var i = 0; i < all.length; i++) {
+      if (all[i].shadowRoot) { var h = find(all[i].shadowRoot, depth + 1); if (h) return h; }
+    }
+    return null;
+  }
+  document.querySelectorAll('[data-ts-chat]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var chat = document.querySelector('shopify-chat');
+      var btn = chat && find(chat.shadowRoot, 0);
+      if (!btn) return;                                  // fall through to the contact page
+      e.preventDefault();
+      btn.click();
+    });
+  });
+}
+
 /* Kit's form script, loaded once for the whole page. The toneScan pages render the Kit form without
    its own script tag (snippet ts-kit-form) because it can appear in several places at once. */
 function tsKitEnsure() {
@@ -2558,7 +2699,7 @@ function tsHeaderSections() {
   spy();
 }
 
-function tsBoot() { tsInit(); tsAutoVideos(); tsKitBoot(); tsHeaderSections(); }
+function tsBoot() { tsInit(); tsAutoVideos(); tsKitBoot(); tsHeaderSections(); tsHeaderChat(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tsBoot);
 else tsBoot();
 })();

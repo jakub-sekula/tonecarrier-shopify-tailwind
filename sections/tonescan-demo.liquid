@@ -10,7 +10,7 @@
   way, so it can go into the page before the recording exists.
 {%- endcomment -%}
 
-<div class="tonescan-landing tw:text-neutral-200">
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'white' }} tw:text-neutral-200">
   {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
   <section class="ts-livedemo" id="demo">
     <div class="ts-livedemo__inner">
@@ -97,7 +97,8 @@
     { "type": "text", "id": "video_url", "label": "Video URL", "info": "Used only when no video is picked above. An .mp4 URL." },
     { "type": "image_picker", "id": "poster", "label": "Poster image" },
     { "type": "checkbox", "id": "autoplay", "label": "Autoplay muted", "default": true },
-    { "type": "text", "id": "placeholder_note", "label": "Placeholder note", "default": "The full walkthrough is being recorded." }
+    { "type": "text", "id": "placeholder_note", "label": "Placeholder note", "default": "The full walkthrough is being recorded." },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "white", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
   ],
   "presets": [ { "name": "toneScan demo" } ]
 }

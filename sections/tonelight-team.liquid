@@ -8,7 +8,7 @@
 {%- assign tl_dark = false -%}
 {%- if tl_bg and section.settings.overlay == 'dark' -%}{%- assign tl_dark = true -%}{%- endif -%}
 
-<div class="tonescan-landing{% if tl_dark %} ts-dark{% endif %} tw:text-neutral-200">
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'offwhite' }}{% if tl_dark %} ts-dark{% endif %} tw:text-neutral-200">
   <section id="team" class="tl-team{% if tl_bg %} tl-team--bg tl-team--{{ section.settings.overlay }}{% endif %} tw:border-y tw:border-white/10 tw:bg-white/[0.015]">
     {%- if tl_bg -%}
     <div class="tl-team__bg" aria-hidden="true">
@@ -21,7 +21,7 @@
       <span class="tl-team__overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }}"></span>
     </div>
     {%- endif -%}
-    {%- comment -%} Heading centred on top, the people below: two side by side from tablets up. {%- endcomment -%}
+    {%- comment -%} Heading centred, a thin rule, then the people: two side by side from tablets up. {%- endcomment -%}
     <div class="tl-team__wrap tw:mx-auto tw:w-full tw:max-w-[1400px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
       <div class="tl-team__head">
         {%- if section.settings.eyebrow != blank -%}
@@ -32,7 +32,7 @@
         <p class="tl-team__sub tw:text-[16px] tw:text-neutral-400">{{ section.settings.subheading }}</p>
         {%- endif -%}
       </div>
-      <div class="tl-team__list">
+      <div class="tl-team__list" data-reveal-stagger>
         {%- for block in section.blocks -%}
         {%- assign m = block.settings -%}
         <div class="tl-team__card tw:flex tw:gap-[20px] tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[28px]" {{ block.shopify_attributes }}>
@@ -77,6 +77,18 @@
   .tl-team__role { margin-top: 4px; }
   .tl-team__card { align-items: flex-start; }
   @media (min-width: 900px) { .tl-team__name { font-size: 24px; } }
+  /* The heading centred, a thin rule, then the people with no card (no box, border or padding, the
+     panel look over a background video included). Phones: one person per row, avatar above the
+     text. Tablets up: two side by side; desktop: avatar beside the name and bio. */
+  .tl-team .tl-team__head { max-width: 720px; margin: 0 auto; text-align: center; }
+  .tl-team__list { gap: 40px 48px; margin-top: 48px; padding-top: 48px; border-top: 1px solid rgba(0,0,0,.1); }
+  .ts-dark .tl-team__list, .tl-team--dark .tl-team__list { border-top-color: rgba(255,255,255,.14); }
+  .tl-team .tl-team__card.tl-team__card { flex-direction: column; gap: 16px; padding: 0; border: 0; border-radius: 0;
+    background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .tl-team__photo { width: 120px; height: 120px; }
+  @media (min-width: 900px) {
+    .tl-team .tl-team__card.tl-team__card { flex-direction: row; align-items: flex-start; gap: 24px; }
+  }
 {%- endstyle -%}
 
 {% schema %}
@@ -101,7 +113,8 @@
       ],
       "default": "dark"
     },
-    { "type": "range", "id": "overlay_opacity", "label": "Overlay strength", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 70 }
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay strength", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 70 },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "offwhite", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
   ],
   "blocks": [
     {

@@ -1,0 +1,393 @@
+{%- comment -%}
+  Vertical feature videos: a row of short 9:16 clips, each with a title (and optional line) under
+  it. One block per clip. Three columns side by side on wide screens; on phones a sideways-swiping
+  row with the next clip peeking in, since three tall clips stacked would run very long.
+
+  A clip is a Shopify-hosted video or an .mp4/.webm URL (or just a still). The clips play once each,
+  in order, the first time the section is on screen: 1, then 2, then 3. One plays at a time.
+  Each clip is waiting (lightly dimmed and blurred, with a Play button to start it early), playing,
+  or done (dimmed the same, with a Replay button). A bar above the row shows the progress across all
+  the clips, one equal segment per clip, lined up over the columns on wide screens. Starting one early sends any other playing clip back to waiting, keeping
+  its place, and the sequence then carries on with the clips not yet watched. A clip scrolled out
+  of view pauses and carries on when it comes back. Under each clip a thin bar shows its progress
+  and a small timer the time left (its length when not playing). On phones the row slides to the
+  clip that is playing, and swiping it plays whichever clip it settles on. Under reduced
+  motion nothing plays by itself: the play buttons start them.
+  With nothing set a column shows a plain placeholder.
+{%- endcomment -%}
+
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'white' }}{% if section.settings.keep_dark %} ts-dark{% endif %} tw:text-neutral-200">
+  <section class="tl-reels{% if section.settings.keep_dark %} tl-reels--dark{% endif %}"{% if section.settings.anchor != blank %} id="{{ section.settings.anchor | handleize }}"{% endif %}>
+    <div class="tl-reels__wrap">
+      {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="tl-reels__head">
+        {%- if section.settings.eyebrow != blank -%}<p class="tl-reels__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="tl-reels__title">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<p class="tl-reels__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+      {%- endif -%}
+
+      {%- comment -%} Overall progress across all the clips: one segment per clip, sized by its length
+         (the script builds the segments and lines the bar up with the row). {%- endcomment -%}
+      <div class="tl-reels__overall" aria-hidden="true" data-reveal></div>
+      <div class="tl-reels__row">
+        {%- for block in section.blocks -%}
+          {%- assign c = block.settings -%}
+          <figure class="tl-reels__item" data-state="waiting" {{ block.shopify_attributes }}>
+            <div class="tl-reels__media">
+              {%- assign has_video = false -%}
+              {%- if c.video != blank -%}
+                {%- assign has_video = true -%}
+                {%- comment -%} no poster setting: video_tag uses the video's own preview frame {%- endcomment -%}
+                {%- if c.poster != blank -%}
+                  {%- assign rposter = c.poster | image_url: width: 900 -%}
+                  {{ c.video | video_tag: muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '900x', class: 'tl-reels__clip', poster: rposter }}
+                {%- else -%}
+                  {{ c.video | video_tag: muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '900x', class: 'tl-reels__clip' }}
+                {%- endif -%}
+              {%- elsif c.video_url contains '.mp4' or c.video_url contains '.webm' -%}
+                {%- assign has_video = true -%}
+                <video class="tl-reels__clip" muted playsinline preload="metadata"{% if c.poster != blank %} poster="{{ c.poster | image_url: width: 900 }}"{% endif %}>
+                  <source src="{{ c.video_url }}" type="video/{% if c.video_url contains '.webm' %}webm{% else %}mp4{% endif %}">
+                </video>
+              {%- elsif c.poster != blank -%}
+                {%- assign fp = '' -%}{%- if c.poster.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ c.poster.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+                {{ c.poster | image_url: width: 900 | image_tag: class: 'tl-reels__clip', loading: 'lazy', alt: c.title, sizes: '(min-width: 900px) 30vw, 78vw', style: fp }}
+              {%- else -%}
+                <span class="tl-reels__ph">{{ c.title | default: 'Video' }}</span>
+              {%- endif -%}
+              {%- if has_video -%}
+              {%- comment -%} progress of this clip, so it is clear how long is left before the next {%- endcomment -%}
+              <span class="tl-reels__progress" aria-hidden="true"><span class="tl-reels__track"><span class="tl-reels__bar"></span></span><span class="tl-reels__time"></span></span>
+              <button type="button" class="tl-reels__btn tl-reels__play" aria-label="Play{% if c.title != blank %}: {{ c.title | escape }}{% endif %}">
+                {%- render 'tc-lucide-icon', icon_name: 'lucide-play' -%}
+                <span class="tl-reels__btnlabel" aria-hidden="true">Play</span>
+              </button>
+              <button type="button" class="tl-reels__btn tl-reels__replay" aria-label="Replay{% if c.title != blank %}: {{ c.title | escape }}{% endif %}" hidden>
+                {%- render 'tc-lucide-icon', icon_name: 'lucide-rotate-ccw' -%}
+                <span class="tl-reels__btnlabel" aria-hidden="true">Replay</span>
+              </button>
+              {%- endif -%}
+            </div>
+            {%- if c.title != blank or c.text != blank -%}
+            <figcaption class="tl-reels__cap">
+              {%- if c.title != blank -%}<span class="tl-reels__name">{{ c.title }}</span>{%- endif -%}
+              {%- if c.text != blank -%}<span class="tl-reels__text">{{ c.text }}</span>{%- endif -%}
+            </figcaption>
+            {%- endif -%}
+          </figure>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+</div>
+
+{%- style -%}
+  .tl-reels { background: #fff; scroll-margin-top: 84px; }
+  .tl-reels--dark { background: #0a0a0b; }
+  .tl-reels__wrap { max-width: 1400px; margin: 0 auto; padding: 80px 15px; }
+  @media (min-width: 768px) { .tl-reels__wrap { padding: 120px 50px; } }
+
+  .tl-reels__head { max-width: 760px; margin: 0 auto 40px; text-align: center; }
+  @media (min-width: 768px) { .tl-reels__head { margin-bottom: 56px; } }
+  .tl-reels__eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #71717a; }
+  .tl-reels__title { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1; letter-spacing: -.02em; color: #0a0a0b; }
+  @media (min-width: 768px) { .tl-reels__title { font-size: 46px; } }
+  .tl-reels__sub { margin: 16px auto 0; max-width: 560px; font-size: 16px; line-height: 1.6; color: #52525b; }
+  .tl-reels--dark .tl-reels__title { color: #fff; }
+  .tl-reels--dark .tl-reels__sub { color: #a3a3a3; }
+
+  /* Phones: one row that swipes sideways and snaps each clip to the left edge, where the first one
+     sits before any scrolling; ~78% of the screen wide so the next one peeks in. The script pads the
+     end of the row so the last clip can line up on the left too.
+     Wide screens: the clips share the row as equal columns, capped so they stay a sensible size. */
+  .tl-reels__row { position: relative; display: flex; gap: 14px; margin: 0 -15px; padding: 0 15px 4px; overflow-x: auto;
+    scroll-snap-type: x mandatory; scroll-padding-inline: 15px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .tl-reels__row::-webkit-scrollbar { display: none; }
+  /* end spacer so the last clip can snap to the left too (sized by the script, phones only) */
+  .tl-reels__row::after { content: ''; flex: 0 0 var(--tl-tail, 0px); }
+  .tl-reels__item { flex: 0 0 78%; max-width: 340px; margin: 0; scroll-snap-align: start; }
+  @media (min-width: 900px) {
+    .tl-reels__row::after { display: none; }
+    .tl-reels__row { justify-content: center; gap: 24px; margin: 0; padding: 0; overflow: visible; scroll-snap-type: none; }
+    .tl-reels__item { flex: 1 1 0; max-width: 400px; }
+  }
+
+  .tl-reels__media { position: relative; aspect-ratio: 9 / 16; overflow: hidden; border-radius: 8px; background: #111113; }
+  .tl-reels__clip { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* a clip not started yet is slightly tinted; the tint lifts as it plays */
+  /* Before a clip starts and once it has finished: a light dim and blur, so its play or replay
+     control reads over the frame. It lifts while the clip plays. */
+  .tl-reels__media::after { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(0,0,0,.25);
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; transition: opacity .35s ease; pointer-events: none; }
+  .tl-reels__item[data-state="waiting"] .tl-reels__media::after,
+  .tl-reels__item[data-state="done"] .tl-reels__media::after { opacity: 1; }
+  /* play (waiting clips) and replay (finished ones): a white icon in the middle, no text, no border */
+  /* The hit area is the full width of the card and 32px above and below the icon and label, so the
+     control is easy to tap; only the icon and label show. */
+  .tl-reels__btn { position: absolute; top: 50%; left: 0; right: 0; z-index: 2; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 8px; padding: 32px 0; color: #fff; background: none; border: 0; cursor: pointer;
+    transform: translateY(-50%); filter: drop-shadow(0 2px 10px rgba(0,0,0,.55)); }
+  .tl-reels__btn > * { transition: transform .15s ease; }
+  .tl-reels__btnlabel { font-size: 14px; font-weight: 600; letter-spacing: .01em; line-height: 1; }
+  .tl-reels__btn[hidden] { display: none; }
+  .tl-reels__btn svg { width: 44px; height: 44px; }
+  .tl-reels__play svg { fill: currentColor; }
+  .tl-reels__btn:hover > * { transform: scale(1.06); }
+  .tl-reels__btn:focus-visible { outline: 2px solid #fff; outline-offset: -6px; border-radius: 8px; }
+  @media (prefers-reduced-motion: reduce) { .tl-reels__media::after, .tl-reels__btn > * { transition: none; } }
+  /* progress along the bottom edge: a thin bar that fills as the clip plays, and the time left */
+  .tl-reels__progress { position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 2; display: flex; align-items: center;
+    gap: 10px; pointer-events: none; }
+  .tl-reels__track { flex: 1 1 auto; height: 3px; overflow: hidden; border-radius: 3px; background: rgba(255,255,255,.28); }
+  .tl-reels__bar { display: block; width: 100%; height: 100%; background: #fff; transform: scaleX(0); transform-origin: left center; }
+  .tl-reels__time { flex: none; min-width: 30px; font-size: 12px; font-weight: 600; line-height: 1; text-align: right;
+    font-variant-numeric: tabular-nums; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+  /* overall progress above the row: one equal segment per clip; on wide screens the gap matches the
+     columns', so each segment sits over its own clip */
+  .tl-reels__overall { display: flex; gap: 4px; height: 3px; margin: 0 0 18px; }
+  @media (min-width: 900px) { .tl-reels__overall { gap: 24px; } }
+  .tl-reels__overall:empty { display: none; }
+  .tl-reels__seg { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; border-radius: 3px; background: rgba(0,0,0,.1); }
+  .tl-reels__segfill { position: absolute; inset: 0; background: #0a0a0b; transform: scaleX(0); transform-origin: left center; }
+  .tl-reels--dark .tl-reels__seg { background: rgba(255,255,255,.18); }
+  .tl-reels--dark .tl-reels__segfill { background: #fff; }
+  .tl-reels__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px;
+    font-size: 12px; letter-spacing: .08em; text-transform: uppercase; text-align: center; color: #71717a; background: #ececea; }
+  .tl-reels--dark .tl-reels__ph { background: #18181b; }
+
+  .tl-reels__cap { display: flex; flex-direction: column; gap: 4px; margin-top: 14px; }
+  .tl-reels__name { font-size: 17px; font-weight: 600; line-height: 1.3; color: #0a0a0b; }
+  .tl-reels__text { font-size: 14px; line-height: 1.55; color: #52525b; }
+  .tl-reels--dark .tl-reels__name { color: #fff; }
+  .tl-reels--dark .tl-reels__text { color: #a3a3a3; }
+{%- endstyle -%}
+
+<script>
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.tl-reels').forEach(function (sec) {
+      if (sec.dataset.reelsReady) return;
+      sec.dataset.reelsReady = '1';
+      var row = sec.querySelector('.tl-reels__row');
+      var items = Array.prototype.slice.call(sec.querySelectorAll('.tl-reels__item'));
+      var clips = items.map(function (it) {
+        var v = it.querySelector('video');
+        if (!v) return null;
+        v.muted = true; v.loop = false; v.removeAttribute('loop'); v.removeAttribute('autoplay');
+        return { item: it, video: v, state: 'waiting', seg: null, segFill: null, play: it.querySelector('.tl-reels__play'),
+                 replay: it.querySelector('.tl-reels__replay'), bar: it.querySelector('.tl-reels__bar'),
+                 time: it.querySelector('.tl-reels__time') };
+      });
+      var current = -1, started = false, inView = false;
+
+      // Overall progress: one equal segment per clip (lined up over the columns on wide screens).
+      var overall = sec.querySelector('.tl-reels__overall');
+      if (overall) clips.forEach(function (c) {
+        if (!c) return;
+        c.seg = document.createElement('span'); c.seg.className = 'tl-reels__seg';
+        c.segFill = document.createElement('span'); c.segFill.className = 'tl-reels__segfill';
+        c.seg.appendChild(c.segFill); overall.appendChild(c.seg);
+      });
+      // line the bar up with the clips: the span of the columns on wide screens, the row's inset on phones
+      function fitOverall() {
+        if (!overall || !row || !items.length) return;
+        overall.style.marginLeft = ''; overall.style.width = '';
+        if (row.scrollWidth > row.clientWidth + 1) { overall.style.marginLeft = (parseFloat(getComputedStyle(row).paddingLeft) || 0) - 15 + 'px'; return; }
+        var wrap = overall.parentElement.getBoundingClientRect();
+        var a = items[0].getBoundingClientRect(), b = items[items.length - 1].getBoundingClientRect();
+        overall.style.marginLeft = (a.left - wrap.left - (parseFloat(getComputedStyle(overall.parentElement).paddingLeft) || 0)) + 'px';
+        overall.style.width = (b.right - a.left) + 'px';
+      }
+
+      function setState(c, s) {
+        c.state = s;
+        c.item.setAttribute('data-state', s);
+        if (c.play) c.play.hidden = s !== 'waiting';
+        if (c.replay) c.replay.hidden = s !== 'done';
+      }
+      function fmt(sec) { sec = Math.max(0, Math.ceil(sec)); return Math.floor(sec / 60) + ':' + ('0' + (sec % 60)).slice(-2); }
+
+      // Progress: bar and timer, drawn every frame while a clip plays (timeupdate alone is too
+      // coarse, ~4 times a second) and once more on each seek, pause or end. The timer shows the
+      // time left once a clip has started, and its full length before that or once finished.
+      function paint(c) {
+        var d = c.video.duration, t = c.video.currentTime;
+        var ok = d && isFinite(d);
+        var k = c.state === 'done' ? 1 : (ok ? Math.min(1, t / d) : 0);
+        if (c.bar) c.bar.style.transform = 'scaleX(' + k + ')';
+        if (c.segFill) c.segFill.style.transform = 'scaleX(' + k + ')';
+        if (c.time) c.time.textContent = ok ? fmt(c.state !== 'done' && t > 0 ? d - t : d) : '';
+      }
+      var raf = null;
+      function loop() {
+        var any = false;
+        clips.forEach(function (c) { if (c && !c.video.paused && !c.video.ended) { paint(c); any = true; } });
+        raf = any ? requestAnimationFrame(loop) : null;
+      }
+      function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+
+      function swipeable() { return !!row && row.scrollWidth > row.clientWidth + 1; }
+      function padLeft() { return parseFloat(getComputedStyle(row).paddingLeft) || 0; }
+      function bringIntoRow(c) {
+        // phones: the row scrolls sideways; slide it so the playing clip sits at the left, where it
+        // snaps. The swipe handler below ignores this on its own: once it settles, the clip at the
+        // left is already the one playing.
+        if (!swipeable()) return;
+        row.scrollTo({ left: c.item.offsetLeft - padLeft(), behavior: reduce ? 'auto' : 'smooth' });
+      }
+      // Room at the end of the row so the last clip can snap to the left like the rest: the width
+      // of the screen left over beside one clip. Only while the row swipes (phones).
+      // A spacer (the row's ::after, width --tl-tail) rather than end padding: padding at the end
+      // of a scrolling flex row is not reliably counted in how far it scrolls. Sized by measuring:
+      // however far short of the last clip's snap point the row can scroll, plus nothing more.
+      function fitTail() {
+        if (!row) return;
+        row.style.setProperty('--tl-tail', '0px');
+        if (!swipeable() || !items.length) return;
+        var last = items[items.length - 1];
+        var short = (last.offsetLeft - padLeft()) - (row.scrollWidth - row.clientWidth);
+        if (short > 0) {
+          row.style.setProperty('--tl-tail', short + 'px');
+          var still = (last.offsetLeft - padLeft()) - (row.scrollWidth - row.clientWidth);   // the gap before the spacer, if any
+          if (still > 0) row.style.setProperty('--tl-tail', (short + still) + 'px');
+        }
+      }
+      fitTail();
+      fitOverall();
+      window.addEventListener('resize', function () { fitTail(); fitOverall(); }, { passive: true });
+      // one at a time: starting a clip sends any other playing clip back to waiting, keeping its place
+      function start(i, fromTop) {
+        var c = clips[i];
+        clips.forEach(function (o, j) { if (o && j !== i && o.state === 'playing') { o.video.pause(); setState(o, 'waiting'); paint(o); } });
+        if (fromTop) { try { c.video.currentTime = 0; } catch (e) {} }
+        current = i;
+        setState(c, 'playing');
+        bringIntoRow(c);
+        var p = c.video.play(); if (p && p.catch) p.catch(function () {});
+      }
+      // the sequence: the next clip not yet watched after i, wrapping to any earlier one left waiting
+      function next(i) {
+        for (var k = 0; k < clips.length; k++) {
+          var j = (i + k) % clips.length;
+          if (clips[j] && clips[j].state === 'waiting') { if (inView) start(j, false); else current = j; return; }
+        }
+        current = -1;                                              // everything watched: stop
+      }
+
+      clips.forEach(function (c, i) {
+        if (!c) return;
+        ['play', 'playing'].forEach(function (ev) { c.video.addEventListener(ev, kick); });
+        ['timeupdate', 'seeked', 'loadedmetadata', 'durationchange', 'pause'].forEach(function (ev) {
+          c.video.addEventListener(ev, function () { paint(c); });
+        });
+        c.video.addEventListener('ended', function () {
+          setState(c, 'done');
+          paint(c);
+          if (current === i) next(i + 1);
+        });
+        if (c.play) c.play.addEventListener('click', function () { started = true; start(i, false); });
+        if (c.replay) c.replay.addEventListener('click', function () { started = true; start(i, true); });
+        paint(c);
+      });
+
+      // the clip the row has snapped to: the one whose left edge is nearest the snap line
+      function snapped() {
+        var line = row.scrollLeft + padLeft(), best = -1, bestD = Infinity;
+        items.forEach(function (it, i) {
+          var d = Math.abs(it.offsetLeft - line);
+          if (d < bestD) { bestD = d; best = i; }
+        });
+        return best;
+      }
+
+      // Phones: tapping the clip peeking in from the right swipes to it, and tapping the left edge
+      // (15%) of the one in place swipes back to the one before. Only the scroll happens here; the
+      // swipe handler below then plays whatever the row settles on, same as a finger swipe.
+      if (row) items.forEach(function (it, i) {
+        it.addEventListener('click', function (e) {
+          if (!swipeable() || e.target.closest('.tl-reels__btn')) return;
+          var at = snapped(), to = -1;
+          if (i !== at) to = i;
+          else if (i > 0) {
+            var m = (it.querySelector('.tl-reels__media') || it).getBoundingClientRect();
+            if (e.clientX - m.left < m.width * 0.15) to = i - 1;
+          }
+          if (to < 0) return;
+          row.scrollTo({ left: items[to].offsetLeft - padLeft(), behavior: reduce ? 'auto' : 'smooth' });
+        });
+      });
+
+      // Phones: when a swipe settles, play the clip the row snapped to, at the left (resuming
+      // it if it was waiting part way, from the top if it was already watched).
+      if (row && !reduce) {
+        var settleT = null;
+        var onSettled = function () {
+          settleT = null;
+          // (no visibility check: a swipe means the reader is looking at the row)
+          if (!swipeable()) return;
+          var best = snapped();
+          if (best < 0 || !clips[best] || (best === current && clips[best].state === 'playing')) return;
+          started = true;
+          start(best, clips[best].state === 'done');
+        };
+        row.addEventListener('scroll', function () { clearTimeout(settleT); settleT = setTimeout(onSettled, 160); }, { passive: true });
+      }
+
+      if (reduce || !('IntersectionObserver' in window)) return;   // nothing plays by itself
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        if (inView) {
+          if (!started) { started = true; next(0); }
+          else if (current >= 0 && clips[current]) {
+            if (clips[current].state === 'playing') { var p = clips[current].video.play(); if (p && p.catch) p.catch(function () {}); }
+            else if (clips[current].state === 'waiting') start(current, false);
+          }
+        } else {
+          // out of view: pause, but keep the playing state, so it carries on when it comes back
+          clips.forEach(function (c) { if (c && !c.video.paused) c.video.pause(); });
+        }
+      }, { threshold: 0.35 }).observe(row || sec);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Vertical videos",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "textarea", "id": "subheading", "label": "Subtitle" },
+    { "type": "text", "id": "anchor", "label": "Anchor", "info": "Optional in-page link id, e.g. in-action links as #in-action." },
+    { "type": "checkbox", "id": "keep_dark", "label": "Dark background", "default": false },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "white", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
+  ],
+  "blocks": [
+    {
+      "type": "clip",
+      "name": "Video",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Video", "info": "Vertical (9:16). The clips play muted, once each, one after another." },
+        { "type": "text", "id": "video_url", "label": "Or a video URL", "info": "An .mp4 or .webm, used when no video is picked." },
+        { "type": "image_picker", "id": "poster", "label": "Poster or still", "info": "Shown before a URL video loads, or on its own when there is no video." },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Short text", "info": "Optional." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Vertical videos",
+      "blocks": [
+        { "type": "clip" },
+        { "type": "clip" },
+        { "type": "clip" }
+      ]
+    }
+  ]
+}
+{% endschema %}

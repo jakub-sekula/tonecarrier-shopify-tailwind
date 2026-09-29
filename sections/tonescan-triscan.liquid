@@ -13,7 +13,7 @@
   JS in tonescan-scripts. Each sample's three images open full screen via PhotoSwipe.
 {%- endcomment -%}
 
-<div class="tonescan-landing tw:text-neutral-200">
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'white' }} tw:text-neutral-200">
   {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
 
   <section class="ts-tri{% if section.settings.large %} ts-tri--large{% endif %}" id="triscan">
@@ -26,7 +26,7 @@
 
       {%- comment -%} Sample selector, only when there is more than one. {%- endcomment -%}
       {%- if section.blocks.size > 1 -%}
-      <div class="ts-tri__sets">
+      <div class="ts-tri__sets" data-reveal>
         {%- for block in section.blocks -%}
         {%- comment -%} Square thumbnail of the sample's RGB scan (image 2), falling back to image 1;
            the sample's name is the button's label for screen readers and the hover tooltip. {%- endcomment -%}
@@ -87,7 +87,7 @@
             <input class="ts-tri__in ts-tri__in--2" type="radio" name="tri-{{ setid }}" id="tri-{{ setid }}-2">
             <input class="ts-tri__in ts-tri__in--3" type="radio" name="tri-{{ setid }}" id="tri-{{ setid }}-3">
 
-            <div class="ts-tri__stage" style="--ar: {{ tri_ar }}">
+            <div class="ts-tri__stage" data-reveal style="--ar: {{ tri_ar }}">
               <div class="ts-tri__cell ts-tri__cell--1">
                 <div class="ts-tri__frame"><img class="ts-tri__img" src="{{ s1 }}"{% if p1 != blank %} style="object-position: {{ p1 }}"{% endif %} data-full="{{ f1 }}" data-fw="{{ fw1 }}" data-fh="{{ fh1 }}" alt="{{ section.settings.label_1 }}" loading="lazy" width="{{ w1 }}" height="{{ h1 }}"></div>
                 <span class="ts-tri__label"><span class="ts-tri__labeltitle">{{ section.settings.label_1 }}</span>{% if section.settings.sublabel_1 != blank %}<span class="ts-tri__sublabel">{{ section.settings.sublabel_1 }}</span>{% endif %}</span>
@@ -102,7 +102,7 @@
               </div>
             </div>
 
-            <div class="ts-tri__btns">
+            <div class="ts-tri__btns" data-reveal>
               <label class="ts-tri__btn ts-tri__btn--1" for="tri-{{ setid }}-1">{{ section.settings.short_label_1 | default: section.settings.label_1 }}</label>
               <label class="ts-tri__btn ts-tri__btn--2" for="tri-{{ setid }}-2">{{ section.settings.short_label_2 | default: section.settings.label_2 }}</label>
               <label class="ts-tri__btn ts-tri__btn--3" for="tri-{{ setid }}-3">{{ section.settings.short_label_3 | default: section.settings.label_3 }}</label>
@@ -111,7 +111,7 @@
         </div>
       {%- endfor -%}
 
-      {%- if section.settings.caption != blank -%}<p class="ts-tri__caption">{{ section.settings.caption }}</p>{%- endif -%}
+      {%- if section.settings.caption != blank -%}<p class="ts-tri__caption" data-reveal>{{ section.settings.caption }}</p>{%- endif -%}
     </div>
   </section>
 </div>
@@ -136,7 +136,8 @@
     { "type": "text", "id": "sublabel_3", "label": "Scan 3 detail", "info": "Optional second line, e.g. Frontier SP-3000." },
     { "type": "text", "id": "short_label_3", "label": "Scan 3 short label", "info": "For the mobile buttons. Falls back to the label above.", "default": "Lab scan" },
     { "type": "checkbox", "id": "large", "label": "Large frames", "info": "Much taller frames; the pictures are cropped to fill.", "default": false },
-    { "type": "text", "id": "caption", "label": "Caption", "default": "Same negative, same crop. Only the scanning method changed." }
+    { "type": "text", "id": "caption", "label": "Caption", "default": "Same negative, same crop. Only the scanning method changed." },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "white", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
   ],
   "blocks": [
     {

@@ -10,11 +10,14 @@
 
   Works with no JavaScript: the range input is a real input, so it can be dragged and it takes arrow
   keys for free. The script only adds pointer-drag anywhere on the image.
+
+  Each pair is a block; with more than one, thumbnails under the subheading switch between them
+  (the three-way section's buttons and switcher script). Every pair shows at the first one's shape.
 {%- endcomment -%}
 
-<div class="tonescan-landing tw:text-neutral-200">
+<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'white' }}{% if section.settings.keep_dark %} ts-dark{% endif %} tw:text-neutral-200">
   {%- assign ts_cdn = 'https://cdn.shopify.com/s/files/1/0634/3199/9736/files' -%}
-  <section class="ts-cmp" id="compare">
+  <section class="ts-cmp{% if section.settings.keep_dark %} ts-cmp--dark{% endif %}" id="compare">
     <div class="ts-cmp__inner">
       <div class="ts-cmp__head">
         {%- if section.settings.eyebrow != blank -%}
@@ -26,19 +29,48 @@
         {%- endif -%}
       </div>
 
-      <div class="ts-cmp__stage" style="--x: 50%">
+      {%- comment -%} Sample selector, only when there is more than one pair: square thumbnails of
+         each RGB scan, the same buttons as the three-way section. {%- endcomment -%}
+      {%- if section.blocks.size > 1 -%}
+      <div class="ts-tri__sets ts-cmp__sets" data-reveal>
+        {%- for block in section.blocks -%}
+        {%- capture set_name -%}{%- if block.settings.name != blank -%}{{ block.settings.name }}{%- else -%}Sample {{ forloop.index }}{%- endif -%}{%- endcapture -%}
+        {%- assign thumb = block.settings.image_rgb | default: block.settings.image_white -%}
+        <button type="button" class="ts-tri__setbtn ts-tri__setbtn--thumb{% if forloop.first %} is-active{% endif %}" data-set="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="{{ set_name | escape }}" title="{{ set_name | escape }}">
+          {%- if thumb != blank -%}
+            {%- assign fp = '' -%}{%- if thumb.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ thumb.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+            {{ thumb | image_url: width: 240 | image_tag: alt: '', loading: 'lazy', width: 76, height: 76, widths: '160, 240', sizes: '80px', style: fp }}
+          {%- else -%}
+            <span class="ts-tri__thumbph">{{ forloop.index }}</span>
+          {%- endif -%}
+        </button>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+
+      {%- comment -%} One shape for every pair: the first pair's white-light image sets it, so
+         switching never changes the height. Other shapes are cropped to it (focal points kept). {%- endcomment -%}
+      {%- assign cmp_ar = 1.6 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.image_white != blank -%}{%- assign cmp_ar = block.settings.image_white.aspect_ratio -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+
+      {%- for block in section.blocks -%}
+      {%- assign b = block.settings -%}
+      <div class="ts-cmp__set{% if forloop.first %} is-active{% endif %}" data-set="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+      <div class="ts-cmp__stage" data-reveal style="--x: 90%; --ar: {{ cmp_ar }}">
         {%- comment -%} The right-hand image is the base layer and stays whole; the left one is
            clipped to the handle. Clipping rather than resizing, so nothing scales as you drag. {%- endcomment -%}
         <div class="ts-cmp__layer ts-cmp__layer--b">
-          {%- if section.settings.image_rgb != blank -%}
-          <img src="{{ section.settings.image_rgb | image_url: width: 2400 }}" alt="{{ section.settings.label_rgb }}: the same negative scanned under red, green and blue light" loading="lazy" width="{{ section.settings.image_rgb.width }}" height="{{ section.settings.image_rgb.height }}">
+          {%- if b.image_rgb != blank -%}
+          <img src="{{ b.image_rgb | image_url: width: 2400 }}"{% if b.image_rgb.presentation.focal_point != blank %} style="object-position: {{ b.image_rgb.presentation.focal_point }}"{% endif %} alt="{{ section.settings.label_rgb }}: the same negative scanned under red, green and blue light" loading="lazy" width="{{ b.image_rgb.width }}" height="{{ b.image_rgb.height }}">
           {%- else -%}
           <img src="{{ ts_cdn }}/rgb-merge.png" alt="" loading="lazy" width="3200" height="2000">
           {%- endif -%}
         </div>
         <div class="ts-cmp__layer ts-cmp__layer--a">
-          {%- if section.settings.image_white != blank -%}
-          <img src="{{ section.settings.image_white | image_url: width: 2400 }}" alt="{{ section.settings.label_white }}: the same negative scanned under a single white light" loading="lazy" width="{{ section.settings.image_white.width }}" height="{{ section.settings.image_white.height }}">
+          {%- if b.image_white != blank -%}
+          <img src="{{ b.image_white | image_url: width: 2400 }}"{% if b.image_white.presentation.focal_point != blank %} style="object-position: {{ b.image_white.presentation.focal_point }}"{% endif %} alt="{{ section.settings.label_white }}: the same negative scanned under a single white light" loading="lazy" width="{{ b.image_white.width }}" height="{{ b.image_white.height }}">
           {%- else -%}
           <img src="{{ ts_cdn }}/calibration-crosstalk.png" alt="" loading="lazy" width="3200" height="2000">
           {%- endif -%}
@@ -55,12 +87,14 @@
 
         {%- comment -%} The real control. Visually it is the handle above; this stays operable and
            keyboard-reachable underneath it. {%- endcomment -%}
-        <input class="ts-cmp__range" type="range" min="0" max="100" value="50" step="0.1"
+        <input class="ts-cmp__range" type="range" min="0" max="100" value="90" step="0.1"
                aria-label="Reveal more of {{ section.settings.label_white }} or {{ section.settings.label_rgb }}">
       </div>
+      </div>
+      {%- endfor -%}
 
       {%- if section.settings.caption != blank -%}
-      <p class="ts-cmp__caption">{{ section.settings.caption }}</p>
+      <p class="ts-cmp__caption" data-reveal>{{ section.settings.caption | newline_to_br }}</p>
       {%- endif -%}
     </div>
   </section>
@@ -75,12 +109,25 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "White light against RGB" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "The same negative, two ways" },
     { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Both of these are straight off the camera with no correction. Drag to see what the light source alone does to the colour." },
-    { "type": "image_picker", "id": "image_white", "label": "White light scan", "info": "Shown on the left. Must be the same frame and crop as the RGB one." },
-    { "type": "image_picker", "id": "image_rgb", "label": "RGB scan", "info": "Shown on the right." },
     { "type": "text", "id": "label_white", "label": "Left label", "default": "White light" },
     { "type": "text", "id": "label_rgb", "label": "Right label", "default": "RGB" },
-    { "type": "text", "id": "caption", "label": "Caption", "default": "Same negative, same camera, same exposure. Only the light changed." }
+    { "type": "textarea", "id": "caption", "label": "Caption", "info": "Each new line shows as a line break.", "default": "Same negative, same camera, same exposure. Only the light changed." },
+    { "type": "checkbox", "id": "keep_dark", "label": "Keep dark on light pages", "info": "On a light page (toneLight), this section keeps the dark scheme.", "default": false },
+    { "type": "select", "id": "bg", "label": "Background on light pages", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "white", "info": "Alternate these so neighbouring sections stand apart. Ignored on dark pages and when the section is set to dark." }
   ],
-  "presets": [ { "name": "toneScan comparison" } ]
+  "blocks": [
+    {
+      "type": "pair",
+      "name": "Image pair",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Button label", "info": "Screen reader label and tooltip for the thumbnail. Auto-numbered (Sample 1, 2, ...) if blank." },
+        { "type": "paragraph", "content": "Both must be the same frame, at the same crop and size." },
+        { "type": "image_picker", "id": "image_white", "label": "White light scan", "info": "Shown on the left." },
+        { "type": "image_picker", "id": "image_rgb", "label": "RGB scan", "info": "Shown on the right, and used for the thumbnail." }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [ { "name": "toneScan comparison", "blocks": [ { "type": "pair" } ] } ]
 }
 {% endschema %}

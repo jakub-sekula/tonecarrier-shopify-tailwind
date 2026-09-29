@@ -484,12 +484,23 @@
     },
     "compare": {
       "type": "tonescan-compare",
+      "blocks": {
+        "pair_1": {
+          "type": "pair",
+          "settings": {
+            "name": "",
+            "image_white": "shopify://shop_images/comp1_white_small_a3ae9467-852e-404f-8bee-1a405a138918.jpg",
+            "image_rgb": "shopify://shop_images/comp1_rgb_small_5f83e634-42ce-4933-8396-324c889851f6.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "pair_1"
+      ],
       "settings": {
         "eyebrow": "White light against RGB",
         "heading": "The same negative, two ways",
         "subheading": "Both of these are straight off the camera with no correction. Drag to see what the light source alone does to the colour.",
-        "image_white": "shopify://shop_images/comp1_white_small_a3ae9467-852e-404f-8bee-1a405a138918.jpg",
-        "image_rgb": "shopify://shop_images/comp1_rgb_small_5f83e634-42ce-4933-8396-324c889851f6.jpg",
         "label_white": "White light",
         "label_rgb": "RGB",
         "caption": "Same negative and scanning system, only light source changed."
