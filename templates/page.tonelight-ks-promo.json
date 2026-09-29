@@ -599,6 +599,7 @@
         "label_super": "Super early bird",
         "label_early": "Early bird",
         "label_regular": "Regular",
+        "levels_info": "Super early bird: the lowest price, for the first backers.\nEarly bird: the next price up, once the super early bird rewards are gone.\nRegular: the full campaign price.",
         "featured_button_style": "ks",
         "bg": "offwhite"
       }
@@ -1553,14 +1554,14 @@
           "type": "qa",
           "settings": {
             "q": "How does it compare to a lab scanner?",
-            "a": "For most negatives, comparable, and better in resolution and flexibility. Two honest caveats: transport is currently open-loop (a small jog every few frames), and a Bayer sensor is softer at deep red and blue than a mono camera. Both are in active development."
+            "a": "For most negatives, comparable, and better in resolution and flexibility. All this at a small fraction of a price of a 30-year old machine."
           }
         },
         "qa_4": {
           "type": "qa",
           "settings": {
             "q": "What about slide film / E-6?",
-            "a": "toneLight has a high-CRI white mode for slides. Slides are positive, so they work like normal photos in any editor, so toneScan Studio isn't required."
+            "a": "toneLight has a high-CRI white mode for slides. Editing is supported in toneScan Studio, but slides are positive, so they can also be easily adjusted like normal photos in any editor."
           }
         },
         "qa_combine": {
@@ -1574,7 +1575,7 @@
           "type": "qa",
           "settings": {
             "q": "Do I need toneScan Studio, or can I use other software?",
-            "a": "toneScan Studio is the intended workflow and what the system is built around. The three captures are standard RAW, so anyone comfortable with manual channel work can experiment elsewhere. For slides, any editor works with no extra steps."
+            "a": "toneScan Studio is the intended workflow and what the system is built around. The three captures are standard RAW, so anyone comfortable with manual channel work can experiment elsewhere. Studio can also export the merged RGB composite as a TIFF or DNG file for external editing."
           }
         },
         "qa_6": {
