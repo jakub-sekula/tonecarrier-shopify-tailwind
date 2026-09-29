@@ -2551,6 +2551,21 @@
   .ts-dark .ts-recaptcha, .ts-hero-split--dark .ts-recaptcha { color: #8f8f96; }
   .ts-recaptcha a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 
+  /* ---- full screen button on videos (tonescan-scripts: tsVideoExpand) ----------------------------- */
+  .ts-vfull { position: absolute; top: 10px; right: 10px; z-index: 4; display: flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; padding: 0; color: #fff; cursor: pointer; border: 0; border-radius: 999px;
+    background: rgba(10,10,11,.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: background-color .15s ease; }
+  .ts-vfull:hover { background: rgba(10,10,11,.75); }
+  .ts-vfull::after { content: ''; position: absolute; inset: -6px; }
+  .ts-vfull svg { width: 16px; height: 16px; }
+  .ts-vfull:focus-visible { outline: 2px solid var(--ts-accent, #3b82f6); outline-offset: 2px; }
+  /* stacked slides (the hero, the system and RGB sections): only the one showing may take the tap */
+  .ts-hero-shot:not(.is-active) .ts-vfull, .ts-story__shot:not(.is-active) .ts-vfull,
+  .ts-hdive__shot:not(.is-active) .ts-vfull { visibility: hidden; }
+  /* the whole frame in full screen, not the crop the page uses */
+  video:fullscreen { object-fit: contain !important; background: #000; }
+  video:-webkit-full-screen { object-fit: contain !important; background: #000; }
+
   /* ---- page accent ---------------------------------------------------------------------------
      --ts-accent and its shades come from the layout (theme settings). The sections' eyebrows and
      small labels use a Tailwind class compiled as a fixed blue; this points it at the accent. */

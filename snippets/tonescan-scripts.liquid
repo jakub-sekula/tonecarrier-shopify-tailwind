@@ -2653,6 +2653,52 @@ function tsHeaderChat() {
   });
 }
 
+/* Full screen for every video on the landing pages, at every width: the hero's clips, the reels,
+   the reward, system and showcase videos. Left out: the decorative backgrounds (the hero's
+   backdrop layer and the team section's) and any video with its own controls, which already has
+   a full-screen button. Each gets a small button in its top-right corner. iPhone Safari has no element fullscreen, so
+   there the video opens in the native player (controls and sound included); elsewhere the video
+   itself goes full screen with its controls switched on until it comes back. The button stops its
+   tap there, so the reels' and rewards' tap-to-scroll never sees it. */
+function tsVideoExpand() {
+  function wanted(v) {
+    return !v.hasAttribute('controls') && !v.classList.contains('tl-team__bgmedia') && !v.closest('.ts-hero-bg');
+  }
+  var icon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/><path d="M9 21H3v-6"/></svg>';
+  function enter(v) {
+    if (v.requestFullscreen) {
+      v.requestFullscreen().then(function () {
+        v.controls = true;
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      }).catch(function () { if (v.webkitEnterFullscreen) v.webkitEnterFullscreen(); });
+    } else if (v.webkitEnterFullscreen) {
+      v.webkitEnterFullscreen();
+      var p = v.play(); if (p && p.catch) p.catch(function () {});
+    }
+  }
+  document.addEventListener('fullscreenchange', function () {
+    if (document.fullscreenElement) return;
+    document.querySelectorAll('video[data-ts-full]').forEach(function (v) { if (v.controls) v.controls = false; });
+  });
+  function scan() {
+    document.querySelectorAll('.tonescan-landing video').forEach(function (v) {
+      if (v.hasAttribute('data-ts-full') || !wanted(v)) return;
+      v.setAttribute('data-ts-full', '');
+      var holder = v.parentElement;
+      if (getComputedStyle(holder).position === 'static') holder.style.position = 'relative';
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ts-vfull';
+      b.setAttribute('aria-label', 'Play full screen');
+      b.innerHTML = icon;
+      b.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); enter(v); });
+      holder.appendChild(b);
+    });
+  }
+  scan();
+  document.addEventListener('shopify:section:load', scan);
+}
+
 /* Kit's form script, loaded once for the whole page. The toneScan pages render the Kit form without
    its own script tag (snippet ts-kit-form) because it can appear in several places at once. */
 function tsKitEnsure() {
@@ -2699,7 +2745,7 @@ function tsHeaderSections() {
   spy();
 }
 
-function tsBoot() { tsInit(); tsAutoVideos(); tsKitBoot(); tsHeaderSections(); tsHeaderChat(); }
+function tsBoot() { tsInit(); tsAutoVideos(); tsKitBoot(); tsHeaderSections(); tsHeaderChat(); tsVideoExpand(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tsBoot);
 else tsBoot();
 })();

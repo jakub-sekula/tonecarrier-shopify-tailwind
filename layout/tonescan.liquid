@@ -410,14 +410,27 @@
           el.classList.add('in');
           setTimeout(function () { el.classList.remove('reveal', 'in'); el.style.transitionDelay = ''; }, delay + 900);
         }
+        // A row that scrolls sideways (the reels, the reward cards on phones) comes in as one: the
+        // items off to the right would otherwise count as off screen and each animate in on its own
+        // as the reader swipes to it. They all appear together, at one moment, with no cascade.
+        function sideways(el) {
+          for (var p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+            var ox = getComputedStyle(p).overflowX;
+            if ((ox === 'auto' || ox === 'scroll') && p.scrollWidth > p.clientWidth + 1) return p;
+          }
+          return null;
+        }
+        var flat = new Set();
         var io = new IntersectionObserver(function (entries) {
           var groups = new Map();
           entries.forEach(function (e) {
             if (!e.isIntersecting) return;
-            io.unobserve(e.target);
-            var g = groupOf(e.target);
+            var row = sideways(e.target);
+            var els = row ? Array.prototype.filter.call(row.querySelectorAll('.reveal'), function (x) { return !x.classList.contains('in'); }) : [e.target];
+            var g = row || groupOf(e.target);
+            if (row) flat.add(row);
             if (!groups.has(g)) groups.set(g, []);
-            groups.get(g).push(e.target);
+            els.forEach(function (x) { io.unobserve(x); if (groups.get(g).indexOf(x) < 0) groups.get(g).push(x); });
           });
           // groups play one after another in page order, so a section arriving whole reads as one
           // sequence (head, then its cards) rather than everything starting at once
@@ -429,7 +442,8 @@
             var list = groups.get(g);
             var pos = new Map(list.map(function (el) { var r = el.getBoundingClientRect(); return [el, [Math.round(r.top / 24), r.left]]; }));
             list.sort(function (x, y) { var a = pos.get(x), b = pos.get(y); return a[0] - b[0] || a[1] - b[1]; });
-            list.forEach(function (el) { show(el, Math.min(n++, 10) * STEP); });
+            if (flat.has(g)) { var d = Math.min(n++, 10) * STEP; list.forEach(function (el) { show(el, d); }); }
+            else list.forEach(function (el) { show(el, Math.min(n++, 10) * STEP); });
           });
         }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
 

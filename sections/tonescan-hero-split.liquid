@@ -223,7 +223,9 @@
                 {%- if is_video -%}
                 <div class="ts-hero-shot ts-hero-vslot{% if forloop.first %} is-active{% endif %}" data-shot="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
                   {%- comment -%} no poster: the video's own first frame is the placeholder {%- endcomment -%}
-                  <video class="ts-hero-video" muted playsinline preload="auto"{% if block.settings.loop %} loop{% endif %}>
+                  {%- comment -%} Native controls (play/pause, scrubbing, sound, full screen). The hero's
+                     script still starts each clip muted as its slide comes up. {%- endcomment -%}
+                  <video class="ts-hero-video" controls muted playsinline preload="auto"{% if block.settings.loop %} loop{% endif %}>
                     <source src="{% if block.settings.video != blank %}{{ block.settings.video.sources[1].url | default: block.settings.video.sources[0].url }}{% else %}{{ block.settings.media_url }}{% endif %}" type="video/mp4">
                   </video>
                   <button type="button" class="ts-hero-replay" aria-label="Replay video">
