@@ -308,16 +308,19 @@
       })();
 
       /* Already on the list (html.ts-known, set in the head from ?from=…): the forms are swapped for
-         a thank-you note. When the value is an email address the note names it (set as text, never
-         as markup, so a crafted link cannot inject anything). Its button brings the forms back,
+         a thank-you note that names the value as given, normally the subscriber's email (set as text,
+         never as markup, so a crafted link cannot inject anything). Its button brings the forms back,
          everywhere at once, and puts the cursor in the email box of the one that was pressed. The
          parameter is taken out of the address straight away, so the address does not stay in the
          address bar, get bookmarked or shared along with the link. */
       (function () {
         if (!document.documentElement.classList.contains('ts-known')) return;
         var params = new URLSearchParams(window.location.search);
-        var from = (params.get('from') || '').trim();
-        if (/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(from) && from.length <= 254) {
+        /* Read verbatim, not through URLSearchParams, which would turn the + in jo+film@… into a space. */
+        var m = window.location.search.match(/[?&]from=([^&]*)/), from = m ? m[1] : '';
+        try { from = decodeURIComponent(from); } catch (err) {}
+        from = from.trim();
+        if (from) {
           document.querySelectorAll('.ts-kit__knowntext[data-email]').forEach(function (p) {
             var parts = p.getAttribute('data-email').split('[email]');
             if (parts.length < 2) return;

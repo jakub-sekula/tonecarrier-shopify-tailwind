@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <title>Tone Photographic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; padding: 0; background: #f7f7f5; -webkit-text-size-adjust: 100%; }
+    table { border-collapse: collapse; }
+    img { border: 0; display: block; line-height: 100%; outline: none; text-decoration: none; }
+    .font { font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+
+    /* Whatever is written in the Kit broadcast editor lands in .content */
+    .content { font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; color: #3f3f46; }
+    .content h1 { margin: 0 0 20px; font-size: 32px; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; color: #18181b; }
+    .content h2 { margin: 28px 0 12px; font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; color: #18181b; }
+    .content p { margin: 0 0 16px; }
+    .content a { color: #2563eb; text-decoration: underline; }
+    .content strong { color: #18181b; font-weight: 600; }
+    .content img { max-width: 100%; height: auto; }
+
+    @media (max-width: 620px) {
+      .container { width: 100% !important; }
+      .px { padding-left: 24px !important; padding-right: 24px !important; }
+      .content h1 { font-size: 27px !important; }
+    }
+  </style>
+</head>
+<body style="margin:0; padding:0; background:#f7f7f5;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f7f7f5;">
+    <tr>
+      <td align="center" style="padding:24px 12px 40px;">
+        <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background:#ffffff;">
+
+          <!-- Logo -->
+          <tr>
+            <td align="center" style="padding:28px 40px 24px; background:#000000;">
+              <a href="https://tonephotographic.com/pages/tonescan-system?from={{ subscriber.email_address | url_encode }}" target="_blank" style="text-decoration:none;">
+                <img src="https://tonephotographic.com/cdn/shop/files/tone-logo-white.png?width=180" width="72" alt="tone" style="width:72px; height:auto; margin:0 auto;">
+              </a>
+            </td>
+          </tr>
+
+          <!-- Hero photo -->
+          <tr>
+            <td style="background:#000000;">
+              <a href="https://tonephotographic.com/pages/tonescan-system?from={{ subscriber.email_address | url_encode }}" target="_blank">
+                <img src="https://tonephotographic.com/cdn/shop/files/Still_2026-07-28_232546_1.10.1.jpg?width=1200&amp;height=540&amp;crop=center" width="600" alt="toneLight glowing red, with its red, green and blue channel buttons lit" style="width:100%; max-width:600px; height:auto;">
+              </a>
+            </td>
+          </tr>
+
+          <!-- Kickstarter, in the words of the landing page hero badge -->
+          <tr>
+            <td align="center" class="font" style="padding:20px 40px 26px; background:#000000; font-family:Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; line-height:1; font-weight:500; color:#a1a1aa;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                <tr>
+                  <td class="font" style="padding-right:10px; font-family:Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; line-height:13px; font-weight:500; color:#a1a1aa; white-space:nowrap;">Launching soon on</td>
+                  <td><img src="https://cdn.shopify.com/s/files/1/0634/3199/9736/files/kickstarter-logo-email.png?v=1790763016" width="126" height="13" alt="Kickstarter" style="width:126px; height:13px;"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- The broadcast itself -->
+          <tr>
+            <td class="px font" style="padding:40px 40px 0;">
+              <div class="content">
+                {{ message_content }}
+              </div>
+            </td>
+          </tr>
+
+          <!-- Button: the page link carries the subscriber's email, so the page thanks them instead of asking them to sign up again -->
+          <tr>
+            <td align="center" class="px" style="padding:16px 40px 48px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                <tr>
+                  <td style="border-radius:2px; background:#0a0a0b;">
+                    <a href="https://tonephotographic.com/pages/tonescan-system?from={{ subscriber.email_address | url_encode }}" target="_blank" class="font" style="display:inline-block; padding:17px 64px; font-family:Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:16px; line-height:1; font-weight:600; color:#ffffff; text-decoration:none; border-radius:2px;">See what&rsquo;s new&nbsp;&nbsp;&rarr;</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- toneScan Studio -->
+          <tr>
+            <td class="px" style="padding:40px 40px 0; border-top:1px solid #e4e4e7;">
+              <img src="https://tonephotographic.com/cdn/shop/t/6/assets/tonescan-icon.png" width="56" height="56" alt="toneScan Studio app icon" style="width:56px; height:56px; margin:0 0 16px;">
+              <h2 class="font" style="margin:0 0 12px; font-family:Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:22px; line-height:1.25; font-weight:600; letter-spacing:-0.01em; color:#18181b;">toneScan Studio&nbsp;&nbsp;<span style="display:inline-block; padding:3px 10px; font-size:12px; line-height:1.4; font-weight:600; letter-spacing:0.02em; color:#0a0a0b; background:#f2f2f2; border:1px solid #e0e0e0; border-radius:999px; vertical-align:middle; white-space:nowrap;">Now in beta</span></h2>
+              <p class="font" style="margin:0 0 24px; font-family:Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:16px; line-height:1.6; color:#3f3f46;">Our desktop software for the toneScan system. It captures your frames, merges the red, green and blue shots and inverts the negatives for you. White light scans, slides and black and white film work too. It runs on macOS and Windows.</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding:0 40px 40px;">
+              <a href="https://tonephotographic.com/pages/tonescan-system?from={{ subscriber.email_address | url_encode }}" target="_blank">
+                <img src="https://tonephotographic.com/cdn/shop/files/Edit_viewport.webp?crop=region&amp;crop_left=112&amp;crop_top=36&amp;crop_width=1064&amp;crop_height=676&amp;format=jpg" width="520" alt="toneScan Studio editing a colour negative scan, with tone and colour controls on the right" style="width:100%; height:auto; border-radius:6px;">
+              </a>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td align="center" class="px font" style="padding:28px 40px 32px; background:#f7f7f5; border-top:1px solid #e4e4e7; font-family:Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:12px; line-height:1.6; color:#71717a; text-align:center;">
+              <p style="margin:0 0 12px;">You&rsquo;re getting this email because you signed up to the toneScan waiting list.</p>
+              <!-- The address Kit fills in is Kit's own postal address, not ours, so the line says whose it is -->
+              <p style="margin:0 0 12px;">Sent on behalf of Tone Photographic Ltd by Kit, headquartered at {{ address }}.</p>
+              <p style="margin:0;">
+                <a href="{{ subscriber_preferences_url }}" style="color:#71717a; text-decoration:underline;">Email preferences</a>
+                &nbsp;&middot;&nbsp;
+                <a href="{{ unsubscribe_url }}" style="color:#71717a; text-decoration:underline;">Unsubscribe</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
