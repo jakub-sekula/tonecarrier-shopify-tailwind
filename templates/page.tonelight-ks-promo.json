@@ -539,7 +539,7 @@
         "tier_light": {
           "type": "tier",
           "settings": {
-            "image": "shopify://shop_images/toneLight_standalone.jpg",
+            "image": "shopify://shop_images/toneLight_thumb_ae27b4cf-7333-4add-81c8-60d37d7b5587.jpg",
             "name": "toneLight RGB Panel",
             "variant_note": "",
             "features": "3-shot RGB capture\nUSB-C power and control\nShutter release output\nBacklit physical controls\nInjection molded housing",
@@ -554,7 +554,7 @@
         "tier_upgrade": {
           "type": "tier",
           "settings": {
-            "image": "shopify://shop_images/toneLight_Upgrade_Kit.jpg",
+            "image": "shopify://shop_images/Light_conversion_kit_thumb_8a2687eb-5d62-406d-be78-1d341763b37c.jpg",
             "name": "toneLight + Motor Upgrade Kit",
             "variant_note": "",
             "features": "Pick 35 mm or 120 variant\nMotor, bracket & hardware included\nRetrofit for manual toneCarriers\nAutomate your existing setup\nEasy 5-minute assembly",
@@ -569,7 +569,7 @@
         "tier_full": {
           "type": "tier",
           "settings": {
-            "image": "shopify://shop_images/Full_kit.jpg",
+            "image": "shopify://shop_images/35_mm_kit_thumb_1cfe6a80-1b9d-406c-99fb-19cf190d298d.jpg",
             "name": "Full scanning kit",
             "variant_note": "",
             "features": "Pick 35 mm or 120 variant\nContains light, carrier & accessory kit\nInput & output trays, frame masks\nStackable light hood (chimney)",
