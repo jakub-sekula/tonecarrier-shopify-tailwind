@@ -36,7 +36,7 @@
         "badge_kickstarter": true,
         "heading": "Your camera, now a [rgb]pro film scanner[/rgb].",
         "subheading": "Introducing toneScan, a smart film scanning system with RGB light, automatic film transport, and integrated software that makes digitising negatives with a digital camera fast and effortless.",
-        "launch_at": "2026-10-07",
+        "launch_at": "2026-10-09",
         "cta_type": "kit",
         "cta_text": "Go to Kickstarter",
         "kit_button_text": "Notify me",
@@ -540,10 +540,10 @@
           "settings": {
             "image": "shopify://shop_images/toneLight_thumb_ae27b4cf-7333-4add-81c8-60d37d7b5587.jpg",
             "image_hover": "shopify://shop_images/toneLight_standalone.jpg",
-            "name": "toneLight RGB Panel",
+            "name": "toneLight only",
             "variant_note": "",
             "features": "3-shot RGB capture\nUSB-C power and control\nShutter release output\nBacklit physical controls\nInjection molded housing",
-            "description": "The one most of you want.",
+            "description": "",
             "price_super": "£425",
             "price_early": "£450",
             "price_regular": "£500",
@@ -564,7 +564,7 @@
             "price_early": "£520",
             "price_regular": "£575",
             "featured": false,
-            "featured_label": "Most popular"
+            "featured_label": "Best value"
           }
         },
         "tier_full": {
