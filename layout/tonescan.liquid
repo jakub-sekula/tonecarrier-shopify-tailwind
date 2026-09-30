@@ -2,6 +2,10 @@
 <html class="js" lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
+    {%- comment -%} Already on the list: a link with ?from=… (any value) swaps every Kit form on the
+       page for a thank-you note (ts-kit-form). Set here, before anything is drawn, so the form never
+       flashes up first. The note's button and the tidy-up of the address are further down. {%- endcomment -%}
+    <script>if (/[?&]from=/.test(location.search)) document.documentElement.classList.add('ts-known');</script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#0a0a0b">
@@ -301,6 +305,43 @@
         // a click on the backdrop (outside the card) closes it too
         dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
         dlg.showModal();
+      })();
+
+      /* Already on the list (html.ts-known, set in the head from ?from=…): the forms are swapped for
+         a thank-you note. When the value is an email address the note names it (set as text, never
+         as markup, so a crafted link cannot inject anything). Its button brings the forms back,
+         everywhere at once, and puts the cursor in the email box of the one that was pressed. The
+         parameter is taken out of the address straight away, so the address does not stay in the
+         address bar, get bookmarked or shared along with the link. */
+      (function () {
+        if (!document.documentElement.classList.contains('ts-known')) return;
+        var params = new URLSearchParams(window.location.search);
+        var from = (params.get('from') || '').trim();
+        if (/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(from) && from.length <= 254) {
+          document.querySelectorAll('.ts-kit__knowntext[data-email]').forEach(function (p) {
+            var parts = p.getAttribute('data-email').split('[email]');
+            if (parts.length < 2) return;
+            p.textContent = '';
+            var span = document.createElement('span');
+            span.appendChild(document.createTextNode(parts[0]));
+            var b = document.createElement('strong');
+            b.className = 'ts-kit__knownemail';
+            b.textContent = from;
+            span.appendChild(b);
+            span.appendChild(document.createTextNode(parts.slice(1).join('[email]')));
+            p.appendChild(span);
+          });
+        }
+        params.delete('from');
+        var q = params.toString();
+        history.replaceState(history.state, '', window.location.pathname + (q ? '?' + q : '') + window.location.hash);
+        document.addEventListener('click', function (e) {
+          var btn = e.target.closest('.ts-kit__knownbtn');
+          if (!btn) return;
+          document.documentElement.classList.remove('ts-known');
+          var input = btn.closest('.ts-kit').querySelector('.formkit-form input[type="email"]');
+          if (input) input.focus();
+        });
       })();
     </script>
 

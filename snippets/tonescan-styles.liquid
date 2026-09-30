@@ -1528,6 +1528,45 @@
   .ts-kit--header .formkit-form[data-uid] .formkit-alert-success { flex: none; width: auto; max-width: 300px; min-height: 0;
     height: 34px; gap: 8px; font-size: 13px; line-height: 17px; overflow: hidden; }
 
+  /* Already on the list (html.ts-known): each form gives way to a thank-you note in the same look as
+     Kit's success message (green text, a tick, no box), with a plain text button beside it that
+     brings the forms back. Same place and height as the form, so nothing around it moves. */
+  .ts-kit__known { display: none; }
+  .ts-known .ts-kit .formkit-form, .ts-known .ts-kit .ts-recaptcha { display: none; }
+  .ts-known .ts-kit__known { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; min-height: 50px; }
+  .ts-kit__knowntext { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 15px; font-weight: 500; line-height: 1.4; color: #34d399; }
+  .ts-kit__knowntext::before { content: ''; flex: 0 0 auto; width: 16px; height: 16px; background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3 3 7-7' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3 3 7-7' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain; }
+  .tonescan-body--light .ts-kit:not(.ts-dark *) .ts-kit__knowntext { color: #047857; }
+  .ts-kit__knowntext > span { min-width: 0; }
+  .ts-kit__knownemail { font-weight: 600; overflow-wrap: anywhere; }
+  /* its own colours: the forms sit on dark and light sections alike */
+  .ts-kit__knownbtn { padding: 0; font: inherit; font-size: 14px; font-weight: 500; color: #d4d4d8; background: none; border: 0;
+    text-decoration: underline; text-underline-offset: 3px; cursor: pointer; transition: color .15s ease; }
+  .ts-kit__knownbtn:hover { color: #fff; }
+  .tonescan-body--light .ts-kit:not(.ts-dark *) .ts-kit__knownbtn { color: #52525b; }
+  .tonescan-body--light .ts-kit:not(.ts-dark *) .ts-kit__knownbtn:hover { color: #0a0a0b; }
+  .ts-kit__knownbtn:focus-visible { outline: 2px solid var(--ts-accent, #3b82f6); outline-offset: 2px; }
+  /* centred where the form is centred: the closing section, and the hero on phones */
+  .tl-cta__kit .ts-kit__known { justify-content: center; }
+  @media (max-width: 989px) { .ts-hero-split .ts-kit__known { justify-content: center; text-align: center; } }
+  /* the header keeps its 34px: one compact line */
+  .ts-known .ts-kit--header .ts-kit__known { flex-wrap: nowrap; min-height: 0; height: 34px; gap: 12px; }
+  .ts-kit--header .ts-kit__knowntext { gap: 8px; max-width: 340px; font-size: 13px; white-space: nowrap; }
+  .ts-kit--header .ts-kit__knowntext > span { overflow: hidden; text-overflow: ellipsis; }
+  /* The header is its own colour scheme (dark on these pages) whatever the page around it is, so
+     the note, its button and Kit's own success message follow the header's colours rather than
+     the light page's. */
+  body.tonescan-body .header .ts-kit--header .ts-kit__knowntext,
+  body.tonescan-body .header .ts-kit--header .formkit-form[data-uid] .formkit-alert-success { color: #34d399; }
+  body.tonescan-body .header .ts-kit--header .ts-kit__knownbtn,
+  body.tonescan-body .header .ts-kit--header .ts-kit__knownbtn:hover { color: rgb(var(--color-foreground)); }
+  .ts-kit--header .ts-kit__knownbtn { font-size: 13px; white-space: nowrap; }
+  /* the phone bottom bar: centred in its 48px */
+  .ts-known .ts-kit--bar .ts-kit__known { justify-content: center; min-height: 48px; }
+  .ts-kit--bar .ts-kit__knowntext { font-size: 14px; }
+
   /* development panel swap boxes: hooks only, they must not change layout */
   .ts-cta-swap, .ts-cta-swap__on { display: contents; }
 

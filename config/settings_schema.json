@@ -1512,6 +1512,30 @@
       },
       {
         "type": "header",
+        "content": "Already on the list",
+        "info": "Links with ?from= on the end show this in place of every sign-up form, with a button that brings the form back. With an email address (?from=name@example.com) the message names it; any other value shows the plain message. The address is removed from the address bar on arrival, but page addresses still reach analytics and server logs."
+      },
+      {
+        "type": "text",
+        "id": "tonelight_known_text",
+        "label": "Message",
+        "default": "You're already on the list, thank you!"
+      },
+      {
+        "type": "text",
+        "id": "tonelight_known_text_email",
+        "label": "Message naming the address",
+        "default": "You're already on the list as [email], thank you!",
+        "info": "Used when the link carries an email address (?from=name@example.com); [email] is replaced with it."
+      },
+      {
+        "type": "text",
+        "id": "tonelight_known_button",
+        "label": "Button text",
+        "default": "Sign up again"
+      },
+      {
+        "type": "header",
         "content": "Landing page footer",
         "info": "The footer of the toneLight and toneScan landing pages."
       },
