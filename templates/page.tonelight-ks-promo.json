@@ -564,7 +564,7 @@
             "price_super": "£490",
             "price_early": "£520",
             "price_regular": "£575",
-            "featured": true,
+            "featured": false,
             "featured_label": "Best value"
           }
         },
