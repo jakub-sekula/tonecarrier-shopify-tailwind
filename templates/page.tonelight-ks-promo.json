@@ -109,6 +109,19 @@
         "bg": "white"
       }
     },
+    "campaign-video": {
+      "type": "tonescan-demo",
+      "settings": {
+        "eyebrow": "Live demo",
+        "heading": "See it in action",
+        "subheading": "",
+        "embed_url": "https://www.youtube.com/watch?v=UbmD-GcT4C0",
+        "video_url": "",
+        "autoplay": false,
+        "placeholder_note": "",
+        "bg": "offwhite"
+      }
+    },
     "reels": {
       "type": "tonelight-reels",
       "blocks": {
@@ -337,20 +350,6 @@
         "keep_dark": true,
         "heading": "Camera scanning done right.",
         "subheading": "Film digitisation used to be a chore, but with toneScan it's quick and easy. Now you can get lab quality scans from your existing scanning rig at a fraction of the cost of a lab scanner.",
-        "bg": "white"
-      }
-    },
-    "campaign-video": {
-      "type": "tonescan-demo",
-      "disabled": true,
-      "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "subheading": "",
-        "embed_url": "",
-        "video_url": "",
-        "autoplay": false,
-        "placeholder_note": "Campaign video",
         "bg": "white"
       }
     },
@@ -1632,9 +1631,9 @@
   "order": [
     "hero",
     "system",
+    "campaign-video",
     "reels",
     "overview",
-    "campaign-video",
     "features",
     "compare",
     "results",
