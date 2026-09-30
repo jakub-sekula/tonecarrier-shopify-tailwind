@@ -158,18 +158,18 @@
         "type": "holiday-banner",
         "settings": {
           "enabled": true,
-          "label": "Shipping delay",
-          "message": "4 weeks dispatch time - all physical orders will ship late October.",
-          "note": "",
+          "label": "Delay notice",
+          "message": "All physical orders will dispatch in late October.",
+          "note": "Digital downloads unaffected.",
           "icon": "triangle",
           "link_text": "Got questions? Contact us",
           "link_url": "",
           "color_bg": "#0c0b08",
           "color_text": "#e7e5e4",
-          "color_accent": "#fbbf24",
+          "color_accent": "#FB9324",
           "color_emphasis": "#ffffff",
           "dismissible": false,
-          "version": "2025-09-19"
+          "version": "2025-09-30"
         }
       }
     },
