@@ -206,6 +206,17 @@
         html { scroll-behavior: auto; }
         .tonescan-landing .reveal { opacity: 1 !important; translate: none !important; transition: none !important; }
       }
+      /* Notice bar: styled here in the head rather than in tonescan-styles, which loads further down
+         the body, so the bar never shows unstyled for a moment above the header. */
+      .ts-notice { background: #0a0a0b; border-bottom: 1px solid rgba(255,255,255,.08); }
+      .ts-notice__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 2px 10px;
+        max-width: 1400px; margin: 0 auto; padding: 9px 15px; font-size: 13px; line-height: 1.4; text-align: center; color: #a1a1aa; }
+      .ts-notice__link { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; color: #fff;
+        text-decoration: underline; text-decoration-color: rgba(255,255,255,.35); text-underline-offset: 3px; }
+      .ts-notice__link:hover { text-decoration-color: currentColor; }
+      .ts-notice__link svg { width: 12px; height: 12px; transition: translate .2s ease; }
+      .ts-notice__link:hover svg { translate: 2px 0; }
+      @media (min-width: 768px) { .ts-notice__inner { padding: 9px 50px; } }
     {%- endstyle -%}
   </head>
 
@@ -213,6 +224,18 @@
      sections over (see "light page" in tonescan-styles). toneScan stays dark. {%- endcomment -%}
   <body class="tonescan-body{% if ts_page == 'tonelight' %} tonescan-body--light{% if settings.tonelight_accent_eyebrows %} ts-accent-eyebrows{% endif %}{% endif %}">
     <a class="tw:sr-only" href="#MainContent">Skip to content</a>
+
+    {%- comment -%} Notice bar (theme settings, toneLight Kickstarter > Landing page notice bar): a thin
+       strip above the header that sends visitors to the shop, for anyone who wants a film carrier
+       today rather than at the end of the campaign. It scrolls away with the page. {%- endcomment -%}
+    {%- if settings.landing_notice_show and settings.landing_notice_link_text != blank -%}
+    <div class="ts-notice">
+      <p class="ts-notice__inner">
+        {%- if settings.landing_notice_text != blank -%}<span>{{ settings.landing_notice_text | escape }}</span>{%- endif -%}
+        <a class="ts-notice__link" href="{{ settings.landing_notice_url | default: '/collections/all-film-holders' }}">{{ settings.landing_notice_link_text | escape }}<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6h7M6.5 3l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </p>
+    </div>
+    {%- endif -%}
 
     {%- comment -%} No store notice (holiday-banner) on these pages: it is about shop orders, and the
        toneScan landing pages sell none. theme.liquid still renders it on every other page. {%- endcomment -%}

@@ -126,6 +126,12 @@
       gap: 12px;
     }
     #shopify-pc__banner .shopify-pc__banner__btns { justify-content: flex-start; flex-wrap: wrap; }
+    /* Shopify gives every button `flex: 0 1 50%` here, which with the 8px gap is just too wide for
+       two to a row, so each wrapped onto its own line. Accept and Decline share the row equally
+       instead (same size, so neither is the easier choice), with Manage preferences under them. */
+    #shopify-pc__banner .shopify-pc__banner__btns button.shopify-pc__banner__btn-accept,
+    #shopify-pc__banner .shopify-pc__banner__btns button.shopify-pc__banner__btn-decline { flex: 1 1 0; width: auto; min-width: 0; padding: 10px 12px; }
+    #shopify-pc__banner .shopify-pc__banner__btns button.shopify-pc__banner__btn-manage-prefs { flex: 1 0 100%; width: auto; text-align: center; }
   }
 
   /* The preferences dialog is a genuine modal and stays one. Only its backdrop is toned down so it

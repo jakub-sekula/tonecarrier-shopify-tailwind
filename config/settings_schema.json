@@ -1560,6 +1560,38 @@
       },
       {
         "type": "header",
+        "content": "Landing page notice bar"
+      },
+      {
+        "type": "paragraph",
+        "content": "A thin strip above the header on the toneScan and toneLight pages, pointing visitors to the shop."
+      },
+      {
+        "type": "checkbox",
+        "id": "landing_notice_show",
+        "label": "Show the notice bar",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "landing_notice_text",
+        "label": "Text",
+        "default": "Need a film carrier now?"
+      },
+      {
+        "type": "text",
+        "id": "landing_notice_link_text",
+        "label": "Link text",
+        "default": "Shop film carriers"
+      },
+      {
+        "type": "url",
+        "id": "landing_notice_url",
+        "label": "Link",
+        "info": "Leave blank for the film carriers collection."
+      },
+      {
+        "type": "header",
         "content": "Signup confirmed dialog",
         "info": "Shown on the toneLight and toneScan pages when the address has ?email=confirmed, the page Kit sends people to after they confirm their email."
       },

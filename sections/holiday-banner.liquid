@@ -36,10 +36,15 @@
     </span>
     {%- endunless -%}
 
+    {%- comment -%} One line at every width. When it does not fit, the script first drops the link,
+       then turns the message into a marquee: .holiday-banner__track gets a second, aria-hidden copy
+       of the segment and slides by exactly one copy's width, so the loop is seamless. {%- endcomment -%}
     <p class="holiday-banner__text">
       {%- if section.settings.label != blank -%}<span class="holiday-banner__label">{{ section.settings.label }}</span>{%- endif -%}
-      <span class="holiday-banner__msg">{{ section.settings.message }}</span>
-      {%- if section.settings.note != blank -%}<span class="holiday-banner__note">{{ section.settings.note }}</span>{%- endif -%}
+      <span class="holiday-banner__scroll"><span class="holiday-banner__track"><span class="holiday-banner__seg">
+        <span class="holiday-banner__msg">{{ section.settings.message }}</span>
+        {%- if section.settings.note != blank -%}<span class="holiday-banner__note">{{ section.settings.note }}</span>{%- endif -%}
+      </span></span></span>
     </p>
 
     <div class="holiday-banner__actions">
@@ -99,10 +104,12 @@
 
   .holiday-banner__text {
     display: flex;
-    flex-wrap: wrap;
+    flex: 1 1 auto;
+    min-width: 0;
     align-items: baseline;
-    gap: 4px 10px;
+    gap: 10px;
     margin: 0;
+    white-space: nowrap;
     font-size: 14px;
     line-height: 1.4;
     /* Normal/light weight so the message sits level with the header nav rather than reading heavier. */
@@ -117,7 +124,23 @@
     white-space: nowrap;
     color: var(--hb-accent);
   }
+  .holiday-banner__scroll { flex: 1 1 auto; min-width: 0; overflow: hidden; }
+  .holiday-banner__track { display: inline-flex; }
+  .holiday-banner__seg { display: inline-flex; align-items: baseline; gap: 10px; }
   .holiday-banner__msg strong { font-weight: 600; color: var(--hb-strong); }
+
+  /* Too long for one line: the link goes first (.is-tight), then the message scrolls (.is-marquee).
+     Each copy carries its own trailing gap so the seam between copies matches the gap in the text.
+     Hovering pauses it; with reduced motion it does not move and can be scrolled sideways instead. */
+  .holiday-banner.is-tight .holiday-banner__link { display: none; }
+  .holiday-banner.is-marquee .holiday-banner__scroll {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 28px), transparent);
+  }
+  .holiday-banner.is-marquee .holiday-banner__seg { padding-right: 56px; padding-left: 14px; }
+  .holiday-banner.is-marquee .holiday-banner__track { animation: hb-marquee var(--hb-dur, 20s) linear infinite; }
+  .holiday-banner.is-marquee:hover .holiday-banner__track { animation-play-state: paused; }
+  @keyframes hb-marquee { to { transform: translateX(-50%); } }
   .holiday-banner__note { color: var(--hb-muted); }
 
   .holiday-banner__actions {
@@ -161,20 +184,18 @@
   .holiday-banner__link:focus-visible,
   .holiday-banner__close:focus-visible { outline: 2px solid var(--hb-accent); outline-offset: 2px; }
 
-  /* On a narrow bar, drop the quieter trailing line and the call to action so the core notice
-     keeps the full width and stops wrapping into a tall block. The dismiss button stays. */
   @media (max-width: 749px) {
-    .holiday-banner__note { display: none; }
-    .holiday-banner__link { display: none; }
-    .holiday-banner__inner { align-items: flex-start; gap: 10px; }
-    .holiday-banner__icon { margin-top: 1px; }
-    .holiday-banner__close { margin-top: -2px; }
+    .holiday-banner__inner { gap: 10px; }
+    .holiday-banner__icon svg { width: 18px; height: 18px; }
   }
   @media (min-width: 750px) {
     .holiday-banner__inner { padding: 10px 50px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .holiday-banner__link svg { transition: none; }
+    .holiday-banner.is-marquee .holiday-banner__track { animation: none; }
+    .holiday-banner.is-marquee .holiday-banner__scroll { overflow-x: auto; scrollbar-width: none; }
+    .holiday-banner.is-marquee .holiday-banner__seg[aria-hidden] { display: none; }
   }
 </style>
 
@@ -184,6 +205,36 @@
      someone who dismissed the old one. Runs inline right after the markup so a previously-dismissed
      bar is hidden before it paints, rather than flashing in and out. */
   (function () {
+    /* One line at every width: measure with everything showing; if the text overflows, drop the
+       link and measure again; if it still overflows, run the message as a marquee at a steady
+       40px a second. Re-measured whenever the bar changes width and once the fonts have loaded. */
+    function fit(bar) {
+      var scroll = bar.querySelector('.holiday-banner__scroll');
+      var track = bar.querySelector('.holiday-banner__track');
+      if (!scroll || !track) return;
+      var seg = track.querySelector('.holiday-banner__seg');
+      var lastW = -1;
+      function measure() {
+        var w = bar.clientWidth;
+        if (w === lastW) return;
+        lastW = w;
+        bar.classList.remove('is-tight', 'is-marquee');
+        var dup = track.querySelector('.holiday-banner__seg[aria-hidden]');
+        if (dup) dup.remove();
+        if (scroll.scrollWidth <= scroll.clientWidth + 1) return;
+        bar.classList.add('is-tight');
+        if (scroll.scrollWidth <= scroll.clientWidth + 1) return;
+        bar.classList.add('is-marquee');
+        var copy = seg.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        track.appendChild(copy);
+        bar.style.setProperty('--hb-dur', Math.max(8, seg.offsetWidth / 40) + 's');
+      }
+      measure();
+      if (window.ResizeObserver) new ResizeObserver(function () { requestAnimationFrame(measure); }).observe(bar);
+      else window.addEventListener('resize', measure);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { lastW = -1; measure(); });
+    }
     var bars = document.querySelectorAll('.holiday-banner');
     for (var i = 0; i < bars.length; i++) {
       (function (bar) {
@@ -199,6 +250,7 @@
             try { localStorage.setItem(key, '1'); } catch (e) {}
           });
         }
+        fit(bar);
       })(bars[i]);
     }
   })();
@@ -237,7 +289,7 @@
       "type": "text",
       "id": "note",
       "label": "Quiet note",
-      "info": "A softer trailing line, hidden on phones. Leave blank for none."
+      "info": "A softer trailing line. Leave blank for none."
     },
     {
       "type": "select",

@@ -1,0 +1,243 @@
+{%- comment -%}
+  Homepage hero, split edge to edge between two panel blocks. Block order decides the roles: the
+  first panel is the primary one (60% of the width, the page's h1, the filled button), the second
+  the secondary (40%, an h2, an outlined button). One panel on its own takes the full width.
+  Each panel is a full-bleed photo or video with its words over the bottom on wide screens; on
+  phones and tablets the photo sits above the words instead. A promo video can sit underneath,
+  straddling the edge of the black.
+
+  Heading markup: bold words get the warm gradient, [rgb]…[/rgb] the red, green, blue one.
+{%- endcomment -%}
+{%- liquid
+  assign panels = section.blocks | where: 'type', 'panel'
+  assign has_video = false
+  if section.settings.promo_video != blank
+    assign has_video = true
+  endif
+-%}
+{%- style -%}
+  .hs-{{ section.id }} {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    margin-top: calc(-1 * var(--dynamic-header-height));
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+    color: #fff;
+  }
+{%- endstyle -%}
+
+<style>
+  /* Black behind everything, ending halfway down the promo video when it shows. */
+  .hs__bg { position: absolute; z-index: -1; inset: 0; background: #000; }
+  .hs--video .hs__bg { bottom: calc(min(100vw - 30px, 1200px) * 9 / 32); }
+
+  .hs__split { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; width: 100%; }
+  /* The photos run edge to edge, but the words keep to a centred 1680px area (a little wider than
+     the 1400px page width): the split falls at 60% of that area, and the first panel's words start
+     at its left edge. Below 1680px wide this is simply a 60/40 split. */
+  .hs__split { --hs-w: min(100%, 1680px); }
+  @media (min-width: 990px) {
+    .hs__split--two { grid-template-columns: calc((100% - var(--hs-w)) / 2 + var(--hs-w) * .6) minmax(0, 1fr); }
+    .hs__panel--primary .hs__body { padding-left: max(50px, calc((100vw - 1680px) / 2 + 50px)); }
+  }
+
+  /* Each panel starts under the see-through header, so its height counts the header in. */
+  .hs__panel { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end;
+    min-width: 0; overflow: hidden; background: #000; }
+  .hs__panel + .hs__panel { border-top: 1px solid rgba(255,255,255,.10); }
+  @media (min-width: 990px) {
+    .hs__panel { min-height: calc(var(--dynamic-header-height) + clamp(520px, 68vh, 740px)); }
+    .hs__panel + .hs__panel { border-top: 0; border-left: 1px solid rgba(255,255,255,.10); }
+  }
+
+  .hs__media { position: absolute; inset: 0; z-index: -1; }
+  .hs__media img, .hs__media video { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale 1.2s cubic-bezier(.2,.7,.2,1); }
+  @media (hover: hover) { .hs__panel:hover .hs__media img, .hs__panel:hover .hs__media video { scale: 1.03; } }
+  /* Blur that builds up towards the bottom, under the words, in two layers (light, then strong) so
+     the change from sharp to soft has no visible edge. Only where the words sit over the photo. */
+  .hs__blur { display: none; }
+  @media (min-width: 990px) {
+    .hs__blur { display: block; position: absolute; left: 0; right: 0; bottom: 0; pointer-events: none; }
+    .hs__blur--1 { height: 62%; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%); mask-image: linear-gradient(to bottom, transparent 0%, #000 45%); }
+    .hs__blur--2 { height: 46%; -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 55%); mask-image: linear-gradient(to bottom, transparent 0%, #000 55%); }
+  }
+  /* darken from the bottom up so the words always read, and a little from the top under the header */
+  .hs__media::after { content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.72) 30%, rgba(0,0,0,.15) 62%, rgba(0,0,0,.35) 100%); }
+
+  /* Phones and tablets: the photo above the words, the first panel clearing the header first. */
+  @media (max-width: 989px) {
+    .hs__panel { justify-content: flex-start; }
+    .hs__panel:first-child { padding-top: var(--dynamic-header-height); }
+    .hs__media { position: relative; inset: auto; z-index: 0; aspect-ratio: 16 / 10; }
+    .hs__media::after { background: linear-gradient(to bottom, transparent 55%, #000 100%); }
+  }
+
+  .hs__body { box-sizing: content-box; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 8px 20px 44px; text-align: left; }
+  @media (min-width: 750px) { .hs__body { padding: 8px 50px 56px; } }
+  /* max-widths below are the words alone: the box is content-box, so padding sits outside them */
+  @media (min-width: 990px) { .hs__body { padding-top: 48px; } }
+  .hs__panel--primary .hs__body { max-width: 640px; }
+  .hs__panel--secondary .hs__body { max-width: 480px; }
+
+  .hs__badge { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 9px; margin: 0; font-size: 13px; font-weight: 500; letter-spacing: .01em; color: #a1a1aa; }
+  .hs__badge svg { width: auto; height: 11px; }
+
+  .hs__heading { margin: 0; font-family: "Inter Tight", Inter, sans-serif; line-height: 1.1; letter-spacing: -.02em; color: #fff; text-wrap: balance; }
+  .hs__panel--primary .hs__heading { font-size: 3.6rem; font-weight: 500; }
+  .hs__panel--secondary .hs__heading { font-size: 3rem; font-weight: 600; }
+  @media (min-width: 750px) {
+    .hs__panel--primary .hs__heading { font-size: 5rem; }
+    .hs__panel--secondary .hs__heading { font-size: 3.6rem; }
+  }
+  @media (min-width: 1200px) { .hs__panel--primary .hs__heading { font-size: 6rem; } }
+  .hs__heading strong { background-image: linear-gradient(to right, #f59e0b, #f87171); -webkit-background-clip: text; background-clip: text;
+    color: transparent; -webkit-text-fill-color: transparent; font-weight: 600; }
+  .hs__rgb { font-weight: 600; background-image: linear-gradient(90deg, #ff5a5f 0%, #ff5a5f 14%, #34d67f 31%, #34d67f 40%, #4d8dff 57%, #4d8dff 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+
+  .hs__text { margin: 0; max-width: 560px; font-size: 1.5rem; line-height: 1.55; font-weight: 300; color: #e4e4e7; text-wrap: balance; }
+  .hs__panel--primary .hs__text { font-size: 1.6rem; }
+  .hs__text p { margin: 0; display: inline; }
+  .hs__text p:not(:last-child) { margin-right: .5ch; }
+
+  .hs__btn { display: inline-flex; align-items: center; gap: 10px; min-height: 50px; margin-top: 8px; padding: 0 26px;
+    font-family: "Inter Tight", Inter, sans-serif; font-size: 1.6rem; font-weight: 500; line-height: 1; text-decoration: none; border-radius: 0;
+    transition: background .15s ease, color .15s ease, border-color .15s ease; }
+  .hs__btn svg { width: 14px; height: 14px; transition: translate .2s ease; }
+  .hs__btn:hover svg { translate: 3px 0; }
+  /* primary: filled; secondary: outlined, so the primary stays the main call to action */
+  .hs__panel--primary .hs__btn { color: #fff; background: var(--tw-color-orange-500, #f97316); border: 1px solid transparent; }
+  .hs__panel--primary .hs__btn:hover { background: #ea580c; }
+  .hs__panel--secondary .hs__btn { color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.7); }
+  .hs__panel--secondary .hs__btn:hover { color: #0a0a0b; background: #fff; border-color: #fff; }
+
+  .hs__promo { position: relative; width: calc(100% - 30px); max-width: 1200px; aspect-ratio: 16 / 9; margin: 0 auto; overflow: hidden; border-radius: .5rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px, rgba(0, 0, 0, 0.3) 0 30px 60px -30px; }
+  .hs__promo video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  .hs__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #18181b; }
+  .hs__ph svg { width: 60%; height: 60%; opacity: .25; }
+</style>
+
+<section class="hs-{{ section.id }}{% if has_video %} hs--video{% endif %}">
+  <div class="hs__split{% if panels.size > 1 %} hs__split--two{% endif %}">
+    {%- for block in panels limit: 2 -%}
+      {%- liquid
+        assign b = block.settings
+        if forloop.first
+          assign role = 'primary'
+          assign htag = 'h1'
+        else
+          assign role = 'secondary'
+          assign htag = 'h2'
+        endif
+        assign fetch = 'auto'
+        assign load = 'lazy'
+        if forloop.index <= 2
+          assign load = 'eager'
+        endif
+        if forloop.first
+          assign fetch = 'high'
+        endif
+      -%}
+      <div class="hs__panel hs__panel--{{ role }}" {{ block.shopify_attributes }}>
+        <div class="hs__media">
+          {%- if b.video != blank -%}
+            {{ b.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1600x' }}
+          {%- elsif b.image != blank -%}
+            {%- assign fp = '' -%}{%- if b.image.presentation.focal_point != blank -%}{%- capture fp -%}object-position: {{ b.image.presentation.focal_point }}{%- endcapture -%}{%- endif -%}
+            {%- if forloop.first -%}{%- assign sizes = '(min-width: 990px) 60vw, 100vw' -%}{%- else -%}{%- assign sizes = '(min-width: 990px) 40vw, 100vw' -%}{%- endif -%}
+            {{ b.image | image_url: width: 1800 | image_tag: loading: load, fetchpriority: fetch, alt: '', sizes: sizes, style: fp }}
+          {%- else -%}
+            <div class="hs__ph">{{ 'image' | placeholder_svg_tag }}</div>
+          {%- endif -%}
+          <span class="hs__blur hs__blur--1" aria-hidden="true"></span><span class="hs__blur hs__blur--2" aria-hidden="true"></span>
+        </div>
+        <div class="hs__body">
+          {%- if b.badge != blank or b.kickstarter -%}
+          <p class="hs__badge">
+            {{- b.badge | escape -}}
+            {%- if b.kickstarter -%}{{ 'kickstarter-logo.svg' | inline_asset_content | replace: '<svg ', '<svg role="img" aria-label="Kickstarter" ' }}{%- endif -%}
+          </p>
+          {%- endif -%}
+          {%- if b.heading != blank -%}
+          <{{ htag }} class="hs__heading">{{ b.heading | replace: '[rgb]', '<span class="hs__rgb">' | replace: '[/rgb]', '</span>' }}</{{ htag }}>
+          {%- endif -%}
+          {%- if b.text != blank -%}<div class="hs__text">{{ b.text }}</div>{%- endif -%}
+          {%- if b.button_label != blank -%}
+          <a class="hs__btn" href="{{ b.button_link | default: '#' }}">{{ b.button_label | escape }}<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- if has_video -%}
+  <div class="hs__promo">
+    {%- assign poster = section.settings.promo_poster | image_url: width: 1600 -%}
+    {{ section.settings.promo_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: true, image_size: '1600x', poster: poster }}
+  </div>
+  {%- endif -%}
+
+  <div class="hs__bg" aria-hidden="true"></div>
+</section>
+
+<script>
+  /* The header sits over the hero, see-through while the page is at the very top. */
+  (function () {
+    var header = document.querySelector('sticky-header');
+    if (!header) return;
+    var bar = document.querySelector('.announcement-bar-section');
+    function size() {
+      document.documentElement.style.setProperty('--dynamic-header-height', (header.offsetHeight + (bar ? bar.offsetHeight : 0)) + 'px');
+    }
+    function tone() {
+      if (window.scrollY === 0) { header.style.backgroundColor = 'transparent'; header.style.border = 'none'; }
+      else { header.style.backgroundColor = ''; }
+    }
+    size(); tone();
+    window.addEventListener('resize', size);
+    window.addEventListener('scroll', tone, { passive: true });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hero split",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "max_blocks": 2,
+  "settings": [
+    { "type": "paragraph", "content": "Add one or two panels. The first is the primary one: wider, with the page's main heading and a filled button. The second is narrower, with an outlined button. Drag them to swap." },
+    { "type": "header", "content": "Promo video" },
+    { "type": "video", "id": "promo_video", "label": "Video", "info": "Optional. Plays under the panels, half on the black." },
+    { "type": "image_picker", "id": "promo_poster", "label": "Poster image" },
+    { "type": "range", "id": "margin_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom margin", "default": 60 }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "Panel",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo", "info": "Fills the panel, cropped to fit. Set a focal point to steer the crop." },
+        { "type": "video", "id": "video", "label": "Video", "info": "Optional. Plays muted and looping in place of the photo." },
+        { "type": "text", "id": "badge", "label": "Badge", "info": "Small line above the heading, e.g. Launching soon on" },
+        { "type": "checkbox", "id": "kickstarter", "label": "Kickstarter logo after the badge", "default": false },
+        { "type": "inline_richtext", "id": "heading", "label": "Heading", "info": "Bold words get the warm gradient. Wrap words in [rgb]…[/rgb] for the red, green, blue one.", "default": "Heading" },
+        { "type": "richtext", "id": "text", "label": "Text" },
+        { "type": "text", "id": "button_label", "label": "Button label" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Hero split", "blocks": [ { "type": "panel" }, { "type": "panel" } ] }
+  ]
+}
+{% endschema %}

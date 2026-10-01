@@ -1,7 +1,8 @@
 {%- comment -%}
   Customer reviews wall: review cards (stars, text, name, product, date) woven with customer
-  photos, in columns that drift slowly and loop without stopping, like the homepage's "Quality you can trust" but
-  in the landing-page style. Up to three headline stats sit above.
+  photos, in columns that drift slowly and loop without stopping. Up to three headline stats sit
+  above. Self-contained, so it works in both layouts: the toneScan landing pages and the main
+  site (theme.liquid), such as the homepage.
 
   Markup renders every tile once, in order, as a plain wall. The script then deals the tiles into
   as many columns as fit (1 / 2 / 3) and doubles each column so it can loop seamlessly. Without
@@ -121,13 +122,16 @@
 </div>
 
 {%- style -%}
-  .tl-rev { background: #f7f7f5; border-top: 1px solid rgba(0,0,0,.07); border-bottom: 1px solid rgba(0,0,0,.07); }
+  /* font-optical-sizing: none keeps Inter's text cut at every size. The main theme loads Inter as
+     a variable font with an optical size axis, which at heading sizes swaps in the tighter, heavier
+     looking Display cut; the landing pages load a build without it. This makes both match. */
+  .tl-rev { font-optical-sizing: none; background: #f7f7f5; border-top: 1px solid rgba(0,0,0,.07); border-bottom: 1px solid rgba(0,0,0,.07); }
   .tl-rev { padding-bottom: 80px; }
   @media (min-width: 768px) { .tl-rev { padding-bottom: 120px; } }
   .tl-rev__inner { max-width: 1400px; margin: 0 auto; padding: 80px 15px 0; }
   @media (min-width: 768px) { .tl-rev__inner { padding: 120px 50px 0; } }
   .tl-rev__head { max-width: 760px; margin: 0 auto; text-align: center; }
-  .tl-rev__heading { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1; letter-spacing: -.02em; }
+  .tl-rev__heading { margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1; letter-spacing: -.02em; color: #0a0a0b; }
   @media (min-width: 768px) { .tl-rev__heading { font-size: 46px; } }
   .tl-rev__sub { margin: 16px auto 0; max-width: 690px; text-wrap: balance; font-size: 16px; line-height: 1.6; color: #52525b; }
 
@@ -561,7 +565,7 @@
 
 {% schema %}
 {
-  "name": "toneLight reviews",
+  "name": "Reviews wall",
   "tag": "section",
   "class": "section",
   "settings": [
@@ -627,6 +631,6 @@
     }
   ],
   "max_blocks": 50,
-  "presets": [{ "name": "toneLight reviews" }]
+  "presets": [{ "name": "Reviews wall" }]
 }
 {% endschema %}

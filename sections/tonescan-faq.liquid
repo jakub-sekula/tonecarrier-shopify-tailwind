@@ -6,11 +6,13 @@
   pricing and feature sections that are edited in the theme editor. Now it is the same kind of
   section as the rest of the page.
 
-  Page-wide CSS and JS are rendered once by layout/tonescan.liquid, so this file carries markup
-  only and can be reordered or removed without taking them with it.
+  On the landing pages the page-wide CSS in layout/tonescan.liquid styles it (dark, or light on
+  the toneLight page). Anywhere else, such as the homepage, the <style> below gives it the same
+  light look, since tonescan-styles is not loaded there and Dawn's base.css would otherwise set
+  the heading.
 {%- endcomment -%}
 
-<div class="tonescan-landing ts-bg--{{ section.settings.bg | default: 'offwhite' }} tw:text-neutral-200">
+<div class="ts-faqsec tonescan-landing ts-bg--{{ section.settings.bg | default: 'offwhite' }} tw:text-neutral-200">
   <section id="faq" class="tw:scroll-mt-[84px] tw:border-t tw:border-white/10 tw:bg-white/[0.015]">
     {%- comment -%} Two columns (a setting) are two separate stacks, first half left and second half
        right, so opening a question only lengthens its own column and nothing hops across. {%- endcomment -%}
@@ -20,16 +22,16 @@
     {%- if section.settings.columns == '2' and faq_n > 3 -%}{%- assign faq_two = true -%}{%- endif -%}
     {%- assign faq_half = faq_n | plus: 1 | divided_by: 2 -%}
     <div class="{% if faq_two %}ts-faq--two {% endif %}tw:mx-auto tw:w-full tw:max-w-[760px] tw:px-[15px] tw:py-[80px] tw:md:px-[50px] tw:md:py-[120px]">
-      <h2 class="tw:mb-[40px] tw:text-center tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
+      <h2 class="ts-faqsec__h tw:mb-[40px] tw:text-center tw:text-[32px] tw:font-semibold tw:leading-[1.1] tw:tracking-[-0.02em] tw:text-white tw:md:text-[46px]">{{ section.settings.heading }}</h2>
       <div class="ts-faq__cols" data-reveal-group>
       <div class="ts-faq__col tw:flex tw:flex-col tw:gap-[12px]">
         {%- assign faq_i = 0 -%}
         {%- for block in section.blocks -%}
           {%- if block.settings.q != blank -%}
           {%- assign faq_i = faq_i | plus: 1 -%}
-        <details class="tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]"{% if faq_i == 1 and section.settings.open_first %} open{% endif %} {{ block.shopify_attributes }}>
+        <details class="ts-faqsec__q tw:group tw:rounded-[2px] tw:border tw:border-white/10 tw:bg-white/[0.02] tw:p-[20px]"{% if faq_i == 1 and section.settings.open_first %} open{% endif %} {{ block.shopify_attributes }}>
           <summary class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:text-[16px] tw:font-medium tw:text-white">{{ block.settings.q }}<span class="tw:ml-[16px] tw:text-neutral-500 tw:transition-transform tw:group-open:rotate-45" aria-hidden="true">+</span></summary>
-          <p class="tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">{{ block.settings.a | newline_to_br }}</p>
+          <p class="ts-faqsec__a tw:mt-[12px] tw:text-[15px] tw:leading-[1.6] tw:text-neutral-400">{{ block.settings.a | newline_to_br }}</p>
         </details>
           {%- if faq_two and faq_i == faq_half -%}
       </div>
@@ -43,9 +45,30 @@
   </section>
 </div>
 
+<style>
+  body:not(.tonescan-body) .ts-faqsec { font-optical-sizing: none; color: #27272a; background: #fff;
+    border-top: 1px solid rgba(0,0,0,.07); border-bottom: 1px solid rgba(0,0,0,.07); }
+  body:not(.tonescan-body) .ts-faqsec.ts-bg--offwhite { background: #f7f7f5; }
+  body:not(.tonescan-body) .ts-faqsec > section { border-top: 0; background: none; }
+  body:not(.tonescan-body) .ts-faqsec__h { margin: 0 0 40px; font-family: Inter, sans-serif; font-size: 32px; font-weight: 600;
+    line-height: 1.1; letter-spacing: -.02em; color: #0a0a0b; }
+  @media (min-width: 750px) { body:not(.tonescan-body) .ts-faqsec__h { font-size: 46px; } }
+  body:not(.tonescan-body) .ts-faqsec__q { background: #fff; border-color: rgba(0,0,0,.09); }
+  body:not(.tonescan-body) .ts-faqsec__q summary { color: #0a0a0b; }
+  body:not(.tonescan-body) .ts-faqsec__q summary span { color: #71717a; }
+  body:not(.tonescan-body) .ts-faqsec__a { margin: 12px 0 0; color: #52525b; }
+  /* the two-column layout, which the landing pages get from tonescan-styles */
+  body:not(.tonescan-body) .ts-faqsec .ts-faq__cols { display: flex; flex-direction: column; gap: 12px; }
+  @media (min-width: 1000px) {
+    body:not(.tonescan-body) .ts-faqsec .ts-faq--two { max-width: 1240px; }
+    body:not(.tonescan-body) .ts-faqsec .ts-faq--two .ts-faq__cols { flex-direction: row; align-items: flex-start; gap: 16px; }
+    body:not(.tonescan-body) .ts-faqsec .ts-faq--two .ts-faq__col { flex: 1 1 0; min-width: 0; }
+  }
+</style>
+
 {% schema %}
 {
-  "name": "toneScan FAQ",
+  "name": "FAQ",
   "tag": "section",
   "class": "section",
   "max_blocks": 30,
@@ -97,7 +120,7 @@
   ],
   "presets": [
     {
-      "name": "toneScan FAQ"
+      "name": "FAQ"
     }
   ]
 }

@@ -1,154 +1,77 @@
-{%- style -%}
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-    }
-  
-    .section-{{ section.id }} {}
+{%- comment -%}
+  Newsletter signup: the form on the left, the photo on the right fading into the page (on phones
+  the photo sits above). Styled to match the toneLight page's closing signup: square corners, a
+  light 1px field border, a solid button, generous spacing.
 
-  
-    .newsletter-container {
-        display: flex;
-        flex-direction: column-reverse;
-        width: 100%;
-        position: relative;
-    }
-
-
-    .newsletter-form-container {
-        width: 100%;
-        display: flex;
-        align-items: center;
-    }
-
-    .newsletter-image-container img {
-        width: 100%;
-    height: 100%;
-    object-fit: cover;
-    }
-
-    @media(max-width: 768px) {
-        .newsletter-image-container {
-        mask-image: unset!important;
-        --webkit-mask-image: unset!important;
-    }
-    }
-  
-  /* md (min-width: 768px) */
-  @media (min-width: 768px) {
-    .newsletter-container {
-        flex-direction: row;
-        gap: 6rem;
-    }
-
-    .newsletter-form-container {
-        padding: 0 6rem;
-    }
-
-  
-    .newsletter-image-container {
-        width: 100%;
-    }
-
-
-
-  }
-  
-  /* lg (min-width: 1024px) */
-  @media (min-width: 1024px) {}
-  
-  /* xl (min-width: 1280px) */
-  @media (min-width: 1280px) {
-  ;
-  /* Add your 'xl' styles here */
-  }
-  
-  /* 2xl (min-width: 1536px) */
-  @media (min-width: 1536px) {
-  ;
-  /* Add your '2xl' styles here */
-  }
-  
-  
-  {%- endstyle -%}
-  
-  <section
-    {% if section.settings.anchor != blank %}
-    id="{{section.settings.anchor}}"
-    {% endif %}
-    class="isolate section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
-  <div class="newsletter-container page-width">
-    <div class="newsletter-form-container">
-
-        {% for block in section.blocks %}
-            {% if block.type == '@app' %}
-          {% render block %}
-        {% endif %}
-        {% endfor %}
-
+  The form is a Shopify Forms app block, drawn inside its own shadow DOM. Its colours and alignment
+  are the block's own settings; the shapes come from CSS variables the app reads on its host
+  element (shopify-forms-embed), which are set below. A rule on the host from this page wins over
+  the app's own :host defaults, so these hold without touching the app.
+{%- endcomment -%}
+<div class="nl-{{ section.id }} nl nl--{{ section.settings.bg | default: 'white' }}">
+  <div class="nl__inner{% if section.settings.background_image != blank %} nl__inner--image{% endif %}">
+    <div class="nl__form">
+      {%- if section.settings.heading != blank -%}<h2 class="nl__heading">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="nl__text">{{ section.settings.text | escape | newline_to_br }}</p>{%- endif -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}{% render block %}{%- endif -%}
+      {%- endfor -%}
     </div>
-    <div class="newsletter-image-container tc-fade-to-left {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-        
-              {% if settings.animations_reveal_on_scroll %}
-              data-cascade
-              style="--animation-order: 15"
-              {% endif %}>
-        {{section.settings.background_image |  image_url: width: 600 |  image_tag}}
+    {%- if section.settings.background_image != blank -%}
+    <div class="nl__image tc-fade-to-left">
+      {{ section.settings.background_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: '', sizes: '(min-width: 990px) 50vw, 100vw' }}
     </div>
-
+    {%- endif -%}
   </div>
+</div>
 
-  </section>
+<style>
+  .nl { font-optical-sizing: none; color: #27272a; background: #fff; }
+  .nl--offwhite { background: #f7f7f5; }
+  .nl__inner { display: flex; flex-direction: column-reverse; gap: 32px; max-width: 1400px; margin: 0 auto; padding: 72px 15px; }
+  @media (min-width: 750px) { .nl__inner { padding: 112px 50px; } }
+  @media (min-width: 990px) {
+    .nl__inner--image { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 64px; }
+  }
+  .nl__form { width: 100%; max-width: 520px; }
+  .nl__inner:not(.nl__inner--image) .nl__form { margin: 0 auto; }
+  .nl__image img { display: block; width: 100%; height: auto; }
+  @media (max-width: 989px) { .nl__image.tc-fade-to-left { -webkit-mask-image: none; mask-image: none; } }
 
+  .nl__heading { margin: 0 0 12px; font-family: Inter, sans-serif; font-size: 34px; font-weight: 600; line-height: 1.08; letter-spacing: -.02em; color: #0a0a0b; }
+  @media (min-width: 750px) { .nl__heading { font-size: 44px; } }
+  .nl__text { margin: 0 0 24px; font-size: 17px; line-height: 1.5; color: #52525b; }
 
-  
-  {% schema %}
-    {
-      "name": "Newsletter signup",
-      "tag": "section",
-      "class": "section",
-      "disabled_on": {
-        "groups": ["header", "footer"]
-      },
-      "settings": [
-        {"type": "image_picker",
-    "id": "background_image",
-"label": "Background image"},
+  /* the app form, through the variables it reads on its host */
+  .nl shopify-forms-embed {
+    --forms-body-font: normal 300 16px Inter, sans-serif;
+    --forms-base-font-size: 16px;
+    --forms-base-font-line-height: 1.5;
+    --form-field-border: 0 0 0 1px rgba(0,0,0,.15);
+    --form-field-border-focused: 0 0 0 2px #0a0a0b;
+    --form-field-border-radius: 0px;
+    --button-border-radius: 0px;
+    --forms-accent-color: #0a0a0b;
+  }
+</style>
+
+{% schema %}
 {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
-    },
-        {
-          "type": "range",
-          "id": "padding_top",
-          "min": 0,
-          "max": 100,
-          "step": 4,
-          "unit": "px",
-          "label": "t:sections.all.padding.padding_top",
-          "default": 36
-        },
-        {
-          "type": "range",
-          "id": "padding_bottom",
-          "min": 0,
-          "max": 100,
-          "step": 4,
-          "unit": "px",
-          "label": "t:sections.all.padding.padding_bottom",
-          "default": 36
-        }
-      ],
-      "blocks": [
-        {"type": "@app"}
-      ],
-      "presets": [
-        {
-          "name": "Newsletter signup",
-          "settings": {}
-        }
-      ]
-    }
-  {% endschema %}
+  "name": "Newsletter signup",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "image_picker", "id": "background_image", "label": "Image", "info": "Shown beside the form, fading into the page. Above it on phones." },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Optional large heading above the form. The form's own heading (set in Shopify Forms) stays at the app's size, so for a big heading put it here and clear it in the form." },
+    { "type": "textarea", "id": "text", "label": "Text" },
+    { "type": "select", "id": "bg", "label": "Background", "options": [ { "value": "white", "label": "White" }, { "value": "offwhite", "label": "Off-white" } ], "default": "white" }
+  ],
+  "blocks": [
+    { "type": "@app" }
+  ],
+  "presets": [
+    { "name": "Newsletter signup" }
+  ]
+}
+{% endschema %}
