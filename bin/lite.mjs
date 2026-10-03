@@ -86,8 +86,11 @@ try {
     console.log(`      ${keep.join(', ')}`);
   } else if (cmd === 'check') {
     const { text, keep, order } = build();
+    // Compare content, not comments: Shopify adds its own "auto-generated" comment block above
+    // ours whenever the theme editor or the dev server touches the file, which changes nothing.
+    const content = (t) => JSON.stringify(JSON.parse(t.replace(/\/\*[\s\S]*?\*\//g, '')));
     const onDisk = readFileSync(LITE, 'utf8');
-    if (onDisk !== text) {
+    if (content(onDisk) !== content(text)) {
       console.error('lite: templates/page.tonescan-lite.json is out of date.');
       console.error('      Something was edited on lite directly, or the full template changed.');
       console.error('      Run `npm run lite` and commit the result.');
