@@ -2395,7 +2395,8 @@ function tsInit() {
      key/confirm logic). Do NOT change the fetch URL, the { email } body, or the status handling. */
   (function () {
     var TS_SIGNUP_URL = "https://tonescan-beta-signup.little-pond-7bea.workers.dev/signup";
-    var forms = document.querySelectorAll('.tonescan-landing .ts-signup');
+    // every beta form on the page: hero, closing section, and the header's and bottom bar's copies
+    var forms = document.querySelectorAll('.ts-signup');
     if (!forms.length) return;
     forms.forEach(function (root) {
       var form = root.querySelector('.ts-form');

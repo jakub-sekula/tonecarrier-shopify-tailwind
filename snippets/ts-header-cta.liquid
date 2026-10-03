@@ -3,13 +3,16 @@
     place: blank   the site header (sections/header.liquid, landing templates only), 990px and up
     place: 'bar'   the fixed bar at the bottom of the screen below 990px (layout/tonescan.liquid)
   Both stay out of sight while the hero, which has its own, is on screen; the bar also steps
-  aside while the closing section's form (#join) is on screen (script in layout/tonescan.liquid).
+  aside while the closing section's form (#join, or #signup on toneScan) is on screen (script in
+  layout/tonescan.liquid).
 
   toneLight: the Kickstarter button, or the Kit waitlist form, per Theme settings > toneLight
   Kickstarter > Call to action. In the header the form is compact, and below 1200px a button to
   the form in the closing section (#join) stands in, since the bar has no room for a form. The
   other variant rides along in an inert <template> for the development panel's preview switch.
-  toneScan: "Become a tester", to the signup section.
+  toneScan: the beta signup form, the same form and script as the hero's (tonescan-scripts wires
+  every .ts-signup). Compact in the header from 1200px; between 990 and 1199px a button to the
+  closing signup section (#signup) stands in; full width in the bar.
 {%- endcomment -%}
 {%- assign in_bar = false -%}
 {%- if place == 'bar' -%}{%- assign in_bar = true -%}{%- endif -%}
@@ -26,7 +29,20 @@
     {%- if tl_cta == 'kit' -%}<template data-cta-alt="link">{{ tl_link }}</template>{%- else -%}<template data-cta-alt="kit">{{ tl_kit }}</template>{%- endif -%}
   </div>
 {%- elsif template.suffix contains 'tonescan' -%}
+  {%- capture ts_form -%}
+    <div class="ts-signup ts-signup--{% if in_bar %}bar{% else %}header{% endif %}">
+      <form class="ts-form" novalidate>
+        <input class="ts-email" type="email" name="email" required placeholder="you@example.com" autocomplete="email" aria-label="Email address">
+        <button class="ts-btn" type="submit">Join the beta</button>
+      </form>
+      <p class="ts-msg" role="status" aria-live="polite"></p>
+    </div>
+  {%- endcapture -%}
   <div class="{% if in_bar %}ts-cta-bar__inner{% else %}ts-head-cta{% endif %}">
-    <a href="#signup" class="ts-cta ts-cta--accent{% unless in_bar %} ts-cta--sm{% endunless %}">Become a tester</a>
+    {%- if in_bar -%}
+      {{ ts_form }}
+    {%- else -%}
+      <div class="ts-head-kit">{{ ts_form }}</div><a href="#signup" class="ts-cta ts-cta--accent ts-cta--sm ts-head-kit__btn">Join the beta</a>
+    {%- endif -%}
   </div>
 {%- endif -%}

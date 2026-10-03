@@ -377,7 +377,7 @@
       {%- comment -%} The landing pages' call to action instead of the shop icons. On the toneLight
          page, phones also get a small chat button here: the page hides Shopify Inbox's floating
          "Message us" launcher, and this opens the same chat (tonescan-scripts: tsHeaderChat). {%- endcomment -%}
-      {%- if template.suffix == 'tonelight-ks-promo' -%}
+      {%- if template.suffix == 'tonelight-ks-promo' or template.suffix == 'tonescan' or template.suffix == 'tonescan-lite' -%}
       <a href="/pages/contact" class="ts-head-chat" data-ts-chat aria-label="Chat with us"><span>Chat</span>{%- render 'tc-lucide-icon', icon_name: 'lucide-message-circle' -%}</a>
       {%- endif -%}
       {%- render 'ts-header-cta' -%}

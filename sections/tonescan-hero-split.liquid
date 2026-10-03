@@ -163,6 +163,18 @@
             {%- endif -%}
           </div>
           {%- endcapture -%}
+          {%- comment -%} Platforms (or the line of text), just above the call to action. {%- endcomment -%}
+          {%- if section.settings.show_os == false -%}
+          {%- if section.settings.sub_cta_text != blank -%}<p class="ts-hero-note">{{ section.settings.sub_cta_text }}</p>{%- endif -%}
+          {%- else -%}
+          <p class="ts-os-row">
+            <span class="ts-os">
+              <svg class="ts-os__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+              <svg class="ts-os__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+              {{ section.settings.sub_cta_text }}
+            </span>
+          </p>
+          {%- endif -%}
           {%- assign ts_cta = section.settings.cta_type | default: 'form' -%}
           <div class="ts-hero-cta ts-cta-swap" data-cta="{{ ts_cta }}">
           <div class="ts-cta-swap__on">
@@ -178,6 +190,8 @@
               <button class="ts-btn" type="submit">{{ section.settings.cta_text }}</button>
             </form>
             <p class="ts-msg" role="status" aria-live="polite"></p>
+            {%- comment -%} Small print: signing up for the beta also joins the mailing list. {%- endcomment -%}
+            {%- if section.settings.form_notice != blank -%}<p class="ts-form-note">{{ section.settings.form_notice | escape }}</p>{%- endif -%}
           </div>
           {%- endif -%}
           </div>
@@ -186,17 +200,6 @@
             {%- unless ts_cta == 'kit' -%}<template data-cta-alt="kit">{{ ts_cta_kit }}</template>{%- endunless -%}
           {%- endif -%}
           </div>
-          {%- if section.settings.show_os == false -%}
-          {%- if section.settings.sub_cta_text != blank -%}<p class="ts-hero-note">{{ section.settings.sub_cta_text }}</p>{%- endif -%}
-          {%- else -%}
-          <p class="ts-os-row">
-            <span class="ts-os">
-              <svg class="ts-os__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
-              <svg class="ts-os__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
-              {{ section.settings.sub_cta_text }}
-            </span>
-          </p>
-          {%- endif -%}
         </div>
 
         {%- if ts_has_media -%}
@@ -411,6 +414,13 @@
       "id": "cta_text",
       "label": "Button text",
       "default": "Join the beta"
+    },
+    {
+      "type": "text",
+      "id": "form_notice",
+      "label": "Small print under the beta form",
+      "info": "Shown only with the beta signup form. Leave blank to hide.",
+      "default": "By joining the beta, you agree to receive email updates from us."
     },
     {
       "type": "text",

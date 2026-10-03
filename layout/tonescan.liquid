@@ -379,11 +379,13 @@
          things keep their space in the header, so the menu never shifts. */
       (function () {
         var hero = document.querySelector('.ts-hero-split');
-        var join = document.getElementById('join');
+        // the closing section with its own form: #join on the toneLight page, #signup on toneScan Studio
+        var join = document.getElementById('join') || document.getElementById('signup');
         var heroOn = null, barOn = null;
         function check() {
           var bar = document.querySelector('.section-header');
-          var barBottom = bar ? bar.getBoundingClientRect().bottom : 0;
+          // a header scrolled out of view counts as the top of the screen
+          var barBottom = bar ? Math.max(0, bar.getBoundingClientRect().bottom) : 0;
           var nextHero = !!hero && hero.getBoundingClientRect().bottom > barBottom;
           var j = join ? join.getBoundingClientRect() : null;
           var joinInView = !!(j && j.top < window.innerHeight && j.bottom > barBottom);

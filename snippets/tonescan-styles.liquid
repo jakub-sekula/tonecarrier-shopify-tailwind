@@ -398,12 +398,13 @@
   .ts-bullets li::before { content: ''; position: absolute; left: 0; top: 9px; width: 7px; height: 7px; border-radius: 9999px; background: var(--ts-accent); }
 
   /* ---- platform badges (Apple / Windows marks) ---- */
-  /* .ts-hero-text is a flex column with gap:26px, and .ts-msg reserves a status line under
-     the form, so this sat ~60px below the CTA. Trim both to land on roughly 1rem. */
-  .ts-os-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px; margin: -16px 0 0; }
+  /* Sits just above the hero's call to action. .ts-hero-text is a flex column with gap:26px, so
+     the margins pull it 8px towards the text above and 12px towards the form below. */
+  .ts-os-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px; margin: -8px 0 -12px; }
   .ts-hero-text .ts-msg { margin: 6px 0 0; min-height: 0; }
   .ts-os { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; color: #a3a3a3; }
   .ts-os__icon { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+  .ts-os-row--signup { margin: 24px 0 0; }
   /* it is the only supporting line on a phone, so it can carry more weight there */
   @media (min-width: 750px) {
     .ts-os { font-size: 13px; gap: 7px; }
@@ -1471,7 +1472,7 @@
   .ts-cta--sm { height: auto; padding: 9px 16px; font-size: 14px; }
   /* once the pair wraps onto two lines, two buttons of different widths look accidental */
   @media (max-width: 520px) { .ts-hero-ctas .ts-cta { width: 100%; max-width: 340px; } }
-  .ts-hero-note { margin: -10px 0 0; font-size: 14px; line-height: 1.5; color: #8a8a8a; }
+  .ts-hero-note { margin: -8px 0 -12px; font-size: 14px; line-height: 1.5; color: #8a8a8a; }
 
   /* Kickstarter logo inside the status pill, after its text ("Coming soon on" + logo). The logo
      keeps its own green, so the pill itself goes neutral rather than blue. */
@@ -1644,7 +1645,10 @@
     .ts-hero-split .ts-kit .formkit-form [data-element="fields"] { gap: 8px; }
     .ts-hero-split .ts-kit .formkit-form input, .ts-hero-split .ts-kit .formkit-submit { height: 48px; }
     .ts-hero-split .ts-hero-ctas { margin-top: 26px; }
-    .ts-hero-split .ts-os-row, .ts-hero-split .ts-hero-note { margin-top: 18px; }
+    .ts-hero-split .ts-os-row, .ts-hero-split .ts-hero-note { margin: 20px 0 0; }
+    /* the form follows the platforms line closely */
+    .ts-hero-split .ts-hero-text > .ts-os-row + .ts-hero-cta .ts-cta-swap__on > *,
+    .ts-hero-split .ts-hero-text > .ts-hero-note + .ts-hero-cta .ts-cta-swap__on > * { margin-top: 14px; }
 
   }
 
@@ -2572,7 +2576,7 @@
      so reCAPTCHA keeps working; its terms then require the protection notice in the user flow,
      which ts-kit-form prints under the hero and closing forms (notice: true). */
   /* Hidden unless open: the header's chat button (phones) opens it, and closing it hides it again. */
-  body.tonescan-body--light shopify-chat:not([open]), body.tonescan-body--light #shopify-chat:not([open]) { display: none !important; }
+  body.tonescan-body shopify-chat:not([open]), body.tonescan-body #shopify-chat:not([open]) { display: none !important; }
   .ts-head-chat { display: none; }
   @media (max-width: 989px) {
     /* a bare link, like the menu button opposite: icon and label, no box */
@@ -2589,6 +2593,9 @@
   .ts-recaptcha { margin: 10px 0 0; font-size: 11px; line-height: 1.5; color: #71717a; }
   .ts-dark .ts-recaptcha, .ts-hero-split--dark .ts-recaptcha { color: #8f8f96; }
   .ts-recaptcha a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  /* small print under the hero's beta signup form (it also joins the mailing list) */
+  .ts-form-note { margin: 10px 0 0; font-size: 12px; line-height: 1.5; color: #8f8f96; }
+  .tonescan-body--light .ts-form-note:not(.ts-dark *) { color: #71717a; }
 
   /* ---- full screen button on videos (tonescan-scripts: tsVideoExpand) ----------------------------- */
   .ts-vfull { position: absolute; top: 10px; right: 10px; z-index: 4; display: flex; align-items: center; justify-content: center;
@@ -2716,4 +2723,21 @@
   }
   .ts-head-cta .ts-cta-swap__on { display: flex; align-items: center; }
   .ts-head-cta .ts-cta--sm { white-space: nowrap; }
+
+  /* ---- toneScan Studio: the beta form in the header and the bottom bar (snippets/ts-header-cta) ----
+     Header: one row, header-sized, like the toneLight page's Kit form; the reply floats under it
+     instead of pushing the header open. Bar: the email box takes the width, the button its own. */
+  .ts-signup--header { position: relative; width: auto; max-width: none; }
+  .ts-signup--header .ts-form { flex-wrap: nowrap; gap: 6px; }
+  .ts-signup--header .ts-email { flex: none; width: 210px; min-width: 0; height: 34px; padding: 0 12px; font-size: 13px; }
+  .ts-signup--header .ts-btn { height: 34px; padding: 0 14px; font-size: 13px; }
+  .ts-signup--header .ts-msg, .ts-signup--bar .ts-msg { position: absolute; z-index: 2; min-height: 0; margin: 0; padding: 10px 12px; font-size: 13px;
+    line-height: 1.4; color: #e4e4e7; background: #18181b; border: 1px solid rgba(255,255,255,.12); border-radius: 4px; }
+  .ts-signup--header .ts-msg { top: calc(100% + 8px); right: 0; width: max-content; max-width: 320px; }
+  .ts-signup--header .ts-msg:empty, .ts-signup--bar .ts-msg:empty { display: none; }
+  .ts-signup--bar { position: static; width: 100%; max-width: none; }
+  .ts-signup--bar .ts-form { flex-wrap: nowrap; gap: 8px; }
+  .ts-signup--bar .ts-email { min-width: 0; height: 48px; padding: 0 14px; font-size: 15px; }
+  .ts-signup--bar .ts-form .ts-btn { flex: 0 0 auto; width: auto; height: 48px; padding: 0 18px; font-size: 15px; }
+  .ts-signup--bar .ts-msg { left: 16px; right: 16px; bottom: calc(100% + 36px); }
 {%- endstyle -%}
