@@ -171,15 +171,14 @@
    EXACT template names, not "contains": only templates on layout/tonescan.liquid load the scripts
    and styles this mode relies on (page.tonelight-ks-promo-backup, for one, is on theme.liquid).
    A new landing template on the tonescan layout has to be added here. {%- endcomment -%}
+{%- capture ts_links_raw -%}{% render 'ts-landing-links' %}{%- endcapture -%}
 {%- liquid
   assign ts_landing = false
   assign ts_links = blank
-  if template.suffix == 'tonelight-ks-promo'
+  assign ts_links_raw = ts_links_raw | strip
+  if ts_links_raw != blank
     assign ts_landing = true
-    assign ts_links = 'The system|#how-it-works,Features|#features,Why RGB|#compare,Rewards|#rewards,Timeline|#timeline,About us|#team,Specs|#specs,FAQ|#faq' | split: ','
-  elsif template.suffix == 'tonescan' or template.suffix == 'tonescan-lite'
-    assign ts_landing = true
-    assign ts_links = 'Features|#features,How it works|#how-it-works,Pricing|#pricing,FAQ|#faq' | split: ','
+    assign ts_links = ts_links_raw | split: ','
   endif
 -%}
 {%- liquid

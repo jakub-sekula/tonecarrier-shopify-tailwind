@@ -217,12 +217,27 @@
       .ts-notice__link svg { width: 12px; height: 12px; transition: translate .2s ease; }
       .ts-notice__link:hover svg { translate: 2px 0; }
       @media (min-width: 768px) { .ts-notice__inner { padding: 9px 50px; } }
+      /* Header links whose section is not on this page (hidden in the editor, or cut from the lite
+         page) are hidden from the first paint. The page's sections are already rendered into
+         content_for_layout when this runs, so the check needs no script; tonescan-scripts still
+         removes the same links afterwards. The list is snippets/ts-landing-links, as in the header. */
+      {%- capture ts_nav_raw -%}{% render 'ts-landing-links' %}{%- endcapture -%}
+      {%- assign ts_nav = ts_nav_raw | strip | split: ',' -%}
+      {%- for pair in ts_nav -%}
+        {%- assign ts_nav_id = pair | split: '#' | last | strip -%}
+        {%- capture ts_nav_marker -%}id="{{ ts_nav_id }}"{%- endcapture -%}
+        {%- unless content_for_layout contains ts_nav_marker -%}
+      .tc-mega__item:has(> .tc-mega__link[href="#{{ ts_nav_id }}"]), .tc-drawer__group:has(.tc-drawer__flat[href="#{{ ts_nav_id }}"]) { display: none; }
+        {%- endunless -%}
+      {%- endfor %}
     {%- endstyle -%}
   </head>
 
   {%- comment -%} The toneLight page is light throughout: the body class switches the shared
      sections over (see "light page" in tonescan-styles). toneScan stays dark. {%- endcomment -%}
-  <body class="tonescan-body{% if ts_page == 'tonelight' %} tonescan-body--light{% if settings.tonelight_accent_eyebrows %} ts-accent-eyebrows{% endif %}{% endif %}">
+  {%- comment -%} ts-hero-cta-on starts on when the page has a hero: the header's call to action is
+     hidden from the first paint instead of showing until the script below takes over. {%- endcomment -%}
+  <body class="tonescan-body{% if ts_page == 'tonelight' %} tonescan-body--light{% if settings.tonelight_accent_eyebrows %} ts-accent-eyebrows{% endif %}{% endif %}{% if content_for_layout contains 'ts-hero-split' %} ts-hero-cta-on{% endif %}">
     <a class="tw:sr-only" href="#MainContent">Skip to content</a>
 
     {%- comment -%} Notice bar (theme settings, toneLight Kickstarter > Landing page notice bar): a thin
@@ -382,11 +397,16 @@
         // the closing section with its own form: #join on the toneLight page, #signup on toneScan Studio
         var join = document.getElementById('join') || document.getElementById('signup');
         var heroOn = null, barOn = null;
+        // Nothing is shown until the page has settled. A reload jumps around before it rests: to a
+        // #section in the address first, then back to the restored scroll position, and each jump
+        // briefly read as "the hero has gone" and flashed the header form or the bar.
+        var settled = false;
+        function settle() { if (!settled) { settled = true; check(); } }
         function check() {
           var bar = document.querySelector('.section-header');
           // a header scrolled out of view counts as the top of the screen
           var barBottom = bar ? Math.max(0, bar.getBoundingClientRect().bottom) : 0;
-          var nextHero = !!hero && hero.getBoundingClientRect().bottom > barBottom;
+          var nextHero = !settled || (!!hero && hero.getBoundingClientRect().bottom > barBottom);
           var j = join ? join.getBoundingClientRect() : null;
           var joinInView = !!(j && j.top < window.innerHeight && j.bottom > barBottom);
           var nextBar = !nextHero && !joinInView;
@@ -396,6 +416,8 @@
         window.addEventListener('scroll', check, { passive: true });
         window.addEventListener('resize', check, { passive: true });
         check();
+        if (document.readyState === 'complete') setTimeout(settle, 150);
+        else window.addEventListener('load', function () { setTimeout(settle, 150); });
 
         // The bar's fold tab: body.ts-bar-collapsed slides the bar down behind its tab. The folded
         // form is made inert so it cannot be tabbed into. Remembered for the visit (sessionStorage;

@@ -760,9 +760,33 @@
             "q": "Is this a Lightroom plugin?",
             "a": "No, it is a complete application. Cataloguing, conversion, colour, calibration and export all happen in one place, so there is no host application to keep a licence for and no round trip between programs to finish a roll."
           }
+        },
+        "qa_intro_1": {
+          "type": "qa",
+          "settings": {
+            "q": "What is toneScan Studio?",
+            "a": "Desktop software for scanning film with a digital camera. It takes the raw files from your camera and turns them into finished photographs, from bringing in a whole roll to exporting the final files. It runs on macOS and Windows."
+          }
+        },
+        "qa_intro_2": {
+          "type": "qa",
+          "settings": {
+            "q": "What is it used for?",
+            "a": "Converting camera scans of film. Point it at a folder of raw captures and it groups them into rolls, converts colour negative, black and white negative and slide film, and exports TIFF, JPG or DNG files."
+          }
+        },
+        "qa_intro_3": {
+          "type": "qa",
+          "settings": {
+            "q": "What makes it different?",
+            "a": "The conversion works from how film and paper actually behave, not from a look someone drew by eye, so the colour is right before you touch a slider. It can merge red, green and blue captures the way lab scanners read colour, and it applies one consistent conversion across a whole roll, so you only step in for the frames that need it."
+          }
         }
       },
       "block_order": [
+        "qa_intro_1",
+        "qa_intro_2",
+        "qa_intro_3",
         "q1",
         "q2",
         "q3",
@@ -778,7 +802,9 @@
         "q13"
       ],
       "settings": {
-        "heading": "Frequently asked questions"
+        "heading": "Frequently asked questions",
+        "columns": "2",
+        "open_first": true
       }
     },
     "signup": {

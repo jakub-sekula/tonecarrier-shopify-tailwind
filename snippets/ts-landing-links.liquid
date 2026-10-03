@@ -1,0 +1,12 @@
+{%- comment -%}
+  The header menu for the toneScan landing pages: "Label|#section-id" pairs, comma separated,
+  printed for the current template (nothing on other templates). Read by sections/header.liquid
+  to build the menu, and by layout/tonescan.liquid to hide, from the first paint, links whose
+  section is not on the page (hidden in the editor, or cut from the lite page).
+  Usage: {%- capture links -%}{% render 'ts-landing-links' %}{%- endcapture -%}
+{%- endcomment -%}
+{%- if template.suffix == 'tonelight-ks-promo' -%}
+The system|#how-it-works,Features|#features,Why RGB|#compare,Rewards|#rewards,Timeline|#timeline,About us|#team,Specs|#specs,FAQ|#faq
+{%- elsif template.suffix == 'tonescan' or template.suffix == 'tonescan-lite' -%}
+Features|#features,How it works|#how-it-works,Pricing|#pricing,FAQ|#faq
+{%- endif -%}
