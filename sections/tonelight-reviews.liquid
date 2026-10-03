@@ -102,10 +102,14 @@
               {%- endif -%}
             {%- else -%}
               {%- assign n = b.stars | default: 5 -%}
-              <figure class="tl-rev__tile tl-rev__card" {{ block.shopify_attributes }}>
+              <figure class="tl-rev__tile tl-rev__card{% if b.no_rating %} tl-rev__card--plain{% endif %}" {{ block.shopify_attributes }}>
+                {%- comment -%} A quote without a rating (e.g. from an email) shows no stars, so the card
+                   does not claim a rating nobody gave. {%- endcomment -%}
+                {%- unless b.no_rating -%}
                 <span class="tl-rev__cardstars" role="img" aria-label="{{ n }} out of 5 stars">
                   {%- for i in (1..5) -%}<svg viewBox="0 0 20 20" class="{% if i > n %}is-off{% endif %}" aria-hidden="true"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z"/></svg>{%- endfor -%}
                 </span>
+                {%- endunless -%}
                 <blockquote class="tl-rev__text">{{ b.text }}</blockquote>
                 <figcaption class="tl-rev__by">
                   <span class="tl-rev__name">{{ b.author }}</span>
@@ -198,6 +202,10 @@
   .tl-rev__cardstars { display: inline-flex; gap: 2px; }
   .tl-rev__cardstars svg { width: 16px; height: 16px; fill: var(--tw-color-orange-400, #ff8904); }
   .tl-rev__cardstars svg.is-off { fill: #e4e4e7; }
+  /* no stars: the quote starts at the top; on phones it leaves room for "Read more", which sits in
+     the stars' row at the top right */
+  .tl-rev__card--plain .tl-rev__text { margin-top: 0; }
+  .tl-rev__mcards .tl-rev__card--plain:has(.tl-rev__more) .tl-rev__text { margin-top: 26px; }
   /* long reviews are cut to a few lines so every card stays a similar weight */
   /* no quote bar: the theme's blockquote style adds a left border and indent; the text lines up with
      the stars and the name instead */
@@ -592,6 +600,7 @@
       "name": "Review",
       "settings": [
         { "type": "range", "id": "stars", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "checkbox", "id": "no_rating", "label": "No star rating", "info": "For quotes that came without a rating, e.g. from an email. The card shows no stars.", "default": false },
         { "type": "textarea", "id": "text", "label": "Review" },
         { "type": "text", "id": "author", "label": "Name" },
         { "type": "text", "id": "product", "label": "Product", "info": "Optional." },
