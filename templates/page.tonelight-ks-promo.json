@@ -1171,41 +1171,273 @@
             "url_6": "",
             "alt": "Customer photo of a toneCarrier"
           }
+        },
+        "email_01": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "[…] I have an archive of 120,000 6x6cm negatives to scan […]. Before buying from you I researched and tested everything from the Phase One Cultural Heritage system […] to the Negative Supply and Valoi holders and the Tone Carrier is better than all of them.",
+            "author": "Paul E.",
+            "product": "",
+            "date": "November 2025",
+            "source": "Received via email"
+          }
+        },
+        "email_02": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "I just wanted to say thank you for building an awesome 35mm carrier. […] your carrier has been my favorite so far, even compared against the Negative Supply and Filmomat carriers. The simplicity of your design and the overall serviceability really stand out to me.",
+            "author": "Stephen W.",
+            "product": "",
+            "date": "January 2026",
+            "source": "Received via email"
+          }
+        },
+        "email_03": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "The 120 kit is too good. I can't sing its praises enough. […] You've single-handedly made my current archiving process not just fast and easy but actually really enjoyable.",
+            "author": "Quoc",
+            "product": "",
+            "date": "November 2024",
+            "source": "Received via email"
+          }
+        },
+        "email_04": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "So, overall, a good 10 out of 10 from me. Well designed and precise […]. It is a rare thing to come across a bit of DIY kit that offers no errors or difficulty in enactment - I appreciate this Very Much Indeed and I applaud your attention to detail.",
+            "author": "Ian T.",
+            "product": "",
+            "date": "July 2025",
+            "source": "Received via email"
+          }
+        },
+        "email_05": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "[…] I'm genuinely really impressed in the cad files. Everything is so optimized with chamfers, the ribbed pattern on the outside, the exposed hardware where it looks pretty and hidden hardware where it doesn't! […] It's what I always aspire my 3D models to fit together and look like, but with easily 100x the time invested, and it shows!",
+            "author": "Leonhard B.",
+            "product": "",
+            "date": "March 2025",
+            "source": "Received via email"
+          }
+        },
+        "email_06": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "Thank you so much for designing the toneCarrier and sharing it with the world! I just finished home scanning my first batch of negatives […] and couldn't have been more excited by the magic of the process. […] Printing, assembling, and using the toneCarrier was a joy, and I'm so excited to support the toneLight when you launch!",
+            "author": "Aram",
+            "product": "",
+            "date": "January 2026",
+            "source": "Received via email"
+          }
+        },
+        "email_07": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "Got the carriers. They look great! Really well made and sturdy. Already running some tests. Virtually no dust on the 35mm scans, which is amazing.",
+            "author": "Griffin S.",
+            "product": "",
+            "date": "March 2026",
+            "source": "Received via email"
+          }
+        },
+        "email_08": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "I scanned my first roll with the 35mm carrier at the weekend. Such an amazing design. I’m a product designer and am really impressed.",
+            "author": "Matt D.",
+            "product": "",
+            "date": "November 2025",
+            "source": "Received via email"
+          }
+        },
+        "email_09": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "I'm a big fan of your toneCarrier system. I've scanned over a hundred rolls with it, both the 35mm and 120 versions.",
+            "author": "Niels J.",
+            "product": "",
+            "date": "February 2026",
+            "source": "Received via email"
+          }
+        },
+        "email_10": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "I wanted to write and sincerely thank you for the design, guidance, and clarity […]. Your files and documentation were by far the most precise and thoughtfully calibrated I’ve come across.",
+            "author": "Valentin",
+            "product": "",
+            "date": "May 2025",
+            "source": "Received via email"
+          }
+        },
+        "email_11": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "Really enjoy your products. I have had the 35mm version for a while and have put 70+ rolls through it.",
+            "author": "Alex M.",
+            "product": "",
+            "date": "December 2025",
+            "source": "Received via email"
+          }
+        },
+        "email_12": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "I have to say i am overall very happy with it. And it cuts down my scanning time immensely.",
+            "author": "Alexander E.",
+            "product": "",
+            "date": "February 2026",
+            "source": "Received via email"
+          }
+        },
+        "email_13": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "I recently assembled your free 35mm carrier and I'm impressed with the quality and engineering.",
+            "author": "Patrick K.",
+            "product": "",
+            "date": "November 2025",
+            "source": "Received via email"
+          }
+        },
+        "email_14": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "I recently picked up the 35mm STL files for your tone carrier […] really nice design, by the way. It’s exactly what I’ve been looking for for film scanning. […] I’m really enjoying the project and looking forward to seeing where you take it.",
+            "author": "Guntars R.",
+            "product": "",
+            "date": "January 2026",
+            "source": "Received via email"
+          }
+        },
+        "email_15": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "Wanted to let you know that I successfully got everything printed and both the carriers are working great. I’m very happy with the final product, excellent design.",
+            "author": "Pearson R.",
+            "product": "",
+            "date": "July 2025",
+            "source": "Received via email"
+          }
+        },
+        "email_16": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "Thank you for putting together such a great project. It is bringing joy to people around the world!",
+            "author": "Dom G.",
+            "product": "",
+            "date": "November 2024",
+            "source": "Received via email"
+          }
+        },
+        "email_17": {
+          "type": "review",
+          "settings": {
+            "no_rating": true,
+            "stars": 5,
+            "text": "I recently bought the printable 35 kit. Loving how easy it is to print these 3mf files on my Bambu. Thank you!",
+            "author": "Chris C.",
+            "product": "",
+            "date": "December 2025",
+            "source": "Received via email"
+          }
+        },
+        "email_photos": {
+          "type": "photos",
+          "settings": {
+            "image_1": "shopify://shop_images/customer-rig-1.jpg",
+            "image_2": "shopify://shop_images/customer-rig-2.jpg",
+            "image_3": "shopify://shop_images/customer-rig-3.jpg",
+            "image_4": "shopify://shop_images/customer-rig-4.jpg",
+            "alt": "Customer photo"
+          }
         }
       },
       "block_order": [
         "review_1",
         "review_2",
+        "email_01",
         "review_3",
         "review_4",
+        "email_02",
         "review_5",
         "review_6",
+        "email_03",
         "photos_1",
         "review_7",
+        "email_04",
         "review_8",
         "review_9",
+        "email_05",
         "review_10",
         "review_11",
+        "email_06",
         "review_12",
         "photos_2",
+        "email_07",
         "review_13",
         "review_14",
+        "email_08",
         "review_15",
         "review_16",
+        "email_photos",
         "review_17",
         "review_18",
+        "email_09",
         "photos_3",
         "review_19",
+        "email_10",
         "review_20",
         "review_21",
+        "email_11",
         "review_22",
         "review_23",
+        "email_12",
         "review_24",
         "photos_4",
+        "email_13",
         "review_25",
         "review_26",
+        "email_14",
         "review_27",
-        "photos_5"
+        "photos_5",
+        "email_15",
+        "email_16",
+        "email_17"
       ],
       "settings": {
         "eyebrow": "",
