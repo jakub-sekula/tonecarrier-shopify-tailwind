@@ -605,7 +605,7 @@
           "settings": {
             "title": "Platform",
             "icon": "icon4",
-            "items": "<b>macOS and Windows</b>: Native builds for both.\n<b>Fully standalone</b>: No host app and no plugin bridge.\n<b>Flexible licensing</b>: Own it outright, or subscribe.",
+            "items": "<b>macOS and Windows</b>: Runs on both.\n<b>Fully standalone</b>: No host app and no plugin bridge.\n<b>Flexible licensing</b>: Own it outright, or subscribe.",
             "image_url": "https://cdn.shopify.com/s/files/1/0634/3199/9736/files/pixel-preview.png"
           }
         }
@@ -744,7 +744,7 @@
           "type": "qa",
           "settings": {
             "q": "Which computers does it run on?",
-            "a": "Native builds for macOS and Windows. One licence covers two machines."
+            "a": "It runs on macOS and Windows. One licence covers two machines."
           }
         },
         "q12": {
